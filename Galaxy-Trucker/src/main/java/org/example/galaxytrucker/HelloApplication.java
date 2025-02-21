@@ -1,4 +1,4 @@
-package org.example.spacetrucker;
+package org.example.galaxytrucker;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

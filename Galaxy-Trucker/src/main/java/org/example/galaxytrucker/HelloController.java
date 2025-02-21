@@ -1,4 +1,4 @@
-package org.example.spacetrucker;
+package org.example.galaxytrucker;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
