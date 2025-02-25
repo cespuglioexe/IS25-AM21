@@ -21,3 +21,5 @@ public class HelloApplication extends Application {
         launch();
     }
 }
+
+//kickkiamo thomas dal gruppo
