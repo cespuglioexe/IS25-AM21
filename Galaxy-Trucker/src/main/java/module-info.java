@@ -1,9 +1,8 @@
-module org.example.galaxytrucker {
+module it.polimi.it.galaxytrucker {
     requires javafx.controls;
     requires javafx.fxml;
 
-    requires org.controlsfx.controls;
 
-    opens org.example.galaxytrucker to javafx.fxml;
-    exports org.example.galaxytrucker;
+    opens it.polimi.it.galaxytrucker to javafx.fxml;
+    exports it.polimi.it.galaxytrucker;
 }
