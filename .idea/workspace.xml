@@ -5,6 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c982efd3-084b-47aa-a194-c22014ede5b4" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../Manuale/galaxy-trucker-rules-en.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Manuale/galaxy-trucker-rules-it.pdf" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
@@ -12,8 +14,6 @@
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/galaxytrucker/HelloApplication.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/galaxytrucker/HelloController.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/galaxytrucker/hello-view.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Manuale/galaxy-trucker-rules-en.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Manuale/galaxy-trucker-rules-it.pdf" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../Requisiti e valutazione/requirements.pdf" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -21,21 +21,24 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="ComposerSettings">
+    <execution />
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "cespuglioexe"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;cespuglioexe&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/cespuglioexe/Progetto-Finale-SoftEng-2025.git",
-    "accountId": "a778a44a-8d2d-4212-bc1e-e796555d4ca8"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/cespuglioexe/Progetto-Finale-SoftEng-2025.git&quot;,
+    &quot;accountId&quot;: &quot;a778a44a-8d2d-4212-bc1e-e796555d4ca8&quot;
   }
-}]]></component>
+}</component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
@@ -43,10 +46,10 @@
       </MavenGeneralSettings>
     </option>
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 6
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 6
+}</component>
   <component name="ProjectId" id="2tfI0PCbFF2aikPzciARSKWVRRR" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -56,8 +59,10 @@
   "keyToString": {
     "Application.HelloApplication.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "dart.analysis.tool.window.visible": "false",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
+    "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "vue.rearranger.settings.migration": "true"
   }
