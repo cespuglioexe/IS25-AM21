@@ -18,6 +18,8 @@
       <list>
         <option value="Class" />
         <option value="Interface" />
+        <option value="Enum" />
+        <option value="Exception" />
       </list>
     </option>
   </component>
@@ -77,7 +79,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1741194621587</updated>
-      <workItem from="1741194622701" duration="7992000" />
+      <workItem from="1741194622701" duration="9633000" />
     </task>
     <servers />
   </component>

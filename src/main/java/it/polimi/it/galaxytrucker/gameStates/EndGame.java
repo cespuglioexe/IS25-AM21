@@ -5,4 +5,5 @@ import java.util.List;
 public interface EndGame {
     int countPlayerCredits(int PlayerID);
     List<Integer> makeLeaderboard();
+
 }
