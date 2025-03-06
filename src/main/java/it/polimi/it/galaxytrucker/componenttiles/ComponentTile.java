@@ -7,9 +7,12 @@ public abstract class ComponentTile {
     private final List<TileEdge> tileEdges;
     private int rotation;
 
-    public ComponentTile(TileEdge edge1, TileEdge edge2, TileEdge edge3, TileEdge edge4) {
+    TileEdge test = TileEdge.SINGLE;
+
+
+    public ComponentTile(TileEdge top, TileEdge right, TileEdge bottom, TileEdge left) {
         rotation = 0;
-        tileEdges = List.of(edge1, edge2, edge3, edge4); // Immutable list
+        tileEdges = List.of(top, right, bottom, left);
     }
 
     // each tile can have 4 possible rotation positions

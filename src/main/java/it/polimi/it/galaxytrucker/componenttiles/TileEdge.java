@@ -1,6 +1,6 @@
 package it.polimi.it.galaxytrucker.componenttiles;
 
-enum TileEdge {
+public enum TileEdge {
     SINGLE {
         @Override
         public boolean isCompatible(TileEdge other) {
