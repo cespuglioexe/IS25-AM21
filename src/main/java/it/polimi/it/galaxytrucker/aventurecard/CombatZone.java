@@ -1,6 +1,9 @@
 package it.polimi.it.galaxytrucker.aventurecard;
 
-public class CombatZone extends Attack implements CrewmatePenalty{
+import it.polimi.it.galaxytrucker.cardEffects.CrewmatePenalty;
+import it.polimi.it.galaxytrucker.crewmates.Crewmate;
+
+public class CombatZone extends Attack implements CrewmatePenalty {
     final private int FIRSTCREWMATEPENALTY = 3;
     final private int SECONDCREWMATEPENALTY = 2;
 
@@ -9,4 +12,13 @@ public class CombatZone extends Attack implements CrewmatePenalty{
 
     }
 
+    @Override
+    public void play() {
+
+    }
+
+    @Override
+    public void applyPenalty(Crewmate penalty) {
+
+    }
 }

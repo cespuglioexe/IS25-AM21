@@ -36,7 +36,7 @@ public class Planet extends AdventureCard implements Participation, CargoReward,
 
     @Override
     public boolean partecipate(Player player) {
-        System.out.println("Do you want to partecipate");
+        return true;
 
     }
 

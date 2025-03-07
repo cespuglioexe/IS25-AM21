@@ -6,4 +6,9 @@ public class MeteorSwarm extends Attack{
     public void attack() {
 
     }
+
+    @Override
+    public void play() {
+
+    }
 }
