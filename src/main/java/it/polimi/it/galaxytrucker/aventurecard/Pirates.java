@@ -8,12 +8,10 @@ import java.util.Optional;
 import java.util.Scanner;
 
 public class Pirates extends Attack implements CreditReward, FlightDayPenalty{
-        private int piratesPower;
         Scanner scanner = new Scanner(System.in);
 
-        public Pirates(Optional partecipants, Optional penalty, Optional flightDayPenalty, Optional reward, int piratesPower) {
-                super(partecipants, penalty, flightDayPenalty, reward);
-                this.piratesPower = piratesPower;
+        public Pirates(Optional partecipants, Optional penalty, Optional flightDayPenalty, Optional reward, int firePowerRequired) {
+                super(partecipants, penalty, flightDayPenalty, reward, firePowerRequired);
         }
 
 
@@ -25,10 +23,20 @@ public class Pirates extends Attack implements CreditReward, FlightDayPenalty{
 
         @Override
         public void giveReward(Integer reward) {
+                if (super.getPartecipants().isPresent()) {
+                        List<Player> players = super.getPartecipants().stream().toList();
+                        if (!players.isEmpty()) {
+                                // La lista contiene elementi, procedi
+                                for (Player player : players) {
+                                        player.setCredits(player.getCredits() + reward);
+                                }
+                        }
+                }
         }
 
         @Override
-        public void applyPenalty(Integer penalty) {
+        public void applyPenalty(Integer dayPenalty) {
+
         }
 
         @Override
@@ -38,14 +46,17 @@ public class Pirates extends Attack implements CreditReward, FlightDayPenalty{
                         if (!players.isEmpty()) {
                                 // La lista contiene elementi, procedi
                                 for (Player player : players) {
+
                                         // Fai qualcosa con ogni player
-                                        if (player.shipManager.calculateFirePower() < piratesPower){
+                                        if (player.getShipManager().calculateFirePower(player.getPlayerID()) < super.getFirePowerRequired()){//sto confrontando float con optional
                                                 attack();
                                         }else{
                                                 System.out.println("Do you want to take the reward?");
                                                 // Legge la prima lettera inserita
                                                 /*yes*/
                                                 if(scanner.next() == "y"){
+                                                        giveReward(5);
+                                                        applyPenalty(2);
                                                         //add credits and apply flight day penalty
                                                 }else{/*no*/
 
@@ -58,13 +69,10 @@ public class Pirates extends Attack implements CreditReward, FlightDayPenalty{
                         }
                 } else {
                         // L'Optional è vuoto, gestisci il caso
-                        System.out.println("L'Optional dei giocatori è vuoto.");
                 }
 
         }
 
-        // for
-        // if
-        // partecipants.get(i).shipManager.calculateFirePower(float) // Chiedere float parametro
+
 }
 

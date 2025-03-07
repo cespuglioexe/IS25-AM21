@@ -9,13 +9,14 @@ public abstract class AdventureCard<T> {
     private Optional<Integer> penalty; //Penalità generidca che dopo viene implementata da cargopenalty e crewmatepenalty
     private Optional<Integer> flightDayPenalty;
     private Optional<T> reward;
-    private Optional<Integer> firePowerRequired;
+    private int firePowerRequired;
 
-    public AdventureCard(Optional<List<Player>> partecipants, Optional<Integer> penalty, Optional<Integer> flightDayPenalty, Optional<T> reward) {
+    public AdventureCard(Optional<List<Player>> partecipants, Optional<Integer> penalty, Optional<Integer> flightDayPenalty, Optional<T> reward, int firePowerRequired) {
         this.partecipants = partecipants;
         this.penalty = penalty;
         this.flightDayPenalty = flightDayPenalty;
         this.reward = reward;
+        this.firePowerRequired = firePowerRequired;
     }
 
     public Optional<List<Player>> getPartecipants() {
@@ -27,6 +28,26 @@ public abstract class AdventureCard<T> {
     }
 
     public Optional<Integer> getFlightDayPenalty() {
+        return flightDayPenalty;
+    }
+
+    public Optional<T> getReward() {
+        return reward;
+    }
+
+    public int getFirePowerRequired() {
+        return firePowerRequired;
+    }
+
+    public Optional<List<Player>> getPartecipants() {
+        return partecipants;
+    }
+
+    public Optional<Integer> getPenalty() {
+        return penalty;
+    }
+
+    public Integer getFlightDayPenalty() {
         return flightDayPenalty;
     }
 
