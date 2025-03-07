@@ -17,10 +17,6 @@ public class Planet extends AdventureCard implements Participation, CargoReward,
     public Planet(Optional<List<Player>> partecipants, Optional<Integer> penalty, Optional<Integer> flightDayPenalty, Optional<Integer> reward,HashMap<Integer, Set<Cargo>> planets) {
         super(partecipants, penalty, flightDayPenalty, reward);
         this.planets = planets;
-
-
-
-
     }
 
 
