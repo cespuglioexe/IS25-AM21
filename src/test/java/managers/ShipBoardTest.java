@@ -3,7 +3,6 @@ package managers;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.Set;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -14,7 +13,7 @@ import it.polimi.it.galaxytrucker.componenttiles.SingleEngine;
 import it.polimi.it.galaxytrucker.componenttiles.StructuralModule;
 import it.polimi.it.galaxytrucker.componenttiles.TileEdge;
 import it.polimi.it.galaxytrucker.managers.ShipBoard;
-import it.polimi.it.galaxytrucker.managers.exceptions.IllegalComponentPositionException;
+import it.polimi.it.galaxytrucker.exceptions.IllegalComponentPositionException;
 
 public class ShipBoardTest {
 
