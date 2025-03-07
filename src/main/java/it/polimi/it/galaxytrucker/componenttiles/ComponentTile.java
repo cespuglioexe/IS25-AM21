@@ -12,7 +12,7 @@ public abstract class ComponentTile {
 
     public ComponentTile(TileEdge top, TileEdge right, TileEdge bottom, TileEdge left) {
         rotation = 0;
-        tileEdges = List.of(top, right, bottom, left);
+        tileEdges = List.of(right, top, left, bottom);
     }
 
     // each tile can have 4 possible rotation positions
@@ -26,6 +26,9 @@ public abstract class ComponentTile {
         return rotation;
     }
 
+    /*
+    *   Returns the list of edges for this component
+    */
     public List<TileEdge> getTileEdges() {
         return tileEdges;
     }

@@ -1,8 +1,8 @@
 package it.polimi.it.galaxytrucker.managers;
 
 import it.polimi.it.galaxytrucker.componenttiles.ComponentTile;
+import it.polimi.it.galaxytrucker.exceptions.IllegalComponentPositionException;
 import it.polimi.it.galaxytrucker.componenttiles.TileEdge;
-import it.polimi.it.galaxytrucker.managers.exceptions.IllegalComponentPositionException;
 
 import java.util.ArrayList;
 import java.util.Set;

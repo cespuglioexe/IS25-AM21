@@ -13,7 +13,7 @@ import it.polimi.it.galaxytrucker.componenttiles.SingleEngine;
 import it.polimi.it.galaxytrucker.componenttiles.StructuralModule;
 import it.polimi.it.galaxytrucker.componenttiles.TileEdge;
 import it.polimi.it.galaxytrucker.managers.ShipBoard;
-import it.polimi.it.galaxytrucker.managers.exceptions.IllegalComponentPositionException;
+import it.polimi.it.galaxytrucker.exceptions.IllegalComponentPositionException;
 
 public class ShipBoardTest {
 
