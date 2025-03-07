@@ -3,7 +3,6 @@ package managers;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.Set;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -136,17 +135,17 @@ public class ShipBoardTest {
 
         //component
         ship.addComponentTile(position.get(0), position.get(1), cannon);
-        //right component is empty
         //up component
         ship.addComponentTile(position.get(0) - 1, position.get(1), cannon);
-        //left component
-        ship.addComponentTile(position.get(0), position.get(1) - 1, cannon);
+        //right component is empty
         //down component
         ship.addComponentTile(position.get(0) + 1, position.get(1), cannon);
+        //left component
+        ship.addComponentTile(position.get(0), position.get(1) - 1, cannon);
 
         List<Optional<ComponentTile>> result = ship.getNeighbourComponents(position.get(0), position.get(1));
 
-        assertIterableEquals(List.of(Optional.<ComponentTile>empty(), Optional.of(cannon), Optional.of(cannon), Optional.of(cannon)), result);
+        assertIterableEquals(List.of(Optional.of(cannon), Optional.<ComponentTile>empty(), Optional.of(cannon), Optional.of(cannon)), result);
     }
 
     @Test
@@ -165,5 +164,56 @@ public class ShipBoardTest {
         List<Optional<ComponentTile>> result = ship.getNeighbourComponents(position.get(0), position.get(1));
 
         assertIterableEquals(List.of(Optional.<ComponentTile>empty(), Optional.<ComponentTile>empty(), Optional.<ComponentTile>empty(), Optional.<ComponentTile>empty()), result);
+    }
+
+    @Test
+    void countExposedConnectorsEdgesExposedTest() throws IllegalComponentPositionException {
+        ShipBoard ship = new ShipBoard();
+        ComponentTile cannon = new SingleCannon(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE);
+
+        /*
+         * [ ][ ][ ][ ][ ][ ][ ]
+         * [ ][ ][c][ ][ ][ ][ ]
+         * [ ][c][ ][c][c][ ][ ]
+         * [ ][c][c][c][c][c][ ]
+         * [ ][ ][ ][ ][c][ ][ ]
+        */
+
+        for (int i = 1; i < 5; i++) {
+            for (int j = 1; j < 6; j++) {
+                if (i == 1) {
+                    if (j == 2) {
+                        ship.addComponentTile(i, j, cannon);
+                    }
+                    continue;
+                }
+                if (i == 2) {
+                    if (j == 1 || j == 3 || j == 4) {
+                        ship.addComponentTile(i, j, cannon);
+                    }
+                    continue;
+                }
+                if (i == 3) {
+                    ship.addComponentTile(i, j, cannon);
+                } else {
+                    if (j == 4) {
+                        ship.addComponentTile(i, j, cannon);
+                    }
+                }
+            }
+        }
+
+        //exposed connectors of [1][2]: 4
+        assertEquals(4, ship.countExposedConnectors(1, 2));
+        //exposed connectors of [2][1]: 3
+        assertEquals(3, ship.countExposedConnectors(2, 1));
+        //exposed connectors of [3][1]: 2
+        assertEquals(2, ship.countExposedConnectors(3, 1));
+        //exposed connectors of [3][3]: 1
+        assertEquals(1, ship.countExposedConnectors(3, 3));
+        //exposed connectors of [3][4]: 0
+        assertEquals(0, ship.countExposedConnectors(3, 4));
+        //exposed connectors of [0][0]: 0 (EMPTY)
+        assertEquals(0, ship.countExposedConnectors(0, 0));
     }
 }

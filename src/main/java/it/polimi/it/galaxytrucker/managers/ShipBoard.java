@@ -1,6 +1,7 @@
 package it.polimi.it.galaxytrucker.managers;
 
 import it.polimi.it.galaxytrucker.componenttiles.ComponentTile;
+import it.polimi.it.galaxytrucker.componenttiles.TileEdge;
 import it.polimi.it.galaxytrucker.managers.exceptions.IllegalComponentPositionException;
 
 import java.util.ArrayList;
@@ -15,7 +16,6 @@ import java.util.stream.IntStream;
 
 //TODO:
 //*  -metodi privati
-//*  -countExposedConnectors()
 public class ShipBoard {
     private List<List<Optional<ComponentTile>>> tileMatrix;
     private Map<Class<? extends ComponentTile>, Set<List<Integer>>> componentTilesPosition;
@@ -112,10 +112,10 @@ public class ShipBoard {
      * Retrieves the neighboring components of the specified position on the board.
      * The neighbors are returned in the following order: 
      * <ul>
-     *   <li>Right component</li>
      *   <li>Upper component</li>
-     *   <li>Left component</li>
+     *   <li>Right component</li>
      *   <li>Lower component</li>
+     *   <li>Left component</li>
      * </ul>
      *
      * @param row    The row index of the target component.
@@ -125,15 +125,43 @@ public class ShipBoard {
      */
     public List<Optional<ComponentTile>> getNeighbourComponents(int row, int column) {
         List<Optional<ComponentTile>> neighbours = new ArrayList<>();
+        //top component
+        neighbours.add(row - 1 < 0 ? Optional.<ComponentTile>empty() : this.getComponent(row - 1, column));
         //right component
         neighbours.add(column + 1 >= this.tileMatrix.get(row).size() ? Optional.<ComponentTile>empty() : this.getComponent(row, column + 1));
-        //up component
-        neighbours.add(row - 1 < 0 ? Optional.<ComponentTile>empty() : this.getComponent(row - 1, column));
-        //left component
-        neighbours.add(column - 1 < 0 ? Optional.<ComponentTile>empty() : this.getComponent(row, column - 1));
         //down component
         neighbours.add(row + 1 >= this.tileMatrix.size() ? Optional.<ComponentTile>empty() : this.getComponent(row + 1, column));
+        //left component
+        neighbours.add(column - 1 < 0 ? Optional.<ComponentTile>empty() : this.getComponent(row, column - 1));
         return neighbours;
+    }
+
+    /**
+     * Counts the number of exposed connectors for a given component at the specified position.
+     * A connector is considered exposed if it is of type {@code SINGLE}, {@code DOUBLE}, or {@code UNIVERSAL}
+     * and there is no adjacent component in that direction.
+     *
+     * @param row    The row index of the component.
+     * @param column The column index of the component.
+     * @return The number of exposed connectors for the component at the given position.
+     */
+    public int countExposedConnectors(int row, int column) {
+        Optional<ComponentTile> component = this.getComponent(row, column);
+        if (component.isEmpty()) return 0;
+        List<TileEdge> edges = component.get().getTileEdges();
+
+        List<Optional<ComponentTile>> neighbours = this.getNeighbourComponents(row, column);
+
+        int exposedConnectors = 0;
+
+        for (int i = 0; i < edges.size(); i++) {
+            if (neighbours.get(i).isEmpty()) {
+                if (edges.get(i) == TileEdge.SINGLE || edges.get(i) == TileEdge.DOUBLE || edges.get(i) == TileEdge.UNIVERSAL) {
+                    exposedConnectors++;
+                }
+            }
+        }
+        return exposedConnectors;
     }
 
     //? TESTING ONLY
