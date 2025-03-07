@@ -6,7 +6,5 @@ import java.util.List;
 
 public abstract class Attack extends AdventureCard {
     List<Projectile> projectiles;
-    public void attack(){
-        
-    }
+    public abstract void attack();
 }
