@@ -1,5 +1,6 @@
 package it.polimi.it.galaxytrucker.gameStates;
 
+import it.polimi.it.galaxytrucker.aventurecard.AdventureCard;
 import it.polimi.it.galaxytrucker.componenttiles.ComponentTile;
 
 import java.util.List;
