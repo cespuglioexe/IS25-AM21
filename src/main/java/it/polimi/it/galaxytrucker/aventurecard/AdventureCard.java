@@ -1,6 +1,8 @@
 package it.polimi.it.galaxytrucker.aventurecard;
 
-import java.util.Optional;
+import it.polimi.it.galaxytrucker.managers.Player;
+
+import java.util.*;
 
 public abstract class AdventureCard<T> {
     private Optional<List<Player>> partecipants;
@@ -19,6 +21,5 @@ public abstract class AdventureCard<T> {
 
     }
 
-    public void play(){
-    }
+    public abstract void play();
 }
