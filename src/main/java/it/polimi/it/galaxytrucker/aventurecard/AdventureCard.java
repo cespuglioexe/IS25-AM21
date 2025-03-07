@@ -21,5 +21,21 @@ public abstract class AdventureCard<T> {
 
     }
 
+    public Optional<List<Player>> getPartecipants() {
+        return partecipants;
+    }
+
+    public Optional<Integer> getPenalty() {
+        return penalty;
+    }
+
+    public Integer getFlightDayPenalty() {
+        return flightDayPenalty;
+    }
+
+    public Optional<T> getReward() {
+        return reward;
+    }
+
     public abstract void play();
 }
