@@ -33,6 +33,22 @@ public class ShipBoardTest {
     }
 
     @Test
+    void correctLevel1Ship() {
+        ShipBoard ship = new ShipBoard();
+
+        ship.setShipBounds(1);
+        ship.printBoard();
+    }
+
+    @Test
+    void correctLevel2Ship() {
+        ShipBoard ship = new ShipBoard();
+
+        ship.setShipBounds(2);
+        ship.printBoard();
+    }
+
+    @Test
     void getAllComponentsPositionOfTypeTest() throws IllegalComponentPositionException {
         ShipBoard ship = new ShipBoard();
         ComponentTile cannon1 = new SingleCannon(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE);
@@ -70,7 +86,7 @@ public class ShipBoardTest {
     }
 
     @Test
-    void IllegalAddPositionTest() throws IllegalComponentPositionException {
+    void illegalAddToAlreadyTakenPositionTest() throws IllegalComponentPositionException {
         ShipBoard ship = new ShipBoard();
         ComponentTile cannon = new SingleCannon(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE);
         List<Integer> position = List.of(0,2);
@@ -78,6 +94,16 @@ public class ShipBoardTest {
         ship.addComponentTile(position.get(0), position.get(1), cannon);
 
         assertThrows(IllegalComponentPositionException.class, () -> ship.addComponentTile(position.get(0), position.get(1), cannon));
+    }
+
+    @Test
+    void illegalAddOutsideShipPositionTest() {
+        ShipBoard ship = new ShipBoard();
+        ComponentTile cannon = new SingleCannon(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE);
+
+        ship.setShipBounds(1);
+
+        assertThrows(IllegalComponentPositionException.class, () -> ship.addComponentTile(0, 0, cannon));
     }
 
     @Test
@@ -98,11 +124,19 @@ public class ShipBoardTest {
     }
 
     @Test
-    void illegalRemovePositionTest() {
+    void illegalRemoveEmptyPositionTest() {
         ShipBoard ship = new ShipBoard();
         List<Integer> position = List.of(0,2);
 
         assertThrows(IllegalComponentPositionException.class, () -> ship.removeComponentTile(position.get(0), position.get(1)));
+    }
+
+    @Test
+    void illegalRemoveOutsideShipPositionTest() {
+        ShipBoard ship = new ShipBoard();
+        ship.setShipBounds(1);
+
+        assertThrows(IllegalComponentPositionException.class, () -> ship.removeComponentTile(0, 0));
     }
 
     @Test
@@ -149,6 +183,30 @@ public class ShipBoardTest {
     }
 
     @Test
+    void getNeighbourComponentsAtMarginTest() throws IllegalComponentPositionException {
+        ShipBoard ship = new ShipBoard();
+        ComponentTile cannon = new SingleCannon(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE);
+        List<Integer> position = List.of(1,2);
+
+        ship.setShipBounds(1);
+
+        //component
+        ship.addComponentTile(position.get(0), position.get(1), cannon);
+        //up component is outside
+        //right component
+        ship.addComponentTile(position.get(0), position.get(1) + 1, cannon);
+        //down component
+        ship.addComponentTile(position.get(0) + 1, position.get(1), cannon);
+        //left component is outside
+
+        List<Optional<ComponentTile>> result = ship.getNeighbourComponents(position.get(0), position.get(1));
+
+        for (int i = 0; i < result.size(); i++) {
+            assertEquals(result.get(i).get().getClass(), result.get(i).get().getClass());
+        }
+    }
+
+    @Test
     void getNeighbourComponentsWithAllBlanksTest() throws IllegalComponentPositionException {
         ShipBoard ship = new ShipBoard();
         ComponentTile cannon = new SingleCannon(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE);
@@ -172,8 +230,8 @@ public class ShipBoardTest {
         ComponentTile cannon = new SingleCannon(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE);
 
         /*
-         * [ ][ ][ ][ ][ ][ ][ ]
-         * [ ][ ][c][ ][ ][ ][ ]
+         * [ ][ ][ ][c][ ][ ][ ]
+         * [ ][ ][ ][c][ ][ ][ ]
          * [ ][c][ ][c][c][ ][ ]
          * [ ][c][c][c][c][c][ ]
          * [ ][ ][ ][ ][c][ ][ ]
@@ -214,6 +272,69 @@ public class ShipBoardTest {
         //exposed connectors of [3][4]: 0
         assertEquals(0, ship.countExposedConnectors(3, 4));
         //exposed connectors of [0][0]: 0 (EMPTY)
+        assertEquals(0, ship.countExposedConnectors(0, 0));
+    }
+
+    @Test
+    void countExposedConnectorsLevel1ShipTest() throws IllegalComponentPositionException {
+        ShipBoard ship = new ShipBoard();
+        ComponentTile cannon = new SingleCannon(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE);
+
+        /*
+         *          [c]
+         *       [c][c][ ]
+         *    [c][ ][c][c][ ]
+         *    [ ][c][c][c][c]
+         *    [ ][ ]   [c][ ]
+        */
+
+        ship.setShipBounds(1);
+        for (int i = 0; i < 5; i++) {
+            for (int j = 1; j < 6; j++) {
+                switch (i) {
+                    case 0:
+                        if (j == 3) {
+                            ship.addComponentTile(i, j, cannon);
+                        }
+                        break;
+                    case 1:
+                        if (j > 1 && j < 4) {
+                            ship.addComponentTile(i, j, cannon);
+                        }
+                        break;
+                    case 2:
+                        if (j == 1 || (j > 2 && j < 5)) {
+                            ship.addComponentTile(i, j, cannon);
+                        }
+                        break;
+                    case 3:
+                        if (j > 1 && j < 6) {
+                            ship.addComponentTile(i, j, cannon);
+                        }
+                        break;
+                    case 4:
+                        if (j == 4) {
+                            ship.addComponentTile(i, j, cannon);
+                        }
+                        break;
+                }
+            }
+        }
+
+        ship.printBoard();
+        //exposed connectors of [2][1]: 4
+        assertEquals(4, ship.countExposedConnectors(2, 1));
+        //exposed connectors of [0][3]: 3
+        assertEquals(3, ship.countExposedConnectors(0, 3));
+        //exposed connectors of [2][4]: 2
+        assertEquals(2, ship.countExposedConnectors(2, 4));
+        //exposed connectors of [3][3]: 1
+        assertEquals(1, ship.countExposedConnectors(3, 3));
+        //exposed connectors of [3][4]: 0
+        assertEquals(0, ship.countExposedConnectors(3, 4));
+        //exposed connectors of [2][2]: 0 (EMPTY)
+        assertEquals(0, ship.countExposedConnectors(2, 2));
+        //exposed connectors of [0][0]: 0 (OUTSIDE)
         assertEquals(0, ship.countExposedConnectors(0, 0));
     }
 }
