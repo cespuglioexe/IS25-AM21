@@ -1,7 +1,7 @@
 package it.polimi.it.galaxytrucker.componenttiles;
 
 public class SingleEngine extends ComponentTile {
-    private final int enginePower;
+    int enginePower;
 
     public SingleEngine(TileEdge top, TileEdge right, TileEdge bottom, TileEdge left) {
         super(top, right, bottom, left);

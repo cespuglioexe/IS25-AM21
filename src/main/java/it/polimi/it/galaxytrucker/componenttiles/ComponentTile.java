@@ -15,21 +15,39 @@ public abstract class ComponentTile {
         tileEdges = List.of(right, top, left, bottom);
     }
 
-    // each tile can have 4 possible rotation positions
-    // %4 keeps the value within bounds
+    /*
+    *   Rotates the tile by 90˚, limiting the object to 4 possible rotations by calculating % 4
+    */
     public void rotate () {
         rotation++;
         rotation %= 4;
     }
 
+    /*
+    *   Returns the current rotation of the tile.
+    *
+    *   @return An {@code int} between 0 and 4 which indicates the current rotation.
+    */
     public int getRotation() {
         return rotation;
     }
 
     /*
-    *   Returns the list of edges for this component
+    *   Returns the 4 edges of the tile, accounting for the tile's rotation.
+    *   The rotation is achieved by splitting the list in two based on the rotation:
+    *       (rotation = 1): [TOP, RIGHT, BOTTOM, LEFT] --> [TOP, RIGHT, BOTTOM], [LEFT]
+    *   and then swapping the two sub-lists into a new list:
+    *       [TOP, RIGHT, BOTTOM], [LEFT] --> [LEFT, TOP, RIGHT, BOTTOM]
+    *
+    *   @return A {@code List<TileEdge>} which is made by swapping the two sub-lists obtained by splitting
+    *           {@code tileEdges} at the position {@code rotation}
     */
     public List<TileEdge> getTileEdges() {
-        return tileEdges;
+        List<TileEdge> rotatedEdges = new ArrayList<>(4);
+
+        rotatedEdges.addAll(tileEdges.subList(rotation, 4));
+        rotatedEdges.addAll(tileEdges.subList(0, rotation));
+
+        return rotatedEdges;
     }
 }
