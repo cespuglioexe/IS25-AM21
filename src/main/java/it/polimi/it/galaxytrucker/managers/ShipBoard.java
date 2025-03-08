@@ -1,7 +1,9 @@
 package it.polimi.it.galaxytrucker.managers;
 
+import it.polimi.it.galaxytrucker.componenttiles.CentralCabin;
 import it.polimi.it.galaxytrucker.componenttiles.ComponentTile;
 import it.polimi.it.galaxytrucker.componenttiles.EmptyTile;
+import it.polimi.it.galaxytrucker.componenttiles.SingleCannon;
 import it.polimi.it.galaxytrucker.exceptions.IllegalComponentPositionException;
 import it.polimi.it.galaxytrucker.componenttiles.TileEdge;
 
@@ -67,8 +69,59 @@ public class ShipBoard {
     }
 
     /**
+     * Recursively identifies and collects all connected components in a ship's grid,
+     * starting from a specified position. This method performs a depth-first search (DFS) 
+     * to explore all adjacent components that are part of the same connected structure.
+     *
+     * <p>The method stops under the following conditions:</p>
+     * <ul>
+     *     <li>If the specified position is outside the grid boundaries.</li>
+     *     <li>If the component at the specified position is either empty or marked as an {@code EmptyTile}, 
+     *         indicating an invalid or unoccupied position.</li>
+     *     <li>If the component at the specified position has already been visited and added to the branch.</li>
+     * </ul>
+     *
+     * <p>Once a valid component is found, it is added to the {@code branch} set, 
+     * and the method recursively explores its four neighboring components (top, right, bottom, left)
+     * to continue the search.</p>
+     *
+     * @param row    The row index of the component to start the search from.
+     * @param column The column index of the component to start the search from.
+     * @param branch A set that stores coordinate pairs {@code (row, column)} representing all 
+     *               connected components that belong to the same structure.
+     */
+    public void getBranchOfComponent(int row, int column, Set<List<Integer>> branch) {
+        //check boundaries of matrix
+        if (row < 0 || row >= this.tileMatrix.size() || column < 0 || column >= this.tileMatrix.get(row).size()) {
+            return;
+        }
+        //check if component is empty or outside the ship
+        if (this.getComponent(row, column).isEmpty() || this.getComponent(row, column).get().getClass() == EmptyTile.class) {
+            return;
+        }
+        //check if component is already added
+        if (branch.contains(List.of(row, column))) {
+            return;
+        }
+
+        //if all test passed, component is connected to the branch, thus added
+        branch.add(List.of(row, column));
+
+        //calls all 4 directions
+        //top component
+        getBranchOfComponent(row - 1, column, branch);
+        //right component
+        getBranchOfComponent(row, column + 1, branch);
+        //down component
+        getBranchOfComponent(row + 1, column, branch);
+        //left component
+        getBranchOfComponent(row, column - 1, branch);
+    }
+
+    /**
      * Sets the boundaries of the ship by marking positions outside the valid ship structure 
      * with {@code EmptyTile} components based on the specified level.
+     * Also initializes the board placing a {@code CentralCabin} at the center of the ship
      *
      * @param level The level of the ship (e.g., 1 or 2).
      */
@@ -83,6 +136,14 @@ public class ShipBoard {
                     }
                 }
             }
+        }
+        final int CENTRALCABINROW = 2;
+        final int CENTRALCABINCOLUMN = 3;
+        
+        try {
+            this.addComponentTile(CENTRALCABINROW, CENTRALCABINCOLUMN, new CentralCabin(TileEdge.UNIVERSAL, TileEdge.UNIVERSAL, TileEdge.UNIVERSAL, TileEdge.UNIVERSAL));
+        } catch (IllegalComponentPositionException e) {
+            e.printStackTrace();
         }
     }
 
@@ -225,11 +286,112 @@ public class ShipBoard {
         return exposedConnectors;
     }
 
+    /**
+     * Identifies and groups all disconnected branches of connected components within the ship's grid.
+     * A branch is defined as a set of connected components that form a continuous structure.
+     *
+     * <p>This method iterates through the grid and performs a depth-first search (DFS) to find 
+     * all disconnected clusters of components. Each unique branch is stored as a set of coordinate 
+     * pairs representing the connected components.</p>
+     *
+     * <p>The method follows these steps:</p>
+     * <ul>
+     *     <li>Iterate through all positions in the {@code tileMatrix}.</li>
+     *     <li>Ignore empty tiles or tiles marked as {@code EmptyTile}, as they are not part of a branch.</li>
+     *     <li>If a component has not been visited, perform a recursive search using 
+     *         {@link #getBranchOfComponent(int, int, Set)} to collect all connected components.</li>
+     *     <li>Add the discovered branch to the set of all branches.</li>
+     * </ul>
+     *
+     * <p>Each branch is represented as a {@code Set<List<Integer>>}, where each list contains 
+     * two integers: {@code (row, column)}.</p>
+     *
+     * @return A list of disconnected branches, where each branch is a set of coordinate pairs 
+     *         representing connected components.
+     */
+    public List<Set<List<Integer>>> getDisconnectedBranches() {
+        List<Set<List<Integer>>> branches = new ArrayList<>();
+        Set<List<Integer>> visitedComponents = new HashSet<>();
+
+        for (int i = 0; i < this.tileMatrix.size(); i++) {
+            for (int j = 0; j < this.tileMatrix.get(i).size(); j++) {
+                if (this.getComponent(i, j).isEmpty()) {
+                    continue;
+                }
+                if (this.getComponent(i, j).get().getClass().equals(EmptyTile.class)) {
+                    continue;
+                }
+
+                List<Integer> component = List.of(i, j);
+
+                if (!visitedComponents.contains(component)) {
+                    Set<List<Integer>> newBranch = new HashSet<>();
+
+                    this.getBranchOfComponent(i, j, newBranch);
+                    visitedComponents.addAll(newBranch);
+                    branches.add(newBranch);
+                }
+            }
+        }
+        return branches;
+    }
+
+    /**
+     * Removes all components in a given branch from the ship's grid.
+     * This method iterates through the provided set of coordinates and removes 
+     * each corresponding component by calling {@link #removeComponentTile(int, int)}.
+     *
+     * <p>If any coordinate in the branch refers to an invalid position or an unremovable component, 
+     * the method will throw an {@code IllegalComponentPositionException}.</p>
+     *
+     * @param branch A set of coordinate pairs {@code (row, column)} representing the components 
+     *               to be removed.
+     * @throws IllegalComponentPositionException If the removal of a component at any given coordinate 
+     *         is not allowed due to game rules or invalid positioning.
+     */
+    public void removeBranch(Set<List<Integer>> branch) throws IllegalComponentPositionException {
+        for (List<Integer> coord : branch) {
+            this.removeComponentTile(coord.get(0), coord.get(1));
+        }
+    }
+
     //? TESTING ONLY
     public void printBoard() {
         for (int i = 0; i < this.tileMatrix.size(); i++) {
             for (int j = 0; j < this.tileMatrix.get(i).size(); j++) {
                 this.getComponent(i, j).ifPresentOrElse(component -> {
+                    if (component.getClass().equals(EmptyTile.class)) {
+                        System.out.print("   ");
+                    } else {
+                        System.out.print("[x]");
+                    }
+                }, () -> System.out.print("[ ]"));
+            }
+            System.out.println();
+        }
+        System.out.println();
+    }
+
+    //?TEST ONLY
+    public void printBranch(int level, Set<List<Integer>> branch) {
+        ShipBoard branchBoard = new ShipBoard();
+        branchBoard.setShipBounds(level);
+        try {
+            branchBoard.removeComponentTile(2, 3);
+        } catch (IllegalComponentPositionException e) {
+            e.printStackTrace();
+        }
+        for (List<Integer> coord : branch) {
+            try {
+                branchBoard.addComponentTile(coord.get(0), coord.get(1), new SingleCannon(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+            } catch (IllegalComponentPositionException e) {
+                e.printStackTrace();
+            }
+        }
+
+        for (int i = 0; i < branchBoard.getBoard().size(); i++) {
+            for (int j = 0; j < branchBoard.getBoard().get(i).size(); j++) {
+                branchBoard.getComponent(i, j).ifPresentOrElse(component -> {
                     if (component.getClass().equals(EmptyTile.class)) {
                         System.out.print("   ");
                     } else {
