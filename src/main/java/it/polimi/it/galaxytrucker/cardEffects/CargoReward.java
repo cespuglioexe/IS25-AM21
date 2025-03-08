@@ -5,8 +5,7 @@ import it.polimi.it.galaxytrucker.utility.Cargo;
 
 import java.util.Set;
 
-public interface CargoReward extends Reward<Cargo> {
+public interface CargoReward {
 
-    @Override
-    void giveReward(Set<Cargo> reward, Player player);
+    void giveCargoReward(Set<Cargo> reward, Player player);
 }

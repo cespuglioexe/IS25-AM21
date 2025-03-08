@@ -10,6 +10,7 @@ public abstract class AdventureCard<T> {
     private Optional<Integer> flightDayPenalty;
     private Optional<T> reward;
     private int firePowerRequired;
+    private AdventureDeck deck;
 
     public AdventureCard(Optional<List<Player>> partecipants, Optional<Integer> penalty, Optional<Integer> flightDayPenalty, Optional<T> reward, int firePowerRequired) {
         this.partecipants = partecipants;
