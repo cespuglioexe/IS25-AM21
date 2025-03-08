@@ -14,20 +14,22 @@ public class Planet extends AdventureCard implements Participation, CargoReward,
 
 
 
-    public Planet(Optional<List<Player>> partecipants, Optional<Integer> penalty, Optional<Integer> flightDayPenalty, Optional<Cargo> reward,HashMap<Integer, Set<Cargo>> planets) {
-        super(partecipants, penalty, flightDayPenalty, reward);
+    public Planet(Optional<List<Player>> partecipants, Optional<Integer> penalty, Optional<Integer> flightDayPenalty, Optional<Cargo> reward,HashMap<Integer, Set<Cargo>> planets, int firePower,int creditReward, AdventureDeck deck) {
+        super(partecipants, penalty, flightDayPenalty, reward,firePower, creditReward, deck);
         this.planets = planets;
     }
 
 
     @Override
-    public void giveReward(Set<Cargo> reward,Player player) {
+    public void giveCargoReward(Set<Cargo> reward,Player player) {
         // player.shipManager.addLoad(reward).
     }
 
     @Override
-    public void applyPenalty(Integer penalty) {
-        // Chi chiamo per gestire il caso di penalità di giorni di viaggio
+    public void applyFlightDayPenalty(int penalty, Player player) {
+
+    //    super.getDeck().getGameManager().
+
     }
 
     @Override
@@ -72,9 +74,8 @@ public class Planet extends AdventureCard implements Participation, CargoReward,
                         int choice = scanner.nextInt();
                         if(occupiedPlanets.get(choice) == null){
                            occupiedPlanets.put(choice, player);
-                           giveReward(planets.get(choice), player);
-                           applyPenalty(super.getFlightDayPenalty().intValue());
-
+                           giveCargoReward(planets.get(choice), player);
+                           applyFlightDayPenalty((int)super.getFlightDayPenalty().orElse(0),player);
                         }else{
                             System.out.println("Invalid Choice");
                         }

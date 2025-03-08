@@ -11,14 +11,16 @@ public abstract class AdventureCard<T> {
     private Optional<T> reward;
     private int firePowerRequired;
     private int creditReward;
+    private AdventureDeck deck;
 
-    public AdventureCard(Optional<List<Player>> partecipants, Optional<Integer> penalty, Optional<Integer> flightDayPenalty, Optional<T> reward, int firePowerRequired, int creditReward) {
+    public AdventureCard(Optional<List<Player>> partecipants, Optional<Integer> penalty, Optional<Integer> flightDayPenalty, Optional<T> reward, int firePowerRequired, int creditReward, AdventureDeck deck) {
         this.partecipants = partecipants;
         this.penalty = penalty;
         this.flightDayPenalty = flightDayPenalty;
         this.reward = reward;
         this.firePowerRequired = firePowerRequired;
         this.creditReward = creditReward;
+        this.deck = deck;
     }
 
     public Optional<List<Player>> getPartecipants() {
@@ -42,6 +44,10 @@ public abstract class AdventureCard<T> {
     }
     public int getCreditReward() {
         return creditReward;
+    }
+
+    public AdventureDeck getDeck() {
+        return deck;
     }
 
 
