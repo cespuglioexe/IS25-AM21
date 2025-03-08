@@ -11,8 +11,8 @@ import java.util.Optional;
 
 public class CombatZone extends Attack implements FlightDayPenalty, CrewmatePenalty{
 
-    public CombatZone(Optional partecipants, Optional penalty, Optional flightDayPenalty, Optional reward, int firePowerRequired, int creditReward, AdventureDeck deck) {
-        super(partecipants, penalty, flightDayPenalty, reward, firePowerRequired, creditReward, deck);
+    public CombatZone(Optional partecipants, Optional penalty, Optional flightDayPenalty, Optional reward, int firePowerRequired, int creditReward, AdventureDeck adventureDeck) {
+        super(partecipants, penalty, flightDayPenalty, reward, firePowerRequired, creditReward);
     }
 
     @Override
@@ -46,16 +46,5 @@ public class CombatZone extends Attack implements FlightDayPenalty, CrewmatePena
         }else{
 
         }
-    }
-
-
-    @Override
-    public void applyPenalty(Integer penalty, Player player) {
-
-    }
-
-    @Override
-    public void applyPenalty(Crewmate penalty, Player player) {
-
     }
 }
