@@ -162,7 +162,7 @@ class CabinModuleTest {
             cabin.addCrewmate(human1);
         });
 
-        assertEquals("Cabin contains Alien, can't add Human", exception4.getMessage());
+        assertEquals("Cabin contains Alien, can't add Human", exception5.getMessage());
 
         assertEquals(1, cabin.getCrewmates().size());
         assertEquals(crewmates, cabin.getCrewmates());
