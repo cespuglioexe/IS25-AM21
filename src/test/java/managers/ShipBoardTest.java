@@ -3,6 +3,8 @@ package managers;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.Set;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -283,7 +285,7 @@ public class ShipBoardTest {
         /*
          *          [c]
          *       [c][c][ ]
-         *    [c][ ][c][c][ ]
+         *    [c][ ][x][c][ ]
          *    [ ][c][c][c][c]
          *    [ ][ ]   [c][ ]
         */
@@ -303,7 +305,7 @@ public class ShipBoardTest {
                         }
                         break;
                     case 2:
-                        if (j == 1 || (j > 2 && j < 5)) {
+                        if ((j == 1 || (j > 2 && j < 5)) && j != 3) {
                             ship.addComponentTile(i, j, cannon);
                         }
                         break;
@@ -336,5 +338,254 @@ public class ShipBoardTest {
         assertEquals(0, ship.countExposedConnectors(2, 2));
         //exposed connectors of [0][0]: 0 (OUTSIDE)
         assertEquals(0, ship.countExposedConnectors(0, 0));
+    }
+
+    @Test
+    void getBranchOfComponentTest() throws IllegalComponentPositionException {
+        ShipBoard ship = new ShipBoard();
+        ComponentTile cannon = new SingleCannon(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE);
+
+        /*
+         *          [c]
+         *       [c][c][ ]
+         *    [c][ ][x][c][ ]
+         *    [ ][c][c][c][c]
+         *    [ ][ ]   [c][ ]
+        */
+
+        ship.setShipBounds(1);
+        for (int i = 0; i < 5; i++) {
+            for (int j = 1; j < 6; j++) {
+                switch (i) {
+                    case 0:
+                        if (j == 3) {
+                            ship.addComponentTile(i, j, cannon);
+                        }
+                        break;
+                    case 1:
+                        if (j > 1 && j < 4) {
+                            ship.addComponentTile(i, j, cannon);
+                        }
+                        break;
+                    case 2:
+                        if ((j == 1 || (j > 2 && j < 5)) && j != 3) {
+                            ship.addComponentTile(i, j, cannon);
+                        }
+                        break;
+                    case 3:
+                        if (j > 1 && j < 6) {
+                            ship.addComponentTile(i, j, cannon);
+                        }
+                        break;
+                    case 4:
+                        if (j == 4) {
+                            ship.addComponentTile(i, j, cannon);
+                        }
+                        break;
+                }
+            }
+        }
+
+        ship.printBoard();
+
+        //this should be all elements except for [2][1]
+
+        Set<List<Integer>> actual = new HashSet<>();
+        ship.getBranchOfComponent(0, 3, actual);
+
+        ship.printBranch(1, actual);
+
+        assertTrue(() -> !actual.contains(List.of(2, 1)));
+    }
+
+    @Test
+    void getDisconnectedBranchesTest() throws IllegalComponentPositionException {
+        ShipBoard ship = new ShipBoard();
+        ComponentTile cannon = new SingleCannon(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE);
+
+        /*
+         *          [c]
+         *       [c][c][ ]
+         *    [c][ ][x][c][ ]
+         *    [ ][c][c][c][c]
+         *    [ ][ ]   [c][ ]
+        */
+
+        ship.setShipBounds(1);
+        for (int i = 0; i < 5; i++) {
+            for (int j = 1; j < 6; j++) {
+                switch (i) {
+                    case 0:
+                        if (j == 3) {
+                            ship.addComponentTile(i, j, cannon);
+                        }
+                        break;
+                    case 1:
+                        if (j > 1 && j < 4) {
+                            ship.addComponentTile(i, j, cannon);
+                        }
+                        break;
+                    case 2:
+                        if ((j == 1 || (j > 2 && j < 5)) && j != 3) {
+                            ship.addComponentTile(i, j, cannon);
+                        }
+                        break;
+                    case 3:
+                        if (j > 1 && j < 6) {
+                            ship.addComponentTile(i, j, cannon);
+                        }
+                        break;
+                    case 4:
+                        if (j == 4) {
+                            ship.addComponentTile(i, j, cannon);
+                        }
+                        break;
+                }
+            }
+        }
+
+        ship.printBoard();
+
+        List<Set<List<Integer>>> actual = ship.getDisconnectedBranches();
+
+        List<Set<List<Integer>>> expected = new ArrayList<>();
+        //isolated branch: [2][1]
+        expected.add(Set.of(List.of(2, 1)));
+        //other branch
+        expected.add(Set.of(
+            List.of(0, 3),
+            List.of(1, 2),
+            List.of(1, 3),
+            List.of(2, 3),
+            List.of(2, 4),
+            List.of(3, 2),
+            List.of(3, 3),
+            List.of(3, 4),
+            List.of(3, 5),
+            List.of(4, 4)
+        ));
+
+        int i = 0;
+        for (Set<List<Integer>> branch : actual) {
+            System.out.println("BRANCH NUMBER " + ++i);
+            ship.printBranch(1, branch);
+        }
+
+        assertTrue(actual.containsAll(expected));
+    }
+
+    @Test
+    void removeBranchTest() throws IllegalComponentPositionException {
+        ShipBoard ship = new ShipBoard();
+        ComponentTile cannon = new SingleCannon(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE);
+
+        /*
+         *          [c]
+         *       [c][c][ ]
+         *    [c][ ][x][c][ ]
+         *    [ ][c][c][c][c]
+         *    [ ][ ]   [c][ ]
+        */
+
+        ship.setShipBounds(1);
+        for (int i = 0; i < 5; i++) {
+            for (int j = 1; j < 6; j++) {
+                switch (i) {
+                    case 0:
+                        if (j == 3) {
+                            ship.addComponentTile(i, j, cannon);
+                        }
+                        break;
+                    case 1:
+                        if (j > 1 && j < 4) {
+                            ship.addComponentTile(i, j, cannon);
+                        }
+                        break;
+                    case 2:
+                        if ((j == 1 || (j > 2 && j < 5)) && j != 3) {
+                            ship.addComponentTile(i, j, cannon);
+                        }
+                        break;
+                    case 3:
+                        if (j > 1 && j < 6) {
+                            ship.addComponentTile(i, j, cannon);
+                        }
+                        break;
+                    case 4:
+                        if (j == 4) {
+                            ship.addComponentTile(i, j, cannon);
+                        }
+                        break;
+                }
+            }
+        }
+
+        ship.printBoard();
+
+        List<Set<List<Integer>>> branches = ship.getDisconnectedBranches();
+
+        //try to remove branch number 1
+        ship.removeBranch(branches.get(0));
+        ship.printBoard();
+
+        assertTrue(() -> {
+            for (List<Integer> coord : branches.get(0)) {
+                if (!ship.getComponent(coord.get(0), coord.get(1)).equals(Optional.<ComponentTile>empty())) {
+                    return false;
+                }
+            }
+            return true;
+        });
+    }
+
+    @Test
+    void removeBranchWithEmptySlotsTest() throws IllegalComponentPositionException {
+        ShipBoard ship = new ShipBoard();
+        ComponentTile cannon = new SingleCannon(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE);
+
+        /*
+         *          [c]
+         *       [c][c][ ]
+         *    [c][ ][x][c][ ]
+         *    [ ][c][c][c][c]
+         *    [ ][ ]   [c][ ]
+        */
+
+        ship.setShipBounds(1);
+        for (int i = 0; i < 5; i++) {
+            for (int j = 1; j < 6; j++) {
+                switch (i) {
+                    case 0:
+                        if (j == 3) {
+                            ship.addComponentTile(i, j, cannon);
+                        }
+                        break;
+                    case 1:
+                        if (j > 1 && j < 4) {
+                            ship.addComponentTile(i, j, cannon);
+                        }
+                        break;
+                    case 2:
+                        if ((j == 1 || (j > 2 && j < 5)) && j != 3) {
+                            ship.addComponentTile(i, j, cannon);
+                        }
+                        break;
+                    case 3:
+                        if (j > 1 && j < 6) {
+                            ship.addComponentTile(i, j, cannon);
+                        }
+                        break;
+                    case 4:
+                        if (j == 4) {
+                            ship.addComponentTile(i, j, cannon);
+                        }
+                        break;
+                }
+            }
+        }
+
+        //creating an invalid branch of just one component: empty slot at [1][4]
+        Set<List<Integer>> invalidBranch = Set.of(List.of(1, 4));
+        assertThrows(IllegalComponentPositionException.class, () -> ship.removeBranch(invalidBranch));
     }
 }
