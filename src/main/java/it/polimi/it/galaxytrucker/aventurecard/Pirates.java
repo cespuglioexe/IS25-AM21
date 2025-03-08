@@ -13,8 +13,8 @@ public class Pirates extends Attack implements CreditReward,FlightDayPenalty {
         Scanner scanner = new Scanner(System.in);
 
 
-        public Pirates(Optional partecipants, Optional penalty, Optional flightDayPenalty, Optional reward, int firePowerRequired,int creditRreward) {
-                super(partecipants, penalty, flightDayPenalty, reward, firePowerRequired,creditRreward);
+        public Pirates(Optional partecipants, Optional penalty, Optional flightDayPenalty, Optional reward, int firePowerRequired,int creditRreward, AdventureDeck deck) {
+                super(partecipants, penalty, flightDayPenalty, reward, firePowerRequired,creditRreward, deck);
         }
 
 
