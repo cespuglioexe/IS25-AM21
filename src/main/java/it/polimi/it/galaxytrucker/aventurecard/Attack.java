@@ -9,8 +9,8 @@ import java.util.Optional;
 public abstract class Attack extends AdventureCard {
     private List<Projectile> projectiles;
 
-    public Attack(Optional partecipants, Optional penalty, Optional flightDayPenalty, Optional reward, int firePowerRequired) {
-        super(partecipants, penalty, flightDayPenalty, reward, firePowerRequired);
+    public Attack(Optional partecipants, Optional penalty, Optional flightDayPenalty, Optional reward, int firePowerRequired, int creditReward) {
+        super(partecipants, penalty, flightDayPenalty, reward, firePowerRequired, creditReward);
     }
 
     public List<Projectile> getProjectiles() {
