@@ -8,6 +8,11 @@ public class SingleEngine extends ComponentTile {
         enginePower = 1;
     }
 
+    /*
+     *  Returns the power of the engine, for single engines this is always 1
+     *
+     *  @return An {@code int} representing the power of the engine
+     */
     public int getEnginePower() {
         return enginePower;
     }

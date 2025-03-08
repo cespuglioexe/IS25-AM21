@@ -1,8 +1,7 @@
 package it.polimi.it.galaxytrucker.crewmates;
 
 public class Human extends Crewmate {
-
-    public Human(boolean lifeSupport) {
-        super(lifeSupport);
+    public Human(boolean requiresLifeSupport) {
+        super(requiresLifeSupport);
     }
 }
