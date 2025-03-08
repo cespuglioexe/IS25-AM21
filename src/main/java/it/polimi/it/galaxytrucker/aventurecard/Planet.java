@@ -26,7 +26,7 @@ public class Planet extends AdventureCard implements Participation, CargoReward,
     }
 
     @Override
-    public void applyPenalty(Integer penalty) {
+    public void applyPenalty(Integer penalty, Player player) {
         // Chi chiamo per gestire il caso di penalità di giorni di viaggio
     }
 
@@ -73,7 +73,7 @@ public class Planet extends AdventureCard implements Participation, CargoReward,
                         if(occupiedPlanets.get(choice) == null){
                            occupiedPlanets.put(choice, player);
                            giveReward(planets.get(choice), player);
-                           applyPenalty(super.getFlightDayPenalty().intValue());
+                           applyPenalty( super.getFlightDayPenalty());
 
                         }else{
                             System.out.println("Invalid Choice");
