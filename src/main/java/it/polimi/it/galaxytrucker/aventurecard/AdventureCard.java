@@ -1,13 +1,45 @@
 package it.polimi.it.galaxytrucker.aventurecard;
 
-import java.util.Optional;
+import it.polimi.it.galaxytrucker.managers.Player;
 
-public abstract class AdventureCard {
-    private Optional<Integer> penalty;
+import java.util.*;
+
+public abstract class AdventureCard<T> {
+    private Optional<List<Player>> partecipants;
+    private Optional<Integer> penalty; //Penalità generidca che dopo viene implementata da cargopenalty e crewmatepenalty
     private Optional<Integer> flightDayPenalty;
     private Optional<T> reward;
+    private int firePowerRequired;
 
-    public void play(){
-
+    public AdventureCard(Optional<List<Player>> partecipants, Optional<Integer> penalty, Optional<Integer> flightDayPenalty, Optional<T> reward, int firePowerRequired) {
+        this.partecipants = partecipants;
+        this.penalty = penalty;
+        this.flightDayPenalty = flightDayPenalty;
+        this.reward = reward;
+        this.firePowerRequired = firePowerRequired;
     }
+
+    public Optional<List<Player>> getPartecipants() {
+        return partecipants;
+    }
+
+    public Optional<Integer> getPenalty() {
+        return penalty;
+    }
+
+    public Optional<Integer> getFlightDayPenalty() {
+        return flightDayPenalty;
+    }
+
+    public Optional<T> getReward() {
+        return reward;
+    }
+
+    public int getFirePowerRequired() {
+        return firePowerRequired;
+    }
+
+
+
+    public abstract void play();
 }
