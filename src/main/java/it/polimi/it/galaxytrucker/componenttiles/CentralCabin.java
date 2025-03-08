@@ -1,5 +1,6 @@
 package it.polimi.it.galaxytrucker.componenttiles;
 
+import it.polimi.it.galaxytrucker.crewmates.Alien;
 import it.polimi.it.galaxytrucker.crewmates.Crewmate;
 import it.polimi.it.galaxytrucker.crewmates.Human;
 import it.polimi.it.galaxytrucker.exceptions.InvalidActionException;
@@ -15,6 +16,10 @@ public class CentralCabin extends ComponentTile {
         crewmates = new ArrayList<>();
     }
 
+    public List<Crewmate> getCrewmates() {
+        return crewmates;
+    }
+
     /*
     *   Adds a new {@code Human} object to the {@code List<Crewmate>} of the cabin.
     *
@@ -23,6 +28,8 @@ public class CentralCabin extends ComponentTile {
     public void addCrewmate (Human human) throws InvalidActionException {
         if (crewmates.size() == 2)
             throw new InvalidActionException("Cabin already full");
+        else if (!crewmates.isEmpty() && crewmates.getFirst().getClass().equals(Alien.class))
+            throw new InvalidActionException("Cabin contains Alien, can't add Human");
         crewmates.add(human);
     }
 
@@ -32,9 +39,12 @@ public class CentralCabin extends ComponentTile {
     *
     *   @throws InvalidActionException if the cabin is empty.
     */
-    public void removeCrewmate () throws InvalidActionException {
+    public Crewmate removeCrewmate () throws InvalidActionException {
         if (crewmates.isEmpty())
             throw new InvalidActionException("Cabin is empty");
+
+        Crewmate removedCrewmate = crewmates.getFirst();
         crewmates.removeFirst();
+        return removedCrewmate;
     }
 }
