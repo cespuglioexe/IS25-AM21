@@ -336,6 +336,19 @@ public class ShipBoard {
         return branches;
     }
 
+    /**
+     * Removes all components in a given branch from the ship's grid.
+     * This method iterates through the provided set of coordinates and removes 
+     * each corresponding component by calling {@link #removeComponentTile(int, int)}.
+     *
+     * <p>If any coordinate in the branch refers to an invalid position or an unremovable component, 
+     * the method will throw an {@code IllegalComponentPositionException}.</p>
+     *
+     * @param branch A set of coordinate pairs {@code (row, column)} representing the components 
+     *               to be removed.
+     * @throws IllegalComponentPositionException If the removal of a component at any given coordinate 
+     *         is not allowed due to game rules or invalid positioning.
+     */
     public void removeBranch(Set<List<Integer>> branch) throws IllegalComponentPositionException {
         for (List<Integer> coord : branch) {
             this.removeComponentTile(coord.get(0), coord.get(1));
