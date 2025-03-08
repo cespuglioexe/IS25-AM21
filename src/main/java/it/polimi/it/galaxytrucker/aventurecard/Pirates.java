@@ -3,39 +3,25 @@ package it.polimi.it.galaxytrucker.aventurecard;
 
 import it.polimi.it.galaxytrucker.cardEffects.*;
 import it.polimi.it.galaxytrucker.managers.Player;
+import it.polimi.it.galaxytrucker.managers.ShipManager;
 
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 
 
-public class Pirates extends Attack implements CreditReward, FlightDayPenalty{
+public class Pirates extends Attack implements CreditReward,FlightDayPenalty {
         Scanner scanner = new Scanner(System.in);
 
 
-        public Pirates(Optional partecipants, Optional penalty, Optional flightDayPenalty, Optional reward, int firePowerRequired) {
-                super(partecipants, penalty, flightDayPenalty, reward, firePowerRequired);
+        public Pirates(Optional partecipants, Optional penalty, Optional flightDayPenalty, Optional reward, int firePowerRequired,int creditRreward) {
+                super(partecipants, penalty, flightDayPenalty, reward, firePowerRequired,creditRreward);
         }
-
-
-
-
 
 
         @Override
         public void attack() {
 
 
-        }
-
-
-
-
-        @Override
-        public void applyPenalty(Integer dayPenalty) {
-                
         }
 
 
@@ -47,7 +33,6 @@ public class Pirates extends Attack implements CreditReward, FlightDayPenalty{
                                 // La lista contiene elementi, procedi
                                 for (Player player : players) {
 
-
                                         // Fai qualcosa con ogni player
                                         if (player.getShipManager().calculateFirePower(player.getPlayerID()) < super.getFirePowerRequired()){//sto confrontando float con optional
                                                 attack();
@@ -56,8 +41,8 @@ public class Pirates extends Attack implements CreditReward, FlightDayPenalty{
                                                 // Legge la prima lettera inserita
                                                 /*yes*/
                                                 if(scanner.next() == "y"){
-                                                        giveCreditReward(5,player);
-                                                        applyPenalty((Integer) super.getFlightDayPenalty().orElse(0));
+                                                        giveReward(Collections.singleton((Integer) super.getCreditReward()),player);
+                                                        applyFlightDayPenalty(super.getFlightDayPenalty().ifPresentOrElse((value) -> value.intValue(), () -> 0), player);
                                                         //add credits and apply flight day penalty
                                                 }else{/*no*/
 
@@ -79,12 +64,15 @@ public class Pirates extends Attack implements CreditReward, FlightDayPenalty{
 
 
         @Override
-        public void giveCreditReward(int reward, Player player) {
-                player.setCredits(player.getCredits() + reward);
+        public void giveReward(Set<Integer> reward, Player player) {
+                for (int n : reward) {
+                        player.setCredits(n);
+                }
+
         }
 
         @Override
-        public void giveReward(Set<Integer> reward, Player player) {
+        public void applyFlightDayPenalty(int penalty, Player player) {
 
         }
 }

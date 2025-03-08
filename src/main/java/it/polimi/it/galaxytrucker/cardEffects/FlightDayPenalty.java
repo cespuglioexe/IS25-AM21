@@ -1,6 +1,7 @@
 package it.polimi.it.galaxytrucker.cardEffects;
 
-public interface FlightDayPenalty extends Penalty<Integer> {
-    @Override
-    void applyPenalty(Integer penalty);
+import it.polimi.it.galaxytrucker.managers.Player;
+
+public interface FlightDayPenalty {
+    void applyFlightDayPenalty(int penalty, Player player);
 }
