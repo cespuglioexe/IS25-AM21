@@ -78,7 +78,7 @@ public class ShipBoard {
      * The board is structured to accommodate ship components and automatically 
      * applies the appropriate structural boundaries based on the given level.
      *
-     * <p>Upon creation, the board is empty except for predefined structural constraints.</p>
+     * <p>Upon creation, the board is empty except for predefined structural constraints {@link EmptyTile} and the default {@link CentralCabin}.</p>
      *
      * @param level The level of the ship (e.g., 1 or 2), determining its valid structure.
      */

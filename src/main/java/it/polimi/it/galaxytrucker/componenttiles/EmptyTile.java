@@ -1,7 +1,7 @@
 package it.polimi.it.galaxytrucker.componenttiles;
 
 /**
- * This class represents an Empty Tile component.
+ * This class represents an Empty Tile component, a space outside the ship where no component can be placed.
  * An Empty Tile has all smooth.
  *
  * @author Giacomo Amaducci
