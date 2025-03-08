@@ -40,6 +40,11 @@ import java.util.stream.IntStream;
  *     ship.setShipBounds(1); // Initialize ship boundaries for level 1
  *     ship.addComponentTile(2, 3, new EngineModule());
  * </pre>
+ * <p>Example of usage:</p>
+ * <pre>
+ *     ShipBoard ship = new ShipBoard(1); // Create and initialize ship boundaries for level 1
+ *     ship.addComponentTile(2, 3, new EngineModule());
+ * </pre>
  * 
  * @author Stefano Carletto
  * @version 1.0
