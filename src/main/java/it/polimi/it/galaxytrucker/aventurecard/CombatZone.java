@@ -39,7 +39,7 @@ public class CombatZone extends Attack implements FlightDayPenalty, CrewmatePena
         if(players.get(0).getShipManager().calculateEnginePower(players.get(0).getPlayerID())< players.get(1).getShipManager().calculateEnginePower(players.get(1).getPlayerID())){
 
         }else{
-            applyPenalty(,players.get(1));
+            applyFlightDayPenalty(getFlightDayPenalty(),players.get(1));
         }
 
 
