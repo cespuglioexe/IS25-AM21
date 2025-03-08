@@ -41,9 +41,8 @@ public class Pirates extends Attack implements CreditReward,FlightDayPenalty {
                                                 // Legge la prima lettera inserita
                                                 /*yes*/
                                                 if(scanner.next() == "y"){
-                                                        giveReward(Collections.singleton((Integer) super.getCreditReward()),player);
-                                                        applyFlightDayPenalty(super.getFlightDayPenalty().ifPresentOrElse((value) -> value.intValue(), () -> 0), player);
-                                                        //add credits and apply flight day penalty
+                                                        giveCreditReward(getCreditReward(),player);
+                                                        applyFlightDayPenalty((Integer) getFlightDayPenalty().orElse(0), player);                                                        //add credits and apply flight day penalty
                                                 }else{/*no*/
 
 
@@ -64,16 +63,13 @@ public class Pirates extends Attack implements CreditReward,FlightDayPenalty {
 
 
         @Override
-        public void giveReward(Set<Integer> reward, Player player) {
-                for (int n : reward) {
-                        player.setCredits(n);
-                }
-
+        public void applyFlightDayPenalty(int penalty, Player player) {
+                
         }
 
         @Override
-        public void applyFlightDayPenalty(int penalty, Player player) {
-
+        public void giveCreditReward(int reward, Player player) {
+                player.setCredits(reward);
         }
 }
 

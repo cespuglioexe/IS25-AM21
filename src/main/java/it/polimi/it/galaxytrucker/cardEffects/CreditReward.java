@@ -5,7 +5,6 @@ import it.polimi.it.galaxytrucker.utility.Cargo;
 
 import java.util.Set;
 
-public interface CreditReward extends Reward<Integer>{
-
-    void giveReward(Set<Integer> reward, Player player);
+public interface CreditReward{
+    void giveCreditReward(int reward, Player player);
 }
