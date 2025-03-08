@@ -12,6 +12,10 @@ public class AdventureDeck {
     private GameManager gameManager;
 
 
+    public GameManager getGameManager() {
+        return gameManager;
+    }
+
     public AdventureDeck(List<AdventureCard> cards, GameManager gM) {
         this.cards = cards;
         this.gameManager = gM;

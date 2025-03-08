@@ -46,6 +46,10 @@ public abstract class AdventureCard<T> {
         return creditReward;
     }
 
+    public AdventureDeck getDeck() {
+        return deck;
+    }
+
 
 
     public abstract void play();
