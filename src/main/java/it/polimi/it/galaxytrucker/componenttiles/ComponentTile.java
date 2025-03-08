@@ -9,10 +9,9 @@ public abstract class ComponentTile {
 
     TileEdge test = TileEdge.SINGLE;
 
-
     public ComponentTile(TileEdge top, TileEdge right, TileEdge bottom, TileEdge left) {
         rotation = 0;
-        tileEdges = List.of(right, top, left, bottom);
+        tileEdges = List.of(top, right, bottom, left);
     }
 
     /*
@@ -40,13 +39,13 @@ public abstract class ComponentTile {
     *       [TOP, RIGHT, BOTTOM], [LEFT] --> [LEFT, TOP, RIGHT, BOTTOM]
     *
     *   @return A {@code List<TileEdge>} which is made by swapping the two sub-lists obtained by splitting
-    *           {@code tileEdges} at the position {@code rotation}
+    *           {@code tileEdges} at the position {@code tileEdges.size() - rotation}
     */
     public List<TileEdge> getTileEdges() {
         List<TileEdge> rotatedEdges = new ArrayList<>(4);
 
-        rotatedEdges.addAll(tileEdges.subList(rotation, 4));
-        rotatedEdges.addAll(tileEdges.subList(0, rotation));
+        rotatedEdges.addAll(tileEdges.subList(4 - rotation, 4));
+        rotatedEdges.addAll(tileEdges.subList(0, 4 - rotation));
 
         return rotatedEdges;
     }
