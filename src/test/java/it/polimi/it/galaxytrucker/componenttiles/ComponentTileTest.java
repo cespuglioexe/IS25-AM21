@@ -24,6 +24,8 @@ class ComponentTileTest {
         // component.tileEdges -> [SMOOTH, SINGLE, DOUBLE, UNIVERSAL]
         StructuralModule component = new StructuralModule(TileEdge.SMOOTH, TileEdge.SINGLE, TileEdge.DOUBLE, TileEdge.UNIVERSAL);
 
+        /* ===== TEST 1 ==== */
+
         /*
          *  Single rotation, expect the last element of {@code component.tileEdges} to be
          *  in the first position of {@code component.getTileEdges()}
@@ -39,6 +41,8 @@ class ComponentTileTest {
         assertEquals(
                 list1, component.getTileEdges()
         );
+
+        /* ===== TEST 2 ==== */
 
         /*
          *  Single rotation, expect the last element of {@code component.tileEdges} to be
@@ -57,6 +61,8 @@ class ComponentTileTest {
                 list2, component.getTileEdges()
         );
 
+        /* ===== TEST 3 ==== */
+
         /*
          *  Single rotation, expect the last element of {@code component.tileEdges} to be
          *  in the second position of {@code component.getTileEdges()} and the second to
@@ -73,6 +79,8 @@ class ComponentTileTest {
         assertEquals(
                 list3, component.getTileEdges()
         );
+
+        /* ===== TEST 4 ==== */
 
         /*
          *  Final rotation, expect {@code component.getTileEdges()} to be the same as when it started

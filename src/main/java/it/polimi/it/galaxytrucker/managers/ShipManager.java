@@ -9,4 +9,14 @@ public class ShipManager {
         double firePower = 0;
         return firePower;
     }
+
+    public int calculateCrewmates(int PlayerID) {
+        int crewmates = 0;
+        return crewmates;
+    }
+
+    public int calculateEnginePower(int PlayerID) {
+        int enginePower = 0;
+        return enginePower;
+    }
 }
