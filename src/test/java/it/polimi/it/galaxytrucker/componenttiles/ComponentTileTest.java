@@ -7,14 +7,21 @@ import static org.junit.jupiter.api.Assertions.*;
 class ComponentTileTest {
 
     @Test
-    void rotate() {
+    void testRotate() {
+        StructuralModule component = new StructuralModule(TileEdge.SMOOTH, TileEdge.SINGLE, TileEdge.DOUBLE, TileEdge.UNIVERSAL);
+
+        component.rotate();
+        assertEquals(
+                component.getRotation(), 1
+        );
     }
 
     @Test
-    void getRotation() {
+    void testGetRotation() {
     }
 
     @Test
-    void getTileEdges() {
+    void testGetTileEdges() {
+
     }
 }

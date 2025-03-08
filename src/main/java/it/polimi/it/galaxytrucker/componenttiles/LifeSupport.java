@@ -10,6 +10,11 @@ public class LifeSupport extends ComponentTile {
         this.supportedAlienType = type;
     }
 
+    /*
+     *  Return the type of alien that the cabin supports
+     *
+     *  @return The {@code AlienType} that this cabin supports
+     */
     public AlienType getSupportedAlienType() {
         return supportedAlienType;
     }

@@ -12,7 +12,7 @@ public class Shield extends ComponentTile implements EnergyConsumer {
     *    - Left-top
     *   we can indicate which sides are covered by saving the first direction of the pair.
     */
-    private Direction orientation;
+    private final Direction orientation;
 
     public Shield(Direction dir, TileEdge top, TileEdge right, TileEdge bottom, TileEdge left) {
         super(top, right, bottom, left);
@@ -20,8 +20,8 @@ public class Shield extends ComponentTile implements EnergyConsumer {
     }
 
     @Override
-    public void activate() {
-        // Allows deflection of small cannon shots and meteors
+    public boolean activate() {
+        return true;
     }
 
     @Override
@@ -29,7 +29,14 @@ public class Shield extends ComponentTile implements EnergyConsumer {
         return false;
     }
 
+    /*
+     *  Returns the first direction of the pair that is covered by the shield, adjusted for rotation
+     *
+     *  @return A {@code Direction} representing the first direction of the direction couple covered
+     *          by the shield, the second can be calculated by the caller with
+     *          {@code Direction.values()[(@result.ordinal() + 1) % 4]}
+     */
     public Direction getOrientation() {
-        return orientation;
+        return Direction.values()[(orientation.ordinal() + getRotation()) % 4];
     }
 }

@@ -5,13 +5,16 @@ public class DoubleCannon extends SingleCannon implements EnergyConsumer{
         super(top, right, bottom, left);
     }
 
-    void setFirePower(int power) {
-        firePower = power;
+    @Override
+    public int getFirePower () {
+        if (activate())
+            return 2;
+        return 0;
     }
 
     @Override
-    public void activate() {
-        setFirePower(2);
+    public boolean activate() {
+        return true;
     }
 
     @Override

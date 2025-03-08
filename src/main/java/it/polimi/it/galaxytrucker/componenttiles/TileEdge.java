@@ -2,39 +2,66 @@ package it.polimi.it.galaxytrucker.componenttiles;
 
 public enum TileEdge {
     SINGLE {
+        /*
+         *  An edge with a single connector on it
+         *
+         *  @return {@code true} or {@code false} based on the parameter {@code other}
+         */
         @Override
         public boolean isCompatible(TileEdge other) {
-            return other == SINGLE || other == UNIVERSAL || other == SMOOTH;
+            return (other == SINGLE || other == UNIVERSAL || other == SMOOTH);
         }
     },
     DOUBLE {
+        /*
+         *  An edge with a double connector on it
+         *
+         *  @return {@code true} or {@code false} based on the parameter {@code other}
+         */
         @Override
         public boolean isCompatible(TileEdge other) {
-            return other == DOUBLE || other == UNIVERSAL || other == SMOOTH;
+            return (other == DOUBLE || other == UNIVERSAL || other == SMOOTH);
         }
     },
     UNIVERSAL {
+        /*
+         *  An edge a universal connector
+         *
+         *  @return Always {@code true}
+         */
         @Override
         public boolean isCompatible(TileEdge other) {
             return true;
         }
     },
-    // and edge with no connectors on it. Functionally equivalent to a UNIVERSAL connector but keeps
-    // other connectors exposed
     SMOOTH {
+        /*
+         *  An edge with no connectors on it
+         *
+         *  @return Always {@code true}, functionally equivalent to {@code TileEdge.UNIVERSAL}
+         */
         @Override
         public boolean isCompatible(TileEdge other) {
             return true;
         }
     },
-    // INCOMPATIBLE is the edge type used for cannon fronts and engine backs, which require an empty cell
     INCOMPATIBLE {
+        /*
+         *  INCOMPATIBLE is the edge type used for cannon fronts and engine backs, which require an empty cell
+         *
+         *  @return Always {@code false}
+         */
         @Override
         public boolean isCompatible(TileEdge other) {
             return false;
         }
     };
 
-    // returns, for each edge type, whether it's compatible with the type passed as a parameter
+    /*
+     *  Each edge type defines the function based on specific requirements
+     *
+     *  @param  A {@code TileEdge} to be compared with {@code this} to determine compatibility
+     *  @return {@code true} or {@code false} based on the parameter {@code other}
+     */
     public abstract boolean isCompatible(TileEdge other);
 }

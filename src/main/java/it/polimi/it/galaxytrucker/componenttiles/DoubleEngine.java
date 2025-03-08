@@ -6,13 +6,16 @@ public class DoubleEngine extends SingleEngine implements EnergyConsumer {
         super(top, right, bottom, left);
     }
 
-    private void setEnginePower(int power) {
-        this.enginePower = power;
+    @Override
+    public int getEnginePower () {
+        if (activate())
+            return 2;
+        return 0;
     }
 
     @Override
-    public void activate() {
-        setEnginePower(2);
+    public boolean activate() {
+        return true;
     }
 
     @Override
