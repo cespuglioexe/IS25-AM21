@@ -7,6 +7,5 @@ import java.util.Set;
 
 public interface CreditReward extends Reward<Integer>{
 
-    @Override
-    void giveReward(Set<Integer> reward, Player player);
+    void giveCreditReward(int reward, Player player);
 }
