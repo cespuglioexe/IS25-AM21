@@ -11,11 +11,13 @@ import java.util.List;
  */
 public class SingleCannon extends ComponentTile {
 
-    /** The firepower value of this cannon */
-    private final int firePower;
+    /**
+     * The firepower value of this cannon.
+     */
+    private int firePower;
 
     /**
-     * Constructs a new Single Cannon with the specified edges.
+     * Constructs a new {@code SingleCannon} with the specified edges.
      * The firepower is always initialized to 1.
      *
      * @param top the type of the top edge of this tile
@@ -36,5 +38,14 @@ public class SingleCannon extends ComponentTile {
      */
     public int getFirePower() {
         return firePower;
+    }
+
+    /**
+     * Sets the firepower value of the cannon.
+     *
+     * @param firePower the new {@code int} value to set for the firepower
+     */
+    void setFirePower(int firePower) {
+        this.firePower = firePower;
     }
 }

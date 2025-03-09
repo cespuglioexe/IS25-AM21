@@ -8,11 +8,14 @@ package it.polimi.it.galaxytrucker.componenttiles;
  * @version 1.0
  */
 public class SingleEngine extends ComponentTile {
-    /** The power value of this engine */
-    private final int enginePower;
 
     /**
-     * Constructs a new Single Engine with the specified edges.
+     * The power value of this engine.
+     */
+    private int enginePower;
+
+    /**
+     * Constructs a new {@code SingleEngine} with the specified edges.
      * The engine power is always initialized to 1.
      *
      * @param top the type of the top edge of this tile
@@ -33,5 +36,14 @@ public class SingleEngine extends ComponentTile {
      */
     public int getEnginePower() {
         return enginePower;
+    }
+
+    /**
+     * Sets the power value of the engine.
+     *
+     * @param enginePower the new {@code int} value to set for the engine power
+     */
+    public void setEnginePower(int enginePower) {
+        this.enginePower = enginePower;
     }
 }
