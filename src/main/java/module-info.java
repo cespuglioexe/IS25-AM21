@@ -2,7 +2,7 @@ module it.polimi.it.galaxytrucker {
     requires javafx.controls;
     requires javafx.fxml;
     requires transitive javafx.graphics;
-    requires java.desktop;
+    requires com.fasterxml.jackson.databind;
 
 
     opens it.polimi.it.galaxytrucker to javafx.fxml;

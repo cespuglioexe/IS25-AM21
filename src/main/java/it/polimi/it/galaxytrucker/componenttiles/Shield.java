@@ -3,6 +3,7 @@ package it.polimi.it.galaxytrucker.componenttiles;
 import it.polimi.it.galaxytrucker.utility.Direction;
 
 public class Shield extends ComponentTile implements EnergyConsumer {
+    private boolean isActive;
     /*
     *   Each shield covers 2 adjacent sides of the spaceship, considering the covered
     *   sides as the following 4 pairs:
@@ -17,11 +18,13 @@ public class Shield extends ComponentTile implements EnergyConsumer {
     public Shield(Direction dir, TileEdge top, TileEdge right, TileEdge bottom, TileEdge left) {
         super(top, right, bottom, left);
         this.orientation = dir;
+        this.isActive = false;
     }
 
     @Override
-    public boolean activate() {
-        return true;
+    public void activate() {
+        if (!isActive)
+            isActive = true;
     }
 
     @Override
@@ -29,7 +32,7 @@ public class Shield extends ComponentTile implements EnergyConsumer {
         return false;
     }
 
-    /*
+    /**
      *  Returns the first direction of the pair that is covered by the shield, adjusted for rotation
      *
      *  @return A {@code Direction} representing the first direction of the direction couple covered
