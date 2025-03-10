@@ -52,6 +52,7 @@ public abstract class ComponentTile {
 
     /**
      * Returns the 4 edges of the tile, accounting for the tile's rotation.
+     * <p>
      * The rotation is achieved by splitting the list in two based on the rotation:
      * (rotation = 1): [TOP, RIGHT, BOTTOM, LEFT] --> [TOP, RIGHT, BOTTOM], [LEFT]
      * and then swapping the two sub-lists into a new list:

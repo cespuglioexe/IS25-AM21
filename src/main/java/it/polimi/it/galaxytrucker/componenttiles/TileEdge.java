@@ -16,11 +16,11 @@ public enum TileEdge {
          * Determines if this edge is compatible with another {@code TileEdge}.
          *
          * @param other the {@code TileEdge} to compare with
-         * @return {@code true} if {@code other} is {@code SINGLE}, {@code UNIVERSAL}, or {@code SMOOTH}; otherwise, {@code false}
+         * @return {@code true} if {@code other} is {@code SINGLE}, {@code UNIVERSAL}; otherwise, {@code false}
          */
         @Override
         public boolean isCompatible(TileEdge other) {
-            return (other == SINGLE || other == UNIVERSAL || other == SMOOTH);
+            return (other == SINGLE || other == UNIVERSAL);
         }
     },
 
@@ -32,27 +32,27 @@ public enum TileEdge {
          * Determines if this edge is compatible with another {@code TileEdge}.
          *
          * @param other the {@code TileEdge} to compare with
-         * @return {@code true} if {@code other} is {@code DOUBLE}, {@code UNIVERSAL}, or {@code SMOOTH}; otherwise, {@code false}
+         * @return {@code true} if {@code other} is {@code DOUBLE}, {@code UNIVERSAL}; otherwise, {@code false}
          */
         @Override
         public boolean isCompatible(TileEdge other) {
-            return (other == DOUBLE || other == UNIVERSAL || other == SMOOTH);
+            return (other == DOUBLE || other == UNIVERSAL);
         }
     },
 
     /**
-     * An edge with a universal connector that can connect with any other edge type.
+     * An edge with a universal connector that can connect with any other connector type.
      */
     UNIVERSAL {
         /**
          * Determines if this edge is compatible with another {@code TileEdge}.
          *
          * @param other the {@code TileEdge} to compare with
-         * @return Always {@code true}, as universal edges are compatible with all types.
+         * @return {@code true} if {@code other} is not {@code SMOOTH}; otherwise, {@code false}
          */
         @Override
         public boolean isCompatible(TileEdge other) {
-            return true;
+            return (other != SMOOTH);
         }
     },
 
@@ -64,7 +64,7 @@ public enum TileEdge {
          * Determines if this edge is compatible with another {@code TileEdge}.
          *
          * @param other the {@code TileEdge} to compare with
-         * @return Always {@code true}, functionally equivalent to {@code TileEdge.UNIVERSAL}.
+         * @return Always {@code true}, as smooth edges do not restrict connections.
          */
         @Override
         public boolean isCompatible(TileEdge other) {

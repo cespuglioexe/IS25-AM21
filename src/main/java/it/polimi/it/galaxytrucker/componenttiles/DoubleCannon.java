@@ -1,22 +1,61 @@
 package it.polimi.it.galaxytrucker.componenttiles;
 
-public class DoubleCannon extends SingleCannon implements EnergyConsumer{
+/**
+ * This class represents a Double Cannon component tile.
+ * Double Cannons provide increased firepower but require activation.
+ *
+ * @author Giacomo Amaducci
+ * @version 1.0
+ */
+public class DoubleCannon extends SingleCannon implements EnergyConsumer {
+    private boolean isActive;
+
+    /**
+     * Constructs a new {@code DoubleCannon} with the specified edges.
+     *
+     * @param top the type of the top edge of this tile
+     * @param right the type of the right edge of this tile
+     * @param bottom the type of the bottom edge of this tile
+     * @param left the type of the left edge of this tile
+     */
     public DoubleCannon(TileEdge top, TileEdge right, TileEdge bottom, TileEdge left) {
         super(top, right, bottom, left);
+        this.isActive = false;
     }
 
+    /**
+     * Activates the double cannon if it is currently inactive.
+     */
     @Override
-    public int getFirePower () {
-        if (activate())
+    public void activate() {
+        if (!isActive)
+            isActive = true;
+    }
+
+    /**
+     * Returns the firepower of the cannon.
+     * For activated double cannons, this value is 2 if it points forwards, 1 otherwise.
+     * For inactive double cannons, this value is always 0.
+     *
+     * @return an {@code int} representing the firepower of the cannon
+     */
+    @Override
+    public double getFirePower() {
+        if (!isActive)
+            return 0;
+        if (getRotation() == 0) {
+            isActive = false;
             return 2;
-        return 0;
+        }
+        isActive = false;
+        return 1;
     }
 
-    @Override
-    public boolean activate() {
-        return true;
-    }
-
+    /**
+     * Determines if the cannon can be activated.
+     *
+     * @return always {@code false}, as this implementation does not allow reactivation.
+     */
     @Override
     public boolean canBeActivated() {
         return false;

@@ -7,12 +7,12 @@ package it.polimi.it.galaxytrucker.componenttiles;
  * @author Giacomo Amaducci
  * @version 1.0
  */
-public class EmptyTile extends ComponentTile {
+public class OutOfBoundsTile extends ComponentTile {
     /**
      * Constructs a new Empty Tile.
      * All edges are initialized as SMOOTH.
      */
-    public EmptyTile() {
+    public OutOfBoundsTile() {
         super(TileEdge.SMOOTH, TileEdge.SMOOTH, TileEdge.SMOOTH, TileEdge.SMOOTH);
     }
 }

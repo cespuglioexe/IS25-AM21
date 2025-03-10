@@ -5,7 +5,7 @@ import it.polimi.it.galaxytrucker.utility.Cargo;
 import java.util.List;
 
 /**
- * Represents a cargo hold component in the galaxy trucker game.
+ * Represents a Cargo Hold component.
  * A cargo hold can store a limited number of cargo items based on its container capacity.
  * Some cargo holds may also be capable of holding special cargo.
  *

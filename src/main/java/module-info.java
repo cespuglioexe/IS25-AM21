@@ -3,7 +3,6 @@ module it.polimi.it.galaxytrucker {
     requires javafx.fxml;
     requires transitive javafx.graphics;
     requires java.desktop;
-    requires junit;
 
 
     opens it.polimi.it.galaxytrucker to javafx.fxml;

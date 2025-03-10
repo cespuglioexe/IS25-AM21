@@ -1,11 +1,8 @@
 package it.polimi.it.galaxytrucker.managers;
 
-import it.polimi.it.galaxytrucker.componenttiles.CentralCabin;
-import it.polimi.it.galaxytrucker.componenttiles.ComponentTile;
-import it.polimi.it.galaxytrucker.componenttiles.EmptyTile;
-import it.polimi.it.galaxytrucker.componenttiles.SingleCannon;
+import it.polimi.it.galaxytrucker.componenttiles.*;
+import it.polimi.it.galaxytrucker.componenttiles.OutOfBoundsTile;
 import it.polimi.it.galaxytrucker.exceptions.IllegalComponentPositionException;
-import it.polimi.it.galaxytrucker.componenttiles.TileEdge;
 
 import java.util.ArrayList;
 import java.util.Set;
@@ -78,7 +75,7 @@ public class ShipBoard {
      * The board is structured to accommodate ship components and automatically 
      * applies the appropriate structural boundaries based on the given level.
      *
-     * <p>Upon creation, the board is empty except for predefined structural constraints {@link EmptyTile} and the default {@link CentralCabin}.</p>
+     * <p>Upon creation, the board is empty except for predefined structural constraints {@link OutOfBoundsTile} and the default {@link CentralCabin}.</p>
      *
      * @param level The level of the ship (e.g., 1 or 2), determining its valid structure.
      */
@@ -210,7 +207,7 @@ public class ShipBoard {
      * <p>The method stops under the following conditions:</p>
      * <ul>
      *     <li>If the specified position is outside the grid boundaries.</li>
-     *     <li>If the component at the specified position is either empty or marked as an {@code EmptyTile}, 
+     *     <li>If the component at the specified position is either empty or marked as an {@code OutOfBoundsTile},
      *         indicating an invalid or unoccupied position.</li>
      *     <li>If the component at the specified position has already been visited and added to the branch.</li>
      * </ul>
@@ -230,7 +227,7 @@ public class ShipBoard {
             return;
         }
         //check if component is empty or outside the ship
-        if (this.getComponent(row, column).isEmpty() || this.getComponent(row, column).get().getClass() == EmptyTile.class) {
+        if (this.getComponent(row, column).isEmpty() || this.getComponent(row, column).get().getClass() == OutOfBoundsTile.class) {
             return;
         }
         //check if component is already added
@@ -263,7 +260,7 @@ public class ShipBoard {
      * <p>The method follows these steps:</p>
      * <ul>
      *     <li>Iterate through all positions in the {@code tileMatrix}.</li>
-     *     <li>Ignore empty tiles or tiles marked as {@code EmptyTile}, as they are not part of a branch.</li>
+     *     <li>Ignore empty tiles or tiles marked as {@code OutOfBoundsTile}, as they are not part of a branch.</li>
      *     <li>If a component has not been visited, perform a recursive search using 
      *         {@link #getBranchOfComponent(int, int, Set)} to collect all connected components.</li>
      *     <li>Add the discovered branch to the set of all branches.</li>
@@ -284,7 +281,7 @@ public class ShipBoard {
                 if (this.getComponent(i, j).isEmpty()) {
                     continue;
                 }
-                if (this.getComponent(i, j).get().getClass().equals(EmptyTile.class)) {
+                if (this.getComponent(i, j).get().getClass().equals(OutOfBoundsTile.class)) {
                     continue;
                 }
 
@@ -304,7 +301,7 @@ public class ShipBoard {
 
     /**
      * Sets the boundaries of the ship by marking positions outside the valid ship structure 
-     * with {@code EmptyTile} components based on the specified level.
+     * with {@code OutOfBoundsTile} components based on the specified level.
      * Also initializes the board placing a {@code CentralCabin} at the center of the ship
      *
      * @param level The level of the ship (e.g., 1 or 2).
@@ -314,7 +311,7 @@ public class ShipBoard {
             for (int j = 0; j < this.tileMatrix.get(i).size(); j++) {
                 if (isOutsideTheShip(level, i, j)) {
                     try {
-                        this.addComponentTile(i, j, new EmptyTile());
+                        this.addComponentTile(i, j, new OutOfBoundsTile());
                     } catch (IllegalComponentPositionException e) {
                         e.printStackTrace();
                     }
@@ -340,7 +337,7 @@ public class ShipBoard {
      * @throws IllegalComponentPositionException If a component is already present at the specified position or if the specified position is outside the ship.
      */
     public void addComponentTile(int row, int column, ComponentTile component) throws IllegalComponentPositionException {
-        if (this.getComponent(row, column).isPresent() && this.getComponent(row, column).get().getClass().equals(EmptyTile.class)) {
+        if (this.getComponent(row, column).isPresent() && this.getComponent(row, column).get().getClass().equals(OutOfBoundsTile.class)) {
             throw new IllegalComponentPositionException("You cannot place a component outside the ship");
         }
         if (this.getComponent(row, column).isPresent()) throw new IllegalComponentPositionException("You have already placed a component here");
@@ -359,7 +356,7 @@ public class ShipBoard {
      */
     public void removeComponentTile(int row, int column) throws IllegalComponentPositionException {
         if (this.getComponent(row, column).isEmpty() || 
-            (this.getComponent(row, column).isPresent() && this.getComponent(row, column).get().getClass().equals(EmptyTile.class))) {
+            (this.getComponent(row, column).isPresent() && this.getComponent(row, column).get().getClass().equals(OutOfBoundsTile.class))) {
             throw new IllegalComponentPositionException("There is no element here");
         }
 
@@ -406,7 +403,7 @@ public class ShipBoard {
     public int countExposedConnectors(int row, int column) {
         Optional<ComponentTile> component = this.getComponent(row, column);
         if (component.isEmpty() || 
-            (component.isPresent() && component.get().getClass().equals(EmptyTile.class))) {
+            (component.isPresent() && component.get().getClass().equals(OutOfBoundsTile.class))) {
             return 0;
         }
         List<TileEdge> edges = component.get().getTileEdges();
@@ -416,7 +413,7 @@ public class ShipBoard {
         int exposedConnectors = 0;
 
         for (int i = 0; i < edges.size(); i++) {
-            if (neighbours.get(i).isEmpty() || neighbours.get(i).get().getClass().equals(EmptyTile.class)) {
+            if (neighbours.get(i).isEmpty() || neighbours.get(i).get().getClass().equals(OutOfBoundsTile.class)) {
                 if (edges.get(i) == TileEdge.SINGLE || edges.get(i) == TileEdge.DOUBLE || edges.get(i) == TileEdge.UNIVERSAL) {
                     exposedConnectors++;
                 }
@@ -430,7 +427,7 @@ public class ShipBoard {
         for (int i = 0; i < this.tileMatrix.size(); i++) {
             for (int j = 0; j < this.tileMatrix.get(i).size(); j++) {
                 this.getComponent(i, j).ifPresentOrElse(component -> {
-                    if (component.getClass().equals(EmptyTile.class)) {
+                    if (component.getClass().equals(OutOfBoundsTile.class)) {
                         System.out.print("   ");
                     } else {
                         System.out.print("[x]");
@@ -462,7 +459,7 @@ public class ShipBoard {
         for (int i = 0; i < branchBoard.getBoard().size(); i++) {
             for (int j = 0; j < branchBoard.getBoard().get(i).size(); j++) {
                 branchBoard.getComponent(i, j).ifPresentOrElse(component -> {
-                    if (component.getClass().equals(EmptyTile.class)) {
+                    if (component.getClass().equals(OutOfBoundsTile.class)) {
                         System.out.print("   ");
                     } else {
                         System.out.print("[x]");

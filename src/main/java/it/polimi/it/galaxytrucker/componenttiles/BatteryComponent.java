@@ -3,9 +3,9 @@ package it.polimi.it.galaxytrucker.componenttiles;
 import it.polimi.it.galaxytrucker.exceptions.InvalidActionException;
 
 /**
- * Represents a battery component in the galaxy trucker game.
+ * Represents a Battery Component.
  * This component provides energy storage with a limited capacity.
- * The battery charge can be consumed during gameplay.
+ * The battery charge can be consumed or lost during the course of a game.
  *
  * @author Giacomo Amaducci
  * @version 1.0

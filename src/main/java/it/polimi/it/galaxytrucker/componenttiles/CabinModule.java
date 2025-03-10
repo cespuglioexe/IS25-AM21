@@ -4,7 +4,7 @@ import it.polimi.it.galaxytrucker.crewmates.Alien;
 import it.polimi.it.galaxytrucker.exceptions.InvalidActionException;
 
 /**
- * Represents a cabin module that extends the central cabin functionality.
+ * Represents a Cabin Module that extends the central cabin functionality.
  * This module can house a single alien crewmate at a time.
  * <p>
  * A cabin module is defined by its four edges (top, right, bottom, left)
