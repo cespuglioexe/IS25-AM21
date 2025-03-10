@@ -29,7 +29,7 @@ public class Shield extends ComponentTile implements EnergyConsumer {
         return false;
     }
 
-    /*
+    /**
      *  Returns the first direction of the pair that is covered by the shield, adjusted for rotation
      *
      *  @return A {@code Direction} representing the first direction of the direction couple covered
