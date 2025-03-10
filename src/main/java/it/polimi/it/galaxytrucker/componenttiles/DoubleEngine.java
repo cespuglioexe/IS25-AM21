@@ -8,6 +8,7 @@ package it.polimi.it.galaxytrucker.componenttiles;
  * @version 1.0
  */
 public class DoubleEngine extends SingleEngine implements EnergyConsumer {
+    private boolean isActive;
 
     /**
      * Constructs a new {@code DoubleEngine} with the specified edges.
@@ -19,16 +20,31 @@ public class DoubleEngine extends SingleEngine implements EnergyConsumer {
      */
     public DoubleEngine(TileEdge top, TileEdge right, TileEdge bottom, TileEdge left) {
         super(top, right, bottom, left);
+        isActive = false;
     }
 
     /**
-     * Activates the double engine by setting its engine power to 2 if it is currently inactive.
+     * Activates the double engine if it is currently inactive.
      */
     @Override
     public void activate() {
-        if (getEnginePower() == 0) {
-            setEnginePower(2);
-        }
+        if (!isActive)
+            isActive = true;
+        // CONSUME ENERGY ?
+    }
+
+    /**
+     * Returns the power of the engine.
+     * For double engines, this value is 2 if it is activated, 0 otherwise.
+     *
+     * @return an {@code int} representing the power of the engine
+     */
+    @Override
+    public int getEnginePower() {
+        if (!isActive)
+            return 0;
+        isActive = false;
+        return 2;
     }
 
     /**

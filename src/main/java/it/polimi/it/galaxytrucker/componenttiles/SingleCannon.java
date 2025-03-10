@@ -32,12 +32,14 @@ public class SingleCannon extends ComponentTile {
 
     /**
      * Returns the firepower of the cannon.
-     * For single cannons, this value is always 1.
+     * For single cannons, this value is 1 if it points forwards, 0.5 otherwise.
      *
      * @return an {@code int} representing the firepower of the cannon
      */
-    public int getFirePower() {
-        return firePower;
+    public double getFirePower() {
+        if (getRotation() == 0)
+            return firePower;
+        return firePower * 0.5;
     }
 
     /**

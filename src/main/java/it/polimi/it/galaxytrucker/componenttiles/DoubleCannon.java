@@ -8,6 +8,7 @@ package it.polimi.it.galaxytrucker.componenttiles;
  * @version 1.0
  */
 public class DoubleCannon extends SingleCannon implements EnergyConsumer {
+    private boolean isActive;
 
     /**
      * Constructs a new {@code DoubleCannon} with the specified edges.
@@ -19,16 +20,35 @@ public class DoubleCannon extends SingleCannon implements EnergyConsumer {
      */
     public DoubleCannon(TileEdge top, TileEdge right, TileEdge bottom, TileEdge left) {
         super(top, right, bottom, left);
+        this.isActive = false;
     }
 
     /**
-     * Activates the double cannon by setting its firepower to 2 if it is currently inactive.
+     * Activates the double cannon if it is currently inactive.
      */
     @Override
     public void activate() {
-        if (getFirePower() == 0) {
-            setFirePower(2);
+        if (!isActive)
+            isActive = true;
+    }
+
+    /**
+     * Returns the firepower of the cannon.
+     * For activated double cannons, this value is 2 if it points forwards, 1 otherwise.
+     * For inactive double cannons, this value is always 0.
+     *
+     * @return an {@code int} representing the firepower of the cannon
+     */
+    @Override
+    public double getFirePower() {
+        if (!isActive)
+            return 0;
+        if (getRotation() == 0) {
+            isActive = false;
+            return 2;
         }
+        isActive = false;
+        return 1;
     }
 
     /**
