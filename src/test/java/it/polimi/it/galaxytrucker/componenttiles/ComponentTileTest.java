@@ -15,7 +15,7 @@ class ComponentTileTest {
 
         component.rotate();
         assertEquals(
-                component.getRotation(), 1
+                1, component.getRotation()
         );
     }
 

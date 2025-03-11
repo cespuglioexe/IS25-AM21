@@ -17,9 +17,9 @@ class CabinModuleTest {
         CabinModule cabin = new CabinModule(TileEdge.SMOOTH, TileEdge.SMOOTH, TileEdge.SMOOTH, TileEdge.SMOOTH);
 
 
-        Human human1 = new Human(false);
-        Human human2 = new Human(false);
-        Human human3 = new Human(false);
+        Human human1 = new Human();
+        Human human2 = new Human();
+        Human human3 = new Human();
 
         Alien alien1 = new Alien(true, AlienType.PURPLEALIEN);
         Alien alien2 = new Alien(true, AlienType.BROWNALIEN);

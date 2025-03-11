@@ -5,8 +5,8 @@ import it.polimi.it.galaxytrucker.utility.AlienType;
 public class Alien extends Crewmate {
     private AlienType alienType;
 
-    public Alien(boolean requiresLifeSupport, AlienType type) {
-        super(requiresLifeSupport);
+    public Alien(AlienType type) {
+        super(true);
         this.alienType = type;
     }
 

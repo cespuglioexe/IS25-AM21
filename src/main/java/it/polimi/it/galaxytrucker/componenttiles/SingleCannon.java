@@ -26,7 +26,7 @@ public class SingleCannon extends ComponentTile {
      * @param left the type of the left edge of this tile
      */
     public SingleCannon(TileEdge top, TileEdge right, TileEdge bottom, TileEdge left) {
-        super(top, right, bottom, left);
+        super(TileEdge.INCOMPATIBLE, right, bottom, left);
         firePower = 1;
     }
 
@@ -40,14 +40,5 @@ public class SingleCannon extends ComponentTile {
         if (getRotation() == 0)
             return firePower;
         return firePower * 0.5;
-    }
-
-    /**
-     * Sets the firepower value of the cannon.
-     *
-     * @param firePower the new {@code int} value to set for the firepower
-     */
-    void setFirePower(int firePower) {
-        this.firePower = firePower;
     }
 }

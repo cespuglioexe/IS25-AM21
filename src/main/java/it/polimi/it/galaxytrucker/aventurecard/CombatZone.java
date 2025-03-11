@@ -36,7 +36,7 @@ public class CombatZone extends Attack implements FlightDayPenalty, CrewmatePena
         List<Player> players = super.getPartecipants().stream().toList();
 
         //controllo equipaggio
-        if(players.get(0).getShipManager().calculateCrewmates(players.get(0).getPlayerID())< players.get(1).getShipManager().calculateCrewmates(players.get(1).getPlayerID())){
+        if(players.get(0).getShipManager().calculateCrewmates(players.get(0).getPlayerID()) < players.get(1).getShipManager().calculateCrewmates(players.get(1).getPlayerID())){
 
         }else{
 
