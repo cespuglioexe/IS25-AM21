@@ -8,6 +8,8 @@ import java.util.List;
 
 public class GameManager {
 
+
+    
     public void makeComponentTilePool() {
         try {
             List<ComponentTileData> tiles = TileLoader.loadTiles("tiles.json");

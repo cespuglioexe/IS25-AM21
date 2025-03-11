@@ -30,7 +30,7 @@ public class StarDust extends AdventureCard implements FlightDayPenalty{
         if (!players.isEmpty()) {
 
             for (Player player : players) {
-             //   applyFlightDayPenalty(player.getShipManager(),player);
+             //   applyFlightDayPenalty(player.getShipManager().,player);
             }
         } else {
             System.out.println("No player can play this card");
