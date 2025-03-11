@@ -57,8 +57,8 @@ public class ShipBoard {
      * <p>Upon creation, the board is empty, and no components are placed.</p>
      */
     public ShipBoard() {
-        final int COLUMNS = 7;
-        final int ROWS = 5;
+        final int ROWS = ShipManager.getRows();
+        final int COLUMNS = ShipManager.getColumns();
 
         this.tileMatrix = IntStream.range(0, ROWS)
             .mapToObj(_ -> IntStream.range(0, COLUMNS)
@@ -347,11 +347,13 @@ public class ShipBoard {
         this.componentTilesPosition.get(component.getClass()).add(List.of(row, column));
     }
 
+    //TODO RITORNARE COMPONENTE RIMOSSO
     /**
      * Removes the component from the specified position on the board.
      *
      * @param row    The row index of the component to be removed.
      * @param column The column index of the component to be removed.
+     * @return The removed component
      * @throws IllegalComponentPositionException If there is no component at the specified position.
      */
     public void removeComponentTile(int row, int column) throws IllegalComponentPositionException {
