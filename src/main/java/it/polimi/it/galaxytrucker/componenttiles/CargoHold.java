@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class CargoHold extends ComponentTile {
     private final int containerNumber;
-    private boolean canHoldSpecialCargo;
+    boolean canHoldSpecialCargo;
     private List<Cargo> containedCargo;
 
     /**
@@ -29,7 +29,7 @@ public class CargoHold extends ComponentTile {
     public CargoHold(int containers, TileEdge top, TileEdge right, TileEdge bottom, TileEdge left) {
         super(top, right, bottom, left);
         containerNumber = containers;
-        setCanHoldSpecialCargo(false);
+        canHoldSpecialCargo = false;
     }
 
     /**
@@ -57,15 +57,6 @@ public class CargoHold extends ComponentTile {
      */
     public boolean isCanHoldSpecialCargo() {
         return canHoldSpecialCargo;
-    }
-
-    /**
-     * Sets whether this cargo hold can store special cargo items.
-     *
-     * @param canHoldSpecialCargo {@code true} to enable special cargo storage, {@code false} otherwise
-     */
-    public void setCanHoldSpecialCargo(boolean canHoldSpecialCargo) {
-        this.canHoldSpecialCargo = canHoldSpecialCargo;
     }
 
     /**

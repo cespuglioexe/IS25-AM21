@@ -24,7 +24,7 @@ public class SingleEngine extends ComponentTile {
      * @param left the type of the left edge of this tile
      */
     public SingleEngine(TileEdge top, TileEdge right, TileEdge bottom, TileEdge left) {
-        super(top, right, bottom, left);
+        super(top, right, TileEdge.INCOMPATIBLE, left);
         enginePower = 1;
     }
 
@@ -36,14 +36,5 @@ public class SingleEngine extends ComponentTile {
      */
     public int getEnginePower() {
         return enginePower;
-    }
-
-    /**
-     * Sets the power value of the engine.
-     *
-     * @param enginePower the new {@code int} value to set for the engine power
-     */
-    public void setEnginePower(int enginePower) {
-        this.enginePower = enginePower;
     }
 }
