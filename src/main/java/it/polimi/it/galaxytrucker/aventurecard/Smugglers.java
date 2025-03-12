@@ -10,9 +10,11 @@ import java.util.*;
 
 public class Smugglers extends AdventureCard implements CargoReward, CargoPenalty, FlightDayPenalty {
 
+    private CargoManager manager;
 
-    public Smugglers(Optional<List<Player>> partecipants, Optional<Integer> penalty, Optional<Integer> flightDayPenalty, Optional<Cargo> reward, int firePower, int creditReward, AdventureDeck deck) {
+    public Smugglers(Optional<List<Player>> partecipants, Optional<Integer> penalty, Optional<Integer> flightDayPenalty, Optional<Cargo> reward, int firePower, int creditReward, AdventureDeck deck, CargoManager manager) {
         super(partecipants, penalty, flightDayPenalty, reward,firePower, creditReward, deck);
+        this.manager = manager;
     }
 
 
@@ -20,11 +22,16 @@ public class Smugglers extends AdventureCard implements CargoReward, CargoPenalt
     public void applyPenalty(int penalty, Player player) {
             // numero di merci da perdere che sono scritte nella carta
 
+            manager.manageCargoDischarge(penalty, player);
+
             // Controllo le merci più preziose e ti mando le coordinate e il colore del cargo
     }
 
     @Override
     public void giveCargoReward(Set<Cargo> reward, Player player) {
+
+
+        manager.manageCargoAddition(reward,player);
 
        //  Lista di cargo e passo a shipManager
         // Cargo
@@ -33,7 +40,7 @@ public class Smugglers extends AdventureCard implements CargoReward, CargoPenalt
 
     @Override
         public void applyFlightDayPenalty(int penalty, Player player) {
-            // chiedere il numero di giorni persi
+        super.getDeck().getGameManager().getFlightBoardState().movePlayerBackwards(penalty, player.getPlayerID());
     }
 
 
@@ -67,26 +74,22 @@ public class Smugglers extends AdventureCard implements CargoReward, CargoPenalt
                 for (Player player : players) {
 
                     if(lost == 0) {
-                        if (player.getShipManager().calculateEnginePower(player.getPlayerID()) < super.getFirePowerRequired()) {
+                        if (player.getShipManager().calculateEnginePower() < super.getFirePowerRequired()) {
                             applyPenalty((int) super.getPenalty().orElse(0), player);
                         } else {
-                            if (player.getShipManager().calculateEnginePower(player.getPlayerID()) > super.getFirePowerRequired()) {
-                                System.out.println("Player " + player.getPlayerID() + "  defeated the smugglers");
-                                lost = 1;
+                            if (player.getShipManager().calculateEnginePower() > super.getFirePowerRequired()) {
                                 if (selection(player)) {
                                     applyFlightDayPenalty((int) super.getFlightDayPenalty().orElse(0), player);
                                     giveCargoReward((Set<Cargo>) super.getReward().get(), player);
                                 }
                             }
+                            System.out.println("Player " + player.getPlayerID() + "  defeated the smugglers");
+                            lost = 1;
                         }
                     }
                 }
-
-
-            } else {
+            } else
                 System.out.println("No player can play this card");
-            }
-
 
     }
 

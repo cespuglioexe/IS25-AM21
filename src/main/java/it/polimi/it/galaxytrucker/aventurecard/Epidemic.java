@@ -1,25 +1,22 @@
 package it.polimi.it.galaxytrucker.aventurecard;
 
 import it.polimi.it.galaxytrucker.cardEffects.CrewmatePenalty;
+import it.polimi.it.galaxytrucker.componenttiles.CabinModule;
+import it.polimi.it.galaxytrucker.componenttiles.CentralCabin;
 import it.polimi.it.galaxytrucker.managers.Player;
 import it.polimi.it.galaxytrucker.utility.Cargo;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
-public class Epidemic extends AdventureCard implements CrewmatePenalty {
+public class Epidemic extends AdventureCard {
 
     public Epidemic(Optional<List<Player>> partecipants, Optional<Integer> penalty, Optional<Integer> flightDayPenalty, Optional<Cargo> reward, int firePower, int creditReward, AdventureDeck deck) {
         super(partecipants, penalty, flightDayPenalty, reward,firePower, creditReward, deck);
-    }
-
-    @Override
-    public void applyCrewmatePenalty(int penalty, Player player) {
-
-        // So il numero di gente da togliere e procedo ad eliminarli, se sono vicini
-
-        //player.getShipManager()
     }
 
     @Override
@@ -29,14 +26,25 @@ public class Epidemic extends AdventureCard implements CrewmatePenalty {
         List<Player> players = (List<Player>) super.getPartecipants().stream().toList();
         if (!players.isEmpty()) {
 
-
            for (Player player : players) {
+               Set<List<Integer>> SetPositionCentre = player.getShipManager().getAllComponentsPositionOfType(CentralCabin.class);
 
-              // player.getShipManager().
+               List<Integer> positionCentre = SetPositionCentre.stream()
+                                                                .flatMap(List::stream)
+                                                                .collect(Collectors.toList());
 
-            }
-
-
+               for (List<Integer> position :  player.getShipManager().getAllComponentsPositionOfType(CabinModule.class)) {
+                   if(position.get(0) == positionCentre.get(0)+1 || position.get(0) == positionCentre.get(0)-1 || position.get(1) == positionCentre.get(1)+1 || position.get(1) == positionCentre.get(1)-1 ){
+                       player.getShipManager().removeCrewmate(position.get(0), position.get(1));
+                       player.getShipManager().removeCrewmate(positionCentre.get(0), positionCentre.get(1));}
+                   for (List<Integer> support :  player.getShipManager().getAllComponentsPositionOfType(CabinModule.class)) {
+                       if(position.get(0) == support.get(0)+1 || position.get(0) == support.get(0)-1 || position.get(1) == support.get(1)+1 || position.get(1) == support.get(1)-1 ){
+                           player.getShipManager().removeCrewmate(position.get(0), position.get(1));
+                           player.getShipManager().removeCrewmate(support.get(0), support.get(1));
+                       }
+                   }
+               }
+           }
         } else {
             System.out.println("No player can play this card");
         }

@@ -11,18 +11,20 @@ import java.util.*;
 public class Planet extends AdventureCard implements Participation, CargoReward, FlightDayPenalty {
     private HashMap<Integer, Set<Cargo>> planets = new HashMap<Integer, Set<Cargo>>();
     private HashMap<Integer, Player> occupiedPlanets = new HashMap<Integer, Player>();
+    private CargoManager manager;
 
 
 
-    public Planet(Optional<List<Player>> partecipants, Optional<Integer> penalty, Optional<Integer> flightDayPenalty, Optional<Cargo> reward,HashMap<Integer, Set<Cargo>> planets, int firePower,int creditReward, AdventureDeck deck) {
+    public Planet(Optional<List<Player>> partecipants, Optional<Integer> penalty, Optional<Integer> flightDayPenalty, Optional<Cargo> reward,HashMap<Integer, Set<Cargo>> planets, int firePower,int creditReward, AdventureDeck deck, CargoManager manager) {
         super(partecipants, penalty, flightDayPenalty, reward,firePower, creditReward, deck);
         this.planets = planets;
+        this.manager = manager;
     }
 
 
     @Override
     public void giveCargoReward(Set<Cargo> reward,Player player) {
-        // player.shipManager.addLoad(reward).
+        manager.manageCargoAddition(reward, player);
     }
 
     @Override
@@ -50,7 +52,7 @@ public class Planet extends AdventureCard implements Participation, CargoReward,
 
         List<Player> players = (List<Player>) super.getPartecipants().orElse(Collections.emptyList());
         if (!players.isEmpty()) {
-            // La lista contiene elementi, procedi
+
             for (Player player : players) {
 
                 if(partecipate(player) == true){
@@ -85,7 +87,7 @@ public class Planet extends AdventureCard implements Participation, CargoReward,
 
             }
         } else {
-            // La lista è vuota
+
             System.out.println("No player can play this card");
         }
 

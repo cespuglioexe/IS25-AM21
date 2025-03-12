@@ -3,8 +3,6 @@ package it.polimi.it.galaxytrucker.aventurecard;
 import it.polimi.it.galaxytrucker.cardEffects.FlightDayPenalty;
 import it.polimi.it.galaxytrucker.exceptions.GameLostException;
 import it.polimi.it.galaxytrucker.managers.Player;
-
-import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -16,10 +14,9 @@ public class StarDust extends AdventureCard implements FlightDayPenalty{
         super(partecipants, penalty, flightDayPenalty, reward,firePower, creditReward, deck);
     }
 
-
     @Override
     public void applyFlightDayPenalty(int penalty, Player player) {
-        //super.getDeck().getGameManager()
+        super.getDeck().getGameManager().getFlightBoardState().movePlayerBackwards(penalty, player.getPlayerID());
     }
 
 
@@ -30,7 +27,7 @@ public class StarDust extends AdventureCard implements FlightDayPenalty{
         if (!players.isEmpty()) {
 
             for (Player player : players) {
-             //   applyFlightDayPenalty(player.getShipManager().,player);
+               applyFlightDayPenalty(player.getShipManager().countAllExposedConnectors(),player);
             }
         } else {
             System.out.println("No player can play this card");

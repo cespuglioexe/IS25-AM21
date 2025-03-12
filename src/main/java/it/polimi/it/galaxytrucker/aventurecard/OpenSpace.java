@@ -16,7 +16,7 @@ public class OpenSpace extends AdventureCard{
     }
 
     public void travel(int num,Player player){
-        // super.getDeck().getGameManager().FlightBoard
+         super.getDeck().getGameManager().getFlightBoardState().movePlayerForward(num, player.getPlayerID());
     }
 
 
@@ -28,7 +28,7 @@ public class OpenSpace extends AdventureCard{
         if (!players.isEmpty()) {
 
             for (Player player : players) {
-                if(player.getShipManager().calculateEnginePower(player.getPlayerID()) > 0)
+                if(player.getShipManager().calculateEnginePower() > 0)
                     travel((int)getReward().orElse(0), player);
                 else new GameLostException("Player "+player.getPlayerID()+" lost");
             }

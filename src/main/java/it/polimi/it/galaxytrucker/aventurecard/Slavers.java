@@ -23,14 +23,19 @@ public class Slavers extends AdventureCard implements FlightDayPenalty, CreditRe
 
     @Override
     public void applyCrewmatePenalty(int penalty, Player player) {
-            // togli umani o alieni
-        super.getDeck().getGameManager().attesaEliminazione(penalty, Crewmate);
+
+        /*
+        int[] position = new int[2];
+        position = super.getDeck().getGameManager().positionSelection(penalty,player);
+        player.getShipManager().removeCrewmate(position[0], position[1]);
+        */
+
         // Ricevo coordinate e mando a shipManager che se tutto va bene elimina il crewmate
     }
 
     @Override
     public void applyFlightDayPenalty(int penalty, Player player) {
-            //modifica di penalty il valore di player nella flightBoard
+        super.getDeck().getGameManager().getFlightBoardState().movePlayerBackwards(penalty, player.getPlayerID());
     }
 
     private boolean selection(Player player) {
@@ -42,8 +47,6 @@ public class Slavers extends AdventureCard implements FlightDayPenalty, CreditRe
         System.out.println("Do you want to retire the load losing days of travel? :");
         System.out.println("1. Yes");
         System.out.println("2. No");
-
-
 
         int choice = scanner.nextInt();
         if(choice == 1){
@@ -65,22 +68,20 @@ public class Slavers extends AdventureCard implements FlightDayPenalty, CreditRe
             for (Player player : players) {
 
                 if(lost == 0) {
-                    if (player.getShipManager().calculateEnginePower(player.getPlayerID()) < super.getFirePowerRequired()) {
+                    if (player.getShipManager().calculateEnginePower() < super.getFirePowerRequired()) {
                         applyCrewmatePenalty((int) super.getPenalty().orElse(0), player);
                     } else {
-                        if (player.getShipManager().calculateEnginePower(player.getPlayerID()) > super.getFirePowerRequired()) {
-                            System.out.println("Player " + player.getPlayerID() + "  defeated the slavers");
-                            lost = 1;
+                        if (player.getShipManager().calculateEnginePower() > super.getFirePowerRequired()) {
                             if (selection(player)) {
                                 applyFlightDayPenalty((int) super.getFlightDayPenalty().orElse(0), player);
                                 giveCreditReward(super.getCreditReward(), player);
                             }
                         }
+                        System.out.println("Player " + player.getPlayerID() + "  defeated the slavers");
+                        lost = 1;
                     }
                 }
             }
-
-
         } else {
             System.out.println("No player can play this card");
         }

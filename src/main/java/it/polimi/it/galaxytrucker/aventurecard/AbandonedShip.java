@@ -23,14 +23,17 @@ public class AbandonedShip extends AdventureCard implements Participation, Credi
     }
 
     @Override
-    public void applyCrewmatePenalty(int penalty, Player player) {  // attendo che l'utente faccia la scelta
-
-           // player.getShipManager().
+    public void applyCrewmatePenalty(int penalty, Player player) {
+        /*
+        int[] position = new int[2];
+        position = super.getDeck().getGameManager().positionSelection(penalty,player);
+        player.getShipManager().removeCrewmate(position[0], position[1]);
+        */
     }
 
     @Override
     public void applyFlightDayPenalty(int penalty, Player player) {
-           // super.getDeck().getGameManager().
+            super.getDeck().getGameManager().getFlightBoardState().movePlayerBackwards(penalty, player.getPlayerID());
     }
 
     @Override
@@ -55,21 +58,22 @@ public class AbandonedShip extends AdventureCard implements Participation, Credi
             int choise = 0;
             for (Player player : players) {
 
-                int nMin = (int)super.getPenalty().orElse(0);
+                if(choise==0) {
+                    int nMin = (int)super.getPenalty().orElse(0);
+                    if (player.getShipManager().countCrewmates() > nMin) {
 
-                if(player.getShipManager().calculateCrewmates(player.getPlayerID()) > nMin && choise==0 )  {
+                        System.out.println("Minimum number of crewmates:  " + nMin);
+                        System.out.print("Credits: " + getCreditReward());
 
-                    System.out.println("Minimum number of crewmates:  " + nMin);
-                    System.out.print("Credits: " + getCreditReward());
-
-                    if (partecipate(player) == true && choise == 0) {
-                        giveCreditReward(getCreditReward(), player);
-                        applyFlightDayPenalty((int) super.getFlightDayPenalty().orElse(0), player);
-                        applyCrewmatePenalty((int) super.getPenalty().orElse(0), player);
-                        choise = 1;
-                    }
-                } else
-                    System.out.println("Player " + player.getPlayerID() + " doesn't have the minimum number of humans");
+                        if (partecipate(player) == true) {
+                            giveCreditReward(getCreditReward(), player);
+                            applyFlightDayPenalty((int) super.getFlightDayPenalty().orElse(0), player);
+                            applyCrewmatePenalty((int) super.getPenalty().orElse(0), player);
+                            choise = 1;
+                        }
+                    } else
+                        System.out.println("Player " + player.getPlayerID() + " doesn't have the minimum number of humans");
+                }
             }
         } else {
             System.out.println("No player can play this card");
