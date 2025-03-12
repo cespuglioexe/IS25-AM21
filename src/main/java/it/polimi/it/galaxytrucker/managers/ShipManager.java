@@ -9,7 +9,6 @@ import it.polimi.it.galaxytrucker.componenttiles.SpecialCargoHold;
 import it.polimi.it.galaxytrucker.componenttiles.TileEdge;
 import it.polimi.it.galaxytrucker.crewmates.Alien;
 import it.polimi.it.galaxytrucker.crewmates.Human;
-import it.polimi.it.galaxytrucker.crewmates.Crewmate;
 import it.polimi.it.galaxytrucker.componenttiles.BatteryComponent;
 import it.polimi.it.galaxytrucker.componenttiles.CabinModule;
 import it.polimi.it.galaxytrucker.componenttiles.CargoHold;
@@ -74,6 +73,21 @@ public class ShipManager {
         return List.of(tileMatrixRow, tileMatrixColumn);
     }
 
+    /**
+     * Converts the given row and/or column from tile matrix coordinates to board coordinates.
+     *
+     * <p>This method adjusts the given row and column indices by adding the board's starting indices, 
+     * as defined in {@link ShipManager#STARTOFBOARDROWS} and {@link ShipManager#STARTOFBOARDCOLUMNS}, 
+     * to map them correctly within the board's coordinate system.</p>
+     *
+     * <p>If a row or column index is out of bounds, an {@link IndexOutOfBoundsException} is thrown.</p>
+     *
+     * @param row    An {@link Optional} containing the row index to convert, or empty if not provided.
+     * @param column An {@link Optional} containing the column index to convert, or empty if not provided.
+     * @return A list containing two {@link Optional} elements: the converted row and column indices.
+     *
+     * @throws IndexOutOfBoundsException If the row or column is out of the board's valid bounds.
+     */
     private List<Optional<Integer>> toBoardCoord(Optional<Integer> row, Optional<Integer> column) throws IndexOutOfBoundsException {
         Optional<Integer> boardRow = row.map(r -> r + ShipManager.STARTOFBOARDROWS);
         Optional<Integer> boardColumn = column.map(c -> c + ShipManager.STARTOFBOARDCOLUMNS);
@@ -93,15 +107,44 @@ public class ShipManager {
         return List.of(boardRow, boardColumn);
     }
 
+    /**
+     * Returns the total number of rows in the ship's grid.
+     *
+     * <p>This method provides access to the number of rows defined in the {@link ShipManager}.</p>
+     *
+     * @return The total number of rows in the ship's grid.
+     */
     public static int getRows() {
         return ShipManager.ROWS;
     }
 
+    /**
+     * Returns the total number of columns in the ship's grid.
+     *
+     * <p>This method provides access to the number of columns defined in the {@link ShipManager}.</p>
+     *
+     * @return The total number of columns in the ship's grid.
+     */
     public static int getColumns() {
         return ShipManager.COLUMNS;
     }
 
-    public Optional<ComponentTile> getComponent(int row, int column) {
+    /**
+     * Retrieves the component located at the specified position in the ship's grid.
+     *
+     * <p>This method returns an {@link Optional} containing the {@link ComponentTile} 
+     * at the given row and column coordinates, if present. If no component exists at 
+     * the specified location, an empty {@code Optional} is returned.</p>
+     *
+     * <p>If the specified row or column is out of the valid bounds of the ship, 
+     * an {@link IndexOutOfBoundsException} is thrown.</p>
+     *
+     * @param row    The row index of the component to retrieve.
+     * @param column The column index of the component to retrieve.
+     * @return An {@link Optional} containing the {@link ComponentTile} if present, or empty if no component exists.
+     * @throws IndexOutOfBoundsException If the specified row or column is out of the ship's bounds.
+     */
+    public Optional<ComponentTile> getComponent(int row, int column) throws IndexOutOfBoundsException {
         List<Integer> tileCoords = new ArrayList<>();
         tileCoords.add(this.toTileMatrixCoord(Optional.of(row), Optional.empty()).get(0).get());
         tileCoords.add(this.toTileMatrixCoord(Optional.empty(), Optional.of(column)).get(1).get());
@@ -109,6 +152,20 @@ public class ShipManager {
         return ship.getComponent(tileCoords.get(0), tileCoords.get(1));
     }
 
+    /**
+     * Retrieves all components located in the specified row of the ship's grid.
+     *
+     * <p>This method returns a list of {@link Optional} elements, each representing a 
+     * {@link ComponentTile} located at the given row and every column in the ship's grid.
+     * If a position does not contain a component, the corresponding {@code Optional} will be empty.</p>
+     *
+     * <p>If the specified row is out of the valid bounds of the ship, 
+     * an {@link IndexOutOfBoundsException} is thrown.</p>
+     *
+     * @param row The row index for which to retrieve all components.
+     * @return A list of {@link Optional<ComponentTile>} representing the components in the specified row.
+     * @throws IndexOutOfBoundsException If the specified row is out of the ship's bounds.
+     */
     public List<Optional<ComponentTile>> getComponentsAtRow(int row) throws IndexOutOfBoundsException {
         int tileRow = this.toTileMatrixCoord(Optional.of(row), Optional.empty()).get(0).get();
         List<Optional<ComponentTile>> components = new ArrayList<>();
@@ -119,6 +176,20 @@ public class ShipManager {
         return components;
     }
 
+    /**
+     * Retrieves all components located in the specified column of the ship's grid.
+     *
+     * <p>This method returns a list of {@link Optional} elements, each representing a 
+     * {@link ComponentTile} located at the given column and every row in the ship's grid.
+     * If a position does not contain a component, the corresponding {@code Optional} will be empty.</p>
+     *
+     * <p>If the specified column is out of the valid bounds of the ship, 
+     * an {@link IndexOutOfBoundsException} is thrown.</p>
+     *
+     * @param column The column index for which to retrieve all components.
+     * @return A list of {@link Optional<ComponentTile>} representing the components in the specified column.
+     * @throws IndexOutOfBoundsException If the specified column is out of the ship's bounds.
+     */
     public List<Optional<ComponentTile>> getComponentsAtColumn(int column) throws IndexOutOfBoundsException {
         int tileColumn = this.toTileMatrixCoord(Optional.empty(), Optional.of(column)).get(1).get();
         List<Optional<ComponentTile>> components = new ArrayList<>();
@@ -129,14 +200,51 @@ public class ShipManager {
         return components;
     }
 
+    /**
+     * Retrieves the set of all distinct component types present in the ship.
+     *
+     * <p>This method returns a {@link Set} containing the {@link Class} objects of all 
+     * {@link ComponentTile} types currently placed in the ship. Each entry in the set represents 
+     * a unique type of component found on the ship's grid.</p>
+     *
+     * <p>If no components are present in the ship, this method returns an empty set.</p>
+     *
+     * @return A {@link Set} of {@link Class} objects representing the distinct component types in the ship,
+     *         or an empty set if no components are present.
+     */
     public Set<Class<? extends ComponentTile>> getAllComponentsType() {
         return ship.getAllComponentsTypes();
     }
 
+    /**
+     * Retrieves the positions of all components of a specified type within the ship.
+     *
+     * <p>This method returns an {@link Optional} containing a {@link Set} of coordinates, where 
+     * each coordinate is represented as a {@link List} of two integers (row and column). 
+     * If no components of the specified type are found, the returned {@code Optional} will contain an empty set.</p>
+     *
+     * @param componentType The {@link Class} type of the {@link ComponentTile} to search for.
+     * @return An {@link Optional} containing a {@link Set} of {@link List} elements representing the positions 
+     *         of the matching components, or an empty set if no components of the specified type exist.
+     */
     public Optional<Set<List<Integer>>> getAllComponentsPositionOfType(Class<? extends ComponentTile> componentType) {
         return Optional.<Set<List<Integer>>>of(ship.getAllComponentsPositionOfType(componentType));
     }
 
+    /**
+     * Adds a component tile to the specified position in the ship's grid.
+     *
+     * <p>This method places a given {@link ComponentTile} at the specified row and column 
+     * coordinates. If the position is out of bounds or if the component cannot be placed 
+     * in the given location due to structural constraints, an exception is thrown.</p>
+     *
+     * @param row       The row index where the component should be placed.
+     * @param column    The column index where the component should be placed.
+     * @param component The {@link ComponentTile} to be added to the ship.
+     *
+     * @throws IndexOutOfBoundsException         If the specified row or column is out of the ship's bounds.
+     * @throws IllegalComponentPositionException If the component is typing to be placed outside the ship.
+     */
     public void addComponentTile(int row, int column, ComponentTile component) throws IndexOutOfBoundsException, IllegalComponentPositionException {
         List<Integer> tileCoords = new ArrayList<>();
         tileCoords.add(this.toTileMatrixCoord(Optional.of(row), Optional.empty()).get(0).get());
@@ -145,6 +253,19 @@ public class ShipManager {
         ship.addComponentTile(tileCoords.get(0), tileCoords.get(1), component);
     }
 
+    /**
+     * Removes a component tile from the specified position in the ship's grid.
+     *
+     * <p>This method removes the {@link ComponentTile} located at the given row and column 
+     * coordinates. The removed component is added to the discarded tile collection. 
+     * If the position is out of bounds or does not contain a component, an exception is thrown.</p>
+     *
+     * @param row    The row index of the component to be removed.
+     * @param column The column index of the component to be removed.
+     *
+     * @throws IndexOutOfBoundsException         If the specified row or column is out of the ship's bounds.
+     * @throws IllegalComponentPositionException If there is no component at the specified position.
+     */
     public void removeComponentTile(int row, int column) throws IndexOutOfBoundsException, IllegalComponentPositionException {
         ComponentTile removedComponent;
         List<Integer> tileCoords = new ArrayList<>();
@@ -153,19 +274,6 @@ public class ShipManager {
 
         removedComponent = ship.removeComponentTile(tileCoords.get(0), tileCoords.get(1));
         this.discardedTile.add(removedComponent);
-    }
-
-    public void removeBranch(Set<List<Integer>> branch) {
-        Set<ComponentTile> removedBranch;
-
-        try {
-            removedBranch = ship.removeBranch(branch);
-            for (ComponentTile component : removedBranch) {
-                this.discardedTile.add(component);
-            }
-        } catch (IllegalComponentPositionException e) {
-            System.err.println(e.getMessage());
-        }
     }
 
     /**

@@ -976,12 +976,12 @@ public class ShipManagerTest {
         /*
          *  4  5  6  7  8  9 10
          * 5        [ ]
-         * 6     [ ][c][ ]
+         * 6     [ ][s][ ]
          * 7  [ ][ ][x][ ][ ]
          * 8  [ ][ ][ ][ ][ ]
          * 9  [ ][ ]   [ ][ ]
          * 
-         * Where c stands for specialCargoHold
+         * Where s stands for specialCargoHold
          * Where x stands for CentralCabin which has all TileEdge.UNIVERSAL connectors
          * 
         */
