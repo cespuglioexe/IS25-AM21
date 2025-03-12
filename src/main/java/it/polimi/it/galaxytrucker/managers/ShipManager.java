@@ -639,7 +639,7 @@ public class ShipManager {
      *
      * @param row    The row index of the component.
      * @param column The column index of the component.
-     * @return The number of exposed connectors of the component at the specified position.
+     * @return The number of exposed connectors of the component at the specified position. If the position is empty or outside the board, returns 0
      * @throws IndexOutOfBoundsException If the specified row or column is out of the ship's bounds.
      */
     public int countExposedConnectorsOf(int row, int column) throws IndexOutOfBoundsException {
