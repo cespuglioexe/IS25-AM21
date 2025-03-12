@@ -17,7 +17,7 @@ public class Epidemic extends AdventureCard implements CrewmatePenalty {
     @Override
     public void applyCrewmatePenalty(int penalty, Player player) {
 
-        // So il numero di gente da togliere e procedo ad eliminarli, se sono vicni
+        // So il numero di gente da togliere e procedo ad eliminarli, se sono vicini
 
         //player.getShipManager()
     }
@@ -26,30 +26,15 @@ public class Epidemic extends AdventureCard implements CrewmatePenalty {
     public void play() {
         System.out.println("------------------------Epidemic--------------------------");
 
-        List<Player> players = (List<Player>) super.getPartecipants().orElse(Collections.emptyList());
+        List<Player> players = (List<Player>) super.getPartecipants().stream().toList();
         if (!players.isEmpty()) {
 
 
+           for (Player player : players) {
 
-            //            int choise = 0;
-            //           for (Player player : players) {
-            //
-            //                int nMin = (int)super.getPenalty().orElse(0);
-            //
-            //                if(player.getShipManager().calculateCrewmates(player.getPlayerID()) > nMin && choise==0 )  {
-            //
-            //                    System.out.println("Minimum number of crewmates:  " + nMin);
-            //                    System.out.print("Credits: " + getCreditReward());
-            //
-            //                    if (partecipate(player) == true && choise == 0) {
-            //                        giveCreditReward(getCreditReward(), player);
-            //                        applyFlightDayPenalty((int) super.getFlightDayPenalty().orElse(0), player);
-            //                        applyCrewmatePenalty((int) super.getPenalty().orElse(0), player);
-            //                        choise = 1;
-            //                    }
-            //                } else
-            //                    System.out.println("Player " + player.getPlayerID() + " doesn't have the minimum number of humans");
-            //            }
+              // player.getShipManager().
+
+            }
 
 
         } else {

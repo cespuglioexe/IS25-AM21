@@ -20,12 +20,14 @@ public class Smugglers extends AdventureCard implements CargoReward, CargoPenalt
     public void applyPenalty(int penalty, Player player) {
             // numero di merci da perdere che sono scritte nella carta
 
+            // Controllo le merci più preziose e ti mando le coordinate e il colore del cargo
     }
 
     @Override
     public void giveCargoReward(Set<Cargo> reward, Player player) {
 
-
+       //  Lista di cargo e passo a shipManager
+        // Cargo
         // aggiungere carico passato come parametro alla shipManager del giocatore
     }
 

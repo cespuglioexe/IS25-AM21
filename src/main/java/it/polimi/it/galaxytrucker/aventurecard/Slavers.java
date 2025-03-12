@@ -3,6 +3,7 @@ package it.polimi.it.galaxytrucker.aventurecard;
 import it.polimi.it.galaxytrucker.cardEffects.CreditReward;
 import it.polimi.it.galaxytrucker.cardEffects.CrewmatePenalty;
 import it.polimi.it.galaxytrucker.cardEffects.FlightDayPenalty;
+import it.polimi.it.galaxytrucker.crewmates.Crewmate;
 import it.polimi.it.galaxytrucker.managers.Player;
 import it.polimi.it.galaxytrucker.utility.Cargo;
 
@@ -23,7 +24,8 @@ public class Slavers extends AdventureCard implements FlightDayPenalty, CreditRe
     @Override
     public void applyCrewmatePenalty(int penalty, Player player) {
             // togli umani o alieni
-
+        super.getDeck().getGameManager().attesaEliminazione(penalty, Crewmate);
+        // Ricevo coordinate e mando a shipManager che se tutto va bene elimina il crewmate
     }
 
     @Override
@@ -41,7 +43,7 @@ public class Slavers extends AdventureCard implements FlightDayPenalty, CreditRe
         System.out.println("1. Yes");
         System.out.println("2. No");
 
-        super.getDeck().getGameManager().
+
 
         int choice = scanner.nextInt();
         if(choice == 1){

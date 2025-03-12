@@ -16,13 +16,15 @@ public class AbandonedShip extends AdventureCard implements Participation, Credi
         super(partecipants, penalty, flightDayPenalty, reward,firePower, creditReward, deck);
     }
 
+
     @Override
     public void giveCreditReward(int reward, Player player) {
         player.addCredits(reward);
     }
 
     @Override
-    public void applyCrewmatePenalty(int penalty, Player player) {
+    public void applyCrewmatePenalty(int penalty, Player player) {  // attendo che l'utente faccia la scelta
+
            // player.getShipManager().
     }
 

@@ -3,8 +3,8 @@ package it.polimi.it.galaxytrucker.aventurecard;
 
 import it.polimi.it.galaxytrucker.managers.GameManager;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Stack;
 
 public class AdventureDeck {
 
@@ -24,6 +24,10 @@ public class AdventureDeck {
 
     public void shuffle(){
         //this.cards
+
+
+
+
     }
 
     public AdventureCard draw(){
@@ -34,14 +38,17 @@ public class AdventureDeck {
 
     public List<AdventureCard> getStack(int stack){
 
-        int unity =  cards.size()/4;
+        int unit =  cards.size()/4;
         stack--;
+        List<AdventureCard> newStack = new ArrayList<AdventureCard>();
 
-        //Stack 0 1 2 3
+        //Stack 0 1 2
         //Unity = 2 && 6
         //0-5 6-11 12-17 18-23
+        if(stack== 0 || stack ==1 || stack == 2) {
+            newStack = cards.subList(stack * unit, ((stack * unit) + unit) - 1);
+        }
 
-        List<AdventureCard> newStack = cards.subList(stack*unity, ((stack*unity)+unity)-1);
         return newStack;
     }
 
