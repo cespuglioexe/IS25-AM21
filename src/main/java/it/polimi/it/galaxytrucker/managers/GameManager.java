@@ -1,7 +1,7 @@
 package it.polimi.it.galaxytrucker.managers;
 
-import it.polimi.it.galaxytrucker.utility.ComponentTileData;
-import it.polimi.it.galaxytrucker.utility.TileLoader;
+// import it.polimi.it.galaxytrucker.utility.ComponentTileData;
+// import it.polimi.it.galaxytrucker.utility.TileLoader;
 
 import java.io.IOException;
 import java.util.List;
@@ -10,7 +10,7 @@ public class GameManager {
 
     private FlightBoardState flightBoardState;
 
-    
+    /*
     public void makeComponentTilePool() {
         try {
             List<ComponentTileData> tiles = TileLoader.loadTiles("tiles.json");
@@ -22,6 +22,7 @@ public class GameManager {
             System.err.println("Failed to load tiles: " + e.getMessage());
         }
     }
+    */
 
     public FlightBoardState getFlightBoardState() {
         return flightBoardState;

@@ -21,8 +21,8 @@ class CabinModuleTest {
         Human human2 = new Human();
         Human human3 = new Human();
 
-        Alien alien1 = new Alien(true, AlienType.PURPLEALIEN);
-        Alien alien2 = new Alien(true, AlienType.BROWNALIEN);
+        Alien alien1 = new Alien(AlienType.PURPLEALIEN);
+        Alien alien2 = new Alien(AlienType.BROWNALIEN);
 
 
         List<Crewmate> crewmates = new ArrayList<>();

@@ -1,11 +1,13 @@
 package it.polimi.it.galaxytrucker.componenttiles;
 
+import it.polimi.it.galaxytrucker.observer.EnergyConsumptionEvent;
+
 /**
  * This class represents a Double Cannon component tile.
  * Double Cannons provide increased firepower but require activation.
  *
  * @author Giacomo Amaducci
- * @version 1.0
+ * @version 1.1
  */
 public class DoubleCannon extends SingleCannon implements EnergyConsumer {
     private boolean isActive;
@@ -28,8 +30,11 @@ public class DoubleCannon extends SingleCannon implements EnergyConsumer {
      */
     @Override
     public void activate() {
-        if (!isActive)
+        if (!isActive) {
             isActive = true;
+            EnergyConsumptionEvent event = new EnergyConsumptionEvent();
+            this.publish(event);
+        }
     }
 
     /**
@@ -37,7 +42,7 @@ public class DoubleCannon extends SingleCannon implements EnergyConsumer {
      * For activated double cannons, this value is 2 if it points forwards, 1 otherwise.
      * For inactive double cannons, this value is always 0.
      *
-     * @return an {@code int} representing the firepower of the cannon
+     * @return a {@code double} representing the firepower of the cannon
      */
     @Override
     public double getFirePower() {

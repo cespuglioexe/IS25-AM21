@@ -11,10 +11,8 @@ import java.util.List;
  */
 public class SingleCannon extends ComponentTile {
 
-    /**
-     * The firepower value of this cannon.
-     */
-    private int firePower;
+    /** The firepower value of this cannon */
+    private final int firePower;
 
     /**
      * Constructs a new {@code SingleCannon} with the specified edges.
@@ -26,7 +24,7 @@ public class SingleCannon extends ComponentTile {
      * @param left the type of the left edge of this tile
      */
     public SingleCannon(TileEdge top, TileEdge right, TileEdge bottom, TileEdge left) {
-        super(TileEdge.INCOMPATIBLE, right, bottom, left);
+        super(top, right, bottom, left);
         firePower = 1;
     }
 
@@ -34,7 +32,7 @@ public class SingleCannon extends ComponentTile {
      * Returns the firepower of the cannon.
      * For single cannons, this value is 1 if it points forwards, 0.5 otherwise.
      *
-     * @return an {@code int} representing the firepower of the cannon
+     * @return a {@code double} representing the firepower of the cannon
      */
     public double getFirePower() {
         if (getRotation() == 0)
