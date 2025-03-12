@@ -2,10 +2,13 @@ package it.polimi.it.galaxytrucker.managers;
 
 import it.polimi.it.galaxytrucker.componenttiles.ComponentTile;
 import it.polimi.it.galaxytrucker.componenttiles.DoubleEngine;
+import it.polimi.it.galaxytrucker.componenttiles.LifeSupport;
 import it.polimi.it.galaxytrucker.componenttiles.OutOfBoundsTile;
 import it.polimi.it.galaxytrucker.componenttiles.SingleEngine;
 import it.polimi.it.galaxytrucker.componenttiles.SpecialCargoHold;
 import it.polimi.it.galaxytrucker.componenttiles.TileEdge;
+import it.polimi.it.galaxytrucker.crewmates.Alien;
+import it.polimi.it.galaxytrucker.crewmates.Human;
 import it.polimi.it.galaxytrucker.crewmates.Crewmate;
 import it.polimi.it.galaxytrucker.componenttiles.BatteryComponent;
 import it.polimi.it.galaxytrucker.componenttiles.CabinModule;
@@ -24,17 +27,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.OptionalInt;
 
-/**
- * * colonna e riga con int
- * //ShipManager.toTileMatrixCoord();
- * //ShipManager.toBoardShipCoord();
- * 
- * //tenere solo coordinate di gioco
- * //rimuove crewmate: coord
- * //addCargo(int, int, Cargo)
- * //removeCargo(int, int, Color)
- * //removeBattery(int, int)
- */
 public class ShipManager {
     private ShipBoard ship;
     private List<ComponentTile> discardedTile;
@@ -48,6 +40,21 @@ public class ShipManager {
         discardedTile = new ArrayList<>(2);
     }
 
+    /**
+     * Converts the given row and/or column from board coordinates to tile matrix coordinates.
+     *
+     * <p>This method adjusts the given row and column indices by subtracting the board's
+     * starting indices, as defined in {@link ShipManager#STARTOFBOARDROWS} and 
+     * {@link ShipManager#STARTOFBOARDCOLUMNS}, to map them correctly within the ship's tile matrix.</p>
+     *
+     * <p>If a row or column index is out of bounds, an {@link IndexOutOfBoundsException} is thrown.</p>
+     *
+     * @param row    An {@link Optional} containing the row index to convert, or empty if not provided.
+     * @param column An {@link Optional} containing the column index to convert, or empty if not provided.
+     * @return A list containing two {@link Optional} elements: the converted row and column indices.
+     *
+     * @throws IndexOutOfBoundsException If the row or column is out of the ship's tile matrix bounds.
+     */
     private List<Optional<Integer>> toTileMatrixCoord(Optional<Integer> row, Optional<Integer> column) throws IndexOutOfBoundsException {
         Optional<Integer> tileMatrixRow = row.map(r -> r - ShipManager.STARTOFBOARDROWS);
         Optional<Integer> tileMatrixColumn = column.map(c -> c - ShipManager.STARTOFBOARDCOLUMNS);
@@ -94,6 +101,14 @@ public class ShipManager {
         return ShipManager.COLUMNS;
     }
 
+    public Optional<ComponentTile> getComponent(int row, int column) {
+        List<Integer> tileCoords = new ArrayList<>();
+        tileCoords.add(this.toTileMatrixCoord(Optional.of(row), Optional.empty()).get(0).get());
+        tileCoords.add(this.toTileMatrixCoord(Optional.empty(), Optional.of(column)).get(1).get());
+
+        return ship.getComponent(tileCoords.get(0), tileCoords.get(1));
+    }
+
     public List<Optional<ComponentTile>> getComponentsAtRow(int row) throws IndexOutOfBoundsException {
         int tileRow = this.toTileMatrixCoord(Optional.of(row), Optional.empty()).get(0).get();
         List<Optional<ComponentTile>> components = new ArrayList<>();
@@ -105,7 +120,7 @@ public class ShipManager {
     }
 
     public List<Optional<ComponentTile>> getComponentsAtColumn(int column) throws IndexOutOfBoundsException {
-        int tileColumn = this.toTileMatrixCoord(Optional.empty(), Optional.of(column)).get(0).get();
+        int tileColumn = this.toTileMatrixCoord(Optional.empty(), Optional.of(column)).get(1).get();
         List<Optional<ComponentTile>> components = new ArrayList<>();
 
         for (int i = 0; i < ShipManager.ROWS; i++) {
@@ -122,30 +137,22 @@ public class ShipManager {
         return Optional.<Set<List<Integer>>>of(ship.getAllComponentsPositionOfType(componentType));
     }
 
-    public void addComponentTile(int row, int column, ComponentTile component) throws IndexOutOfBoundsException {
+    public void addComponentTile(int row, int column, ComponentTile component) throws IndexOutOfBoundsException, IllegalComponentPositionException {
         List<Integer> tileCoords = new ArrayList<>();
         tileCoords.add(this.toTileMatrixCoord(Optional.of(row), Optional.empty()).get(0).get());
         tileCoords.add(this.toTileMatrixCoord(Optional.empty(), Optional.of(column)).get(1).get());
 
-        try {
-            ship.addComponentTile(tileCoords.get(0), tileCoords.get(1), component);
-        } catch (IllegalComponentPositionException e) {
-            System.err.println(e.getMessage());
-        }
+        ship.addComponentTile(tileCoords.get(0), tileCoords.get(1), component);
     }
 
-    public void removeComponentTile(int row, int column) throws IndexOutOfBoundsException {
+    public void removeComponentTile(int row, int column) throws IndexOutOfBoundsException, IllegalComponentPositionException {
         ComponentTile removedComponent;
         List<Integer> tileCoords = new ArrayList<>();
         tileCoords.add(this.toTileMatrixCoord(Optional.of(row), Optional.empty()).get(0).get());
         tileCoords.add(this.toTileMatrixCoord(Optional.empty(), Optional.of(column)).get(1).get());
 
-        try {
-            removedComponent = ship.removeComponentTile(tileCoords.get(0), tileCoords.get(1));
-            this.discardedTile.add(removedComponent);
-        } catch (IllegalComponentPositionException e) {
-            System.err.println(e.getMessage());
-        }
+        removedComponent = ship.removeComponentTile(tileCoords.get(0), tileCoords.get(1));
+        this.discardedTile.add(removedComponent);
     }
 
     public void removeBranch(Set<List<Integer>> branch) {
@@ -161,6 +168,19 @@ public class ShipManager {
         }
     }
 
+    /**
+     * Determines whether the ship's construction is legal according to the game rules.
+     *
+     * <p>The method verifies several conditions to ensure that the ship meets the requirements:
+     * <ul>
+     *   <li>The ship must not be divided into disconnected sections.</li>
+     *   <li>All {@link SingleEngine} and {@link DoubleEngine} components must be oriented backwards (rotation must be 0).</li>
+     *   <li>All connectors between adjacent components must be compatible.</li>
+     * </ul>
+     * If any of these conditions are not met, the ship is considered illegal.</p>
+     *
+     * @return {@code true} if the ship is legal, {@code false} otherwise.
+     */
     public boolean isShipLegal() {
         //if the ship is divided into disconnected sections it's not legal
         if (ship.getDisconnectedBranches().size() > 1) {
@@ -248,7 +268,105 @@ public class ShipManager {
         return true;
     }
 
-    public void removeCrewmate(int row, int column) throws IllegalComponentPositionException, InvalidActionException {
+    /**
+     * Adds a crewmate to a specified position within the ship.
+     * 
+     * <p>This method attempts to place a given {@link Human} crewmate at the specified
+     * row and column coordinates on the ship. If the component does not exist or is not a {@link CentralCabin},
+     * an exception is thrown.</p>
+     *
+     * @param row      The row index where the crewmate should be placed.
+     * @param column   The column index where the crewmate should be placed.
+     * @param crewmate The {@link Human} crewmate to be added to the cabin.
+     * 
+     * @throws IndexOutOfBoundsException         If the specified row or column is out of the ship's bounds.
+     * @throws IllegalComponentPositionException If there is no component at the specified position or 
+     *                                           if the component is not an instance of {@link CentralCabin}.
+     * @throws InvalidActionException            If the cabin is full.
+     */
+    public void addCrewmate(int row, int column, Human crewmate) throws IndexOutOfBoundsException, IllegalComponentPositionException, InvalidActionException {
+        List<Integer> tileCoords = new ArrayList<>();
+        tileCoords.add(this.toTileMatrixCoord(Optional.of(row), Optional.empty()).get(0).get());
+        tileCoords.add(this.toTileMatrixCoord(Optional.empty(), Optional.of(column)).get(1).get());
+
+        //check if is empty or it's not a cabin module
+        ComponentTile component = ship.getComponent(tileCoords.get(0), tileCoords.get(1))
+            .orElseThrow(() -> new IllegalComponentPositionException("There is no element here"));
+        if (!(component instanceof CentralCabin)) {
+            throw new IllegalComponentPositionException("Not a cabin module at [" + row + "][" + column + "]");
+        }
+
+        CentralCabin cabin = (CentralCabin) component;
+        cabin.addCrewmate(crewmate);
+    }
+
+    /**
+     * Adds an alien crewmate to a specified position within the ship.
+     *
+     * <p>This method attempts to place a given {@link Alien} crewmate at the specified
+     * row and column coordinates on the ship. If the component does not exist or is not a {@link CabinModule},
+     * an exception is thrown.</p>
+     *
+     * <p>Additionally, before placing the alien, the method checks whether a 
+     * {@link LifeSupport} module is adjacent to the target cabin. The life support module
+     * must be compatible with the alien's type; otherwise, the action is not allowed.</p>
+     *
+     * @param row      The row index where the crewmate should be placed.
+     * @param column   The column index where the crewmate should be placed.
+     * @param crewmate The {@link Alien} crewmate to be added to the cabin.
+     * 
+     * @throws IndexOutOfBoundsException         If the specified row or column is out of the ship's bounds.
+     * @throws IllegalComponentPositionException If there is no component at the specified position or 
+     *                                           if the component is not a {@link CabinModule}.
+     * @throws InvalidActionException            If no compatible {@link LifeSupport} module is adjacent
+     *                                           to the cabin or if the cabin is full.
+     */
+    public void addCrewmate(int row, int column, Alien crewmate) throws IndexOutOfBoundsException, IllegalComponentPositionException, InvalidActionException {
+        List<Integer> tileCoords = new ArrayList<>();
+        tileCoords.add(this.toTileMatrixCoord(Optional.of(row), Optional.empty()).get(0).get());
+        tileCoords.add(this.toTileMatrixCoord(Optional.empty(), Optional.of(column)).get(1).get());
+
+        //check if is empty or it's not a cabin module
+        ComponentTile component = ship.getComponent(tileCoords.get(0), tileCoords.get(1))
+            .orElseThrow(() -> new IllegalComponentPositionException("There is no element here"));
+        if (!(component instanceof CentralCabin)) {
+            throw new IllegalComponentPositionException("Not a cabin module at [" + row + "][" + column + "]");
+        }
+
+        CabinModule cabin = (CabinModule) component;
+
+        //check for life support module near the cabin
+        List<Optional<ComponentTile>> neighbors = this.ship.getNeighbourComponents(tileCoords.get(0), tileCoords.get(1));
+
+        boolean hasLifeSupport = neighbors.stream()
+            .flatMap(Optional::stream)
+            .filter(neighbor -> neighbor instanceof LifeSupport)
+            .map(neighbor -> (LifeSupport) neighbor)
+            .anyMatch(l -> l.getSupportedAlienType().equals(crewmate.getAlienType()));
+
+        if (!hasLifeSupport) {
+            throw new InvalidActionException("The cabin module has not a life support module nearby");
+        }
+
+        cabin.addCrewmate(crewmate);
+    }
+
+    /**
+     * Removes a crewmate from the specified position within the ship.
+     *
+     * <p>This method attempts to remove a crewmate from the cabin located at the specified
+     * row and column coordinates on the ship. If the component does not exist or is not a {@link CentralCabin},
+     * an exception is thrown.</p>
+     *
+     * @param row    The row index of the cabin from which the crewmate should be removed.
+     * @param column The column index of the cabin from which the crewmate should be removed.
+     *
+     * @throws IndexOutOfBoundsException         If the specified row or column is out of the ship's bounds.
+     * @throws IllegalComponentPositionException If there is no component at the specified position or 
+     *                                           if the component is not an instance of {@link CentralCabin}.
+     * @throws InvalidActionException            If the cabin has no crew.
+     */
+    public void removeCrewmate(int row, int column) throws IndexOutOfBoundsException, IllegalComponentPositionException, InvalidActionException {
         List<Integer> tileCoords = new ArrayList<>();
         tileCoords.add(this.toTileMatrixCoord(Optional.of(row), Optional.empty()).get(0).get());
         tileCoords.add(this.toTileMatrixCoord(Optional.empty(), Optional.of(column)).get(1).get());
@@ -264,7 +382,23 @@ public class ShipManager {
         cabin.removeCrewmate();
     }
 
-    public void addCargo(int row, int column, Cargo cargo) throws IllegalComponentPositionException, InvalidActionException {
+    /**
+     * Adds a cargo item to a cargo holder at the specified position within the ship.
+     *
+     * <p>This method attempts to place a given {@link Cargo} at the specified row and column
+     * coordinates on the ship. If the cargo is special, it must be placed in a {@link SpecialCargoHold}.
+     * If the target position does not contain the correct type of cargo holder, an exception is thrown.</p>
+     *
+     * @param row    The row index where the cargo should be placed.
+     * @param column The column index where the cargo should be placed.
+     * @param cargo  The {@link Cargo} to be added to the cargo hold.
+     *
+     * @throws IndexOutOfBoundsException         If the specified row or column is out of the ship's bounds.
+     * @throws IllegalComponentPositionException If the target position does not contain a cargo holder or
+     *                                           if the cargo type is not compatible with the cargo holder type.
+     * @throws InvalidActionException            If the cargo holder is full.
+     */
+    public void addCargo(int row, int column, Cargo cargo) throws IndexOutOfBoundsException, IllegalComponentPositionException, InvalidActionException {
         CargoHold cargoHoldComponent;
         List<Integer> tileCoords = new ArrayList<>();
         tileCoords.add(this.toTileMatrixCoord(Optional.of(row), Optional.empty()).get(0).get());
@@ -289,7 +423,24 @@ public class ShipManager {
         cargoHoldComponent.addCargo(cargo);
     }
 
-    public void removeCargo(int row, int column, Color color) throws IllegalComponentPositionException, InvalidActionException {
+    /**
+     * Removes a cargo item of the specified color from a cargo hold at the given position.
+     *
+     * <p>This method attempts to remove a {@link Cargo} item that matches the given {@link Color}
+     * from the cargo hold located at the specified row and column coordinates on the ship. 
+     * If the cargo color is red, the method expects a {@link SpecialCargoHold}. 
+     * If the correct type of cargo hold is not present, or if no cargo of the specified color is found, an exception is thrown.</p>
+     *
+     * @param row    The row index of the cargo hold.
+     * @param column The column index of the cargo hold.
+     * @param color  The {@link Color} of the cargo to be removed.
+     *
+     * @throws IndexOutOfBoundsException         If the specified row or column is out of the ship's bounds.
+     * @throws IllegalComponentPositionException If the target position does not contain a cargo hold or
+     *                                           if the cargo type is not compatible with the cargo hold type.
+     * @throws InvalidActionException            If no cargo of the specified color is found or if the cargo holder is empty.
+     */
+    public void removeCargo(int row, int column, Color color) throws IndexOutOfBoundsException, IllegalComponentPositionException, InvalidActionException {
         CargoHold cargoHoldComponent;
         List<Integer> tileCoords = new ArrayList<>();
         tileCoords.add(this.toTileMatrixCoord(Optional.of(row), Optional.empty()).get(0).get());
@@ -323,6 +474,23 @@ public class ShipManager {
         }
     }
 
+    /**
+     * Removes a battery component from the specified position within the ship.
+     *
+     * <p>This method attempts to remove a battery from the module located at the specified
+     * row and column coordinates on the ship. If the component does not exist or is not a {@link BatteryComponent},
+     * an exception is thrown.</p>
+     *
+     * <p>The method does not physically remove the battery component but instead 
+     * triggers energy consumption within it.</p>
+     *
+     * @param row    The row index of the battery module.
+     * @param column The column index of the battery module.
+     *
+     * @throws IllegalComponentPositionException If there is no component at the specified position or 
+     *                                           if the component is not a {@link BatteryComponent}.
+     * @throws InvalidActionException            If the component has no battery left.
+     */
     public void removeBattery(int row, int column) throws IllegalComponentPositionException, InvalidActionException {
         BatteryComponent batteryComponent;
         List<Integer> tileCoords = new ArrayList<>();

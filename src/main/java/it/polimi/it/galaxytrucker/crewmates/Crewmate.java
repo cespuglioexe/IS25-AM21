@@ -6,4 +6,8 @@ public abstract class Crewmate {
     public Crewmate(boolean requiresLifeSupport) {
         this.requiresLifeSupport = requiresLifeSupport;
     }
+
+    public boolean requiresLifeSupport() {
+        return this.requiresLifeSupport;
+    }
 }
