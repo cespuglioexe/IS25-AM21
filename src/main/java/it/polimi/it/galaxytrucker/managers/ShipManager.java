@@ -19,6 +19,7 @@ import it.polimi.it.galaxytrucker.exceptions.IllegalComponentPositionException;
 import it.polimi.it.galaxytrucker.exceptions.InvalidActionException;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -217,18 +218,30 @@ public class ShipManager {
     }
 
     /**
-     * Retrieves the positions of all components of a specified type within the ship.
+     * Retrieves the positions of all components of a specified type in board coordinates.
      *
-     * <p>This method returns an {@link Optional} containing a {@link Set} of coordinates, where 
-     * each coordinate is represented as a {@link List} of two integers (row and column). 
-     * If no components of the specified type are found, the returned {@code Optional} will contain an empty set.</p>
+     * <p>This method returns a {@link Set} of positions where components of the given type 
+     * are located. Each position is represented as a {@link List} of two integers (row and column). 
+     * The positions are converted from tile matrix coordinates to board coordinates 
+     * using {@link #toBoardCoord(Optional, Optional)}.</p>
+     *
+     * <p>If no components of the specified type are found, an empty set is returned.</p>
      *
      * @param componentType The {@link Class} type of the {@link ComponentTile} to search for.
-     * @return An {@link Optional} containing a {@link Set} of {@link List} elements representing the positions 
-     *         of the matching components, or an empty set if no components of the specified type exist.
+     * @return A {@link Set} of {@link List} elements representing the positions of the matching components in board coordinates.
      */
-    public Optional<Set<List<Integer>>> getAllComponentsPositionOfType(Class<? extends ComponentTile> componentType) {
-        return Optional.<Set<List<Integer>>>of(ship.getAllComponentsPositionOfType(componentType));
+    public Set<List<Integer>> getAllComponentsPositionOfType(Class<? extends ComponentTile> componentType) {
+        Optional<Set<List<Integer>>> tileComponentPositions = Optional.ofNullable(ship.getAllComponentsPositionOfType(componentType));
+        
+        return tileComponentPositions
+            .map(positions -> positions.stream()
+                .map(coord -> this.toBoardCoord(Optional.of(coord.get(0)), Optional.of(coord.get(1))))
+                .map(optionalList -> optionalList.stream()
+                    .filter(Optional::isPresent)
+                    .map(Optional::get)
+                    .toList())
+                .collect(Collectors.toSet()))
+            .orElse(Set.of());
     }
 
     /**
@@ -614,6 +627,53 @@ public class ShipManager {
 
         batteryComponent = (BatteryComponent) component;
         batteryComponent.consumeEnergy();
+    }
+
+    /**
+     * Counts the number of exposed connectors of the component at the specified position.
+     *
+     * <p>This method determines how many connectors of the {@link ComponentTile} at the given 
+     * row and column are exposed, meaning they are not connected to a compatible neighbor.</p>
+     *
+     * <p>If the specified row or column is out of bounds, an {@link IndexOutOfBoundsException} is thrown.</p>
+     *
+     * @param row    The row index of the component.
+     * @param column The column index of the component.
+     * @return The number of exposed connectors of the component at the specified position.
+     * @throws IndexOutOfBoundsException If the specified row or column is out of the ship's bounds.
+     */
+    public int countExposedConnectorsOf(int row, int column) throws IndexOutOfBoundsException {
+        List<Integer> tileCoords = new ArrayList<>();
+        tileCoords.add(this.toTileMatrixCoord(Optional.of(row), Optional.empty()).get(0).get());
+        tileCoords.add(this.toTileMatrixCoord(Optional.empty(), Optional.of(column)).get(1).get());
+
+        return ship.countExposedConnectors(tileCoords.get(0), tileCoords.get(1));
+    }
+
+    /**
+     * Counts the total number of exposed connectors across all components in the ship.
+     *
+     * <p>This method iterates over all component types present in the ship and 
+     * accumulates the number of exposed connectors for each component. A connector is 
+     * considered exposed if it is not connected to a compatible neighboring component.</p>
+     *
+     * <p>Components of type {@link OutOfBoundsTile} are ignored in this calculation.</p>
+     *
+     * @return The total number of exposed connectors in the ship.
+     * @throws IndexOutOfBoundsException If an invalid coordinate is encountered during the computation.
+     */
+    public int countAllExposedConnectors() throws IndexOutOfBoundsException {
+        int exposedConnectors = 0;
+        Set<Class<? extends ComponentTile>> componentTypes = ship.getAllComponentsTypes();
+
+        for (Class<? extends ComponentTile> componentType : componentTypes) {
+            if (componentType != OutOfBoundsTile.class) {
+                for (List<Integer> coord : ship.getAllComponentsPositionOfType(componentType)) {
+                    exposedConnectors += ship.countExposedConnectors(coord.get(0), coord.get(1));
+                }
+            }
+        }
+        return exposedConnectors;
     }
 
     public double calculateFirePower(){

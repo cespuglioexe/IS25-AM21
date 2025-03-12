@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Optional;
 import java.util.List;
+import java.util.Set;
 
 import it.polimi.it.galaxytrucker.componenttiles.BatteryComponent;
 import it.polimi.it.galaxytrucker.componenttiles.CabinModule;
@@ -22,6 +23,7 @@ import it.polimi.it.galaxytrucker.crewmates.Human;
 import it.polimi.it.galaxytrucker.crewmates.Alien;
 import it.polimi.it.galaxytrucker.exceptions.IllegalComponentPositionException;
 import it.polimi.it.galaxytrucker.exceptions.InvalidActionException;
+import it.polimi.it.galaxytrucker.managers.ShipBoard;
 import it.polimi.it.galaxytrucker.managers.ShipManager;
 import it.polimi.it.galaxytrucker.utility.AlienType;
 import it.polimi.it.galaxytrucker.utility.Color;
@@ -169,7 +171,55 @@ public class ShipManagerTest {
         );
     }
 
+    @Test
+    void getAllComponentsPositionOfTypeTypeNotPresentTest() {
+        ShipManager ship = new ShipManager(1);
 
+        assertEquals(Set.of(), ship.getAllComponentsPositionOfType(SingleCannon.class));
+    }
+
+    @Test
+    void getAllComponentsPositionOfTypeTest() {
+        ShipManager ship = new ShipManager(1);
+
+        ComponentTile cannon = new SingleCannon(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE);
+
+        /*
+         *  4  5  6  7  8  9 10
+         * 5        [ ]
+         * 6     [ ][ ][ ]
+         * 7  [ ][ ][x][ ][ ]
+         * 8  [ ][c][c][c][c]
+         * 9  [ ][ ]   [c][ ]
+        */
+
+        for (int i = 5; i < 10; i++) {
+            for (int j = 5; j < 10; j++) {
+                switch (i) {
+                    case 8:
+                        if (j > 5 && j < 10) {
+                            ship.addComponentTile(i, j, cannon);
+                        }
+                        break;
+                    case 9:
+                        if (j == 8) {
+                            ship.addComponentTile(i, j, cannon);
+                        }
+                        break;
+                }
+            }
+        }
+
+        assertTrue(() -> ship.getAllComponentsPositionOfType(SingleCannon.class).containsAll(
+            Set.of(
+                List.of(8, 6),
+                List.of(8, 7),
+                List.of(8, 8),
+                List.of(8, 9),
+                List.of(9, 8)
+            )
+        ));
+    }
 
     @Test
     void isShipLegalWithDisconnectedBranchesTest() {
@@ -1073,5 +1123,122 @@ public class ShipManagerTest {
         ship.removeBattery(6, 7);
 
         assertThrows(InvalidActionException.class, () -> ship.removeBattery(6, 7));
+    }
+
+    @Test
+    void countExposedConnectorsOfTest() {
+        ShipManager ship = new ShipManager(1);
+        ComponentTile cannon = new SingleCannon(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE);
+
+        /*
+         *  4  5  6  7  8  9 10
+         * 5        [c]
+         * 6     [c][c][ ]
+         * 7  [c][ ][x][c][ ]
+         * 8  [ ][c][c][c][c]
+         * 9  [ ][ ]   [c][ ]
+         * 
+         * Where c stands for cannon
+         * Where x stands for CentralCabin which has all TileEdge.UNIVERSAL connectors
+        */
+
+        for (int i = 5; i < 10; i++) {
+            for (int j = 5; j < 10; j++) {
+                switch (i) {
+                    case 5:
+                        if (j == 7) {
+                            ship.addComponentTile(i, j, cannon);
+                        }
+                        break;
+                    case 6:
+                        if (j > 5 && j < 8) {
+                            ship.addComponentTile(i, j, cannon);
+                        }
+                        break;
+                    case 7:
+                        if ((j == 5 || (j > 7 && j < 9)) && j != 7) {
+                            ship.addComponentTile(i, j, cannon);
+                        }
+                        break;
+                    case 8:
+                        if (j > 5 && j < 10) {
+                            ship.addComponentTile(i, j, cannon);
+                        }
+                        break;
+                    case 9:
+                        if (j == 8) {
+                            ship.addComponentTile(i, j, cannon);
+                        }
+                        break;
+                }
+            }
+        }
+
+        //exposed connectors of [7][5]: 4
+        assertEquals(4, ship.countExposedConnectorsOf(7, 5));
+        //exposed connectors of [5][7]: 3
+        assertEquals(3, ship.countExposedConnectorsOf(5, 7));
+        //exposed connectors of [7][8]: 2
+        assertEquals(2, ship.countExposedConnectorsOf(7, 8));
+        //exposed connectors of [8][7]: 1
+        assertEquals(1, ship.countExposedConnectorsOf(8, 7));
+        //exposed connectors of [8][8]: 0
+        assertEquals(0, ship.countExposedConnectorsOf(8, 8));
+        //exposed connectors of [7][6]: 0 (EMPTY)
+        assertEquals(0, ship.countExposedConnectorsOf(7, 6));
+        //exposed connectors of [5][4]: 0 (OUTSIDE)
+        assertEquals(0, ship.countExposedConnectorsOf(5, 4));
+    }
+
+    @Test
+    void countAllExposedConnectorsTest() {
+        ShipManager ship = new ShipManager(1);
+        ComponentTile cannon = new SingleCannon(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE);
+
+        /*
+         *  4  5  6  7  8  9 10
+         * 5        [c]
+         * 6     [c][c][ ]
+         * 7  [c][ ][x][c][ ]
+         * 8  [ ][c][c][c][c]
+         * 9  [ ][ ]   [c][ ]
+         * 
+         * Where c stands for cannon
+         * Where x stands for CentralCabin which has all TileEdge.UNIVERSAL connectors
+        */
+
+        for (int i = 5; i < 10; i++) {
+            for (int j = 5; j < 10; j++) {
+                switch (i) {
+                    case 5:
+                        if (j == 7) {
+                            ship.addComponentTile(i, j, cannon);
+                        }
+                        break;
+                    case 6:
+                        if (j > 5 && j < 8) {
+                            ship.addComponentTile(i, j, cannon);
+                        }
+                        break;
+                    case 7:
+                        if ((j == 5 || (j > 7 && j < 9)) && j != 7) {
+                            ship.addComponentTile(i, j, cannon);
+                        }
+                        break;
+                    case 8:
+                        if (j > 5 && j < 10) {
+                            ship.addComponentTile(i, j, cannon);
+                        }
+                        break;
+                    case 9:
+                        if (j == 8) {
+                            ship.addComponentTile(i, j, cannon);
+                        }
+                        break;
+                }
+            }
+        }
+
+        assertEquals(24, ship.countAllExposedConnectors());
     }
 }
