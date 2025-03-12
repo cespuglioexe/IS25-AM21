@@ -40,33 +40,30 @@ public class CombatZone extends Attack implements FlightDayPenalty, CrewmatePena
         //controllo equipaggio
         List<Player> players = super.getPartecipants().stream().toList();
         Player temp;
-        for (int i=0;i<players.size();i++) {
-            if(players.get(i).getShipManager().countCrewmates()<players.get(i+1).getShipManager().countCrewmates()){
-                temp = players.get(i);
+        temp=players.getFirst();
+        for (int i=1;i<players.size();i++) {
+            if(players.get(i).getShipManager().calculateEnginePower()<temp.getShipManager().calculateEnginePower()) {
+                temp = players.get(i+1);
             }
         }
+        applyCrewmatePenalty(CREWPENALTY, temp);
 
-        /*
-        if(players.get(0).getShipManager().calculateCrewmates(players.get(0).getPlayerID())< players.get(1).getShipManager().calculateCrewmates(players.get(1).getPlayerID())){
-            applyFlightDayPenalty(FLYPENALTY, players.get(0));
-        }else{
-            applyFlightDayPenalty(FLYPENALTY, players.get(1));
+        temp=players.getFirst();
+        for (int i=1;i<players.size();i++) {
+            if(players.get(i).getShipManager().countCrewmates()<temp.getShipManager().countCrewmates()) {
+                temp = players.get(i+1);
+            }
         }
+        applyFlightDayPenalty(FLYPENALTY, temp);
 
-        //controllo potenza motrice
-        if(players.get(0).getShipManager().calculateEnginePower(players.get(0).getPlayerID())< players.get(1).getShipManager().calculateEnginePower(players.get(1).getPlayerID())){
-            applyCrewmatePenalty(CREWPENALTY, players.get(0));
-        }else{
-            applyCrewmatePenalty(CREWPENALTY,players.get(1));
+
+        temp=players.getFirst();
+        for (int i=1;i<players.size();i++) {
+            if(players.get(i).getShipManager().calculateFirePower()<temp.getShipManager().calculateFirePower()) {
+                temp = players.get(i+1);
+            }
         }
-
-        if(player.getShipManager().calculateFirePower(players.get(0).getPlayerID())< players.get(1).getShipManager().calculateEnginePower(players.get(1).getPlayerID())){
-            player = player.getFirst();
-        }else{
-            player = players.get(1);
-        }
-        */
-
+        attack(temp);
 
     }
 
@@ -75,35 +72,20 @@ public class CombatZone extends Attack implements FlightDayPenalty, CrewmatePena
         Scanner scanner = new Scanner(System.in);
         ComponentTile componetHit = null;
         List<Optional<ComponentTile>> sequence;
-        int line,rotation,index=0;
+        int line,index=0;
         Map<Projectile, Direction> projectiles = super.getProjectiles();
-
-
-
 
         for (Map.Entry<Projectile, Direction> entry : projectiles.entrySet()) {
             line=super.rollDice();
 
-            if (entry.getValue()==Direction.UP){
-                rotation = 0;
-            }
-            if (entry.getValue()==Direction.DOWN){
-                rotation = 1;
-            }
-            if (entry.getValue()==Direction.LEFT){
-                rotation = 2;
-            }
-            if (entry.getValue()==Direction.RIGHT){
-                rotation = 3;
-            }
 
             //recupera la colonna/riga in cui c'è il proiettile
             if(entry.getValue()==Direction.UP||entry.getValue()==Direction.DOWN){
                 //dato l'indice della colonna mi ritorna tutta la colonna
-                sequence = player.getShipManager().getColumn(line);
+                sequence = player.getShipManager().getComponentsAtColumn(line);
             }else {
                 //dato l'indice della riga mi ritorna tutta la riga
-                sequence =  player.getShipManager().getRow(line);
+                sequence =  player.getShipManager().getComponentsAtRow(line);
             }
 
             //trovo il primo pezzo che verrà colpito
@@ -116,6 +98,12 @@ public class CombatZone extends Attack implements FlightDayPenalty, CrewmatePena
                 index++;
             }
 
+            if(super.getDeck().getGameManager().getLevel()==1){
+                index=index+4;
+            }else{
+                index=index+5;
+            }
+
             if (entry.getKey()==Projectile.SMALL){
                 if(/*Controlla se c'è lo scudo girato nella direzione giusta altrimenti danno*/){
                     //trova lo scudo e chiede se attivarlo
@@ -124,18 +112,14 @@ public class CombatZone extends Attack implements FlightDayPenalty, CrewmatePena
                         player.getShipManager().activateShield();
                     }
                     else{
-                        //se il componente non ha il lato liscio che corrisponde alla direzione del proiettile subisce danno
-                        if (componetHit.getTileEdges().get(rotation) != TileEdge.SMOOTH){
-                            if(entry.getValue()==Direction.UP||entry.getValue()==Direction.DOWN){
-                                player.getShipManager().removeComponentTile(index,line);
-                            }else {
-                                player.getShipManager().removeComponentTile(line,index);
-                            }
+                        if(entry.getValue()==Direction.UP||entry.getValue()==Direction.DOWN){
+                            player.getShipManager().removeComponentTile(index,line);
+                        }else {
+                            player.getShipManager().removeComponentTile(line,index);
                         }
-
                     }
                 }
-            }else{
+            }else{//PROIETTILE GROSSO
                 if(entry.getValue()==Direction.UP||entry.getValue()==Direction.DOWN){
                     player.getShipManager().removeComponentTile(index,line);
                 }else {

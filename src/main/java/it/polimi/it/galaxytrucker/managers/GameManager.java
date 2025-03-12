@@ -7,8 +7,11 @@ import java.io.IOException;
 import java.util.List;
 
 public class GameManager {
+    int level;
 
-
+    public GameManager(int level) {
+        this.level = level;
+    }
     
     public void makeComponentTilePool() {
         try {
@@ -20,6 +23,10 @@ public class GameManager {
         } catch (IOException e) {
             System.err.println("Failed to load tiles: " + e.getMessage());
         }
+    }
+
+    public int getLevel(){
+        return level;
     }
 
     // INIZIO IMPLEMENTAZIONE LUNEDI

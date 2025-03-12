@@ -34,28 +34,13 @@ public class Pirates extends Attack implements CreditReward,FlightDayPenalty {
                         //per ogni proiettile tira il dado per vedere in che colonna/riga si trova
                         line= super.rollDice();
 
-
-
-                        if (entry.getValue()==Direction.UP){
-                                rotation = 0;
-                        }
-                        if (entry.getValue()==Direction.DOWN){
-                                rotation = 1;
-                        }
-                        if (entry.getValue()==Direction.LEFT){
-                                rotation = 2;
-                        }
-                        if (entry.getValue()==Direction.RIGHT){
-                                rotation = 3;
-                        }
-
                         //recupera la colonna/riga in cui c'è il proiettile
                         if(entry.getValue()==Direction.UP||entry.getValue()==Direction.DOWN){
                                 //dato l'indice della colonna mi ritorna tutta la colonna
-                                sequence =  player.getShipManager().getColumn(line);
+                                sequence =  player.getShipManager().getComponentsAtColumn(line);
                         }else {
                                 //dato l'indice della riga mi ritorna tutta la riga
-                                sequence =  player.getShipManager().getRow(line);
+                                sequence =  player.getShipManager().getComponentsAtRow(line);
                         }
 
                         //trovo l'indice del primo pezzo che verrà colpito
@@ -67,27 +52,24 @@ public class Pirates extends Attack implements CreditReward,FlightDayPenalty {
                                 index++;
                         }
 
+                        if(super.getDeck().getGameManager().getLevel()==1){
+                                index=index+4;
+                        }else{
+                                index=index+5;
+                        }
+
                         // in base alla grandezza del proiettile ho 2 comportamenti diversi
                         if(entry.getKey() == Projectile.SMALL){
-
-                                //if (entry.getValue()== shield.getOrientation()||entry.getValue()== Direction.values()[(shield.getOrientation().ordinal()+1)%4]){
-
-                                if(/*Controlla se c'è lo scudo girato nella direzione giusta altrimenti danno*/){
-                                        //trova lo scudo e chiede se attivarlo
+                                if (entry.getValue()== shield.getOrientation()||entry.getValue()== Direction.values()[(shield.getOrientation().ordinal()+1)%4]){
                                         System.out.println("Activate shield? 1 = yes");
                                         if (scanner.nextInt() == 1){
                                                 shield.activate();
                                         }
-                                        else{
-                                                //se il componente non ha il lato liscio che corrisponde alla direzione del proiettile subisce danno
-                                                if (componetHit.getTileEdges().get(rotation) != TileEdge.SMOOTH){
-                                                        if(entry.getValue()==Direction.UP||entry.getValue()==Direction.DOWN){
-                                                                player.getShipManager().removeComponentTile(index,line);
-                                                        }else {
-                                                                player.getShipManager().removeComponentTile(line,index);
-                                                        }
-                                                }
-
+                                }else{
+                                        if(entry.getValue()==Direction.UP||entry.getValue()==Direction.DOWN){
+                                                player.getShipManager().removeComponentTile(index,line);
+                                        }else {
+                                                player.getShipManager().removeComponentTile(line,index);
                                         }
                                 }
                         }else {//il proiettile è di tipo big quindi subisci danno in ogni caso
@@ -111,13 +93,11 @@ public class Pirates extends Attack implements CreditReward,FlightDayPenalty {
                                 for (Player player : players) {
 
                                         // Fai qualcosa con ogni player
-                                        if (player.getShipManager().calculateFirePower() < super.getFirePowerRequired()){//sto confrontando float con optional
+                                        if (player.getShipManager().calculateFirePower() < super.getFirePowerRequired()){
                                                 attack(player);
                                         }else{
-                                                System.out.println("Do you want to take the reward?");
-                                                // Legge la prima lettera inserita
-                                                /*yes*/
-                                                if(scanner.next() == "y"){
+                                                System.out.println("Do you want to take the reward? 1 = yes");
+                                                if(scanner.nextInt() == 1){
                                                         giveCreditReward(super.getCreditReward(),player);
                                                         applyFlightDayPenalty((Integer) super.getFlightDayPenalty().orElse(0), player);                                                        //add credits and apply flight day penalty
                                                 }else{/*no*/
@@ -140,7 +120,7 @@ public class Pirates extends Attack implements CreditReward,FlightDayPenalty {
         @Override
         public void applyFlightDayPenalty(int penalty, Player player) {
                 //metodo che fa andare indietro il giocatore
-                //super.getDeck().getGameManager().movePlayerBackwords(int,int)
+                super.getDeck().getGameManager().movePlayerBackwords(penalty,player.getPlayerID());
         }
 
         @Override
