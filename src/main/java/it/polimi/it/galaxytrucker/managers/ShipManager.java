@@ -4,25 +4,36 @@ import it.polimi.it.galaxytrucker.componenttiles.ComponentTile;
 import it.polimi.it.galaxytrucker.componenttiles.DoubleEngine;
 import it.polimi.it.galaxytrucker.componenttiles.OutOfBoundsTile;
 import it.polimi.it.galaxytrucker.componenttiles.SingleEngine;
+import it.polimi.it.galaxytrucker.componenttiles.SpecialCargoHold;
 import it.polimi.it.galaxytrucker.componenttiles.TileEdge;
+import it.polimi.it.galaxytrucker.crewmates.Crewmate;
+import it.polimi.it.galaxytrucker.componenttiles.BatteryComponent;
+import it.polimi.it.galaxytrucker.componenttiles.CabinModule;
+import it.polimi.it.galaxytrucker.componenttiles.CargoHold;
+import it.polimi.it.galaxytrucker.componenttiles.CentralCabin;
+import it.polimi.it.galaxytrucker.utility.Cargo;
+import it.polimi.it.galaxytrucker.utility.Color;
 import it.polimi.it.galaxytrucker.exceptions.IllegalComponentPositionException;
+import it.polimi.it.galaxytrucker.exceptions.InvalidActionException;
 
 import java.util.Set;
+import java.util.stream.IntStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.OptionalInt;
 
 /**
  * * colonna e riga con int
  * //ShipManager.toTileMatrixCoord();
  * //ShipManager.toBoardShipCoord();
  * 
- * * tenere solo coordinate di gioco
- * * rimuove crewmate: coord
- * * carico/scarico merci: addCargo(Set<Cargo>) -> cargo pieno cambiare (domani)
- * 
- * * consumo batteria (domani)
+ * //tenere solo coordinate di gioco
+ * //rimuove crewmate: coord
+ * //addCargo(int, int, Cargo)
+ * //removeCargo(int, int, Color)
+ * //removeBattery(int, int)
  */
 public class ShipManager {
     private ShipBoard ship;
@@ -83,6 +94,26 @@ public class ShipManager {
         return ShipManager.COLUMNS;
     }
 
+    public List<Optional<ComponentTile>> getComponentsAtRow(int row) throws IndexOutOfBoundsException {
+        int tileRow = this.toTileMatrixCoord(Optional.of(row), Optional.empty()).get(0).get();
+        List<Optional<ComponentTile>> components = new ArrayList<>();
+
+        for (int i = 0; i < ShipManager.COLUMNS; i++) {
+            components.add(ship.getComponent(tileRow, i));
+        }
+        return components;
+    }
+
+    public List<Optional<ComponentTile>> getComponentsAtColumn(int column) throws IndexOutOfBoundsException {
+        int tileColumn = this.toTileMatrixCoord(Optional.empty(), Optional.of(column)).get(0).get();
+        List<Optional<ComponentTile>> components = new ArrayList<>();
+
+        for (int i = 0; i < ShipManager.ROWS; i++) {
+            components.add(ship.getComponent(i, tileColumn));
+        }
+        return components;
+    }
+
     public Set<Class<? extends ComponentTile>> getAllComponentsType() {
         return ship.getAllComponentsTypes();
     }
@@ -91,7 +122,7 @@ public class ShipManager {
         return Optional.<Set<List<Integer>>>of(ship.getAllComponentsPositionOfType(componentType));
     }
 
-    public void addComponentTile(int row, int column, ComponentTile component) throws IndexOutOfBoundsException{
+    public void addComponentTile(int row, int column, ComponentTile component) throws IndexOutOfBoundsException {
         List<Integer> tileCoords = new ArrayList<>();
         tileCoords.add(this.toTileMatrixCoord(Optional.of(row), Optional.empty()).get(0).get());
         tileCoords.add(this.toTileMatrixCoord(Optional.empty(), Optional.of(column)).get(1).get());
@@ -99,12 +130,35 @@ public class ShipManager {
         try {
             ship.addComponentTile(tileCoords.get(0), tileCoords.get(1), component);
         } catch (IllegalComponentPositionException e) {
-            System.err.println(e);
+            System.err.println(e.getMessage());
         }
     }
 
-    public void removeComponentTile(int row, int column) {
-        //TODO e controllare anche branches
+    public void removeComponentTile(int row, int column) throws IndexOutOfBoundsException {
+        ComponentTile removedComponent;
+        List<Integer> tileCoords = new ArrayList<>();
+        tileCoords.add(this.toTileMatrixCoord(Optional.of(row), Optional.empty()).get(0).get());
+        tileCoords.add(this.toTileMatrixCoord(Optional.empty(), Optional.of(column)).get(1).get());
+
+        try {
+            removedComponent = ship.removeComponentTile(tileCoords.get(0), tileCoords.get(1));
+            this.discardedTile.add(removedComponent);
+        } catch (IllegalComponentPositionException e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
+    public void removeBranch(Set<List<Integer>> branch) {
+        Set<ComponentTile> removedBranch;
+
+        try {
+            removedBranch = ship.removeBranch(branch);
+            for (ComponentTile component : removedBranch) {
+                this.discardedTile.add(component);
+            }
+        } catch (IllegalComponentPositionException e) {
+            System.err.println(e.getMessage());
+        }
     }
 
     public boolean isShipLegal() {
@@ -192,6 +246,98 @@ public class ShipManager {
         }
 
         return true;
+    }
+
+    public void removeCrewmate(int row, int column) throws IllegalComponentPositionException, InvalidActionException {
+        List<Integer> tileCoords = new ArrayList<>();
+        tileCoords.add(this.toTileMatrixCoord(Optional.of(row), Optional.empty()).get(0).get());
+        tileCoords.add(this.toTileMatrixCoord(Optional.empty(), Optional.of(column)).get(1).get());
+
+        //check if is empty or it's not a cabin module
+        ComponentTile component = ship.getComponent(tileCoords.get(0), tileCoords.get(1))
+            .orElseThrow(() -> new IllegalComponentPositionException("There is no element here"));
+        if (!(component instanceof CentralCabin)) {
+            throw new IllegalComponentPositionException("Not a cabin module at [" + row + "][" + column + "]");
+        }
+
+        CentralCabin cabin = (CentralCabin) component;
+        cabin.removeCrewmate();
+    }
+
+    public void addCargo(int row, int column, Cargo cargo) throws IllegalComponentPositionException, InvalidActionException {
+        CargoHold cargoHoldComponent;
+        List<Integer> tileCoords = new ArrayList<>();
+        tileCoords.add(this.toTileMatrixCoord(Optional.of(row), Optional.empty()).get(0).get());
+        tileCoords.add(this.toTileMatrixCoord(Optional.empty(), Optional.of(column)).get(1).get());
+
+        //check if is empty
+        ComponentTile component = ship.getComponent(tileCoords.get(0), tileCoords.get(1))   
+            .orElseThrow(() -> new IllegalComponentPositionException("There is no element here"));
+        //check the cargo hold type depending on cargo specialty
+        if (cargo.isSpecial()) {
+            if (!component.getClass().equals(SpecialCargoHold.class)) {
+                throw new IllegalComponentPositionException("Not a special cargo hold module at [" + row + "][" + column + "]");
+            }
+            cargoHoldComponent = (SpecialCargoHold) component;
+        } else {
+            if (!(component instanceof CargoHold)) {
+                throw new IllegalComponentPositionException("Not a cargo hold module at [" + row + "][" + column + "]");
+            }
+            cargoHoldComponent = (CargoHold) component;
+        }
+
+        cargoHoldComponent.addCargo(cargo);
+    }
+
+    public void removeCargo(int row, int column, Color color) throws IllegalComponentPositionException, InvalidActionException {
+        CargoHold cargoHoldComponent;
+        List<Integer> tileCoords = new ArrayList<>();
+        tileCoords.add(this.toTileMatrixCoord(Optional.of(row), Optional.empty()).get(0).get());
+        tileCoords.add(this.toTileMatrixCoord(Optional.empty(), Optional.of(column)).get(1).get());
+
+        //check if is empty
+        ComponentTile component = ship.getComponent(tileCoords.get(0), tileCoords.get(1))   
+            .orElseThrow(() -> new IllegalComponentPositionException("There is no element here"));
+        //check the cargo hold type depending on cargo specialty
+        if (color.equals(Color.RED)) {
+            if (!component.getClass().equals(SpecialCargoHold.class)) {
+                throw new IllegalComponentPositionException("Not a special cargo hold module at [" + row + "][" + column + "]");
+            }
+            cargoHoldComponent = (SpecialCargoHold) component;
+        } else {
+            if (!(component instanceof CargoHold)) {
+                throw new IllegalComponentPositionException("Not a cargo hold module at [" + row + "][" + column + "]");
+            }
+            cargoHoldComponent = (CargoHold) component;
+        }
+
+        List<Cargo> cargo = cargoHoldComponent.getContainedCargo();
+        OptionalInt position = IntStream.range(0, cargo.size())
+            .filter(i -> cargo.get(i).getColor().equals(color))
+            .findFirst();
+
+        if (position.isPresent()) {
+            cargo.remove(position.getAsInt());
+        } else {
+            throw new InvalidActionException("There are not " + color + " cargo at [" + row + "][" + column + "]");
+        }
+    }
+
+    public void removeBattery(int row, int column) throws IllegalComponentPositionException, InvalidActionException {
+        BatteryComponent batteryComponent;
+        List<Integer> tileCoords = new ArrayList<>();
+        tileCoords.add(this.toTileMatrixCoord(Optional.of(row), Optional.empty()).get(0).get());
+        tileCoords.add(this.toTileMatrixCoord(Optional.empty(), Optional.of(column)).get(1).get());
+
+        //check if is empty or it's not a battery component
+        ComponentTile component = ship.getComponent(tileCoords.get(0), tileCoords.get(1))   
+            .orElseThrow(() -> new IllegalComponentPositionException("There is no element here"));
+        if (!component.getClass().equals(BatteryComponent.class)) {
+            throw new IllegalComponentPositionException("Not a battery hold module at [" + row + "][" + column + "]");
+        }
+
+        batteryComponent = (BatteryComponent) component;
+        batteryComponent.consumeEnergy();
     }
 
     public double calculateFirePower(int PlayerID){

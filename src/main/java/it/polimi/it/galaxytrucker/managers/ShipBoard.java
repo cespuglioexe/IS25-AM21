@@ -44,7 +44,7 @@ import java.util.stream.IntStream;
  * </pre>
  * 
  * @author Stefano Carletto
- * @version 1.0
+ * @version 1.1
  */
 public class ShipBoard {
     private List<List<Optional<ComponentTile>>> tileMatrix;
@@ -347,7 +347,6 @@ public class ShipBoard {
         this.componentTilesPosition.get(component.getClass()).add(List.of(row, column));
     }
 
-    //TODO RITORNARE COMPONENTE RIMOSSO
     /**
      * Removes the component from the specified position on the board.
      *
@@ -356,13 +355,14 @@ public class ShipBoard {
      * @return The removed component
      * @throws IllegalComponentPositionException If there is no component at the specified position.
      */
-    public void removeComponentTile(int row, int column) throws IllegalComponentPositionException {
+    public ComponentTile removeComponentTile(int row, int column) throws IllegalComponentPositionException {
         if (this.getComponent(row, column).isEmpty() || 
             (this.getComponent(row, column).isPresent() && this.getComponent(row, column).get().getClass().equals(OutOfBoundsTile.class))) {
             throw new IllegalComponentPositionException("There is no element here");
         }
 
-        Class<? extends ComponentTile> componentType = this.getComponent(row, column).get().getClass();
+        ComponentTile component = this.getComponent(row, column).get();
+        Class<? extends ComponentTile> componentType = component.getClass();
 
         Set<List<Integer>> positions = this.componentTilesPosition.get(componentType);
 
@@ -372,6 +372,8 @@ public class ShipBoard {
         if (positions.isEmpty()) {
             this.componentTilesPosition.remove(componentType);
         }
+
+        return component;
     }
 
     /**
@@ -384,13 +386,18 @@ public class ShipBoard {
      *
      * @param branch A set of coordinate pairs {@code (row, column)} representing the components 
      *               to be removed.
+     * @return A set containing all removed components
      * @throws IllegalComponentPositionException If the removal of a component at any given coordinate 
      *         is not allowed due to game rules or invalid positioning.
      */
-    public void removeBranch(Set<List<Integer>> branch) throws IllegalComponentPositionException {
+    public Set<ComponentTile> removeBranch(Set<List<Integer>> branch) throws IllegalComponentPositionException {
+        Set<ComponentTile> removedComponents = new HashSet<>();
         for (List<Integer> coord : branch) {
-            this.removeComponentTile(coord.get(0), coord.get(1));
+            ComponentTile removed = this.removeComponentTile(coord.get(0), coord.get(1));
+            removedComponents.add(removed);
         }
+
+        return removedComponents;
     }
 
     /**
