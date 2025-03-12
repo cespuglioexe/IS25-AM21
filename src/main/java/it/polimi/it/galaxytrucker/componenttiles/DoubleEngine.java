@@ -1,13 +1,17 @@
 package it.polimi.it.galaxytrucker.componenttiles;
 
+import it.polimi.it.galaxytrucker.observer.EnergyConsumptionEvent;
+
 /**
  * This class represents a Double Engine component tile.
  * Double Engines provide increased propulsion power but require activation.
+ * Activation consumes energy and provides a one-time propulsion boost.
  *
  * @author Giacomo Amaducci
- * @version 1.0
+ * @version 1.1
  */
 public class DoubleEngine extends SingleEngine implements EnergyConsumer {
+    /** Indicates whether the double engine is currently active */
     private boolean isActive;
 
     /**
@@ -25,19 +29,23 @@ public class DoubleEngine extends SingleEngine implements EnergyConsumer {
 
     /**
      * Activates the double engine if it is currently inactive.
+     * Activation triggers an {@code EnergyConsumptionEvent} and sets the engine to active.
      */
     @Override
     public void activate() {
-        if (!isActive)
+        if (!isActive) {
             isActive = true;
-        // CONSUME ENERGY ?
+            EnergyConsumptionEvent event = new EnergyConsumptionEvent();
+            this.publish(event);
+        }
     }
 
     /**
      * Returns the power of the engine.
-     * For double engines, this value is 2 if it is activated, 0 otherwise.
+     * If the engine was activated, it provides a power of 2 and then deactivates.
+     * If the engine was not activated, it returns 0.
      *
-     * @return an {@code int} representing the power of the engine
+     * @return {@code 2} if the engine was active, otherwise {@code 0}
      */
     @Override
     public int getEnginePower() {

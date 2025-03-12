@@ -2,6 +2,8 @@ package it.polimi.it.galaxytrucker.componenttiles;
 
 import it.polimi.it.galaxytrucker.exceptions.InvalidActionException;
 import it.polimi.it.galaxytrucker.utility.Cargo;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,6 +32,7 @@ public class CargoHold extends ComponentTile {
         super(top, right, bottom, left);
         containerNumber = containers;
         canHoldSpecialCargo = false;
+        containedCargo = new ArrayList<>();
     }
 
     /**
@@ -67,8 +70,10 @@ public class CargoHold extends ComponentTile {
      * @throws InvalidActionException if the index {@code i} is out of bounds
      */
     public Cargo removeCargo(int i) throws InvalidActionException {
+        if (containedCargo.isEmpty())
+            throw new InvalidActionException("CargoHold is empty");
         if (i < 0 || i >= containedCargo.size())
-            throw new InvalidActionException("CargoHold can't be empty when removing cargo");
+            throw new InvalidActionException("Index out of bounds");
         Cargo cargo = containedCargo.get(i);
         containedCargo.remove(i);
         return cargo;

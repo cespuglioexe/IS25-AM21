@@ -9,10 +9,8 @@ package it.polimi.it.galaxytrucker.componenttiles;
  */
 public class SingleEngine extends ComponentTile {
 
-    /**
-     * The power value of this engine.
-     */
-    private int enginePower;
+    /** The power value of this engine */
+    private final int enginePower;
 
     /**
      * Constructs a new {@code SingleEngine} with the specified edges.
@@ -24,7 +22,7 @@ public class SingleEngine extends ComponentTile {
      * @param left the type of the left edge of this tile
      */
     public SingleEngine(TileEdge top, TileEdge right, TileEdge bottom, TileEdge left) {
-        super(top, right, TileEdge.INCOMPATIBLE, left);
+        super(top, right, bottom, left);
         enginePower = 1;
     }
 

@@ -50,7 +50,5 @@ public abstract class AdventureCard<T> {
         return deck;
     }
 
-
-
     public abstract void play();
 }

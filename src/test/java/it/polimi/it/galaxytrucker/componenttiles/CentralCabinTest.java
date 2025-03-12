@@ -1,0 +1,128 @@
+package it.polimi.it.galaxytrucker.componenttiles;
+
+import it.polimi.it.galaxytrucker.crewmates.Alien;
+import it.polimi.it.galaxytrucker.crewmates.Crewmate;
+import it.polimi.it.galaxytrucker.crewmates.Human;
+import it.polimi.it.galaxytrucker.exceptions.InvalidActionException;
+import it.polimi.it.galaxytrucker.utility.AlienType;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+public class CentralCabinTest {
+
+    private CentralCabin cabin;
+    private Human human1;
+    private Human human2;
+    private Human human3;
+    private Alien alien;
+
+    @BeforeEach
+    public void setup() {
+        // Create a central cabin with all CONNECTOR edges
+        cabin = new CentralCabin(TileEdge.SMOOTH, TileEdge.SMOOTH,
+                TileEdge.SMOOTH, TileEdge.SMOOTH);
+
+        // Create test crewmates
+        human1 = new Human();
+        human2 = new Human();
+        human3 = new Human();
+        alien = new Alien(AlienType.PURPLEALIEN);
+    }
+
+    @Test
+    public void testAddOneHuman() throws InvalidActionException {
+        // Add one human to the cabin
+        cabin.addCrewmate(human1);
+
+        // Verify human was added
+        assertEquals(1, cabin.getCrewmates().size());
+        assertEquals(human1, cabin.getCrewmates().get(0));
+    }
+
+    @Test
+    public void testAddTwoHumans() throws InvalidActionException {
+        // Add two humans to the cabin
+        cabin.addCrewmate(human1);
+        cabin.addCrewmate(human2);
+
+        // Verify both humans were added
+        assertEquals(2, cabin.getCrewmates().size());
+        assertEquals(human1, cabin.getCrewmates().get(0));
+        assertEquals(human2, cabin.getCrewmates().get(1));
+    }
+
+    @Test
+    public void testAddThirdHuman() throws InvalidActionException {
+        // Add two humans to the cabin
+        cabin.addCrewmate(human1);
+        cabin.addCrewmate(human2);
+
+        // Attempt to add a third human should throw an exception
+        InvalidActionException exception = assertThrows(
+                InvalidActionException.class,
+                () -> cabin.addCrewmate(human3)
+        );
+
+        assertEquals("Cabin already full", exception.getMessage());
+        assertEquals(2, cabin.getCrewmates().size());
+    }
+
+    @Test
+    public void testRemoveCrewmate() throws InvalidActionException {
+        // Add two humans to the cabin
+        cabin.addCrewmate(human1);
+        cabin.addCrewmate(human2);
+
+        // Remove a crewmate and verify it's the first one
+        Crewmate removed = cabin.removeCrewmate();
+        assertEquals(human1, removed);
+        assertEquals(1, cabin.getCrewmates().size());
+        assertEquals(human2, cabin.getCrewmates().get(0));
+    }
+
+    @Test
+    public void testRemoveFromEmptyCabin() {
+        // Attempt to remove from an empty cabin should throw an exception
+        InvalidActionException exception = assertThrows(
+                InvalidActionException.class,
+                () -> cabin.removeCrewmate()
+        );
+
+        assertEquals("Cabin is empty", exception.getMessage());
+    }
+
+    @Test
+    public void testCantAddHumanWithAlien() throws Exception {
+        // This test requires that we add an Alien to the crewmates list directly
+        // since the public API doesn't allow adding aliens
+
+        // Add an alien to the crewmates list using reflection or for testing purposes
+        cabin.crewmates.add(alien);
+
+        // Attempt to add a human should throw an exception
+        InvalidActionException exception = assertThrows(
+                InvalidActionException.class,
+                () -> cabin.addCrewmate(human1)
+        );
+
+        assertEquals("Cabin contains Alien, can't add Human", exception.getMessage());
+        assertEquals(1, cabin.getCrewmates().size());
+        assertEquals(alien, cabin.getCrewmates().get(0));
+    }
+
+    @Test
+    public void testRemoveAndThenAddAgain() throws InvalidActionException {
+        // Add a human, remove it, then add another
+        cabin.addCrewmate(human1);
+        Crewmate removed = cabin.removeCrewmate();
+
+        assertEquals(human1, removed);
+        assertEquals(0, cabin.getCrewmates().size());
+
+        // Add another human
+        cabin.addCrewmate(human2);
+        assertEquals(1, cabin.getCrewmates().size());
+        assertEquals(human2, cabin.getCrewmates().get(0));
+    }
+}

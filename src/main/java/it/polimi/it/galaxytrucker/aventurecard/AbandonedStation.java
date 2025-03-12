@@ -11,9 +11,11 @@ import java.util.*;
 
 public class AbandonedStation extends AdventureCard implements Participation, CargoReward, FlightDayPenalty {
 
+    private CargoManager manager;
 
-    public AbandonedStation(Optional<List<Player>> partecipants, Optional<Integer> penalty, Optional<Integer> flightDayPenalty, Optional<Cargo> reward, int firePower, int creditReward, AdventureDeck deck) {
+    public AbandonedStation(Optional<List<Player>> partecipants, Optional<Integer> penalty, Optional<Integer> flightDayPenalty, Optional<Cargo> reward, int firePower, int creditReward, AdventureDeck deck, CargoManager manager) {
            super(partecipants, penalty, flightDayPenalty, reward,firePower, creditReward, deck);
+           this.manager = manager;
     }
 
 
@@ -33,12 +35,12 @@ public class AbandonedStation extends AdventureCard implements Participation, Ca
 
     @Override
     public void giveCargoReward(Set<Cargo> reward, Player player) {
-
+            manager.manageCargoAddition(reward, player);
     }
 
     @Override
     public void applyFlightDayPenalty(int penalty, Player player) {
-        //    super.getDeck().getGameManager().
+        super.getDeck().getGameManager().getFlightBoardState().movePlayerBackwards(penalty, player.getPlayerID());
     }
 
 
@@ -50,24 +52,22 @@ public class AbandonedStation extends AdventureCard implements Participation, Ca
         if (!players.isEmpty()) {
             int choise = 0;
             for (Player player : players) {
-
-                int nMin = (int)super.getPenalty().orElse(0);
-
-                if(player.getShipManager().calculateCrewmates(player.getPlayerID()) > nMin && choise==0 )  {
-
-                    System.out.println("Minimum number of crewmates:  " + nMin);
-                    System.out.print("Cargo: ");
-                    for (Cargo cargo : (Set<Cargo>) super.getReward().get()) {
-                        System.out.print(" " + cargo.getColor());
-                    }
-
-                    if (partecipate(player) == true && choise == 0) {
-                        giveCargoReward((Set<Cargo>) super.getReward().get(), player);
-                        applyFlightDayPenalty((int) super.getFlightDayPenalty().orElse(0), player);
-                        choise = 1;
-                    }
-                } else
-                    System.out.println("Player " + player.getPlayerID() + " doesn't have the minimum number of humans");
+                if (choise == 0) {
+                    int nMin = (int) super.getPenalty().orElse(0);
+                    if (player.getShipManager().countCrewmates() > nMin && choise == 0) {
+                        System.out.println("Minimum number of crewmates:  " + nMin);
+                        System.out.print("Cargo: ");
+                        for (Cargo cargo : (Set<Cargo>) super.getReward().get()) {
+                            System.out.print(" " + cargo.getColor());
+                        }
+                        if (partecipate(player) == true && choise == 0) {
+                            giveCargoReward((Set<Cargo>) super.getReward().get(), player);
+                            applyFlightDayPenalty((int) super.getFlightDayPenalty().orElse(0), player);
+                            choise = 1;
+                        }
+                    } else
+                        System.out.println("Player " + player.getPlayerID() + " doesn't have the minimum number of humans");
+                }
             }
         } else {
             System.out.println("No player can play this card");

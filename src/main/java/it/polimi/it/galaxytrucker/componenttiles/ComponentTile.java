@@ -1,5 +1,7 @@
 package it.polimi.it.galaxytrucker.componenttiles;
 
+import it.polimi.it.galaxytrucker.observer.EventPublisher;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,9 +11,9 @@ import java.util.List;
  * that can be rotated to connect with other tiles.
  *
  * @author Giacomo Amaducci
- * @version 1.0
+ * @version 1.1
  */
-public abstract class ComponentTile {
+public abstract class ComponentTile extends EventPublisher {
     /** The list of edges for this tile in the order: top, right, bottom, left */
     private final List<TileEdge> tileEdges;
 
@@ -53,13 +55,10 @@ public abstract class ComponentTile {
     /**
      * Returns the 4 edges of the tile, accounting for the tile's rotation.
      * <p>
-     * The rotation is achieved by splitting the list in two based on the rotation:
-     * (rotation = 1): [TOP, RIGHT, BOTTOM, LEFT] --> [TOP, RIGHT, BOTTOM], [LEFT]
-     * and then swapping the two sub-lists into a new list:
-     * [TOP, RIGHT, BOTTOM], [LEFT] --> [LEFT, TOP, RIGHT, BOTTOM]
+     * The edges are reordered based on the rotation value by splitting the list
+     * at the index {@code tileEdges.size() - rotation} and swapping the two parts.
      *
-     * @return a {@code List<TileEdge>} which is made by swapping the two sub-lists obtained by splitting
-     *         {@code tileEdges} at the position {@code tileEdges.size() - rotation}
+     * @return a {@code List<TileEdge>} representing the edges in their rotated order
      */
     public List<TileEdge> getTileEdges() {
         List<TileEdge> rotatedEdges = new ArrayList<>(4);
