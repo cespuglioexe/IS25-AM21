@@ -38,10 +38,6 @@ public class Player {
         return shipManager;
     }
 
-    public void setCredits(int credits) {
-        this.credits = credits;
-    }
-
     public void addCredits(int credits) {
         this.credits = this.credits + credits;
     }

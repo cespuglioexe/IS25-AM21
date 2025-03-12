@@ -9,7 +9,6 @@ import it.polimi.it.galaxytrucker.managers.Player;
 import it.polimi.it.galaxytrucker.managers.ShipManager;
 import it.polimi.it.galaxytrucker.utility.Direction;
 import it.polimi.it.galaxytrucker.utility.Projectile;
-import org.junit.Test;
 
 
 import java.util.*;
@@ -23,15 +22,12 @@ public class Pirates extends Attack implements CreditReward,FlightDayPenalty {
 
 
         @Override
-        public void attack() {
+        public void attack(Player player) {
                 int rotation=0;
                 int line,col=0,row=0, index=0;
                 ComponentTile componetHit = null;
                 List<Optional<ComponentTile>> sequence;
-                List<Player> players = super.getPartecipants().stream().toList();
                 Map<Projectile, Direction> cannonate = getProjectiles();
-
-
 
                 for(Map.Entry<Projectile, Direction> entry : cannonate.entrySet()) {
                         System.out.println(entry.getKey() + " " + entry.getValue());
@@ -56,10 +52,10 @@ public class Pirates extends Attack implements CreditReward,FlightDayPenalty {
                         //recupera la colonna/riga in cui c'è il proiettile
                         if(entry.getValue()==Direction.UP||entry.getValue()==Direction.DOWN){
                                 //dato l'indice della colonna mi ritorna tutta la colonna
-                                sequence =  players.getFirst().getShipManager().getColumn(line);
+                                sequence =  player.getShipManager().getColumn(line);
                         }else {
                                 //dato l'indice della riga mi ritorna tutta la riga
-                                sequence =  players.getFirst().getShipManager().getRow(line);
+                                sequence =  player.getShipManager().getRow(line);
                         }
 
                         //trovo l'indice del primo pezzo che verrà colpito
@@ -86,9 +82,9 @@ public class Pirates extends Attack implements CreditReward,FlightDayPenalty {
                                                 //se il componente non ha il lato liscio che corrisponde alla direzione del proiettile subisce danno
                                                 if (componetHit.getTileEdges().get(rotation) != TileEdge.SMOOTH){
                                                         if(entry.getValue()==Direction.UP||entry.getValue()==Direction.DOWN){
-                                                                removeComponent(index,line);
+                                                                player.getShipManager().removeComponentTile(index,line);
                                                         }else {
-                                                                removeComponent(line,index);
+                                                                player.getShipManager().removeComponentTile(line,index);
                                                         }
                                                 }
 
@@ -96,9 +92,9 @@ public class Pirates extends Attack implements CreditReward,FlightDayPenalty {
                                 }
                         }else {//il proiettile è di tipo big quindi subisci danno in ogni caso
                                 if(entry.getValue()==Direction.UP||entry.getValue()==Direction.DOWN){
-                                        removeComponent(index,line);
+                                        player.getShipManager().removeComponentTile(index,line);
                                 }else {
-                                        removeComponent(line,index);
+                                        player.getShipManager().removeComponentTile(line,index);
                                 }
                         }
                 }
@@ -115,14 +111,14 @@ public class Pirates extends Attack implements CreditReward,FlightDayPenalty {
                                 for (Player player : players) {
 
                                         // Fai qualcosa con ogni player
-                                        if (player.getShipManager().calculateFirePower(player.getPlayerID()) < super.getFirePowerRequired()){//sto confrontando float con optional
-                                                attack();
+                                        if (player.getShipManager().calculateFirePower() < super.getFirePowerRequired()){//sto confrontando float con optional
+                                                attack(player);
                                         }else{
                                                 System.out.println("Do you want to take the reward?");
                                                 // Legge la prima lettera inserita
                                                 /*yes*/
                                                 if(scanner.next() == "y"){
-                                                        giveCreditReward(getCreditReward(),player);
+                                                        giveCreditReward(super.getCreditReward(),player);
                                                         applyFlightDayPenalty((Integer) super.getFlightDayPenalty().orElse(0), player);                                                        //add credits and apply flight day penalty
                                                 }else{/*no*/
 
@@ -138,25 +134,19 @@ public class Pirates extends Attack implements CreditReward,FlightDayPenalty {
                 } else {
                         // L'Optional è vuoto, gestisci il caso
                 }
-
-
         }
 
 
         @Override
         public void applyFlightDayPenalty(int penalty, Player player) {
                 //metodo che fa andare indietro il giocatore
-                //super.getDeck().getGameManager().
+                //super.getDeck().getGameManager().movePlayerBackwords(int,int)
         }
 
         @Override
         public void giveCreditReward(int reward, Player player) {
-                player.setCredits(reward);
+                player.addCredits(reward);
         }
-
-
-
-
 
 }
 

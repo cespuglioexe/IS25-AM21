@@ -22,7 +22,7 @@ public abstract class Attack extends AdventureCard {
     }
 
     //ho bisogno si sapere quale player viene attaccato soprattutto nelle carte in cui devo attaccare più players
-    public abstract void attack();
+    public abstract void attack(Player player);
 
     public int rollDice(){
         int level = super.getDeck().getGameManager().getLevel();

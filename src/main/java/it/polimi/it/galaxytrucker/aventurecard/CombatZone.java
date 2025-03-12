@@ -13,9 +13,9 @@ import it.polimi.it.galaxytrucker.utility.Projectile;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Scanner;
 
 public class CombatZone extends Attack implements FlightDayPenalty, CrewmatePenalty{
-    private List<Player> players = super.getPartecipants().stream().toList();
     private final int FLYPENALTY = 3;
     private final int CREWPENALTY = 2;
 
@@ -32,15 +32,21 @@ public class CombatZone extends Attack implements FlightDayPenalty, CrewmatePena
 
     @Override
     public void applyFlightDayPenalty(int penalty, Player player) {
-       // super.getDeck().getGameManager().
+       // super.getDeck().getGameManager().movePlayerBackwords(int, int)
     }
 
     @Override
     public void play() {
-
-
-
         //controllo equipaggio
+        List<Player> players = super.getPartecipants().stream().toList();
+        Player temp;
+        for (int i=0;i<players.size();i++) {
+            if(players.get(i).getShipManager().countCrewmates()<players.get(i+1).getShipManager().countCrewmates()){
+                temp = players.get(i);
+            }
+        }
+
+        /*
         if(players.get(0).getShipManager().calculateCrewmates(players.get(0).getPlayerID())< players.get(1).getShipManager().calculateCrewmates(players.get(1).getPlayerID())){
             applyFlightDayPenalty(FLYPENALTY, players.get(0));
         }else{
@@ -54,24 +60,24 @@ public class CombatZone extends Attack implements FlightDayPenalty, CrewmatePena
             applyCrewmatePenalty(CREWPENALTY,players.get(1));
         }
 
-
+        if(player.getShipManager().calculateFirePower(players.get(0).getPlayerID())< players.get(1).getShipManager().calculateEnginePower(players.get(1).getPlayerID())){
+            player = player.getFirst();
+        }else{
+            player = players.get(1);
+        }
+        */
 
 
     }
 
     @Override
-    public void attack() {
+    public void attack(Player player) {
+        Scanner scanner = new Scanner(System.in);
         ComponentTile componetHit = null;
         List<Optional<ComponentTile>> sequence;
         int line,rotation,index=0;
         Map<Projectile, Direction> projectiles = super.getProjectiles();
-        Player player;
 
-        if(players.get(0).getShipManager().calculateFirePower(players.get(0).getPlayerID())< players.get(1).getShipManager().calculateEnginePower(players.get(1).getPlayerID())){
-            player = players.getFirst();
-        }else{
-            player = players.get(1);
-        }
 
 
 
@@ -115,15 +121,15 @@ public class CombatZone extends Attack implements FlightDayPenalty, CrewmatePena
                     //trova lo scudo e chiede se attivarlo
                     System.out.println("Activate shield? 1 = yes");
                     if (scanner.nextInt() == 1){
-                        shield.activate();
+                        player.getShipManager().activateShield();
                     }
                     else{
                         //se il componente non ha il lato liscio che corrisponde alla direzione del proiettile subisce danno
                         if (componetHit.getTileEdges().get(rotation) != TileEdge.SMOOTH){
                             if(entry.getValue()==Direction.UP||entry.getValue()==Direction.DOWN){
-                                removeComponent(index,line);
+                                player.getShipManager().removeComponentTile(index,line);
                             }else {
-                                removeComponent(line,index);
+                                player.getShipManager().removeComponentTile(line,index);
                             }
                         }
 
@@ -131,9 +137,9 @@ public class CombatZone extends Attack implements FlightDayPenalty, CrewmatePena
                 }
             }else{
                 if(entry.getValue()==Direction.UP||entry.getValue()==Direction.DOWN){
-                    removeComponent(index,line);
+                    player.getShipManager().removeComponentTile(index,line);
                 }else {
-                    removeComponent(line,index);
+                    player.getShipManager().removeComponentTile(line,index);
                 }
             }
         }

@@ -340,17 +340,17 @@ public class ShipManager {
         batteryComponent.consumeEnergy();
     }
 
-    public double calculateFirePower(int PlayerID){
+    public double calculateFirePower(){
         double firePower = 0;
         return firePower;
     }
 
-    public int calculateCrewmates(int PlayerID) {
+    public int countCrewmates() {
         int crewmates = 0;
         return crewmates;
     }
 
-    public int calculateEnginePower(int PlayerID) {
+    public int calculateEnginePower() {
         int enginePower = 0;
         return enginePower;
     }
