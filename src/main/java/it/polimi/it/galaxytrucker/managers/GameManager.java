@@ -8,6 +8,7 @@ import java.util.List;
 
 public class GameManager {
 
+    private FlightBoardState flightBoardState;
 
     
     public void makeComponentTilePool() {
@@ -20,6 +21,10 @@ public class GameManager {
         } catch (IOException e) {
             System.err.println("Failed to load tiles: " + e.getMessage());
         }
+    }
+
+    public FlightBoardState getFlightBoardState() {
+        return flightBoardState;
     }
 
     // INIZIO IMPLEMENTAZIONE LUNEDI

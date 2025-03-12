@@ -27,9 +27,7 @@ public class Planet extends AdventureCard implements Participation, CargoReward,
 
     @Override
     public void applyFlightDayPenalty(int penalty, Player player) {
-
-    //    super.getDeck().getGameManager().
-
+       super.getDeck().getGameManager().getFlightBoardState().movePlayerBackwards(penalty, player.getPlayerID());
     }
 
     @Override
