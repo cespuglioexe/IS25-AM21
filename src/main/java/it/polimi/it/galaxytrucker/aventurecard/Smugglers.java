@@ -30,10 +30,26 @@ public class Smugglers extends AdventureCard implements CargoReward, CargoPenalt
     }
 
     @Override
-    public void applyFlightDayPenalty(int penalty, Player player) {
+        public void applyFlightDayPenalty(int penalty, Player player) {
             // chiedere il numero di giorni persi
     }
 
+
+    private boolean selection(Player player) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Cargo: ");
+        for (Cargo cargo : (Set<Cargo>) super.getReward().get()) {
+            System.out.print(" " + cargo.getColor());
+        }
+        System.out.println("Do you want to retire the load losing days of travel? :");
+        System.out.println("1. Yes");
+        System.out.println("2. No");
+        int choice = scanner.nextInt();
+        if(choice == 1){
+            return true;
+        }
+        return false;
+    }
 
     @Override
     public void play() {
@@ -43,32 +59,31 @@ public class Smugglers extends AdventureCard implements CargoReward, CargoPenalt
             List<Player> players = (List<Player>) super.getPartecipants().orElse(Collections.emptyList());
             if (!players.isEmpty()) {
 
-                    // !!!!!! Ogni giocatore deve decidere se prendere il bottino rinunciando a giorni di viaggio
+                int lost = 0;
 
-    //            int choise = 0;
-    //            for (Player player : players) {
-    //
-    //                int nMin = (int)super.getPenalty().orElse(0);
-    //
-    //                if(player.getShipManager().calculateCrewmates(player.getPlayerID()) > nMin && choise==0 )  {
-    //
-    //                    System.out.println("Minimum number of crewmates:  " + nMin);
-    //                    System.out.print("Credits: " + getCreditReward());
-    //
-    //                    if (partecipate(player) == true && choise == 0) {
-    //                        giveCreditReward(getCreditReward(), player);
-    //                        applyFlightDayPenalty((int) super.getFlightDayPenalty().orElse(0), player);
-    //                        applyCrewmatePenalty((int) super.getPenalty().orElse(0), player);
-    //                        choise = 1;
-    //                    }
-    //                } else
-    //                    System.out.println("Player " + player.getPlayerID() + " doesn't have the minimum number of humans");
-    //            }
+                System.out.println("Smugglers require a firepower of" +super.getFirePowerRequired());
+                for (Player player : players) {
+
+                    if(lost == 0) {
+                        if (player.getShipManager().calculateEnginePower(player.getPlayerID()) < super.getFirePowerRequired()) {
+                            applyPenalty((int) super.getPenalty().orElse(0), player);
+                        } else {
+                            if (player.getShipManager().calculateEnginePower(player.getPlayerID()) > super.getFirePowerRequired()) {
+                                System.out.println("Player " + player.getPlayerID() + "  defeated the smugglers");
+                                lost = 1;
+                                if (selection(player)) {
+                                    applyFlightDayPenalty((int) super.getFlightDayPenalty().orElse(0), player);
+                                    giveCargoReward((Set<Cargo>) super.getReward().get(), player);
+                                }
+                            }
+                        }
+                    }
+                }
 
 
             } else {
                 System.out.println("No player can play this card");
-        }
+            }
 
 
     }
