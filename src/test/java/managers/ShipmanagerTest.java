@@ -23,7 +23,6 @@ import it.polimi.it.galaxytrucker.crewmates.Human;
 import it.polimi.it.galaxytrucker.crewmates.Alien;
 import it.polimi.it.galaxytrucker.exceptions.IllegalComponentPositionException;
 import it.polimi.it.galaxytrucker.exceptions.InvalidActionException;
-import it.polimi.it.galaxytrucker.managers.ShipBoard;
 import it.polimi.it.galaxytrucker.managers.ShipManager;
 import it.polimi.it.galaxytrucker.utility.AlienType;
 import it.polimi.it.galaxytrucker.utility.Color;
