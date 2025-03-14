@@ -85,6 +85,11 @@ public class Pirates extends Attack implements CreditReward,FlightDayPenalty {
         }
 
         @Override
+        public void meteorStorm(Player player, int line, Map.Entry<Projectile, Direction> projectiles) {
+
+        }
+
+        @Override
         public void play() {
                 if (super.getPartecipants().isPresent()) {
                         List<Player> players = super.getPartecipants().stream().toList();

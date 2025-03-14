@@ -32,7 +32,7 @@ public class CombatZone extends Attack implements FlightDayPenalty, CrewmatePena
 
     @Override
     public void applyFlightDayPenalty(int penalty, Player player) {
-       // super.getDeck().getGameManager().movePlayerBackwords(int, int)
+        super.getDeck().getGameManager().
     }
 
     @Override
@@ -129,6 +129,10 @@ public class CombatZone extends Attack implements FlightDayPenalty, CrewmatePena
         }
     }
 
+    @Override
+    public void meteorStorm(Player player, int line, Map.Entry<Projectile, Direction> projectiles) {
+
+    }
 
 
 }

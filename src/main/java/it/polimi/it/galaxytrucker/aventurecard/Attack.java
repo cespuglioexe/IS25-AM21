@@ -23,6 +23,8 @@ public abstract class Attack extends AdventureCard {
 
     //ho bisogno si sapere quale player viene attaccato soprattutto nelle carte in cui devo attaccare più players
     public abstract void attack(Player player);
+    public abstract void meteorStorm(Player player, int line, Map.Entry<Projectile, Direction> projectiles);
+
 
     public int rollDice(){
         int level = super.getDeck().getGameManager().getLevel();

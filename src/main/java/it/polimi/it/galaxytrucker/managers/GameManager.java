@@ -8,6 +8,7 @@ import java.util.List;
 
 public class GameManager {
     int level;
+    FlightBoardState flightBoardState;
 
     public GameManager(int level) {
         this.level = level;
@@ -27,6 +28,10 @@ public class GameManager {
 
     public int getLevel(){
         return level;
+    }
+
+    public FlightBoardState getFlightBoardState() {
+        return flightBoardState;
     }
 
     // INIZIO IMPLEMENTAZIONE LUNEDI
