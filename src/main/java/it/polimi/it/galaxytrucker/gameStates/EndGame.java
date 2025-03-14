@@ -1,9 +1,8 @@
 package it.polimi.it.galaxytrucker.gameStates;
 
-import java.util.List;
+import java.util.Map;
 
 public interface EndGame {
-    int countPlayerCredits(int PlayerID);
-    List<Integer> makeLeaderboard();
+    Map<Integer, Integer> calculateFinalScores();
 
 }
