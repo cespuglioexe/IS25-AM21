@@ -23,7 +23,6 @@ import it.polimi.it.galaxytrucker.crewmates.Human;
 import it.polimi.it.galaxytrucker.crewmates.Alien;
 import it.polimi.it.galaxytrucker.exceptions.IllegalComponentPositionException;
 import it.polimi.it.galaxytrucker.exceptions.InvalidActionException;
-import it.polimi.it.galaxytrucker.managers.ShipBoard;
 import it.polimi.it.galaxytrucker.managers.ShipManager;
 import it.polimi.it.galaxytrucker.utility.AlienType;
 import it.polimi.it.galaxytrucker.utility.Color;
@@ -515,7 +514,7 @@ public class ShipManagerTest {
         /*
          *  4  5  6  7  8  9 10
          * 5        [ ]
-         * 6     [ ][ ][ ]
+         * 6     [ ][c][ ]
          * 7  [ ][ ][x][ ][ ]
          * 8  [ ][ ][ ][ ][ ]
          * 9  [ ][ ]   [ ][ ]
@@ -1240,5 +1239,173 @@ public class ShipManagerTest {
         }
 
         assertEquals(24, ship.countAllExposedConnectors());
+    }
+
+    @Test
+    void countHumansNoCabinTest() {
+        ShipManager ship = new ShipManager(1);
+
+        /*
+         *  4  5  6  7  8  9 10
+         * 5        [ ]
+         * 6     [ ][ ][ ]
+         * 7  [ ][ ][x][ ][ ]
+         * 8  [ ][ ][ ][ ][ ]
+         * 9  [ ][ ]   [ ][ ]
+         * 
+         * Where x stands for CentralCabin which has all TileEdge.UNIVERSAL connectors
+         * 
+        */
+
+        assertEquals(0, ship.countHumans());
+    }
+
+    @Test
+    void countHumansNoHumansTest() {
+        ShipManager ship = new ShipManager(1);
+
+        CabinModule cabin = new CabinModule(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE);
+        LifeSupport lifeSupport = new LifeSupport(AlienType.PURPLEALIEN, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE);
+
+        Alien alien = new Alien(AlienType.PURPLEALIEN);
+
+        /*
+         *  4  5  6  7  8  9 10
+         * 5        [ ]
+         * 6     [ ][c][l]
+         * 7  [ ][ ][x][ ][ ]
+         * 8  [ ][ ][ ][ ][ ]
+         * 9  [ ][ ]   [ ][ ]
+         * 
+         * Where c stands for cabinModule
+         * Where l stands for LifeSupport
+         * Where x stands for CentralCabin which has all TileEdge.UNIVERSAL connectors
+         * 
+        */
+
+        ship.addComponentTile(6, 7, cabin);
+        ship.addComponentTile(6, 8, lifeSupport);
+
+        ship.addCrewmate(6, 7, alien);
+
+        assertEquals(0, ship.countHumans());
+    }
+
+    @Test
+    void countHumansTest() {
+        ShipManager ship = new ShipManager(1);
+        CabinModule cabin = new CabinModule(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE);
+
+        Human crewmate = new Human();
+
+        /*
+         *  4  5  6  7  8  9 10
+         * 5        [ ]
+         * 6     [ ][c][ ]
+         * 7  [ ][ ][x][ ][ ]
+         * 8  [ ][ ][ ][ ][ ]
+         * 9  [ ][ ]   [ ][ ]
+         * 
+         * Where c stands for cabinModule
+         * Where x stands for CentralCabin which has all TileEdge.UNIVERSAL connectors
+         * 
+        */
+
+        ship.addComponentTile(6, 7, cabin);
+        
+        ship.addCrewmate(7, 7, crewmate);
+        ship.addCrewmate(6, 7, crewmate);
+
+        assertEquals(2, ship.countHumans());
+    }
+
+    @Test
+    void countCrewmatesNoCrewmatesTest() {
+        ShipManager ship = new ShipManager(1);
+
+        CabinModule cabin = new CabinModule(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE);
+        LifeSupport lifeSupport = new LifeSupport(AlienType.PURPLEALIEN, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE);
+
+        /*
+         *  4  5  6  7  8  9 10
+         * 5        [ ]
+         * 6     [ ][c][l]
+         * 7  [ ][ ][x][ ][ ]
+         * 8  [ ][ ][ ][ ][ ]
+         * 9  [ ][ ]   [ ][ ]
+         * 
+         * Where c stands for cabinModule
+         * Where l stands for LifeSupport
+         * Where x stands for CentralCabin which has all TileEdge.UNIVERSAL connectors
+         * 
+        */
+
+        ship.addComponentTile(6, 7, cabin);
+        ship.addComponentTile(6, 8, lifeSupport);
+
+        assertEquals(0, ship.countCrewmates());
+    }
+
+    @Test
+    void countCrewmatesOnlyHumanstest() {
+        ShipManager ship = new ShipManager(1);
+
+        CabinModule cabin = new CabinModule(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE);
+        LifeSupport lifeSupport = new LifeSupport(AlienType.PURPLEALIEN, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE);
+
+        Human human = new Human();
+
+        /*
+         *  4  5  6  7  8  9 10
+         * 5        [ ]
+         * 6     [ ][c][l]
+         * 7  [ ][ ][x][ ][ ]
+         * 8  [ ][ ][ ][ ][ ]
+         * 9  [ ][ ]   [ ][ ]
+         * 
+         * Where c stands for cabinModule
+         * Where l stands for LifeSupport
+         * Where x stands for CentralCabin which has all TileEdge.UNIVERSAL connectors
+         * 
+        */
+
+        ship.addComponentTile(6, 7, cabin);
+        ship.addComponentTile(6, 8, lifeSupport);
+
+        ship.addCrewmate(7, 7, human);
+        ship.addCrewmate(7, 7, human);
+
+        assertEquals(2, ship.countCrewmates());
+    }
+
+    @Test
+    void countCrewmatesOnlyAliensTest() {
+        ShipManager ship = new ShipManager(1);
+
+        CabinModule cabin = new CabinModule(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE);
+        LifeSupport lifeSupport = new LifeSupport(AlienType.PURPLEALIEN, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE);
+
+        Alien alien = new Alien(AlienType.PURPLEALIEN);
+
+        /*
+         *  4  5  6  7  8  9 10
+         * 5        [ ]
+         * 6     [ ][c][l]
+         * 7  [ ][ ][x][ ][ ]
+         * 8  [ ][ ][ ][ ][ ]
+         * 9  [ ][ ]   [ ][ ]
+         * 
+         * Where c stands for cabinModule
+         * Where l stands for LifeSupport
+         * Where x stands for CentralCabin which has all TileEdge.UNIVERSAL connectors
+         * 
+        */
+
+        ship.addComponentTile(6, 7, cabin);
+        ship.addComponentTile(6, 8, lifeSupport);
+
+        ship.addCrewmate(6, 7, alien);
+
+        assertEquals(1, ship.countCrewmates());
     }
 }

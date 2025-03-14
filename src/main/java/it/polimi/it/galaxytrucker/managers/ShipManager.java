@@ -4,10 +4,12 @@ import it.polimi.it.galaxytrucker.componenttiles.ComponentTile;
 import it.polimi.it.galaxytrucker.componenttiles.DoubleEngine;
 import it.polimi.it.galaxytrucker.componenttiles.LifeSupport;
 import it.polimi.it.galaxytrucker.componenttiles.OutOfBoundsTile;
+import it.polimi.it.galaxytrucker.componenttiles.SingleCannon;
 import it.polimi.it.galaxytrucker.componenttiles.SingleEngine;
 import it.polimi.it.galaxytrucker.componenttiles.SpecialCargoHold;
 import it.polimi.it.galaxytrucker.componenttiles.TileEdge;
 import it.polimi.it.galaxytrucker.crewmates.Alien;
+import it.polimi.it.galaxytrucker.crewmates.Crewmate;
 import it.polimi.it.galaxytrucker.crewmates.Human;
 import it.polimi.it.galaxytrucker.componenttiles.BatteryComponent;
 import it.polimi.it.galaxytrucker.componenttiles.CabinModule;
@@ -676,18 +678,100 @@ public class ShipManager {
         return exposedConnectors;
     }
 
-    public double calculateFirePower(){
-        double firePower = 0;
-        return firePower;
+    /**
+     * Counts the total number of human crewmates aboard the ship.
+     *
+     * <p>This method iterates through all {@link CentralCabin} and {@link CabinModule} components
+     * to count the number of human crewmates present. A crewmate is considered human if 
+     * they do not require life support.</p>
+     *
+     * <p>The method first collects all crewmates in {@link CentralCabin} components, as they are 
+     * exclusively human. Then, it checks each crewmate in {@link CabinModule} components and 
+     * includes only those that do not require life support.</p>
+     *
+     * @return The total number of human crewmates aboard the ship.
+     */
+    public int countHumans() {
+        Set<List<Integer>> centralCabinsCoords = this.getAllComponentsPositionOfType(CentralCabin.class);
+        Set<List<Integer>> cabinCoords  = this.getAllComponentsPositionOfType(CabinModule.class);
+        int humans = 0;
+
+        for (List<Integer> coord : centralCabinsCoords) {
+            CentralCabin cabin = (CentralCabin) this.getComponent(coord.get(0), coord.get(1)).get();
+
+            humans += cabin.getCrewmates().size();
+        }
+
+        for (List<Integer> coord : cabinCoords) {
+            CabinModule cabin = (CabinModule) this.getComponent(coord.get(0), coord.get(1)).get();
+
+            List<Crewmate> crewmates = cabin.getCrewmates();
+            for (Crewmate crewmate : crewmates) {
+                if (!crewmate.requiresLifeSupport()) {
+                    humans++;
+                }
+            }
+        }
+        return humans;
     }
 
+    /**
+     * Counts the total number of crewmates aboard the ship.
+     *
+     * <p>This method iterates through all {@link CentralCabin} and {@link CabinModule} components
+     * to count the number of crewmates present. Crewmates can be either human or alien.</p>
+     *
+     * <p>The method first collects all crewmates from {@link CentralCabin} components, then 
+     * continues by counting those in {@link CabinModule} components.</p>
+     *
+     * @return The total number of crewmates aboard the ship.
+     */
     public int countCrewmates() {
+        Set<List<Integer>> centralCabinsCoords = this.getAllComponentsPositionOfType(CentralCabin.class);
+        Set<List<Integer>> cabinCoords  = this.getAllComponentsPositionOfType(CabinModule.class);
         int crewmates = 0;
+
+        for (List<Integer> coord : centralCabinsCoords) {
+            CentralCabin cabin = (CentralCabin) this.getComponent(coord.get(0), coord.get(1)).get();
+
+            crewmates += cabin.getCrewmates().size();
+        }
+
+        for (List<Integer> coord : cabinCoords) {
+            CabinModule cabin = (CabinModule) this.getComponent(coord.get(0), coord.get(1)).get();
+
+            crewmates += cabin.getCrewmates().size();
+        }
         return crewmates;
     }
 
+    public double calculateFirePower(){
+        Set<List<Integer>> singleCannonCords = this.getAllComponentsPositionOfType(CentralCabin.class);
+        double baseFirePower = 0;
+        double additionalFirePower = 0;
+
+        for (List<Integer> coord : singleCannonCords) {
+            SingleCannon cannon = (SingleCannon) this.getComponent(coord.get(0), coord.get(1)).get();
+
+            baseFirePower += cannon.getFirePower();
+        }
+
+        //TODO: CAMBIARE STATO E OTTENERE COMPONENTI SCARTANDO ENERGIA
+        return baseFirePower + additionalFirePower;
+    }
+
     public int calculateEnginePower() {
-        int enginePower = 0;
-        return enginePower;
+        Set<List<Integer>> singleEngineCoords = this.getAllComponentsPositionOfType(SingleEngine.class);
+        int baseEnginePower = 0;
+        int additionalEnginePower = 0;
+
+        for (List<Integer> coord : singleEngineCoords) {
+            SingleEngine engine = (SingleEngine) this.getComponent(coord.get(0), coord.get(1)).get();
+
+            baseEnginePower += engine.getEnginePower();
+        }
+
+        //TODO: CAMBIARE STATO E OTTENERE COMPONENTI SCARTANDO ENERGIA
+        return baseEnginePower + additionalEnginePower;
     }
 }
