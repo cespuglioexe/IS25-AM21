@@ -4,16 +4,14 @@ package it.polimi.it.galaxytrucker.aventurecard;
 import it.polimi.it.galaxytrucker.cardEffects.CrewmatePenalty;
 import it.polimi.it.galaxytrucker.cardEffects.FlightDayPenalty;
 import it.polimi.it.galaxytrucker.componenttiles.ComponentTile;
+import it.polimi.it.galaxytrucker.componenttiles.Shield;
 import it.polimi.it.galaxytrucker.componenttiles.TileEdge;
 import it.polimi.it.galaxytrucker.crewmates.Crewmate;
 import it.polimi.it.galaxytrucker.managers.Player;
 import it.polimi.it.galaxytrucker.utility.Direction;
 import it.polimi.it.galaxytrucker.utility.Projectile;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Scanner;
+import java.util.*;
 
 public class CombatZone extends Attack implements FlightDayPenalty, CrewmatePenalty{
     private final int FLYPENALTY = 3;
@@ -27,12 +25,12 @@ public class CombatZone extends Attack implements FlightDayPenalty, CrewmatePena
 
     @Override
     public void applyCrewmatePenalty(int penalty, Player player) {
-       // super.getDeck().getGameManager().
+        //super.getDeck().
     }
 
     @Override
     public void applyFlightDayPenalty(int penalty, Player player) {
-        super.getDeck().getGameManager().
+        super.getDeck().getGameManager().getFlightBoardState().movePlayerBackwards(penalty, player.getPlayerID());
     }
 
     @Override
@@ -72,8 +70,12 @@ public class CombatZone extends Attack implements FlightDayPenalty, CrewmatePena
         Scanner scanner = new Scanner(System.in);
         ComponentTile componetHit = null;
         List<Optional<ComponentTile>> sequence;
-        int line,index=0;
+        int line,index=0,y=0;
         Map<Projectile, Direction> projectiles = super.getProjectiles();
+        List<ComponentTile> listScudi = null;
+        List<Shield> shield = null;
+
+
 
         for (Map.Entry<Projectile, Direction> entry : projectiles.entrySet()) {
             line=super.rollDice();
@@ -105,20 +107,38 @@ public class CombatZone extends Attack implements FlightDayPenalty, CrewmatePena
             }
 
             if (entry.getKey()==Projectile.SMALL){
-                if(/*Controlla se c'è lo scudo girato nella direzione giusta altrimenti danno*/){
-                    //trova lo scudo e chiede se attivarlo
-                    System.out.println("Activate shield? 1 = yes");
-                    if (scanner.nextInt() == 1){
-                        player.getShipManager().activateShield();
+            //con le cannonate controllo subito gli scudi
+                    Set<List<Integer>> posizioniScudi = player.getShipManager().getAllComponentsPositionOfType(Shield.class);
+                    for (List<Integer> liste:posizioniScudi) {
+                        listScudi = player.getShipManager().getComponent(liste.getFirst(),liste.get(1)).stream().toList();
                     }
-                    else{
-                        if(entry.getValue()==Direction.UP||entry.getValue()==Direction.DOWN){
-                            player.getShipManager().removeComponentTile(index,line);
-                        }else {
-                            player.getShipManager().removeComponentTile(line,index);
+                    //trasformo la lista di componenti in lista di scudi
+                    for (int i=0;i<listScudi.size();i++){
+                        shield.add((Shield) listScudi.get(i));
+                    }
+
+
+                    //controllo se ci sono scudi orientati correttamente
+                    for(Shield s: shield){
+                        if(s.getOrientation()==entry.getValue()||s.getOrientation()==){
+                            if (activate){
+                                s.activate();
+                                y=1;
+                            }
                         }
                     }
+
+
+            if(y==0){
+                if(entry.getValue()==Direction.UP||entry.getValue()==Direction.DOWN){
+                    player.getShipManager().removeComponentTile(index,line);
+                }else {
+                    player.getShipManager().removeComponentTile(line,index);
                 }
+            }
+
+
+
             }else{//PROIETTILE GROSSO
                 if(entry.getValue()==Direction.UP||entry.getValue()==Direction.DOWN){
                     player.getShipManager().removeComponentTile(index,line);

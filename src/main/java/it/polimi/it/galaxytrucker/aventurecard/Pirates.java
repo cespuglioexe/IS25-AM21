@@ -24,10 +24,13 @@ public class Pirates extends Attack implements CreditReward,FlightDayPenalty {
         @Override
         public void attack(Player player) {
                 int rotation=0;
-                int line,col=0,row=0, index=0;
+                int line,col=0,row=0, index=0,y=0;
                 ComponentTile componetHit = null;
                 List<Optional<ComponentTile>> sequence;
                 Map<Projectile, Direction> cannonate = getProjectiles();
+                List<ComponentTile> listScudi = null;
+                List<Shield> shield = null;
+
 
                 for(Map.Entry<Projectile, Direction> entry : cannonate.entrySet()) {
                         System.out.println(entry.getKey() + " " + entry.getValue());
@@ -60,12 +63,28 @@ public class Pirates extends Attack implements CreditReward,FlightDayPenalty {
 
                         // in base alla grandezza del proiettile ho 2 comportamenti diversi
                         if(entry.getKey() == Projectile.SMALL){
-                                if (entry.getValue()== shield.getOrientation()||entry.getValue()== Direction.values()[(shield.getOrientation().ordinal()+1)%4]){
-                                        System.out.println("Activate shield? 1 = yes");
-                                        if (scanner.nextInt() == 1){
-                                                shield.activate();
+                                Set<List<Integer>> posizioniScudi = player.getShipManager().getAllComponentsPositionOfType(Shield.class);
+                                for (List<Integer> liste:posizioniScudi) {
+                                        listScudi = player.getShipManager().getComponent(liste.getFirst(),liste.get(1)).stream().toList();
+                                }
+                                //trasformo la lista di componenti in lista di scudi
+                                for (int i=0;i<listScudi.size();i++){
+                                        shield.add((Shield) listScudi.get(i));
+                                }
+
+
+                                //controllo se ci sono scudi orientati correttamente
+                                for(Shield s: shield){
+                                        if(s.getOrientation()==entry.getValue()||s.getOrientation()==){
+                                                if (activate){
+                                                        s.activate();
+                                                        y=1;
+                                                }
                                         }
-                                }else{
+                                }
+
+
+                                if(y==0){
                                         if(entry.getValue()==Direction.UP||entry.getValue()==Direction.DOWN){
                                                 player.getShipManager().removeComponentTile(index,line);
                                         }else {
@@ -125,7 +144,7 @@ public class Pirates extends Attack implements CreditReward,FlightDayPenalty {
         @Override
         public void applyFlightDayPenalty(int penalty, Player player) {
                 //metodo che fa andare indietro il giocatore
-                super.getDeck().getGameManager().movePlayerBackwords(penalty,player.getPlayerID());
+                super.getDeck().getGameManager().getFlightBoardState().movePlayerBackwards(penalty, player.getPlayerID());
         }
 
         @Override

@@ -2,6 +2,7 @@ package it.polimi.it.galaxytrucker.aventurecard;
 
 import it.polimi.it.galaxytrucker.componenttiles.ComponentTile;
 import it.polimi.it.galaxytrucker.componenttiles.Shield;
+import it.polimi.it.galaxytrucker.componenttiles.SingleCannon;
 import it.polimi.it.galaxytrucker.componenttiles.TileEdge;
 import it.polimi.it.galaxytrucker.managers.Player;
 import it.polimi.it.galaxytrucker.utility.Direction;
@@ -40,7 +41,13 @@ public class MeteorSwarm extends Attack {
         List<Optional<ComponentTile>> sequence;
         ComponentTile componetHit = null;
         int index=0;
-        List<ComponentTile> scudi = null;
+        List<ComponentTile> listScudi = null;
+        List<ComponentTile> listSingleCannon = null;
+        //Set<List<Integer>>  listCannoni = null;
+        Set<List<Integer>> posizioneSingleCannon = null;
+        List<Shield> shield = null;
+        int y=0;
+
 
         if(entry.getValue()==Direction.UP||entry.getValue()==Direction.DOWN){
             //dato l'indice della colonna mi ritorna tutta la colonna
@@ -69,24 +76,54 @@ public class MeteorSwarm extends Attack {
                 //cerco gli scudi
                 Set<List<Integer>> posizioniScudi = player.getShipManager().getAllComponentsPositionOfType(Shield.class);
                 for (List<Integer> liste:posizioniScudi) {
-                    scudi = player.getShipManager().getComponent(liste.getFirst(),liste.get(1)).stream().toList();
+                    listScudi = player.getShipManager().getComponent(liste.getFirst(),liste.get(1)).stream().toList();
                 }
+                //trasformo la lista di componenti in lista di scudi
+                for (int i=0;i<listScudi.size();i++){
+                    shield.add((Shield) listScudi.get(i));
+                }
+
 
                 //controllo se ci sono scudi orientati correttamente
-                for(ComponentTile s: scudi){
-                    if(s.)
+                for(Shield s: shield){
+                    if(s.getOrientation()==entry.getValue()||Direction.values()[(s.getOrientation().ordinal()+1)%4]==entry.getValue()){
+                        if(activate){
+                            s.activate();
+                            y = 1;
+                            break;
+                        }
+                    }
                 }
 
 
-                if(entry.getValue()==Direction.UP||entry.getValue()==Direction.DOWN){
-                    player.getShipManager().removeComponentTile(index,line);
-                }else {
-                    player.getShipManager().removeComponentTile(line,index);
+                if (y==0){
+                    if(entry.getValue()==Direction.UP||entry.getValue()==Direction.DOWN){
+                        player.getShipManager().removeComponentTile(index,line);
+                    }else {
+                        player.getShipManager().removeComponentTile(line,index);
+                    }
                 }
+
             }
 
         }else{
 
+            //se il meteorite è grosso non ci si può difendere con gli scudi bisogna sparare
+            posizioneSingleCannon = player.getShipManager().getAllComponentsPositionOfType(SingleCannon.class);
+
+            for (List<Integer> liste:posizioneSingleCannon) {
+                 listSingleCannon = player.getShipManager().getComponent(liste.getFirst(), liste.get(1)).stream().toList();
+            }
+            //trasformo la lista di componenti in lista di scudi
+            for (int i=0;i<listSingleCannon.size();i++){
+                singleCannon.add((SingleCannon) listScudi.get(i));
+            }
+
+            if(entry.getValue()==Direction.UP||entry.getValue()==Direction.DOWN){
+                player.getShipManager().removeComponentTile(index,line);
+            }else {
+                player.getShipManager().removeComponentTile(line,index);
+            }
         }
 
 
