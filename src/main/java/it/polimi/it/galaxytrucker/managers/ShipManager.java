@@ -4,10 +4,12 @@ import it.polimi.it.galaxytrucker.componenttiles.ComponentTile;
 import it.polimi.it.galaxytrucker.componenttiles.DoubleEngine;
 import it.polimi.it.galaxytrucker.componenttiles.LifeSupport;
 import it.polimi.it.galaxytrucker.componenttiles.OutOfBoundsTile;
+import it.polimi.it.galaxytrucker.componenttiles.SingleCannon;
 import it.polimi.it.galaxytrucker.componenttiles.SingleEngine;
 import it.polimi.it.galaxytrucker.componenttiles.SpecialCargoHold;
 import it.polimi.it.galaxytrucker.componenttiles.TileEdge;
 import it.polimi.it.galaxytrucker.crewmates.Alien;
+import it.polimi.it.galaxytrucker.crewmates.Crewmate;
 import it.polimi.it.galaxytrucker.crewmates.Human;
 import it.polimi.it.galaxytrucker.componenttiles.BatteryComponent;
 import it.polimi.it.galaxytrucker.componenttiles.CabinModule;
@@ -15,6 +17,7 @@ import it.polimi.it.galaxytrucker.componenttiles.CargoHold;
 import it.polimi.it.galaxytrucker.componenttiles.CentralCabin;
 import it.polimi.it.galaxytrucker.utility.Cargo;
 import it.polimi.it.galaxytrucker.utility.Color;
+import it.polimi.it.galaxytrucker.utility.AlienType;
 import it.polimi.it.galaxytrucker.exceptions.IllegalComponentPositionException;
 import it.polimi.it.galaxytrucker.exceptions.InvalidActionException;
 
@@ -23,13 +26,47 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.OptionalInt;
 
+/**
+ * The {@code ShipManager} class is responsible for managing the components and crew 
+ * of a spaceship in the Galaxy Trucker game. It provides high-level operations for 
+ * adding, removing, and managing ship components while ensuring game rules and constraints are met.
+ *
+ * <p>This class acts as a controller that interacts with the underlying {@link ShipBoard}, 
+ * translating board coordinates into tile matrix coordinates, handling the placement and 
+ * removal of components, and enforcing constraints related to crew, aliens, engines, and cargo.</p>
+ *
+ * <p>Main functionalities include:</p>
+ * <ul>
+ *     <li>Managing the ship's grid layout based on game level.</li>
+ *     <li>Adding and removing components while ensuring legal placement.</li>
+ *     <li>Handling crew members, including human and alien placement with life support checks.</li>
+ *     <li>Tracking energy sources such as batteries.</li>
+ *     <li>Calculating ship attributes such as firepower and engine power.</li>
+ * </ul>
+ *
+ * <p>The ship is represented internally by an instance of {@link ShipBoard}, which 
+ * maintains the actual grid structure and components.</p>
+ *
+ * <h2>Example of usage:</h2>
+ * <pre>
+ *     ShipManager manager = new ShipManager(1); // Initialize for level 1
+ *     manager.addComponentTile(2, 3, new EngineModule());
+ *     manager.addCrewmate(2, 3, new Human());
+ *     boolean isValid = manager.isShipLegal();
+ * </pre>
+ *
+ * @author Stefano Carletto
+ * @version 1.0
+ */
 public class ShipManager {
     private ShipBoard ship;
     private List<ComponentTile> discardedTile;
+    private HashMap<AlienType, Boolean> hasAlien;
     static private final int ROWS = 5;
     static private final int COLUMNS = 7;
     static private final int STARTOFBOARDROWS = 5;
@@ -38,6 +75,7 @@ public class ShipManager {
     public ShipManager(int level) {
         this.ship = new ShipBoard(level);
         discardedTile = new ArrayList<>(2);
+        this.hasAlien = new HashMap<>();
     }
 
     /**
@@ -270,8 +308,14 @@ public class ShipManager {
      * Removes a component tile from the specified position in the ship's grid.
      *
      * <p>This method removes the {@link ComponentTile} located at the given row and column 
-     * coordinates. The removed component is added to the discarded tile collection. 
-     * If the position is out of bounds or does not contain a component, an exception is thrown.</p>
+     * coordinates. If the removed component affects other game elements, appropriate updates 
+     * are made.</p>
+     *
+     * <p>Special cases:</p>
+     * <ul>
+     *   <li>If the removed component is a {@link CentralCabin} containing a crew, the crew is removed.</li>
+     *   <li>If the removed component is a {@link LifeSupport} module, any nearby aliens that depend on it are also removed.</li>
+     * </ul>
      *
      * @param row    The row index of the component to be removed.
      * @param column The column index of the component to be removed.
@@ -285,8 +329,43 @@ public class ShipManager {
         tileCoords.add(this.toTileMatrixCoord(Optional.of(row), Optional.empty()).get(0).get());
         tileCoords.add(this.toTileMatrixCoord(Optional.empty(), Optional.of(column)).get(1).get());
 
+        //removing the component
         removedComponent = ship.removeComponentTile(tileCoords.get(0), tileCoords.get(1));
         this.discardedTile.add(removedComponent);
+
+        //If was a cabin had an alien, removing aliens from it
+        if (removedComponent instanceof CentralCabin) {
+            CentralCabin removedCabin = (CentralCabin) removedComponent;
+            
+            if (removedCabin.getCrewmates().size() == 1) {
+                Crewmate crewmate = removedCabin.getCrewmates().get(0);
+
+                if (crewmate.requiresLifeSupport()) {
+                    Alien alien = (Alien) crewmate;
+                    this.hasAlien.put(alien.getAlienType(), false);
+                }
+            } 
+        }
+
+        //If it was a LifeSupport module, removing all nearby aliens
+        if (removedComponent instanceof LifeSupport) {
+            for (Optional<ComponentTile> neighbor : ship.getNeighbourComponents(tileCoords.get(0), tileCoords.get(1))) {
+                if (neighbor.isPresent() && neighbor.get().getClass().equals(CabinModule.class)) {
+                    CabinModule cabin = (CabinModule) neighbor.get();
+
+                    if (cabin.getCrewmates().size() == 1) {
+                        Crewmate crewmate = cabin.getCrewmates().get(0);
+
+                        if (crewmate.requiresLifeSupport()) {
+                            cabin.removeCrewmate();
+
+                            Alien alien = (Alien) crewmate;
+                            this.hasAlien.put(alien.getAlienType(), false);
+                        }
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -390,19 +469,24 @@ public class ShipManager {
     }
 
     /**
-     * Adds a crewmate to a specified position within the ship.
-     * 
+     * Adds a human crewmate to a specified position within the ship.
+     *
      * <p>This method attempts to place a given {@link Human} crewmate at the specified
-     * row and column coordinates on the ship. If the component does not exist or is not a {@link CentralCabin},
-     * an exception is thrown.</p>
+     * row and column coordinates on the ship. The following conditions are checked:</p>
+     * <ul>
+     *   <li>The target position must contain a valid {@link CentralCabin} instance; otherwise, 
+     *       an {@link IllegalComponentPositionException} is thrown.</li>
+     *   <li>If no component exists at the specified position, an {@link IllegalComponentPositionException} is thrown.</li>
+     * </ul>
+     *
+     * <p>If all conditions are met, the human crewmate is added to the cabin.</p>
      *
      * @param row      The row index where the crewmate should be placed.
      * @param column   The column index where the crewmate should be placed.
      * @param crewmate The {@link Human} crewmate to be added to the cabin.
-     * 
+     *
      * @throws IndexOutOfBoundsException         If the specified row or column is out of the ship's bounds.
-     * @throws IllegalComponentPositionException If there is no component at the specified position or 
-     *                                           if the component is not an instance of {@link CentralCabin}.
+     * @throws IllegalComponentPositionException If the target position does not contain a valid cabin module.
      * @throws InvalidActionException            If the cabin is full.
      */
     public void addCrewmate(int row, int column, Human crewmate) throws IndexOutOfBoundsException, IllegalComponentPositionException, InvalidActionException {
@@ -425,27 +509,38 @@ public class ShipManager {
      * Adds an alien crewmate to a specified position within the ship.
      *
      * <p>This method attempts to place a given {@link Alien} crewmate at the specified
-     * row and column coordinates on the ship. If the component does not exist or is not a {@link CabinModule},
-     * an exception is thrown.</p>
+     * row and column coordinates on the ship. Before adding the alien, the following 
+     * conditions are checked:</p>
+     * <ul>
+     *   <li>An alien of the same type has not already been placed. If an alien of this 
+     *       type is already present, an {@link InvalidActionException} is thrown.</li>
+     *   <li>The target position must contain a valid {@link CabinModule}; otherwise, 
+     *       an {@link IllegalComponentPositionException} is thrown.</li>
+     *   <li>A compatible {@link LifeSupport} module must be adjacent to the cabin. If not, 
+     *       an {@link InvalidActionException} is thrown.</li>
+     * </ul>
      *
-     * <p>Additionally, before placing the alien, the method checks whether a 
-     * {@link LifeSupport} module is adjacent to the target cabin. The life support module
-     * must be compatible with the alien's type; otherwise, the action is not allowed.</p>
+     * <p>If all conditions are met, the alien is added to the cabin, and its type is recorded 
+     * to prevent placing another alien of the same type.</p>
      *
      * @param row      The row index where the crewmate should be placed.
      * @param column   The column index where the crewmate should be placed.
      * @param crewmate The {@link Alien} crewmate to be added to the cabin.
-     * 
+     *
      * @throws IndexOutOfBoundsException         If the specified row or column is out of the ship's bounds.
-     * @throws IllegalComponentPositionException If there is no component at the specified position or 
-     *                                           if the component is not a {@link CabinModule}.
-     * @throws InvalidActionException            If no compatible {@link LifeSupport} module is adjacent
-     *                                           to the cabin or if the cabin is full.
+     * @throws IllegalComponentPositionException If the target position does not contain a valid cabin module.
+     * @throws InvalidActionException            If an alien of this type is already present or if no
+     *                                           compatible life support module is adjacent or if the cabin is full.
      */
     public void addCrewmate(int row, int column, Alien crewmate) throws IndexOutOfBoundsException, IllegalComponentPositionException, InvalidActionException {
         List<Integer> tileCoords = new ArrayList<>();
         tileCoords.add(this.toTileMatrixCoord(Optional.of(row), Optional.empty()).get(0).get());
         tileCoords.add(this.toTileMatrixCoord(Optional.empty(), Optional.of(column)).get(1).get());
+
+        //check if the alien color is already present
+        if (this.hasAlien(crewmate.getAlienType())) {
+            throw new InvalidActionException("You already placed an alien of this color");
+        }
 
         //check if is empty or it's not a cabin module
         ComponentTile component = ship.getComponent(tileCoords.get(0), tileCoords.get(1))
@@ -470,21 +565,29 @@ public class ShipManager {
         }
 
         cabin.addCrewmate(crewmate);
+        this.hasAlien.put(crewmate.getAlienType(), true);
     }
 
     /**
      * Removes a crewmate from the specified position within the ship.
      *
      * <p>This method attempts to remove a crewmate from the cabin located at the specified
-     * row and column coordinates on the ship. If the component does not exist or is not a {@link CentralCabin},
-     * an exception is thrown.</p>
+     * row and column coordinates. The following conditions are checked:</p>
+     * <ul>
+     *   <li>The target position must contain a valid {@link CentralCabin} instance; otherwise, 
+     *       an {@link IllegalComponentPositionException} is thrown.</li>
+     *   <li>If no component exists at the specified position, an {@link IllegalComponentPositionException} is thrown.</li>
+     * </ul>
+     *
+     * <p>If the removed crewmate is an alien requiring life support, the alien type is 
+     * marked as no longer present in the ship.</p>
      *
      * @param row    The row index of the cabin from which the crewmate should be removed.
      * @param column The column index of the cabin from which the crewmate should be removed.
      *
      * @throws IndexOutOfBoundsException         If the specified row or column is out of the ship's bounds.
-     * @throws IllegalComponentPositionException If there is no component at the specified position or 
-     *                                           if the component is not an instance of {@link CentralCabin}.
+     * @throws IllegalComponentPositionException If there is no component at the specified position 
+     *                                           or if the component is not an instance of {@link CentralCabin}.
      * @throws InvalidActionException            If the cabin has no crew.
      */
     public void removeCrewmate(int row, int column) throws IndexOutOfBoundsException, IllegalComponentPositionException, InvalidActionException {
@@ -500,7 +603,11 @@ public class ShipManager {
         }
 
         CentralCabin cabin = (CentralCabin) component;
-        cabin.removeCrewmate();
+        Crewmate crewmate = cabin.removeCrewmate();
+        if (crewmate.requiresLifeSupport()) {
+            Alien alien = (Alien) crewmate;
+            this.hasAlien.put(alien.getAlienType(), false);
+        }
     }
 
     /**
@@ -676,18 +783,119 @@ public class ShipManager {
         return exposedConnectors;
     }
 
-    public double calculateFirePower(){
-        double firePower = 0;
-        return firePower;
+    /**
+     * Counts the total number of human crewmates aboard the ship.
+     *
+     * <p>This method iterates through all {@link CentralCabin} and {@link CabinModule} components
+     * to count the number of human crewmates present. A crewmate is considered human if 
+     * they do not require life support.</p>
+     *
+     * <p>The method first collects all crewmates in {@link CentralCabin} components, as they are 
+     * exclusively human. Then, it checks each crewmate in {@link CabinModule} components and 
+     * includes only those that do not require life support.</p>
+     *
+     * @return The total number of human crewmates aboard the ship.
+     */
+    public int countHumans() {
+        Set<List<Integer>> centralCabinsCoords = this.getAllComponentsPositionOfType(CentralCabin.class);
+        Set<List<Integer>> cabinCoords  = this.getAllComponentsPositionOfType(CabinModule.class);
+        int humans = 0;
+
+        for (List<Integer> coord : centralCabinsCoords) {
+            CentralCabin cabin = (CentralCabin) this.getComponent(coord.get(0), coord.get(1)).get();
+
+            humans += cabin.getCrewmates().size();
+        }
+
+        for (List<Integer> coord : cabinCoords) {
+            CabinModule cabin = (CabinModule) this.getComponent(coord.get(0), coord.get(1)).get();
+
+            List<Crewmate> crewmates = cabin.getCrewmates();
+            for (Crewmate crewmate : crewmates) {
+                if (!crewmate.requiresLifeSupport()) {
+                    humans++;
+                }
+            }
+        }
+        return humans;
     }
 
+    public boolean hasAlien(AlienType type) {
+        if (Optional.ofNullable(this.hasAlien.get(type)).isPresent() && this.hasAlien.get(type)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Counts the total number of crewmates aboard the ship.
+     *
+     * <p>This method iterates through all {@link CentralCabin} and {@link CabinModule} components
+     * to count the number of crewmates present. Crewmates can be either human or alien.</p>
+     *
+     * <p>The method first collects all crewmates from {@link CentralCabin} components, then 
+     * continues by counting those in {@link CabinModule} components.</p>
+     *
+     * @return The total number of crewmates aboard the ship.
+     */
     public int countCrewmates() {
+        Set<List<Integer>> centralCabinsCoords = this.getAllComponentsPositionOfType(CentralCabin.class);
+        Set<List<Integer>> cabinCoords  = this.getAllComponentsPositionOfType(CabinModule.class);
         int crewmates = 0;
+
+        for (List<Integer> coord : centralCabinsCoords) {
+            CentralCabin cabin = (CentralCabin) this.getComponent(coord.get(0), coord.get(1)).get();
+
+            crewmates += cabin.getCrewmates().size();
+        }
+
+        for (List<Integer> coord : cabinCoords) {
+            CabinModule cabin = (CabinModule) this.getComponent(coord.get(0), coord.get(1)).get();
+
+            crewmates += cabin.getCrewmates().size();
+        }
         return crewmates;
     }
 
+    public double calculateFirePower(){
+        Set<List<Integer>> singleCannonCords = this.getAllComponentsPositionOfType(CentralCabin.class);
+        double baseFirePower = 0;
+        double additionalFirePower = 0;
+
+        for (List<Integer> coord : singleCannonCords) {
+            SingleCannon cannon = (SingleCannon) this.getComponent(coord.get(0), coord.get(1)).get();
+
+            baseFirePower += cannon.getFirePower();
+        }
+
+        //TODO: CAMBIARE STATO E OTTENERE COMPONENTI SCARTANDO ENERGIA
+        if (baseFirePower + additionalFirePower > 0) {
+            if (hasAlien(AlienType.PURPLEALIEN)) {
+                return baseFirePower + additionalFirePower + 2;
+            }
+            return baseFirePower + additionalFirePower;
+        }
+        return 0;
+    }
+
     public int calculateEnginePower() {
-        int enginePower = 0;
-        return enginePower;
+        Set<List<Integer>> singleEngineCoords = this.getAllComponentsPositionOfType(SingleEngine.class);
+        int baseEnginePower = 0;
+        int additionalEnginePower = 0;
+
+        for (List<Integer> coord : singleEngineCoords) {
+            SingleEngine engine = (SingleEngine) this.getComponent(coord.get(0), coord.get(1)).get();
+
+            baseEnginePower += engine.getEnginePower();
+        }
+
+        //TODO: CAMBIARE STATO E OTTENERE COMPONENTI SCARTANDO ENERGIA
+        if (baseEnginePower + additionalEnginePower > 0) {
+            if (hasAlien(AlienType.BROWNALIEN)) {
+                return baseEnginePower + additionalEnginePower + 2;
+            }
+            return baseEnginePower + additionalEnginePower;
+        }
+        return 0;
     }
 }
