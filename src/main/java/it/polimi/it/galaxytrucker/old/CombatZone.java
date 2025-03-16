@@ -1,12 +1,11 @@
-package it.polimi.it.galaxytrucker.aventurecard;
+package it.polimi.it.galaxytrucker.old;
 
 
+import it.polimi.it.galaxytrucker.aventurecard.AdventureDeck;
 import it.polimi.it.galaxytrucker.cardEffects.CrewmatePenalty;
 import it.polimi.it.galaxytrucker.cardEffects.FlightDayPenalty;
 import it.polimi.it.galaxytrucker.componenttiles.ComponentTile;
 import it.polimi.it.galaxytrucker.componenttiles.Shield;
-import it.polimi.it.galaxytrucker.componenttiles.TileEdge;
-import it.polimi.it.galaxytrucker.crewmates.Crewmate;
 import it.polimi.it.galaxytrucker.managers.Player;
 import it.polimi.it.galaxytrucker.utility.Direction;
 import it.polimi.it.galaxytrucker.utility.Projectile;

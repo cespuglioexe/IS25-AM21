@@ -1,5 +1,6 @@
-package it.polimi.it.galaxytrucker.aventurecard;
+package it.polimi.it.galaxytrucker.old;
 
+import it.polimi.it.galaxytrucker.aventurecard.AdventureDeck;
 import it.polimi.it.galaxytrucker.utility.Direction;
 import it.polimi.it.galaxytrucker.utility.Projectile;
 
