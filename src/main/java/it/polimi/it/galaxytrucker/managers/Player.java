@@ -41,4 +41,8 @@ public class Player {
     public void addCredits(int credits) {
         this.credits = this.credits + credits;
     }
+
+    public void createShip(int level) {
+        this.shipManager = new ShipManager(level);
+    }
 }
