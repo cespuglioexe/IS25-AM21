@@ -114,7 +114,7 @@ public class CombatZone extends AdventureCard implements FlightDayPenalty, Crewm
 
     @Override
     public void applyCrewmatePenalty(int penalty, Player player) {
-        player.getShipManager()
+        player.getShipManager();
     }
 
     @Override
