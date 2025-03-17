@@ -6,6 +6,9 @@ import it.polimi.it.galaxytrucker.utility.Direction;
 import jdk.jfr.Event;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ShieldTest {
@@ -107,23 +110,10 @@ public class ShieldTest {
                 TileEdge.SMOOTH, TileEdge.SMOOTH);
 
         // Verify orientations
-        assertEquals(Direction.UP, upShield.getOrientation());
-        assertEquals(Direction.RIGHT, rightShield.getOrientation());
-        assertEquals(Direction.DOWN, downShield.getOrientation());
-        assertEquals(Direction.LEFT, leftShield.getOrientation());
-
-        // Calculate and verify the second direction in each pair
-        // TOP + RIGHT
-        assertEquals(Direction.RIGHT, Direction.values()[(upShield.getOrientation().ordinal() + 1) % 4]);
-
-        // RIGHT + BOTTOM
-        assertEquals(Direction.DOWN, Direction.values()[(rightShield.getOrientation().ordinal() + 1) % 4]);
-
-        // BOTTOM + LEFT
-        assertEquals(Direction.LEFT, Direction.values()[(downShield.getOrientation().ordinal() + 1) % 4]);
-
-        // LEFT + TOP
-        assertEquals(Direction.UP, Direction.values()[(leftShield.getOrientation().ordinal() + 1) % 4]);
+        assertEquals(List.of(Direction.UP, Direction.values()[(Direction.UP.ordinal() + 1) % 4]), upShield.getOrientation());
+        assertEquals(List.of(Direction.RIGHT, Direction.values()[(Direction.RIGHT.ordinal() + 1) % 4]), rightShield.getOrientation());
+        assertEquals(List.of(Direction.DOWN, Direction.values()[(Direction.DOWN.ordinal() + 1) % 4]), downShield.getOrientation());
+        assertEquals(List.of(Direction.LEFT, Direction.values()[(Direction.LEFT.ordinal() + 1) % 4]), leftShield.getOrientation());
     }
 
     @Test
