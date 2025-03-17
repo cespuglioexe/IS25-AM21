@@ -12,6 +12,7 @@ import it.polimi.it.galaxytrucker.aventurecard.AdventureDeck;
 import it.polimi.it.galaxytrucker.exceptions.InvalidActionException;
 import it.polimi.it.galaxytrucker.exceptions.NotFoundException;
 import it.polimi.it.galaxytrucker.gameStates.State;
+import it.polimi.it.galaxytrucker.gameStates.Start;
 import it.polimi.it.galaxytrucker.utility.Color;;
 
 public class GameManager implements Model {
@@ -21,6 +22,11 @@ public class GameManager implements Model {
     private List<Player> players;
     private FlightBoardState flightBoard;
     private AdventureDeck adventureDeck;
+
+    public GameManager() {
+        this.currentState = new Start(this);
+        this.currentState.enter();
+    }
 
     @Override
     public State getCurrentState() {

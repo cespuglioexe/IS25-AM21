@@ -9,11 +9,11 @@ public class Start extends State {
 
     @Override
     public void enter() {
-        gameManager.initializeGameSpecifics();
+        
     }
 
     @Override
     public void exit() {
-
+        gameManager.initializeGameSpecifics();
     }
 }
