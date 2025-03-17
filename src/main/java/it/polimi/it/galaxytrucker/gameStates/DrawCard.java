@@ -2,8 +2,8 @@ package it.polimi.it.galaxytrucker.gameStates;
 
 import it.polimi.it.galaxytrucker.managers.GameManager;
 
-public class GameTurn extends State {
-    public GameTurn(GameManager gameManager) {
+public class DrawCard extends State {
+    public DrawCard(GameManager gameManager) {
         super(gameManager);
     }
 

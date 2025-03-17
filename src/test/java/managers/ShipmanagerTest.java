@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Optional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -218,6 +219,137 @@ public class ShipManagerTest {
                 List.of(9, 8)
             )
         ));
+    }
+
+    @Test
+    void getDisconnectedBranchesTest() {
+        ShipManager ship = new ShipManager(1);
+
+        ComponentTile cannon = new SingleCannon(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE);
+
+        /*
+         *  4  5  6  7  8  9 10
+         * 5        [c]
+         * 6     [c][c][ ]
+         * 7  [c][ ][x][c][ ]
+         * 8  [ ][c][c][c][c]
+         * 9  [ ][ ]   [c][ ]
+        */
+
+        for (int i = 5; i < 10; i++) {
+            for (int j = 5; j < 10; j++) {
+                switch (i) {
+                    case 5:
+                        if (j == 7) {
+                            ship.addComponentTile(i, j, cannon);
+                        }
+                        break;
+                    case 6:
+                        if (j > 5 && j < 8) {
+                            ship.addComponentTile(i, j, cannon);
+                        }
+                        break;
+                    case 7:
+                        if ((j == 5 || (j > 7 && j < 9)) && j != 7) {
+                            ship.addComponentTile(i, j, cannon);
+                        }
+                        break;
+                    case 8:
+                        if (j > 5 && j < 10) {
+                            ship.addComponentTile(i, j, cannon);
+                        }
+                        break;
+                    case 9:
+                        if (j == 8) {
+                            ship.addComponentTile(i, j, cannon);
+                        }
+                        break;
+                }
+            }
+        }
+
+        List<Set<List<Integer>>> actual = ship.getDisconnectedBranches();
+
+        List<Set<List<Integer>>> expected = new ArrayList<>();
+        //isolated branch: [7][5]
+        expected.add(Set.of(List.of(7, 5)));
+        //other branch
+        expected.add(Set.of(
+            List.of(5, 7),
+            List.of(6, 6),
+            List.of(6, 7),
+            List.of(7, 7),
+            List.of(7, 8),
+            List.of(8, 6),
+            List.of(8, 7),
+            List.of(8, 8),
+            List.of(8, 9),
+            List.of(9, 8)
+        ));
+
+        assertTrue(actual.containsAll(expected));
+    }
+
+    @Test
+    void removeBranchTest() {
+        ShipManager ship = new ShipManager(1);
+
+        ComponentTile cannon = new SingleCannon(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE);
+
+        /*
+         *  4  5  6  7  8  9 10
+         * 5        [c]
+         * 6     [c][c][ ]
+         * 7  [c][ ][x][c][ ]
+         * 8  [ ][c][c][c][c]
+         * 9  [ ][ ]   [c][ ]
+        */
+
+        for (int i = 5; i < 10; i++) {
+            for (int j = 5; j < 10; j++) {
+                switch (i) {
+                    case 5:
+                        if (j == 7) {
+                            ship.addComponentTile(i, j, cannon);
+                        }
+                        break;
+                    case 6:
+                        if (j > 5 && j < 8) {
+                            ship.addComponentTile(i, j, cannon);
+                        }
+                        break;
+                    case 7:
+                        if ((j == 5 || (j > 7 && j < 9)) && j != 7) {
+                            ship.addComponentTile(i, j, cannon);
+                        }
+                        break;
+                    case 8:
+                        if (j > 5 && j < 10) {
+                            ship.addComponentTile(i, j, cannon);
+                        }
+                        break;
+                    case 9:
+                        if (j == 8) {
+                            ship.addComponentTile(i, j, cannon);
+                        }
+                        break;
+                }
+            }
+        }
+
+        List<Set<List<Integer>>> branches = ship.getDisconnectedBranches();
+
+        //try to remove branch number 1
+        ship.removeBranch(branches.get(0));
+
+        assertTrue(() -> {
+            for (List<Integer> coord : branches.get(0)) {
+                if (!ship.getComponent(coord.get(0), coord.get(1)).equals(Optional.<ComponentTile>empty())) {
+                    return false;
+                }
+            }
+            return true;
+        });
     }
 
     @Test

@@ -27,6 +27,7 @@ import java.util.stream.IntStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.OptionalInt;
@@ -61,7 +62,7 @@ import java.util.OptionalInt;
  * </pre>
  *
  * @author Stefano Carletto
- * @version 1.0
+ * @version 1.1
  */
 public class ShipManager {
     private ShipBoard ship;
@@ -283,6 +284,46 @@ public class ShipManager {
     }
 
     /**
+     * Retrieves the disconnected branches of the ship, represented in board coordinates.
+     *
+     * <p>A disconnected branch is a set of tiles that are not connected to the main ship structure.
+     * This method calls {@link ShipBoard#getDisconnectedBranches()} to obtain the branches in
+     * tile matrix coordinates and then converts them into board coordinates.</p>
+     *
+     * <p>The result is a list of sets, where each set represents a disconnected branch.
+     * Each position in the set is a list of two integers: the row and column of a component
+     * in board coordinates.</p>
+     *
+     * <p><b>Example of usage:</b></p>
+     * <pre>
+     * {@code
+     * List<Set<List<Integer>>> branches = shipManager.getDisconnectedBranches();
+     * for (Set<List<Integer>> branch : branches) {
+     *     System.out.println("Disconnected branch: " + branch);
+     * }
+     * </pre>
+     *
+     * @return A list of sets, where each set represents a disconnected branch.
+     */
+    public List<Set<List<Integer>>> getDisconnectedBranches() {
+        List<Set<List<Integer>>> disconnectedBranches = this.ship.getDisconnectedBranches();
+        List<Set<List<Integer>>> DisconnectedBrachesInBoardCoord = new ArrayList<>();
+    
+        for (Set<List<Integer>> branch : disconnectedBranches) {
+            Set<List<Integer>> branchInBoardCoord = new HashSet<>();
+    
+            for (List<Integer> coord : branch) {
+                List<Optional<Integer>> boardCoord = this.toBoardCoord(Optional.of(coord.get(0)), Optional.of(coord.get(1)));
+                branchInBoardCoord.add(List.of(boardCoord.get(0).get(), boardCoord.get(1).get()));
+            }
+    
+            DisconnectedBrachesInBoardCoord.add(branchInBoardCoord);
+        }
+    
+        return DisconnectedBrachesInBoardCoord;
+    }
+
+    /**
      * Adds a component tile to the specified position in the ship's grid.
      *
      * <p>This method places a given {@link ComponentTile} at the specified row and column 
@@ -366,6 +407,45 @@ public class ShipManager {
                 }
             }
         }
+    }
+
+    /**
+     * Removes a specified branch of components from the ship.
+     *
+     * <p>This method takes a set of coordinates representing a disconnected branch 
+     * in board coordinates and removes the corresponding components from the ship.</p>
+     *
+     * <p>The given board coordinates are first converted to tile matrix coordinates 
+     * before calling {@link ShipBoard#removeBranch(Set)} to remove the branch.</p>
+     *
+     * <p><b>Example of usage:</b></p>
+     * <pre>
+     * {@code
+     *     Set<List<Integer>> branch = Set.of(
+     *         List.of(5, 6),
+     *         List.of(5, 7),
+     *         List.of(6, 7)
+     *     );
+     *     shipManager.removeBranch(branch);
+     * }
+     * </pre>
+     *
+     * @param branch A set of positions representing the branch to remove, 
+     *               where each position is a list containing two integers (row and column) in board coordinates.
+     *
+     * @throws IndexOutOfBoundsException         If any coordinate is out of the ship's valid bounds.
+     * @throws IllegalComponentPositionException If a specified coordinate does not correspond to a valid component.
+     */
+    public void removeBranch(Set<List<Integer>> branch) throws IndexOutOfBoundsException, IllegalComponentPositionException {
+        Set<List<Integer>> tileBranch = new HashSet<>();
+
+        for (List<Integer> coord : branch) {
+            List<Optional<Integer>> tileCoord = this.toTileMatrixCoord(Optional.of(coord.get(0)), Optional.of(coord.get(1)));
+
+            tileBranch.add(List.of(tileCoord.get(0).get(), tileCoord.get(1).get()));
+        }
+
+        this.ship.removeBranch(tileBranch);
     }
 
     /**

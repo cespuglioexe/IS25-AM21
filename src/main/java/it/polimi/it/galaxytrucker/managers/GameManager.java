@@ -1,131 +1,137 @@
 package it.polimi.it.galaxytrucker.managers;
 
-import it.polimi.it.galaxytrucker.componenttiles.CargoHold;
-import it.polimi.it.galaxytrucker.componenttiles.ComponentTile;
-import it.polimi.it.galaxytrucker.componenttiles.SpecialCargoHold;
-import it.polimi.it.galaxytrucker.exceptions.IllegalComponentPositionException;
-import it.polimi.it.galaxytrucker.gameStates.EndGame;
-import it.polimi.it.galaxytrucker.gameStates.Fixing;
-import it.polimi.it.galaxytrucker.utility.Cargo;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
-import java.util.*;
+import it.polimi.it.galaxytrucker.aventurecard.AdventureDeck;
+import it.polimi.it.galaxytrucker.exceptions.InvalidActionException;
+import it.polimi.it.galaxytrucker.exceptions.NotFoundException;
+import it.polimi.it.galaxytrucker.gameStates.State;
+import it.polimi.it.galaxytrucker.utility.Color;;
 
-public class GameManager implements EndGame, Fixing {
-    int level;
-    List<Player> players;
-    FlightBoardState flightBoardState;
+public class GameManager implements Model {
+    private State currentState;
+    private int level;
+    private int numberOfPlayers;
+    private List<Player> players;
+    private FlightBoardState flightBoard;
+    private AdventureDeck adventureDeck;
 
-    public GameManager(int level) {
+    @Override
+    public State getCurrentState() {
+        return this.currentState;
+    }
+
+    @Override
+    public int getLevel() {
+        return this.level;
+    }
+
+    @Override
+    public int getNumberOfPlayers() {
+        return this.numberOfPlayers;
+    }
+
+    @Override
+    public List<Player> getPlayers() {
+        return this.players;
+    }
+
+    @Override
+    public Player getPlayerByID(UUID id) {
+        return this.players.stream()
+            .filter(player -> player.getPlayerID().equals(id))
+            .findFirst()
+            .orElse(null);
+    }
+
+    @Override
+    public boolean allPlayersConnected() {
+        return this.players.size() == this.numberOfPlayers ? true : false;
+    }
+
+    @Override
+    public Set<Player> getPlayersWithIllegalShips() {
+        return this.players.stream()
+            .filter(player -> !player.getShipManager().isShipLegal())
+            .collect(Collectors.toSet());
+    }
+
+    @Override
+    public ShipManager getPlayerShip(UUID id) {
+        return Optional.ofNullable(this.getPlayerByID(id).getShipManager())
+            .orElse(null);
+    }
+
+    @Override
+    public FlightBoardState getFlightBoard() {
+        return this.flightBoard;
+    }
+
+    @Override
+    public AdventureDeck getAdventureDeck() {
+        return this.adventureDeck;
+    }
+
+    @Override
+    public void changeState(State nextState) {
+        this.currentState.exit();
+        this.currentState = nextState;
+        this.currentState.enter();
+    }
+
+    @Override
+    public void setLevel(int level) {
         this.level = level;
-        players = new ArrayList<>();
-        flightBoardState = new FlightBoardState(level == 1 ? 18 : 24);
-    }
-
-    public int getLevel(){
-        return level;
-    }
-
-    public FlightBoardState getFlightBoardState() {
-        return flightBoardState;
-    }
-
-    //<editor-fold desc="Interface - Fixing">
-
-    @Override
-    public void playerRemovesComponent(int playerID, int xCoordinate, int yCoordinate) {
-        ShipManager shipManager = players.get(playerID).getShipManager();
-
-        try {
-            shipManager.removeComponentTile(xCoordinate, yCoordinate);
-        }
-        catch (Exception e) {
-            if (e instanceof IndexOutOfBoundsException) {
-                // do something
-            }
-            else if (e instanceof IllegalComponentPositionException) {
-                // do something
-            }
-        }
     }
 
     @Override
-    public void playerFinishedFixing(int playerID) {
-
+    public void setNumberOfPlayers(int numberOfPlayers) {
+        this.numberOfPlayers = numberOfPlayers;
     }
-
-    //</editor-fold>
-
-
-    //<editor-fold desc="Interface - EndGame">
 
     @Override
-    public Map<Integer, Integer> calculateFinalScores() {
-        int bestShipPlayer = 0;
-        int bestShipConnectors = Integer.MAX_VALUE;
-        Map<Integer, Integer> scores = new HashMap<>();
-
-        for (Player player : players) {
-            int credits = countPlayerCredits(player.getPlayerID());
-            int exposed = player.getShipManager().countAllExposedConnectors();
-
-            if (bestShipConnectors > exposed) {
-                bestShipConnectors = exposed;
-                bestShipPlayer = player.getPlayerID();
-            }
-
-            scores.put(player.getPlayerID(), credits);
+    public UUID addNewPlayer(String name) throws InvalidActionException {
+        if (this.players.stream().anyMatch(player -> player.getPlayerName().equals(name))) {
+            throw new InvalidActionException("Another player named " + name + " is already playing");
         }
+        
+         Color playerColor = Arrays.stream(Color.values())
+             .filter(color -> players.stream()
+                 .noneMatch(player -> player.getColor().equals(color)))
+             .findFirst()
+             .orElseThrow(() -> new InvalidActionException("No available color"));
 
-        scores.replace(bestShipPlayer, scores.get(bestShipPlayer) + 2);
-
-        return scores;
+        Player newPlayer = new Player(UUID.randomUUID(), name, 0, playerColor);
+        players.add(newPlayer);
+        
+        return newPlayer.getPlayerID();
     }
 
-    private int countPlayerCredits(int PlayerID) {
-        int totCredits = 0;
-        Player player = players.get(PlayerID);
-        ShipManager shipManager = player.getShipManager();
+    @Override
+    public void removePlayer(UUID id) throws NotFoundException {
+        Player playerToRemove = this.players.stream()
+            .filter(player -> player.getPlayerID().equals(id))
+            .findFirst()
+            .orElseThrow(() -> new NotFoundException("Cannot find the player"));
 
-        totCredits += player.getCredits();
-
-        // Evaluate cargo value in regular cargo holds
-        Set<List<Integer>> cargoHolds = shipManager.getAllComponentsPositionOfType(CargoHold.class);
-        for (List<Integer> cargoHold : cargoHolds) {
-            Optional<ComponentTile> component = shipManager.getComponent(cargoHold.get(0), cargoHold.get(1));
-            if (component.isPresent()) {
-                List<Cargo> cargos = ((CargoHold)component.get()).getContainedCargo();
-                for (Cargo cargo : cargos) {
-                    totCredits += cargo.getColor().ordinal() + 1;
-                }
-            }
-        }
-
-        // Evaluate cargo value in special cargo holds
-        Set<List<Integer>> specialCargoHolds = shipManager.getAllComponentsPositionOfType(SpecialCargoHold.class);
-        for (List<Integer> specialCargoHold : specialCargoHolds) {
-            Optional<ComponentTile> component = shipManager.getComponent(specialCargoHold.get(0), specialCargoHold.get(1));
-            if (component.isPresent()) {
-                List<Cargo> cargos = ((CargoHold)component.get()).getContainedCargo();
-                for (Cargo cargo : cargos) {
-                    totCredits += cargo.getColor().ordinal() + 1;
-                }
-            }
-        }
-
-        // Subtract credits for lost components
-        // totCredits -= shipManager.getDiscardedComponents();
-
-        /*
-         *  Add credits for finishing order.
-         *
-         *  - LVL I: 4, 3, 2, 1
-         *  - LVL II: 8, 6, 4, 2
-         */
-        totCredits += (4 - flightBoardState.getPlayerOrder().indexOf(PlayerID)) * level;
-
-        return totCredits;
+        this.players.remove(playerToRemove);
     }
-    //</editor-fold>
 
+    public void initializeGameSpecifics() {
+        this.players = new ArrayList<>(this.numberOfPlayers);
+    }
 
+    public void initializeFlightBoard() {
+        this.flightBoard = new FlightBoardState(this.level);
+    }
+
+    public void initializeAdventureDeck() {
+        //TODO from JSON file
+    }
 }
