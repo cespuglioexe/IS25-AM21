@@ -1,6 +1,7 @@
 package it.polimi.it.galaxytrucker.gameStates;
 
 import it.polimi.it.galaxytrucker.managers.GameManager;
+import it.polimi.it.galaxytrucker.managers.Player;
 
 public class Connection extends State {
     public Connection(GameManager gameManager) {
@@ -9,11 +10,13 @@ public class Connection extends State {
 
     @Override
     public void enter() {
-        gameManager.getPlayers().getLast().createShip(gameManager.getLevel());
+        
     }
 
     @Override
     public void exit() {
-        
+        for (Player player : gameManager.getPlayers()) {
+            player.createShip(gameManager.getLevel());
+        }
     }
 }
