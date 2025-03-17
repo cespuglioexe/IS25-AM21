@@ -11,13 +11,6 @@ public class Player {
     private Color color;
     private ShipManager shipManager;
 
-    public Player(UUID playerID, String playerName, int credits, Color color, ShipManager shipManager) {
-        this.PlayerID = playerID;
-        this.PlayerName = playerName;
-        this.credits = credits;
-        this.color = color;
-        this.shipManager = shipManager;
-    }
 
     public Player(UUID playerID, String playerName, int credits, Color color) {
         this.PlayerID = playerID;
