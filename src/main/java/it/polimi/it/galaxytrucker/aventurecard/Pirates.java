@@ -1,9 +1,6 @@
-package it.polimi.it.galaxytrucker.old;
+package it.polimi.it.galaxytrucker.aventurecard;
 
-
-import it.polimi.it.galaxytrucker.aventurecard.AdventureCard;
-import it.polimi.it.galaxytrucker.aventurecard.AdventureDeck;
-import it.polimi.it.galaxytrucker.cardEffects.CrewmatePenalty;
+import it.polimi.it.galaxytrucker.cardEffects.CreditReward;
 import it.polimi.it.galaxytrucker.cardEffects.FlightDayPenalty;
 import it.polimi.it.galaxytrucker.componenttiles.ComponentTile;
 import it.polimi.it.galaxytrucker.componenttiles.Shield;
@@ -11,46 +8,25 @@ import it.polimi.it.galaxytrucker.managers.Player;
 import it.polimi.it.galaxytrucker.utility.Direction;
 import it.polimi.it.galaxytrucker.utility.Projectile;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 
-public class CombatZone extends AdventureCard implements FlightDayPenalty, CrewmatePenalty{
-    private final int FLYPENALTY = 3;
-    private final int CREWPENALTY = 2;
+public class Pirates extends AdventureCard implements FlightDayPenalty, CreditReward {
+    private List<Optional<ComponentTile>> sequence;
+    private int index, line;
 
-    private int index,line;
-
-
-    public CombatZone(Optional partecipants, Optional penalty, Optional flightDayPenalty, Optional reward, int firePowerRequired, int creditReward) {
+    public Pirates(Optional partecipants, Optional penalty, Optional flightDayPenalty, Optional reward, int firePowerRequired, int creditReward) {
         super(partecipants, penalty, flightDayPenalty, reward, firePowerRequired, creditReward);
     }
 
-    public Player checkLosers(List<Player> players) {
-        Player loserFp = players.get(0);
-        Player loserEp = players.get(0);
-        Player loserCm = players.get(0);
-        for (int i = 1; i < players.size()-1; i++) {
-            if (loserFp.getShipManager().calculateFirePower() > players.get(i).getShipManager().calculateFirePower()) {
-                loserFp = players.get(i);
-            }
-
-            if(players.get(i).getShipManager().countCrewmates() < loserCm.getShipManager().countCrewmates()) {
-                loserCm = players.get(i);
-            }
-
-            if (loserEp.getShipManager().calculateEnginePower()> players.get(i).getShipManager().calculateEnginePower()) {
-                loserEp = players.get(i);
-            }
-        }
-
-        applyCrewmatePenalty(CREWPENALTY,loserEp);
-        applyFlightDayPenalty(FLYPENALTY,loserCm);
-        return loserFp;
+    public boolean checkIfPlayerLoseToPirates(Player player){
+        return player.getShipManager().calculateFirePower() < super.getFirePowerRequired();
     }
 
     public void checkComponentHit(Player player, Map<Projectile,Direction> projectile, int lines) {
         for(Map.Entry<Projectile,Direction> entry : projectile.entrySet()){
-            List<Optional<ComponentTile>> sequence;
-
             if (entry.getValue() == Direction.UP || entry.getValue() == Direction.DOWN) {
                 sequence = player.getShipManager().getComponentsAtColumn(lines);
             } else {
@@ -85,23 +61,23 @@ public class CombatZone extends AdventureCard implements FlightDayPenalty, Crewm
 
     }
 
-    public void destroyComponent(Player player, int row, int col) {
-         player.getShipManager().removeComponentTile(row,col);
+    public void destroyComponent(Player player,int row, int col) {
+        player.getShipManager().removeComponentTile(row, col);
+    }
+
+    @Override
+    public void play(){
+
     }
 
 
     @Override
-    public void applyCrewmatePenalty(int penalty, Player player) {
-        player.getShipManager()
+    public void giveCreditReward(int reward, Player player) {
+        player.addCredits(reward);
     }
 
     @Override
     public void applyFlightDayPenalty(int penalty, Player player) {
-        player.
-    }
-
-    @Override
-    public void play() {
-
+        player.getGameManager.movePlayerBackwards(penalty);
     }
 }

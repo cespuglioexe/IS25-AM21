@@ -18,21 +18,6 @@ public class MeteorSwarm extends Attack {
 
     private int line;
 
-    @Override
-    public void attack(Player player) {
-
-//          else{
-//            //se il componente non ha il lato liscio che corrisponde alla direzione del proiettile subisce danno
-//            if (componetHit.getTileEdges().get(rotation) != TileEdge.SMOOTH){
-//                if(entry.getValue()==Direction.UP||entry.getValue()==Direction.DOWN){
-//                    player.getShipManager().removeComponentTile(index,line);
-//                }else {
-//                    player.getShipManager().removeComponentTile(line,index);
-//                }
-//            }
-//
-//        }
-    }
 
     @Override
     public void meteorStorm(Player player, int line, Map.Entry<Projectile, Direction> entry) {
