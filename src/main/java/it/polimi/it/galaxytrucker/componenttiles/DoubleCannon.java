@@ -9,7 +9,7 @@ import it.polimi.it.galaxytrucker.observer.EnergyConsumptionEvent;
  * @author Giacomo Amaducci
  * @version 1.1
  */
-public class DoubleCannon extends SingleCannon implements EnergyConsumer {
+public class DoubleCannon extends SingleCannon implements EnergyConsumer, Cannon {
     private boolean isActive;
 
     /**

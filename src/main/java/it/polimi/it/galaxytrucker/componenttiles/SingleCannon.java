@@ -9,7 +9,7 @@ import java.util.List;
  * @author Giacomo Amaducci
  * @version 1.0
  */
-public class SingleCannon extends ComponentTile {
+public class SingleCannon extends ComponentTile implements Cannon {
 
     /** The firepower value of this cannon */
     private final int firePower;

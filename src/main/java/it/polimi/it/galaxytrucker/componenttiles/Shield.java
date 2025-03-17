@@ -71,9 +71,7 @@ public class Shield extends ComponentTile implements EnergyConsumer {
     /**
      * Returns the first direction of the pair that is covered by the shield, adjusted for rotation.
      *
-     * @return a {@code Direction} representing the first direction of the shield coverage;
-     *         the second can be calculated by the caller with
-     *         {@code Direction.values()[(@result.ordinal() + 1) % 4]}
+     * @return a {@code List<Direction>} representing the directions of the shield coverage;
      */
     public List<Direction> getOrientation() {
         return List.of(Direction.values()[(orientation.ordinal() + getRotation()) % 4], Direction.values()[(orientation.ordinal() + getRotation() + 1) % 4]);
