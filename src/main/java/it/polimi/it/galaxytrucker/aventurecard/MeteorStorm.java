@@ -11,6 +11,7 @@ import it.polimi.it.galaxytrucker.utility.Projectile;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 public class MeteorStorm extends AdventureCard{
     private ComponentTile componentHit;
@@ -47,7 +48,9 @@ public class MeteorStorm extends AdventureCard{
 
     public void meteorStorm(Player player, List<Shield> shieldActivated, Map<Projectile, Direction> projectile, List<SingleCannon> cannons) {
         int r, protect=0;
-
+        Set<List<Integer>> cannonsCoord;
+        
+        cannonsCoord = player.getShipManager().getAllComponentsPositionOfType(SingleCannon.class);
 
         for(Map.Entry<Projectile,Direction> entry : projectile.entrySet()){
 
@@ -77,6 +80,7 @@ public class MeteorStorm extends AdventureCard{
             if (entry.getKey() == Projectile.BIG){
                 for (SingleCannon c : cannons) {
                     if (c.getRotation() == r){
+                        if()
                         protect=1;
                         break;
                     }
