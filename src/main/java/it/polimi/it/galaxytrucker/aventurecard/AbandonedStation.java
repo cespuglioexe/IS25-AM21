@@ -4,6 +4,7 @@ import it.polimi.it.galaxytrucker.cardEffects.CargoReward;
 import it.polimi.it.galaxytrucker.cardEffects.CrewmatePenalty;
 import it.polimi.it.galaxytrucker.cardEffects.FlightDayPenalty;
 import it.polimi.it.galaxytrucker.cardEffects.Participation;
+import it.polimi.it.galaxytrucker.managers.FlightBoardState;
 import it.polimi.it.galaxytrucker.managers.Player;
 import it.polimi.it.galaxytrucker.utility.Cargo;
 
@@ -11,11 +12,38 @@ import java.util.*;
 
 public class AbandonedStation extends AdventureCard implements Participation, CargoReward, FlightDayPenalty {
 
+    public final int MAX_PARTICIPATIONS;
     private CargoManager manager;
 
-    public AbandonedStation(Optional<List<Player>> partecipants, Optional<Integer> penalty, Optional<Integer> flightDayPenalty, Optional<Cargo> reward, int firePower, int creditReward, AdventureDeck deck, CargoManager manager) {
-           super(partecipants, penalty, flightDayPenalty, reward,firePower, creditReward, deck);
+    public AbandonedStation(Optional<Integer> penalty, Optional<Integer> flightDayPenalty, Optional<Cargo> reward, int firePower, int creditReward,CargoManager manager) {
+           super(penalty, flightDayPenalty, reward,firePower, creditReward);
            this.manager = manager;
+           MAX_PARTICIPATIONS = 1;
+    }
+
+    @Override
+    public void giveCargoReward(Set<Cargo> reward, Player player) {
+            for(Cargo cargo : reward){
+                manager.manageCargoAddition(cargo, player);
+            }
+    }
+
+    @Override
+    public void applyFlightDayPenalty(FlightBoardState board, Player player) {
+        board.movePlayerBackwards((int)getFlightDayPenalty().orElse(0), player.getPlayerID());
+    }
+
+
+    public int getMAX_PARTICIPATIONS() {
+        return MAX_PARTICIPATIONS;
+    }
+
+    public boolean RequiredHumanVerification(Player player) {
+        int nMin = (int)super.getPenalty().orElse(0);
+        if (player.getShipManager().countCrewmates() > nMin) {
+            return true;
+        }
+        return false;
     }
 
 
@@ -32,18 +60,7 @@ public class AbandonedStation extends AdventureCard implements Participation, Ca
         return false;
     }
 
-
-    @Override
-    public void giveCargoReward(Set<Cargo> reward, Player player) {
-            manager.manageCargoAddition(reward, player);
-    }
-
-    @Override
-    public void applyFlightDayPenalty(int penalty, Player player) {
-        super.getDeck().getGameManager().getFlightBoardState().movePlayerBackwards(penalty, player.getPlayerID());
-    }
-
-
+/*
     @Override
     public void play() {
         System.out.println("------------------------Abandoned Station--------------------------");
@@ -76,4 +93,6 @@ public class AbandonedStation extends AdventureCard implements Participation, Ca
 
 
     }
+    */
+
 }
