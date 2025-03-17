@@ -1,9 +1,12 @@
 package managers;
 
+import it.polimi.it.galaxytrucker.componenttiles.ComponentTile;
+import it.polimi.it.galaxytrucker.componenttiles.TileEdge;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.List;
 
@@ -19,6 +22,21 @@ public class GameManagerTest {
         GameManager manager = startGame();
 
         assertTrue(manager.getPlayers().isEmpty());
+    }
+
+    @Test
+    void createComponentTilePool () {
+        GameManager manager = startGame();
+        manager.initializeComponentTiles();
+        Set<ComponentTile> comps = manager.getComponents();
+
+        for (ComponentTile componentTile : comps) {
+            System.out.println(componentTile.getClass());
+            List<TileEdge> edges = componentTile.getTileEdges();
+            for (TileEdge edge : edges) {
+                System.out.println(edge.toString());
+            }
+        }
     }
 
     @Test
@@ -69,9 +87,9 @@ public class GameManagerTest {
          * 7  [ ][ ][x][ ][ ]
          * 8  [ ][ ][ ][ ][ ]
          * 9  [ ][ ]   [ ][ ]
-         * 
+         *
          * Where x stands for CentralCabin which has all TileEdge.UNIVERSAL connectors
-         * 
+         *
         */
 
         //Player 1: Margara's ship build

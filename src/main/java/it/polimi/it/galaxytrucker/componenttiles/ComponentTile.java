@@ -1,5 +1,7 @@
 package it.polimi.it.galaxytrucker.componenttiles;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import it.polimi.it.galaxytrucker.observer.EventPublisher;
 
 import java.util.ArrayList;
@@ -13,6 +15,11 @@ import java.util.List;
  * @author Giacomo Amaducci
  * @version 1.1
  */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "componentType")
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = StructuralModule.class, name = "StructuralModule"),
+        @JsonSubTypes.Type(value = CargoHold.class, name = "CargoHold")
+})
 public abstract class ComponentTile extends EventPublisher {
     /** The list of edges for this tile in the order: top, right, bottom, left */
     private final List<TileEdge> tileEdges;
@@ -24,14 +31,11 @@ public abstract class ComponentTile extends EventPublisher {
      * Constructs a new component tile with the specified edges.
      * Initial rotation is set to 0.
      *
-     * @param top the type of the top edge of this tile
-     * @param right the type of the right edge of this tile
-     * @param bottom the type of the bottom edge of this tile
-     * @param left the type of the left edge of this tile
+     * @param edges the edges for the Component Tile
      */
-    public ComponentTile(TileEdge top, TileEdge right, TileEdge bottom, TileEdge left) {
+    public ComponentTile(List<TileEdge> edges) {
         rotation = 0;
-        tileEdges = List.of(top, right, bottom, left);
+        tileEdges = edges;
     }
 
     /**

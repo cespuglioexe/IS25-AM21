@@ -1,5 +1,7 @@
 package it.polimi.it.galaxytrucker.componenttiles;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.it.galaxytrucker.exceptions.InvalidActionException;
 import it.polimi.it.galaxytrucker.utility.Cargo;
 
@@ -19,7 +21,7 @@ public class CargoHold extends ComponentTile {
     boolean canHoldSpecialCargo;
     private List<Cargo> containedCargo;
 
-    /**
+    /*
      * Constructs a new cargo hold with the specified number of containers and tile edges.
      *
      * @param containers The number of cargo containers this cargo hold can accommodate
@@ -28,8 +30,9 @@ public class CargoHold extends ComponentTile {
      * @param bottom The type of edge on the bottom side of this tile
      * @param left The type of edge on the left side of this tile
      */
-    public CargoHold(int containers, TileEdge top, TileEdge right, TileEdge bottom, TileEdge left) {
-        super(top, right, bottom, left);
+    @JsonCreator
+    public CargoHold(@JsonProperty("containerNum") int containers, @JsonProperty("edges") List<TileEdge> edges) {
+        super(edges);
         containerNumber = containers;
         canHoldSpecialCargo = false;
         containedCargo = new ArrayList<>();

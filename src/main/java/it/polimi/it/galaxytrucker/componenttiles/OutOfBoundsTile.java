@@ -1,5 +1,7 @@
 package it.polimi.it.galaxytrucker.componenttiles;
 
+import java.util.List;
+
 /**
  * This class represents an Empty Tile component, a space outside the ship where no component can be placed.
  * An Empty Tile has all smooth.
@@ -13,6 +15,6 @@ public class OutOfBoundsTile extends ComponentTile {
      * All edges are initialized as SMOOTH.
      */
     public OutOfBoundsTile() {
-        super(TileEdge.SMOOTH, TileEdge.SMOOTH, TileEdge.SMOOTH, TileEdge.SMOOTH);
+        super(List.of(TileEdge.SMOOTH, TileEdge.SMOOTH, TileEdge.SMOOTH, TileEdge.SMOOTH));
     }
 }

@@ -2,6 +2,8 @@ package it.polimi.it.galaxytrucker.componenttiles;
 
 import it.polimi.it.galaxytrucker.utility.AlienType;
 
+import java.util.List;
+
 /**
  * This class represents a Life Support component tile.
  * Life Support tiles provide the necessary environment for a specific
@@ -14,7 +16,7 @@ public class LifeSupport extends ComponentTile {
     /** The type of alien that this life support system can sustain */
     private final AlienType supportedAlienType;
 
-    /**
+    /*
      * Constructs a new Life Support tile with the specified alien type and edges.
      *
      * @param type the {@code AlienType} that this life support system supports
@@ -23,8 +25,8 @@ public class LifeSupport extends ComponentTile {
      * @param bottom the type of the bottom edge of this tile
      * @param left the type of the left edge of this tile
      */
-    public LifeSupport(AlienType type, TileEdge top, TileEdge right, TileEdge bottom, TileEdge left) {
-        super(top, right, bottom, left);
+    public LifeSupport(AlienType type, List<TileEdge> edges) {
+        super(edges);
         this.supportedAlienType = type;
     }
 

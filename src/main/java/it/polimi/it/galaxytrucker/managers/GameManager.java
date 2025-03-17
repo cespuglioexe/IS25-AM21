@@ -1,19 +1,18 @@
 package it.polimi.it.galaxytrucker.managers;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import it.polimi.it.galaxytrucker.aventurecard.AdventureDeck;
-import it.polimi.it.galaxytrucker.componenttiles.ComponentTile;
+import it.polimi.it.galaxytrucker.componenttiles.*;
 import it.polimi.it.galaxytrucker.exceptions.InvalidActionException;
 import it.polimi.it.galaxytrucker.exceptions.NotFoundException;
 import it.polimi.it.galaxytrucker.gameStates.State;
 import it.polimi.it.galaxytrucker.gameStates.Start;
+import it.polimi.it.galaxytrucker.json.Json;
 import it.polimi.it.galaxytrucker.utility.Color;;
 
 public class GameManager implements Model {
@@ -24,6 +23,7 @@ public class GameManager implements Model {
     private Set<ComponentTile> components;
     private FlightBoardState flightBoard;
     private AdventureDeck adventureDeck;
+    private Json json;
 
     public GameManager() {
         this.currentState = new Start(this);
@@ -144,8 +144,24 @@ public class GameManager implements Model {
         this.flightBoard = new FlightBoardState(this.level);
     }
 
+    public Set<ComponentTile> getComponents () {
+        return this.components;
+    }
+
     public void initializeComponentTiles() {
-        //TODO from JSON file
+
+        // NOTE: per ora supporta la creazione di StructuralModule e CargoHold
+        // Il file contiene già alcuni componenti di prova
+        // Per le altre classi devo ancora aggiungere supporto
+
+        File file = new File("src/main/resources/it/polimi/it/galaxytrucker/json/componenttiles.json");
+
+        try {
+            JsonNode node = Json.parse(file);
+            components = Json.fromJsonSet(node, ComponentTile.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void initializeAdventureDeck() {

@@ -19,7 +19,7 @@ public class CentralCabin extends ComponentTile {
     /** List of crewmates currently in this cabin */
     List<Crewmate> crewmates;
 
-    /**
+    /*
      * Constructs a new Central Cabin with the specified edges.
      * Initializes an empty crewmates list.
      *
@@ -28,8 +28,8 @@ public class CentralCabin extends ComponentTile {
      * @param bottom the type of the bottom edge of this tile
      * @param left the type of the left edge of this tile
      */
-    public CentralCabin(TileEdge top, TileEdge right, TileEdge bottom, TileEdge left) {
-        super(top, right, bottom, left);
+    public CentralCabin(List<TileEdge> edges) {
+        super(edges);
         crewmates = new ArrayList<>();
     }
 

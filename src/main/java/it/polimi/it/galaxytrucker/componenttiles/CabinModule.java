@@ -3,6 +3,8 @@ package it.polimi.it.galaxytrucker.componenttiles;
 import it.polimi.it.galaxytrucker.crewmates.Alien;
 import it.polimi.it.galaxytrucker.exceptions.InvalidActionException;
 
+import java.util.List;
+
 /**
  * Represents a Cabin Module that extends the central cabin functionality.
  * This module can house a single alien crewmate at a time.
@@ -16,7 +18,7 @@ import it.polimi.it.galaxytrucker.exceptions.InvalidActionException;
  */
 public class CabinModule extends CentralCabin {
 
-    /**
+    /*
      * Constructs a new CabinModule with the specified edges.
      *
      * @param top    The edge type for the top side of the cabin
@@ -24,8 +26,8 @@ public class CabinModule extends CentralCabin {
      * @param bottom The edge type for the bottom side of the cabin
      * @param left   The edge type for the left side of the cabin
      */
-    public CabinModule(TileEdge top, TileEdge right, TileEdge bottom, TileEdge left) {
-        super(top, right, bottom, left);
+    public CabinModule(List<TileEdge> edges) {
+        super(edges);
     }
 
     /**

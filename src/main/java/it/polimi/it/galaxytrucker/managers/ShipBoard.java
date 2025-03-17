@@ -321,7 +321,7 @@ public class ShipBoard {
         final int CENTRALCABINCOLUMN = 3;
         
         try {
-            this.addComponentTile(CENTRALCABINROW, CENTRALCABINCOLUMN, new CentralCabin(TileEdge.UNIVERSAL, TileEdge.UNIVERSAL, TileEdge.UNIVERSAL, TileEdge.UNIVERSAL));
+            this.addComponentTile(CENTRALCABINROW, CENTRALCABINCOLUMN, new CentralCabin(List.of(TileEdge.UNIVERSAL, TileEdge.UNIVERSAL, TileEdge.UNIVERSAL, TileEdge.UNIVERSAL)));
         } catch (IllegalComponentPositionException e) {
             e.printStackTrace();
         }
@@ -461,7 +461,7 @@ public class ShipBoard {
         }
         for (List<Integer> coord : branch) {
             try {
-                branchBoard.addComponentTile(coord.get(0), coord.get(1), new SingleCannon(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+                branchBoard.addComponentTile(coord.get(0), coord.get(1), new SingleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE)));
             } catch (IllegalComponentPositionException e) {
                 e.printStackTrace();
             }

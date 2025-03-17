@@ -1,5 +1,7 @@
 package it.polimi.it.galaxytrucker.componenttiles;
 
+import java.util.List;
+
 /**
  * This class represents a Single Cannon component tile.
  * Single Cannons provide offensive capabilities with a firepower of 1.
@@ -12,7 +14,7 @@ public class SingleCannon extends ComponentTile implements Cannon {
     /** The firepower value of this cannon */
     private final int firePower;
 
-    /**
+    /*
      * Constructs a new {@code SingleCannon} with the specified edges.
      * The firepower is always initialized to 1.
      *
@@ -21,8 +23,8 @@ public class SingleCannon extends ComponentTile implements Cannon {
      * @param bottom the type of the bottom edge of this tile
      * @param left the type of the left edge of this tile
      */
-    public SingleCannon(TileEdge top, TileEdge right, TileEdge bottom, TileEdge left) {
-        super(top, right, bottom, left);
+    public SingleCannon(List<TileEdge> edges) {
+        super(edges);
         firePower = 1;
     }
 

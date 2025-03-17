@@ -1,0 +1,28 @@
+[
+  {
+    "componentType": "StructuralModule",
+    "edges": ["SINGLE", "DOUBLE", "SMOOTH", "SMOOTH"]
+  },
+  {
+    "componentType": "StructuralModule",
+    "edges": ["DOUBLE", "DOUBLE", "SMOOTH", "UNIVERSAL"]
+  },
+  {
+    "componentType": "StructuralModule",
+    "edges": ["SMOOTH", "UNIVERSAL", "UNIVERSAL", "DOUBLE"]
+  },
+  {
+    "componentType": "StructuralModule",
+    "edges": ["SINGLE", "DOUBLE", "SMOOTH", "SINGLE"]
+  },
+  {
+    "componentType": "CargoHold",
+    "containerNum": 3,
+    "edges": ["SINGLE", "DOUBLE", "UNIVERSAL", "SMOOTH"]
+  },
+  {
+    "componentType": "CargoHold",
+    "containerNum": 2,
+    "edges": ["SINGLE", "DOUBLE", "DOUBLE", "SMOOTH"]
+  }
+]

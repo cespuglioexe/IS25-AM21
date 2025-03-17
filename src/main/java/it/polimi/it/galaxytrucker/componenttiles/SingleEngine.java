@@ -1,5 +1,7 @@
 package it.polimi.it.galaxytrucker.componenttiles;
 
+import java.util.List;
+
 /**
  * This class represents a Single Engine component tile.
  * Single Engines provide propulsion capabilities with an engine power of 1.
@@ -12,7 +14,7 @@ public class SingleEngine extends ComponentTile {
     /** The power value of this engine */
     private final int enginePower;
 
-    /**
+    /*
      * Constructs a new {@code SingleEngine} with the specified edges.
      * The engine power is always initialized to 1.
      *
@@ -21,8 +23,8 @@ public class SingleEngine extends ComponentTile {
      * @param bottom the type of the bottom edge of this tile
      * @param left the type of the left edge of this tile
      */
-    public SingleEngine(TileEdge top, TileEdge right, TileEdge bottom, TileEdge left) {
-        super(top, right, bottom, left);
+    public SingleEngine(List<TileEdge> edges) {
+        super(edges);
         enginePower = 1;
     }
 

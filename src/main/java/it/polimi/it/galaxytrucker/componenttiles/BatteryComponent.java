@@ -2,6 +2,8 @@ package it.polimi.it.galaxytrucker.componenttiles;
 
 import it.polimi.it.galaxytrucker.exceptions.InvalidActionException;
 
+import java.util.List;
+
 /**
  * Represents a Battery Component.
  * This component provides energy storage with a limited capacity.
@@ -14,7 +16,7 @@ public class BatteryComponent extends ComponentTile {
 
     private int batteryCharge;
 
-    /**
+    /*
      * Constructs a new battery component with the specified capacity and tile edges.
      *
      * @param capacity The initial charge capacity of the battery
@@ -23,8 +25,8 @@ public class BatteryComponent extends ComponentTile {
      * @param bottom The type of edge on the bottom side of this tile
      * @param left The type of edge on the left side of this tile
      */
-    public BatteryComponent(int capacity, TileEdge top, TileEdge right, TileEdge bottom, TileEdge left) {
-        super(top, right, bottom, left);
+    public BatteryComponent(int capacity, List<TileEdge> edges) {
+        super(edges);
         batteryCharge = capacity;
     }
 

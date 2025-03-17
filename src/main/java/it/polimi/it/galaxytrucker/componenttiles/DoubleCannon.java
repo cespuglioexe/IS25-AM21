@@ -2,6 +2,8 @@ package it.polimi.it.galaxytrucker.componenttiles;
 
 import it.polimi.it.galaxytrucker.observer.EnergyConsumptionEvent;
 
+import java.util.List;
+
 /**
  * This class represents a Double Cannon component tile.
  * Double Cannons provide increased firepower but require activation.
@@ -12,7 +14,7 @@ import it.polimi.it.galaxytrucker.observer.EnergyConsumptionEvent;
 public class DoubleCannon extends SingleCannon implements EnergyConsumer, Cannon {
     private boolean isActive;
 
-    /**
+    /*
      * Constructs a new {@code DoubleCannon} with the specified edges.
      *
      * @param top the type of the top edge of this tile
@@ -20,8 +22,8 @@ public class DoubleCannon extends SingleCannon implements EnergyConsumer, Cannon
      * @param bottom the type of the bottom edge of this tile
      * @param left the type of the left edge of this tile
      */
-    public DoubleCannon(TileEdge top, TileEdge right, TileEdge bottom, TileEdge left) {
-        super(top, right, bottom, left);
+    public DoubleCannon(List<TileEdge> edges) {
+        super(edges);
         this.isActive = false;
     }
 
@@ -29,12 +31,13 @@ public class DoubleCannon extends SingleCannon implements EnergyConsumer, Cannon
      * Activates the double cannon if it is currently inactive.
      */
     @Override
-    public void activate() {
+    public int activate() {
         if (!isActive) {
             isActive = true;
             EnergyConsumptionEvent event = new EnergyConsumptionEvent();
             this.publish(event);
         }
+        return -1;
     }
 
     /**
@@ -54,15 +57,5 @@ public class DoubleCannon extends SingleCannon implements EnergyConsumer, Cannon
         }
         isActive = false;
         return 1;
-    }
-
-    /**
-     * Determines if the cannon can be activated.
-     *
-     * @return always {@code false}, as this implementation does not allow reactivation.
-     */
-    @Override
-    public boolean canBeActivated() {
-        return false;
     }
 }
