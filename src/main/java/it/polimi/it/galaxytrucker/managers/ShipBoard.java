@@ -1,7 +1,6 @@
 package it.polimi.it.galaxytrucker.managers;
 
 import it.polimi.it.galaxytrucker.componenttiles.*;
-import it.polimi.it.galaxytrucker.componenttiles.OutOfBoundsTile;
 import it.polimi.it.galaxytrucker.exceptions.IllegalComponentPositionException;
 
 import java.util.ArrayList;
@@ -44,7 +43,7 @@ import java.util.stream.IntStream;
  * </pre>
  * 
  * @author Stefano Carletto
- * @version 1.1
+ * @version 1.2
  */
 public class ShipBoard {
     private List<List<Optional<ComponentTile>>> tileMatrix;
@@ -334,9 +333,10 @@ public class ShipBoard {
      * @param row       The row index where the component should be placed.
      * @param column    The column index where the component should be placed.
      * @param component The {@code ComponentTile} to be added.
+     * @throws IndexOutOfBoundsException If the specified row or column is out of the ship's bounds.
      * @throws IllegalComponentPositionException If a component is already present at the specified position or if the specified position is outside the ship.
      */
-    public void addComponentTile(int row, int column, ComponentTile component) throws IllegalComponentPositionException {
+    public void addComponentTile(int row, int column, ComponentTile component) throws IndexOutOfBoundsException, IllegalComponentPositionException {
         if (this.getComponent(row, column).isPresent() && this.getComponent(row, column).get().getClass().equals(OutOfBoundsTile.class)) {
             throw new IllegalComponentPositionException("You cannot place a component outside the ship");
         }
@@ -353,9 +353,10 @@ public class ShipBoard {
      * @param row    The row index of the component to be removed.
      * @param column The column index of the component to be removed.
      * @return The removed component
+     * @throws IndexOutOfBoundsException If the specified row or column is out of the ship's bounds.
      * @throws IllegalComponentPositionException If there is no component at the specified position.
      */
-    public ComponentTile removeComponentTile(int row, int column) throws IllegalComponentPositionException {
+    public ComponentTile removeComponentTile(int row, int column) throws IndexOutOfBoundsException, IllegalComponentPositionException {
         if (this.getComponent(row, column).isEmpty() || 
             (this.getComponent(row, column).isPresent() && this.getComponent(row, column).get().getClass().equals(OutOfBoundsTile.class))) {
             throw new IllegalComponentPositionException("There is no element here");
@@ -387,6 +388,7 @@ public class ShipBoard {
      * @param branch A set of coordinate pairs {@code (row, column)} representing the components 
      *               to be removed.
      * @return A set containing all removed components
+     * @throws IndexOutOfBoundsException If the specified row or column is out of the ship's bounds.
      * @throws IllegalComponentPositionException If the removal of a component at any given coordinate 
      *         is not allowed due to game rules or invalid positioning.
      */

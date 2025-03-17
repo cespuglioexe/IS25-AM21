@@ -1,9 +1,7 @@
-package it.polimi.it.galaxytrucker.aventurecard;
+package it.polimi.it.galaxytrucker.old;
 
-import it.polimi.it.galaxytrucker.componenttiles.ComponentTile;
-import it.polimi.it.galaxytrucker.componenttiles.Shield;
-import it.polimi.it.galaxytrucker.componenttiles.SingleCannon;
-import it.polimi.it.galaxytrucker.componenttiles.TileEdge;
+import it.polimi.it.galaxytrucker.aventurecard.AdventureDeck;
+import it.polimi.it.galaxytrucker.componenttiles.*;
 import it.polimi.it.galaxytrucker.managers.Player;
 import it.polimi.it.galaxytrucker.utility.Direction;
 import it.polimi.it.galaxytrucker.utility.Projectile;
@@ -43,9 +41,18 @@ public class MeteorSwarm extends Attack {
         int index=0;
         List<ComponentTile> listScudi = null;
         List<ComponentTile> listSingleCannon = null;
-        //Set<List<Integer>>  listCannoni = null;
+        List<ComponentTile> listDoubleCannon = null;
+
+        Set<List<Integer>>  posizioneDoubleCannon = null;
         Set<List<Integer>> posizioneSingleCannon = null;
+        Set<List<Integer>> posizioneCannons = null;
+
+
         List<Shield> shield = null;
+        List<ComponentTile> singleCannons = null;
+        List<DoubleCannon> doubleCannons = null;
+
+        List<ComponentTile> activableCannons = null;
         int y=0;
 
 
@@ -108,16 +115,56 @@ public class MeteorSwarm extends Attack {
 
         }else{
 
+
+            posizioneSingleCannon = player.getShipManager().getAllComponentsPositionOfType(SingleCannon.class);
+            posizioneDoubleCannon = player.getShipManager().getAllComponentsPositionOfType(DoubleCannon.class);
+            posizioneCannons.addAll(posizioneSingleCannon);
+            posizioneCannons.addAll(posizioneDoubleCannon);
+
+
             //se il meteorite è grosso non ci si può difendere con gli scudi bisogna sparare
             posizioneSingleCannon = player.getShipManager().getAllComponentsPositionOfType(SingleCannon.class);
 
             for (List<Integer> liste:posizioneSingleCannon) {
                  listSingleCannon = player.getShipManager().getComponent(liste.getFirst(), liste.get(1)).stream().toList();
             }
-            //trasformo la lista di componenti in lista di scudi
+            //trasformo la lista di componenti in lista di single cannons
             for (int i=0;i<listSingleCannon.size();i++){
-                singleCannon.add((SingleCannon) listScudi.get(i));
+                singleCannons.add((SingleCannon) listSingleCannon.get(i));
             }
+
+
+
+
+
+            /*-----------------------------*/
+            posizioneDoubleCannon = player.getShipManager().getAllComponentsPositionOfType(DoubleCannon.class);
+
+            for (List<Integer> liste:posizioneDoubleCannon) {
+                listDoubleCannon = player.getShipManager().getComponent(liste.getFirst(), liste.get(1)).stream().toList();
+            }
+            //trasformo la lista di componenti in lista di single cannons
+            for (int i=0;i<listDoubleCannon.size();i++){
+                doubleCannons.add((DoubleCannon) listDoubleCannon.get(i));
+            }
+
+
+
+            //lista cannoni attivabili
+            for (int i=0; i<singleCannons.size();i++){
+                if (Direction.values()[singleCannons.get(i).getRotation()]==entry.getValue()){
+                    activableCannons.add(singleCannons.get(i));
+                }
+            }
+
+            for (int i=0; i<doubleCannons.size();i++){
+                if (Direction.values()[doubleCannons.get(i).getRotation()]==entry.getValue()){
+                    activableCannons.add(doubleCannons.get(i));
+                }
+            }
+
+
+
 
             if(entry.getValue()==Direction.UP||entry.getValue()==Direction.DOWN){
                 player.getShipManager().removeComponentTile(index,line);

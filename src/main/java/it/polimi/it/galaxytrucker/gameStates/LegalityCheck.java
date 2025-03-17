@@ -1,4 +1,4 @@
-package it.polimi.it.galaxytrucker.gameStates.states;
+package it.polimi.it.galaxytrucker.gameStates;
 
 import it.polimi.it.galaxytrucker.managers.GameManager;
 
@@ -13,12 +13,7 @@ public class LegalityCheck extends State {
     }
 
     @Override
-    public void update() {
-
-    }
-
-    @Override
     public void exit() {
-
+        
     }
 }
