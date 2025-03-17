@@ -1,9 +1,6 @@
 package it.polimi.it.galaxytrucker.aventurecard;
 
-import it.polimi.it.galaxytrucker.componenttiles.ComponentTile;
-import it.polimi.it.galaxytrucker.componenttiles.Shield;
-import it.polimi.it.galaxytrucker.componenttiles.SingleCannon;
-import it.polimi.it.galaxytrucker.componenttiles.TileEdge;
+import it.polimi.it.galaxytrucker.componenttiles.*;
 import it.polimi.it.galaxytrucker.managers.Player;
 import it.polimi.it.galaxytrucker.utility.Direction;
 import it.polimi.it.galaxytrucker.utility.Projectile;
@@ -46,11 +43,15 @@ public class MeteorStorm extends AdventureCard{
     }
 
 
-    public void meteorStorm(Player player, List<Shield> shieldActivated, Map<Projectile, Direction> projectile, List<SingleCannon> cannons) {
+    public void meteorStorm(Player player, List<Shield> shieldActivated, Map<Projectile, Direction> projectile, List<Cannon> cannons) {
         int r, protect=0;
-        Set<List<Integer>> cannonsCoord;
-        
-        cannonsCoord = player.getShipManager().getAllComponentsPositionOfType(SingleCannon.class);
+        Set<List<Integer>> sCannonsCoord,dCannonsCoord,allCannonsCoord = null;
+
+
+        sCannonsCoord = player.getShipManager().getAllComponentsPositionOfType(SingleCannon.class);
+        dCannonsCoord = player.getShipManager().getAllComponentsPositionOfType(DoubleCannon.class);
+        allCannonsCoord.addAll(sCannonsCoord);
+        allCannonsCoord.addAll(dCannonsCoord);
 
         for(Map.Entry<Projectile,Direction> entry : projectile.entrySet()){
 
@@ -78,11 +79,22 @@ public class MeteorStorm extends AdventureCard{
             }
 
             if (entry.getKey() == Projectile.BIG){
-                for (SingleCannon c : cannons) {
-                    if (c.getRotation() == r){
-                        if()
-                        protect=1;
-                        break;
+                for (List<Integer> list : allCannonsCoord) {
+                    if(entry.getValue()== Direction.UP){
+                        if(line == list.get(1)) {
+                            protect=1;
+                            break;
+                        }
+                    }else if (entry.getValue()== Direction.DOWN){
+                        if (line == list.get(1)||line == list.get(0)+1||line == list.get(0)-1) {
+                            protect=1;
+                            break;
+                        }
+                    }else{
+                        if(line == list.get(0)||line == list.get(0)+1||line == list.get(0)-1) {
+                            protect=1;
+                            break;
+                        }
                     }
                 }
                 if (protect!=1){
