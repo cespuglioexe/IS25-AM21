@@ -13,14 +13,14 @@ class FlightBoardStateTest {
 
     @Test
     public void printFlightBoardState() {
-        FlightBoardState board = new FlightBoardState(16);
+        FlightBoardState board = new FlightBoardState(18);
         board.setBoard();
         board.printFlightBoardState();
     }
 
     @Test
     public void movePlayerForward(){
-        FlightBoardState board = new FlightBoardState(16);
+        FlightBoardState board = new FlightBoardState(18);
         board.setBoard();
         Player player1=new Player(new UUID(0,1), "Margarozzo1",0, Color.RED);
         Player player2=new Player(new UUID(0,2), "Margarozzo2",0, Color.BLUE);
@@ -33,20 +33,25 @@ class FlightBoardStateTest {
         board.addPlayerMarker(player4.getPlayerID(),4);
 
         board.movePlayerForward(2, player1.getPlayerID());
-        assertEquals(board.getPlayerPosition().get(player2.getPlayerID()),6);
-        assertEquals(board.getCompleatedTurns().get(player2.getPlayerID()),0);
+        assertEquals(board.getPlayerPosition().get(player1.getPlayerID()),6);
+        assertEquals(board.getCompleatedTurns().get(player1.getPlayerID()),0);
+        board.printFlightBoardState();
         board.movePlayerForward(5, player2.getPlayerID());
         assertEquals(board.getPlayerPosition().get(player2.getPlayerID()),8);
         assertEquals(board.getCompleatedTurns().get(player2.getPlayerID()),0);
+        board.printFlightBoardState();
         board.movePlayerForward(10, player2.getPlayerID());
         assertEquals(board.getPlayerPosition().get(player2.getPlayerID()),2);
         assertEquals(board.getCompleatedTurns().get(player2.getPlayerID()),1);
+
 
     }
 
     @Test
     public void movePlayerBackwards() {
-        FlightBoardState board = new FlightBoardState(16);
+
+        FlightBoardState board = new FlightBoardState(18);
+        board.setBoard();
         Player player1=new Player(new UUID(0,1), "Margarozzo1",0, Color.RED);
         Player player2=new Player(new UUID(0,2), "Margarozzo2",0, Color.BLUE);
         Player player3=new Player(new UUID(0,3), "Margarozzo3",0, Color.GREEN);
@@ -61,15 +66,17 @@ class FlightBoardStateTest {
         assertEquals(board.getPlayerPosition().get(player1.getPlayerID()),3);
         assertEquals(board.getCompleatedTurns().get(player1.getPlayerID()),0);
 
+
         board.movePlayerBackwards(2, player4.getPlayerID());
-        assertEquals(board.getPlayerPosition().get(player4.getPlayerID()),14);
+        assertEquals(board.getPlayerPosition().get(player4.getPlayerID()),16);
         assertEquals(board.getCompleatedTurns().get(player4.getPlayerID()),-1);
+
 
         board.movePlayerBackwards(1, player1.getPlayerID());
         assertEquals(board.getPlayerPosition().get(player1.getPlayerID()),0);
         assertEquals(board.getCompleatedTurns().get(player1.getPlayerID()),0);
 
-        board.movePlayerForward(10, player2.getPlayerID());
+        board.movePlayerBackwards(10, player2.getPlayerID());
         assertEquals(board.getPlayerPosition().get(player2.getPlayerID()),7);
         assertEquals(board.getCompleatedTurns().get(player2.getPlayerID()),-1);
     }
@@ -77,7 +84,7 @@ class FlightBoardStateTest {
     @Test
     public void getPlayerOrder(){
 
-        FlightBoardState board = new FlightBoardState(16);
+        FlightBoardState board = new FlightBoardState(18);
         board.setBoard();
         Player player1=new Player(new UUID(0,1), "Margarozzo1",0, Color.RED);
         Player player2=new Player(new UUID(0,2), "Margarozzo2",0, Color.BLUE);
@@ -100,7 +107,7 @@ class FlightBoardStateTest {
     @Test
     public void addPlayerMarker() {
 
-        FlightBoardState board = new FlightBoardState(16);
+        FlightBoardState board = new FlightBoardState(18);
         board.setBoard();
         Player player1=new Player(new UUID(0,1), "Margarozzo1",0, Color.RED);
         Player player2=new Player(new UUID(0,2), "Margarozzo2",0, Color.BLUE);

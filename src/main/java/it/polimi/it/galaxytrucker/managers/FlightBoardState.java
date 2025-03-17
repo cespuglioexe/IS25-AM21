@@ -58,7 +58,8 @@ public class FlightBoardState {
         System.out.println();
         for (int i = 0; i < dimension/2; i++) {
             if(board[i].compareTo(new UUID(0,0)) != 0)
-                System.out.print(board[i].toString()+"\t");
+                System.out.print(board[i].getLeastSignificantBits()+"\t");
+            else System.out.print("\t");
         }
         System.out.println();
         for (int i = dimension/2; i < dimension; i++) {
@@ -67,7 +68,8 @@ public class FlightBoardState {
         System.out.println();
         for (int i = dimension/2; i < dimension; i++) {
             if(board[i].compareTo(new UUID(0,0)) != 0)
-                System.out.print(board[i].toString()+"\t");
+                System.out.print(board[i].getLeastSignificantBits()+"\t");
+            else System.out.print("\t");
         }
         System.out.println();
     }
@@ -76,17 +78,15 @@ public class FlightBoardState {
             int position = playerPosition.get(playerId);
             int newPosition = position;
 
+
             while (progress != 0){
                 newPosition = newPosition+1;
-                if(newPosition<board.length){
-                    if(board[newPosition].compareTo(new UUID(0,0)) == 0){
-                        progress = progress -1;
-                    }
-                } else {
-                    newPosition = 0;
-                    progress = progress -1;
+                if(newPosition==board.length){
                     compleatedTurns.put(playerId, compleatedTurns.get(playerId)+1);
+                    newPosition = 0;
                 }
+                if(board[newPosition].compareTo(new UUID(0,0)) == 0)
+                    progress = progress -1;
             }
             board[position] =  new UUID(0,0);
             board[newPosition] = playerId;
@@ -99,15 +99,12 @@ public class FlightBoardState {
 
         while (progress != 0){
             newPosition = newPosition-1;
-            if(newPosition>0){
-                if(board[newPosition].compareTo(new UUID(0,0)) == 0){
-                    progress = progress -1;
-                }
-            } else {
+            if(newPosition<0){
                 newPosition = board.length-1;
-                progress = progress -1;
                 compleatedTurns.put(playerId, compleatedTurns.get(playerId)-1);
             }
+            if(board[newPosition].compareTo(new UUID(0,0)) == 0)
+                progress = progress -1;
         }
         board[position] =  new UUID(0,0);
         board[newPosition] = playerId;
@@ -128,7 +125,7 @@ public class FlightBoardState {
     }
 
     public void addPlayerMarker(UUID id, int position) {
-            if(board.length == 16) {
+            if(board.length == 18) {
                 if(position == 1){
                     board[4] = id;
                     playerPosition.put(id, 4);
