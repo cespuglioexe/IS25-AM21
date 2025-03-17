@@ -9,7 +9,7 @@
 
 ## Project Overview
 
-This project is a Java-based implementation of the table game <a href="https://www.craniocreations.it/prodotto/galaxy-trucker"> Galaxy Trucker </a>, developed at Politecnico di Milano. The team members are 
+This project is a Java-based implementation of the table game <a href="https://www.craniocreations.it/prodotto/galaxy-trucker">Galaxy Trucker</a>. 
 
 ## Implemented Features
 
