@@ -15,13 +15,18 @@ public class Planet extends AdventureCard implements Participation, CargoReward,
     private CargoManager manager;
 
 
-    public Planet(Optional<Integer> penalty, Optional<Integer> flightDayPenalty, Optional<Cargo> reward,HashMap<Integer, Set<Cargo>> planets, int firePower,int creditReward, AdventureDeck deck, CargoManager manager) {
+    public Planet(Optional<Integer> penalty, Optional<Integer> flightDayPenalty, Optional<Cargo> reward,HashMap<Integer, Set<Cargo>> planets, int firePower,int creditReward,CargoManager manager) {
         super(penalty, flightDayPenalty, reward,firePower, creditReward);
         this.planets = planets;
         this.manager = manager;
     }
 
     //// Metodi
+
+
+    public HashMap<Integer, Player> getOccupiedPlanets() {
+        return occupiedPlanets;
+    }
 
     public void setPlayer(List<Player> partecipants){
         int i=0;

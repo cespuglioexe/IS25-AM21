@@ -21,11 +21,16 @@ public class AbandonedStation extends AdventureCard implements Participation, Ca
            MAX_PARTICIPATIONS = 1;
     }
 
+    public void setPlayer(List<Player> partecipants) {
+        super.setPartecipants(partecipants);
+    }
+
     @Override
     public void giveCargoReward(Set<Cargo> reward, Player player) {
             for(Cargo cargo : reward){
                 manager.manageCargoAddition(cargo, player);
             }
+
     }
 
     @Override

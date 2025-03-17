@@ -29,12 +29,12 @@ public class Smugglers extends AdventureCard implements CargoReward, CargoPenalt
     }
 
 
-    public boolean checkReward(Player player) {
+    public boolean checkReward(int firePower){
         if(!isDefeated) {
-            if (player.getShipManager().calculateEnginePower() < super.getFirePowerRequired()) {
+            if (firePower < super.getFirePowerRequired()) {
                 return false;
             } else {
-                if (player.getShipManager().calculateEnginePower() > super.getFirePowerRequired()) {
+                if (firePower > super.getFirePowerRequired()) {
                     setDefeated(true);
                     return true;
                 }
@@ -45,7 +45,6 @@ public class Smugglers extends AdventureCard implements CargoReward, CargoPenalt
 
     @Override
     public void applyPenalty(int penalty, Player player) {
-
             manager.manageCargoDischarge(penalty, player);
             // Controllo le merci più preziose e ti mando le coordinate e il colore del cargo
     }
