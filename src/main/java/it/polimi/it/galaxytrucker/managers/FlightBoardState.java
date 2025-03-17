@@ -19,6 +19,24 @@ public class FlightBoardState {
         compleatedTurns = new HashMap<UUID,Integer>();
     }
 
+    public void setBoard() {
+        for(int i = 0; i < board.length; i++){
+            board[i] = new UUID(0,0);
+        }
+    }
+
+    public UUID[] getBoard() {
+        return board;
+    }
+
+    public HashMap<UUID, Integer> getPlayerPosition() {
+        return playerPosition;
+    }
+
+    public HashMap<UUID, Integer> getCompleatedTurns() {
+        return compleatedTurns;
+    }
+
     public void printFlightBoardState() {
         System.out.println( "Flight Board State");
         System.out.println();
@@ -40,7 +58,7 @@ public class FlightBoardState {
         System.out.println();
         for (int i = 0; i < dimension/2; i++) {
             if(board[i].compareTo(new UUID(0,0)) != 0)
-                System.out.print(board[i]+"\t");
+                System.out.print(board[i].toString()+"\t");
         }
         System.out.println();
         for (int i = dimension/2; i < dimension; i++) {
@@ -49,7 +67,7 @@ public class FlightBoardState {
         System.out.println();
         for (int i = dimension/2; i < dimension; i++) {
             if(board[i].compareTo(new UUID(0,0)) != 0)
-                System.out.print(board[i]+"\t");
+                System.out.print(board[i].toString()+"\t");
         }
         System.out.println();
     }

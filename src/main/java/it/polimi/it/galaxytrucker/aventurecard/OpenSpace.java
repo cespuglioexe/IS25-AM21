@@ -1,6 +1,7 @@
 package it.polimi.it.galaxytrucker.aventurecard;
 
 import it.polimi.it.galaxytrucker.exceptions.GameLostException;
+import it.polimi.it.galaxytrucker.managers.FlightBoardState;
 import it.polimi.it.galaxytrucker.managers.Player;
 import it.polimi.it.galaxytrucker.utility.Cargo;
 
@@ -11,16 +12,17 @@ import java.util.Optional;
 public class OpenSpace extends AdventureCard{
 
     //
-    public OpenSpace(Optional<List<Player>> partecipants, Optional<Integer> penalty, Optional<Integer> flightDayPenalty, Optional<Integer> reward, int firePower, int creditReward, AdventureDeck deck) {
-        super(partecipants, penalty, flightDayPenalty, reward,firePower, creditReward, deck);
-    }
-
-    public void travel(int num,Player player){
-         super.getDeck().getGameManager().getFlightBoardState().movePlayerForward(num, player.getPlayerID());
+    public OpenSpace(Optional<Integer> penalty, Optional<Integer> flightDayPenalty, Optional<Integer> reward, int firePower, int creditReward) {
+        super(penalty, flightDayPenalty, reward,firePower, creditReward);
     }
 
 
-    @Override
+    public void travel(FlightBoardState board, Player player) {
+        board.movePlayerForward((int)getFlightDayPenalty().orElse(0), player.getPlayerID());
+    }
+
+/*
+
     public void play() {
         System.out.println("------------------------Open Space--------------------------");
 
@@ -36,4 +38,6 @@ public class OpenSpace extends AdventureCard{
             System.out.println("No player can play this card");
         }
     }
+
+ */
 }
