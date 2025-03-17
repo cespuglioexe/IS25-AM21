@@ -13,7 +13,7 @@ This project is a Java-based implementation of the table game <a href="https://w
 
 ## Implemented Features
 
-| Fnctionality     | Status |
+| Functionality    | Status |
 | :--------------- | :----: |
 | Simplyfied Rules | ⚪      |
 | Complete Rules   | ⚪️      |
