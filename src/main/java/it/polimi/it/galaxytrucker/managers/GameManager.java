@@ -9,6 +9,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import it.polimi.it.galaxytrucker.aventurecard.AdventureDeck;
+import it.polimi.it.galaxytrucker.componenttiles.ComponentTile;
 import it.polimi.it.galaxytrucker.exceptions.InvalidActionException;
 import it.polimi.it.galaxytrucker.exceptions.NotFoundException;
 import it.polimi.it.galaxytrucker.gameStates.State;
@@ -20,6 +21,7 @@ public class GameManager implements Model {
     private int level;
     private int numberOfPlayers;
     private List<Player> players;
+    private Set<ComponentTile> components;
     private FlightBoardState flightBoard;
     private AdventureDeck adventureDeck;
 
@@ -62,6 +64,12 @@ public class GameManager implements Model {
     }
 
     @Override
+    public ShipManager getPlayerShip(UUID id) {
+        return Optional.ofNullable(this.getPlayerByID(id).getShipManager())
+            .orElse(null);
+    }
+
+    @Override
     public Set<Player> getPlayersWithIllegalShips() {
         return this.players.stream()
             .filter(player -> !player.getShipManager().isShipLegal())
@@ -69,9 +77,8 @@ public class GameManager implements Model {
     }
 
     @Override
-    public ShipManager getPlayerShip(UUID id) {
-        return Optional.ofNullable(this.getPlayerByID(id).getShipManager())
-            .orElse(null);
+    public Set<ComponentTile> getComponentTiles() {
+        return this.components;
     }
 
     @Override
@@ -135,6 +142,10 @@ public class GameManager implements Model {
 
     public void initializeFlightBoard() {
         this.flightBoard = new FlightBoardState(this.level);
+    }
+
+    public void initializeComponentTiles() {
+        //TODO from JSON file
     }
 
     public void initializeAdventureDeck() {

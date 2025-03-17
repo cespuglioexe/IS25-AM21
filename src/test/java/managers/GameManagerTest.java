@@ -61,7 +61,21 @@ public class GameManagerTest {
 
         manager.changeState(new Building(manager));
 
-        //simulation of ship building
+        /*
+         * Simulation of ship building. Each ship is initialized as following:
+         *  4  5  6  7  8  9 10
+         * 5        [ ]
+         * 6     [ ][ ][ ]
+         * 7  [ ][ ][x][ ][ ]
+         * 8  [ ][ ][ ][ ][ ]
+         * 9  [ ][ ]   [ ][ ]
+         * 
+         * Where x stands for CentralCabin which has all TileEdge.UNIVERSAL connectors
+         * 
+        */
+
+        //Player 1: Margara's ship build
+        //TODO after JSON methods are implemented
     }
 
     private GameManager startGame() {
