@@ -3,6 +3,7 @@ package it.polimi.it.galaxytrucker.aventurecard;
 import it.polimi.it.galaxytrucker.cardEffects.CargoPenalty;
 import it.polimi.it.galaxytrucker.cardEffects.CargoReward;
 import it.polimi.it.galaxytrucker.cardEffects.FlightDayPenalty;
+import it.polimi.it.galaxytrucker.managers.FlightBoardState;
 import it.polimi.it.galaxytrucker.managers.Player;
 import it.polimi.it.galaxytrucker.utility.Cargo;
 
@@ -10,38 +11,57 @@ import java.util.*;
 
 public class Smugglers extends AdventureCard implements CargoReward, CargoPenalty, FlightDayPenalty {
 
+    private boolean isDefeated;
     private CargoManager manager;
 
-    public Smugglers(Optional<List<Player>> partecipants, Optional<Integer> penalty, Optional<Integer> flightDayPenalty, Optional<Cargo> reward, int firePower, int creditReward, AdventureDeck deck, CargoManager manager) {
-        super(partecipants, penalty, flightDayPenalty, reward,firePower, creditReward, deck);
+    public Smugglers(Optional<Integer> penalty, Optional<Integer> flightDayPenalty, Optional<Cargo> reward, int firePower, int creditReward, AdventureDeck deck, CargoManager manager) {
+        super(penalty, flightDayPenalty, reward,firePower, creditReward);
         this.manager = manager;
+        this.isDefeated = false;
+    }
+
+    public void setDefeated(boolean defeated) {
+        isDefeated = defeated;
+    }
+
+    public void setPlayer(List<Player> partecipants) {
+        super.setPartecipants(partecipants);
     }
 
 
+    public boolean checkReward(Player player) {
+        if(!isDefeated) {
+            if (player.getShipManager().calculateEnginePower() < super.getFirePowerRequired()) {
+                return false;
+            } else {
+                if (player.getShipManager().calculateEnginePower() > super.getFirePowerRequired()) {
+                    setDefeated(true);
+                    return true;
+                }
+                else return false;
+            }
+        } else return false;
+    }
+
     @Override
     public void applyPenalty(int penalty, Player player) {
-            // numero di merci da perdere che sono scritte nella carta
 
             manager.manageCargoDischarge(penalty, player);
-
             // Controllo le merci più preziose e ti mando le coordinate e il colore del cargo
     }
 
     @Override
     public void giveCargoReward(Set<Cargo> reward, Player player) {
-
-
-        manager.manageCargoAddition(reward,player);
-
-       //  Lista di cargo e passo a shipManager
-        // Cargo
-        // aggiungere carico passato come parametro alla shipManager del giocatore
+        for(Cargo cargo : reward) {
+            manager.manageCargoAddition(cargo,player);
+        }
     }
 
     @Override
-        public void applyFlightDayPenalty(int penalty, Player player) {
-        super.getDeck().getGameManager().getFlightBoardState().movePlayerBackwards(penalty, player.getPlayerID());
+    public void applyFlightDayPenalty(FlightBoardState board, Player player) {
+        board.movePlayerBackwards((int)getFlightDayPenalty().orElse(0), player.getPlayerID());
     }
+
 
 
     private boolean selection(Player player) {
@@ -59,7 +79,7 @@ public class Smugglers extends AdventureCard implements CargoReward, CargoPenalt
         }
         return false;
     }
-
+/*
     @Override
     public void play() {
 
@@ -92,6 +112,6 @@ public class Smugglers extends AdventureCard implements CargoReward, CargoPenalt
                 System.out.println("No player can play this card");
 
     }
-
+*/
 
 }

@@ -5,16 +5,14 @@ import it.polimi.it.galaxytrucker.managers.Player;
 import java.util.*;
 
 public abstract class AdventureCard<T> {
-    private Optional<List<Player>> partecipants;
+    private List<Player> partecipants;
     private Optional<Integer> penalty; //Penalità generidca che dopo viene implementata da cargopenalty e crewmatepenalty
     private Optional<Integer> flightDayPenalty;
     private Optional<T> reward;
     private int firePowerRequired;
     private int creditReward;
-    private AdventureDeck deck;
 
-    public AdventureCard(Optional<List<Player>> partecipants, Optional<Integer> penalty, Optional<Integer> flightDayPenalty, Optional<T> reward, int firePowerRequired, int creditReward) {
-        this.partecipants = partecipants;
+    public AdventureCard(Optional<Integer> penalty, Optional<Integer> flightDayPenalty, Optional<T> reward, int firePowerRequired, int creditReward) {
         this.penalty = penalty;
         this.flightDayPenalty = flightDayPenalty;
         this.reward = reward;
@@ -22,7 +20,7 @@ public abstract class AdventureCard<T> {
         this.creditReward = creditReward;
     }
 
-    public Optional<List<Player>> getPartecipants() {
+    public List<Player> getPartecipants() {
         return partecipants;
     }
 
@@ -45,9 +43,8 @@ public abstract class AdventureCard<T> {
         return creditReward;
     }
 
-    public AdventureDeck getDeck() {
-        return deck;
+    public void setPartecipants(List<Player> partecipants) {
+        this.partecipants = partecipants;
     }
 
-    public abstract void play();
 }

@@ -4,6 +4,7 @@ import it.polimi.it.galaxytrucker.cardEffects.CreditReward;
 import it.polimi.it.galaxytrucker.cardEffects.CrewmatePenalty;
 import it.polimi.it.galaxytrucker.cardEffects.FlightDayPenalty;
 import it.polimi.it.galaxytrucker.cardEffects.Participation;
+import it.polimi.it.galaxytrucker.managers.FlightBoardState;
 import it.polimi.it.galaxytrucker.managers.Player;
 import it.polimi.it.galaxytrucker.utility.Cargo;
 
@@ -11,15 +12,21 @@ import java.util.*;
 
 public class AbandonedShip extends AdventureCard implements Participation, CreditReward, FlightDayPenalty, CrewmatePenalty {
 
+    public final int MAX_PARTICIPATIONS;
 
-    public AbandonedShip(Optional<List<Player>> partecipants, Optional<Integer> penalty, Optional<Integer> flightDayPenalty, Optional<Integer> reward, int firePower, int creditReward, AdventureDeck deck) {
-        super(partecipants, penalty, flightDayPenalty, reward,firePower, creditReward, deck);
+    public AbandonedShip(Optional<Integer> penalty, Optional<Integer> flightDayPenalty, Optional<Integer> reward, int firePower, int creditReward) {
+        super(penalty, flightDayPenalty, reward,firePower, creditReward);
+        MAX_PARTICIPATIONS = 1;
     }
 
 
+    public void setPlayer(List<Player> partecipants) {
+        super.setPartecipants(partecipants);
+    }
+
     @Override
-    public void giveCreditReward(int reward, Player player) {
-        player.addCredits(reward);
+    public void giveCreditReward(Player player) {
+        player.addCredits((int)super.getReward().orElse(0));
     }
 
     @Override
@@ -32,10 +39,24 @@ public class AbandonedShip extends AdventureCard implements Participation, Credi
     }
 
     @Override
-    public void applyFlightDayPenalty(int penalty, Player player) {
-            super.getDeck().getGameManager().getFlightBoardState().movePlayerBackwards(penalty, player.getPlayerID());
+    public void applyFlightDayPenalty(FlightBoardState board, Player player) {
+        board.movePlayerBackwards((int)getFlightDayPenalty().orElse(0), player.getPlayerID());
     }
 
+    public int getMAX_PARTICIPATIONS() {
+        return MAX_PARTICIPATIONS;
+    }
+
+    public boolean RequiredHumanVerification(Player player) {
+        int nMin = (int)super.getPenalty().orElse(0);
+        if (player.getShipManager().countCrewmates() > nMin) {
+            return true;
+        }
+        return false;
+    }
+
+
+    //// View
     @Override
     public boolean partecipate(Player player) {
         Scanner scanner = new Scanner(System.in);
@@ -49,11 +70,20 @@ public class AbandonedShip extends AdventureCard implements Participation, Credi
         return false;
     }
 
+
+    /*
+     * Mi arrivano i giocatori già ordinati per ordine di FlightBoard (io aggiungo i partecipanti alla carta con setPlayer()):
+     * Controllo che alla carta partecipi un Player e basta con il getter alla variabile final MAX_PARTICIPATION (choice = 0, if choice==0 ecc...)
+     * Il controller chiede alla view se vuole partecipare un determinato partecipante
+     * Di quel player viene calcolato se ha raggiunto il numero di umani richiesto
+     * Applico le penalty o reward specifiche della carta
+     * */
+/*
     @Override
     public void play() {
         System.out.println("------------------------Abandoned Ship--------------------------");
 
-        List<Player> players = (List<Player>) super.getPartecipants().orElse(Collections.emptyList());
+        List<Player> players = (List<Player>) super.getPartecipants().get(1);
         if (!players.isEmpty()) {
             int choise = 0;
             for (Player player : players) {
@@ -79,4 +109,7 @@ public class AbandonedShip extends AdventureCard implements Participation, Credi
             System.out.println("No player can play this card");
         }
     }
+
+
+ */
 }

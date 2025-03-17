@@ -30,6 +30,9 @@ public class FlightBoardState {
 
         // 8    9   10  11  12  13  14  15
 
+        // ID(?) .......................
+
+
         for (int i = 0; i < dimension/2; i++) {
             System.out.print(i+ "\t");
         }

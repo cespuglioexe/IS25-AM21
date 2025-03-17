@@ -15,10 +15,35 @@ import java.util.stream.Collectors;
 
 public class Epidemic extends AdventureCard {
 
-    public Epidemic(Optional<List<Player>> partecipants, Optional<Integer> penalty, Optional<Integer> flightDayPenalty, Optional<Cargo> reward, int firePower, int creditReward, AdventureDeck deck) {
-        super(partecipants, penalty, flightDayPenalty, reward,firePower, creditReward, deck);
+    public Epidemic(Optional<Integer> penalty, Optional<Integer> flightDayPenalty, Optional<Cargo> reward, int firePower, int creditReward) {
+        super(penalty, flightDayPenalty, reward,firePower, creditReward);
     }
 
+    public void setPlayer(List<Player> partecipants) {
+        super.setPartecipants(partecipants);
+    }
+
+    public void HumanRemove(Player player) {
+        Set<List<Integer>> SetPositionCentre = player.getShipManager().getAllComponentsPositionOfType(CentralCabin.class);
+
+        List<Integer> positionCentre = SetPositionCentre.stream()
+                .flatMap(List::stream)
+                .collect(Collectors.toList());
+
+        for (List<Integer> position :  player.getShipManager().getAllComponentsPositionOfType(CabinModule.class)) {
+            if(position.get(0) == positionCentre.get(0)+1 || position.get(0) == positionCentre.get(0)-1 || position.get(1) == positionCentre.get(1)+1 || position.get(1) == positionCentre.get(1)-1 ){
+                player.getShipManager().removeCrewmate(position.get(0), position.get(1));
+                player.getShipManager().removeCrewmate(positionCentre.get(0), positionCentre.get(1));}
+            for (List<Integer> support :  player.getShipManager().getAllComponentsPositionOfType(CabinModule.class)) {
+                if(position.get(0) == support.get(0)+1 || position.get(0) == support.get(0)-1 || position.get(1) == support.get(1)+1 || position.get(1) == support.get(1)-1 ){
+                    player.getShipManager().removeCrewmate(position.get(0), position.get(1));
+                    player.getShipManager().removeCrewmate(support.get(0), support.get(1));
+                }
+            }
+        }
+    }
+
+    /*
     @Override
     public void play() {
         System.out.println("------------------------Epidemic--------------------------");
@@ -49,4 +74,6 @@ public class Epidemic extends AdventureCard {
             System.out.println("No player can play this card");
         }
     }
+    */
+
 }
