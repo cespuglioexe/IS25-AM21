@@ -5,6 +5,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import it.polimi.it.galaxytrucker.aventurecard.AdventureDeck;
+import it.polimi.it.galaxytrucker.componenttiles.ComponentTile;
 import it.polimi.it.galaxytrucker.gameStates.State;
 
 public interface Model {
@@ -17,6 +18,7 @@ public interface Model {
     public boolean allPlayersConnected();
     public ShipManager getPlayerShip(UUID id);
     public Set<Player> getPlayersWithIllegalShips();
+    public Set<ComponentTile> getComponentTiles();
     public FlightBoardState getFlightBoard();
     public AdventureDeck getAdventureDeck();
 

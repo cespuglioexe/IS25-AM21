@@ -10,7 +10,7 @@ import java.util.List;
  * Shields provide protection to two adjacent sides of the spaceship but require activation.
  *
  * @author Giacomo Amaducci
- * @version 1.1
+ * @version 1.2
  */
 public class Shield extends ComponentTile implements EnergyConsumer {
     /** Indicates whether the shield is currently active. */
