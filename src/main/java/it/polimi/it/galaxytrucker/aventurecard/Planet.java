@@ -3,6 +3,7 @@ package it.polimi.it.galaxytrucker.aventurecard;
 import it.polimi.it.galaxytrucker.cardEffects.CargoReward;
 import it.polimi.it.galaxytrucker.cardEffects.FlightDayPenalty;
 import it.polimi.it.galaxytrucker.cardEffects.Participation;
+import it.polimi.it.galaxytrucker.managers.FlightBoardState;
 import it.polimi.it.galaxytrucker.managers.Player;
 import it.polimi.it.galaxytrucker.utility.Cargo;
 
@@ -14,23 +15,39 @@ public class Planet extends AdventureCard implements Participation, CargoReward,
     private CargoManager manager;
 
 
-
-    public Planet(Optional<List<Player>> partecipants, Optional<Integer> penalty, Optional<Integer> flightDayPenalty, Optional<Cargo> reward,HashMap<Integer, Set<Cargo>> planets, int firePower,int creditReward, AdventureDeck deck, CargoManager manager) {
-        super(partecipants, penalty, flightDayPenalty, reward,firePower, creditReward, deck);
+    public Planet(Optional<Integer> penalty, Optional<Integer> flightDayPenalty, Optional<Cargo> reward,HashMap<Integer, Set<Cargo>> planets, int firePower,int creditReward, AdventureDeck deck, CargoManager manager) {
+        super(penalty, flightDayPenalty, reward,firePower, creditReward);
         this.planets = planets;
         this.manager = manager;
+    }
+
+    //// Metodi
+
+    public void setPlayer(List<Player> partecipants){
+        int i=0;
+        for(Player p : partecipants){
+            occupiedPlanets.put(i,p);
+            i++;
+        }
+        super.setPartecipants(partecipants);
     }
 
 
     @Override
     public void giveCargoReward(Set<Cargo> reward,Player player) {
-        manager.manageCargoAddition(reward, player);
+        for(Cargo cargo: reward) {
+            manager.manageCargoAddition(cargo, player);
+        }
     }
 
+
     @Override
-    public void applyFlightDayPenalty(int penalty, Player player) {
-       super.getDeck().getGameManager().getFlightBoardState().movePlayerBackwards(penalty, player.getPlayerID());
+    public void applyFlightDayPenalty(FlightBoardState board, Player player) {
+        board.movePlayerBackwards((int)getFlightDayPenalty().orElse(0), player.getPlayerID());
     }
+
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
     public boolean partecipate(Player player) {
@@ -44,8 +61,7 @@ public class Planet extends AdventureCard implements Participation, CargoReward,
             }
             return false;
     }
-
-    //TODO : Metodi della carta
+/*
     @Override
     public void play() {
         System.out.println("------------------------Planets-------------------------");
@@ -55,14 +71,14 @@ public class Planet extends AdventureCard implements Participation, CargoReward,
 
             for (Player player : players) {
 
-                if(partecipate(player) == true){
+                if (partecipate(player) == true) {
 
                     System.out.println("Available Planets:");
                     for (Map.Entry<Integer, Set<Cargo>> map : planets.entrySet()) {
                         Set<Cargo> values = map.getValue();
-                        if(!occupiedPlanets.containsKey(map.getKey())){
+                        if (!occupiedPlanets.containsKey(map.getKey())) {
                             System.out.print("Planet " + map.getKey() + "   Cargo: ");
-                            for(Cargo cargo : values){
+                            for (Cargo cargo : values) {
                                 System.out.print(" " + cargo.getColor());
                             }
                         }
@@ -72,14 +88,14 @@ public class Planet extends AdventureCard implements Participation, CargoReward,
                         System.out.println("Which planets do you choose?");
                         Scanner scanner = new Scanner(System.in);
                         int choice = scanner.nextInt();
-                        if(occupiedPlanets.get(choice) == null){
-                           occupiedPlanets.put(choice, player);
-                           giveCargoReward(planets.get(choice), player);
-                           applyFlightDayPenalty((int)super.getFlightDayPenalty().orElse(0),player);
-                        }else{
+                        if (occupiedPlanets.get(choice) == null) {
+                            occupiedPlanets.put(choice, player);
+                            giveCargoReward(planets.get(choice), player);
+                            applyFlightDayPenalty((int) super.getFlightDayPenalty().orElse(0), player);
+                        } else {
                             System.out.println("Invalid Choice");
                         }
-                    } catch(InputMismatchException e){
+                    } catch (InputMismatchException e) {
                         System.out.println("Invalid Choice");
                     }
 
@@ -92,5 +108,8 @@ public class Planet extends AdventureCard implements Participation, CargoReward,
         }
 
     }
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+ */
 }

@@ -1,126 +1,157 @@
- private int line,index;
-
-        public Pirates(Optional partecipants, Optional penalty, Optional flightDayPenalty, Optional reward, int firePowerRequired,int creditRreward, AdventureDeck deck, Map<Projectile, Direction> projectiles) {
-                super(partecipants, penalty, flightDayPenalty, reward, firePowerRequired,creditRreward, deck, projectiles);
-        }
+ package it.polimi.it.galaxytrucker.old;
 
 
+ import it.polimi.it.galaxytrucker.aventurecard.AdventureDeck;
+ import it.polimi.it.galaxytrucker.cardEffects.CrewmatePenalty;
+ import it.polimi.it.galaxytrucker.cardEffects.FlightDayPenalty;
+ import it.polimi.it.galaxytrucker.componenttiles.ComponentTile;
+ import it.polimi.it.galaxytrucker.componenttiles.Shield;
+ import it.polimi.it.galaxytrucker.managers.Player;
+ import it.polimi.it.galaxytrucker.utility.Direction;
+ import it.polimi.it.galaxytrucker.utility.Projectile;
 
-        @Override
-        public void meteorStorm(Player player, int line, Map.Entry<Projectile, Direction> projectiles) {
+ import java.util.*;
 
-        }
-
-        public void takeRewards(Player player) {
-                giveCreditReward(super.getCreditReward(),player);
-                applyFlightDayPenalty((Integer) super.getFlightDayPenalty().orElse(0), player);
-        }
-
-        public void checkConditions(Player player){
-                if (player.getShipManager().calculateFirePower() < super.getFirePowerRequired()){
-                        attack(player,);
-                }
-        }
+ public class CombatZone extends Attack implements FlightDayPenalty, CrewmatePenalty{
+     private final int FLYPENALTY = 3;
+     private final int CREWPENALTY = 2;
 
 
-        @Override
-        public void play() {
-
-        }
-
-
-        @Override
-        public void applyFlightDayPenalty(int penalty, Player player) {
-                //metodo che fa andare indietro il giocatore
-
-        }
-
-        @Override
-        public void giveCreditReward(int reward, Player player) {
-                player.addCredits(reward);
-        }
-
-        @Override
-        public void attack(Player player, Set<List<Integer>> listaScudi) {
-                Map<Projectile, Direction> cannonate = getProjectiles();
-                List<Optional<ComponentTile>> sequence;
-
-                index= 4;
-
-                for(Map.Entry<Projectile, Direction> entry : cannonate.entrySet()) {
-                        System.out.println(entry.getKey() + " " + entry.getValue());
-                        //per ogni proiettile tira il dado per vedere in che colonna/riga si trova
-                        line = super.rollDice();
-
-                        //recupera la colonna/riga in cui c'è il proiettile
-                        if (entry.getValue() == Direction.UP || entry.getValue() == Direction.DOWN) {
-                                sequence = player.getShipManager().getComponentsAtColumn(line);
-                        } else {
-                                sequence = player.getShipManager().getComponentsAtRow(line);
-                        }
-
-                        //trovo l'indice del primo pezzo che verrà colpito
-                        for (Optional<ComponentTile> c : sequence) {
-                                if (c.isPresent()) {
-                                        break;
-                                }
-                                index++;
-                        }
-
-                        // in base alla grandezza del proiettile ho 2 comportamenti diversi
-                        if (entry.getKey() == Projectile.SMALL) {
-
-                                if(entry.getValue()==Direction.UP||entry.getValue()==Direction.DOWN){
-                                        player.getShipManager().removeComponentTile(index,line);
-                                }else {
-                                        player.getShipManager().removeComponentTile(line,index);
-                                }
+     public CombatZone(Optional partecipants, Optional penalty, Optional flightDayPenalty, Optional reward, int firePowerRequired, int creditReward, AdventureDeck adventureDeck, Map<Projectile, Direction> projectiles) {
+         super(partecipants, penalty, flightDayPenalty, reward, firePowerRequired, creditReward,adventureDeck, projectiles);
+     }
 
 
-                        }else {//il proiettile è di tipo big quindi subisci danno in ogni caso
-                                if(entry.getValue()==Direction.UP||entry.getValue()==Direction.DOWN){
-                                        player.getShipManager().removeComponentTile(index,line);
-                                }else {
-                                        player.getShipManager().removeComponentTile(line,index);
-                                }
-                        }
+     @Override
+     public void applyCrewmatePenalty(int penalty, Player player) {
+         //super.getDeck().
+     }
 
-                }
+     @Override
+     public void applyFlightDayPenalty(int penalty, Player player) {
+         super.getDeck().getGameManager().getFlightBoardState().movePlayerBackwards(penalty, player.getPlayerID());
+     }
 
-        }
+     @Override
+     public void play() {
+         //controllo equipaggio
+         List<Player> players = super.getPartecipants().stream().toList();
+         Player temp;
+         temp=players.getFirst();
+         for (int i=1;i<players.size();i++) {
+             if(players.get(i).getShipManager().calculateEnginePower()<temp.getShipManager().calculateEnginePower()) {
+                 temp = players.get(i+1);
+             }
+         }
+         applyCrewmatePenalty(CREWPENALTY, temp);
 
-        public void activateShield(Player player, int row, int col){
-                player.getShipManager().removeBattery(row,col);
-        }
+         temp=players.getFirst();
+         for (int i=1;i<players.size();i++) {
+             if(players.get(i).getShipManager().countCrewmates()<temp.getShipManager().countCrewmates()) {
+                 temp = players.get(i+1);
+             }
+         }
+         applyFlightDayPenalty(FLYPENALTY, temp);
 
-        public boolean gestioneProiettili(Player player,Map.Entry<Projectile, Direction> projectile) {
-                /*List<ComponentTile> listScudi = null;
-                List<Shield> shield = null;
-                Set<List<Integer>> posizioniScudi = player.getShipManager().getAllComponentsPositionOfType(Shield.class);
-                for (List<Integer> liste:posizioniScudi) {
-                        listScudi = player.getShipManager().getComponent(liste.getFirst(),liste.get(1)).stream().toList();
-                }
-                //trasformo la lista di componenti in lista di scudi
-                for (int i=0;i<listScudi.size();i++){
-                        shield.add((Shield) listScudi.get(i));
-                }
 
-                //controllo se ci sono scudi orientati correttamente
-                for(Shield s: shield){
-                        if(s.getOrientation()==entry.getValue()||Direction.values()[(s.getOrientation().ordinal()+1)%4]==entry.getValue()){
-                                return true;
-                        }
-                }*/
+         temp=players.getFirst();
+         for (int i=1;i<players.size();i++) {
+             if(players.get(i).getShipManager().calculateFirePower()<temp.getShipManager().calculateFirePower()) {
+                 temp = players.get(i+1);
+             }
+         }
+         attack(temp);
 
-                if (projectile.getKey().equals(Projectile.SMALL)){
-                        checkShield();
-                }else{
-                        removeComponent(
-                }
-                return false;
+     }
 
-        }
+     @Override
+     public void attack(Player player) {
+         Scanner scanner = new Scanner(System.in);
+         ComponentTile componetHit = null;
+         List<Optional<ComponentTile>> sequence;
+         int line,index=0,y=0;
+         Map<Projectile, Direction> projectiles = super.getProjectiles();
+         List<ComponentTile> listScudi = null;
+         List<Shield> shield = null;
 
-        public void removeComponent(int row,int column){
 
-        }
+
+         for (Map.Entry<Projectile, Direction> entry : projectiles.entrySet()) {
+             line=super.rollDice();
+
+
+             //recupera la colonna/riga in cui c'è il proiettile
+             if(entry.getValue()==Direction.UP||entry.getValue()==Direction.DOWN){
+                 //dato l'indice della colonna mi ritorna tutta la colonna
+                 sequence = player.getShipManager().getComponentsAtColumn(line);
+             }else {
+                 //dato l'indice della riga mi ritorna tutta la riga
+                 sequence =  player.getShipManager().getComponentsAtRow(line);
+             }
+
+             //trovo il primo pezzo che verrà colpito
+
+             for (Optional<ComponentTile> c : sequence) {
+                 if(c.isPresent()){
+                     componetHit = c.get();
+                     break;
+                 }
+                 index++;
+             }
+
+             if(super.getDeck().getGameManager().getLevel()==1){
+                 index=index+4;
+             }else{
+                 index=index+5;
+             }
+
+             if (entry.getKey()==Projectile.SMALL){
+             //con le cannonate controllo subito gli scudi
+                     Set<List<Integer>> posizioniScudi = player.getShipManager().getAllComponentsPositionOfType(Shield.class);
+                     for (List<Integer> liste:posizioniScudi) {
+                         listScudi = player.getShipManager().getComponent(liste.getFirst(),liste.get(1)).stream().toList();
+                     }
+                     //trasformo la lista di componenti in lista di scudi
+                     for (int i=0;i<listScudi.size();i++){
+                         shield.add((Shield) listScudi.get(i));
+                     }
+
+
+                     //controllo se ci sono scudi orientati correttamente
+                     for(Shield s: shield){
+                         if(s.getOrientation()==entry.getValue()||s.getOrientation()==){
+                             if (activate){
+                                 s.activate();
+                                 y=1;
+                             }
+                         }
+                     }
+
+
+             if(y==0){
+                 if(entry.getValue()==Direction.UP||entry.getValue()==Direction.DOWN){
+                     player.getShipManager().removeComponentTile(index,line);
+                 }else {
+                     player.getShipManager().removeComponentTile(line,index);
+                 }
+             }
+
+
+
+             }else{//PROIETTILE GROSSO
+                 if(entry.getValue()==Direction.UP||entry.getValue()==Direction.DOWN){
+                     player.getShipManager().removeComponentTile(index,line);
+                 }else {
+                     player.getShipManager().removeComponentTile(line,index);
+                 }
+             }
+         }
+     }
+
+     @Override
+     public void meteorStorm(Player player, int line, Map.Entry<Projectile, Direction> projectiles) {
+
+     }
+
+
+ }
