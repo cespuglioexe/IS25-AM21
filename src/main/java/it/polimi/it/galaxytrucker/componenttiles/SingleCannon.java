@@ -1,7 +1,5 @@
 package it.polimi.it.galaxytrucker.componenttiles;
 
-import java.util.List;
-
 /**
  * This class represents a Single Cannon component tile.
  * Single Cannons provide offensive capabilities with a firepower of 1.
