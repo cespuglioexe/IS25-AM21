@@ -1,5 +1,7 @@
 package it.polimi.it.galaxytrucker.componenttiles;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.it.galaxytrucker.crewmates.Alien;
 import it.polimi.it.galaxytrucker.crewmates.Crewmate;
 import it.polimi.it.galaxytrucker.crewmates.Human;
@@ -13,22 +15,20 @@ import java.util.List;
  * Central Cabins can hold crew members (only humans) up to a maximum capacity.
  *
  * @author Giacomo Amaducci
- * @version 1.0
+ * @version 1.1
  */
 public class CentralCabin extends ComponentTile {
     /** List of crewmates currently in this cabin */
     List<Crewmate> crewmates;
 
-    /*
+    /**
      * Constructs a new Central Cabin with the specified edges.
      * Initializes an empty crewmates list.
      *
-     * @param top the type of the top edge of this tile
-     * @param right the type of the right edge of this tile
-     * @param bottom the type of the bottom edge of this tile
-     * @param left the type of the left edge of this tile
+     * @param edges the list of edges defining the tile connections
      */
-    public CentralCabin(List<TileEdge> edges) {
+    @JsonCreator
+    public CentralCabin(@JsonProperty("edges") List<TileEdge> edges) {
         super(edges);
         crewmates = new ArrayList<>();
     }
@@ -54,7 +54,7 @@ public class CentralCabin extends ComponentTile {
     public void addCrewmate(Human human) throws InvalidActionException {
         if (crewmates.size() == 2)
             throw new InvalidActionException("Cabin already full");
-        else if (!crewmates.isEmpty() && crewmates.getFirst().getClass().equals(Alien.class))
+        else if (!crewmates.isEmpty() && crewmates.get(0).getClass().equals(Alien.class))
             throw new InvalidActionException("Cabin contains Alien, can't add Human");
         crewmates.add(human);
     }
@@ -70,8 +70,6 @@ public class CentralCabin extends ComponentTile {
         if (crewmates.isEmpty())
             throw new InvalidActionException("Cabin is empty");
 
-        Crewmate removedCrewmate = crewmates.getFirst();
-        crewmates.removeFirst();
-        return removedCrewmate;
+        return crewmates.remove(0);
     }
 }

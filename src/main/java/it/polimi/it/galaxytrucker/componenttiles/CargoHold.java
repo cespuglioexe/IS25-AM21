@@ -11,27 +11,26 @@ import java.util.List;
 /**
  * Represents a Cargo Hold component.
  * A cargo hold can store a limited number of cargo items based on its container capacity.
- * Some cargo holds may also be capable of holding special cargo.
+ * This type of cargo hold cannot hold special cargo.
  *
  * @author Giacomo Amaducci
- * @version 1.0
+ * @version 1.1
  */
 public class CargoHold extends ComponentTile {
     private final int containerNumber;
     boolean canHoldSpecialCargo;
     private List<Cargo> containedCargo;
 
-    /*
+    /**
      * Constructs a new cargo hold with the specified number of containers and tile edges.
      *
      * @param containers The number of cargo containers this cargo hold can accommodate
-     * @param top The type of edge on the top side of this tile
-     * @param right The type of edge on the right side of this tile
-     * @param bottom The type of edge on the bottom side of this tile
-     * @param left The type of edge on the left side of this tile
+     * @param edges The list of edges defining the tile's connections
      */
     @JsonCreator
-    public CargoHold(@JsonProperty("containerNum") int containers, @JsonProperty("edges") List<TileEdge> edges) {
+    public CargoHold(
+            @JsonProperty("containerNum") int containers,
+            @JsonProperty("edges") List<TileEdge> edges) {
         super(edges);
         containerNumber = containers;
         canHoldSpecialCargo = false;
@@ -61,8 +60,21 @@ public class CargoHold extends ComponentTile {
      *
      * @return {@code true} if this cargo hold can store special cargo, {@code false} otherwise
      */
-    public boolean isCanHoldSpecialCargo() {
+    public boolean canHoldSpecialCargo() {
         return canHoldSpecialCargo;
+    }
+
+    /**
+     * Adds a new cargo object to the end of the list.
+     *
+     * @param cargo {@code Cargo} object that needs to be added
+     * @throws InvalidActionException if the {@code List<Cargo>} is already at the
+     *                                limit of {@code containerNumber} objects
+     */
+    public void addCargo(Cargo cargo) throws InvalidActionException {
+        if (containedCargo.size() >= containerNumber)
+            throw new InvalidActionException("CargoHold is already full, can't add cargo");
+        containedCargo.add(cargo);
     }
 
     /**
@@ -80,18 +92,5 @@ public class CargoHold extends ComponentTile {
         Cargo cargo = containedCargo.get(i);
         containedCargo.remove(i);
         return cargo;
-    }
-
-    /**
-     * Adds a new cargo object to the end of the list.
-     *
-     * @param cargo {@code Cargo} object that needs to be added
-     * @throws InvalidActionException if the {@code List<Cargo>} is already at the
-     *                                limit of {@code containerNumber} objects
-     */
-    public void addCargo(Cargo cargo) throws InvalidActionException {
-        if (containedCargo.size() >= containerNumber)
-            throw new InvalidActionException("CargoHold is already full, can't add cargo");
-        containedCargo.add(cargo);
     }
 }

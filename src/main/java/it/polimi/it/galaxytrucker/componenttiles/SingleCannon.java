@@ -1,5 +1,8 @@
 package it.polimi.it.galaxytrucker.componenttiles;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
 /**
@@ -7,30 +10,28 @@ import java.util.List;
  * Single Cannons provide offensive capabilities with a firepower of 1.
  *
  * @author Giacomo Amaducci
- * @version 1.0
+ * @version 1.1
  */
 public class SingleCannon extends ComponentTile implements Cannon {
 
     /** The firepower value of this cannon */
     private final int firePower;
 
-    /*
+    /**
      * Constructs a new {@code SingleCannon} with the specified edges.
      * The firepower is always initialized to 1.
      *
-     * @param top the type of the top edge of this tile
-     * @param right the type of the right edge of this tile
-     * @param bottom the type of the bottom edge of this tile
-     * @param left the type of the left edge of this tile
+     * @param edges a {@code List} of {@link TileEdge} objects representing the four edges of this tile
      */
-    public SingleCannon(List<TileEdge> edges) {
+    @JsonCreator
+    public SingleCannon(@JsonProperty("edges") List<TileEdge> edges) {
         super(edges);
         firePower = 1;
     }
 
     /**
      * Returns the firepower of the cannon.
-     * For single cannons, this value is 1 if it points forwards, 0.5 otherwise.
+     * For single cannons, this value is {@code 1} if it points forwards, {@code 0.5} otherwise.
      *
      * @return a {@code double} representing the firepower of the cannon
      */

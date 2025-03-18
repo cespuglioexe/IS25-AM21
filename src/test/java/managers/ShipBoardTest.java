@@ -53,10 +53,10 @@ public class ShipBoardTest {
     @Test
     void getAllComponentsPositionOfTypeTest() throws IllegalComponentPositionException {
         ShipBoard ship = new ShipBoard();
-        ComponentTile cannon1 = new SingleCannon(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE);
-        ComponentTile cannon2 = new SingleCannon(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE);
-        ComponentTile engine = new SingleEngine(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE);
-        ComponentTile structuralModule = new StructuralModule(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE);
+        ComponentTile cannon1 = new SingleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        ComponentTile cannon2 = new SingleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        ComponentTile engine = new SingleEngine(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        ComponentTile structuralModule = new StructuralModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
         
         ship.addComponentTile(0, 0, cannon1);
         ship.addComponentTile(1, 1, cannon2);
@@ -76,7 +76,7 @@ public class ShipBoardTest {
     @Test
     void addComponentTest() throws IllegalComponentPositionException {
         ShipBoard ship = new ShipBoard();
-        ComponentTile cannon = new SingleCannon(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE);
+        ComponentTile cannon = new SingleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
         List<Integer> position = List.of(0,2);
 
         ship.addComponentTile(position.get(0), position.get(1), cannon);
@@ -90,7 +90,7 @@ public class ShipBoardTest {
     @Test
     void illegalAddToAlreadyTakenPositionTest() throws IllegalComponentPositionException {
         ShipBoard ship = new ShipBoard();
-        ComponentTile cannon = new SingleCannon(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE);
+        ComponentTile cannon = new SingleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
         List<Integer> position = List.of(0,2);
 
         ship.addComponentTile(position.get(0), position.get(1), cannon);
@@ -101,7 +101,7 @@ public class ShipBoardTest {
     @Test
     void illegalAddOutsideShipPositionTest() {
         ShipBoard ship = new ShipBoard();
-        ComponentTile cannon = new SingleCannon(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE);
+        ComponentTile cannon = new SingleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
 
         ship.setShipBounds(1);
 
@@ -111,7 +111,7 @@ public class ShipBoardTest {
     @Test
     void removeComponentTileTest() throws IllegalComponentPositionException {
         ShipBoard ship = new ShipBoard();
-        ComponentTile cannon = new SingleCannon(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE);
+        ComponentTile cannon = new SingleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
         List<Integer> position = List.of(0,2);
 
         ship.addComponentTile(position.get(0), position.get(1), cannon);
@@ -144,7 +144,7 @@ public class ShipBoardTest {
     @Test
     void getAllNeighbourComponentsTest() throws IllegalComponentPositionException {
         ShipBoard ship = new ShipBoard();
-        ComponentTile cannon = new SingleCannon(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE);
+        ComponentTile cannon = new SingleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
         List<Integer> position = List.of(2,2);
 
         //component
@@ -166,7 +166,7 @@ public class ShipBoardTest {
     @Test
     void getNeighbourComponentsWithBlanksTest() throws IllegalComponentPositionException {
         ShipBoard ship = new ShipBoard();
-        ComponentTile cannon = new SingleCannon(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE);
+        ComponentTile cannon = new SingleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
         List<Integer> position = List.of(2,2);
 
         //component
@@ -187,7 +187,7 @@ public class ShipBoardTest {
     @Test
     void getNeighbourComponentsAtMarginTest() throws IllegalComponentPositionException {
         ShipBoard ship = new ShipBoard();
-        ComponentTile cannon = new SingleCannon(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE);
+        ComponentTile cannon = new SingleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
         List<Integer> position = List.of(1,2);
 
         ship.setShipBounds(1);
@@ -211,7 +211,7 @@ public class ShipBoardTest {
     @Test
     void getNeighbourComponentsWithAllBlanksTest() throws IllegalComponentPositionException {
         ShipBoard ship = new ShipBoard();
-        ComponentTile cannon = new SingleCannon(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE);
+        ComponentTile cannon = new SingleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
         List<Integer> position = List.of(2,2);
 
         //component
@@ -229,7 +229,7 @@ public class ShipBoardTest {
     @Test
     void countExposedConnectorsEdgesExposedTest() throws IllegalComponentPositionException {
         ShipBoard ship = new ShipBoard();
-        ComponentTile cannon = new SingleCannon(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE);
+        ComponentTile cannon = new SingleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
 
         /*
          * [ ][ ][ ][c][ ][ ][ ]
@@ -280,7 +280,7 @@ public class ShipBoardTest {
     @Test
     void countExposedConnectorsLevel1ShipTest() throws IllegalComponentPositionException {
         ShipBoard ship = new ShipBoard();
-        ComponentTile cannon = new SingleCannon(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE);
+        ComponentTile cannon = new SingleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
 
         /*
          *          [c]
@@ -343,7 +343,7 @@ public class ShipBoardTest {
     @Test
     void getBranchOfComponentTest() throws IllegalComponentPositionException {
         ShipBoard ship = new ShipBoard();
-        ComponentTile cannon = new SingleCannon(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE);
+        ComponentTile cannon = new SingleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
 
         /*
          *          [c]
@@ -401,7 +401,7 @@ public class ShipBoardTest {
     @Test
     void getDisconnectedBranchesTest() throws IllegalComponentPositionException {
         ShipBoard ship = new ShipBoard();
-        ComponentTile cannon = new SingleCannon(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE);
+        ComponentTile cannon = new SingleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
 
         /*
          *          [c]
@@ -477,7 +477,7 @@ public class ShipBoardTest {
     @Test
     void removeBranchTest() throws IllegalComponentPositionException {
         ShipBoard ship = new ShipBoard();
-        ComponentTile cannon = new SingleCannon(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE);
+        ComponentTile cannon = new SingleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
 
         /*
          *          [c]
@@ -541,7 +541,7 @@ public class ShipBoardTest {
     @Test
     void removeBranchWithEmptySlotsTest() throws IllegalComponentPositionException {
         ShipBoard ship = new ShipBoard();
-        ComponentTile cannon = new SingleCannon(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE);
+        ComponentTile cannon = new SingleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
 
         /*
          *          [c]

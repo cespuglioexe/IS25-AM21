@@ -1,5 +1,7 @@
 package it.polimi.it.galaxytrucker.componenttiles;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.it.galaxytrucker.exceptions.InvalidActionException;
 
 import java.util.List;
@@ -10,22 +12,22 @@ import java.util.List;
  * The battery charge can be consumed or lost during the course of a game.
  *
  * @author Giacomo Amaducci
- * @version 1.0
+ * @version 1.1
  */
 public class BatteryComponent extends ComponentTile {
 
     private int batteryCharge;
 
-    /*
-     * Constructs a new battery component with the specified capacity and tile edges.
+    /**
+     * Constructs a new {@code BatteryComponent} with the specified capacity and tile edges.
      *
-     * @param capacity The initial charge capacity of the battery
-     * @param top The type of edge on the top side of this tile
-     * @param right The type of edge on the right side of this tile
-     * @param bottom The type of edge on the bottom side of this tile
-     * @param left The type of edge on the left side of this tile
+     * @param capacity The initial charge capacity of the battery.
+     * @param edges A list representing the edges of the tile.
      */
-    public BatteryComponent(int capacity, List<TileEdge> edges) {
+    @JsonCreator
+    public BatteryComponent(
+            @JsonProperty("capacity") int capacity,
+            @JsonProperty("edges") List<TileEdge> edges) {
         super(edges);
         batteryCharge = capacity;
     }
@@ -33,7 +35,7 @@ public class BatteryComponent extends ComponentTile {
     /**
      * Returns the current amount of charge left in the battery.
      *
-     * @return An {@code int} representing the current charge of the battery.
+     * @return an {@code int} representing the current charge of the battery.
      *         This value is between the initial charge set in the constructor (either 2 or 3) and 0.
      */
     public int getBatteryCapacity() {
