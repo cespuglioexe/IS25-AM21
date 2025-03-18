@@ -3,6 +3,7 @@ package it.polimi.it.galaxytrucker.aventurecard;
 import it.polimi.it.galaxytrucker.cardEffects.CargoPenalty;
 import it.polimi.it.galaxytrucker.cardEffects.CargoReward;
 import it.polimi.it.galaxytrucker.cardEffects.FlightDayPenalty;
+import it.polimi.it.galaxytrucker.exceptions.NotFoundException;
 import it.polimi.it.galaxytrucker.managers.FlightBoardState;
 import it.polimi.it.galaxytrucker.managers.Player;
 import it.polimi.it.galaxytrucker.utility.Cargo;
@@ -14,7 +15,7 @@ public class Smugglers extends AdventureCard implements CargoReward, CargoPenalt
     private boolean isDefeated;
     private CargoManager manager;
 
-    public Smugglers(Optional<Integer> penalty, Optional<Integer> flightDayPenalty, Optional<Cargo> reward, int firePower, int creditReward, AdventureDeck deck, CargoManager manager) {
+    public Smugglers(Optional<Integer> penalty, Optional<Integer> flightDayPenalty, Optional<Set<Cargo>> reward, int firePower, int creditReward, CargoManager manager) {
         super(penalty, flightDayPenalty, reward,firePower, creditReward);
         this.manager = manager;
         this.isDefeated = false;
@@ -36,7 +37,7 @@ public class Smugglers extends AdventureCard implements CargoReward, CargoPenalt
             } else {
                 if (firePower > super.getFirePowerRequired()) {
                     setDefeated(true);
-                    return true;
+                    return false;
                 }
                 else return false;
             }
@@ -50,10 +51,8 @@ public class Smugglers extends AdventureCard implements CargoReward, CargoPenalt
     }
 
     @Override
-    public void giveCargoReward(Set<Cargo> reward, Player player) {
-        for(Cargo cargo : reward) {
-            manager.manageCargoAddition(cargo,player);
-        }
+    public Set<Cargo> giveCargoReward(Player player) {
+        return (Set<Cargo>) super.getReward().orElse(0);
     }
 
     @Override
