@@ -15,7 +15,7 @@ class PiratesTest {
     private int lines = 7;
     Player player = new Player(UUID.randomUUID(),"sergio",10,Color.BLUE);
     Map<Projectile, Direction> projectile = new HashMap<>();
-
+    ComponentTile componentHit = null;
 
     @Test
     void checkIfPlayerLoseToPirates() {
@@ -30,20 +30,23 @@ class PiratesTest {
     @Test
     void checkComponentHit() {
         projectile.put(Projectile.SMALL,Direction.UP);
-        List<Optional<Integer>> sequence = new ArrayList<>();
+        List<Optional<ComponentTile>> sequence = new ArrayList<>();
+        ComponentTile componentTile = new CabinModule(List.of(TileEdge.SMOOTH,TileEdge.SMOOTH,TileEdge.SMOOTH,TileEdge.SMOOTH));
         sequence.add(Optional.empty());
         sequence.add(Optional.empty());
-        sequence.add(Optional.of(1));
+        sequence.add(Optional.of(componentTile));
 
         for(Map.Entry<Projectile,Direction> entry : projectile.entrySet()){
 
-
-            for (Optional<Integer> c : sequence) {
+            for (Optional<ComponentTile> c : sequence) {
                 if (c.isPresent()) {
+                    componentHit = sequence.get(index-4).orElse(null);
+                    System.out.println(sequence.get(index-4));
                     break;
                 }
                 index++;
             }
+            System.out.println(componentHit.getTileEdges());
 
             if (entry.getValue() == Direction.UP || entry.getValue() == Direction.DOWN) {
                 System.out.println("Il meteorite arriva da sopra/sotto");
