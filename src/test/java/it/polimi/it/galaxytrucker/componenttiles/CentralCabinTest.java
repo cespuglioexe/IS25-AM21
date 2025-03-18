@@ -7,6 +7,9 @@ import it.polimi.it.galaxytrucker.exceptions.InvalidActionException;
 import it.polimi.it.galaxytrucker.utility.AlienType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CentralCabinTest {
@@ -19,9 +22,8 @@ public class CentralCabinTest {
 
     @BeforeEach
     public void setup() {
-        // Create a central cabin with all CONNECTOR edges
-        cabin = new CentralCabin(TileEdge.SMOOTH, TileEdge.SMOOTH,
-                TileEdge.SMOOTH, TileEdge.SMOOTH);
+        // Create a dummy central cabin
+        cabin = new CentralCabin(List.of(TileEdge.SMOOTH, TileEdge.SMOOTH, TileEdge.SMOOTH, TileEdge.SMOOTH));
 
         // Create test crewmates
         human1 = new Human();
@@ -46,7 +48,7 @@ public class CentralCabinTest {
         cabin.addCrewmate(human1);
         cabin.addCrewmate(human2);
 
-        // Verify both humans were added
+        // Verify both humans were added in order
         assertEquals(2, cabin.getCrewmates().size());
         assertEquals(human1, cabin.getCrewmates().get(0));
         assertEquals(human2, cabin.getCrewmates().get(1));
@@ -58,7 +60,7 @@ public class CentralCabinTest {
         cabin.addCrewmate(human1);
         cabin.addCrewmate(human2);
 
-        // Attempt to add a third human should throw an exception
+        // Attempt to add a third human, expect InvalidActionException
         InvalidActionException exception = assertThrows(
                 InvalidActionException.class,
                 () -> cabin.addCrewmate(human3)
@@ -83,7 +85,7 @@ public class CentralCabinTest {
 
     @Test
     public void testRemoveFromEmptyCabin() {
-        // Attempt to remove from an empty cabin should throw an exception
+        // Attempt to remove from an empty cabin, expect InvalidActionException
         InvalidActionException exception = assertThrows(
                 InvalidActionException.class,
                 () -> cabin.removeCrewmate()
@@ -93,14 +95,11 @@ public class CentralCabinTest {
     }
 
     @Test
-    public void testCantAddHumanWithAlien() throws Exception {
-        // This test requires that we add an Alien to the crewmates list directly
-        // since the public API doesn't allow adding aliens
-
-        // Add an alien to the crewmates list using reflection or for testing purposes
+    public void testCantAddHumanWithAlien() {
+        // Manually adding an alien, as CentralCabin doesn't support adding aliens
         cabin.crewmates.add(alien);
 
-        // Attempt to add a human should throw an exception
+        // Attempt to add a human, expect InvalidActionException
         InvalidActionException exception = assertThrows(
                 InvalidActionException.class,
                 () -> cabin.addCrewmate(human1)
@@ -112,8 +111,8 @@ public class CentralCabinTest {
     }
 
     @Test
-    public void testRemoveAndThenAddAgain() throws InvalidActionException {
-        // Add a human, remove it, then add another
+    public void testRemoveAndThenAddAgain() {
+        // Add a human then remove it
         cabin.addCrewmate(human1);
         Crewmate removed = cabin.removeCrewmate();
 

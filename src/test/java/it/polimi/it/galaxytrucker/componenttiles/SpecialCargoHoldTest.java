@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 import it.polimi.it.galaxytrucker.utility.Cargo;
 import it.polimi.it.galaxytrucker.exceptions.InvalidActionException;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class SpecialCargoHoldTest {
@@ -16,21 +18,20 @@ public class SpecialCargoHoldTest {
     @BeforeEach
     public void setup() {
         // Create a special cargo hold with 3 container capacity
-        specialCargoHold = new SpecialCargoHold(CONTAINER_CAPACITY, TileEdge.SMOOTH,
-                TileEdge.SMOOTH, TileEdge.SMOOTH, TileEdge.SMOOTH);
+        specialCargoHold = new SpecialCargoHold(CONTAINER_CAPACITY, List.of(TileEdge.SMOOTH,
+                TileEdge.SMOOTH, TileEdge.SMOOTH, TileEdge.SMOOTH));
     }
 
     @Test
     public void testInitialState() {
         // Verify the special cargo hold is created with the correct properties
         assertEquals(CONTAINER_CAPACITY, specialCargoHold.getContainerNumber());
-        assertTrue(specialCargoHold.isCanHoldSpecialCargo());
+        assertTrue(specialCargoHold.canHoldSpecialCargo());
         assertTrue(specialCargoHold.getContainedCargo().isEmpty());
     }
 
     @Test
-    public void testInheritedFunctionalityWithSpecialCargo() throws InvalidActionException {
-        // Create cargo items including special cargo
+    public void testAddCargo() {
         Cargo regularCargo = new Cargo(Color.BLUE);
         Cargo specialCargo = new Cargo(Color.RED);
 
@@ -82,28 +83,28 @@ public class SpecialCargoHoldTest {
     @Test
     public void testWithDifferentCapacities() {
         // Test with different container capacities
-        SpecialCargoHold smallHold = new SpecialCargoHold(1, TileEdge.SMOOTH,
-                TileEdge.SMOOTH, TileEdge.SMOOTH, TileEdge.SMOOTH);
-        SpecialCargoHold largeHold = new SpecialCargoHold(5, TileEdge.SMOOTH,
-                TileEdge.SMOOTH, TileEdge.SMOOTH, TileEdge.SMOOTH);
+        SpecialCargoHold smallHold = new SpecialCargoHold(1, List.of(TileEdge.SMOOTH,
+                TileEdge.SMOOTH, TileEdge.SMOOTH, TileEdge.SMOOTH));
+        SpecialCargoHold largeHold = new SpecialCargoHold(5, List.of(TileEdge.SMOOTH,
+                TileEdge.SMOOTH, TileEdge.SMOOTH, TileEdge.SMOOTH));
 
         assertEquals(1, smallHold.getContainerNumber());
         assertEquals(5, largeHold.getContainerNumber());
-        assertTrue(smallHold.isCanHoldSpecialCargo());
-        assertTrue(largeHold.isCanHoldSpecialCargo());
+        assertTrue(smallHold.canHoldSpecialCargo());
+        assertTrue(largeHold.canHoldSpecialCargo());
     }
 
     @Test
     public void testComparingWithRegularCargoHold() {
         // Create a regular cargo hold with the same capacity
-        CargoHold regularHold = new CargoHold(CONTAINER_CAPACITY, TileEdge.SMOOTH,
-                TileEdge.SMOOTH, TileEdge.SMOOTH, TileEdge.SMOOTH);
+        CargoHold regularHold = new CargoHold(CONTAINER_CAPACITY, List.of(TileEdge.SMOOTH,
+                TileEdge.SMOOTH, TileEdge.SMOOTH, TileEdge.SMOOTH));
 
         // Regular hold should not accept special cargo
-        assertFalse(regularHold.isCanHoldSpecialCargo());
+        assertFalse(regularHold.canHoldSpecialCargo());
 
         // Special hold should accept special cargo
-        assertTrue(specialCargoHold.isCanHoldSpecialCargo());
+        assertTrue(specialCargoHold.canHoldSpecialCargo());
 
         // Both should have the same container capacity
         assertEquals(regularHold.getContainerNumber(), specialCargoHold.getContainerNumber());
