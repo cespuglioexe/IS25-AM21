@@ -19,6 +19,10 @@ public class Slavers extends AdventureCard implements FlightDayPenalty, CreditRe
         this.isDefeated = false;
     }
 
+    public boolean isDefeated() {
+        return isDefeated;
+    }
+
     public void setDefeated(boolean defeated) {
         isDefeated = defeated;
     }
@@ -36,14 +40,14 @@ public class Slavers extends AdventureCard implements FlightDayPenalty, CreditRe
                     setDefeated(true);
                     return true;
                 }
-                else return false;
+                else return true;
             }
         } else return false;
     }
 
     @Override
     public void giveCreditReward(Player player) {
-        player.addCredits((int)super.getReward().orElse(0));
+        player.addCredits((int)super.getCreditReward());
     }
 
     @Override

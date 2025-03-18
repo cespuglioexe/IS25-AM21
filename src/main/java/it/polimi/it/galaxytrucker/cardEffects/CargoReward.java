@@ -7,5 +7,5 @@ import java.util.Set;
 
 public interface CargoReward {
 
-    void giveCargoReward(Set<Cargo> reward, Player player);
+    Set<Cargo> giveCargoReward(Player player);
 }

@@ -1,3 +1,5 @@
+package it.polimi.it.galaxytrucker.aventurecard;
+
 import it.polimi.it.galaxytrucker.aventurecard.CargoManager;
 import it.polimi.it.galaxytrucker.aventurecard.Planet;
 import it.polimi.it.galaxytrucker.managers.FlightBoardState;
@@ -17,12 +19,13 @@ class PlanetTest {
         CargoManager manager = new CargoManager();
         HashMap<Integer,Set<Cargo>> load = new HashMap<>();
 
-        load.put(1, new Set<Cargo>(new Cargo(Color.RED), new Cargo(Color.GREEN),new Cargo(Color.BLUE),new Cargo(Color.BLUE),new Cargo(Color.BLUE));
-        load.put(2, new Set<Cargo>(new Cargo(Color.RED), new Cargo(Color.YELLOW),new Cargo(Color.GREEN));
-        load.put(3, new Set<Cargo>(new Cargo(Color.RED), new Cargo(Color.BLUE),new Cargo(Color.BLUE),new Cargo(Color.BLUE) );
-        load.put(4, new Set<Cargo>(new Cargo(Color.RED), new Cargo(Color.GREEN));
 
-        Planet planet = new Planet(null,3,null,load,0,0,manager))
+        load.put(1,Set.of(new Cargo(Color.RED), new Cargo(Color.GREEN),new Cargo(Color.BLUE),new Cargo(Color.BLUE),new Cargo(Color.BLUE)));
+        load.put(2,Set.of(new Cargo(Color.RED), new Cargo(Color.YELLOW),new Cargo(Color.GREEN)));
+        load.put(3,Set.of(new Cargo(Color.RED), new Cargo(Color.BLUE),new Cargo(Color.BLUE),new Cargo(Color.BLUE)));
+        load.put(4,Set.of(new Cargo(Color.RED), new Cargo(Color.GREEN)));
+
+        Planet planet = new Planet(null,Optional.of(3),null,load,0,0,manager);
         Player player1=new Player(new UUID(0,1), "Margarozzo1",0, Color.RED);
         Player player2=new Player(new UUID(0,2), "Margarozzo2",0, Color.BLUE);
         Player player3=new Player(new UUID(0,3), "Margarozzo3",0, Color.GREEN);
@@ -48,18 +51,19 @@ class PlanetTest {
         CargoManager manager = new CargoManager();
         HashMap<Integer,Set<Cargo>> load = new HashMap<>();
 
-        load.put(1, new Set<Cargo>(new Cargo(Color.RED), new Cargo(Color.GREEN),new Cargo(Color.BLUE),new Cargo(Color.BLUE),new Cargo(Color.BLUE));
-        load.put(2, new Set<Cargo>(new Cargo(Color.RED), new Cargo(Color.YELLOW),new Cargo(Color.GREEN));
-        load.put(3, new Set<Cargo>(new Cargo(Color.RED), new Cargo(Color.BLUE),new Cargo(Color.BLUE),new Cargo(Color.BLUE) );
-        load.put(4, new Set<Cargo>(new Cargo(Color.RED), new Cargo(Color.GREEN));
+        load.put(1,Set.of(new Cargo(Color.RED), new Cargo(Color.GREEN),new Cargo(Color.BLUE),new Cargo(Color.BLUE),new Cargo(Color.BLUE)));
+        load.put(2,Set.of(new Cargo(Color.RED), new Cargo(Color.YELLOW),new Cargo(Color.GREEN)));
+        load.put(3,Set.of(new Cargo(Color.RED), new Cargo(Color.BLUE),new Cargo(Color.BLUE),new Cargo(Color.BLUE)));
+        load.put(4,Set.of(new Cargo(Color.RED), new Cargo(Color.GREEN)));
 
-        Planet planet = new Planet(null,3,null,load,0,0,manager))
+
+        Planet planet = new Planet(null,Optional.of(3),null,load,0,0,manager);
         Player player1=new Player(new UUID(0,1), "Margarozzo1",0, Color.RED);
         FlightBoardState board = new FlightBoardState(18);
         board.setBoard();
-        board.addPlayerMarker(player1,1);
+        board.addPlayerMarker(player1.getPlayerID(),1);
 
-        planet.applyFlightDayPenalty();
+        planet.applyFlightDayPenalty(board,player1);
         assertEquals(board.getPlayerPosition().get(player1.getPlayerID()),1);
     }
 }
