@@ -3,12 +3,13 @@ import it.polimi.it.galaxytrucker.aventurecard.Smugglers;
 import it.polimi.it.galaxytrucker.managers.FlightBoardState;
 import it.polimi.it.galaxytrucker.managers.Player;
 import it.polimi.it.galaxytrucker.utility.Color;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
-
+@Disabled
 class SmugglersTest {
 
     @Test

@@ -60,21 +60,32 @@ class PiratesTest {
     @Test
     void attack() {
         int protect = 0;
-        List<Shield> shieldActivated = new ArrayList<>();
+        Shield shield = new Shield(Direction.UP, List.of(TileEdge.SINGLE, TileEdge.DOUBLE,TileEdge.SMOOTH,TileEdge.SINGLE));
+        List<Shield> shields = new ArrayList<>();
+        shields.add(shield);
+        projectile.put(Projectile.SMALL,Direction.UP);
 
+
+        System.out.println(protect);
         for(Map.Entry<Projectile,Direction> entry : projectile.entrySet()){
-
-                /*if(entry.getValue()== shield.getOrientation().getFirst() ||entry.getValue()== shield.getOrientation().get(1) && entry.getKey() == Projectile.SMALL){
+            for (Shield shield1 : shields) {
+                if(entry.getValue()== shield1.getOrientation().getFirst() ||entry.getValue()== shield1.getOrientation().get(1) && entry.getKey() == Projectile.SMALL){
                     protect = 1;
                     break;
-                }*/
-
-            if(protect!=1){
-                if(entry.getValue()== Direction.UP||entry.getValue()== Direction.DOWN){
-                    destroyComponent();
-                }else{
-                    destroyComponent();
                 }
+            }
+
+            System.out.println(protect);
+            if(protect==0){
+                if(entry.getValue()== Direction.UP||entry.getValue()== Direction.DOWN){
+                    //destroyComponent();
+                    System.out.println("Il componente in posizione "+index+","+lines+" verrà distrutto");
+                }else{
+                    //destroyComponent();
+                    System.out.println("Il componente in posizione "+lines+","+index+" verrà distrutto");
+                }
+            }else {
+                System.out.println("Il componente in posizione "+index+","+lines+" è protetto dallo scudo");
             }
         }
     }

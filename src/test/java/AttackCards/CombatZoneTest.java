@@ -1,12 +1,14 @@
 package AttackCards;
 
+import it.polimi.it.galaxytrucker.componenttiles.Shield;
+import it.polimi.it.galaxytrucker.componenttiles.TileEdge;
 import it.polimi.it.galaxytrucker.managers.Player;
 import it.polimi.it.galaxytrucker.utility.Color;
+import it.polimi.it.galaxytrucker.utility.Direction;
+import it.polimi.it.galaxytrucker.utility.Projectile;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,8 +20,10 @@ class CombatZoneTest {
     private List<Integer> cm = new ArrayList<>();
     private Player p1 = new Player(UUID.randomUUID(),"sergio",10, Color.BLUE);
     private Player p2 = new Player(UUID.randomUUID(),"jack",10, Color.RED);
-
+    private int lines = 6, index = 4;
     private List<Player> players = new ArrayList<>();
+    Map<Projectile, Direction> projectile = new HashMap<>();
+
 
     void init(){
         players.add(p1);
@@ -31,8 +35,6 @@ class CombatZoneTest {
         ep.add(2);
         cm.add(1);
     }
-
-    private int index,line;
 
     @Test
     void checkLoserEp() {
@@ -82,11 +84,69 @@ class CombatZoneTest {
 
     @Test
     void checkComponentHit() {
+
+        projectile.put(Projectile.SMALL, Direction.UP);
+        List<Optional<Integer>> sequence = new ArrayList<>();
+        sequence.add(Optional.empty());
+        sequence.add(Optional.empty());
+        sequence.add(Optional.of(1));
+
+        for(Map.Entry<Projectile,Direction> entry : projectile.entrySet()){
+
+
+            for (Optional<Integer> c : sequence) {
+                if (c.isPresent()) {
+                    break;
+                }
+                index++;
+            }
+
+            if (entry.getValue() == Direction.UP || entry.getValue() == Direction.DOWN) {
+                System.out.println("Il meteorite arriva da sopra/sotto");
+                System.out.println("Riga:" + index);
+                System.out.println("Colonna" + lines);
+            } else {
+                System.out.println("Il meteorite arriva da sx/dx");
+                System.out.println("Riga:" + lines);
+                System.out.println("Colonna" + index);
+            }
+        }
     }
 
     @Test
     void attack() {
         init();
+
+        int protect = 0;
+        Shield shield = new Shield(Direction.UP, List.of(TileEdge.SINGLE, TileEdge.DOUBLE,TileEdge.SMOOTH,TileEdge.SINGLE));
+        List<Shield> shields = new ArrayList<>();
+        shields.add(shield);
+        projectile.put(Projectile.SMALL,Direction.UP);
+
+
+        System.out.println(protect);
+        for(Map.Entry<Projectile,Direction> entry : projectile.entrySet()){
+            for (Shield shield1 : shields) {
+                if(entry.getValue()== shield1.getOrientation().getFirst() ||entry.getValue()== shield1.getOrientation().get(1) && entry.getKey() == Projectile.SMALL){
+                    protect = 1;
+                    break;
+                }
+            }
+
+            System.out.println(protect);
+            if(protect==0){
+                if(entry.getValue()== Direction.UP||entry.getValue()== Direction.DOWN){
+                    //destroyComponent();
+                    System.out.println("Il componente in posizione "+index+","+lines+" verrà distrutto");
+                }else{
+                    //destroyComponent();
+                    System.out.println("Il componente in posizione "+lines+","+index+" verrà distrutto");
+                }
+            }else {
+                System.out.println("Il componente in posizione "+index+","+lines+" è protetto dallo scudo");
+            }
+        }
+
     }
 
     @Test
