@@ -14,6 +14,8 @@ import it.polimi.it.galaxytrucker.componenttiles.CabinModule;
 import it.polimi.it.galaxytrucker.componenttiles.CargoHold;
 import it.polimi.it.galaxytrucker.componenttiles.CentralCabin;
 import it.polimi.it.galaxytrucker.componenttiles.ComponentTile;
+import it.polimi.it.galaxytrucker.componenttiles.DoubleCannon;
+import it.polimi.it.galaxytrucker.componenttiles.DoubleEngine;
 import it.polimi.it.galaxytrucker.componenttiles.LifeSupport;
 import it.polimi.it.galaxytrucker.componenttiles.OutOfBoundsTile;
 import it.polimi.it.galaxytrucker.componenttiles.SingleCannon;
@@ -289,6 +291,137 @@ public class ShipManagerTest {
         ));
 
         assertTrue(actual.containsAll(expected));
+    }
+
+    @Test
+    void removeComponentTileCabinModuleUpdatesCrewmates() {
+        ShipManager ship = new ShipManager(1);
+
+        CabinModule cabin = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        LifeSupport lifeSupport = new LifeSupport(AlienType.PURPLEALIEN, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+
+        Human human = new Human();
+        Alien alien = new Alien(AlienType.PURPLEALIEN);
+
+        /*
+         *  4  5  6  7  8  9 10
+         * 5        [ ]
+         * 6     [ ][c][l]
+         * 7  [ ][ ][x][ ][ ]
+         * 8  [ ][ ][ ][ ][ ]
+         * 9  [ ][ ]   [ ][ ]
+         * 
+         * Where c stands for cabinModule
+         * Where l stands for LifeSupport
+         * Where x stands for CentralCabin which has all TileEdge.UNIVERSAL connectors
+         * 
+        */
+
+        ship.addComponentTile(6, 7, cabin);
+        ship.addComponentTile(6, 8, lifeSupport);
+
+        ship.addCrewmate(7, 7, human);
+        ship.addCrewmate(7, 7, human);
+        ship.addCrewmate(6, 7, alien);
+
+        ship.removeComponentTile(6, 7);
+
+        assertEquals(2, ship.countCrewmates());
+
+        ship.addComponentTile(6, 7, cabin);
+        
+        ship.removeComponentTile(7, 7);
+
+        assertEquals(1, ship.countCrewmates());
+    }
+
+    @Test
+    void hasAlienTest() {
+        ShipManager ship = new ShipManager(1);
+
+        CabinModule cabinPurple = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        CabinModule cabinBrown = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        LifeSupport lifeSupportPurple = new LifeSupport(AlienType.PURPLEALIEN, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        LifeSupport lifeSupportBrown = new LifeSupport(AlienType.BROWNALIEN, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+
+        Human human = new Human();
+        Alien purple = new Alien(AlienType.PURPLEALIEN);
+        Alien brown = new Alien(AlienType.BROWNALIEN);
+
+        /*
+         *  4  5  6  7  8  9 10
+         * 5        [ ]
+         * 6     [ ][c][l]
+         * 7  [ ][ ][x][c][ ]
+         * 8  [ ][ ][ ][l][ ]
+         * 9  [ ][ ]   [ ][ ]
+         * 
+         * Where c stands for cabinModule
+         * Where l stands for LifeSupport
+         * Where x stands for CentralCabin which has all TileEdge.UNIVERSAL connectors
+         * 
+        */
+
+        ship.addComponentTile(6, 7, cabinPurple);
+        ship.addComponentTile(7, 8, cabinBrown);
+        ship.addComponentTile(6, 8, lifeSupportPurple);
+        ship.addComponentTile(8, 8, lifeSupportBrown);
+
+        ship.addCrewmate(7, 7, human);
+        ship.addCrewmate(7, 7, human);
+        ship.addCrewmate(6, 7, purple);
+        ship.addCrewmate(7, 8, brown);
+
+        assertTrue(() -> ship.hasAlien(AlienType.PURPLEALIEN));
+        assertTrue(() -> ship.hasAlien(AlienType.BROWNALIEN));
+
+        ship.removeComponentTile(7, 8);
+
+        assertFalse(() -> ship.hasAlien(AlienType.BROWNALIEN));
+    }
+
+    @Test
+    void removeComponentTileRemovingLifeSupportTest() {
+        ShipManager ship = new ShipManager(1);
+
+        CabinModule cabinPurple = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        CabinModule cabinBrown = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        LifeSupport lifeSupportPurple = new LifeSupport(AlienType.PURPLEALIEN, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        LifeSupport lifeSupportBrown = new LifeSupport(AlienType.BROWNALIEN, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+
+        Human human = new Human();
+        Alien purple = new Alien(AlienType.PURPLEALIEN);
+        Alien brown = new Alien(AlienType.BROWNALIEN);
+
+        /*
+         *  4  5  6  7  8  9 10
+         * 5        [ ]
+         * 6     [ ][c][l]
+         * 7  [ ][ ][x][c][ ]
+         * 8  [ ][ ][ ][l][ ]
+         * 9  [ ][ ]   [ ][ ]
+         * 
+         * Where c stands for cabinModule
+         * Where l stands for LifeSupport
+         * Where x stands for CentralCabin which has all TileEdge.UNIVERSAL connectors
+         * 
+        */
+
+        ship.addComponentTile(6, 7, cabinPurple);
+        ship.addComponentTile(7, 8, cabinBrown);
+        ship.addComponentTile(6, 8, lifeSupportPurple);
+        ship.addComponentTile(8, 8, lifeSupportBrown);
+
+        ship.addCrewmate(7, 7, human);
+        ship.addCrewmate(7, 7, human);
+        ship.addCrewmate(6, 7, purple);
+        ship.addCrewmate(7, 8, brown);
+
+        assertTrue(() -> ship.hasAlien(AlienType.PURPLEALIEN));
+
+        ship.removeComponentTile(6, 8);
+
+        assertFalse(() -> ship.hasAlien(AlienType.PURPLEALIEN));
     }
 
     @Test
@@ -1661,133 +1794,350 @@ public class ShipManagerTest {
     }
 
     @Test
-    void removeComponentTileCabinModuleUpdatesCrewmates() {
+    void calculateFirePowerTest() {
         ShipManager ship = new ShipManager(1);
 
+        SingleCannon cannon = new SingleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        DoubleCannon doubleCannon = new DoubleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+
+        /*
+         *  4  5  6  7  8  9 10
+         * 5        [d]
+         * 6     [ ][c][ ]
+         * 7  [ ][c][x][c][ ]
+         * 8  [ ][ ][ ][ ][ ]
+         * 9  [ ][ ]   [ ][ ]
+         * 
+         * Where c stands for cannon
+         * Where d stands for doubleCannon
+         * Where x stands for CentralCabin which has all TileEdge.UNIVERSAL connectors
+         * 
+        */
+
+        ship.addComponentTile(6, 7, cannon);
+        ship.addComponentTile(7, 6, cannon);
+        ship.addComponentTile(7, 8, cannon);
+        ship.addComponentTile(5, 7, doubleCannon);
+
+        assertEquals(3, ship.calculateFirePower());
+    }
+
+    @Test
+    void calculateFirePowerWithAliensTest() {
+        ShipManager ship = new ShipManager(1);
+
+        SingleCannon cannon = new SingleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        DoubleCannon doubleCannon = new DoubleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
         CabinModule cabin = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
         LifeSupport lifeSupport = new LifeSupport(AlienType.PURPLEALIEN, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
 
-        Human human = new Human();
         Alien alien = new Alien(AlienType.PURPLEALIEN);
 
         /*
          *  4  5  6  7  8  9 10
-         * 5        [ ]
-         * 6     [ ][c][l]
+         * 5        [d]
+         * 6     [ ][c][ ]
+         * 7  [ ][c][x][c][ ]
+         * 8  [ ][ ][ ][C][l]
+         * 9  [ ][ ]   [ ][ ]
+         * 
+         * Where c stands for cannon
+         * Where d stands for doubleCannon
+         * Where C stands for cabin
+         * Where l stands for lifeSupport
+         * Where x stands for CentralCabin which has all TileEdge.UNIVERSAL connectors
+         * 
+        */
+
+        ship.addComponentTile(6, 7, cannon);
+        ship.addComponentTile(7, 6, cannon);
+        ship.addComponentTile(7, 8, cannon);
+        ship.addComponentTile(5, 7, doubleCannon);
+        ship.addComponentTile(8, 8, cabin);
+        ship.addComponentTile(8, 9, lifeSupport);
+
+        ship.addCrewmate(8, 8, alien);
+
+        assertEquals(5, ship.calculateFirePower());
+    }
+
+    @Test
+    void calculateFirePowerWithAliensNoCannonTest() {
+        ShipManager ship = new ShipManager(1);
+
+        DoubleCannon doubleCannon = new DoubleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        CabinModule cabin = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        LifeSupport lifeSupport = new LifeSupport(AlienType.PURPLEALIEN, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+
+        Alien alien = new Alien(AlienType.PURPLEALIEN);
+
+        /*
+         *  4  5  6  7  8  9 10
+         * 5        [d]
+         * 6     [ ][ ]][ ]
          * 7  [ ][ ][x][ ][ ]
+         * 8  [ ][ ][ ][C][l]
+         * 9  [ ][ ]   [ ][ ]
+         * 
+         * Where d stands for doubleCannon
+         * Where C stands for cabin
+         * Where l stands for lifeSupport
+         * Where x stands for CentralCabin which has all TileEdge.UNIVERSAL connectors
+         * 
+        */
+
+        ship.addComponentTile(5, 7, doubleCannon);
+        ship.addComponentTile(8, 8, cabin);
+        ship.addComponentTile(8, 9, lifeSupport);
+
+        ship.addCrewmate(8, 8, alien);
+        
+        assertEquals(0, ship.calculateFirePower());
+    }
+    
+    @Test
+    void calculateEnginePowerTest() {
+        ShipManager ship = new ShipManager(1);
+
+        SingleEngine engine = new SingleEngine(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        DoubleEngine doubleEngine = new DoubleEngine(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+
+        /*
+         *  4  5  6  7  8  9 10
+         * 5        [d]
+         * 6     [ ][e][ ]
+         * 7  [ ][e][x][e][ ]
          * 8  [ ][ ][ ][ ][ ]
          * 9  [ ][ ]   [ ][ ]
          * 
-         * Where c stands for cabinModule
-         * Where l stands for LifeSupport
+         * Where c stands for engine
+         * Where d stands for doubleEngine
          * Where x stands for CentralCabin which has all TileEdge.UNIVERSAL connectors
          * 
         */
 
-        ship.addComponentTile(6, 7, cabin);
-        ship.addComponentTile(6, 8, lifeSupport);
+        ship.addComponentTile(6, 7, engine);
+        ship.addComponentTile(7, 6, engine);
+        ship.addComponentTile(7, 8, engine);
+        ship.addComponentTile(5, 7, doubleEngine);
 
-        ship.addCrewmate(7, 7, human);
-        ship.addCrewmate(7, 7, human);
-        ship.addCrewmate(6, 7, alien);
+        assertEquals(3, ship.calculateEnginePower());
+    }
 
-        ship.removeComponentTile(6, 7);
+    @Test
+    void activateComponentTest() {
+        ShipManager ship = new ShipManager(1);
 
-        assertEquals(2, ship.countCrewmates());
+        SingleCannon cannon = new SingleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        DoubleCannon doubleCannon = new DoubleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        BatteryComponent battery = new BatteryComponent(2, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
 
-        ship.addComponentTile(6, 7, cabin);
+        /*
+         *  4  5  6  7  8  9 10
+         * 5        [d]
+         * 6     [ ][c][ ]
+         * 7  [ ][c][x][c][ ]
+         * 8  [ ][ ][ ][b][ ]
+         * 9  [ ][ ]   [ ][ ]
+         * 
+         * Where c stands for cannon
+         * Where d stands for doubleCannon
+         * Where b stands for battery
+         * Where x stands for CentralCabin which has all TileEdge.UNIVERSAL connectors
+         * 
+        */
+
+        ship.addComponentTile(6, 7, cannon);
+        ship.addComponentTile(7, 6, cannon);
+        ship.addComponentTile(7, 8, cannon);
+        ship.addComponentTile(5, 7, doubleCannon);
+        ship.addComponentTile(8, 8, battery);
+
+        HashMap<List<Integer>, List<Integer>> cannonsAndBatteries = new HashMap<>();
+
+        cannonsAndBatteries.put(List.of(5, 7), List.of(8, 8));
+
+        assertEquals(5, ship.calculateFirePower() + ship.activateComponent(cannonsAndBatteries));
+        assertEquals(1, battery.getBatteryCapacity());
+
+        assertEquals(5, ship.calculateFirePower() + ship.activateComponent(cannonsAndBatteries));
+        assertEquals(0, battery.getBatteryCapacity());
+
+        assertThrows(InvalidActionException.class, () -> ship.activateComponent(cannonsAndBatteries));
+    }
+
+    @Test
+    void calculateFirePowerOfOnlyDouble() {
+        ShipManager ship = new ShipManager(1);
+
+        DoubleCannon doubleCannon = new DoubleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        BatteryComponent battery = new BatteryComponent(2, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        CabinModule cabin = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        LifeSupport lifeSupport = new LifeSupport(AlienType.PURPLEALIEN, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+
+        Alien alien = new Alien(AlienType.PURPLEALIEN);
+
+        /*
+         *  4  5  6  7  8  9 10
+         * 5        [d]
+         * 6     [ ][ ]][ ]
+         * 7  [ ][ ][x][ ][ ]
+         * 8  [ ][b][ ][C][l]
+         * 9  [ ][ ]   [ ][ ]
+         *
+         * Where d stands for doubleCannon
+         * Where b stands for battery
+         * Where C stands for cabin
+         * Where l stands for lifeSupport
+         * Where x stands for CentralCabin which has all TileEdge.UNIVERSAL connectors
+         * 
+        */
+
+        ship.addComponentTile(5, 7, doubleCannon);
+        ship.addComponentTile(8, 6, battery);
+        ship.addComponentTile(8, 8, cabin);
+        ship.addComponentTile(8, 9, lifeSupport);
+
+        ship.addCrewmate(8, 8, alien);
+
+        HashMap<List<Integer>, List<Integer>> cannonsAndBatteries = new HashMap<>();
+
+        cannonsAndBatteries.put(List.of(5, 7), List.of(8, 6));
+
+        assertEquals(4, ship.calculateFirePower(cannonsAndBatteries));
+    }
+
+    @Test
+    void calculateFirePowerOfBothSingleAndDoubleTest() {
+        ShipManager ship = new ShipManager(1);
+
+        SingleCannon cannon = new SingleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        DoubleCannon doubleCannon = new DoubleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        BatteryComponent battery = new BatteryComponent(2, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        CabinModule cabin = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        LifeSupport lifeSupport = new LifeSupport(AlienType.PURPLEALIEN, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+
+        Alien alien = new Alien(AlienType.PURPLEALIEN);
+
+        /*
+         *  4  5  6  7  8  9 10
+         * 5        [d]
+         * 6     [ ][c]][ ]
+         * 7  [ ][c][x][c][ ]
+         * 8  [ ][b][ ][C][l]
+         * 9  [ ][ ]   [ ][ ]
+         *
+         * Where c stands for cannon 
+         * Where d stands for doubleCannon
+         * Where b stands for battery
+         * Where C stands for cabin
+         * Where l stands for lifeSupport
+         * Where x stands for CentralCabin which has all TileEdge.UNIVERSAL connectors
+         * 
+        */
+
+        ship.addComponentTile(6, 7, cannon);
+        ship.addComponentTile(7, 6, cannon);
+        ship.addComponentTile(7, 8, cannon);
+        ship.addComponentTile(5, 7, doubleCannon);
+        ship.addComponentTile(8, 6, battery);
+        ship.addComponentTile(8, 8, cabin);
+        ship.addComponentTile(8, 9, lifeSupport);
+
+        ship.addCrewmate(8, 8, alien);
+
+        HashMap<List<Integer>, List<Integer>> cannonsAndBatteries = new HashMap<>();
+
+        cannonsAndBatteries.put(List.of(5, 7), List.of(8, 6));
+
+        assertEquals(7, ship.calculateFirePower(cannonsAndBatteries));
+    }
+
+    @Test
+    void calculateFirePowerOfBothNoCannonsTest() {
+        ShipManager ship = new ShipManager(1);
+
+        SingleEngine engine = new SingleEngine(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        DoubleEngine doubleEngine = new DoubleEngine(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        BatteryComponent battery = new BatteryComponent(2, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        CabinModule cabin = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        LifeSupport lifeSupport = new LifeSupport(AlienType.BROWNALIEN, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+
+        Alien alien = new Alien(AlienType.BROWNALIEN);
+
+        /*
+         *  4  5  6  7  8  9 10
+         * 5        [d]
+         * 6     [ ][e]][ ]
+         * 7  [ ][e][x][e][ ]
+         * 8  [ ][b][ ][C][l]
+         * 9  [ ][ ]   [ ][ ]
+         *
+         * Where e stands for engine 
+         * Where d stands for doubleEngine
+         * Where b stands for battery
+         * Where C stands for cabin
+         * Where l stands for lifeSupport
+         * Where x stands for CentralCabin which has all TileEdge.UNIVERSAL connectors
+         * 
+        */
+
+        ship.addComponentTile(6, 7, engine);
+        ship.addComponentTile(7, 6, engine);
+        ship.addComponentTile(7, 8, engine);
+        ship.addComponentTile(5, 7, doubleEngine);
+        ship.addComponentTile(8, 6, battery);
+        ship.addComponentTile(8, 8, cabin);
+        ship.addComponentTile(8, 9, lifeSupport);
+
+        ship.addCrewmate(8, 8, alien);
         
-        ship.removeComponentTile(7, 7);
-
-        assertEquals(1, ship.countCrewmates());
+        assertEquals(0, ship.calculateFirePower(new HashMap<>()));
     }
 
     @Test
-    void hasAlienTest() {
+    void calculateEnginePowerOfBothSingleAndDoubleTest() {
         ShipManager ship = new ShipManager(1);
 
-        CabinModule cabinPurple = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
-        CabinModule cabinBrown = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
-        LifeSupport lifeSupportPurple = new LifeSupport(AlienType.PURPLEALIEN, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
-        LifeSupport lifeSupportBrown = new LifeSupport(AlienType.BROWNALIEN, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        SingleEngine engine = new SingleEngine(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        DoubleEngine doubleEngine = new DoubleEngine(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        BatteryComponent battery = new BatteryComponent(2, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        CabinModule cabin = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        LifeSupport lifeSupport = new LifeSupport(AlienType.BROWNALIEN, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
 
-        Human human = new Human();
-        Alien purple = new Alien(AlienType.PURPLEALIEN);
-        Alien brown = new Alien(AlienType.BROWNALIEN);
+        Alien alien = new Alien(AlienType.BROWNALIEN);
 
         /*
          *  4  5  6  7  8  9 10
-         * 5        [ ]
-         * 6     [ ][c][l]
-         * 7  [ ][ ][x][c][ ]
-         * 8  [ ][ ][ ][l][ ]
+         * 5        [d]
+         * 6     [ ][e]][ ]
+         * 7  [ ][e][x][e][ ]
+         * 8  [ ][b][ ][C][l]
          * 9  [ ][ ]   [ ][ ]
-         * 
-         * Where c stands for cabinModule
-         * Where l stands for LifeSupport
+         *
+         * Where e stands for engine 
+         * Where d stands for doubleEngine
+         * Where b stands for battery
+         * Where C stands for cabin
+         * Where l stands for lifeSupport
          * Where x stands for CentralCabin which has all TileEdge.UNIVERSAL connectors
          * 
         */
 
-        ship.addComponentTile(6, 7, cabinPurple);
-        ship.addComponentTile(7, 8, cabinBrown);
-        ship.addComponentTile(6, 8, lifeSupportPurple);
-        ship.addComponentTile(8, 8, lifeSupportBrown);
+        ship.addComponentTile(6, 7, engine);
+        ship.addComponentTile(7, 6, engine);
+        ship.addComponentTile(7, 8, engine);
+        ship.addComponentTile(5, 7, doubleEngine);
+        ship.addComponentTile(8, 6, battery);
+        ship.addComponentTile(8, 8, cabin);
+        ship.addComponentTile(8, 9, lifeSupport);
 
-        ship.addCrewmate(7, 7, human);
-        ship.addCrewmate(7, 7, human);
-        ship.addCrewmate(6, 7, purple);
-        ship.addCrewmate(7, 8, brown);
+        ship.addCrewmate(8, 8, alien);
 
-        assertTrue(() -> ship.hasAlien(AlienType.PURPLEALIEN));
-        assertTrue(() -> ship.hasAlien(AlienType.BROWNALIEN));
+        HashMap<List<Integer>, List<Integer>> enginesAndBatteries = new HashMap<>();
 
-        ship.removeComponentTile(7, 8);
+        enginesAndBatteries.put(List.of(5, 7), List.of(8, 6));
 
-        assertFalse(() -> ship.hasAlien(AlienType.BROWNALIEN));
-    }
-
-    @Test
-    void removeComponentTileRemovingLifeSupportTest() {
-        ShipManager ship = new ShipManager(1);
-
-        CabinModule cabinPurple = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
-        CabinModule cabinBrown = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
-        LifeSupport lifeSupportPurple = new LifeSupport(AlienType.PURPLEALIEN, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
-        LifeSupport lifeSupportBrown = new LifeSupport(AlienType.BROWNALIEN, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
-
-        Human human = new Human();
-        Alien purple = new Alien(AlienType.PURPLEALIEN);
-        Alien brown = new Alien(AlienType.BROWNALIEN);
-
-        /*
-         *  4  5  6  7  8  9 10
-         * 5        [ ]
-         * 6     [ ][c][l]
-         * 7  [ ][ ][x][c][ ]
-         * 8  [ ][ ][ ][l][ ]
-         * 9  [ ][ ]   [ ][ ]
-         * 
-         * Where c stands for cabinModule
-         * Where l stands for LifeSupport
-         * Where x stands for CentralCabin which has all TileEdge.UNIVERSAL connectors
-         * 
-        */
-
-        ship.addComponentTile(6, 7, cabinPurple);
-        ship.addComponentTile(7, 8, cabinBrown);
-        ship.addComponentTile(6, 8, lifeSupportPurple);
-        ship.addComponentTile(8, 8, lifeSupportBrown);
-
-        ship.addCrewmate(7, 7, human);
-        ship.addCrewmate(7, 7, human);
-        ship.addCrewmate(6, 7, purple);
-        ship.addCrewmate(7, 8, brown);
-
-        assertTrue(() -> ship.hasAlien(AlienType.PURPLEALIEN));
-
-        ship.removeComponentTile(6, 8);
-
-        assertFalse(() -> ship.hasAlien(AlienType.PURPLEALIEN));
+        assertEquals(7, ship.calculateEnginePower(enginesAndBatteries));
     }
 }
