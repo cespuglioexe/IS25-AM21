@@ -1022,6 +1022,79 @@ public class ShipManager {
     }
 
     /**
+     * Retrieves the positions of all cargo items aboard the ship, grouped by color.
+     *
+     * <p>This method scans all cargo hold components ({@link CargoHold} and {@link SpecialCargoHold})
+     * and collects the positions of cargo items based on their color.</p>
+     *
+     * <p>The result is a {@link HashMap} where each key is a {@link Color} representing a cargo type,
+     * and the corresponding value is a set of positions (row and column) where cargo of that color is stored.</p>
+     *
+     * <h3>Functionality:</h3>
+     * <ul>
+     *     <li>Iterates over all colors defined in {@link Color}.</li>
+     *     <li>Scans all {@link SpecialCargoHold} components for special cargo.</li>
+     *     <li>Scans all {@link CargoHold} components for non-special cargo.</li>
+     *     <li>Groups the cargo positions by color.</li>
+     * </ul>
+     *
+     * <p>Example of usage:</p>
+     * <pre>
+     *     HashMap<Color, Set<List<Integer>>> cargoPositions = shipManager.getCargoPosition();
+     *     for (Map.Entry<Color, Set<List<Integer>>> entry : cargoPositions.entrySet()) {
+     *         System.out.println("Color: " + entry.getKey() + ", Positions: " + entry.getValue());
+     *     }
+     * </pre>
+     *
+     * @return A {@link HashMap} where the key is a {@link Color}, and the value is a {@link Set} 
+     *         of positions (row, column) where cargo of that color is stored.
+     */
+    public HashMap<Color, Set<List<Integer>>> getCargoPositon() {
+        HashMap<Color, Set<List<Integer>>> cargoPosition = new HashMap<>();
+
+        for (Color color : Color.values()) {
+            Set<List<Integer>> positions = new HashSet<>();
+            cargoPosition.put(color, positions);
+
+            Set<List<Integer>> specialCargoHoldComponent = this.getAllComponentsPositionOfType(SpecialCargoHold.class);
+
+            for (List<Integer> coord : specialCargoHoldComponent) {
+                SpecialCargoHold specialCargoHold = (SpecialCargoHold) this.getComponent(coord.get(0), coord.get(1)).get();
+
+                List<Cargo> containedCargo = specialCargoHold.getContainedCargo();
+
+                for (Cargo cargo : containedCargo) {
+                    if (cargo.getColor().equals(color)) {
+                        positions.add(coord);
+                    }
+                }
+            }
+
+            Cargo specialCargo = new Cargo(color);
+
+            if (specialCargo.isSpecial()) {
+                continue;
+            }
+
+            Set<List<Integer>> cargoHoldComponent = this.getAllComponentsPositionOfType(CargoHold.class);
+
+            for (List<Integer> coord : cargoHoldComponent) {
+                CargoHold cargoHold = (CargoHold) this.getComponent(coord.get(0), coord.get(1)).get();
+
+                List<Cargo> containedCargo = cargoHold.getContainedCargo();
+
+                for (Cargo cargo : containedCargo) {
+                    if (cargo.getColor().equals(color)) {
+                        positions.add(coord);
+                    }
+                }
+            }
+        }
+
+        return cargoPosition;
+    }
+
+    /**
      * Counts the number of exposed connectors of the component at the specified
      * position.
      *

@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Optional;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
@@ -1286,6 +1287,58 @@ public class ShipManagerTest {
         ship.removeBattery(6, 7);
 
         assertThrows(InvalidActionException.class, () -> ship.removeBattery(6, 7));
+    }
+
+    @Test
+    void getCargoPositonTest() {
+        ShipManager ship = new ShipManager(1);
+
+        SpecialCargoHold specialCargoHold = new SpecialCargoHold(2, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        CargoHold cargoHold = new CargoHold(2, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+
+        Cargo specialCargp = new Cargo(Color.RED);
+        Cargo cargo1 = new Cargo(Color.BLUE);
+        Cargo cargo2 = new Cargo(Color.YELLOW);
+
+        /*
+         *  4  5  6  7  8  9 10
+         * 5        [ ]
+         * 6     [ ][c][ ]
+         * 7  [ ][ ][x][s][ ]
+         * 8  [ ][ ][ ][ ][ ]
+         * 9  [ ][ ]   [ ][ ]
+         * 
+         * Where c stands for cargoHold
+         * Where s stands for specialCargoHold
+         * Where x stands for CentralCabin which has all TileEdge.UNIVERSAL connectors
+         * 
+        */
+
+        ship.addComponentTile(7, 8, specialCargoHold);
+        ship.addComponentTile(6, 7, cargoHold);
+
+        ship.addCargo(7, 8, specialCargp);
+        ship.addCargo(7, 8, cargo2);
+        ship.addCargo(6, 7, cargo1);
+        ship.addCargo(6, 7, cargo2);        
+
+        HashMap<Color, Set<List<Integer>>> cargoPosition = ship.getCargoPositon();
+
+        assertEquals(Set.of(
+            List.of(7, 8)
+        ), cargoPosition.get(Color.RED));
+
+        assertEquals(Set.of(
+        List.of(6, 7)
+        ), cargoPosition.get(Color.BLUE));
+
+        assertEquals(Set.of(
+            List.of(7, 8),
+            List.of(6, 7)
+        ), cargoPosition.get(Color.YELLOW));
+
+        assertEquals(Set.of(), cargoPosition.get(Color.GREEN));
+
     }
 
     @Test
