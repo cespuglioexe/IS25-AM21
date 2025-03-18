@@ -144,16 +144,7 @@ public class GameManager implements Model {
         this.flightBoard = new FlightBoardState(this.level);
     }
 
-    public Set<ComponentTile> getComponents () {
-        return this.components;
-    }
-
     public void initializeComponentTiles() {
-
-        // NOTE: per ora supporta la creazione di StructuralModule e CargoHold
-        // Il file contiene già alcuni componenti di prova
-        // Per le altre classi devo ancora aggiungere supporto
-
         File file = new File("src/main/resources/it/polimi/it/galaxytrucker/json/componenttiles.json");
 
         try {

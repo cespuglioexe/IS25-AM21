@@ -11,16 +11,13 @@ import java.util.List;
  * connectors between other components.
  *
  * @author Giacomo Amaducci
- * @version 1.0
+ * @version 1.1
  */
 public class StructuralModule extends ComponentTile {
-    /*
+    /**
      * Constructs a new Structural Module with the specified edges.
      *
-     * @param top the type of the top edge of this tile
-     * @param right the type of the right edge of this tile
-     * @param bottom the type of the bottom edge of this tile
-     * @param left the type of the left edge of this tile
+     * @param edges a {@code List} of {@link TileEdge} objects representing the four edges of this tile
      */
     @JsonCreator
     public StructuralModule(@JsonProperty("edges") List<TileEdge> edges) {

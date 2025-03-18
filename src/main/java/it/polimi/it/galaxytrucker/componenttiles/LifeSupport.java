@@ -1,5 +1,7 @@
 package it.polimi.it.galaxytrucker.componenttiles;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.it.galaxytrucker.utility.AlienType;
 
 import java.util.List;
@@ -10,22 +12,22 @@ import java.util.List;
  * alien type in adjacent {@link CabinModule}.
  *
  * @author Giacomo Amaducci
- * @version 1.0
+ * @version 1.1
  */
 public class LifeSupport extends ComponentTile {
     /** The type of alien that this life support system can sustain */
     private final AlienType supportedAlienType;
 
-    /*
+    /**
      * Constructs a new Life Support tile with the specified alien type and edges.
      *
      * @param type the {@code AlienType} that this life support system supports
-     * @param top the type of the top edge of this tile
-     * @param right the type of the right edge of this tile
-     * @param bottom the type of the bottom edge of this tile
-     * @param left the type of the left edge of this tile
+     * @param edges a {@code List} of {@link TileEdge} objects representing the four edges of this tile
      */
-    public LifeSupport(AlienType type, List<TileEdge> edges) {
+    @JsonCreator
+    public LifeSupport(
+            @JsonProperty("alienType") AlienType type,
+            @JsonProperty("edges") List<TileEdge> edges) {
         super(edges);
         this.supportedAlienType = type;
     }

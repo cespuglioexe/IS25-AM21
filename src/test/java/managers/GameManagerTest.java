@@ -28,7 +28,7 @@ public class GameManagerTest {
     void createComponentTilePool () {
         GameManager manager = startGame();
         manager.initializeComponentTiles();
-        Set<ComponentTile> comps = manager.getComponents();
+        Set<ComponentTile> comps = manager.getComponentTiles();
 
         for (ComponentTile componentTile : comps) {
             System.out.println(componentTile.getClass());

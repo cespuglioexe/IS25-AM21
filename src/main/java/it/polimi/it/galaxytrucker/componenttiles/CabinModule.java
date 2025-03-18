@@ -1,5 +1,7 @@
 package it.polimi.it.galaxytrucker.componenttiles;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.it.galaxytrucker.crewmates.Alien;
 import it.polimi.it.galaxytrucker.exceptions.InvalidActionException;
 
@@ -7,26 +9,23 @@ import java.util.List;
 
 /**
  * Represents a Cabin Module that extends the central cabin functionality.
- * This module can house a single alien crewmate at a time.
+ * This module can house both humans and aliens.
  * <p>
- * A cabin module is defined by its four edges (top, right, bottom, left)
- * and maintains the ability to house crewmates with the restriction that
- * only one crewmate can occupy the cabin at any time.
+ * A cabin module maintains the ability to house crewmates, but adds the
+ * possibility to house a single alien instead of two humans.
  *
  * @author Giacomo Amaducci
- * @version 1.0
+ * @version 1.1
  */
 public class CabinModule extends CentralCabin {
 
-    /*
-     * Constructs a new CabinModule with the specified edges.
+    /**
+     * Constructs a new {@code CabinModule} with the specified edges.
      *
-     * @param top    The edge type for the top side of the cabin
-     * @param right  The edge type for the right side of the cabin
-     * @param bottom The edge type for the bottom side of the cabin
-     * @param left   The edge type for the left side of the cabin
+     * @param edges A {@code List} of {@code TileEdge} defining the edges of the cabin module.
      */
-    public CabinModule(List<TileEdge> edges) {
+    @JsonCreator
+    public CabinModule(@JsonProperty("edges") List<TileEdge> edges) {
         super(edges);
     }
 
