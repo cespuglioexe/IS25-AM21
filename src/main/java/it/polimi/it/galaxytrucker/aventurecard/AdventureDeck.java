@@ -39,9 +39,8 @@ public class AdventureDeck {
         //Unit = 2 && 6
         //0-5 6-11 12-17 18-23
         if(stack== 0 || stack ==1 || stack == 2) {
-            newStack = cards.subList(stack * unit, ((stack * unit) + unit) - 1);
+            newStack = cards.subList(stack*unit, ((stack * unit) + unit));
         }
-
         return newStack;
     }
 

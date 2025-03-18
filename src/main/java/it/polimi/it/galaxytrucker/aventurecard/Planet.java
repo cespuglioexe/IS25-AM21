@@ -3,6 +3,7 @@ package it.polimi.it.galaxytrucker.aventurecard;
 import it.polimi.it.galaxytrucker.cardEffects.CargoReward;
 import it.polimi.it.galaxytrucker.cardEffects.FlightDayPenalty;
 import it.polimi.it.galaxytrucker.cardEffects.Participation;
+import it.polimi.it.galaxytrucker.exceptions.NotFoundException;
 import it.polimi.it.galaxytrucker.managers.FlightBoardState;
 import it.polimi.it.galaxytrucker.managers.Player;
 import it.polimi.it.galaxytrucker.utility.Cargo;
@@ -15,13 +16,11 @@ public class Planet extends AdventureCard implements Participation, CargoReward,
     private CargoManager manager;
 
 
-    public Planet(Optional<Integer> penalty, Optional<Integer> flightDayPenalty, Optional<Cargo> reward,HashMap<Integer, Set<Cargo>> planets, int firePower,int creditReward,CargoManager manager) {
+    public Planet(Optional<Integer> penalty, Optional<Integer> flightDayPenalty, Optional<Set<Cargo>> reward,HashMap<Integer, Set<Cargo>> planets, int firePower,int creditReward,CargoManager manager) {
         super(penalty, flightDayPenalty, reward,firePower, creditReward);
         this.planets = planets;
         this.manager = manager;
     }
-
-    //// Metodi
 
 
     public HashMap<Integer, Player> getOccupiedPlanets() {
@@ -39,10 +38,17 @@ public class Planet extends AdventureCard implements Participation, CargoReward,
 
 
     @Override
-    public void giveCargoReward(Set<Cargo> reward,Player player) {
-        for(Cargo cargo: reward) {
-            manager.manageCargoAddition(cargo, player);
+    public Set<Cargo> giveCargoReward(Player player) {
+        int key=-1;
+        for (Map.Entry<Integer, Player> map : occupiedPlanets.entrySet()) {
+            if (map.getValue().equals(player)) {
+                key = map.getKey();
+            }
         }
+        if(key==-1){
+            new NotFoundException("Player not found");
+            return new HashSet<>();
+        } else return planets.get(key);
     }
 
 

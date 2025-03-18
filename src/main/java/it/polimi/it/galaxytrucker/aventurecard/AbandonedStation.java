@@ -1,7 +1,6 @@
 package it.polimi.it.galaxytrucker.aventurecard;
 
 import it.polimi.it.galaxytrucker.cardEffects.CargoReward;
-import it.polimi.it.galaxytrucker.cardEffects.CrewmatePenalty;
 import it.polimi.it.galaxytrucker.cardEffects.FlightDayPenalty;
 import it.polimi.it.galaxytrucker.cardEffects.Participation;
 import it.polimi.it.galaxytrucker.managers.FlightBoardState;
@@ -15,7 +14,7 @@ public class AbandonedStation extends AdventureCard implements Participation, Ca
     public final int MAX_PARTICIPATIONS;
     private CargoManager manager;
 
-    public AbandonedStation(Optional<Integer> penalty, Optional<Integer> flightDayPenalty, Optional<Cargo> reward, int firePower, int creditReward,CargoManager manager) {
+    public AbandonedStation(Optional<Integer> penalty, Optional<Integer> flightDayPenalty, Optional<Set<Cargo>> reward, int firePower, int creditReward,CargoManager manager) {
            super(penalty, flightDayPenalty, reward,firePower, creditReward);
            this.manager = manager;
            MAX_PARTICIPATIONS = 1;
@@ -26,11 +25,8 @@ public class AbandonedStation extends AdventureCard implements Participation, Ca
     }
 
     @Override
-    public void giveCargoReward(Set<Cargo> reward, Player player) {
-            for(Cargo cargo : reward){
-                manager.manageCargoAddition(cargo, player);
-            }
-
+    public Set<Cargo> giveCargoReward(Player player) {
+        return (Set<Cargo>) super.getReward().orElse(0);
     }
 
     @Override
@@ -38,14 +34,13 @@ public class AbandonedStation extends AdventureCard implements Participation, Ca
         board.movePlayerBackwards((int)getFlightDayPenalty().orElse(0), player.getPlayerID());
     }
 
-
     public int getMAX_PARTICIPATIONS() {
         return MAX_PARTICIPATIONS;
     }
 
     public boolean RequiredHumanVerification(Player player) {
         int nMin = (int)super.getPenalty().orElse(0);
-        if (player.getShipManager().countCrewmates() > nMin) {
+        if (player.getShipManager().countCrewmates() >= nMin) {
             return true;
         }
         return false;

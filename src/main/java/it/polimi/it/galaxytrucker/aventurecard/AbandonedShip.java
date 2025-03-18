@@ -49,7 +49,7 @@ public class AbandonedShip extends AdventureCard implements Participation, Credi
 
     public boolean RequiredHumanVerification(Player player) {
         int nMin = (int)super.getPenalty().orElse(0);
-        if (player.getShipManager().countCrewmates() > nMin) {
+        if (player.getShipManager().countCrewmates() >= nMin) {
             return true;
         }
         return false;

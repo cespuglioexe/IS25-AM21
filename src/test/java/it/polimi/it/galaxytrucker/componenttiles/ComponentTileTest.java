@@ -10,19 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class ComponentTileTest {
 
     @Test
-    void testRotate() {
-        StructuralModule component = new StructuralModule(TileEdge.SMOOTH, TileEdge.SINGLE, TileEdge.DOUBLE, TileEdge.UNIVERSAL);
-
-        component.rotate();
-        assertEquals(
-                1, component.getRotation()
-        );
-    }
-
-    @Test
-    void testGetTileEdges() {
-        // component.tileEdges -> [SMOOTH, SINGLE, DOUBLE, UNIVERSAL]
-        StructuralModule component = new StructuralModule(TileEdge.SMOOTH, TileEdge.SINGLE, TileEdge.DOUBLE, TileEdge.UNIVERSAL);
+    void testRotateComponentTile() {
+        StructuralModule component = new StructuralModule(List.of(TileEdge.SMOOTH, TileEdge.SINGLE, TileEdge.DOUBLE, TileEdge.UNIVERSAL));
 
         /* ===== TEST 1 ==== */
 
@@ -38,9 +27,8 @@ class ComponentTileTest {
 
         component.rotate();
 
-        assertEquals(
-                list1, component.getTileEdges()
-        );
+        assertEquals(list1, component.getTileEdges());
+        assertEquals(1, component.getRotation());
 
         /* ===== TEST 2 ==== */
 
@@ -57,9 +45,8 @@ class ComponentTileTest {
 
         component.rotate();
 
-        assertEquals(
-                list2, component.getTileEdges()
-        );
+        assertEquals(list2, component.getTileEdges());
+        assertEquals(2, component.getRotation());
 
         /* ===== TEST 3 ==== */
 
@@ -76,9 +63,8 @@ class ComponentTileTest {
 
         component.rotate();
 
-        assertEquals(
-                list3, component.getTileEdges()
-        );
+        assertEquals(list3, component.getTileEdges());
+        assertEquals(3, component.getRotation());
 
         /* ===== TEST 4 ==== */
 
@@ -93,8 +79,7 @@ class ComponentTileTest {
 
         component.rotate();
 
-        assertEquals(
-                list4, component.getTileEdges()
-        );
+        assertEquals(list4, component.getTileEdges());
+        assertEquals(0, component.getRotation());
     }
 }
