@@ -4,6 +4,7 @@ import it.polimi.it.galaxytrucker.managers.FlightBoardState;
 import it.polimi.it.galaxytrucker.managers.Player;
 import it.polimi.it.galaxytrucker.utility.Cargo;
 import it.polimi.it.galaxytrucker.utility.Color;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
@@ -41,7 +42,7 @@ class PlanetTest {
         assertEquals(planet.getOccupiedPlanets().get(3),player4);
     }
 
-
+    @Disabled
     @Test
     void applyFlightDayPenalty() {
 

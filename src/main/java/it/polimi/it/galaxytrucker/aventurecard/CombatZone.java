@@ -25,7 +25,7 @@ public class CombatZone extends AdventureCard implements FlightDayPenalty, Crewm
 
     public Player checkLoserEp(List<Player> players) {
         Player loserEp = players.get(0);
-        for (int i = 1; i < players.size()-1; i++) {
+        for (int i = 1; i < players.size(); i++) {
             if (loserEp.getShipManager().calculateEnginePower() > players.get(i).getShipManager().calculateEnginePower()) {
                 loserEp = players.get(i);
             }
@@ -38,7 +38,7 @@ public class CombatZone extends AdventureCard implements FlightDayPenalty, Crewm
     public Player checkLoserFp(List<Player> players) {
         Player loserFp = players.get(0);
 
-        for (int i = 1; i < players.size()-1; i++) {
+        for (int i = 1; i < players.size(); i++) {
             if (loserFp.getShipManager().calculateFirePower() > players.get(i).getShipManager().calculateFirePower()) {
                 loserFp = players.get(i);
             }
@@ -51,7 +51,7 @@ public class CombatZone extends AdventureCard implements FlightDayPenalty, Crewm
         Player loserCm = players.get(0);
         List<Player> playerList;
 
-        for (int i = 1; i < players.size()-1; i++) {
+        for (int i = 1; i < players.size(); i++) {
             if(players.get(i).getShipManager().countCrewmates() < loserCm.getShipManager().countCrewmates()) {
                 loserCm = players.get(i);
             }

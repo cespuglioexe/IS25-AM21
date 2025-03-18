@@ -16,7 +16,7 @@ class AdventureDeckTest {
         AbandonedShip ship = new AbandonedShip(3,2,5,0,5);
         AbandonedStation station = new AbandonedStation(2,3,null,0,5,null);
         OpenSpace space = new OpenSpace(null,5,null,0,0);
-        Planet planet = new Planet(null,3,null,null,0,0,null));
+        Planet planet = new Planet(null,3,null,null,0,0,null);
         Slavers slaver = new Slavers(3,2,5,4,5);
         Smugglers smuggler = new Smugglers(3,2,5,4,5);
         StarDust star = new StarDust(null,null,null,0,0);
@@ -40,7 +40,7 @@ class AdventureDeckTest {
         AbandonedShip ship = new AbandonedShip(3,2,5,0,5);
         AbandonedStation station = new AbandonedStation(2,3,null,0,5,null);
         OpenSpace space = new OpenSpace(null,5,null,0,0);
-        Planet planet = new Planet(null,3,null,null,0,0,null));
+        Planet planet = new Planet(null,3,null,null,0,0,null);
         Slavers slaver = new Slavers(3,2,5,4,5);
         Smugglers smuggler = new Smugglers(3,2,5,4,5);
         StarDust star = new StarDust(null,null,null,0,0);
