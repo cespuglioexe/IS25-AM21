@@ -1,3 +1,5 @@
+# Written by: Claude AI
+
 import json
 
 def update_graphics_paths(json_data):
