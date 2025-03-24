@@ -17,18 +17,18 @@ import java.util.List;
  */
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "componentType")
 @JsonSubTypes({
-        @JsonSubTypes.Type(value = BatteryComponent.class, name = "BatteryComponent"),
-        @JsonSubTypes.Type(value = CabinModule.class, name = "CabinModule"),
-        @JsonSubTypes.Type(value = CargoHold.class, name = "CargoHold"),
-        @JsonSubTypes.Type(value = CentralCabin.class, name = "CentralCabin"),
-        @JsonSubTypes.Type(value = DoubleCannon.class, name = "DoubleCannon"),
-        @JsonSubTypes.Type(value = DoubleEngine.class, name = "DoubleEngine"),
-        @JsonSubTypes.Type(value = LifeSupport.class, name = "LifeSupport"),
-        @JsonSubTypes.Type(value = Shield.class, name = "Shield"),
-        @JsonSubTypes.Type(value = SingleCannon.class, name = "SingleCannon"),
-        @JsonSubTypes.Type(value = SingleEngine.class, name = "SingleEngine"),
-        @JsonSubTypes.Type(value = SpecialCargoHold.class, name = "SpecialCargoHold"),
-        @JsonSubTypes.Type(value = StructuralModule.class, name = "StructuralModule")
+        @JsonSubTypes.Type(value = BatteryComponent.class,  name = "BatteryComponent"),
+        @JsonSubTypes.Type(value = CabinModule.class,       name = "CabinModule"),
+        @JsonSubTypes.Type(value = CargoHold.class,         name = "CargoHold"),
+        @JsonSubTypes.Type(value = CentralCabin.class,      name = "CentralCabin"),
+        @JsonSubTypes.Type(value = DoubleCannon.class,      name = "DoubleCannon"),
+        @JsonSubTypes.Type(value = DoubleEngine.class,      name = "DoubleEngine"),
+        @JsonSubTypes.Type(value = LifeSupport.class,       name = "LifeSupport"),
+        @JsonSubTypes.Type(value = Shield.class,            name = "Shield"),
+        @JsonSubTypes.Type(value = SingleCannon.class,      name = "SingleCannon"),
+        @JsonSubTypes.Type(value = SingleEngine.class,      name = "SingleEngine"),
+        @JsonSubTypes.Type(value = SpecialCargoHold.class,  name = "SpecialCargoHold"),
+        @JsonSubTypes.Type(value = StructuralModule.class,  name = "StructuralModule")
 })
 public abstract class ComponentTile {
     /** The list of edges for this tile in the order: top, right, bottom, left. Must contain exactly four elements. */
