@@ -18,7 +18,7 @@ class MeteorStormTest {
 
     @Test
     void checkComponentHit() {
-        projectile.put(Projectile.SMALL,Direction.UP);
+        projectile.put(Projectile.BIG,Direction.UP);
         List<Optional<ComponentTile>> sequence = new ArrayList<>();
         ComponentTile componentTile = new CabinModule(List.of(TileEdge.SMOOTH,TileEdge.SMOOTH,TileEdge.SMOOTH,TileEdge.SMOOTH));
         sequence.add(Optional.empty());
@@ -55,10 +55,14 @@ class MeteorStormTest {
         List<Shield> shieldActivated = new ArrayList<>();
         shieldActivated.add(shield);
 
+        SingleCannon cannon = new SingleCannon(List.of(TileEdge.SINGLE, TileEdge.DOUBLE,TileEdge.SMOOTH,TileEdge.SINGLE));
         Set<List<Integer>> allCannonsCoord = new HashSet<>();
         List<Integer> coord = Arrays.asList(5,6);
+        List<Integer> coord2 = Arrays.asList(7,10);
+        allCannonsCoord.add(coord);
+        allCannonsCoord.add(coord2);
 
-        projectile.put(Projectile.SMALL,Direction.LEFT);
+        projectile.put(Projectile.BIG,Direction.UP);
 
         ComponentTile componentHit = new StructuralModule(List.of(TileEdge.SINGLE, TileEdge.DOUBLE,TileEdge.SMOOTH,TileEdge.SINGLE));
 
@@ -93,25 +97,34 @@ class MeteorStormTest {
                     }
                 }
             }
-            /*
-            if (entry.getKey() == Projectile.BIG){
+
+            if (entry.getKey() == Projectile.BIG ){
                 for (List<Integer> listCannons : allCannonsCoord) {
-                    if(entry.getValue()== Direction.UP){
-                        if(line == listCannons.get(1)) {
-                            protect=1;
-                            break;
-                        }
-                    }else if (entry.getValue()== Direction.DOWN){
-                        if (line == listCannons.get(1)||line == listCannons.get(0)+1||line == listCannons.get(0)-1) {
-                            protect=1;
-                            break;
-                        }
-                    }else{
-                        if(line == listCannons.get(0)||line == listCannons.get(0)+1||line == listCannons.get(0)-1) {
-                            protect=1;
-                            break;
+
+                    System.out.println("Coordinate del cannone:" + listCannons);
+                    System.out.println("Rotazione del cannone" + cannon.getRotation());
+
+                    if(entry.getValue().ordinal() == cannon.getRotation()){
+                        System.out.println("Il cannone è orientato correttamente");
+
+                        if(entry.getValue()== Direction.UP){
+                            if(line == listCannons.get(1)) {
+                                protect=1;
+                                break;
+                            }
+                        }else if (entry.getValue()== Direction.DOWN){
+                            if (line == listCannons.get(1)||line == listCannons.get(1)+1||line == listCannons.get(1)-1) {
+                                protect=1;
+                                break;
+                            }
+                        }else{
+                            if(line == listCannons.get(0)||line == listCannons.get(0)+1||line == listCannons.get(0)-1) {
+                                protect=1;
+                                break;
+                            }
                         }
                     }
+
                 }
                 if (protect!=1){
                     if(entry.getValue()== Direction.UP||entry.getValue()== Direction.DOWN){
@@ -120,8 +133,10 @@ class MeteorStormTest {
                         System.out.println("Distruzione pezzo da dx/sx");
 
                     }
+                }else{
+                    System.out.println("Meteorite colpito dal cannone");
                 }
-            }*/
+            }
         }
     }
 
