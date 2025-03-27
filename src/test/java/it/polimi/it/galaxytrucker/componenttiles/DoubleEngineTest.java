@@ -30,10 +30,9 @@ public class DoubleEngineTest {
     }
 
     @Test
-    void testGetFirePowerForNonZeroRotation() {
+    void testGetEnginePowerForNonZeroRotation() {
         // Test firepower when the rotation is not 0
-        doubleEngine.activate();
         doubleEngine.rotate(); // Rotate to non-zero position
-        assertEquals(1, doubleEngine.getEnginePower());
+        assertEquals(0, doubleEngine.getEnginePower());
     }
 }

@@ -41,11 +41,13 @@ public class DoubleEngine extends SingleEngine implements EnergyConsumer {
 
     /**
      * Returns the power of the double engine.
-     *
+     *<p>
+     *  Engine power is {@code 2} when the engine in pointing downwards (rotation {@code 0}), {@code 0} otherwise.
+     *</p>
      * @return an {@code int} representing the engine power
      */
     @Override
     public int getEnginePower() {
-        return 2;
+        return getRotation() == 0 ? 2 :0;
     }
 }

@@ -29,7 +29,7 @@ public class CargoHold extends ComponentTile {
      */
     @JsonCreator
     public CargoHold(
-            @JsonProperty("containerNum") int containers,
+            @JsonProperty("capacity") int containers,
             @JsonProperty("edges") List<TileEdge> edges) {
         super(edges);
         containerNumber = containers;

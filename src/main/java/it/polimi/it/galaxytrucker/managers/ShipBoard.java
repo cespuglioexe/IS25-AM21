@@ -321,6 +321,7 @@ public class ShipBoard {
         final int CENTRALCABINCOLUMN = 3;
         
         try {
+            // PER QUANDO AGGIUNGIAMO GRAFICHE: blu - 33, verde - 34, rosso - 52, giallo - 61
             this.addComponentTile(CENTRALCABINROW, CENTRALCABINCOLUMN, new CentralCabin(List.of(TileEdge.UNIVERSAL, TileEdge.UNIVERSAL, TileEdge.UNIVERSAL, TileEdge.UNIVERSAL)));
         } catch (IllegalComponentPositionException e) {
             e.printStackTrace();
