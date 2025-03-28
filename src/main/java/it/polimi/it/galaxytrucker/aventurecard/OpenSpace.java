@@ -17,7 +17,7 @@ public class OpenSpace extends AdventureCard{
     }
 
 
-    public void travel(FlightBoardState board, int enginePower, Player player) {
+    public void travel(FlightBoardState board, Player player, int enginePower) {
         board.movePlayerForward(enginePower,player.getPlayerID());
     }
 

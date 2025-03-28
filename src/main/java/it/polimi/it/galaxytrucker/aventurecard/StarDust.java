@@ -15,7 +15,7 @@ public class StarDust extends AdventureCard implements FlightDayPenalty{
         super(penalty, flightDayPenalty, reward,firePower, creditReward);
     }
 
-    public void setPlayer(List<Player> partecipants) {
+    public void setPlayer(List<Player>  partecipants) {
         super.setPartecipants(partecipants);
     }
 

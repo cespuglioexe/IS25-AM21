@@ -14,21 +14,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class SlaversTest {
 
-    @Test
-    void checkReward() {
-
-        int firePower=6;
-        Slavers slaver = new Slavers(Optional.of(3),Optional.of(2),Optional.of(5),4,5);
-        assertEquals(slaver.checkReward(firePower), true);
-        slaver.setDefeated(false);
-        firePower=3;
-        assertEquals(slaver.checkReward(firePower), false);
-        firePower=4;
-        assertEquals(slaver.checkReward(firePower), true);
-        firePower=7;
-        assertEquals(slaver.checkReward(firePower), false);
-
-    }
 
     @Test
     void giveCreditReward() {

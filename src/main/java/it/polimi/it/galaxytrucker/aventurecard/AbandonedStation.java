@@ -11,22 +11,32 @@ import java.util.*;
 
 public class AbandonedStation extends AdventureCard implements Participation, CargoReward, FlightDayPenalty {
 
-    public final int MAX_PARTICIPATIONS;
+    public boolean isTaken;
     private CargoManager manager;
 
     public AbandonedStation(Optional<Integer> penalty, Optional<Integer> flightDayPenalty, Optional<Set<Cargo>> reward, int firePower, int creditReward,CargoManager manager) {
            super(penalty, flightDayPenalty, reward,firePower, creditReward);
            this.manager = manager;
-           MAX_PARTICIPATIONS = 1;
+           isTaken = false;
     }
 
     public void setPlayer(List<Player> partecipants) {
         super.setPartecipants(partecipants);
     }
 
+    public void setTaken(boolean taken) {
+        isTaken = taken;
+    }
+
+    public boolean getIsTaken() {
+        return isTaken;
+    }
+
     @Override
-    public Set<Cargo> giveCargoReward(Player player) {
-        return (Set<Cargo>) super.getReward().orElse(0);
+    public void giveCargoReward(Player player) {
+        for(Cargo cargo : (Set<Cargo>) super.getReward().orElse(0)){
+            manager.manageCargoAddition(cargo,player);
+        }
     }
 
     @Override
@@ -34,17 +44,20 @@ public class AbandonedStation extends AdventureCard implements Participation, Ca
         board.movePlayerBackwards((int)getFlightDayPenalty().orElse(0), player.getPlayerID());
     }
 
-    public int getMAX_PARTICIPATIONS() {
-        return MAX_PARTICIPATIONS;
+
+    public void RequiredHumanVerification(FlightBoardState board) {
+        for (Player player : (List<Player>)super.getPartecipants()){
+            if (!getIsTaken()) {
+                int nMin = (int) super.getPenalty().orElse(0);
+                if (player.getShipManager().countCrewmates() >= nMin) {
+                    applyFlightDayPenalty(board, player);
+                    giveCargoReward(player);
+                    setTaken(true);
+                }
+            }
+        }
     }
 
-    public boolean RequiredHumanVerification(Player player) {
-        int nMin = (int)super.getPenalty().orElse(0);
-        if (player.getShipManager().countCrewmates() >= nMin) {
-            return true;
-        }
-        return false;
-    }
 
 
     @Override

@@ -38,7 +38,7 @@ public class Planet extends AdventureCard implements Participation, CargoReward,
 
 
     @Override
-    public Set<Cargo> giveCargoReward(Player player) {
+    public void giveCargoReward(Player player) {
         int key=-1;
         for (Map.Entry<Integer, Player> map : occupiedPlanets.entrySet()) {
             if (map.getValue().equals(player)) {
@@ -47,8 +47,11 @@ public class Planet extends AdventureCard implements Participation, CargoReward,
         }
         if(key==-1){
             new NotFoundException("Player not found");
-            return new HashSet<>();
-        } else return planets.get(key);
+        } else{
+            for(Cargo cargo : planets.get(key)){
+                manager.manageCargoAddition(cargo,player);
+            }
+        }
     }
 
 

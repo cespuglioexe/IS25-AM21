@@ -31,18 +31,18 @@ public class Slavers extends AdventureCard implements FlightDayPenalty, CreditRe
         super.setPartecipants(partecipants);
     }
 
-    public boolean checkReward(int firePower) {
+    public void checkReward(Player player, FlightBoardState board) {
         if(!isDefeated) {
-            if (firePower < super.getFirePowerRequired()) {
-                return false;
+            if (player.getShipManager().calculateFirePower() < super.getFirePowerRequired()) {
+                applyCrewmatePenalty((Integer)super.getPenalty().orElse(0),player);
             } else {
-                if (firePower > super.getFirePowerRequired()) {
+                if (player.getShipManager().calculateFirePower() > super.getFirePowerRequired()) {
                     setDefeated(true);
-                    return true;
+                    giveCreditReward(player);
+                    applyFlightDayPenalty(board,player);
                 }
-                else return true;
             }
-        } else return false;
+        }
     }
 
     @Override

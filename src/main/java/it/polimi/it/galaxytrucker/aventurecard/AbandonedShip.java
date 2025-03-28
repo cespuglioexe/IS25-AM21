@@ -12,13 +12,20 @@ import java.util.*;
 
 public class AbandonedShip extends AdventureCard implements Participation, CreditReward, FlightDayPenalty, CrewmatePenalty {
 
-    public final int MAX_PARTICIPATIONS;
+    public boolean isTaken;
 
     public AbandonedShip(Optional<Integer> penalty, Optional<Integer> flightDayPenalty, Optional<Integer> reward, int firePower, int creditReward) {
         super(penalty, flightDayPenalty, reward,firePower, creditReward);
-        MAX_PARTICIPATIONS = 1;
+        isTaken = false;
     }
 
+    public void setTaken(boolean taken) {
+        isTaken = taken;
+    }
+
+    public boolean getIsTaken() {
+        return isTaken;
+    }
 
     public void setPlayer(List<Player> partecipants) {
         super.setPartecipants(partecipants);
@@ -26,7 +33,7 @@ public class AbandonedShip extends AdventureCard implements Participation, Credi
 
     @Override
     public void giveCreditReward(Player player) {
-        player.addCredits((int)super.getReward().orElse(0));
+        player.addCredits((super.getCreditReward()));
     }
 
     @Override
@@ -43,16 +50,18 @@ public class AbandonedShip extends AdventureCard implements Participation, Credi
         board.movePlayerBackwards((int)getFlightDayPenalty().orElse(0), player.getPlayerID());
     }
 
-    public int getMAX_PARTICIPATIONS() {
-        return MAX_PARTICIPATIONS;
-    }
-
-    public boolean RequiredHumanVerification(Player player) {
-        int nMin = (int)super.getPenalty().orElse(0);
-        if (player.getShipManager().countCrewmates() >= nMin) {
-            return true;
+    public void RequiredHumanVerification(FlightBoardState board) {
+        for (Player player : (List<Player>)super.getPartecipants()){
+            if (!getIsTaken()) {
+                int nMin = (int) super.getPenalty().orElse(0);
+                if (player.getShipManager().countCrewmates() >= nMin) {
+                    applyFlightDayPenalty(board, player);
+                    giveCreditReward(player);
+                    applyCrewmatePenalty((int)super.getPenalty().orElse(0), player);
+                    setTaken(true);
+                }
+            }
         }
-        return false;
     }
 
 

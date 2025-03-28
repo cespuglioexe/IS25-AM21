@@ -1,12 +1,11 @@
 package it.polimi.it.galaxytrucker.aventurecard;
 
-import it.polimi.it.galaxytrucker.cardEffects.CrewmatePenalty;
+
 import it.polimi.it.galaxytrucker.componenttiles.CabinModule;
 import it.polimi.it.galaxytrucker.componenttiles.CentralCabin;
 import it.polimi.it.galaxytrucker.managers.Player;
 import it.polimi.it.galaxytrucker.utility.Cargo;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -24,20 +23,49 @@ public class Epidemic extends AdventureCard {
     }
 
     public void HumanRemove(Player player) {
+        int delCentre;
+        int del;
         Set<List<Integer>> SetPositionCentre = player.getShipManager().getAllComponentsPositionOfType(CentralCabin.class);
 
         List<Integer> positionCentre = SetPositionCentre.stream()
                 .flatMap(List::stream)
                 .collect(Collectors.toList());
 
+        delCentre=0;
         for (List<Integer> position :  player.getShipManager().getAllComponentsPositionOfType(CabinModule.class)) {
-            if(position.get(0) == positionCentre.get(0)+1 || position.get(0) == positionCentre.get(0)-1 || position.get(1) == positionCentre.get(1)+1 || position.get(1) == positionCentre.get(1)-1 ){
-                player.getShipManager().removeCrewmate(position.get(0), position.get(1));
-                player.getShipManager().removeCrewmate(positionCentre.get(0), positionCentre.get(1));}
-            for (List<Integer> support :  player.getShipManager().getAllComponentsPositionOfType(CabinModule.class)) {
-                if(position.get(0) == support.get(0)+1 || position.get(0) == support.get(0)-1 || position.get(1) == support.get(1)+1 || position.get(1) == support.get(1)-1 ){
-                    player.getShipManager().removeCrewmate(position.get(0), position.get(1));
-                    player.getShipManager().removeCrewmate(support.get(0), support.get(1));
+            del = 0;
+            if(!positionCentre.isEmpty()) {
+                if (position.get(0) == positionCentre.get(0) + 1 || position.get(0) == positionCentre.get(0) - 1) {
+                    if(del == 0 && position.get(1) == positionCentre.get(1)) {
+                        player.getShipManager().removeCrewmate(position.get(0), position.get(1));
+                        del = 1;
+                        if(delCentre==0){
+                            delCentre++;
+                            player.getShipManager().removeCrewmate(positionCentre.get(0), positionCentre.get(1));
+                        }
+                    }
+                } else{
+                    if (position.get(1) == positionCentre.get(1) + 1 || position.get(1) == positionCentre.get(1) - 1) {
+                        if(del == 0 && position.get(0) == positionCentre.get(0)) {
+                            player.getShipManager().removeCrewmate(position.get(0), position.get(1));
+                            del = 1;
+                        }
+                    }
+                }
+            }
+            for (List<Integer> support : player.getShipManager().getAllComponentsPositionOfType(CabinModule.class)) {
+                if (position.get(0) == support.get(0) + 1 || position.get(0) == support.get(0) - 1) {
+                    if(del == 0 && position.get(1) == support.get(1)) {
+                        player.getShipManager().removeCrewmate(position.get(0), position.get(1));
+                        del = 1;
+                    }
+                } else{
+                    if (position.get(1) == support.get(1) + 1 || position.get(1) == support.get(1) - 1) {
+                        if(del == 0 && position.get(0) == support.get(0)) {
+                            player.getShipManager().removeCrewmate(position.get(0), position.get(1));
+                            del = 1;
+                        }
+                    }
                 }
             }
         }

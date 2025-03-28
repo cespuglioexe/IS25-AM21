@@ -1,3 +1,5 @@
+package it.polimi.it.galaxytrucker.aventurecard;
+
 import it.polimi.it.galaxytrucker.aventurecard.Slavers;
 import it.polimi.it.galaxytrucker.aventurecard.Smugglers;
 import it.polimi.it.galaxytrucker.managers.FlightBoardState;
@@ -13,20 +15,6 @@ import static org.junit.jupiter.api.Assertions.*;
 @Disabled
 class SmugglersTest {
 
-    @Test
-    void checkReward() {
-        int firePower=6;
-        Smugglers smuggler = new Smugglers(Optional.of(3),Optional.of(2),null,4,5,null);
-        assertEquals(smuggler.checkReward(firePower), true);
-        smuggler.setDefeated(false);
-        firePower=4;
-        assertEquals(smuggler.checkReward(firePower), true);
-        smuggler.setDefeated(false);
-        firePower=3;
-        assertEquals(smuggler.checkReward(firePower), false);
-        firePower=7;
-        assertEquals(smuggler.checkReward(firePower), false);
-    }
 
     @Test
     void applyPenalty() {

@@ -3,18 +3,18 @@ package it.polimi.it.galaxytrucker.aventurecard;
 import it.polimi.it.galaxytrucker.aventurecard.AbandonedShip;
 import it.polimi.it.galaxytrucker.aventurecard.AbandonedStation;
 import it.polimi.it.galaxytrucker.componenttiles.CabinModule;
+import it.polimi.it.galaxytrucker.componenttiles.SpecialCargoHold;
 import it.polimi.it.galaxytrucker.componenttiles.TileEdge;
 import it.polimi.it.galaxytrucker.crewmates.Human;
 import it.polimi.it.galaxytrucker.managers.FlightBoardState;
 import it.polimi.it.galaxytrucker.managers.Player;
 import it.polimi.it.galaxytrucker.managers.ShipManager;
+import it.polimi.it.galaxytrucker.utility.Cargo;
 import it.polimi.it.galaxytrucker.utility.Color;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -35,6 +35,7 @@ class AbandonedStationTest {
 
     @Test
     void requiredHumanVerification() {
+
         ShipManager manager = new ShipManager(1);
         manager.addComponentTile(6,7, new CabinModule(List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE)));
         manager.addComponentTile(6,8, new CabinModule(List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE)));
@@ -42,16 +43,33 @@ class AbandonedStationTest {
         manager.addCrewmate(6,7, new Human());
         manager.addCrewmate(6,8, new Human());
         manager.addCrewmate(6,8, new Human());
+        CargoManager cargoManager = new CargoManager();
+        manager.addComponentTile(7,6, new SpecialCargoHold(2,List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE)));
 
-        AbandonedStation station = new AbandonedStation(Optional.of(2),Optional.of(3),null,0,5,null);
+
+
+        AbandonedStation station = new AbandonedStation(Optional.of(2),
+                                                        Optional.of(2),
+                                                        Optional.of(Set.of(new Cargo(Color.RED), new Cargo(Color.GREEN))),
+                                                        0,5,cargoManager);
+
         Player player1=new Player(new UUID(0,1), "Margarozzo1",0, Color.RED,manager);
+        Player player2=new Player(new UUID(0,2), "Margarozzo2",0, Color.YELLOW);
+        List<Player> players = new ArrayList<>();
+        players.add(player1);
+        players.add(player2);
+        station.setPlayer(players);
+        FlightBoardState board = new FlightBoardState(18);
+        board.addPlayerMarker(player1.getPlayerID(),1);
+        board.addPlayerMarker(player2.getPlayerID(),2);
 
-        assertEquals(station.RequiredHumanVerification(player1),true);
+        station.RequiredHumanVerification(board);
 
-        player1.getShipManager().removeCrewmate(6,7);
-        player1.getShipManager().removeCrewmate(6,7);
-
-        assertEquals(station.RequiredHumanVerification(player1),false);
+        assertEquals(board.getPlayerPosition().get(player1.getPlayerID()), 1);
+        assertEquals(player1.getShipManager().getCargoPositon().get(Color.RED),Set.of(List.of(7,6)));
+        assertEquals(player1.getShipManager().getCargoPositon().get(Color.GREEN),Set.of(List.of(7,6)));
+        assertEquals(station.getIsTaken(), true);
+        assertEquals(board.getPlayerPosition().get(player2.getPlayerID()), 2);
     }
 
 

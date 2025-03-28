@@ -30,29 +30,30 @@ public class Smugglers extends AdventureCard implements CargoReward, CargoPenalt
     }
 
 
-    public boolean checkReward(int firePower){
+    public void checkReward(Player player, FlightBoardState board) {
         if(!isDefeated) {
-            if (firePower < super.getFirePowerRequired()) {
-                return false;
+            if (player.getShipManager().calculateFirePower() < super.getFirePowerRequired()) {
+                applyPenalty((Integer)super.getPenalty().orElse(0),player);
             } else {
-                if (firePower > super.getFirePowerRequired()) {
+                if (player.getShipManager().calculateFirePower() > super.getFirePowerRequired()) {
                     setDefeated(true);
-                    return false;
+                    giveCargoReward(player);
+                    applyFlightDayPenalty(board,player);
                 }
-                else return false;
             }
-        } else return false;
+        }
     }
 
     @Override
     public void applyPenalty(int penalty, Player player) {
             manager.manageCargoDischarge(penalty, player);
-            // Controllo le merci più preziose e ti mando le coordinate e il colore del cargo
     }
 
     @Override
-    public Set<Cargo> giveCargoReward(Player player) {
-        return (Set<Cargo>) super.getReward().orElse(0);
+    public void giveCargoReward(Player player) {
+        for(Cargo cargo : (Set<Cargo>) super.getReward().orElse(0)){
+            manager.manageCargoAddition(cargo,player);
+        }
     }
 
     @Override

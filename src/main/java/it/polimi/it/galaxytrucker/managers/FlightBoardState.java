@@ -15,6 +15,7 @@ public class FlightBoardState {
 
     public FlightBoardState(int dimension) {
         board = new UUID[dimension];
+        setBoard();
         playerPosition = new HashMap<UUID,Integer>();
         compleatedTurns = new HashMap<UUID,Integer>();
     }

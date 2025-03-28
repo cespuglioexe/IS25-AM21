@@ -5,6 +5,7 @@ import it.polimi.it.galaxytrucker.managers.GameManager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class AdventureDeck {
 
@@ -14,13 +15,26 @@ public class AdventureDeck {
         this.cards = cards;
     }
 
+    public List<AdventureCard> getCards() {
+        return cards;
+    }
 
     public void shuffle(){
-        //this.cards
+        Random random = new Random();
+        List<AdventureCard> support = new ArrayList<>();
+        int randIndex;
 
-
-
-
+        while(cards.size() != 0){
+            if(cards.size()==1){
+                support.add(cards.get(0));
+                cards.remove(0);
+            } else {
+                randIndex = random.nextInt(0, cards.size() - 1);
+                support.add(cards.get(randIndex));
+                cards.remove(cards.get(randIndex));
+            }
+        }
+        cards = support;
     }
 
     public AdventureCard draw(){

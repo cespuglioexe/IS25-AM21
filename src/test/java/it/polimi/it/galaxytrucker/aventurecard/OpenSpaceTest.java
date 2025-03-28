@@ -22,7 +22,7 @@ class OpenSpaceTest {
         board.setBoard();
         board.addPlayerMarker(player1.getPlayerID(),1);
 
-        space.travel(board,5,player1);
+        space.travel(board,player1,5);
         assertEquals(board.getPlayerPosition().get(player1.getPlayerID()),9);
     }
 }
