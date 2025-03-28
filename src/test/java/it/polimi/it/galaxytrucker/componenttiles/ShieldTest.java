@@ -1,7 +1,5 @@
 package it.polimi.it.galaxytrucker.componenttiles;
 
-import it.polimi.it.galaxytrucker.observer.EnergyConsumptionEvent;
-import it.polimi.it.galaxytrucker.observer.EventListener;
 import it.polimi.it.galaxytrucker.utility.Direction;
 import jdk.jfr.Event;
 import org.junit.jupiter.api.BeforeEach;

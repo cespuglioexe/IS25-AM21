@@ -6,13 +6,13 @@ import java.util.UUID;
 
 import it.polimi.it.galaxytrucker.aventurecard.AdventureDeck;
 import it.polimi.it.galaxytrucker.componenttiles.ComponentTile;
-import it.polimi.it.galaxytrucker.gameStates.State;
+import it.polimi.it.galaxytrucker.design.statePattern.State;;
 
 public interface Model {
     //GETTER
     public State getCurrentState();
-    public int getLevel();
-    public int getNumberOfPlayers();
+    public Integer getLevel();
+    public Integer getNumberOfPlayers();
     public List<Player> getPlayers();
     public Player getPlayerByID(UUID id);
     public boolean allPlayersConnected();

@@ -8,40 +8,32 @@ import java.util.stream.Collectors;
 import com.fasterxml.jackson.databind.JsonNode;
 import it.polimi.it.galaxytrucker.aventurecard.AdventureDeck;
 import it.polimi.it.galaxytrucker.componenttiles.*;
+import it.polimi.it.galaxytrucker.design.statePattern.StateMachine;
 import it.polimi.it.galaxytrucker.exceptions.InvalidActionException;
 import it.polimi.it.galaxytrucker.exceptions.NotFoundException;
-import it.polimi.it.galaxytrucker.gameStates.State;
-import it.polimi.it.galaxytrucker.gameStates.Start;
+import it.polimi.it.galaxytrucker.gameStates.StartState;
 import it.polimi.it.galaxytrucker.json.Json;
 import it.polimi.it.galaxytrucker.utility.Color;;
 
-public class GameManager implements Model {
-    private State currentState;
-    private int level;
-    private int numberOfPlayers;
+public class GameManager extends StateMachine implements Model {
+    private Integer level;
+    private Integer numberOfPlayers;
     private List<Player> players;
     private Set<ComponentTile> components;
     private FlightBoardState flightBoard;
     private AdventureDeck adventureDeck;
-    private Json json;
 
     public GameManager() {
-        this.currentState = new Start(this);
-        this.currentState.enter();
+        start(new StartState());
     }
 
     @Override
-    public State getCurrentState() {
-        return this.currentState;
-    }
-
-    @Override
-    public int getLevel() {
+    public Integer getLevel() {
         return this.level;
     }
 
     @Override
-    public int getNumberOfPlayers() {
+    public Integer getNumberOfPlayers() {
         return this.numberOfPlayers;
     }
 
@@ -92,20 +84,17 @@ public class GameManager implements Model {
     }
 
     @Override
-    public void changeState(State nextState) {
-        this.currentState.exit();
-        this.currentState = nextState;
-        this.currentState.enter();
-    }
-
-    @Override
     public void setLevel(int level) {
         this.level = level;
+
+        updateState();
     }
 
     @Override
     public void setNumberOfPlayers(int numberOfPlayers) {
         this.numberOfPlayers = numberOfPlayers;
+
+        updateState();
     }
 
     @Override
