@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 
 import it.polimi.it.galaxytrucker.managers.Model;
 import it.polimi.it.galaxytrucker.exceptions.InvalidActionException;
+import it.polimi.it.galaxytrucker.gameStates.BuildingState;
 import it.polimi.it.galaxytrucker.gameStates.ConnectionState;
 import it.polimi.it.galaxytrucker.gameStates.StartState;
 import it.polimi.it.galaxytrucker.managers.GameManager;
@@ -35,12 +36,37 @@ public class GameManagerTest {
 
     @Test
     void setGameSpecificsTest() {
-        model.setLevel(2);
+        setGameSpecifics();
 
-        assertTrue(() -> model.getCurrentState().getClass().equals(StartState.class));
-        
+        assertEquals(ConnectionState.class, model.getCurrentState().getClass());
+    }
+
+    private void setGameSpecifics() {
+        model.setLevel(1);
         model.setNumberOfPlayers(4);
+    }
 
-        assertTrue(() -> model.getCurrentState().getClass().equals(ConnectionState.class));
+    @Test
+    void addPlayerAlreadyPresentTest() {
+        setGameSpecifics();
+
+        model.addPlayer("Margara");
+        assertThrows(InvalidActionException.class, () -> model.addPlayer("Margara"));
+    }
+
+    @Test
+    void allPlayersConnectedTest() {
+        addAllPlayers();
+
+        assertEquals(BuildingState.class, model.getCurrentState().getClass());
+    }
+
+    private void addAllPlayers() {
+        setGameSpecifics();
+
+        model.addPlayer("Margara");
+        model.addPlayer("Ing. Conti");
+        model.addPlayer("D'Abate");
+        model.addPlayer("Balzarini");
     }
 }

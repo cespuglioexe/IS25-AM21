@@ -22,12 +22,14 @@ public class StartState extends State {
     }
 
     private boolean areAllFieldsSet(Model model) throws InvalidActionException {
+        boolean allSet = true;
+
         for (StartFields field : StartFields.values()) {
             if (!field.isSet(model)) {
-                return false;
+                allSet = false;
             }
         }
-        return true;
+        return allSet;
     }
 
     @Override
