@@ -85,6 +85,7 @@ public class CentralCabinTest {
 
     @Test
     public void testRemoveFromEmptyCabin() {
+        cabin = new CentralCabin(List.of(TileEdge.SMOOTH, TileEdge.SMOOTH, TileEdge.SMOOTH, TileEdge.SMOOTH));
         // Attempt to remove from an empty cabin, expect InvalidActionException
         InvalidActionException exception = assertThrows(
                 InvalidActionException.class,

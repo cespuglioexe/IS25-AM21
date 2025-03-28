@@ -44,9 +44,9 @@ public class MeteorStorm extends AdventureCard{
 
 
     public void meteorStorm(Player player, List<Shield> shieldActivated, Map<Projectile, Direction> projectile, List<Cannon> cannons) {
-        int r, protect=0;
+        int r, protect=0,i=0;
         Set<List<Integer>> sCannonsCoord,dCannonsCoord,allCannonsCoord = null;
-
+        ComponentTile cannon;
 
         sCannonsCoord = player.getShipManager().getAllComponentsPositionOfType(SingleCannon.class);
         dCannonsCoord = player.getShipManager().getAllComponentsPositionOfType(DoubleCannon.class);
@@ -80,20 +80,25 @@ public class MeteorStorm extends AdventureCard{
 
             if (entry.getKey() == Projectile.BIG){
                 for (List<Integer> list : allCannonsCoord) {
-                    if(entry.getValue()== Direction.UP){
-                        if(line == list.get(1)) {
-                            protect=1;
-                            break;
-                        }
-                    }else if (entry.getValue()== Direction.DOWN){
-                        if (line == list.get(1)||line == list.get(0)+1||line == list.get(0)-1) {
-                            protect=1;
-                            break;
-                        }
-                    }else{
-                        if(line == list.get(0)||line == list.get(0)+1||line == list.get(0)-1) {
-                            protect=1;
-                            break;
+
+                    cannon = player.getShipManager().getComponent(list.getFirst(),list.get(1)).orElse(null);
+
+                    if(entry.getValue().ordinal() == cannon.getRotation()){
+                        if(entry.getValue()== Direction.UP){
+                            if(line == list.get(1)) {
+                                protect=1;
+                                break;
+                            }
+                        }else if (entry.getValue()== Direction.DOWN){
+                            if (line == list.get(1)||line == list.get(1)+1||line == list.get(1)-1) {
+                                protect=1;
+                                break;
+                            }
+                        }else{
+                            if(line == list.get(0)||line == list.get(0)+1||line == list.get(0)-1) {
+                                protect=1;
+                                break;
+                            }
                         }
                     }
                 }

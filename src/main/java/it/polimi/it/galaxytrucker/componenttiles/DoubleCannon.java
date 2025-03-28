@@ -42,7 +42,7 @@ public class DoubleCannon extends SingleCannon implements EnergyConsumer, Cannon
     /**
      * Returns the firepower of the double cannon.
      * <ul>
-     *     <li>If the cannon is facing forward (rotation {@code 0}), it has a firepower of {@code 2}.</li>
+     *     <li>If the cannon is facing upwards (rotation {@code 0}), it has a firepower of {@code 2}.</li>
      *     <li>Otherwise, it has a firepower of {@code 1}.</li>
      * </ul>
      *

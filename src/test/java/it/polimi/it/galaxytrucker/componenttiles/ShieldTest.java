@@ -52,26 +52,26 @@ public class ShieldTest {
         // Create shields with different orientations
         Shield upShield = new Shield(Direction.UP, List.of(TileEdge.SMOOTH, TileEdge.SMOOTH,
                 TileEdge.SMOOTH, TileEdge.SMOOTH));
-        Shield rightShield = new Shield(Direction.UP, List.of(TileEdge.SMOOTH, TileEdge.SMOOTH,
+        Shield rightShield = new Shield(Direction.RIGHT, List.of(TileEdge.SMOOTH, TileEdge.SMOOTH,
                 TileEdge.SMOOTH, TileEdge.SMOOTH));
-        Shield downShield = new Shield(Direction.UP, List.of(TileEdge.SMOOTH, TileEdge.SMOOTH,
+        Shield downShield = new Shield(Direction.DOWN, List.of(TileEdge.SMOOTH, TileEdge.SMOOTH,
                 TileEdge.SMOOTH, TileEdge.SMOOTH));
-        Shield leftShield = new Shield(Direction.UP, List.of(TileEdge.SMOOTH, TileEdge.SMOOTH,
+        Shield leftShield = new Shield(Direction.LEFT, List.of(TileEdge.SMOOTH, TileEdge.SMOOTH,
                 TileEdge.SMOOTH, TileEdge.SMOOTH));
 
         // Verify orientations
-        assertEquals(List.of(Direction.UP, Direction.values()[(Direction.UP.ordinal() + 1) % 4]), upShield.getOrientation());
-        assertEquals(List.of(Direction.RIGHT, Direction.values()[(Direction.RIGHT.ordinal() + 1) % 4]), rightShield.getOrientation());
-        assertEquals(List.of(Direction.DOWN, Direction.values()[(Direction.DOWN.ordinal() + 1) % 4]), downShield.getOrientation());
-        assertEquals(List.of(Direction.LEFT, Direction.values()[(Direction.LEFT.ordinal() + 1) % 4]), leftShield.getOrientation());
+        assertEquals(List.of(Direction.UP,      Direction.RIGHT),   upShield.getOrientation());
+        assertEquals(List.of(Direction.RIGHT,   Direction.DOWN),    rightShield.getOrientation());
+        assertEquals(List.of(Direction.DOWN,    Direction.LEFT),    downShield.getOrientation());
+        assertEquals(List.of(Direction.LEFT,    Direction.UP),      leftShield.getOrientation());
     }
 
     @Test
     public void testMultipleRotations() {
         // Test multiple rotations at once
         for (int i = 0; i < 10; i++) {
-            shield.rotate();
             assertEquals(Direction.values()[(Direction.UP.ordinal() + i) % 4], shield.getOrientation().get(0));
+            shield.rotate();
         }
     }
 }

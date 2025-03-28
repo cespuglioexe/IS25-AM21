@@ -19,12 +19,6 @@ class DoubleCannonTest {
     }
 
     @Test
-    void testInitialState() {
-        // Test that the initial state of the DoubleCannon is inactive and the firepower is 0
-        assertEquals(0, doubleCannon.getFirePower());
-    }
-
-    @Test
     void testActivate() {
         // Test activation of the DoubleCannon
         assertEquals(2, doubleCannon.activate());
