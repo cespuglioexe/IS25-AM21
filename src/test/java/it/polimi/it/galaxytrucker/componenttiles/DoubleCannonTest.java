@@ -2,10 +2,8 @@ package it.polimi.it.galaxytrucker.componenttiles;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import it.polimi.it.galaxytrucker.observer.EventListener;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import it.polimi.it.galaxytrucker.observer.EnergyConsumptionEvent;
 
 import java.util.List;
 
