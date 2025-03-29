@@ -1,4 +1,6 @@
 # Written by: Claude AI
+#
+# This script was used to automate adding the graphic files names to the component JSON
 
 import json
 
@@ -29,7 +31,7 @@ with open('componenttiles.json', 'r') as file:
 updated_data = update_graphics_paths(data)
 
 # Save the updated JSON data
-with open('components_updated.json', 'w') as file:
+with open('componenttiles_python_output.json', 'w') as file:
     json.dump(updated_data, file, indent=2)
 
 print("Graphics paths updated successfully!")
