@@ -26,6 +26,6 @@ public interface Model {
     public void changeState(State nextState);
     public void setLevel(int level);
     public void setNumberOfPlayers(int numberOfPlayers);
-    public UUID addNewPlayer(String name);
+    public UUID addPlayer(String name);
     public void removePlayer(UUID id);
 }

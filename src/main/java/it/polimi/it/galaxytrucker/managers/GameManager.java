@@ -98,21 +98,34 @@ public class GameManager extends StateMachine implements Model {
     }
 
     @Override
-    public UUID addNewPlayer(String name) throws InvalidActionException {
-        if (this.players.stream().anyMatch(player -> player.getPlayerName().equals(name))) {
-            throw new InvalidActionException("Another player named " + name + " is already playing");
-        }
+    public UUID addPlayer(String name) throws InvalidActionException {
+        ensureNameIsUnique(name);
         
-         Color playerColor = Arrays.stream(Color.values())
-             .filter(color -> players.stream()
-                 .noneMatch(player -> player.getColor().equals(color)))
-             .findFirst()
-             .orElseThrow(() -> new InvalidActionException("No available color"));
+        Color playerColor = findFirstAvailableColor();
 
         Player newPlayer = new Player(UUID.randomUUID(), name, 0, playerColor);
         players.add(newPlayer);
+
+        updateState();
         
         return newPlayer.getPlayerID();
+    }
+
+    private void ensureNameIsUnique(String name) throws InvalidActionException {
+        boolean isTaken = this.players.stream()
+            .anyMatch(player -> player.getPlayerName().equals(name));
+        
+        if (isTaken) {
+            throw new InvalidActionException("Another player named " + name + " is already playing");
+        }
+    }
+
+    private Color findFirstAvailableColor() throws InvalidActionException {
+        return Arrays.stream(Color.values())
+            .filter(color -> players.stream()
+                .noneMatch(player -> player.getColor().equals(color)))
+            .findFirst()
+            .orElseThrow(() -> new InvalidActionException("No available color"));
     }
 
     @Override
