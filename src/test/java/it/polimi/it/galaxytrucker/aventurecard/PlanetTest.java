@@ -1,5 +1,6 @@
 package it.polimi.it.galaxytrucker.aventurecard;
 
+import it.polimi.it.galaxytrucker.managers.CargoManager;
 import it.polimi.it.galaxytrucker.managers.FlightBoardState;
 import it.polimi.it.galaxytrucker.managers.Player;
 import it.polimi.it.galaxytrucker.utility.Cargo;

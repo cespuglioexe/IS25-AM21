@@ -4,6 +4,7 @@ import it.polimi.it.galaxytrucker.cardEffects.CargoReward;
 import it.polimi.it.galaxytrucker.cardEffects.FlightDayPenalty;
 import it.polimi.it.galaxytrucker.cardEffects.Participation;
 import it.polimi.it.galaxytrucker.exceptions.NotFoundException;
+import it.polimi.it.galaxytrucker.managers.CargoManager;
 import it.polimi.it.galaxytrucker.managers.FlightBoardState;
 import it.polimi.it.galaxytrucker.managers.Player;
 import it.polimi.it.galaxytrucker.utility.Cargo;

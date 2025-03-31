@@ -1,14 +1,11 @@
-package it.polimi.it.galaxytrucker.aventurecard;
+package it.polimi.it.galaxytrucker.managers;
 
 import it.polimi.it.galaxytrucker.componenttiles.BatteryComponent;
-import it.polimi.it.galaxytrucker.managers.Player;
-import it.polimi.it.galaxytrucker.managers.ShipManager;
 import it.polimi.it.galaxytrucker.utility.Cargo;
 import it.polimi.it.galaxytrucker.utility.Color;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 public class CargoManager {
 
