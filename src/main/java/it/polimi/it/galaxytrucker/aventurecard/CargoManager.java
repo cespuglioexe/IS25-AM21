@@ -68,15 +68,6 @@ public class CargoManager {
                             }
                         }
 
-                        for (List<Integer> position : player.getShipManager().getAllComponentsPositionOfType(BatteryComponent.class)) {
-                            if(n==0){
-                                player.getShipManager().removeBattery(
-                                        position.get(0),
-                                        position.get(1));
-                                numCargo--;
-                                n++;
-                            }
-                        }
                 }catch(Exception e){
                     int del;
                     for(int i=0;i<numCargo;i++){

@@ -24,6 +24,16 @@ public class AbandonedStation extends AdventureCard implements Participation, Ca
         super.setPartecipants(partecipants);
     }
 
+    @Override
+    public void addPlayer(Player player) {
+
+    }
+
+    @Override
+    public void getChoise(){
+
+    }
+
     public void setTaken(boolean taken) {
         isTaken = taken;
     }
@@ -58,20 +68,6 @@ public class AbandonedStation extends AdventureCard implements Participation, Ca
         }
     }
 
-
-
-    @Override
-    public boolean partecipate(Player player) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Do you want to participate? :");
-        System.out.println("1. Yes");
-        System.out.println("2. No");
-        int choice = scanner.nextInt();
-        if(choice == 1){
-            return true;
-        }
-        return false;
-    }
 
 /*
     @Override

@@ -11,22 +11,40 @@ import it.polimi.it.galaxytrucker.utility.Cargo;
 import java.util.*;
 
 public class Planet extends AdventureCard implements Participation, CargoReward, FlightDayPenalty {
-    private HashMap<Integer, Set<Cargo>> planets = new HashMap<Integer, Set<Cargo>>();
-    private HashMap<Integer, Player> occupiedPlanets = new HashMap<Integer, Player>();
+    private HashMap<Integer, Set<Cargo>> planets = new HashMap<UUID, Set<Cargo>>();
+    private HashMap<UUID, Player> occupiedPlanets = new HashMap<UUID, Player>();
     private CargoManager manager;
 
 
-    public Planet(Optional<Integer> penalty, Optional<Integer> flightDayPenalty, Optional<Set<Cargo>> reward,HashMap<Integer, Set<Cargo>> planets, int firePower,int creditReward,CargoManager manager) {
+    public Planet(Optional<Integer> penalty, Optional<Integer> flightDayPenalty, Optional<Set<Cargo>> reward,HashMap<UUID, Set<Cargo>> planets, int firePower,int creditReward,CargoManager manager) {
         super(penalty, flightDayPenalty, reward,firePower, creditReward);
         this.planets = planets;
         this.manager = manager;
     }
 
 
-    public HashMap<Integer, Player> getOccupiedPlanets() {
+
+    // Proprietà che mi tiene conto delle scelte
+
+    @Override
+    public void getChoise(){
+
+    }
+
+    public HashMap<UUID, Player> getOccupiedPlanets() {
         return occupiedPlanets;
     }
 
+    public void addPlayer(Player player){
+        //planets.put(player.getPlayerID(),)
+
+    }
+
+    @Override
+    public List<Integer> getSlots(){
+        return planets.keySet().stream().toList();
+    }
+/*
     public void setPlayer(List<Player> partecipants){
         int i=0;
         for(Player p : partecipants){
@@ -35,17 +53,17 @@ public class Planet extends AdventureCard implements Participation, CargoReward,
         }
         super.setPartecipants(partecipants);
     }
-
+*/
 
     @Override
     public void giveCargoReward(Player player) {
-        int key=-1;
-        for (Map.Entry<Integer, Player> map : occupiedPlanets.entrySet()) {
+        UUID key= new UUID(0,-1);
+        for (Map.Entry<UUID, Player> map : occupiedPlanets.entrySet()) {
             if (map.getValue().equals(player)) {
                 key = map.getKey();
             }
         }
-        if(key==-1){
+        if(key.compareTo(new UUID(0,-1))==0){
             new NotFoundException("Player not found");
         } else{
             for(Cargo cargo : planets.get(key)){
@@ -63,18 +81,8 @@ public class Planet extends AdventureCard implements Participation, CargoReward,
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    @Override
-    public boolean partecipate(Player player) {
-            Scanner scanner = new Scanner(System.in);
-            System.out.println("Do you want to participate? :");
-            System.out.println("1. Yes");
-            System.out.println("2. No");
-            int choice = scanner.nextInt();
-            if(choice == 1){
-                return true;
-            }
-            return false;
-    }
+
+
 /*
     @Override
     public void play() {
