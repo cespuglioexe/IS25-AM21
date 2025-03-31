@@ -3,6 +3,7 @@ package it.polimi.it.galaxytrucker.aventurecard;
 import it.polimi.it.galaxytrucker.cardEffects.CargoReward;
 import it.polimi.it.galaxytrucker.cardEffects.FlightDayPenalty;
 import it.polimi.it.galaxytrucker.cardEffects.Participation;
+import it.polimi.it.galaxytrucker.managers.CargoManager;
 import it.polimi.it.galaxytrucker.managers.FlightBoardState;
 import it.polimi.it.galaxytrucker.managers.Player;
 import it.polimi.it.galaxytrucker.utility.Cargo;
@@ -15,9 +16,9 @@ public class AbandonedStation extends AdventureCard implements Participation, Ca
     private CargoManager manager;
 
     public AbandonedStation(Optional<Integer> penalty, Optional<Integer> flightDayPenalty, Optional<Set<Cargo>> reward, int firePower, int creditReward,CargoManager manager) {
-           super(penalty, flightDayPenalty, reward,firePower, creditReward);
-           this.manager = manager;
-           isTaken = false;
+        super(penalty, flightDayPenalty, reward,firePower, creditReward);
+        this.manager = manager;
+        isTaken = false;
     }
 
     public void setPlayer(List<Player> partecipants) {

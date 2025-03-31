@@ -25,12 +25,8 @@ public class GameManagerTest {
     }
 
     @Test
-    void setInvalidLevelTest() {
+    void setInvalidGameSpecificsTest() {
         assertThrows(InvalidActionException.class, () -> model.setLevel(4));
-    }
-
-    @Test
-    void setInvalidNumberOfPlayersTest() {
         assertThrows(InvalidActionException.class, () -> model.setNumberOfPlayers(5));
     }
 

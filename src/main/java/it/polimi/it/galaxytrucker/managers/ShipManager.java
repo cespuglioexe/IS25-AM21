@@ -247,6 +247,18 @@ public class ShipManager {
         return ship.getComponent(tileCoords.get(0), tileCoords.get(1));
     }
 
+    public boolean isOutside(int row, int column) throws IndexOutOfBoundsException {
+        List<Integer> tileCoords = new ArrayList<>();
+        tileCoords.add(this.toTileMatrixCoord(Optional.of(row), Optional.empty()).get(0).get());
+        tileCoords.add(this.toTileMatrixCoord(Optional.empty(), Optional.of(column)).get(1).get());
+
+        Optional<ComponentTile> component =  ship.getComponent(tileCoords.get(0), tileCoords.get(1));
+
+        return component
+            .map(c -> c.getClass().equals(OutOfBoundsTile.class))
+            .orElse(false);
+    }
+
     /**
      * Retrieves all components located in the specified row of the ship's grid.
      *

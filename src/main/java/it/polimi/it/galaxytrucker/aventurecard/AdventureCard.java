@@ -1,6 +1,5 @@
 package it.polimi.it.galaxytrucker.aventurecard;
 
-import it.polimi.it.galaxytrucker.cardStates.StartCardState;
 import it.polimi.it.galaxytrucker.design.statePattern.StateMachine;
 import it.polimi.it.galaxytrucker.managers.Player;
 
@@ -13,20 +12,15 @@ public abstract class AdventureCard<T> extends StateMachine {
     private Optional<T> reward;
     private int firePowerRequired;
     private int creditReward;
-
-    // Gli stati che non richiedono partecipanti, controllano che i player siano tutti attivi.
-    // Altrimenti se lo stato richiede partecipazione, quando chiami addPartecipants() in update controlli i parametri
-    // della carta o se tutti i giocatori hanno preso una decisione(UPDATE)
-
-    // Si applica l'effetto della carta
+    private List<UUID> playersInOrder;
 
     public AdventureCard(Optional<Integer> penalty, Optional<Integer> flightDayPenalty, Optional<T> reward, int firePowerRequired, int creditReward) {
-        start(new StartCardState());
         this.penalty = penalty;
         this.flightDayPenalty = flightDayPenalty;
         this.reward = reward;
         this.firePowerRequired = firePowerRequired;
         this.creditReward = creditReward;
+        this.partecipants = new ArrayList<>();
     }
 
     public List<Player> getPartecipants() {
@@ -52,11 +46,19 @@ public abstract class AdventureCard<T> extends StateMachine {
         return creditReward;
     }
 
+    public List<UUID> getPlayersInOrder() {
+        return this.playersInOrder;
+    }
+
     public void setPartecipants(List<Player> partecipants) {
         this.partecipants = partecipants;
     }
 
+    public void addPlayer(Player player){
+        partecipants.add(player);
+    }
 
-
-
+    public void setPlayersInOrder(List<UUID> playersInOrder) {
+        this.playersInOrder = playersInOrder;
+    }
 }

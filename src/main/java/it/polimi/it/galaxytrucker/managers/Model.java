@@ -28,4 +28,10 @@ public interface Model {
     public void setNumberOfPlayers(int numberOfPlayers);
     public UUID addPlayer(String name);
     public void removePlayer(UUID id);
+
+    //ACTIONS
+    public ComponentTile drawComponentTile();
+    public void placeComponentTile(UUID playerID, ComponentTile component, int row, int column);
+    public void rotateComponentTile(UUID playerID, int row, int column);
+    public void finishBuilding(UUID playerID);
 }

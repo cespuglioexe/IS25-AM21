@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import it.polimi.it.galaxytrucker.aventurecard.AdventureDeck;
 import it.polimi.it.galaxytrucker.componenttiles.*;
 import it.polimi.it.galaxytrucker.design.statePattern.StateMachine;
+import it.polimi.it.galaxytrucker.exceptions.IllegalComponentPositionException;
 import it.polimi.it.galaxytrucker.exceptions.InvalidActionException;
 import it.polimi.it.galaxytrucker.exceptions.NotFoundException;
 import it.polimi.it.galaxytrucker.gameStates.StartState;
@@ -142,6 +143,12 @@ public class GameManager extends StateMachine implements Model {
         this.players = new ArrayList<>(this.numberOfPlayers);
     }
 
+    public void initializeShips() {
+        for (Player player : players) {
+            player.createShip(this.level);
+        }
+    }
+
     public void initializeFlightBoard() {
         this.flightBoard = new FlightBoardState(this.level);
     }
@@ -159,5 +166,61 @@ public class GameManager extends StateMachine implements Model {
 
     public void initializeAdventureDeck() {
         //TODO from JSON file
+    }
+
+    public ComponentTile drawComponentTile() throws InvalidActionException {
+        if (components.isEmpty()) {
+            throw new InvalidActionException("There are no components left");
+        }
+
+        int randomIndex = getRandomIndex(components.size());
+        return removeComponentTileAtIndex(randomIndex);
+    }
+
+    private int getRandomIndex(int upperBoundExclusive) {
+        return new Random().nextInt(upperBoundExclusive);
+    }
+
+    private ComponentTile removeComponentTileAtIndex(int index) throws IndexOutOfBoundsException {
+        Iterator<ComponentTile> iterator = components.iterator();
+        int currentIndex = 0;
+    
+        while (iterator.hasNext()) {
+            ComponentTile tile = iterator.next();
+
+            if (currentIndex++ == index) {
+                iterator.remove();
+                return tile;
+            }
+        }
+    
+        throw new IndexOutOfBoundsException("Index " + index + " is out of bounds");
+    }
+
+    public void placeComponentTile(UUID playerID, ComponentTile component, int row, int column) throws IndexOutOfBoundsException, IllegalComponentPositionException {
+        Player player = this.getPlayerByID(playerID);
+        ShipManager ship = player.getShipManager();
+
+        ship.addComponentTile(row, column, component);
+    }
+
+    public void rotateComponentTile(UUID playerID, int row, int column) throws IndexOutOfBoundsException, IllegalComponentPositionException {
+        Player player = getPlayerByID(playerID);
+        ShipManager ship = player.getShipManager();
+
+        if (ship.isOutside(row, column)) {
+            throw new IllegalComponentPositionException("Position (" + row + ", " + column + ") is outside the ship.");
+        }
+
+        ship.getComponent(row, column).ifPresentOrElse(
+            ComponentTile::rotate,
+            () -> {
+                throw new IllegalComponentPositionException("No component found at position (" + row + ", " + column + ").");
+            }
+        );
+    }
+
+    public void finishBuilding(UUID playerID) {
+        updateState();
     }
 }
