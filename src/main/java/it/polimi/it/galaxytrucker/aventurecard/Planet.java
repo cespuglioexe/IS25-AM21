@@ -3,6 +3,7 @@ package it.polimi.it.galaxytrucker.aventurecard;
 import it.polimi.it.galaxytrucker.cardEffects.CargoReward;
 import it.polimi.it.galaxytrucker.cardEffects.FlightDayPenalty;
 import it.polimi.it.galaxytrucker.cardEffects.Participation;
+import it.polimi.it.galaxytrucker.exceptions.InvalidActionException;
 import it.polimi.it.galaxytrucker.exceptions.NotFoundException;
 import it.polimi.it.galaxytrucker.managers.CargoManager;
 import it.polimi.it.galaxytrucker.managers.FlightBoardState;
@@ -39,7 +40,7 @@ public class Planet extends AdventureCard implements Participation, CargoReward,
 
 
     @Override
-    public void giveCargoReward(Player player) {
+    public void giveCargoReward(Player player) throws NotFoundException {
         int key=-1;
         for (Map.Entry<Integer, Player> map : occupiedPlanets.entrySet()) {
             if (map.getValue().equals(player)) {
@@ -47,7 +48,7 @@ public class Planet extends AdventureCard implements Participation, CargoReward,
             }
         }
         if(key==-1){
-            new NotFoundException("Player not found");
+            throw new NotFoundException("Player not found");
         } else{
             for(Cargo cargo : planets.get(key)){
                 manager.manageCargoAddition(cargo,player);
@@ -65,17 +66,37 @@ public class Planet extends AdventureCard implements Participation, CargoReward,
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public boolean partecipate(Player player) {
-            Scanner scanner = new Scanner(System.in);
-            System.out.println("Do you want to participate? :");
-            System.out.println("1. Yes");
-            System.out.println("2. No");
-            int choice = scanner.nextInt();
-            if(choice == 1){
-                return true;
-            }
-            return false;
+    public void partecipate(Player player, int choice) throws InvalidActionException {
+        if (isOccupied(choice)) {
+            throw new InvalidActionException("The planet is already occupied");
+        }
+        occupiedPlanets.put(choice, player);
+        updateState();
     }
+
+    private boolean isOccupied(int planet) {
+        if (occupiedPlanets.keySet().contains(planet)) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void decline(Player player) {
+        updateState();
+    }
+
+    @Override
+    public List<Integer> getSlots(){
+        return planets.keySet().stream().toList();
+    }
+
+	@Override
+    public Set<Cargo> getRewards(){
+           return (Set<Cargo>) super.getReward().orElse(0);
+    }
+
+}
 /*
     @Override
     public void play() {
@@ -127,4 +148,3 @@ public class Planet extends AdventureCard implements Participation, CargoReward,
 
 
  */
-}

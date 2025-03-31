@@ -16,9 +16,9 @@ public class AbandonedStation extends AdventureCard implements Participation, Ca
     private CargoManager manager;
 
     public AbandonedStation(Optional<Integer> penalty, Optional<Integer> flightDayPenalty, Optional<Set<Cargo>> reward, int firePower, int creditReward,CargoManager manager) {
-           super(penalty, flightDayPenalty, reward,firePower, creditReward);
-           this.manager = manager;
-           isTaken = false;
+        super(penalty, flightDayPenalty, reward,firePower, creditReward);
+        this.manager = manager;
+        isTaken = false;
     }
 
     public void setPlayer(List<Player> partecipants) {

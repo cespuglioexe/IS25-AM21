@@ -11,7 +11,7 @@ public class BuildingState extends State {
 
     @Override
     public void update(StateMachine fsm) throws InvalidActionException {
-
+        
     }
 
     @Override
