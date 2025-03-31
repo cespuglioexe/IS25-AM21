@@ -2,7 +2,6 @@ package it.polimi.it.galaxytrucker.componenttiles;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import it.polimi.it.galaxytrucker.observer.EventPublisher;
 
 import java.util.ArrayList;
 import java.util.List;

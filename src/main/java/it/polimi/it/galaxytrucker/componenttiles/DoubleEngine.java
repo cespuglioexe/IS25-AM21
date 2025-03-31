@@ -2,7 +2,6 @@ package it.polimi.it.galaxytrucker.componenttiles;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import it.polimi.it.galaxytrucker.observer.EnergyConsumptionEvent;
 
 import java.util.List;
 
