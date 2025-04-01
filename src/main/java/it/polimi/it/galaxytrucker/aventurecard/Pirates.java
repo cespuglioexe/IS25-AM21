@@ -75,12 +75,11 @@ public class Pirates extends AdventureCard implements FlightDayPenalty, CreditRe
     }
 
 
-
-
     @Override
     public void giveCreditReward(Player player) {
         player.addCredits(super.getCreditReward());
     }
+
 
     @Override
     public void applyFlightDayPenalty(FlightBoardState fs, Player player) {
