@@ -12,6 +12,7 @@ import java.util.*;
 
 public class AbandonedStation extends AdventureCard implements Participation, CargoReward, FlightDayPenalty {
 
+    public String mosconi = "Ma che oh";
     public boolean isTaken;
     private CargoManager manager;
 

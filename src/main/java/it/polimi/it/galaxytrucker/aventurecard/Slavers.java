@@ -11,7 +11,6 @@ import it.polimi.it.galaxytrucker.utility.Cargo;
 import java.util.*;
 
 public class Slavers extends AdventureCard implements FlightDayPenalty, CreditReward, CrewmatePenalty {
-
     private boolean isDefeated;
 
     public Slavers(Optional<Integer> penalty, Optional<Integer> flightDayPenalty, Optional<Integer> reward, int firePower, int creditReward) {
