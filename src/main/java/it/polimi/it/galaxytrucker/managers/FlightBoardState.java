@@ -6,35 +6,37 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
+// quando si genera nuovo ID, deve essere diverso da UUID(0,0)
+
 public class FlightBoardState {
 
-    private UUID[] board;
-    private HashMap<UUID,Integer> playerPosition;
-    private HashMap<UUID,Integer> compleatedTurns;
+    private Player[] board;
+    private HashMap<Player,Integer> playerPosition;
+    private HashMap<Player,Integer> compleatedTurns;
 
 
     public FlightBoardState(int dimension) {
-        board = new UUID[dimension];
+        board = new Player[dimension];
         setBoard();
-        playerPosition = new HashMap<UUID,Integer>();
-        compleatedTurns = new HashMap<UUID,Integer>();
+        playerPosition = new HashMap<Player,Integer>();
+        compleatedTurns = new HashMap<Player,Integer>();
     }
 
     public void setBoard() {
         for(int i = 0; i < board.length; i++){
-            board[i] = new UUID(0,0);
+            board[i] = new Player(new UUID(0,0));
         }
     }
 
-    public UUID[] getBoard() {
+    public Player[] getBoard() {
         return board;
     }
 
-    public HashMap<UUID, Integer> getPlayerPosition() {
+    public HashMap<Player, Integer> getPlayerPosition() {
         return playerPosition;
     }
 
-    public HashMap<UUID, Integer> getCompleatedTurns() {
+    public HashMap<Player, Integer> getCompleatedTurns() {
         return compleatedTurns;
     }
 
@@ -58,8 +60,8 @@ public class FlightBoardState {
         }
         System.out.println();
         for (int i = 0; i < dimension/2; i++) {
-            if(board[i].compareTo(new UUID(0,0)) != 0)
-                System.out.print(board[i].getLeastSignificantBits()+"\t");
+            if(board[i].getPlayerID().compareTo(new UUID(0,0)) != 0)
+                System.out.print(board[i].getPlayerID().getLeastSignificantBits()+"\t");
             else System.out.print("\t");
         }
         System.out.println();
@@ -68,56 +70,57 @@ public class FlightBoardState {
         }
         System.out.println();
         for (int i = dimension/2; i < dimension; i++) {
-            if(board[i].compareTo(new UUID(0,0)) != 0)
-                System.out.print(board[i].getLeastSignificantBits()+"\t");
+            if(board[i].getPlayerID().compareTo(new UUID(0,0)) != 0)
+                System.out.print(board[i].getPlayerID().getLeastSignificantBits()+"\t");
             else System.out.print("\t");
         }
         System.out.println();
     }
 
-    public void movePlayerForward(int progress  , UUID playerId){
-            int position = playerPosition.get(playerId);
+    public void movePlayerForward(int progress  , Player player){
+            int position = playerPosition.get(player);
             int newPosition = position;
 
 
             while (progress != 0){
                 newPosition = newPosition+1;
                 if(newPosition==board.length){
-                    compleatedTurns.put(playerId, compleatedTurns.get(playerId)+1);
+                    compleatedTurns.put(player, compleatedTurns.get(player)+1);
                     newPosition = 0;
                 }
-                if(board[newPosition].compareTo(new UUID(0,0)) == 0)
+                if(board[newPosition].getPlayerID().compareTo(new UUID(0,0)) == 0)
                     progress = progress -1;
             }
-            board[position] =  new UUID(0,0);
-            board[newPosition] = playerId;
-            playerPosition.put(playerId, newPosition);
+            board[position] =  new Player(new UUID(0,0));
+            board[newPosition] = player;
+            playerPosition.put(player, newPosition);
     }
 
-    public void movePlayerBackwards(int progress, UUID playerId ) {
-        int position = playerPosition.get(playerId);
+    public void movePlayerBackwards(int progress, Player player) {
+        UUID playerId = player.getPlayerID();
+        int position = playerPosition.get(player);
         int newPosition = position;
 
         while (progress != 0){
             newPosition = newPosition-1;
             if(newPosition<0){
                 newPosition = board.length-1;
-                compleatedTurns.put(playerId, compleatedTurns.get(playerId)-1);
+                compleatedTurns.put(player, compleatedTurns.get(player)-1);
             }
-            if(board[newPosition].compareTo(new UUID(0,0)) == 0)
+            if(board[newPosition].getPlayerID().compareTo(new UUID(0,0)) == 0)
                 progress = progress -1;
         }
-        board[position] =  new UUID(0,0);
-        board[newPosition] = playerId;
-        playerPosition.put(playerId, newPosition);
+        board[position] =  new Player(new UUID(0,0));
+        board[newPosition] = player;
+        playerPosition.put(player, newPosition);
     }
 
 
-    public List<UUID> getPlayerOrder(){
-        List<UUID> order = new ArrayList<UUID>();
+    public List<Player> getPlayerOrder(){
+        List<Player> order = new ArrayList<Player>();
         int i = board.length-1;
         while(i!=-1){
-            if(board[i].compareTo(new UUID(0,0)) != 0){
+            if(board[i].getPlayerID().compareTo(new UUID(0,0)) != 0){
                 order.add(board[i]);
             }
             i--;
@@ -125,48 +128,48 @@ public class FlightBoardState {
         return order;
     }
 
-    public void addPlayerMarker(UUID id, int position) {
+    public void addPlayerMarker(Player player, int position) {
             if(board.length == 18) {
                 if(position == 1){
-                    board[4] = id;
-                    playerPosition.put(id, 4);
-                    compleatedTurns.put(id, 0);
+                    board[4] = player;
+                    playerPosition.put(player, 4);
+                    compleatedTurns.put(player, 0);
                 }
                 if(position == 2){
-                    board[2] = id;
-                    playerPosition.put(id, 2);
-                    compleatedTurns.put(id, 0);
+                    board[2] = player;
+                    playerPosition.put(player, 2);
+                    compleatedTurns.put(player, 0);
                 }
                 if(position == 3){
-                    board[1] = id;
-                    playerPosition.put(id, 1);
-                    compleatedTurns.put(id, 0);
+                    board[1] = player;
+                    playerPosition.put(player, 1);
+                    compleatedTurns.put(player, 0);
                 }
                 if(position == 4){
-                    board[0] = id;
-                    playerPosition.put(id, 0);
-                    compleatedTurns.put(id, 0);
+                    board[0] = player;
+                    playerPosition.put(player, 0);
+                    compleatedTurns.put(player, 0);
                 }
             }else {
                 if(position == 1){
-                    board[6] = id;
-                    playerPosition.put(id, 6);
-                    compleatedTurns.put(id, 0);
+                    board[6] = player;
+                    playerPosition.put(player, 6);
+                    compleatedTurns.put(player, 0);
                 }
                 if(position == 2){
-                    board[3] = id;
-                    playerPosition.put(id, 3);
-                    compleatedTurns.put(id, 0);
+                    board[3] = player;
+                    playerPosition.put(player, 3);
+                    compleatedTurns.put(player, 0);
                 }
                 if(position == 3){
-                    board[1] = id;
-                    playerPosition.put(id, 1);
-                    compleatedTurns.put(id, 0);
+                    board[1] = player;
+                    playerPosition.put(player, 1);
+                    compleatedTurns.put(player, 0);
                 }
                 if(position == 4){
-                    board[0] = id;
-                    playerPosition.put(id, 0);
-                    compleatedTurns.put(id, 0);
+                    board[0] = player;
+                    playerPosition.put(player, 0);
+                    compleatedTurns.put(player, 0);
                 }
             }
     }

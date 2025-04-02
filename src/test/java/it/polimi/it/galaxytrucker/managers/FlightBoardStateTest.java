@@ -27,22 +27,22 @@ class FlightBoardStateTest {
         Player player3=new Player(new UUID(0,3), "Margarozzo3",0, Color.GREEN);
         Player player4=new Player(new UUID(0,4), "Margarozzo4",0, Color.YELLOW);
 
-        board.addPlayerMarker(player1.getPlayerID(),1);
-        board.addPlayerMarker(player2.getPlayerID(),2);
-        board.addPlayerMarker(player3.getPlayerID(),3);
-        board.addPlayerMarker(player4.getPlayerID(),4);
+        board.addPlayerMarker(player1,1);
+        board.addPlayerMarker(player2,2);
+        board.addPlayerMarker(player3,3);
+        board.addPlayerMarker(player4,4);
 
-        board.movePlayerForward(2, player1.getPlayerID());
-        assertEquals(board.getPlayerPosition().get(player1.getPlayerID()),6);
-        assertEquals(board.getCompleatedTurns().get(player1.getPlayerID()),0);
+        board.movePlayerForward(2, player1);
+        assertEquals(board.getPlayerPosition().get(player1),6);
+        assertEquals(board.getCompleatedTurns().get(player1),0);
         board.printFlightBoardState();
-        board.movePlayerForward(5, player2.getPlayerID());
-        assertEquals(board.getPlayerPosition().get(player2.getPlayerID()),8);
-        assertEquals(board.getCompleatedTurns().get(player2.getPlayerID()),0);
+        board.movePlayerForward(5, player2);
+        assertEquals(board.getPlayerPosition().get(player2),8);
+        assertEquals(board.getCompleatedTurns().get(player2),0);
         board.printFlightBoardState();
-        board.movePlayerForward(10, player2.getPlayerID());
-        assertEquals(board.getPlayerPosition().get(player2.getPlayerID()),2);
-        assertEquals(board.getCompleatedTurns().get(player2.getPlayerID()),1);
+        board.movePlayerForward(10, player2);
+        assertEquals(board.getPlayerPosition().get(player2),2);
+        assertEquals(board.getCompleatedTurns().get(player2),1);
 
 
     }
@@ -57,28 +57,28 @@ class FlightBoardStateTest {
         Player player3=new Player(new UUID(0,3), "Margarozzo3",0, Color.GREEN);
         Player player4=new Player(new UUID(0,4), "Margarozzo4",0, Color.YELLOW);
 
-        board.addPlayerMarker(player1.getPlayerID(),1);
-        board.addPlayerMarker(player2.getPlayerID(),2);
-        board.addPlayerMarker(player3.getPlayerID(),3);
-        board.addPlayerMarker(player4.getPlayerID(),4);
+        board.addPlayerMarker(player1,1);
+        board.addPlayerMarker(player2,2);
+        board.addPlayerMarker(player3,3);
+        board.addPlayerMarker(player4,4);
 
-        board.movePlayerBackwards(1, player1.getPlayerID());
-        assertEquals(board.getPlayerPosition().get(player1.getPlayerID()),3);
-        assertEquals(board.getCompleatedTurns().get(player1.getPlayerID()),0);
-
-
-        board.movePlayerBackwards(2, player4.getPlayerID());
-        assertEquals(board.getPlayerPosition().get(player4.getPlayerID()),16);
-        assertEquals(board.getCompleatedTurns().get(player4.getPlayerID()),-1);
+        board.movePlayerBackwards(1, player1);
+        assertEquals(board.getPlayerPosition().get(player1),3);
+        assertEquals(board.getCompleatedTurns().get(player1),0);
 
 
-        board.movePlayerBackwards(1, player1.getPlayerID());
-        assertEquals(board.getPlayerPosition().get(player1.getPlayerID()),0);
-        assertEquals(board.getCompleatedTurns().get(player1.getPlayerID()),0);
+        board.movePlayerBackwards(2, player4);
+        assertEquals(board.getPlayerPosition().get(player4),16);
+        assertEquals(board.getCompleatedTurns().get(player4),-1);
 
-        board.movePlayerBackwards(10, player2.getPlayerID());
-        assertEquals(board.getPlayerPosition().get(player2.getPlayerID()),7);
-        assertEquals(board.getCompleatedTurns().get(player2.getPlayerID()),-1);
+
+        board.movePlayerBackwards(1, player1);
+        assertEquals(board.getPlayerPosition().get(player1),0);
+        assertEquals(board.getCompleatedTurns().get(player1),0);
+
+        board.movePlayerBackwards(10, player2);
+        assertEquals(board.getPlayerPosition().get(player2),7);
+        assertEquals(board.getCompleatedTurns().get(player2),-1);
     }
 
     @Test
@@ -91,17 +91,17 @@ class FlightBoardStateTest {
         Player player3=new Player(new UUID(0,3), "Margarozzo3",0, Color.GREEN);
         Player player4=new Player(new UUID(0,4), "Margarozzo4",0, Color.YELLOW);
 
-        board.addPlayerMarker(player1.getPlayerID(),2);
-        board.addPlayerMarker(player2.getPlayerID(),1);
-        board.addPlayerMarker(player3.getPlayerID(),4);
-        board.addPlayerMarker(player4.getPlayerID(),3);
+        board.addPlayerMarker(player1,2);
+        board.addPlayerMarker(player2,1);
+        board.addPlayerMarker(player3,4);
+        board.addPlayerMarker(player4,3);
 
-        List<UUID> sort= board.getPlayerOrder();
+        List<Player> sort= board.getPlayerOrder();
         System.out.println(sort);
-        assertEquals(sort.get(0),player2.getPlayerID());
-        assertEquals(sort.get(1),player1.getPlayerID());
-        assertEquals(sort.get(2),player4.getPlayerID());
-        assertEquals(sort.get(3),player3.getPlayerID());
+        assertEquals(sort.get(0).getPlayerID(),player2.getPlayerID());
+        assertEquals(sort.get(1).getPlayerID(),player1.getPlayerID());
+        assertEquals(sort.get(2).getPlayerID(),player4.getPlayerID());
+        assertEquals(sort.get(3).getPlayerID(),player3.getPlayerID());
     }
 
     @Test
@@ -114,16 +114,16 @@ class FlightBoardStateTest {
         Player player3=new Player(new UUID(0,3), "Margarozzo3",0, Color.GREEN);
         Player player4=new Player(new UUID(0,4), "Margarozzo4",0, Color.YELLOW);
 
-        board.addPlayerMarker(player1.getPlayerID(),1);
-        board.addPlayerMarker(player2.getPlayerID(),2);
-        board.addPlayerMarker(player3.getPlayerID(),3);
-        board.addPlayerMarker(player4.getPlayerID(),4);
+        board.addPlayerMarker(player1,1);
+        board.addPlayerMarker(player2,2);
+        board.addPlayerMarker(player3,3);
+        board.addPlayerMarker(player4,4);
         board.printFlightBoardState();
 
-        assertEquals(board.getPlayerPosition().get(player1.getPlayerID()),4);
-        assertEquals(board.getPlayerPosition().get(player2.getPlayerID()),2);
-        assertEquals(board.getPlayerPosition().get(player3.getPlayerID()),1);
-        assertEquals(board.getPlayerPosition().get(player4.getPlayerID()),0);
+        assertEquals(board.getPlayerPosition().get(player1),4);
+        assertEquals(board.getPlayerPosition().get(player2),2);
+        assertEquals(board.getPlayerPosition().get(player3),1);
+        assertEquals(board.getPlayerPosition().get(player4),0);
     }
 
 

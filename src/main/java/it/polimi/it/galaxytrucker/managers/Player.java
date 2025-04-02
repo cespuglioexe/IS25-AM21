@@ -26,6 +26,10 @@ public class Player {
         this.color = color;
     }
 
+    public Player(UUID playerID) {
+        this.PlayerID = playerID;
+    }
+
     public UUID getPlayerID() {
         return PlayerID;
     }
