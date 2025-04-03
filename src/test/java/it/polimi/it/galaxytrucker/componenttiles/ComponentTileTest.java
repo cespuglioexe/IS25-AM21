@@ -1,5 +1,7 @@
 package it.polimi.it.galaxytrucker.componenttiles;
 
+import it.polimi.it.galaxytrucker.model.componenttiles.StructuralModule;
+import it.polimi.it.galaxytrucker.model.componenttiles.TileEdge;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

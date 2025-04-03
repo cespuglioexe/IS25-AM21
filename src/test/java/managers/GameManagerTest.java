@@ -4,12 +4,12 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 
-import it.polimi.it.galaxytrucker.managers.Model;
-import it.polimi.it.galaxytrucker.exceptions.InvalidActionException;
-import it.polimi.it.galaxytrucker.gameStates.BuildingState;
-import it.polimi.it.galaxytrucker.gameStates.ConnectionState;
-import it.polimi.it.galaxytrucker.gameStates.StartState;
-import it.polimi.it.galaxytrucker.managers.GameManager;
+import it.polimi.it.galaxytrucker.model.managers.Model;
+import it.polimi.it.galaxytrucker.model.exceptions.InvalidActionException;
+import it.polimi.it.galaxytrucker.model.gameStates.BuildingState;
+import it.polimi.it.galaxytrucker.model.gameStates.ConnectionState;
+import it.polimi.it.galaxytrucker.model.gameStates.StartState;
+import it.polimi.it.galaxytrucker.model.managers.GameManager;
 
 public class GameManagerTest {
     private Model model;

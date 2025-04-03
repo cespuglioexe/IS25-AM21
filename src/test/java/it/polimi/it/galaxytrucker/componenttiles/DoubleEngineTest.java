@@ -1,10 +1,11 @@
 package it.polimi.it.galaxytrucker.componenttiles;
 
+import it.polimi.it.galaxytrucker.model.componenttiles.DoubleEngine;
+import it.polimi.it.galaxytrucker.model.componenttiles.TileEdge;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import static org.junit.jupiter.api.Assertions.*;
 

@@ -1,6 +1,8 @@
 package it.polimi.it.galaxytrucker.managers;
 
-import it.polimi.it.galaxytrucker.utility.Color;
+import it.polimi.it.galaxytrucker.model.managers.FlightBoardState;
+import it.polimi.it.galaxytrucker.model.managers.Player;
+import it.polimi.it.galaxytrucker.model.utility.Color;
 import org.junit.jupiter.api.Test;
 
 

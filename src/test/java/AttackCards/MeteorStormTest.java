@@ -1,10 +1,10 @@
 package AttackCards;
 
-import it.polimi.it.galaxytrucker.componenttiles.*;
-import it.polimi.it.galaxytrucker.managers.Player;
-import it.polimi.it.galaxytrucker.utility.Color;
-import it.polimi.it.galaxytrucker.utility.Direction;
-import it.polimi.it.galaxytrucker.utility.Projectile;
+import it.polimi.it.galaxytrucker.model.componenttiles.*;
+import it.polimi.it.galaxytrucker.model.managers.Player;
+import it.polimi.it.galaxytrucker.model.utility.Color;
+import it.polimi.it.galaxytrucker.model.utility.Direction;
+import it.polimi.it.galaxytrucker.model.utility.Projectile;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;

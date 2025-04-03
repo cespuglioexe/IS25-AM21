@@ -1,7 +1,8 @@
 package it.polimi.it.galaxytrucker.componenttiles;
 
-import it.polimi.it.galaxytrucker.utility.Direction;
-import jdk.jfr.Event;
+import it.polimi.it.galaxytrucker.model.componenttiles.Shield;
+import it.polimi.it.galaxytrucker.model.componenttiles.TileEdge;
+import it.polimi.it.galaxytrucker.model.utility.Direction;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

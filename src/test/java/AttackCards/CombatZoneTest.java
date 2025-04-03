@@ -1,16 +1,14 @@
 package AttackCards;
 
-import it.polimi.it.galaxytrucker.componenttiles.Shield;
-import it.polimi.it.galaxytrucker.componenttiles.TileEdge;
-import it.polimi.it.galaxytrucker.managers.Player;
-import it.polimi.it.galaxytrucker.utility.Color;
-import it.polimi.it.galaxytrucker.utility.Direction;
-import it.polimi.it.galaxytrucker.utility.Projectile;
+import it.polimi.it.galaxytrucker.model.componenttiles.Shield;
+import it.polimi.it.galaxytrucker.model.componenttiles.TileEdge;
+import it.polimi.it.galaxytrucker.model.managers.Player;
+import it.polimi.it.galaxytrucker.model.utility.Color;
+import it.polimi.it.galaxytrucker.model.utility.Direction;
+import it.polimi.it.galaxytrucker.model.utility.Projectile;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class CombatZoneTest {
     private final int FLYPENALTY = 3;

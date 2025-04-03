@@ -1,6 +1,6 @@
 package it.polimi.it.galaxytrucker.aventurecard;
 
-import it.polimi.it.galaxytrucker.aventurecard.*;
+import it.polimi.it.galaxytrucker.model.aventurecard.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

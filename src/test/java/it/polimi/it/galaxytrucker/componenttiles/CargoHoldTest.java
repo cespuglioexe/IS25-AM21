@@ -1,8 +1,10 @@
 package it.polimi.it.galaxytrucker.componenttiles;
 
-import it.polimi.it.galaxytrucker.exceptions.InvalidActionException;
-import it.polimi.it.galaxytrucker.utility.Cargo;
-import it.polimi.it.galaxytrucker.utility.Color;
+import it.polimi.it.galaxytrucker.model.componenttiles.CargoHold;
+import it.polimi.it.galaxytrucker.model.componenttiles.TileEdge;
+import it.polimi.it.galaxytrucker.model.exceptions.InvalidActionException;
+import it.polimi.it.galaxytrucker.model.utility.Cargo;
+import it.polimi.it.galaxytrucker.model.utility.Color;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

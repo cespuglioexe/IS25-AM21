@@ -1,11 +1,14 @@
 package it.polimi.it.galaxytrucker.aventurecard;
 
-import it.polimi.it.galaxytrucker.componenttiles.*;
-import it.polimi.it.galaxytrucker.managers.CargoManager;
-import it.polimi.it.galaxytrucker.managers.Player;
-import it.polimi.it.galaxytrucker.managers.ShipManager;
-import it.polimi.it.galaxytrucker.utility.Cargo;
-import it.polimi.it.galaxytrucker.utility.Color;
+import it.polimi.it.galaxytrucker.model.componenttiles.BatteryComponent;
+import it.polimi.it.galaxytrucker.model.componenttiles.CargoHold;
+import it.polimi.it.galaxytrucker.model.componenttiles.SpecialCargoHold;
+import it.polimi.it.galaxytrucker.model.componenttiles.TileEdge;
+import it.polimi.it.galaxytrucker.model.managers.CargoManager;
+import it.polimi.it.galaxytrucker.model.managers.Player;
+import it.polimi.it.galaxytrucker.model.managers.ShipManager;
+import it.polimi.it.galaxytrucker.model.utility.Cargo;
+import it.polimi.it.galaxytrucker.model.utility.Color;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

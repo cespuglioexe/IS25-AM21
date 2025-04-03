@@ -2,6 +2,8 @@ package it.polimi.it.galaxytrucker.componenttiles;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import it.polimi.it.galaxytrucker.model.componenttiles.DoubleCannon;
+import it.polimi.it.galaxytrucker.model.componenttiles.TileEdge;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

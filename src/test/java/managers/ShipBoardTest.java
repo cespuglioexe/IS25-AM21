@@ -9,13 +9,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
-import it.polimi.it.galaxytrucker.componenttiles.ComponentTile;
-import it.polimi.it.galaxytrucker.componenttiles.SingleCannon;
-import it.polimi.it.galaxytrucker.componenttiles.SingleEngine;
-import it.polimi.it.galaxytrucker.componenttiles.StructuralModule;
-import it.polimi.it.galaxytrucker.componenttiles.TileEdge;
-import it.polimi.it.galaxytrucker.exceptions.IllegalComponentPositionException;
-import it.polimi.it.galaxytrucker.managers.ShipBoard;
+import it.polimi.it.galaxytrucker.model.componenttiles.ComponentTile;
+import it.polimi.it.galaxytrucker.model.componenttiles.SingleCannon;
+import it.polimi.it.galaxytrucker.model.componenttiles.SingleEngine;
+import it.polimi.it.galaxytrucker.model.componenttiles.StructuralModule;
+import it.polimi.it.galaxytrucker.model.componenttiles.TileEdge;
+import it.polimi.it.galaxytrucker.model.exceptions.IllegalComponentPositionException;
+import it.polimi.it.galaxytrucker.model.managers.ShipBoard;
 
 public class ShipBoardTest {
 

@@ -1,10 +1,9 @@
 package it.polimi.it.galaxytrucker.aventurecard;
 
-import it.polimi.it.galaxytrucker.aventurecard.AbandonedShip;
-import it.polimi.it.galaxytrucker.aventurecard.OpenSpace;
-import it.polimi.it.galaxytrucker.managers.FlightBoardState;
-import it.polimi.it.galaxytrucker.managers.Player;
-import it.polimi.it.galaxytrucker.utility.Color;
+import it.polimi.it.galaxytrucker.model.aventurecard.OpenSpace;
+import it.polimi.it.galaxytrucker.model.managers.FlightBoardState;
+import it.polimi.it.galaxytrucker.model.managers.Player;
+import it.polimi.it.galaxytrucker.model.utility.Color;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;

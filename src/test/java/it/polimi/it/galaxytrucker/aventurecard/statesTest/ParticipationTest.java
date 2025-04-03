@@ -10,13 +10,13 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 
-import it.polimi.it.galaxytrucker.aventurecard.Planet;
-import it.polimi.it.galaxytrucker.aventurecard.cardStates.EffectExecutionState;
-import it.polimi.it.galaxytrucker.aventurecard.cardStates.ParticipationState;
-import it.polimi.it.galaxytrucker.managers.CargoManager;
-import it.polimi.it.galaxytrucker.managers.Player;
-import it.polimi.it.galaxytrucker.utility.Cargo;
-import it.polimi.it.galaxytrucker.utility.Color;
+import it.polimi.it.galaxytrucker.model.aventurecard.Planet;
+import it.polimi.it.galaxytrucker.model.aventurecard.cardStates.EffectExecutionState;
+import it.polimi.it.galaxytrucker.model.aventurecard.cardStates.ParticipationState;
+import it.polimi.it.galaxytrucker.model.managers.CargoManager;
+import it.polimi.it.galaxytrucker.model.managers.Player;
+import it.polimi.it.galaxytrucker.model.utility.Cargo;
+import it.polimi.it.galaxytrucker.model.utility.Color;
 
 public class ParticipationTest {
     Planet planet;
