@@ -2,6 +2,7 @@ package it.polimi.it.galaxytrucker.managers;
 
 import it.polimi.it.galaxytrucker.model.managers.FlightBoard;
 import it.polimi.it.galaxytrucker.model.managers.Player;
+import it.polimi.it.galaxytrucker.model.managers.ShipManager;
 import it.polimi.it.galaxytrucker.model.utility.Color;
 import org.junit.jupiter.api.Test;
 
@@ -24,10 +25,10 @@ class FlightBoardTest {
     public void movePlayerForward(){
         FlightBoard board = new FlightBoard(18);
         board.setBoard();
-        Player player1=new Player(new UUID(0,1), "Margarozzo1",0, Color.RED);
-        Player player2=new Player(new UUID(0,2), "Margarozzo2",0, Color.BLUE);
-        Player player3=new Player(new UUID(0,3), "Margarozzo3",0, Color.GREEN);
-        Player player4=new Player(new UUID(0,4), "Margarozzo4",0, Color.YELLOW);
+        Player player1=new Player(new UUID(0,1), "Margarozzo1", Color.RED, new ShipManager(1));
+        Player player2=new Player(new UUID(0,2), "Margarozzo2", Color.BLUE, new ShipManager(1));
+        Player player3=new Player(new UUID(0,3), "Margarozzo3", Color.GREEN, new ShipManager(1));
+        Player player4=new Player(new UUID(0,4), "Margarozzo4", Color.YELLOW, new ShipManager(1));
 
         board.addPlayerMarker(player1);
         board.addPlayerMarker(player2);
@@ -54,10 +55,10 @@ class FlightBoardTest {
 
         FlightBoard board = new FlightBoard(18);
         board.setBoard();
-        Player player1=new Player(new UUID(0,1), "Margarozzo1",0, Color.RED);
-        Player player2=new Player(new UUID(0,2), "Margarozzo2",0, Color.BLUE);
-        Player player3=new Player(new UUID(0,3), "Margarozzo3",0, Color.GREEN);
-        Player player4=new Player(new UUID(0,4), "Margarozzo4",0, Color.YELLOW);
+        Player player1=new Player(new UUID(0,1), "Margarozzo1", Color.RED, new ShipManager(1));
+        Player player2=new Player(new UUID(0,2), "Margarozzo2", Color.BLUE, new ShipManager(1));
+        Player player3=new Player(new UUID(0,3), "Margarozzo3", Color.GREEN, new ShipManager(1));
+        Player player4=new Player(new UUID(0,4), "Margarozzo4", Color.YELLOW, new ShipManager(1));
 
         board.addPlayerMarker(player1);
         board.addPlayerMarker(player2);
@@ -88,10 +89,10 @@ class FlightBoardTest {
 
         FlightBoard board = new FlightBoard(18);
         board.setBoard();
-        Player player1=new Player(new UUID(0,1), "Margarozzo1",0, Color.RED);
-        Player player2=new Player(new UUID(0,2), "Margarozzo2",0, Color.BLUE);
-        Player player3=new Player(new UUID(0,3), "Margarozzo3",0, Color.GREEN);
-        Player player4=new Player(new UUID(0,4), "Margarozzo4",0, Color.YELLOW);
+        Player player1=new Player(new UUID(0,1), "Margarozzo1", Color.RED, new ShipManager(1));
+        Player player2=new Player(new UUID(0,2), "Margarozzo2", Color.BLUE, new ShipManager(1));
+        Player player3=new Player(new UUID(0,3), "Margarozzo3", Color.GREEN, new ShipManager(1));
+        Player player4=new Player(new UUID(0,4), "Margarozzo4", Color.YELLOW, new ShipManager(1));
 
         board.addPlayerMarker(player1);
         board.addPlayerMarker(player2);
@@ -111,10 +112,10 @@ class FlightBoardTest {
 
         FlightBoard board = new FlightBoard(18);
         board.setBoard();
-        Player player1=new Player(new UUID(0,1), "Margarozzo1",0, Color.RED);
-        Player player2=new Player(new UUID(0,2), "Margarozzo2",0, Color.BLUE);
-        Player player3=new Player(new UUID(0,3), "Margarozzo3",0, Color.GREEN);
-        Player player4=new Player(new UUID(0,4), "Margarozzo4",0, Color.YELLOW);
+        Player player1=new Player(new UUID(0,1), "Margarozzo1", Color.RED, new ShipManager(1));
+        Player player2=new Player(new UUID(0,2), "Margarozzo2", Color.BLUE, new ShipManager(1));
+        Player player3=new Player(new UUID(0,3), "Margarozzo3", Color.GREEN, new ShipManager(1));
+        Player player4=new Player(new UUID(0,4), "Margarozzo4", Color.YELLOW, new ShipManager(1));
 
         board.addPlayerMarker(player1);
         board.addPlayerMarker(player2);

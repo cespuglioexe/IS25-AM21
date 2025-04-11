@@ -8,6 +8,5 @@ open module it.polimi.it.galaxytrucker {
     requires java.rmi;
     requires java.sql;
 
-    exports it.polimi.it.galaxytrucker;
     exports it.polimi.it.galaxytrucker.networking;
 }
