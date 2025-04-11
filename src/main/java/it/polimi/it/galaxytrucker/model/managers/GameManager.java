@@ -17,14 +17,19 @@ import it.polimi.it.galaxytrucker.model.json.Json;
 import it.polimi.it.galaxytrucker.model.utility.Color;;
 
 public class GameManager extends StateMachine implements Model {
-    private Integer level;
-    private Integer numberOfPlayers;
+    private final Integer level;
+    private final Integer numberOfPlayers;
     private List<Player> players;
     private Set<ComponentTile> components;
-    private FlightBoardState flightBoard;
-    private AdventureDeck adventureDeck;
+    private final FlightBoard flightBoard;
+    private final AdventureDeck adventureDeck;
 
-    public GameManager() {
+    public GameManager(int level, int numberOfPlayers){
+        this.level = level;
+        this.numberOfPlayers = numberOfPlayers;
+        this.flightBoard = new FlightBoard(level);
+        this.adventureDeck = new AdventureDeck();
+
         start(new StartState());
     }
 
@@ -75,7 +80,7 @@ public class GameManager extends StateMachine implements Model {
     }
 
     @Override
-    public FlightBoardState getFlightBoard() {
+    public FlightBoard getFlightBoard() {
         return this.flightBoard;
     }
 
@@ -85,26 +90,12 @@ public class GameManager extends StateMachine implements Model {
     }
 
     @Override
-    public void setLevel(int level) {
-        this.level = level;
-
-        updateState();
-    }
-
-    @Override
-    public void setNumberOfPlayers(int numberOfPlayers) {
-        this.numberOfPlayers = numberOfPlayers;
-
-        updateState();
-    }
-
-    @Override
     public UUID addPlayer(String name) throws InvalidActionException {
-        ensureNameIsUnique(name);
+        // ensureNameIsUnique(name);
         
         Color playerColor = findFirstAvailableColor();
 
-        Player newPlayer = new Player(UUID.randomUUID(), name, 0, playerColor);
+        Player newPlayer = new Player(UUID.randomUUID(), name, playerColor, new ShipManager(level));
         players.add(newPlayer);
 
         updateState();
@@ -143,16 +134,6 @@ public class GameManager extends StateMachine implements Model {
         this.players = new ArrayList<>(this.numberOfPlayers);
     }
 
-    public void initializeShips() {
-        for (Player player : players) {
-            player.createShip(this.level);
-        }
-    }
-
-    public void initializeFlightBoard() {
-        this.flightBoard = new FlightBoardState(this.level);
-    }
-
     public void initializeComponentTiles() {
         File file = new File("src/main/resources/it/polimi/it/galaxytrucker/json/componenttiles.json");
 
@@ -162,10 +143,6 @@ public class GameManager extends StateMachine implements Model {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public void initializeAdventureDeck() {
-        //TODO from JSON file
     }
 
     public ComponentTile drawComponentTile() throws InvalidActionException {

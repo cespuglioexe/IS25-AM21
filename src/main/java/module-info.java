@@ -6,6 +6,8 @@ open module it.polimi.it.galaxytrucker {
     requires com.fasterxml.jackson.databind;
     requires java.desktop;
     requires java.rmi;
+    requires java.sql;
 
     exports it.polimi.it.galaxytrucker;
+    exports it.polimi.it.galaxytrucker.networking;
 }

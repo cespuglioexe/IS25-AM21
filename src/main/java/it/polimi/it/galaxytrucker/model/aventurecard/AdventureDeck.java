@@ -9,8 +9,13 @@ public class AdventureDeck {
 
     private List<AdventureCard> cards;
 
-    public AdventureDeck(List<AdventureCard> cards) {
-        this.cards = cards;
+    public AdventureDeck() {
+        this.cards = initializeAdventureCards();
+    }
+
+    private List<AdventureCard> initializeAdventureCards() {
+        //TODO from JSON file
+        return null;
     }
 
     public List<AdventureCard> getCards() {

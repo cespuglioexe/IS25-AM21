@@ -5,37 +5,31 @@ import java.util.UUID;
 import it.polimi.it.galaxytrucker.model.utility.Color;
 
 public class Player {
-    private UUID PlayerID;
-    private String PlayerName;
-    private int credits;
-    private Color color;
-    private ShipManager shipManager;
+    private final UUID playerID;
+    private final String playerName;
+    private final Color color;
+    private final ShipManager shipManager;
 
-    public Player(UUID playerID, String playerName, int credits, Color color,ShipManager shipManager) {
-        this.PlayerID = playerID;
-        this.PlayerName = playerName;
-        this.credits = credits;
+    private boolean isConnected;
+    private boolean isFinishedBuilding;
+
+    private int credits;
+
+    public Player(UUID id, String playerName, Color color, ShipManager shipManager) {
+        this.playerID = id;
+        this.playerName = playerName;
         this.color = color;
         this.shipManager = shipManager;
-    }
 
-    public Player(UUID playerID, String playerName, int credits, Color color) {
-        this.PlayerID = playerID;
-        this.PlayerName = playerName;
-        this.credits = credits;
-        this.color = color;
-    }
-
-    public Player(UUID playerID) {
-        this.PlayerID = playerID;
+        this.credits = 0;
     }
 
     public UUID getPlayerID() {
-        return PlayerID;
+        return playerID;
     }
 
     public String getPlayerName() {
-        return PlayerName;
+        return playerName;
     }
 
     public int getCredits() {
@@ -51,10 +45,14 @@ public class Player {
     }
 
     public void addCredits(int credits) {
-        this.credits = this.credits + credits;
+        this.credits += credits;
     }
 
-    public void createShip(int level) {
-        this.shipManager = new ShipManager(level);
+    public boolean isFinishedBuilding () {
+        return isFinishedBuilding;
+    }
+
+    public void setIsFinishedBuilding (boolean isFinishedBuilding) {
+        this.isFinishedBuilding = isFinishedBuilding;
     }
 }

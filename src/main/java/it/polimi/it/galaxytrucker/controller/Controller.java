@@ -1,35 +1,25 @@
 package it.polimi.it.galaxytrucker.controller;
 
-import java.awt.*;
+import it.polimi.it.galaxytrucker.networking.rmi.server.RMIVirtualView;
 
 public class Controller {
     private final Model model;
 
-    public Controller() {
-        this.model = new Model();
+    public Controller(int level, int playerNum) {
+        System.out.println("Starting controller");
+        this.model = new Model(level, playerNum);
     }
 
-    public boolean add (Integer number) {
-        synchronized (this.model) {
-            return this.model.add(number);
-        }
+    public Model getModel() {
+        return model;
     }
 
-    public Integer getCurrent () {
-        synchronized (this.model) {
-            return this.model.getState();
-        }
+    public boolean addPlayer (RMIVirtualView player) {
+        return model.addPlayer(player);
     }
 
-    public boolean reset() {
-        synchronized (this.model) {
-            if (this.model.getState() == 0) {
-                return false;
-            }
-            else {
-                this.model.add(-this.model.getState());
-                return true;
-            }
-        }
+    @Override
+    public String toString() {
+        return "Level: " + model.getLevel() + "\nCurrent state: " + model.getState();
     }
 }

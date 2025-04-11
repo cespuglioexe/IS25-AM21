@@ -19,13 +19,11 @@ public interface Model {
     public ShipManager getPlayerShip(UUID id);
     public Set<Player> getPlayersWithIllegalShips();
     public Set<ComponentTile> getComponentTiles();
-    public FlightBoardState getFlightBoard();
+    public FlightBoard getFlightBoard();
     public AdventureDeck getAdventureDeck();
 
     //SETTER
     public void changeState(State nextState);
-    public void setLevel(int level);
-    public void setNumberOfPlayers(int numberOfPlayers);
     public UUID addPlayer(String name);
     public void removePlayer(UUID id);
 
