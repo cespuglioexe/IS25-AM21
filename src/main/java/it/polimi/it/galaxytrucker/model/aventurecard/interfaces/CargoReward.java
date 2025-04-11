@@ -6,5 +6,5 @@ import java.util.Set;
 import it.polimi.it.galaxytrucker.model.utility.Cargo;;
 
 public interface CargoReward {
-    public List<Set<Cargo>> getCargoReward();
+    public Set<Cargo> getCargoReward();
 }
