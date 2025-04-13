@@ -38,7 +38,7 @@ class EpidemicTest {
         manager.addCrewmate(7,7, new Human());
 
         Epidemic epidemic = new Epidemic(Optional.of(2),Optional.of(3),null,0,5);
-        Player player1=new Player(new UUID(0,1), "Margarozzo1",0, Color.RED,manager);
+        Player player1=new Player(new UUID(0,1), "Margarozzo1",Color.RED,manager);
         epidemic.HumanRemove(player1);
         assertEquals(player1.getShipManager().countCrewmates(), 5);
     }

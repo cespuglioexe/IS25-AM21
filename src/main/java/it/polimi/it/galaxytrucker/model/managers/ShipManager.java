@@ -19,6 +19,7 @@ import it.polimi.it.galaxytrucker.model.componenttiles.CargoHold;
 import it.polimi.it.galaxytrucker.model.componenttiles.CentralCabin;
 import it.polimi.it.galaxytrucker.model.utility.Cargo;
 import it.polimi.it.galaxytrucker.model.utility.Color;
+import it.polimi.it.galaxytrucker.model.utility.Direction;
 import it.polimi.it.galaxytrucker.model.utility.AlienType;
 import it.polimi.it.galaxytrucker.model.exceptions.IllegalComponentPositionException;
 import it.polimi.it.galaxytrucker.model.exceptions.InvalidActionException;
@@ -1169,6 +1170,27 @@ public class ShipManager {
             }
         }
         return exposedConnectors;
+    }
+
+    public boolean hasExposedConnectorAtDirection(int row, int column, Direction direction) {
+        int tileRow = toTileMatrixCoord(Optional.of(row), Optional.empty()).get(0).get();
+        int tileCol = toTileMatrixCoord(Optional.empty(), Optional.of(column)).get(1).get();
+        int i = direction.ordinal();
+    
+        Optional<ComponentTile> maybeComponent = ship.getComponent(tileRow, tileCol);
+    
+        if (maybeComponent.isEmpty()) return false;
+    
+        ComponentTile component = maybeComponent.get();
+    
+        if (component instanceof OutOfBoundsTile) return false;
+    
+        Optional<ComponentTile> neighbor = ship.getNeighbourComponents(tileRow, column).get(i);
+        if (neighbor.isEmpty() || neighbor.get() instanceof OutOfBoundsTile) {
+            TileEdge edge = component.getTileEdges().get(i);
+            return TileEdge.isAConnector(edge);
+        }
+        return false;
     }
 
     /**

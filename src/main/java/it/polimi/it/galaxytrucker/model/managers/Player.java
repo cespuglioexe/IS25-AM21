@@ -55,4 +55,11 @@ public class Player {
     public void setIsFinishedBuilding (boolean isFinishedBuilding) {
         this.isFinishedBuilding = isFinishedBuilding;
     }
+    
+    public boolean isEmpty(){
+        if(this.playerID == null && this.playerName == null && this.color == null)
+            return true;
+          else return false;
+    }
+    
 }

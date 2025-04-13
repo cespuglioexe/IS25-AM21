@@ -24,8 +24,10 @@ public interface Model {
 
     //SETTER
     public void changeState(State nextState);
+    public void setLevel(int level);
+    public void setNumberOfPlayers(int numberOfPlayers);
     public UUID addPlayer(String name);
-    public void removePlayer(UUID id);
+    public void removePlayer(UUID id);    
 
     //ACTIONS
     public ComponentTile drawComponentTile();
