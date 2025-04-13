@@ -91,7 +91,7 @@ public class GameManager extends StateMachine implements Model {
 
     @Override
     public UUID addPlayer(String name) throws InvalidActionException {
-        // ensureNameIsUnique(name);
+        ensureNameIsUnique(name);
         
         Color playerColor = findFirstAvailableColor();
 

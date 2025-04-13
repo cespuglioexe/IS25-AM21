@@ -1,4 +1,4 @@
-package it.polimi.it.galaxytrucker.model.aventurecard.cards;
+package it.polimi.it.galaxytrucker.model.aventurecard.refactored;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -133,6 +133,11 @@ public class Planets implements AdventureCard, Participation<Cargo>, CargoReward
         }
 
         return cargoReward;
+    }
+
+    @Override
+    public void applyCargoReward() {
+        
     }
 
     /**

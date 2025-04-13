@@ -19,4 +19,9 @@ public class FlightBoardFlightRules implements FlightRules {
     public void movePlayerBackwards(int progress, Player player) {
         flightBoard.movePlayerBackwards(progress, player);
     }
+
+    @Override
+    public void movePlayerForward(int progress, Player player) {
+        flightBoard.movePlayerForward(progress, player);
+    }
 }
