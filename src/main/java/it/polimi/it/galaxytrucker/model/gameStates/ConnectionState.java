@@ -11,7 +11,7 @@ public class ConnectionState extends State {
     public void enter(StateMachine fsm) {
         GameManager gameManager = (GameManager) fsm;
 
-        gameManager.initializeGameSpecifics();
+        System.out.println("Entered connection state");
     }
 
     @Override
@@ -34,6 +34,6 @@ public class ConnectionState extends State {
 
     @Override
     public void exit(StateMachine fsm) {
-
+        System.out.println("Leaving connection state");
     }
 }

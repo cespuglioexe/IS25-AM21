@@ -1,20 +1,24 @@
 package it.polimi.it.galaxytrucker.networking.rmi.client;
 
+import it.polimi.it.galaxytrucker.controller.GenericGameData;
 import it.polimi.it.galaxytrucker.networking.VirtualServer;
+import it.polimi.it.galaxytrucker.networking.messages.ClientInstruction;
 import it.polimi.it.galaxytrucker.networking.rmi.server.RMIVirtualView;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.List;
 
 public interface RMIVirtualServer extends Remote, VirtualServer {
+    void addPlayerToGame(RMIVirtualView client, int gameIndex) throws RemoteException;
+    void sendMessageToGame (ClientInstruction instruction) throws RemoteException;
+    boolean checkUsernameIsUnique(RMIVirtualView client, String username) throws RemoteException, Exception;
+
+    List<GenericGameData> getControllers() throws RemoteException;
+
     void connect(RMIVirtualView client) throws RemoteException;
 
-    void setUsername(RMIVirtualView client, String username) throws RemoteException, Exception;
+    void addPlayerToGame(RMIVirtualView client, String gameNickname) throws RemoteException;
 
-    @Override
-    void add (Integer number) throws RemoteException;
-
-    @Override
-    void reset() throws RemoteException;
-
+    void newGame(String gameNickname, int players, int level) throws RemoteException;
 }

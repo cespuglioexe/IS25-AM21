@@ -36,7 +36,5 @@ public class StartState extends State {
     @Override
     public void exit(StateMachine fsm) {
         GameManager gameManager = (GameManager) fsm;
-
-        gameManager.initializeGameSpecifics();
     }
 }

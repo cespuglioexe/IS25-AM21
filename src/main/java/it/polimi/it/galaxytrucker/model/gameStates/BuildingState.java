@@ -7,7 +7,7 @@ import it.polimi.it.galaxytrucker.model.exceptions.InvalidActionException;
 public class BuildingState extends State {
     @Override
     public void enter(StateMachine fsm) {
-
+        System.out.println( "BuildingState");
     }
 
     @Override

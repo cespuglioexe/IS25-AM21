@@ -1,4 +1,4 @@
-package it.polimi.it.galaxytrucker.networking.view.listeners;
+package it.polimi.it.galaxytrucker.view.listeners;
 
 public enum EventType {
     SERVER_NAME,

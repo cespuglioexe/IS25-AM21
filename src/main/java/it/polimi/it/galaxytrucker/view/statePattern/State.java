@@ -1,15 +1,17 @@
-package it.polimi.it.galaxytrucker.networking.view.statePattern;
+package it.polimi.it.galaxytrucker.view.statePattern;
 
-import it.polimi.it.galaxytrucker.networking.view.listeners.EventListener;
+import it.polimi.it.galaxytrucker.networking.rmi.client.RMIClient;
+import it.polimi.it.galaxytrucker.view.CLIView;
+import it.polimi.it.galaxytrucker.view.listeners.EventListener;
 
 import java.util.Scanner;
 
 public abstract class State {
-    protected final EventListener listener;
+    protected final CLIView view;
     protected Scanner scanner = new Scanner(System.in);
 
-    public State(EventListener listener) {
-        this.listener = listener;
+    public State(CLIView view) {
+        this.view = view;
     }
     public abstract void enter(StateMachine fsm);
 

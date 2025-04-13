@@ -19,7 +19,7 @@ import it.polimi.it.galaxytrucker.model.utility.Color;;
 public class GameManager extends StateMachine implements Model {
     private final Integer level;
     private final Integer numberOfPlayers;
-    private List<Player> players;
+    private final List<Player> players;
     private Set<ComponentTile> components;
     private final FlightBoard flightBoard;
     private final AdventureDeck adventureDeck;
@@ -29,6 +29,7 @@ public class GameManager extends StateMachine implements Model {
         this.numberOfPlayers = numberOfPlayers;
         this.flightBoard = new FlightBoard(level);
         this.adventureDeck = new AdventureDeck();
+        this.players = new ArrayList<>();
 
         start(new StartState());
     }
@@ -58,6 +59,7 @@ public class GameManager extends StateMachine implements Model {
 
     @Override
     public boolean allPlayersConnected() {
+        System.out.println(">> Number of connected players: " + players.size());
         return this.players.size() == this.numberOfPlayers ? true : false;
     }
 
@@ -92,14 +94,19 @@ public class GameManager extends StateMachine implements Model {
     @Override
     public UUID addPlayer(String name) throws InvalidActionException {
         // ensureNameIsUnique(name);
-        
+        System.out.println("Adding player " + name + "(model)");
         Color playerColor = findFirstAvailableColor();
 
+        System.out.println("Create new player");
         Player newPlayer = new Player(UUID.randomUUID(), name, playerColor, new ShipManager(level));
+        System.out.println("before add player to game");
         players.add(newPlayer);
 
+        System.out.println("Players: " + players.stream().map(Player::getPlayerName).collect(Collectors.joining(", ")));
+
         updateState();
-        
+
+        System.out.println("Added player " + name + " with color " + playerColor);
         return newPlayer.getPlayerID();
     }
 
@@ -130,9 +137,9 @@ public class GameManager extends StateMachine implements Model {
         this.players.remove(playerToRemove);
     }
 
-    public void initializeGameSpecifics() {
-        this.players = new ArrayList<>(this.numberOfPlayers);
-    }
+//    public void initializeGameSpecifics() {
+//        this.players = new ArrayList<>(this.numberOfPlayers);
+//    }
 
     public void initializeComponentTiles() {
         File file = new File("src/main/resources/it/polimi/it/galaxytrucker/json/componenttiles.json");
