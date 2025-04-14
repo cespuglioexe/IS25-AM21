@@ -1,8 +1,6 @@
 package adventureCards;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import org.junit.jupiter.api.Test;
 
 import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.planets.CargoRewardState;
 import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.planets.EndState;
@@ -19,8 +17,11 @@ import it.polimi.it.galaxytrucker.model.managers.ShipManager;
 import it.polimi.it.galaxytrucker.model.utility.Cargo;
 import it.polimi.it.galaxytrucker.model.utility.Color;
 
-import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeEach;
 
@@ -43,11 +44,10 @@ public class PlanetsTest {
 
     @BeforeEach
     void initializeParameters() {
-
         player1 = new Player(UUID.randomUUID(), "Margarozzo", Color.BLUE, new ShipManager(gameLevel));
-        player2 = new Player(UUID.randomUUID(), "Ing. Conti", Color.BLUE, new ShipManager(gameLevel));
-        player3 = new Player(UUID.randomUUID(), "D'Abate", Color.BLUE, new ShipManager(gameLevel));
-        player4 = new Player(UUID.randomUUID(), "Balzarini", Color.BLUE, new ShipManager(gameLevel));
+        player2 = new Player(UUID.randomUUID(), "Ing. Conti", Color.RED, new ShipManager(gameLevel));
+        player3 = new Player(UUID.randomUUID(), "D'Abate", Color.YELLOW, new ShipManager(gameLevel));
+        player4 = new Player(UUID.randomUUID(), "Balzarini", Color.GREEN, new ShipManager(gameLevel));
 
         flightBoard = new FlightBoard(gameLevel);
 
@@ -89,17 +89,15 @@ public class PlanetsTest {
     }
 
     @Test
-    void playersParticipateTest() {
+    void playerParticipateTest() {
         assertEquals(ParticipationState.class, card.getCurrentState().getClass());
 
         printChoices(card.getChoices());
 
-        card.participate(player1, 1);
-        card.participate(player2, 2);
-        card.participate(player3, 0);
+        card.participate(player1, 0);
 
-        printPlanetsAndPlayers(card.getTakenChoices());
-        assertEquals(CargoRewardState.class, card.getCurrentState().getClass());
+        Player playerOccupyingPlanet = card.getTakenChoices().get(0);
+        assertEquals(player1, playerOccupyingPlanet);
     }
     private void printChoices(List<List<Cargo>> choices) {
         int i = 0;
@@ -112,17 +110,22 @@ public class PlanetsTest {
             System.out.println();
         }
     }
-    void printPlanetsAndPlayers(HashMap<Integer, Player> planetsAnsPlayers) {
-        for (Integer planet : planetsAnsPlayers.keySet()) {
-            System.out.print("[" + planet +"] --> ");
 
-            Player player = planetsAnsPlayers.get(planet);
-            System.out.println(player.getPlayerName());
+    @Test
+    void playerDeclineTest() {
+        assertEquals(ParticipationState.class, card.getCurrentState().getClass());
+
+        printChoices(card.getChoices());
+
+        card.decline(player1);
+
+        for (Integer planet : card.getTakenChoices().keySet()) {
+            assertTrue(() -> !card.getTakenChoices().get(planet).equals(player1));
         }
     }
 
     @Test
-    void playerDeclineTest() {
+    void playersAllDeclineTest() {
         assertEquals(ParticipationState.class, card.getCurrentState().getClass());
 
         printChoices(card.getChoices());
@@ -132,130 +135,125 @@ public class PlanetsTest {
         card.decline(player3);
         card.decline(player4);
 
-        printPlanetsAndPlayers(card.getTakenChoices());
+        assertEquals(EndState.class, card.getCurrentState().getClass());
+    }
+
+    @Test
+    void playerPartecipateToAlreadyTakenPlanetTest() {
+        assertEquals(ParticipationState.class, card.getCurrentState().getClass());
+
+        printChoices(card.getChoices());
+
+        card.participate(player1, 0);
+
+        assertThrows(InvalidActionException.class, () -> card.participate(player2, 0));
+    }
+
+    @Test
+    void playersPartecipateUntilFullPlanetsTest() {
+        assertEquals(ParticipationState.class, card.getCurrentState().getClass());
+
+        printChoices(card.getChoices());
+
+        playersPartecipateUntilFullPlanets();
+
         assertEquals(CargoRewardState.class, card.getCurrentState().getClass());
     }
+    private void playersPartecipateUntilFullPlanets() {
+        card.participate(player1, 0);
+        card.participate(player2, 1);
+        card.participate(player3, 2);
 
-    @Test
-    void playerParticipateAndDeclineTest() {
-        assertEquals(ParticipationState.class, card.getCurrentState().getClass());
+        printPartecipants();
+    }
+    private void printPartecipants() {
+        HashMap<Integer, Player> occupiedPlanets = card.getTakenChoices();
 
-        printChoices(card.getChoices());
-
-        card.participate(player1, 1);
-        card.participate(player2, 2);
-        card.decline(player3);
-        card.decline(player4);
-
-        printPlanetsAndPlayers(card.getTakenChoices());
-        assertEquals(CargoRewardState.class, card.getCurrentState().getClass());
+        System.out.println("Occupied planets:");
+        for (Integer planet : occupiedPlanets.keySet()) {
+            Player player = occupiedPlanets.get(planet);
+            System.out.println("[" + planet + "] -> " + player.getPlayerName() + ": " + player.getColor());
+        }
     }
 
     @Test
-    void playerPartecipateSamePlanetTest() {
-        assertEquals(ParticipationState.class, card.getCurrentState().getClass());
+    void playerAcceptsCargoTest() {
+        playersPartecipateUntilFullPlanets();
+        printCargoChoices();
 
-        printChoices(card.getChoices());
+        final int row = 6;
+        final int column = 7;
+        Player player = card.getCurrentPlayer();
 
-        card.participate(player1, 1);
-        assertThrows(InvalidActionException.class, () -> card.participate(player2, 1));
-    }
+        Cargo acceptedCargo = card.getChoices().get(0).get(0);
+        card.acceptCargo(0, row, column);
 
-    @Test
-    void playerParticipateInvalidPlanetTest() {
-        assertEquals(ParticipationState.class, card.getCurrentState().getClass());
-
-        printChoices(card.getChoices());
-
-        card.participate(player1, 1);
-        assertThrows(InvalidActionException.class, () -> card.participate(player2, 3));
-        assertThrows(InvalidActionException.class, () -> card.participate(player2, -1));
-    }
-
-    @Test
-    void playerAcceptsSinleCargoTest() {
-        playersParticipateTest();
-        final int choice = 1;
-
-        assertEquals(player3, card.getCurrentPlayer());
-
-        printCargoOptions();
-        Cargo acceptedCargo = card.getChoices().get(0).get(choice);
-        card.acceptCargo(choice, 6, 7);
-
-        ShipManager ship = player3.getShipManager();
-        CargoHold cargoHold = (CargoHold) ship.getComponent(6, 7).get();
+        ShipManager ship = player.getShipManager();
+        CargoHold cargoHold = (CargoHold) ship.getComponent(row, column).get();
 
         assertTrue(() -> cargoHold.getContainedCargo().contains(acceptedCargo));
-
-        printCargoOptions();
-        card.discardCargo(0);
-
-        assertNotEquals(player3, card.getCurrentPlayer());
+        assertTrue(() -> !card.getChoices().get(0).contains(acceptedCargo));
+        printCargoChoices();
     }
-
-    @Test
-    void playersAcceptsAllCargo() {
-        printFlightBoard();
-        playersParticipateTest();
-
-        printCargoOptions();
-        card.acceptCargo(0, 6, 7);
-        printCargoOptions();
-        card.acceptCargo(0, 6, 7);
-
-        printCargoOptions();
-        card.acceptCargo(0, 6, 7);
-
-        printCargoOptions();
-        card.acceptCargo(0, 6, 7);
-        printCargoOptions();
-        card.acceptCargo(0, 6, 7);
-        printCargoOptions();
-        card.acceptCargo(0, 7, 6);
-
-        assertEquals(EndState.class, card.getCurrentState().getClass());
-        printFlightBoard();
-    }
-    private void printCargoOptions() {
+    private void printCargoChoices() {
+        List<Cargo> cargoReward = card.getCargoReward();
         int i = 0;
-        System.out.println(card.getCurrentPlayer().getPlayerName() + ", choose a cargo to collect:");
-        for (Cargo cargo : card.getCargoReward()) {
-            System.out.println("[" + i++ + "] -> " + cargo.getColor());
+
+        System.out.println(card.getCurrentPlayer().getPlayerName() + ": choose a cargo:");
+        for (Cargo cargo : cargoReward) {
+            System.out.println("[" + i++ + "]: " + cargo.getColor());
         }
-    }
-    private void printFlightBoard() {
-        for (Player player : flightBoard.getBoard()) {
-            if (player != null) {
-                System.out.print("[ " + player.getPlayerName() + "] ");
-            } else {
-                System.out.print("[ ] ");
-            }
-        }
-        System.out.println();
     }
 
     @Test
-    void playerAcceptsAndDeclinesSingleCargoTest() {
-        printFlightBoard();
-        playersParticipateTest();
+    void playerDiscardCargoTest() {
+        playersPartecipateUntilFullPlanets();
+        printCargoChoices();
 
-        printCargoOptions();
+        Cargo discardedCargo = card.getChoices().get(0).get(0);
+        card.discardCargo(0);
+
+        assertTrue(() -> !card.getChoices().get(0).contains(discardedCargo));
+        printCargoChoices();
+    }
+
+    @Test
+    void playerFinishAcceptingAndDecliningCargoTest() {
+        playersPartecipateUntilFullPlanets();
+        printCargoChoices();
+
+        final int row = 6;
+        final int column = 7;
+        Player player = card.getCurrentPlayer();
+
+        card.acceptCargo(0, row, column);
+        card.discardCargo(0);
+
+        assertNotEquals(player, card.getCurrentPlayer());
+    }
+
+    @Test
+    void playersFinishAcceptingAndDecliningCargoTest() {
+        printChoices(card.getChoices());
+        playersPartecipateUntilFullPlanets();
+        flightBoard.printFlightBoardState();
+
+        printCargoChoices();
         card.acceptCargo(0, 6, 7);
-        printCargoOptions();
+        printCargoChoices();
         card.discardCargo(0);
 
-        printCargoOptions();
+        printCargoChoices();
         card.discardCargo(0);
 
-        printCargoOptions();
+        printCargoChoices();
         card.acceptCargo(0, 6, 7);
-        printCargoOptions();
+        printCargoChoices();
         card.discardCargo(0);
-        printCargoOptions();
-        card.acceptCargo(0, 7, 6);
-
+        printCargoChoices();
+        card.acceptCargo(0, 6, 7);
+        
+        flightBoard.printFlightBoardState();
         assertEquals(EndState.class, card.getCurrentState().getClass());
-        printFlightBoard();
     }
 }

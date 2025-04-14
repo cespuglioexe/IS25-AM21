@@ -21,19 +21,31 @@ public class ParticipationState extends State {
     public void update(StateMachine fsm) {
         Planets card = (Planets) fsm;
 
-        int occupiedPlanets = card.getTakenChoices().size();
-        if (occupiedPlanets == numberOfPlanets || allPlayersDecided()) {
+        if (allPlayersHaveResponded()) {
+            if (noPlanetWasChosen(card)) {
+                fsm.changeState(new EndState());
+            } else {
+                fsm.changeState(new CargoRewardState());
+            }
+            return;
+        }
+
+        if (allPlanetsAreOccupied(card)) {
             fsm.changeState(new CargoRewardState());
         }
     }
-    private boolean allPlayersDecided() {
+    private boolean allPlayersHaveResponded() {
         return ++playerDecisions == numberOfPlayers;
+    } 
+    private boolean noPlanetWasChosen(Planets card) {
+        return card.getTakenChoices().isEmpty();
+    }
+    private boolean allPlanetsAreOccupied(Planets card) {
+        return card.getTakenChoices().size() == numberOfPlanets;
     }
 
     @Override
     public void exit(StateMachine fsm) {
-        Planets card = (Planets) fsm; 
-
-        card.initializeFirstPlayer();
+        
     }
 }

@@ -67,11 +67,11 @@ public class FlightBoard {
 
         // 0    1    2   3   4   5   6   7
 
-        // ID   Id       ID      ID
+        // COLOR    B       R       Y
 
         // 8    9   10  11  12  13  14  15
 
-        // ID(?) .......................
+        // COLOR .......................
 
 
         for (int i = 0; i < dimension / 2; i++) {
@@ -80,7 +80,7 @@ public class FlightBoard {
         System.out.println();
         for (int i = 0; i < dimension / 2; i++) {
             if (board[i] != null)
-                System.out.print(board[i].getPlayerID().getLeastSignificantBits() + "\t");
+                System.out.print(board[i].getColor().toString().charAt(0) + "\t");
             else System.out.print("\t");
         }
         System.out.println();
@@ -90,7 +90,7 @@ public class FlightBoard {
         System.out.println();
         for (int i = dimension / 2; i < dimension; i++) {
             if (board[i] != null)
-                System.out.print(board[i].getPlayerID().getLeastSignificantBits() + "\t");
+                System.out.print(board[i].getColor().toString().charAt(0) + "\t");
             else System.out.print("\t");
         }
         System.out.println();
