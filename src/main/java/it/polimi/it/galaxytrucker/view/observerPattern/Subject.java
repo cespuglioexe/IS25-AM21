@@ -1,4 +1,4 @@
-package it.polimi.it.galaxytrucker.networking.view.observerPattern;
+package it.polimi.it.galaxytrucker.view.observerPattern;
 
 public interface Subject {
     public void addObserver(Observer observer);

@@ -1,11 +1,13 @@
 package it.polimi.it.galaxytrucker.networking.rmi.client;
 
+import it.polimi.it.galaxytrucker.controller.GenericGameData;
+import it.polimi.it.galaxytrucker.networking.messages.GameUpdate;
+import it.polimi.it.galaxytrucker.networking.messages.UserInput;
 import it.polimi.it.galaxytrucker.networking.rmi.server.RMIVirtualView;
-import it.polimi.it.galaxytrucker.networking.view.CLIView;
-import it.polimi.it.galaxytrucker.networking.view.listeners.DoubleEventListener;
-import it.polimi.it.galaxytrucker.networking.view.listeners.EventType;
-import it.polimi.it.galaxytrucker.networking.view.listeners.StringEventListener;
-import it.polimi.it.galaxytrucker.networking.view.statePattern.viewstates.ConnectionState;
+import it.polimi.it.galaxytrucker.view.CLIView;
+import it.polimi.it.galaxytrucker.view.ConsoleColors;
+import it.polimi.it.galaxytrucker.view.statePattern.viewstates.ConnectionState;
+import it.polimi.it.galaxytrucker.view.statePattern.viewstates.GameSelection;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -13,13 +15,15 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
-import java.util.Scanner;
+import java.util.Random;
+import java.util.UUID;
 
-public class RMIClient extends UnicastRemoteObject implements RMIVirtualView, StringEventListener {
+public class RMIClient extends UnicastRemoteObject implements RMIVirtualView {
 
-    final CLIView view;
-    RMIVirtualServer server;
+    private final CLIView view;
+    private RMIVirtualServer server;
     private String name;
+    private UUID playerID;
 
     public RMIClient () throws RemoteException {
         super();
@@ -31,21 +35,16 @@ public class RMIClient extends UnicastRemoteObject implements RMIVirtualView, St
     }
 
     private void run() throws RemoteException {
-        view.start(new ConnectionState(this));
-        this.server.connect(this);
+        view.start(new ConnectionState(view));
+    }
+
+    public List<GenericGameData> getActiveGames () throws RemoteException{
+        return server.getControllers();
     }
 
     @Override
     public String getName() throws RemoteException {
         return name;
-    }
-
-
-    private String nameRequest() throws RemoteException {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Insert name below\n> ");
-
-        return scanner.nextLine();
     }
 
     @Override
@@ -59,39 +58,69 @@ public class RMIClient extends UnicastRemoteObject implements RMIVirtualView, St
     }
 
     @Override
-    public void onStringEvent(EventType eventType, String string) {
-        switch (eventType) {
-            case SERVER_NAME:
+    public void recieveGameUpdate(GameUpdate update) throws RemoteException {
+        switch (update.getInstructionType()) {
+            case NEW_STATE:
+                System.out.println("New state");
+                break;
+            case DRAWN_TILE:
+                System.out.println("Drawn tile");
+                view.displayComponentTile(update.getNewTile());
+                break;
+        }
+    }
+
+    public void receiveUserInput (UserInput input) {
+        switch (input.getType()) {
+
+            case CONNECT_SERVER:
                 try {
                     Registry registry = LocateRegistry.getRegistry("127.0.0.1", 1234);
-                    this.server = (RMIVirtualServer) registry.lookup(string);
+                    this.server = (RMIVirtualServer) registry.lookup(input.getServerName());
                     this.server.connect(this);
-                    System.out.println("Connected to server.");
 
                     view.updateState(false);
-
                 } catch (Exception e) {
-                    System.err.println("Failed to connect to '" + string + "'. Please try again.");
+                    System.err.println("Failed to connect to '" + input.getServerName());
+                    e.printStackTrace();
+
                     view.updateState(true);
                 }
                 break;
-            case USERNAME:
-                try {
-                    name = string;
-                    server.setUsername(this, name);
 
-                    view.updateState(false);
-                }
-                catch (RemoteException e) {
-                    System.err.println("Failed to set username to '" + string + "'. Please try again.");
-                    view.updateState(true);
+            case SET_USERNAME:
+                try {
+                    if (!server.checkUsernameIsUnique(this, input.getPlayerName())) {
+                        view.updateState(true);
+                    }
+                    name = input.getPlayerName();
+
+                    view.changeState(new GameSelection(view));
                 }
                 catch (Exception e) {
-                    System.err.println(e.getMessage());
-                    view.updateState(true);
+                    e.printStackTrace();
                 }
+                break;
+
+            case GAME_CREATION:
+                // When a player creates a new game, they are automatically added to that game
+                try {
+                    String gameNickname = "Game_" + new Random().nextInt(10000); // Generate a random nickname
+                    server.newGame(gameNickname, input.getGamePlayers(), input.getGameLevel());
+
+                    this.playerID = server.addPlayerToGame(this, gameNickname);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+                break;
+
+            case GAME_SELECTION:
+                try {
+                    this.playerID = server.addPlayerToGame(this, input.getGameIndex());
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+                break;
         }
-
     }
-
 }

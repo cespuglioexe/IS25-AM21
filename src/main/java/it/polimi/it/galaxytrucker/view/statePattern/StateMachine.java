@@ -1,4 +1,4 @@
-package it.polimi.it.galaxytrucker.networking.view.statePattern;
+package it.polimi.it.galaxytrucker.view.statePattern;
 
 public class StateMachine {
     private State currentState;
