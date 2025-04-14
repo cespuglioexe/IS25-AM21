@@ -1,6 +1,13 @@
 package adventureCards;
 
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.BeforeEach;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.UUID;
 
 import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.planets.CargoRewardState;
 import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.planets.EndState;
@@ -17,14 +24,6 @@ import it.polimi.it.galaxytrucker.model.managers.ShipManager;
 import it.polimi.it.galaxytrucker.model.utility.Cargo;
 import it.polimi.it.galaxytrucker.model.utility.Color;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
-
-import org.junit.jupiter.api.BeforeEach;
-
 public class PlanetsTest {
     private Planets card;
     private final int numberOfPlanets = 3;
@@ -35,12 +34,12 @@ public class PlanetsTest {
 
     private final int gameLevel = 2;
 
-    Player player1;
-    Player player2;
-    Player player3;
-    Player player4;
+    private Player player1;
+    private Player player2;
+    private Player player3;
+    private Player player4;
 
-    FlightBoard flightBoard;
+    private FlightBoard flightBoard;
 
     @BeforeEach
     void initializeParameters() {
