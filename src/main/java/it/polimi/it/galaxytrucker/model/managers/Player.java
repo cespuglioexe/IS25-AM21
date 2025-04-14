@@ -1,5 +1,6 @@
 package it.polimi.it.galaxytrucker.model.managers;
 
+import java.awt.*;
 import java.util.UUID;
 
 import it.polimi.it.galaxytrucker.model.utility.Color;
@@ -9,6 +10,8 @@ public class Player {
     private final String playerName;
     private final Color color;
     private final ShipManager shipManager;
+    
+    private Component heldComponent;
 
     private boolean isConnected;
     private boolean isFinishedBuilding;
@@ -22,6 +25,14 @@ public class Player {
         this.shipManager = shipManager;
 
         this.credits = 0;
+    }
+
+    public Component getHeldComponent() {
+        return heldComponent;
+    }
+
+    public void setHeldComponent(Component heldComponent) {
+        this.heldComponent = heldComponent;
     }
 
     public UUID getPlayerID() {

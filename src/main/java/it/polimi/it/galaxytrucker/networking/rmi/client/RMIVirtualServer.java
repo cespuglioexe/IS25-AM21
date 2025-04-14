@@ -8,9 +8,10 @@ import it.polimi.it.galaxytrucker.networking.rmi.server.RMIVirtualView;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
+import java.util.UUID;
 
 public interface RMIVirtualServer extends Remote, VirtualServer {
-    void addPlayerToGame(RMIVirtualView client, int gameIndex) throws RemoteException;
+    UUID addPlayerToGame(RMIVirtualView client, int gameIndex) throws RemoteException;
     void sendMessageToGame (ClientInstruction instruction) throws RemoteException;
     boolean checkUsernameIsUnique(RMIVirtualView client, String username) throws RemoteException, Exception;
 
@@ -18,7 +19,7 @@ public interface RMIVirtualServer extends Remote, VirtualServer {
 
     void connect(RMIVirtualView client) throws RemoteException;
 
-    void addPlayerToGame(RMIVirtualView client, String gameNickname) throws RemoteException;
+    UUID addPlayerToGame(RMIVirtualView client, String gameNickname) throws RemoteException;
 
     void newGame(String gameNickname, int players, int level) throws RemoteException;
 }

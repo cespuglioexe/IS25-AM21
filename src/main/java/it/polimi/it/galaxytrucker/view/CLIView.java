@@ -1,5 +1,6 @@
 package it.polimi.it.galaxytrucker.view;
 
+import it.polimi.it.galaxytrucker.networking.messages.GameUpdate;
 import it.polimi.it.galaxytrucker.networking.rmi.client.RMIClient;
 import it.polimi.it.galaxytrucker.view.statePattern.StateMachine;
 
@@ -41,5 +42,14 @@ public class CLIView extends StateMachine {
             }
         }
         System.out.print("\n");
+    }
+
+    public void displayComponentTile (GameUpdate.TileData tile) {
+        System.out.println(
+                "Component type: " + tile.type() + "\n" +
+                "Rotation: " + tile.rotation() + "\n" +
+                "Edges: " + tile.top() + ", " + tile.right() + ", " + tile.bottom() + ", " + tile.left()
+        );
+
     }
 }

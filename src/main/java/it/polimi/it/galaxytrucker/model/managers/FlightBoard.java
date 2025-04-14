@@ -79,7 +79,7 @@ public class FlightBoard {
         }
         System.out.println();
         for (int i = 0; i < dimension / 2; i++) {
-            if (board[i].getPlayerID().compareTo(new UUID(0, 0)) != 0)
+            if (board[i] != null)
                 System.out.print(board[i].getPlayerID().getLeastSignificantBits() + "\t");
             else System.out.print("\t");
         }
@@ -89,7 +89,7 @@ public class FlightBoard {
         }
         System.out.println();
         for (int i = dimension / 2; i < dimension; i++) {
-            if (board[i].getPlayerID().compareTo(new UUID(0, 0)) != 0)
+            if (board[i] != null)
                 System.out.print(board[i].getPlayerID().getLeastSignificantBits() + "\t");
             else System.out.print("\t");
         }
@@ -116,11 +116,10 @@ public class FlightBoard {
 
         // If the next space is occupied, the player skips to the one after that.
         // When this happens, the player is effectively moving 2 spaces forward.
-        for (int i = 1; i < progress; i++) {
-            if (board[position + i] != null) {
+        for (int i = 0; i < progress; i++) {
+            do {
                 newPosition++;
-            }
-            newPosition++;
+            } while (board[(newPosition) % board.length] != null);
             
             // If newPosition is past the end of the array, reset it to the beginning
             if (newPosition >= board.length) {
@@ -157,14 +156,13 @@ public class FlightBoard {
 
         // If the previous space is occupied, the player skips to the one before that.
         // When this happens, the player is effectively moving 2 spaces backwards.
-        for (int i = 1; i < progress; i++) {
-            if (board[position + i] != null) {
+        for (int i = 0; i < progress; i++) {
+            do {
                 newPosition--;
-            }
-            newPosition--;
+            } while (board[(newPosition % board.length + board.length) % board.length] != null);
 
             // If newPosition is past the start of the array, reset it to the end
-            if (newPosition <= board.length) {
+            if (newPosition < 0) {
                 newPosition += board.length;
             }
         }
@@ -175,7 +173,7 @@ public class FlightBoard {
 
         // Update the hashmaps
         playerPosition.put(player, newPosition);
-        completedLaps.put(player, completedLaps.get(player) - (newPosition < position ? 1 : 0));  // {@code newPosition < position} means that the player looped
+        completedLaps.put(player, completedLaps.get(player) - (newPosition > position ? 1 : 0));  // {@code newPosition > position} means that the player looped
                                                                                                     // over the array, undoing a lap of the board
     }
 

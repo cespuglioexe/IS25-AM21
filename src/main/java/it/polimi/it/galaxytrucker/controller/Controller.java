@@ -3,6 +3,10 @@ package it.polimi.it.galaxytrucker.controller;
 import it.polimi.it.galaxytrucker.model.managers.GameManager;
 import it.polimi.it.galaxytrucker.networking.messages.ClientInstruction;
 import it.polimi.it.galaxytrucker.model.managers.Model;
+import it.polimi.it.galaxytrucker.networking.rmi.server.RMIServer;
+
+import java.rmi.RemoteException;
+import java.util.UUID;
 
 public class Controller {
     private final Model model;
@@ -11,10 +15,10 @@ public class Controller {
     private final int playerNum;
     private int activePlayers;
 
-    public Controller(int level, int playerNum, String nickname) {
+    public Controller(int level, int playerNum, String nickname, RMIServer server) {
         System.out.println("Starting controller");
         this.nickname = nickname;
-        this.model = new GameManager(level, playerNum);
+        this.model = new GameManager(level, playerNum, server, nickname);
         this.level = level;
         this.playerNum = playerNum;
         this.activePlayers = 0;
@@ -33,10 +37,10 @@ public class Controller {
      *
      * @param playerName name of the player to be added
      */
-    public void addPlayer (String playerName) {
+    public UUID addPlayer (String playerName) {
         System.out.println("Adding player: " + playerName + "(controller)");
-        model.addPlayer(playerName);
         activePlayers++;
+        return model.addPlayer(playerName);
     }
 
     /**
@@ -61,5 +65,9 @@ public class Controller {
 
     public GenericGameData getGameData() {
         return new GenericGameData(level, playerNum, activePlayers);
+    }
+    
+    public void placeComponentTile (UUID playerId, int col, int row) {
+        model.placeComponentTile(playerId, null, row, col);
     }
 }

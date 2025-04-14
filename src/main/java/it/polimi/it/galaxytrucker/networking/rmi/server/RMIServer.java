@@ -3,6 +3,7 @@ package it.polimi.it.galaxytrucker.networking.rmi.server;
 import it.polimi.it.galaxytrucker.controller.Controller;
 import it.polimi.it.galaxytrucker.controller.GenericGameData;
 import it.polimi.it.galaxytrucker.networking.messages.ClientInstruction;
+import it.polimi.it.galaxytrucker.networking.messages.GameUpdate;
 import it.polimi.it.galaxytrucker.networking.rmi.client.RMIVirtualServer;
 
 import java.rmi.RemoteException;
@@ -12,6 +13,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 import it.polimi.it.galaxytrucker.view.ConsoleColors;
 
@@ -20,8 +22,8 @@ import static org.fusesource.jansi.Ansi.ansi;
 public class RMIServer extends UnicastRemoteObject implements RMIVirtualServer {
     // List of active games, each one has a nickname
     private final List<Controller> controllers = new ArrayList<>();
-    // Each client is associated with the nickname of the game they are playing
-    private final HashMap<RMIVirtualView, String> playingClients = new HashMap<>();
+    // Each game is associated with the list of participating players
+    private final HashMap<String, List<RMIVirtualView>> playingClients = new HashMap<>();
     // Temporary storage for clients that aren't in a game
     private final List<RMIVirtualView> connectedClients = new ArrayList<>();
 
@@ -79,10 +81,12 @@ public class RMIServer extends UnicastRemoteObject implements RMIVirtualServer {
     public boolean checkUsernameIsUnique(RMIVirtualView client, String username) throws RemoteException {
         System.out.println("Checking username");
         synchronized (this.playingClients) {
-            for (RMIVirtualView c : this.playingClients.keySet()) {
-                if (c.getName().equals(username)) {
-                    System.out.println("Username already taken");
-                    return false;
+            for (List<RMIVirtualView> c : this.playingClients.values()) {
+                for (RMIVirtualView v : c) {
+                    if (v.getName().equals(username)) {
+                        System.out.println("Username already taken");
+                        return false;
+                    }
                 }
             }
         }
@@ -106,23 +110,36 @@ public class RMIServer extends UnicastRemoteObject implements RMIVirtualServer {
     /**
      * Adds a player to the specified game and updates the associated mappings between clients and games.
      *
-     * @param client The {@code RMIVirtualView} instance representing the client to be added to the game
+     * @param client    The {@code RMIVirtualView} instance representing the client to be added to the game
      * @param gameIndex The index of the game to which the player should be added
+     * @return
      * @throws RemoteException If a remote communication error occurs
      */
     @Override
-    public void addPlayerToGame(RMIVirtualView client, int gameIndex) throws RemoteException {
-        // Add the player to the specified game
-        synchronized (this.connectedClients) {
-            controllers.get(gameIndex).addPlayer(client.getName());
+    public UUID addPlayerToGame(RMIVirtualView client, int gameIndex) throws RemoteException {
+        String matchName;
+        // Get the name of the specified game
+        synchronized (this.controllers) {
+            matchName = controllers.get(gameIndex).getNickname();
         }
         // Associate the player and the game they are playing
         synchronized (this.connectedClients) {
             connectedClients.remove(client);
         }
         synchronized (this.playingClients) {
-            playingClients.put(client, controllers.get(gameIndex).getNickname());
+            List<RMIVirtualView> players = playingClients.get(matchName);
+            if (players == null) {
+                players = new ArrayList<>();
+            }
+            players.add(client);
+            playingClients.put(matchName, players);
         }
+        UUID id;
+        // Add the player to the specified game
+        synchronized (this.controllers) {
+            id = controllers.get(gameIndex).addPlayer(client.getName());
+        }
+        return id;
     }
 
     /**
@@ -135,7 +152,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIVirtualServer {
      * @throws RemoteException If a remote communication error occurs
      */
     @Override
-    public void addPlayerToGame(RMIVirtualView client, String gameNickname) throws RemoteException {
+    public UUID addPlayerToGame(RMIVirtualView client, String gameNickname) throws RemoteException {
         int i = 0;
         for (Controller c : controllers) {
             if (c.getNickname().equals(gameNickname)) {
@@ -143,13 +160,31 @@ public class RMIServer extends UnicastRemoteObject implements RMIVirtualServer {
                 break;
             }
         }
-        addPlayerToGame(client, i);
+
+        return addPlayerToGame(client, i);
     }
 
     @Override
     public void newGame(String gameNickname, int players, int level) throws RemoteException {
         synchronized (this.controllers) {
-            controllers.add(new Controller(level, players, gameNickname));
+            controllers.add(new Controller(level, players, gameNickname, this));
+        }
+    }
+
+    public void sendMessageToClient(String gameNickname, String clientName, GameUpdate message) throws RemoteException {
+        List<RMIVirtualView> players = playingClients.get(gameNickname);
+        for (RMIVirtualView v : players) {
+            if (v.getName().equals(clientName)) {
+                v.recieveGameUpdate(message);
+            }
+        }
+    }
+
+    public void sendMessageToAllPlayers(String gameNickname, GameUpdate message) throws RemoteException {
+        List<RMIVirtualView> players = playingClients.get(gameNickname);
+        System.out.println("Players: " + players.size());
+        for (RMIVirtualView v : players) {
+            sendMessageToClient(gameNickname, v.getName(), message);
         }
     }
 
