@@ -111,18 +111,11 @@ public class GameManager extends StateMachine implements Model {
     }
 
     @Override
-    public void setLevel(int level) {
-
-    }
-
-    @Override
-    public void setNumberOfPlayers(int numberOfPlayers) {
-
-    }
-
-    @Override
     public UUID addPlayer(String name) throws InvalidActionException {
-        // ensureNameIsUnique(name);
+        if (isGameFull()) {
+            throw new InvalidActionException("The game is full");
+        }
+        ensureNameIsUnique(name);
         System.out.println("Adding player " + name + "(model)");
         Color playerColor = findFirstAvailableColor();
 
@@ -138,7 +131,6 @@ public class GameManager extends StateMachine implements Model {
         System.out.println("Added player " + name + " with color " + playerColor);
         return newPlayer.getPlayerID();
     }
-
     private void ensureNameIsUnique(String name) throws InvalidActionException {
         boolean isTaken = this.players.stream()
             .anyMatch(player -> player.getPlayerName().equals(name));
@@ -147,13 +139,15 @@ public class GameManager extends StateMachine implements Model {
             throw new InvalidActionException("Another player named " + name + " is already playing");
         }
     }
-
     private Color findFirstAvailableColor() throws InvalidActionException {
         return Arrays.stream(Color.values())
             .filter(color -> players.stream()
                 .noneMatch(player -> player.getColor().equals(color)))
             .findFirst()
             .orElseThrow(() -> new InvalidActionException("No available color"));
+    }
+    private boolean isGameFull() {
+        return players.size() == numberOfPlayers;
     }
 
     @Override
@@ -165,10 +159,6 @@ public class GameManager extends StateMachine implements Model {
 
         this.players.remove(playerToRemove);
     }
-
-//    public void initializeGameSpecifics() {
-//        this.players = new ArrayList<>(this.numberOfPlayers);
-//    }
 
     public void initializeComponentTiles() {
         File file = new File("src/main/resources/it/polimi/it/galaxytrucker/json/componenttiles.json");
@@ -185,15 +175,17 @@ public class GameManager extends StateMachine implements Model {
         if (components.isEmpty()) {
             throw new InvalidActionException("There are no components left");
         }
-
-        int randomIndex = getRandomIndex(components.size());
-        return removeComponentTileAtIndex(randomIndex);
+        updateState();
+        return drawRandomComponentTile();
     }
+    private ComponentTile drawRandomComponentTile() {
+        int index = getRandomIndex(components.size());
 
+        return removeComponentTileAtIndex(index);
+    }
     private int getRandomIndex(int upperBoundExclusive) {
         return new Random().nextInt(upperBoundExclusive);
     }
-
     private ComponentTile removeComponentTileAtIndex(int index) throws IndexOutOfBoundsException {
         Iterator<ComponentTile> iterator = components.iterator();
         int currentIndex = 0;

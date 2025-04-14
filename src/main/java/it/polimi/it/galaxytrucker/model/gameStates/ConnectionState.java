@@ -5,13 +5,15 @@ import it.polimi.it.galaxytrucker.model.design.statePattern.StateMachine;
 import it.polimi.it.galaxytrucker.model.gameStates.fields.ConnectionFields;
 import it.polimi.it.galaxytrucker.model.managers.GameManager;
 import it.polimi.it.galaxytrucker.model.managers.Model;
+import it.polimi.it.galaxytrucker.networking.messages.GameUpdate;
+import it.polimi.it.galaxytrucker.networking.messages.GameUpdateType;
 
 public class ConnectionState extends State {
     @Override
     public void enter(StateMachine fsm) {
-        GameManager gameManager = (GameManager) fsm;
-
-        System.out.println("Entered connection state");
+        // GameManager game = (GameManager) fsm;
+        
+        // sendStateUpdateToServer(game);
     }
 
     @Override
@@ -34,6 +36,10 @@ public class ConnectionState extends State {
 
     @Override
     public void exit(StateMachine fsm) {
-        System.out.println("Leaving connection state");
+        
+    }
+
+    private void sendStateUpdateToServer(GameManager gameManager) {
+        gameManager.sendGameUpdateToServer(new GameUpdate.GameUpdateBuilder(GameUpdateType.NEW_STATE).setNewSate("Connection").build());
     }
 }
