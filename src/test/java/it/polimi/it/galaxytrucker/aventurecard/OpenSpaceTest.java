@@ -1,6 +1,6 @@
 package it.polimi.it.galaxytrucker.aventurecard;
 
-import it.polimi.it.galaxytrucker.model.aventurecard.cards.OpenSpace;
+import it.polimi.it.galaxytrucker.model.adventurecards.cards.OpenSpace;
 import it.polimi.it.galaxytrucker.model.managers.FlightBoard;
 import it.polimi.it.galaxytrucker.model.managers.Player;
 import it.polimi.it.galaxytrucker.model.utility.Color;

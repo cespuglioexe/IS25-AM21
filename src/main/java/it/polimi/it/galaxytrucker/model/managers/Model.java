@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-import it.polimi.it.galaxytrucker.model.aventurecard.AdventureDeck;
+import it.polimi.it.galaxytrucker.model.adventurecards.AdventureDeck;
 import it.polimi.it.galaxytrucker.model.componenttiles.ComponentTile;
 import it.polimi.it.galaxytrucker.model.design.statePattern.State;;
 

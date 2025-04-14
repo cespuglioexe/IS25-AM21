@@ -1,6 +1,6 @@
 package it.polimi.it.galaxytrucker.aventurecard;
 
-import it.polimi.it.galaxytrucker.model.aventurecard.cards.Planet;
+import it.polimi.it.galaxytrucker.model.adventurecards.cards.Planet;
 import it.polimi.it.galaxytrucker.model.managers.CargoManager;
 import it.polimi.it.galaxytrucker.model.managers.FlightBoard;
 import it.polimi.it.galaxytrucker.model.managers.Player;
@@ -59,9 +59,8 @@ class PlanetTest {
 
 
         Planet planet = new Planet(null,Optional.of(3),null,load,0,0,manager);
-        Player player1=new Player(new UUID(0,1), "Margarozzo1",0, Color.RED);
-        FlightBoard board = new FlightBoard(18);
-        board.setBoard();
+        Player player1=new Player(new UUID(0,1), "Margarozzo1",Color.RED);
+        FlightBoard board = new FlightBoard(1);
         board.addPlayerMarker(player1);
 
         planet.applyFlightDayPenalty(board,player1);

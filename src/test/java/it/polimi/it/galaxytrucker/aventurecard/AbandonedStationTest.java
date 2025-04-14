@@ -1,6 +1,6 @@
 package it.polimi.it.galaxytrucker.aventurecard;
 
-import it.polimi.it.galaxytrucker.model.aventurecard.cards.AbandonedStation;
+import it.polimi.it.galaxytrucker.model.adventurecards.cards.AbandonedStation;
 import it.polimi.it.galaxytrucker.model.componenttiles.CabinModule;
 import it.polimi.it.galaxytrucker.model.componenttiles.SpecialCargoHold;
 import it.polimi.it.galaxytrucker.model.componenttiles.TileEdge;

@@ -6,7 +6,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import it.polimi.it.galaxytrucker.model.aventurecard.AdventureDeck;
+
+import it.polimi.it.galaxytrucker.model.adventurecards.AdventureDeck;
 import it.polimi.it.galaxytrucker.model.componenttiles.ComponentTile;
 import it.polimi.it.galaxytrucker.model.design.statePattern.StateMachine;
 import it.polimi.it.galaxytrucker.model.exceptions.IllegalComponentPositionException;

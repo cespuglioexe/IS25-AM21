@@ -4,13 +4,10 @@ import it.polimi.it.galaxytrucker.model.componenttiles.BatteryComponent;
 import it.polimi.it.galaxytrucker.model.utility.Cargo;
 import it.polimi.it.galaxytrucker.model.utility.Color;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CargoManager {
-
-
-    public void manageCargoDischarge(int reqCargo, Player player) {
+    public static void manageCargoDischarge(int reqCargo, Player player) {
         ShipManager shipManager = player.getShipManager();
         Color[] colors = Color.values();
         int consumedCargo = 0;
@@ -44,13 +41,7 @@ public class CargoManager {
         // If there aren't enough batteries to make up the difference, there is nothing more to do and the function returns
     }
 
-
-
-    public void manageCargoAddition(Cargo load, Player player) {
-            List<Integer> position = new ArrayList<Integer>();
-            position.add(7);
-            position.add(6);
-         //   position = waitingCoordinates();
-            player.getShipManager().addCargo(position.get(0),position.get(1),load);
+    public static void manageCargoAddition(Cargo load, List<Integer> coords, Player player) {
+        player.getShipManager().addCargo(coords.get(0),coords.get(1), load);
     }
 }

@@ -10,9 +10,9 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 
-import it.polimi.it.galaxytrucker.model.aventurecard.cards.Planet;
-import it.polimi.it.galaxytrucker.model.aventurecard.cardStates.EffectExecutionState;
-import it.polimi.it.galaxytrucker.model.aventurecard.cardStates.ParticipationState;
+import it.polimi.it.galaxytrucker.model.adventurecards.cards.Planet;
+import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.EffectExecutionState;
+import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.ParticipationState;
 import it.polimi.it.galaxytrucker.model.managers.CargoManager;
 import it.polimi.it.galaxytrucker.model.managers.Player;
 import it.polimi.it.galaxytrucker.model.utility.Cargo;
