@@ -28,7 +28,7 @@ public class GameCreation extends State {
         int playerNum = 0;
         System.out.println("How many players do you want in the game? (2, 3, 4)");
         System.out.print("> ");
-        do {
+        while (true) {
             try {
                 playerNum = scanner.nextInt();
                 
@@ -46,12 +46,12 @@ public class GameCreation extends State {
                 scanner.nextLine();
                 playerNum = 0;
             }
-        } while (true);
+        }
 
         int level = 0;
         System.out.println("What level game do you want? (1, 2)");
         System.out.print("> ");
-        do {
+        while (true) {
             try {
                 level = scanner.nextInt();
 
@@ -69,7 +69,7 @@ public class GameCreation extends State {
                 scanner.nextLine();
                 level = 0;
             }
-        } while (true);
+        }
 
         view.getClient().receiveUserInput(
                 new UserInput.UserInputBuilder(null, UserInputType.GAME_CREATION)
@@ -80,9 +80,7 @@ public class GameCreation extends State {
 
     @Override
     public void update(StateMachine fsm, boolean repeat) {
-        if (!repeat) {
-            fsm.changeState(new GameSelection(view));
-        }
+
     }
 
     @Override

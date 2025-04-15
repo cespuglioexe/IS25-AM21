@@ -14,8 +14,6 @@ public class BuildingState extends State {
 
         GameManager gameManager = (GameManager) fsm;
         gameManager.initializeComponentTiles();
-
-        //sendStateUpdateToServer(gameManager);
     }
 
     @Override
@@ -26,9 +24,5 @@ public class BuildingState extends State {
     @Override
     public void exit(StateMachine fsm) {
 
-    }
-
-    private void sendStateUpdateToServer(GameManager gameManager) {
-        gameManager.sendGameUpdateToServer(new GameUpdate.GameUpdateBuilder(GameUpdateType.NEW_STATE).setNewSate("Building").build());
     }
 }

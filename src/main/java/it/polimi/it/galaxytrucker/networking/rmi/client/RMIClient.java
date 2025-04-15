@@ -1,6 +1,7 @@
 package it.polimi.it.galaxytrucker.networking.rmi.client;
 
 import it.polimi.it.galaxytrucker.controller.GenericGameData;
+import it.polimi.it.galaxytrucker.model.exceptions.InvalidActionException;
 import it.polimi.it.galaxytrucker.networking.messages.GameUpdate;
 import it.polimi.it.galaxytrucker.networking.messages.UserInput;
 import it.polimi.it.galaxytrucker.networking.rmi.server.RMIVirtualView;
@@ -92,10 +93,10 @@ public class RMIClient extends UnicastRemoteObject implements RMIVirtualView {
                 try {
                     if (!server.checkUsernameIsUnique(this, input.getPlayerName())) {
                         view.updateState(true);
+                    } else {
+                        name = input.getPlayerName();
+                        view.changeState(new GameSelection(view));
                     }
-                    name = input.getPlayerName();
-
-                    view.changeState(new GameSelection(view));
                 }
                 catch (Exception e) {
                     e.printStackTrace();
@@ -109,7 +110,8 @@ public class RMIClient extends UnicastRemoteObject implements RMIVirtualView {
                     server.newGame(gameNickname, input.getGamePlayers(), input.getGameLevel());
 
                     this.playerID = server.addPlayerToGame(this, gameNickname);
-                } catch (RemoteException e) {
+                } catch (RemoteException | InvalidActionException e) {
+                    // InvalidActionException should never occur when adding a player to a newly created game
                     e.printStackTrace();
                 }
                 break;
@@ -119,6 +121,10 @@ public class RMIClient extends UnicastRemoteObject implements RMIVirtualView {
                     this.playerID = server.addPlayerToGame(this, input.getGameIndex());
                 } catch (RemoteException e) {
                     e.printStackTrace();
+                } catch (InvalidActionException e) {
+                    if (e.getMessage().equals("The game is full"))
+                        System.out.println(ConsoleColors.RED + "The game you tried to join is already full" + ConsoleColors.RESET);
+                    view.updateState(true);
                 }
                 break;
         }

@@ -156,6 +156,11 @@ public class CombatZone extends Attack implements AdventureCard, FlightDayPenalt
     }
 
     @Override
+    public int getCrewmatePenalty() {
+        return 0;
+    }
+
+    @Override
     public void applyFlightDayPenalty() {
         Player player = findPlayerWithLeastCrewmates();
 

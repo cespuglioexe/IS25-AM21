@@ -1,5 +1,6 @@
 package it.polimi.it.galaxytrucker.controller;
 
+import it.polimi.it.galaxytrucker.model.exceptions.InvalidActionException;
 import it.polimi.it.galaxytrucker.model.managers.GameManager;
 import it.polimi.it.galaxytrucker.networking.messages.ClientInstruction;
 import it.polimi.it.galaxytrucker.model.managers.Model;
@@ -37,10 +38,14 @@ public class Controller {
      *
      * @param playerName name of the player to be added
      */
-    public UUID addPlayer (String playerName) {
+    public UUID addPlayer (String playerName) throws InvalidActionException {
         System.out.println("Adding player: " + playerName + "(controller)");
+        UUID newId;
+
+        newId = model.addPlayer(playerName);
+
         activePlayers++;
-        return model.addPlayer(playerName);
+        return newId;
     }
 
     /**
@@ -66,7 +71,7 @@ public class Controller {
     public GenericGameData getGameData() {
         return new GenericGameData(level, playerNum, activePlayers);
     }
-    
+
     public void placeComponentTile (UUID playerId, int col, int row) {
         model.placeComponentTile(playerId, null, row, col);
     }

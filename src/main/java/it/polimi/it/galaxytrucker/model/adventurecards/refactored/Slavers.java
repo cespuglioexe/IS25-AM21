@@ -66,6 +66,11 @@ public class Slavers implements AdventureCard, CreditReward, CrewmatePenalty, Fl
     }
 
     @Override
+    public int getCrewmatePenalty() {
+        return 0;
+    }
+
+    @Override
     public void applyFlightDayPenalty() {
         flightRules.movePlayerBackwards(flightDayPenalty, currentPlayer);
     }

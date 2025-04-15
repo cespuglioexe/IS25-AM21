@@ -2,7 +2,6 @@ package it.polimi.it.galaxytrucker.model.managers;
 
 import java.util.*;
 
-
 /**
  * The {@code FlightBoard} class represents the flight board used in the Galaxy Trucker game.
  * <p>
@@ -36,6 +35,12 @@ public class FlightBoard {
         completedLaps = new HashMap<>();
     }
 
+    /**
+     * Fills the position array with null values.
+     * <p>
+     * NB: Use only for testing purposes.
+     */
+    @Deprecated
     public void setBoard() {
         Arrays.fill(board, null);
     }

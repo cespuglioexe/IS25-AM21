@@ -2,6 +2,7 @@ package it.polimi.it.galaxytrucker.networking.rmi.server;
 
 import it.polimi.it.galaxytrucker.controller.Controller;
 import it.polimi.it.galaxytrucker.controller.GenericGameData;
+import it.polimi.it.galaxytrucker.model.exceptions.InvalidActionException;
 import it.polimi.it.galaxytrucker.networking.messages.ClientInstruction;
 import it.polimi.it.galaxytrucker.networking.messages.GameUpdate;
 import it.polimi.it.galaxytrucker.networking.rmi.client.RMIVirtualServer;
@@ -116,7 +117,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIVirtualServer {
      * @throws RemoteException If a remote communication error occurs
      */
     @Override
-    public UUID addPlayerToGame(RMIVirtualView client, int gameIndex) throws RemoteException {
+    public UUID addPlayerToGame(RMIVirtualView client, int gameIndex) throws RemoteException, InvalidActionException {
         String matchName;
         // Get the name of the specified game
         synchronized (this.controllers) {
@@ -171,7 +172,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIVirtualServer {
         }
     }
 
-    public void sendMessageToClient(String gameNickname, String clientName, GameUpdate message) throws RemoteException {
+    public void sendMessageToSinglePlayer(String gameNickname, String clientName, GameUpdate message) throws RemoteException {
         List<RMIVirtualView> players = playingClients.get(gameNickname);
         for (RMIVirtualView v : players) {
             if (v.getName().equals(clientName)) {
@@ -184,7 +185,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIVirtualServer {
         List<RMIVirtualView> players = playingClients.get(gameNickname);
         System.out.println("Players: " + players.size());
         for (RMIVirtualView v : players) {
-            sendMessageToClient(gameNickname, v.getName(), message);
+            sendMessageToSinglePlayer(gameNickname, v.getName(), message);
         }
     }
 

@@ -18,13 +18,13 @@ public class Smugglers implements AdventureCard, CargoReward, CargoPenalty, Flig
     private Player currentPlayer;
     private int playerFirePower; //TODO initialize in FSM
     private final int requiredFirePower;
-    private Set<Cargo> cargoReward;
+    private List<Cargo> cargoReward;
     private final int cargoPenalty;
     private final int flightDayPenalty;
 
     private final FlightRules flightRules;
 
-    public Smugglers(int requiredFirePower, Set<Cargo> cargoReward, int cargoPenalty, int flightDayPenalty, FlightRules flightRules) {
+    public Smugglers(int requiredFirePower, List<Cargo> cargoReward, int cargoPenalty, int flightDayPenalty, FlightRules flightRules) {
         this.requiredFirePower = requiredFirePower;
         this.cargoReward = cargoReward;
         this.cargoPenalty = cargoPenalty;
@@ -43,13 +43,18 @@ public class Smugglers implements AdventureCard, CargoReward, CargoPenalty, Flig
     }
    
     @Override
-    public Set<Cargo> getCargoReward() {
+    public List<Cargo> getCargoReward() {
         return cargoReward;
     }
 
     @Override
-    public void applyCargoReward() {
-        
+    public void acceptCargo(int cargo, int row, int column) {
+
+    }
+
+    @Override
+    public void discardCargo(int cargo) {
+
     }
 
     @Override

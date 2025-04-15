@@ -48,7 +48,7 @@ public class AbandonedStation extends AdventureCard implements Participation, Ca
     @Override
     public void giveCargoReward(Player player) {
         for(Cargo cargo : (Set<Cargo>) super.getReward().orElse(0)){
-            manager.manageCargoAddition(cargo,player);
+            manager.manageCargoAddition(cargo, new ArrayList<>(), player);
         }
     }
 

@@ -2,8 +2,8 @@ package it.polimi.it.galaxytrucker.model.adventurecards.refactored;
 
 import java.util.List;
 
-import it.polimi.it.galaxytrucker.model.aventurecard.interfaces.AdventureCard;
-import it.polimi.it.galaxytrucker.model.aventurecard.interfaces.FlightDayPenalty;
+import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCard;
+import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.FlightDayPenalty;
 import it.polimi.it.galaxytrucker.model.design.strategyPattern.FlightRules;
 import it.polimi.it.galaxytrucker.model.managers.Player;
 import it.polimi.it.galaxytrucker.model.managers.ShipManager;

@@ -1,6 +1,7 @@
 package it.polimi.it.galaxytrucker.networking.rmi.client;
 
 import it.polimi.it.galaxytrucker.controller.GenericGameData;
+import it.polimi.it.galaxytrucker.model.exceptions.InvalidActionException;
 import it.polimi.it.galaxytrucker.networking.VirtualServer;
 import it.polimi.it.galaxytrucker.networking.messages.ClientInstruction;
 import it.polimi.it.galaxytrucker.networking.rmi.server.RMIVirtualView;
@@ -19,7 +20,7 @@ public interface RMIVirtualServer extends Remote, VirtualServer {
 
     void connect(RMIVirtualView client) throws RemoteException;
 
-    UUID addPlayerToGame(RMIVirtualView client, String gameNickname) throws RemoteException;
+    UUID addPlayerToGame(RMIVirtualView client, String gameNickname) throws RemoteException, InvalidActionException;
 
     void newGame(String gameNickname, int players, int level) throws RemoteException;
 }

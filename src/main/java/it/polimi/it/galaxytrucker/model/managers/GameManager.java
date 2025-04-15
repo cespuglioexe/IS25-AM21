@@ -110,27 +110,31 @@ public class GameManager extends StateMachine implements Model {
         return this.adventureDeck;
     }
 
+    /**
+     * Adds a new player to the game. Each player is given a random available color.
+     *
+     * @param name The name of the new player
+     * @return The {@code UUID} generated for the added player
+     * @throws InvalidActionException if the game is already full
+     */
     @Override
     public UUID addPlayer(String name) throws InvalidActionException {
         if (isGameFull()) {
             throw new InvalidActionException("The game is full");
         }
         ensureNameIsUnique(name);
-        System.out.println("Adding player " + name + "(model)");
         Color playerColor = findFirstAvailableColor();
 
-        System.out.println("Create new player");
         Player newPlayer = new Player(UUID.randomUUID(), name, playerColor, new ShipManager(level));
-        System.out.println("before add player to game");
         players.add(newPlayer);
 
         System.out.println("Players: " + players.stream().map(Player::getPlayerName).collect(Collectors.joining(", ")));
 
         updateState();
 
-        System.out.println("Added player " + name + " with color " + playerColor);
         return newPlayer.getPlayerID();
     }
+
     private void ensureNameIsUnique(String name) throws InvalidActionException {
         boolean isTaken = this.players.stream()
             .anyMatch(player -> player.getPlayerName().equals(name));

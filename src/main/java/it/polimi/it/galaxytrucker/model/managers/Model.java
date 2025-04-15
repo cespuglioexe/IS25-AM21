@@ -6,7 +6,8 @@ import java.util.UUID;
 
 import it.polimi.it.galaxytrucker.model.adventurecards.AdventureDeck;
 import it.polimi.it.galaxytrucker.model.componenttiles.ComponentTile;
-import it.polimi.it.galaxytrucker.model.design.statePattern.State;;
+import it.polimi.it.galaxytrucker.model.design.statePattern.State;
+import it.polimi.it.galaxytrucker.model.exceptions.InvalidActionException;;
 
 public interface Model {
     //GETTER
@@ -24,7 +25,7 @@ public interface Model {
 
     //SETTER
     public void changeState(State nextState);
-    public UUID addPlayer(String name);
+    public UUID addPlayer(String name) throws InvalidActionException;
     public void removePlayer(UUID id);    
 
     //ACTIONS
