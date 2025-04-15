@@ -1,12 +1,11 @@
 package it.polimi.it.galaxytrucker.controller;
 
+import it.polimi.it.galaxytrucker.model.componenttiles.TileData;
 import it.polimi.it.galaxytrucker.model.exceptions.InvalidActionException;
 import it.polimi.it.galaxytrucker.model.managers.GameManager;
-import it.polimi.it.galaxytrucker.networking.messages.ClientInstruction;
 import it.polimi.it.galaxytrucker.model.managers.Model;
 import it.polimi.it.galaxytrucker.networking.rmi.server.RMIServer;
 
-import java.rmi.RemoteException;
 import java.util.UUID;
 
 public class Controller {
@@ -17,7 +16,6 @@ public class Controller {
     private int activePlayers;
 
     public Controller(int level, int playerNum, String nickname, RMIServer server) {
-        System.out.println("Starting controller");
         this.nickname = nickname;
         this.model = new GameManager(level, playerNum, server, nickname);
         this.level = level;
@@ -26,20 +24,11 @@ public class Controller {
     }
 
     /**
-     * Used to send a message to the controller
-     * @param instruction instruction to send to the controller
-     */
-    public void receiveMessage(ClientInstruction instruction) {
-        System.out.println("Received instruction: " + instruction.getInstructionType().toString());
-    }
-
-    /**
      * Adds a player to the game associated with the controller
      *
      * @param playerName name of the player to be added
      */
     public UUID addPlayer (String playerName) throws InvalidActionException {
-        System.out.println("Adding player: " + playerName + "(controller)");
         UUID newId;
 
         newId = model.addPlayer(playerName);
@@ -73,6 +62,10 @@ public class Controller {
     }
 
     public void placeComponentTile (UUID playerId, int col, int row) {
-        model.placeComponentTile(playerId, null, row, col);
+        model.placeComponentTile(playerId, row, col);
+    }
+
+    public void requestNewComponentTile (UUID playerId) {
+        model.drawComponentTile(playerId);
     }
 }

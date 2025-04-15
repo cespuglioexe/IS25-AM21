@@ -1,7 +1,7 @@
 package it.polimi.it.galaxytrucker.networking.messages;
 
 import it.polimi.it.galaxytrucker.model.componenttiles.ComponentTile;
-import it.polimi.it.galaxytrucker.model.componenttiles.TileEdge;
+import it.polimi.it.galaxytrucker.model.componenttiles.TileData;
 
 import javax.naming.TimeLimitExceededException;
 import java.io.Serializable;
@@ -62,9 +62,5 @@ public class GameUpdate implements Serializable {
         public GameUpdate build() {
             return new GameUpdate(this);
         }
-    }
-
-    public record TileData (int rotation, String type, TileEdge top, TileEdge right, TileEdge bottom, TileEdge left) implements Serializable {
-
     }
 }

@@ -3,7 +3,6 @@ package it.polimi.it.galaxytrucker.model.managers;
 import java.io.File;
 import java.io.IOException;
 import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -19,7 +18,9 @@ import it.polimi.it.galaxytrucker.model.gameStates.StartState;
 import it.polimi.it.galaxytrucker.model.json.Json;
 import it.polimi.it.galaxytrucker.model.utility.Color;
 import it.polimi.it.galaxytrucker.networking.messages.GameUpdate;
-import it.polimi.it.galaxytrucker.networking.rmi.server.RMIServer;;
+import it.polimi.it.galaxytrucker.networking.messages.GameUpdateType;
+import it.polimi.it.galaxytrucker.networking.rmi.server.RMIServer;
+import it.polimi.it.galaxytrucker.view.ConsoleColors;;
 
 public class GameManager extends StateMachine implements Model {
     private final Integer level;
@@ -44,13 +45,20 @@ public class GameManager extends StateMachine implements Model {
         start(new StartState());
     }
 
-    public void sendGameUpdateToServer(GameUpdate gameUpdate) {
+    public void sendGameUpdateToAllPlayers(GameUpdate gameUpdate) {
         try {
             server.sendMessageToAllPlayers(nickname, gameUpdate);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
+    }
 
+    public void sendGameUpdateToSinglePlayer(UUID playerId, GameUpdate gameUpdate) {
+        try {
+            server.sendMessageToSinglePlayer(nickname, getPlayerByID(playerId).getPlayerName(), gameUpdate);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -175,21 +183,33 @@ public class GameManager extends StateMachine implements Model {
         }
     }
 
-    public ComponentTile drawComponentTile() throws InvalidActionException {
+    public void drawComponentTile(UUID playerId) throws InvalidActionException {
         if (components.isEmpty()) {
             throw new InvalidActionException("There are no components left");
         }
         updateState();
-        return drawRandomComponentTile();
+
+        ComponentTile tile = drawRandomComponentTile();
+        getPlayerByID(playerId).setHeldComponent(tile);
+
+        sendGameUpdateToSinglePlayer(
+                playerId,
+                new GameUpdate.GameUpdateBuilder(GameUpdateType.DRAWN_TILE)
+                        .setNewTile(tile)
+                        .build()
+        );
     }
+
     private ComponentTile drawRandomComponentTile() {
         int index = getRandomIndex(components.size());
 
         return removeComponentTileAtIndex(index);
     }
+
     private int getRandomIndex(int upperBoundExclusive) {
         return new Random().nextInt(upperBoundExclusive);
     }
+
     private ComponentTile removeComponentTileAtIndex(int index) throws IndexOutOfBoundsException {
         Iterator<ComponentTile> iterator = components.iterator();
         int currentIndex = 0;
@@ -206,11 +226,16 @@ public class GameManager extends StateMachine implements Model {
         throw new IndexOutOfBoundsException("Index " + index + " is out of bounds");
     }
 
-    public void placeComponentTile(UUID playerID, ComponentTile component, int row, int column) throws IndexOutOfBoundsException, IllegalComponentPositionException {
+    public void placeComponentTile(UUID playerID, int row, int column) throws IndexOutOfBoundsException, IllegalComponentPositionException {
         Player player = this.getPlayerByID(playerID);
         ShipManager ship = player.getShipManager();
 
-        ship.addComponentTile(row, column, component);
+        ComponentTile comp = player.getHeldComponent();
+
+        ship.addComponentTile(row, column, comp);
+        player.setHeldComponent(null);
+
+        System.out.println(ConsoleColors.GREEN + "Placed " + comp.getClass().getSimpleName() + row + ", " + column);
     }
 
     public void rotateComponentTile(UUID playerID, int row, int column) throws IndexOutOfBoundsException, IllegalComponentPositionException {

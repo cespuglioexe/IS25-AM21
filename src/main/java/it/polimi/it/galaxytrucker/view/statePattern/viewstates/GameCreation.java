@@ -20,28 +20,28 @@ public class GameCreation extends State {
     public GameCreation(CLIView view) {
         super(view);
     }
-    
+
     @Override
     public void enter(StateMachine fsm) {
         System.out.println(ConsoleColors.YELLOW_BACKGROUND + "" + ConsoleColors.BLACK_BOLD + "==> GAME CREATION <==" + ConsoleColors.RESET);
-        
+
         int playerNum = 0;
         System.out.println("How many players do you want in the game? (2, 3, 4)");
         System.out.print("> ");
         while (true) {
             try {
                 playerNum = scanner.nextInt();
-                
+
                 if (playerNum >= 2 && playerNum <= 4) {
                     break;
                 }
-                
+
                 System.out.println(ConsoleColors.YELLOW + "Invalid number of players, please choose a valid number" + ConsoleColors.RESET);
                 System.out.print("> ");
             } catch (NumberFormatException | InputMismatchException e) {
                 System.out.println(ConsoleColors.RED + "Invalid number format, please enter a valid number" + ConsoleColors.RESET);
                 System.out.print("> ");
-                
+
                 // Consume any leftover characters and reset the variable
                 scanner.nextLine();
                 playerNum = 0;
@@ -58,7 +58,7 @@ public class GameCreation extends State {
                 if (level >= 1 && level <= 2) {
                     break;
                 }
-                
+
                 System.out.println(ConsoleColors.YELLOW + "Invalid level, please choose a valid number" + ConsoleColors.RESET);
                 System.out.print("> ");
             } catch (NumberFormatException | InputMismatchException e) {
@@ -80,7 +80,9 @@ public class GameCreation extends State {
 
     @Override
     public void update(StateMachine fsm, boolean repeat) {
-
+        if (!repeat) {
+            fsm.changeState(new GameSelection(view));
+        }
     }
 
     @Override

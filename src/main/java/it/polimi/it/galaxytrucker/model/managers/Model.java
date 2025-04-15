@@ -6,8 +6,10 @@ import java.util.UUID;
 
 import it.polimi.it.galaxytrucker.model.adventurecards.AdventureDeck;
 import it.polimi.it.galaxytrucker.model.componenttiles.ComponentTile;
+import it.polimi.it.galaxytrucker.model.componenttiles.TileData;
 import it.polimi.it.galaxytrucker.model.design.statePattern.State;
-import it.polimi.it.galaxytrucker.model.exceptions.InvalidActionException;;
+import it.polimi.it.galaxytrucker.model.exceptions.InvalidActionException;
+import it.polimi.it.galaxytrucker.networking.messages.GameUpdate;;
 
 public interface Model {
     //GETTER
@@ -29,8 +31,9 @@ public interface Model {
     public void removePlayer(UUID id);    
 
     //ACTIONS
-    public ComponentTile drawComponentTile();
-    public void placeComponentTile(UUID playerID, ComponentTile component, int row, int column);
+    public void drawComponentTile(UUID playerId) throws InvalidActionException;
+
+    public void placeComponentTile(UUID playerID, int row, int column);
     public void rotateComponentTile(UUID playerID, int row, int column);
     public void finishBuilding(UUID playerID);
 }

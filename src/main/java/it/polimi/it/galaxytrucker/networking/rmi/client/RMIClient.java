@@ -7,6 +7,7 @@ import it.polimi.it.galaxytrucker.networking.messages.UserInput;
 import it.polimi.it.galaxytrucker.networking.rmi.server.RMIVirtualView;
 import it.polimi.it.galaxytrucker.view.CLIView;
 import it.polimi.it.galaxytrucker.view.ConsoleColors;
+import it.polimi.it.galaxytrucker.view.statePattern.viewstates.BuildingStateMenu;
 import it.polimi.it.galaxytrucker.view.statePattern.viewstates.ConnectionState;
 import it.polimi.it.galaxytrucker.view.statePattern.viewstates.GameSelection;
 
@@ -25,6 +26,7 @@ public class RMIClient extends UnicastRemoteObject implements RMIVirtualView {
     private RMIVirtualServer server;
     private String name;
     private UUID playerID;
+    private int gameIndex;
 
     public RMIClient () throws RemoteException {
         super();
@@ -62,7 +64,13 @@ public class RMIClient extends UnicastRemoteObject implements RMIVirtualView {
     public void recieveGameUpdate(GameUpdate update) throws RemoteException {
         switch (update.getInstructionType()) {
             case NEW_STATE:
-                System.out.println("New state");
+                switch (update.getNewSate().toUpperCase()) {
+                    case "BUILDING":
+                        view.displayBuildingStarted();
+                        view.changeState(new BuildingStateMenu(view));
+                    default:
+                        break;
+                }
                 break;
             case DRAWN_TILE:
                 System.out.println("Drawn tile");
@@ -109,7 +117,7 @@ public class RMIClient extends UnicastRemoteObject implements RMIVirtualView {
                     String gameNickname = "Game_" + new Random().nextInt(10000); // Generate a random nickname
                     server.newGame(gameNickname, input.getGamePlayers(), input.getGameLevel());
 
-                    this.playerID = server.addPlayerToGame(this, gameNickname);
+                    view.updateState(false);
                 } catch (RemoteException | InvalidActionException e) {
                     // InvalidActionException should never occur when adding a player to a newly created game
                     e.printStackTrace();
@@ -119,6 +127,7 @@ public class RMIClient extends UnicastRemoteObject implements RMIVirtualView {
             case GAME_SELECTION:
                 try {
                     this.playerID = server.addPlayerToGame(this, input.getGameIndex());
+                    this.gameIndex = input.getGameIndex();
                 } catch (RemoteException e) {
                     e.printStackTrace();
                 } catch (InvalidActionException e) {
@@ -127,6 +136,13 @@ public class RMIClient extends UnicastRemoteObject implements RMIVirtualView {
                     view.updateState(true);
                 }
                 break;
+
+            case REQUEST, PLACE_COMPONENT:
+                try {
+                    this.server.sendMessageToGame(playerID, input, gameIndex);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+               break; }
         }
     }
 }

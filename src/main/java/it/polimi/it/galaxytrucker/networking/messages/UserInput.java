@@ -2,9 +2,14 @@ package it.polimi.it.galaxytrucker.networking.messages;
 
 import it.polimi.it.galaxytrucker.networking.rmi.server.RMIVirtualView;
 
-public class UserInput {
+import java.io.Serializable;
+import java.util.List;
+
+public class UserInput implements Serializable {
     private final UserInputType type;
     private final RMIVirtualView client;
+
+    private final RequestType requestType;
 
     private final String serverName;
     private final String playerName;
@@ -12,6 +17,8 @@ public class UserInput {
     private final int gameLevel;
     private final int gamePlayers;
     private final int gameIndex;
+
+    private final List<Integer> coords;
 
     public UserInput(UserInputBuilder builder) {
         this.type = builder.type;
@@ -21,6 +28,8 @@ public class UserInput {
         this.gameLevel = builder.gameLevel;
         this.gamePlayers = builder.gamePlayers;
         this.gameIndex = builder.gameIndex;
+        this.requestType = builder.requestType;
+        this.coords = builder.coords;
     }
 
     public UserInputType getType() {
@@ -51,6 +60,14 @@ public class UserInput {
         return gameIndex;
     }
 
+    public RequestType getRequestType() {
+        return requestType;
+    }
+    
+    public List<Integer> getCoords() {
+        return coords;
+    }
+
     /**
      * Builder class for creating instances of the UserInput class.
      * This class provides a convenient way to configure all optional and required parameters
@@ -58,16 +75,20 @@ public class UserInput {
      */
     public static class UserInputBuilder {
         // Required parameters
-        private UserInputType type;
-        private RMIVirtualView client;
+        private final UserInputType type;
+        private final RMIVirtualView client;
 
         // Optional parameters
+        private RequestType requestType = RequestType.EMPTY;
+
         private String serverName = "";
         private String playerName = "";
 
         private int gameLevel = 0;
         private int gamePlayers = 0;
         private int gameIndex = 0;
+        
+        private List<Integer> coords = null;
 
         public UserInputBuilder(RMIVirtualView client, UserInputType type) {
             this.client = client;
@@ -96,6 +117,16 @@ public class UserInput {
 
         public UserInputBuilder setGameIndex(int gameIndex) {
             this.gameIndex = gameIndex;
+            return this;
+        }
+
+        public UserInputBuilder setRequestType(RequestType requestType) {
+            this.requestType = requestType;
+            return this;
+        }
+        
+        public UserInputBuilder setCoords(int x, int y) {
+            this.coords = List.of(x, y);
             return this;
         }
 
