@@ -252,6 +252,8 @@ public class GameManager extends StateMachine implements Model {
                 throw new IllegalComponentPositionException("No component found at position (" + row + ", " + column + ").");
             }
         );
+
+        System.out.println("Component rotated");
     }
 
     public void finishBuilding(UUID playerID) {

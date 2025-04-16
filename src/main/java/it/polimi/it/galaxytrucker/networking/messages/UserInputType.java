@@ -6,5 +6,5 @@ public enum UserInputType {
     CONNECT_SERVER,
     SET_USERNAME,
     REQUEST,
-   PLACE_COMPONENT
+    PLACE_COMPONENT
 }

@@ -19,6 +19,7 @@ public class UserInput implements Serializable {
     private final int gameIndex;
 
     private final List<Integer> coords;
+    private final int rotation;
 
     public UserInput(UserInputBuilder builder) {
         this.type = builder.type;
@@ -30,6 +31,7 @@ public class UserInput implements Serializable {
         this.gameIndex = builder.gameIndex;
         this.requestType = builder.requestType;
         this.coords = builder.coords;
+        this.rotation = builder.rotation;
     }
 
     public UserInputType getType() {
@@ -68,6 +70,8 @@ public class UserInput implements Serializable {
         return coords;
     }
 
+    public int getRotation() { return rotation; }
+
     /**
      * Builder class for creating instances of the UserInput class.
      * This class provides a convenient way to configure all optional and required parameters
@@ -89,6 +93,8 @@ public class UserInput implements Serializable {
         private int gameIndex = 0;
         
         private List<Integer> coords = null;
+
+        private int rotation = 0;
 
         public UserInputBuilder(RMIVirtualView client, UserInputType type) {
             this.client = client;
@@ -129,6 +135,16 @@ public class UserInput implements Serializable {
             this.coords = List.of(x, y);
             return this;
         }
+
+        public UserInputBuilder setRotation(int rotation) {
+            this.rotation = rotation;
+            return this;
+        }
+
+        /*public UserInputBuilder setRotation(int x, int y) {
+            this.rotation = rotation;
+            return this;
+        }*/
 
         public UserInput build() {
             return new UserInput(this);

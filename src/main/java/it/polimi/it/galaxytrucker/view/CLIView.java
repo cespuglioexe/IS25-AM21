@@ -76,8 +76,9 @@ public class CLIView extends StateMachine {
 
     public void displayShip () {
         String text = """
+                    
                         
                     """;
-        System.out.println("");
+        System.out.println(text);
     }
 }

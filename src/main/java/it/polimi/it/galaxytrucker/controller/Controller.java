@@ -61,11 +61,16 @@ public class Controller {
         return new GenericGameData(level, playerNum, activePlayers);
     }
 
-    public void placeComponentTile (UUID playerId, int col, int row) {
+    public void placeComponentTile (UUID playerId, int col, int row ,int rotation) {
         model.placeComponentTile(playerId, row, col);
+        for(int i=0; i<rotation; i++) {
+            model.rotateComponentTile(playerId, row, col);
+        }
     }
 
     public void requestNewComponentTile (UUID playerId) {
         model.drawComponentTile(playerId);
     }
+
+
 }

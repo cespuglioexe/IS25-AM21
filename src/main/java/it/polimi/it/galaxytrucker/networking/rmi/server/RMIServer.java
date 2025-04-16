@@ -112,7 +112,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIVirtualServer {
     public void sendMessageToGame(UUID playerId, UserInput input, int gameIndex) throws RemoteException {
        switch (input.getType()) {
            case PLACE_COMPONENT:
-               controllers.get(gameIndex).placeComponentTile(playerId, input.getCoords().get(1), input.getCoords().get(0));
+               controllers.get(gameIndex).placeComponentTile(playerId, input.getCoords().get(1), input.getCoords().get(0),input.getRotation());
            case REQUEST:
                switch (input.getRequestType()) {
                    case NEW_TILE:

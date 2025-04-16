@@ -18,6 +18,7 @@ public class PlaceTile extends State {
     public void enter(StateMachine fsm) {
         view.displayShip();
 
+
         System.out.println("Where do you want to place the tile? (x y)");
         String line = scanner.nextLine();
         
@@ -28,9 +29,18 @@ public class PlaceTile extends State {
 
         linescanner.close();
 
+        System.out.println("Enter the rotation: ");
+        System.out.println("[0] ↑");
+        System.out.println("[1] →");
+        System.out.println("[2] ↓");
+        System.out.println("[3] ←");
+
+        int rotation = scanner.nextInt();
+
         view.getClient().receiveUserInput(
                 new UserInput.UserInputBuilder(view.getClient(), UserInputType.PLACE_COMPONENT)
                         .setCoords(x, y)
+                        .setRotation(rotation)
                         .build()
         );
     }
