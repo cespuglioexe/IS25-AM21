@@ -300,7 +300,6 @@ public class ShipManagerTest {
         CabinModule cabin = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
         LifeSupport lifeSupport = new LifeSupport(AlienType.PURPLEALIEN, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
 
-        Human human = new Human();
         Alien alien = new Alien(AlienType.PURPLEALIEN);
 
         /*
@@ -320,8 +319,6 @@ public class ShipManagerTest {
         ship.addComponentTile(6, 7, cabin);
         ship.addComponentTile(6, 8, lifeSupport);
 
-        ship.addCrewmate(7, 7, human);
-        ship.addCrewmate(7, 7, human);
         ship.addCrewmate(6, 7, alien);
 
         ship.removeComponentTile(6, 7);
@@ -344,7 +341,6 @@ public class ShipManagerTest {
         LifeSupport lifeSupportPurple = new LifeSupport(AlienType.PURPLEALIEN, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
         LifeSupport lifeSupportBrown = new LifeSupport(AlienType.BROWNALIEN, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
 
-        Human human = new Human();
         Alien purple = new Alien(AlienType.PURPLEALIEN);
         Alien brown = new Alien(AlienType.BROWNALIEN);
 
@@ -367,8 +363,6 @@ public class ShipManagerTest {
         ship.addComponentTile(6, 8, lifeSupportPurple);
         ship.addComponentTile(8, 8, lifeSupportBrown);
 
-        ship.addCrewmate(7, 7, human);
-        ship.addCrewmate(7, 7, human);
         ship.addCrewmate(6, 7, purple);
         ship.addCrewmate(7, 8, brown);
 
@@ -389,7 +383,6 @@ public class ShipManagerTest {
         LifeSupport lifeSupportPurple = new LifeSupport(AlienType.PURPLEALIEN, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
         LifeSupport lifeSupportBrown = new LifeSupport(AlienType.BROWNALIEN, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
 
-        Human human = new Human();
         Alien purple = new Alien(AlienType.PURPLEALIEN);
         Alien brown = new Alien(AlienType.BROWNALIEN);
 
@@ -412,8 +405,6 @@ public class ShipManagerTest {
         ship.addComponentTile(6, 8, lifeSupportPurple);
         ship.addComponentTile(8, 8, lifeSupportBrown);
 
-        ship.addCrewmate(7, 7, human);
-        ship.addCrewmate(7, 7, human);
         ship.addCrewmate(6, 7, purple);
         ship.addCrewmate(7, 8, brown);
 
@@ -762,10 +753,9 @@ public class ShipManagerTest {
 
         ship.addComponentTile(6, 7, cabin);
         
-        ship.addCrewmate(7, 7, crewmate);
         ship.addCrewmate(6, 7, crewmate);
 
-        assertEquals(centralCabin.getCrewmates().size(), 1);
+        assertEquals(centralCabin.getCrewmates().size(), 2);
         assertEquals(cabin.getCrewmates().size(), 1);
     }
 
@@ -960,13 +950,12 @@ public class ShipManagerTest {
 
         ship.addCrewmate(6, 7, crewmate);
         ship.addCrewmate(6, 7, crewmate);
-        ship.addCrewmate(7, 7, crewmate);
 
         ship.removeCrewmate(6, 7);
         ship.removeCrewmate(7, 7);
 
         assertEquals(cabin.getCrewmates().size(), 1);
-        assertEquals(centralCabin.getCrewmates().size(), 0);
+        assertEquals(centralCabin.getCrewmates().size(), 1);
     }
 
     @Test
@@ -1607,7 +1596,7 @@ public class ShipManagerTest {
          * 
         */
 
-        assertEquals(0, ship.countHumans());
+        assertEquals(2, ship.countHumans());
     }
 
     @Test
@@ -1638,7 +1627,7 @@ public class ShipManagerTest {
 
         ship.addCrewmate(6, 7, alien);
 
-        assertEquals(0, ship.countHumans());
+        assertEquals(2, ship.countHumans());
     }
 
     @Test
@@ -1662,11 +1651,9 @@ public class ShipManagerTest {
         */
 
         ship.addComponentTile(6, 7, cabin);
-        
-        ship.addCrewmate(7, 7, crewmate);
         ship.addCrewmate(6, 7, crewmate);
 
-        assertEquals(2, ship.countHumans());
+        assertEquals(3, ship.countHumans());
     }
 
     @Test
@@ -1693,7 +1680,7 @@ public class ShipManagerTest {
         ship.addComponentTile(6, 7, cabin);
         ship.addComponentTile(6, 8, lifeSupport);
 
-        assertEquals(0, ship.countCrewmates());
+        assertEquals(2, ship.countCrewmates());
     }
 
     @Test
@@ -1702,8 +1689,6 @@ public class ShipManagerTest {
 
         CabinModule cabin = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
         LifeSupport lifeSupport = new LifeSupport(AlienType.PURPLEALIEN, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
-
-        Human human = new Human();
 
         /*
          *  4  5  6  7  8  9 10
@@ -1721,9 +1706,6 @@ public class ShipManagerTest {
 
         ship.addComponentTile(6, 7, cabin);
         ship.addComponentTile(6, 8, lifeSupport);
-
-        ship.addCrewmate(7, 7, human);
-        ship.addCrewmate(7, 7, human);
 
         assertEquals(2, ship.countCrewmates());
     }
@@ -1756,7 +1738,7 @@ public class ShipManagerTest {
 
         ship.addCrewmate(6, 7, alien);
 
-        assertEquals(1, ship.countCrewmates());
+        assertEquals(3, ship.countCrewmates());
     }
 
     @Test
@@ -1766,7 +1748,6 @@ public class ShipManagerTest {
         CabinModule cabin = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
         LifeSupport lifeSupport = new LifeSupport(AlienType.PURPLEALIEN, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
 
-        Human human = new Human();
         Alien alien = new Alien(AlienType.PURPLEALIEN);
 
         /*
@@ -1786,8 +1767,6 @@ public class ShipManagerTest {
         ship.addComponentTile(6, 7, cabin);
         ship.addComponentTile(6, 8, lifeSupport);
 
-        ship.addCrewmate(7, 7, human);
-        ship.addCrewmate(7, 7, human);
         ship.addCrewmate(6, 7, alien);
 
         assertEquals(3, ship.countCrewmates());

@@ -6,6 +6,7 @@ import java.util.List;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCard;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.CreditReward;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.FlightDayPenalty;
+import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.attack.Attack;
 import it.polimi.it.galaxytrucker.model.design.strategyPattern.FlightRules;
 import it.polimi.it.galaxytrucker.model.exceptions.IllegalComponentPositionException;
 import it.polimi.it.galaxytrucker.model.managers.Player;

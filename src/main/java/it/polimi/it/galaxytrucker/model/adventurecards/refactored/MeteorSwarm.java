@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCard;
+import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.attack.Attack;
 import it.polimi.it.galaxytrucker.model.componenttiles.SingleCannon;
 import it.polimi.it.galaxytrucker.model.design.strategyPattern.FlightRules;
 import it.polimi.it.galaxytrucker.model.exceptions.IllegalComponentPositionException;

@@ -79,7 +79,7 @@ import java.util.OptionalInt;
  * </pre>
  *
  * @author Stefano Carletto
- * @version 1.3
+ * @version 1.4
  */
 public class ShipManager {
     private ShipBoard ship;
@@ -92,8 +92,18 @@ public class ShipManager {
 
     public ShipManager(int level) {
         this.ship = new ShipBoard(level);
+        addCrewmatesToCentralCabin();
         discardedTile = new ArrayList<>(2);
         this.hasAlien = new HashMap<>();
+    }
+    private void addCrewmatesToCentralCabin() {
+        List<Integer> centralCabinCoords = ship.getAllComponentsPositionOfType(CentralCabin.class).stream()
+            .findFirst()
+            .orElseThrow(() -> new IllegalStateException("No central cabin found"));
+        
+        CentralCabin cabin = (CentralCabin) ship.getComponent(centralCabinCoords.get(0), centralCabinCoords.get(1)).get();
+        cabin.addCrewmate(new Human());
+        cabin.addCrewmate(new Human());
     }
 
     /**
@@ -188,6 +198,14 @@ public class ShipManager {
         });
 
         return List.of(boardRow, boardColumn);
+    }
+
+    public static int getStartRow() {
+        return STARTOFBOARDROWS;
+    }
+
+    public static int getStartColumn() {
+        return STARTOFBOARDCOLUMNS;
     }
 
     /**

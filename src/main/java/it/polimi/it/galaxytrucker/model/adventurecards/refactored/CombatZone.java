@@ -2,10 +2,13 @@ package it.polimi.it.galaxytrucker.model.adventurecards.refactored;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.combatZone.StartState;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCard;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.CrewmatePenalty;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.FlightDayPenalty;
+import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.attack.Attack;
 import it.polimi.it.galaxytrucker.model.design.strategyPattern.FlightRules;
 import it.polimi.it.galaxytrucker.model.managers.Player;
 import it.polimi.it.galaxytrucker.model.managers.ShipManager;
@@ -53,48 +56,89 @@ public class CombatZone extends Attack implements AdventureCard, FlightDayPenalt
 
     @Override
     public void play() {
-        
+        start(new StartState());
     }
 
     public Player findPlayerWithLeastCrewmates() {
         List<Player> players = flightRules.getPlayerOrder();
 
-        return players.stream()
-            .reduce((p1, p2) -> {
-                ShipManager ship1 = p1.getShipManager();
-                ShipManager ship2 = p2.getShipManager();
+        int minCrewmates = getMinimumCrewmateCount(players);
+        List<Player> playersWithLeastCrewmates = getPlayersWithCrewmatesNumber(players, minCrewmates);
 
-                return ship1.countCrewmates() <= ship2.countCrewmates() ? p1 : p2;
-            })
+        if (playersWithLeastCrewmates.size() == 1) {
+            return playersWithLeastCrewmates.get(0);
+        }
+        return findLeadingPlayerAmong(players, playersWithLeastCrewmates);
+    }
+    private int getMinimumCrewmateCount(List<Player> players) {
+        return players.stream()
+            .mapToInt(p -> p.getShipManager().countCrewmates())
+            .min()
+            .orElseThrow(() -> new NotFoundException("No user found"));
+    }
+    private List<Player> getPlayersWithCrewmatesNumber(List<Player> players, int crewmatersNumber) {
+        return players.stream()
+            .filter(p -> p.getShipManager().countCrewmates() == crewmatersNumber)
+            .collect(Collectors.toList());
+    }
+    private Player findLeadingPlayerAmong(List<Player> playersInFlightOrder, List<Player> players) {
+        return playersInFlightOrder.stream()
+            .filter(players::contains)
+            .findFirst()
             .orElseThrow(() -> new NotFoundException("No user found"));
     }
 
     public Player findPlayerWithLeastEnginePower() {
-        return playerWithLeastEnginePower = playersAndEnginePower.keySet().stream()
-            .reduce((p1, p2) -> {
-                int enginePower1 = playersAndEnginePower.get(p1);
-                int enginePower2 = playersAndEnginePower.get(p2);
+        int minEnginePower = getMinimumEnginePower();
+        List<Player> playersWithLeastEnginePower = getPlayersWithEnginePower(minEnginePower);
 
-                return enginePower1	<= enginePower2 ? p1 : p2;
-            })
+        if (playersWithLeastEnginePower.size() == 1) {
+            Player player = playersWithLeastEnginePower.get(0);
+            playerWithLeastEnginePower = player;
+            return player;
+        }
+        Player player = findLeadingPlayerAmong(flightRules.getPlayerOrder(), playersWithLeastEnginePower);
+        playerWithLeastEnginePower = player;
+        return player;
+    }
+    private int getMinimumEnginePower() {
+        return playersAndEnginePower.keySet().stream()
+            .mapToInt(p -> playersAndEnginePower.get(p))
+            .min()
             .orElseThrow(() -> new NotFoundException("No user found"));
+    }
+    private List<Player> getPlayersWithEnginePower(int enginePower) {
+        return playersAndEnginePower.keySet().stream()
+            .filter(p -> playersAndEnginePower.get(p) == enginePower)
+            .collect(Collectors.toList());
     }
 
     public Player findPlayerWithLeastFirePower() {
-        Player playerWithLeastFirePower = playersAndFirePower.keySet().stream()
-            .reduce((p1, p2) -> {
-                double firePower1 = playersAndFirePower.get(p1);
-                double firePower2 = playersAndFirePower.get(p2);
+        double minFirePower = getMinimumFirePower();
+        List<Player> playersWithLeastFirePower = getPlayersWithFirePower(minFirePower);
 
-                return firePower1	<= firePower2 ? p1 : p2;
-            })
+        if (playersWithLeastFirePower.size() == 0) {
+            Player player = playersWithLeastFirePower.get(0);
+            setPlayer(player);
+            return player;
+        }
+        Player player = findLeadingPlayerAmong(flightRules.getPlayerOrder(), playersWithLeastFirePower);
+        setPlayer(player);
+        return player;
+    }
+    private double getMinimumFirePower() {
+        return playersAndFirePower.keySet().stream()
+            .mapToDouble(p -> playersAndFirePower.get(p))
+            .min()
             .orElseThrow(() -> new NotFoundException("No user found"));
-        
-        setPlayer(playerWithLeastFirePower);
-        return playerWithLeastFirePower;
+    }
+    private List<Player> getPlayersWithFirePower(double firePower) {
+        return playersAndFirePower.keySet().stream()
+            .filter(p -> playersAndFirePower.get(p) == firePower)
+            .collect(Collectors.toList());
     }
 
-    public void selectEngine(Player player, HashMap<List<Integer>, List<Integer>> enginesAndBatteries) {
+    public void selectEngines(Player player, HashMap<List<Integer>, List<Integer>> enginesAndBatteries) {
         ShipManager ship = player.getShipManager();
         int enginePower = (int) ship.activateComponent(enginesAndBatteries);
 
@@ -102,6 +146,11 @@ public class CombatZone extends Attack implements AdventureCard, FlightDayPenalt
         enginePower += baseEnginePower;
 
         playersAndEnginePower.put(player, enginePower);
+        updateState();
+    }
+
+    public void selectNoEngines(Player player) {
+        updateState();
     }
 
     public void selectCannons(Player player, HashMap<List<Integer>, List<Integer>> doubleCannonsAndBatteries) {
@@ -112,12 +161,17 @@ public class CombatZone extends Attack implements AdventureCard, FlightDayPenalt
         firePower += baseFirePower;
 
         playersAndFirePower.put(player, firePower);
+        updateState();
+    }
+
+    public void selectNoCannons(Player player) {
+        updateState();
     }
     
     @Override
     public void attack() {
         for (Projectile projectile : getProjectilesAndDirection().keySet()) {
-            List<Integer> aimedCoords = getAimedCoordsByProjectile(projectile);
+            List<Integer> aimedCoords = aimAtCoordsWith(projectile);
             Direction direction = getProjectilesAndDirection().get(projectile);
 
             if (projectile == Projectile.SMALL) {
@@ -127,15 +181,6 @@ public class CombatZone extends Attack implements AdventureCard, FlightDayPenalt
             }
             destroyComponent(aimedCoords.get(0), aimedCoords.get(1));
         }
-    }
-    private boolean isShieldActivated(Direction direction) {
-        for (List<Integer> shieldCoord : getShieledsAndDirection().keySet()) {
-            List<Direction> coveredDirections = getShieledsAndDirection().get(shieldCoord);
-            if (coveredDirections.contains(direction)) {
-                return true;
-            }
-        }
-        return false;
     }
     private void destroyComponent(int row, int column) {
         ShipManager ship = getPlayer().getShipManager();
@@ -149,10 +194,16 @@ public class CombatZone extends Attack implements AdventureCard, FlightDayPenalt
     }
 
     @Override
+    public int getCrewmatePenalty() {
+        return crewmatePenalty;
+    }
+
+    @Override
     public void applyCrewmatePenalty(int shipRow, int shipColumn) {
         ShipManager ship = playerWithLeastEnginePower.getShipManager();
 
         ship.removeCrewmate(shipRow, shipColumn);
+        updateState();
     }
 
     @Override
@@ -160,5 +211,9 @@ public class CombatZone extends Attack implements AdventureCard, FlightDayPenalt
         Player player = findPlayerWithLeastCrewmates();
 
         flightRules.movePlayerBackwards(flightDayPenalty, player);
+    }
+
+    public int getNumberOfBoardPlayers() {
+        return flightRules.getPlayerOrder().size();
     }
 }

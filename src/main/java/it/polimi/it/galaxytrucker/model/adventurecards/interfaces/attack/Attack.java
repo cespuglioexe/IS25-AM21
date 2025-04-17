@@ -1,16 +1,16 @@
-package it.polimi.it.galaxytrucker.model.adventurecards.refactored;
+package it.polimi.it.galaxytrucker.model.adventurecards.interfaces.attack;
 
 import java.util.HashMap;
 import java.util.List;
 
 import it.polimi.it.galaxytrucker.model.componenttiles.Shield;
+import it.polimi.it.galaxytrucker.model.design.statePattern.StateMachine;
 import it.polimi.it.galaxytrucker.model.managers.Player;
 import it.polimi.it.galaxytrucker.model.managers.ShipManager;
-import it.polimi.it.galaxytrucker.model.utility.Dice;
 import it.polimi.it.galaxytrucker.model.utility.Direction;
 import it.polimi.it.galaxytrucker.model.utility.Projectile;
 
-public abstract class Attack {
+public abstract class Attack extends StateMachine {
     private Player player;
     private int playerFirePower;
     private HashMap<List<Integer>, List<Direction>> shieldsAndDirection;
@@ -24,6 +24,7 @@ public abstract class Attack {
         for (Projectile projectile : projectilesAndDirection.keySet()) {
             projectilesAndAimedComponent.put(projectile, List.of());
         }
+        shieldsAndDirection = new HashMap<>();
     }
 
     public Player getPlayer() {
@@ -53,11 +54,15 @@ public abstract class Attack {
         playerFirePower = (int) ship.calculateFirePower();
     }
 
-    public void aimAtCoordsWith(Projectile projectile) {
-        int aimedRow = Dice.roll() + Dice.roll();
-        int aimedColumn = Dice.roll() + Dice.roll();
+    public List<Integer> aimAtCoordsWith(Projectile projectile) {
+        Direction direction = projectilesAndDirection.get(projectile);
+
+        List<Integer> aimedCoords = AimingSystem.aimFrom(direction, player.getShipManager());
+        int aimedRow = aimedCoords.get(0);
+        int aimedColumn = aimedCoords.get(1);
 
         projectilesAndAimedComponent.put(projectile, List.of(aimedRow, aimedColumn));
+        return aimedCoords;
     }
 
     public void activateCannons(HashMap<List<Integer>, List<Integer>> doubleCannonsAndBatteries) {
@@ -74,6 +79,21 @@ public abstract class Attack {
 
             shieldsAndDirection.put(shieldCoord, shield.getOrientation());
         }
+        updateState();
+    }
+
+    public void activateNoShield() {
+        updateState();
+    }
+
+    public boolean isShieldActivated(Direction direction) {
+        for (List<Integer> shieldCoord : getShieledsAndDirection().keySet()) {
+            List<Direction> coveredDirections = getShieledsAndDirection().get(shieldCoord);
+            if (coveredDirections.contains(direction.reverse())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public abstract void attack();
