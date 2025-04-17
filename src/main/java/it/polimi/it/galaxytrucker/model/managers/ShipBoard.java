@@ -2,7 +2,6 @@ package it.polimi.it.galaxytrucker.model.managers;
 
 import it.polimi.it.galaxytrucker.model.componenttiles.*;
 import it.polimi.it.galaxytrucker.model.exceptions.IllegalComponentPositionException;
-import it.polimi.it.galaxytrucker.view.ConsoleColors;
 
 import java.util.ArrayList;
 import java.util.Set;

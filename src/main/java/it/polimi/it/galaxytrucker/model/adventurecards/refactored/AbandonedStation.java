@@ -3,7 +3,6 @@ package it.polimi.it.galaxytrucker.model.adventurecards.refactored;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.planets.StartState;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCard;

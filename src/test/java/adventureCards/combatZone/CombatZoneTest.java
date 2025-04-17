@@ -81,7 +81,7 @@ public class CombatZoneTest {
         assertEquals(EngineSelectionState.class, card.getCurrentState().getClass());
     }
     private void printflightDayPenalty() {
-        System.out.println("Applied FlightDayPenalty to: " + card.findPlayerWithLeastCrewmates().getPlayerName());
+        System.out.println("Player with least crewmates: " + card.findPlayerWithLeastCrewmates().getPlayerName());
         flightBoard.printFlightBoardState();
     }
 
