@@ -1,10 +1,13 @@
 package it.polimi.it.galaxytrucker.view;
 
 import it.polimi.it.galaxytrucker.model.componenttiles.TileData;
+import it.polimi.it.galaxytrucker.model.componenttiles.TileEdge;
 import it.polimi.it.galaxytrucker.networking.messages.GameUpdate;
 import it.polimi.it.galaxytrucker.networking.rmi.client.RMIClient;
 import it.polimi.it.galaxytrucker.view.statePattern.StateMachine;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.ConsoleHandler;
 
 public class CLIView extends StateMachine {
@@ -48,12 +51,13 @@ public class CLIView extends StateMachine {
     }
 
     public void displayComponentTile (TileData tile) {
-        System.out.println(
-                "Component type: " + tile.getType() + "\n" +
-                "Rotation: " + tile.getRotation() + "\n" +
-                "Edges: " + tile.getTop() + ", " + tile.getRight() + ", " + tile.getBottom() + ", " + tile.getLeft()
-        );
+        System.out.println("COMPONENT: " + tile.getType());
+        System.out.println("EDGES: " + tile.getTop() + ", " + tile.getRight() + ", " + tile.getBottom() + ", " + tile.getLeft());
 
+        List<String> tileAscii = getTileAscii(tile);
+        for (String s : tileAscii) {
+            System.out.println(s);
+        }
     }
 
     public void displayBuildingStarted () {
@@ -74,11 +78,127 @@ public class CLIView extends StateMachine {
         System.out.print("\n");
     }
 
-    public void displayShip () {
-        String text = """
-                    
-                        
-                    """;
-        System.out.println(text);
+    public void displayShip (List<List<TileData>> ship) {
+        // NAVE: 5x7
+        List<List<List<String>>> shipAscii = new ArrayList<>();
+        for (List<TileData> row : ship) {
+            List<List<String>> rowAscii = new ArrayList<>();
+            for (TileData tile : row) {
+                rowAscii.add(getTileAscii(tile));
+            }
+            shipAscii.add(rowAscii);
+        }
+
+        System.out.println("       4          5          6          7          8          9         10     ");
+        int r = 5;
+        for (List<List<String>> rowAscii : shipAscii) {
+            for (int i = 0; i < 4; i++) {
+                System.out.print((i == 2 ? (r + " ") : "  "));
+
+                for (List<String> tileAscii : rowAscii) {
+                    System.out.print(tileAscii.get(i));
+                }
+                System.out.print("\n");
+            }
+            r++;
+        }
+        System.out.println("  +---------++---------++---------++---------++---------++---------++---------+");
+
+    }
+
+    public List<String> getTileAscii(TileData tile) {
+        List<String> lines = new ArrayList<>();
+
+        if (tile == null) {
+            return List.of("+---------+", "|         |", "|         |", "|         |", "+---------+");
+        }
+
+        String tileName = "       ";
+        String color = ConsoleColors.GREEN.toString();
+
+        switch (tile.getType()) {
+            case "CentralCabin"     -> tileName = "C Cabin";
+            case "OutOfBoundsTile"  -> tileName = "       ";
+            case "BatteryComponent" -> tileName = "Battery";
+            case "CabinModule"      -> tileName = " Cabin ";
+            case "CargoHold"        -> tileName = " Cargo ";
+            case "DoubleCannon"     -> tileName = "DCannon";
+            case "SingleCannon"     -> tileName = "SCannon";
+            case "LifeSupport"      -> tileName = "LifeSup";
+            case "Shield"           -> tileName = "Shield ";
+            case "SpecialCargoHold" -> tileName = "S Cargo";
+            case "StructuralModule" -> tileName = "Struct ";
+            case "SingleEngine"     -> tileName = "SEngine";
+            case "DoubleEngine"     -> tileName = "DEngine";
+        }
+
+        if (tile.getType().equals("OutOfBoundsTile")) color = ConsoleColors.WHITE.toString();
+
+        lines.add(ConsoleColors.RESET + "+---------+" + ConsoleColors.RESET);
+
+        lines.add(color + "|" +
+                (isDouble(tile.getLeft()) ? "←" : " ") + " " +
+                (isDouble(tile.getTop()) ? "↑" : " ") + " " +
+                (isSingle(tile.getTop()) ? "↑" : " ") + " " +
+                (isDouble(tile.getTop()) ? "↑" : " ") + " " +
+                (isDouble(tile.getRight()) ? "→" : " ") +
+                "|" + ConsoleColors.RESET);
+
+        lines.add(color + "|" +
+                (isSingle(tile.getLeft()) ? "←" : " ") +
+                tileName +
+                (isSingle(tile.getRight()) ? "→" : " ") +
+                "|" + ConsoleColors.RESET);
+
+        lines.add(color + "|" +
+                (isDouble(tile.getLeft()) ? "←" : " ") + " " +
+                (isDouble(tile.getBottom()) ? "↓" : " ") + " " +
+                (isSingle(tile.getBottom()) ? "↓" : " ") + " " +
+                (isDouble(tile.getBottom()) ? "↓" : " ") + " " +
+                (isDouble(tile.getRight()) ? "→" : " ") +
+                "|" + ConsoleColors.RESET);
+
+        lines.add(ConsoleColors.RESET + "+---------+" + ConsoleColors.RESET);
+
+        return lines;
+    }
+
+    private boolean isDouble(TileEdge edge) {
+        return edge == TileEdge.DOUBLE || edge == TileEdge.UNIVERSAL;
+    }
+
+    private boolean isSingle(TileEdge edge) {
+        return edge == TileEdge.SINGLE || edge == TileEdge.UNIVERSAL;
+    }
+
+    public void displayTileList (List<TileData> tileList) {
+        System.out.println("display tile list");
+
+        if (tileList == null || tileList.isEmpty()) {
+            System.out.println("There are no discarded tiles");
+            return;
+        }
+ 
+        List<List<String>> listAscii = new ArrayList<>();
+        for (TileData tile : tileList) {
+            List<String> tileAscii = getTileAscii(tile);
+            listAscii.add(tileAscii);
+        }
+
+        int tileHeight = listAscii.get(0).size(); // e.g., 5
+
+        for (int i = 0; i < listAscii.size(); i += 5) {
+            int end = Math.min(i + 5, listAscii.size());
+            List<List<String>> rowTiles = listAscii.subList(i, end);
+
+            for (int line = 0; line < tileHeight; line++) {
+                StringBuilder sb = new StringBuilder();
+                for (List<String> tile : rowTiles) {
+                    sb.append(tile.get(line)).append("   "); // Add spacing between tiles
+                }
+                System.out.println(sb.toString().stripTrailing());
+            }
+            System.out.println(); // Extra newline between tile rows
+        }
     }
 }

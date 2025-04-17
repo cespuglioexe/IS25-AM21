@@ -1,5 +1,6 @@
 package it.polimi.it.galaxytrucker.view.statePattern.viewstates;
 
+import it.polimi.it.galaxytrucker.networking.messages.RequestType;
 import it.polimi.it.galaxytrucker.networking.messages.UserInput;
 import it.polimi.it.galaxytrucker.networking.messages.UserInputType;
 import it.polimi.it.galaxytrucker.view.CLIView;
@@ -16,7 +17,12 @@ public class TileActions extends State {
 
     @Override
     public void enter(StateMachine fsm) {
-        view.displayShip();
+
+        view.getClient().receiveUserInput(
+                new UserInput.UserInputBuilder(view.getClient(), UserInputType.REQUEST)
+                        .setRequestType(RequestType.SHIP_BOARD)
+                        .build()
+        );
 
         System.out.print("""
                 \nChoose an option:
@@ -55,12 +61,20 @@ public class TileActions extends State {
                 );
                 break;
             case 3:
+
+                System.out.println("We are in DiscardComponent of TileActions");
                 view.getClient().receiveUserInput(
                         new UserInput.UserInputBuilder(view.getClient(), UserInputType.DISCARD_COMPONENT)
                                 .build()
                 );
                 break;
         }
+
+        view.getClient().receiveUserInput(
+                new UserInput.UserInputBuilder(view.getClient(), UserInputType.REQUEST)
+                        .setRequestType(RequestType.SHIP_BOARD)
+                        .build()
+        );
     }
 
     @Override

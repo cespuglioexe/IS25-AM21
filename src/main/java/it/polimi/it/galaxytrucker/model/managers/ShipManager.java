@@ -98,6 +98,10 @@ public class ShipManager {
         this.hasAlien = new HashMap<>();
     }
 
+    public List<List<ComponentTile>> getShipBoard() {
+        return ship.getShipBoard();
+    }
+
     public void saveComponentTile(ComponentTile componentTile) {
         discardedTile.add(componentTile);
         System.out.println(ConsoleColors.YELLOW + "Saved " + componentTile.getClass().getSimpleName());

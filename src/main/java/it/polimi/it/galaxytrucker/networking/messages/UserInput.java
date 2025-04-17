@@ -132,7 +132,7 @@ public class UserInput implements Serializable {
         }
         
         public UserInputBuilder setCoords(int x, int y) {
-            this.coords = List.of(x, y);
+            this.coords = List.of(y, x);
             return this;
         }
 

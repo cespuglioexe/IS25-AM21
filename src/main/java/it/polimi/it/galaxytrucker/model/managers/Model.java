@@ -24,7 +24,10 @@ public interface Model {
     public Set<ComponentTile> getComponentTiles();
     public FlightBoard getFlightBoard();
     public AdventureDeck getAdventureDeck();
-    public void getSavedComponentTiles();
+    public void getSavedComponentTiles(UUID playerId);
+    public void getDiscardedComponentTiles(UUID playerId);
+    public void getPlayerShipBoard(UUID playerId);
+
 
     //SETTER
     public void changeState(State nextState);
@@ -38,7 +41,6 @@ public interface Model {
     public void rotateComponentTile(UUID playerID, int row, int column);
     public void finishBuilding(UUID playerID);
     public void saveComponentTile(UUID playerID);
-
-
+    public void discardComponentTile(UUID playerId);
 
 }

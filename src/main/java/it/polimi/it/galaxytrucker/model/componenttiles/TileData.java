@@ -46,13 +46,16 @@ public class TileData implements Serializable {
     }
 
     public static TileData createTileDataFromComponentTile (ComponentTile componentTile) {
-        return new TileData(
-                componentTile.getRotation(),
-                componentTile.getClass().getSimpleName(),
-                componentTile.getTileEdges().get(0),
-                componentTile.getTileEdges().get(1),
-                componentTile.getTileEdges().get(2),
-                componentTile.getTileEdges().get(3)
-        );
+        if (componentTile != null) {
+            return new TileData(
+                    componentTile.getRotation(),
+                    componentTile.getClass().getSimpleName(),
+                    componentTile.getTileEdges().get(0),
+                    componentTile.getTileEdges().get(1),
+                    componentTile.getTileEdges().get(2),
+                    componentTile.getTileEdges().get(3)
+            );
+        }
+        return null;
     }
 }

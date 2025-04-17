@@ -72,12 +72,24 @@ public class Controller {
         model.drawComponentTile(playerId);
     }
 
+    public void requestSavedComponentTiles (UUID playerId) {
+        model.getSavedComponentTiles(playerId);
+    }
+
+    public void requestDiscardedComponentTiles (UUID playerId){
+        model.getDiscardedComponentTiles(playerId);
+    }
+
     public void saveComponentTile (UUID playerId) {
         model.saveComponentTile(playerId);
     }
 
     public void discardComponentTile (UUID playerId) {
+        model.discardComponentTile(playerId);
+    }
 
+    public void requestShipBoard (UUID playerId) {
+        model.getPlayerShipBoard(playerId);
     }
 
 

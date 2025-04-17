@@ -44,15 +44,17 @@ public class BuildingStateMenu extends State {
                     case 2:
                         view.getClient().receiveUserInput(
                                 new UserInput.UserInputBuilder(view.getClient(), UserInputType.REQUEST)
-                                        .setRequestType(RequestType.EMPTY)
+                                        .setRequestType(RequestType.SAVED_TILES)
                                         .build()
                         );
+                        break;
                     case 3:
                         view.getClient().receiveUserInput(
                                 new UserInput.UserInputBuilder(view.getClient(), UserInputType.REQUEST)
-                                        .setRequestType(RequestType.EMPTY)
+                                        .setRequestType(RequestType.DISCARDED_TILES)
                                         .build()
                         );
+                        break;
                 }
 
                 fsm.changeState(new TileActions(view));

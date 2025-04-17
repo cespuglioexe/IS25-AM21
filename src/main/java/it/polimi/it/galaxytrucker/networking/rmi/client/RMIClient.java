@@ -73,9 +73,13 @@ public class RMIClient extends UnicastRemoteObject implements RMIVirtualView {
                 }
                 break;
             case DRAWN_TILE:
-                System.out.println("Drawn tile");
                 view.displayComponentTile(update.getNewTile());
                 break;
+            case TILE_LIST:
+                view.displayTileList(update.getTileList());
+                break;
+            case SHIP_DATA: 
+                view.displayShip(update.getShipBoard());
 
         }
     }

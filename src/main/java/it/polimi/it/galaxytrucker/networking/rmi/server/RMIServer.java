@@ -125,6 +125,16 @@ public class RMIServer extends UnicastRemoteObject implements RMIVirtualServer {
                    case NEW_TILE:
                        controllers.get(gameIndex).requestNewComponentTile(playerId);
                        break;
+                   case SAVED_TILES:
+                       controllers.get(gameIndex).requestSavedComponentTiles(playerId);
+                       break;
+                   case DISCARDED_TILES:
+                        System.out.println("Case of discarded Tiles of RMIserver");
+                       controllers.get(gameIndex).requestDiscardedComponentTiles(playerId);
+                       break;
+                   case SHIP_BOARD:
+                       controllers.get(gameIndex).requestShipBoard(playerId);
+                       break;
                }
                break;
        }
