@@ -1,9 +1,7 @@
-package adventureCards;
+package adventureCards.epidemic;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import adventureCards.epidemic.ShipCreation;
 
 import static org.junit.jupiter.api.Assertions.*;
 
