@@ -17,6 +17,24 @@ import it.polimi.it.galaxytrucker.model.exceptions.InvalidActionException;
 import it.polimi.it.galaxytrucker.model.managers.Player;
 import it.polimi.it.galaxytrucker.model.managers.ShipManager;
 
+/**
+ * Represents the "Epidemic" adventure card in the game Galaxy Trucker.
+ * <p>
+ * This card simulates the spread of an epidemic on each player's ship.
+ * If at least one cabin (either a CabinModule or CentralCabin) in a connected group
+ * contains crewmates, the epidemic spreads and removes crewmates from all cabins
+ * in that group.
+ * <p>
+ * The behavior is implemented using a finite state machine pattern. The card
+ * transitions through a {@link StartState} and ends in an {@link EndState}
+ * after applying the epidemic effect.
+ * 
+ * @author Stefano Carletto
+ * @version 1.0
+ *
+ * @see AdventureCard
+ * @see StateMachine
+ */
 public class Epidemic extends StateMachine implements AdventureCard {
     private FlightRules flightRules;
 

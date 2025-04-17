@@ -10,6 +10,44 @@ import it.polimi.it.galaxytrucker.model.managers.ShipManager;
 import it.polimi.it.galaxytrucker.model.utility.Direction;
 import it.polimi.it.galaxytrucker.model.utility.Projectile;
 
+/**
+ * Abstract base class for all adventure cards that involve projectile-based attacks in Galaxy Trucker.
+ * <p>
+ * This class manages shared functionality such as targeting, shield activation,
+ * firepower management, and projectile direction tracking. It serves as the foundation
+ * for concrete attack cards (e.g., CombatZone, Slavestation, etc.), each implementing
+ * their own {@link #attack()} logic.
+ *
+ * <ul>
+ *   <li>Stores the player being attacked and their current firepower.</li>
+ *   <li>Tracks all projectiles and their directions.</li>
+ *   <li>Uses the {@link AimingSystem} to determine impact coordinates for each projectile.</li>
+ *   <li>Handles shield activation and determines whether incoming projectiles can be blocked.</li>
+ *   <li>Stores the final aimed coordinates of each projectile for use during damage resolution.</li>
+ * </ul>
+ *
+ * Each projectile has:
+ * <ul>
+ *   <li>A direction it travels (e.g., from the rear of the ship).</li>
+ *   <li>An associated target coordinate.</li>
+ *   <li>An optional shield that can block it, depending on orientation.</li>
+ * </ul>
+ *
+ * The Shields system:
+ * <ul>
+ *   <li>Shields are activated using a map of shield coordinates and their battery inputs.</li>
+ *   <li>After activation, each shield's orientation is stored to check if it can block a projectile.</li>
+ *   <li>The method {@link #isShieldActivated(Direction)} checks if any shield is active in the reverse direction of an attack.</li>
+ * </ul>
+ *
+ * <h2>Usage</h2>
+ * Concrete classes must implement the {@link #attack()} method, which defines how and when projectiles are resolved.
+ *
+ * @author Stefano Carletto
+ * @version 1.0
+ * 
+ * @see StateMachine
+ */
 public abstract class Attack extends StateMachine {
     private Player player;
     private int playerFirePower;
@@ -54,6 +92,12 @@ public abstract class Attack extends StateMachine {
         playerFirePower = (int) ship.calculateFirePower();
     }
 
+    /**
+     * Determines the coordinates on the player's ship targeted by the given projectile.
+     *
+     * @param projectile the projectile being aimed (e.g., small or big shot)
+     * @return the list of two integers representing the aimed row and column
+     */
     public List<Integer> aimAtCoordsWith(Projectile projectile) {
         Direction direction = projectilesAndDirection.get(projectile);
 
@@ -70,6 +114,18 @@ public abstract class Attack extends StateMachine {
         playerFirePower += ship.activateComponent(doubleCannonsAndBatteries);
     }
 
+    /**
+     * Activates the specified shields on the player's ship by consuming battery power,
+     * and registers their active orientation for use during projectile defense.
+     * <p>
+     * Each entry in the provided map contains the coordinates of a shield component
+     * and a list of battery slots used to power it. After activation,
+     * the shield's orientation is stored to determine
+     * if it can block incoming projectiles during the {@code attack()} phase.
+     *
+     * @param shieldsAndBatteries a map where keys are the coordinates of shield components,
+     *                            and values are lists of battery coordinates used to power them
+     */
     public void activateShields(HashMap<List<Integer>, List<Integer>> shieldsAndBatteries) {
         ShipManager ship = player.getShipManager();
         ship.activateComponent(shieldsAndBatteries);
@@ -82,10 +138,22 @@ public abstract class Attack extends StateMachine {
         updateState();
     }
 
+    /**
+     * Indicates that the player chooses not to activate any shields during the current attack phase.
+     */
     public void activateNoShield() {
         updateState();
     }
 
+    /**
+     * Checks whether any active shield is oriented to block a projectile coming from the specified direction.
+     * <p>
+     * The method iterates over all active shields and their orientations,
+     * and returns {@code true} if at least one shield covers the opposite direction of the attack.
+     *
+     * @param direction the direction from which the projectile is coming
+     * @return {@code true} if a shield is active in that direction, {@code false} otherwise
+     */
     public boolean isShieldActivated(Direction direction) {
         for (List<Integer> shieldCoord : getShieledsAndDirection().keySet()) {
             List<Direction> coveredDirections = getShieledsAndDirection().get(shieldCoord);
