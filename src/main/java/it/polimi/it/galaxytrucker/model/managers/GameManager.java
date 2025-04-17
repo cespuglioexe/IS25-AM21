@@ -319,4 +319,21 @@ public class GameManager extends StateMachine implements Model {
         getPlayerByID(playerId).setHeldComponent(null);
         System.out.println(discardedComponents);
     }
+
+    @Override
+    public void selectSavedComponentTile(UUID playerId, int index) {
+        System.out.println("Selected saved tile (model)");
+
+        Player player = getPlayerByID(playerId);
+        ComponentTile comp = player.getShipManager().getSavedComponentTile(index);
+        player.setHeldComponent(comp);
+    }
+
+    @Override
+    public void selectDiscardedComponentTile(UUID playerId, int index) {
+        Player player = getPlayerByID(playerId);
+        ComponentTile comp = discardedComponents.get(index);
+        discardedComponents.remove(index);
+        player.setHeldComponent(comp);
+    }
 }

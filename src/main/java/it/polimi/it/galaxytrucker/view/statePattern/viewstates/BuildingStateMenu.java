@@ -10,12 +10,27 @@ import it.polimi.it.galaxytrucker.view.statePattern.StateMachine;
 
 public class BuildingStateMenu extends State {
 
+    private volatile boolean waiting = true;
+
     public BuildingStateMenu(CLIView view) {
         super(view);
     }
 
     @Override
     public void enter(StateMachine fsm) {
+
+        // Display ship
+        view.getClient().receiveUserInput(
+                new UserInput.UserInputBuilder(view.getClient(), UserInputType.REQUEST)
+                        .setRequestType(RequestType.SHIP_BOARD)
+                        .build()
+        );
+
+        while (waiting) {
+
+        }
+        waiting = true;
+
         System.out.print("""
                 \nChoose an option:
                 [1]: Choose a tile
@@ -33,6 +48,7 @@ public class BuildingStateMenu extends State {
                 > """);
 
                 int opt_tile = scanner.nextInt();
+                int chosenTile;
                 switch (opt_tile){
                     case 1:
                         view.getClient().receiveUserInput(
@@ -40,6 +56,12 @@ public class BuildingStateMenu extends State {
                                         .setRequestType(RequestType.NEW_TILE)
                                         .build()
                         );
+
+                        while (waiting) {
+
+                        }
+                        waiting = true;
+
                         break;
                     case 2:
                         view.getClient().receiveUserInput(
@@ -47,6 +69,24 @@ public class BuildingStateMenu extends State {
                                         .setRequestType(RequestType.SAVED_TILES)
                                         .build()
                         );
+
+                        while (waiting) {
+
+                        }
+                        waiting = true;
+
+                        System.out.println("Which saved tile do you want to choose?");
+                        System.out.print("> ");
+                        chosenTile = scanner.nextInt();
+
+                        view.getClient().receiveUserInput(
+                                new UserInput.UserInputBuilder(view.getClient(), UserInputType.REQUEST)
+                                        .setRequestType(RequestType.SELECT_SAVED_TILE)
+                                        .setSelectedTileIndex(chosenTile)
+                                        .build()
+                        );
+
+                        System.out.println("After selected saved tile in buildingStateMenu");
                         break;
                     case 3:
                         view.getClient().receiveUserInput(
@@ -54,6 +94,23 @@ public class BuildingStateMenu extends State {
                                         .setRequestType(RequestType.DISCARDED_TILES)
                                         .build()
                         );
+
+                        while (waiting) {
+
+                        }
+                        waiting = true;
+
+                        System.out.println("Which discarded tile do you want to choose?");
+                        System.out.print("> ");
+                        chosenTile = scanner.nextInt();
+                         view.getClient().receiveUserInput(
+                                    new UserInput.UserInputBuilder(view.getClient(), UserInputType.REQUEST)
+                                     .setRequestType(RequestType.SELECT_DISCARDED_TILE)
+                                     .setSelectedTileIndex(chosenTile)
+                                     .build()
+                         );
+                        System.out.println("After get client ");
+
                         break;
                 }
 
@@ -74,7 +131,7 @@ public class BuildingStateMenu extends State {
 
     @Override
     public void update(StateMachine fsm, boolean repeat) {
-
+        waiting = false;
     }
 
     @Override

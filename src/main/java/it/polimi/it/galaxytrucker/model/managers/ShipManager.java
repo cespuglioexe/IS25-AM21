@@ -112,7 +112,10 @@ public class ShipManager {
     }
 
     public ComponentTile getSavedComponentTile(int index) {
-        return discardedTile.get(index);
+        System.out.println(ConsoleColors.YELLOW + "Getting saved " + index + " tile");
+        ComponentTile comp = discardedTile.get(index);
+        discardedTile.remove(index);
+        return comp;
     }
 
     /**

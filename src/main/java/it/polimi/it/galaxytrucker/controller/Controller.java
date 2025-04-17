@@ -92,5 +92,13 @@ public class Controller {
         model.getPlayerShipBoard(playerId);
     }
 
+    public void selectSavedComponentTile(UUID playerId, int index){
+        System.out.println("Selected saved tile (controller)");
+        model.selectSavedComponentTile(playerId, index);
+    }
+
+    public void selectDiscardedComponentTile(UUID playerId, int index){
+        model.selectDiscardedComponentTile(playerId, index);
+    }
 
 }

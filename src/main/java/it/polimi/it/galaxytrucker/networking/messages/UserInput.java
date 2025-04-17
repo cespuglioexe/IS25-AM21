@@ -17,6 +17,7 @@ public class UserInput implements Serializable {
     private final int gameLevel;
     private final int gamePlayers;
     private final int gameIndex;
+    private final int selectedTileIndex;
 
     private final List<Integer> coords;
     private final int rotation;
@@ -32,6 +33,7 @@ public class UserInput implements Serializable {
         this.requestType = builder.requestType;
         this.coords = builder.coords;
         this.rotation = builder.rotation;
+        this.selectedTileIndex = builder.selectedTileIndex;
     }
 
     public UserInputType getType() {
@@ -70,7 +72,13 @@ public class UserInput implements Serializable {
         return coords;
     }
 
-    public int getRotation() { return rotation; }
+    public int getRotation() {
+        return rotation;
+    }
+
+    public int getSelectedTileIndex() {
+        return selectedTileIndex;
+    }
 
     /**
      * Builder class for creating instances of the UserInput class.
@@ -91,6 +99,7 @@ public class UserInput implements Serializable {
         private int gameLevel = 0;
         private int gamePlayers = 0;
         private int gameIndex = 0;
+        private int selectedTileIndex = 0;
         
         private List<Integer> coords = null;
 
@@ -141,10 +150,10 @@ public class UserInput implements Serializable {
             return this;
         }
 
-        /*public UserInputBuilder setRotation(int x, int y) {
-            this.rotation = rotation;
+        public UserInputBuilder setSelectedTileIndex(int selectedTileIndex) {
+            this.selectedTileIndex = selectedTileIndex;
             return this;
-        }*/
+        }
 
         public UserInput build() {
             return new UserInput(this);

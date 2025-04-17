@@ -92,7 +92,7 @@ public class CLIView extends StateMachine {
         System.out.println("       4          5          6          7          8          9         10     ");
         int r = 5;
         for (List<List<String>> rowAscii : shipAscii) {
-            for (int i = 0; i < 4; i++) {
+            for (int i = (r == 5 ? 0 : 1); i < 5 ; i++) {
                 System.out.print((i == 2 ? (r + " ") : "  "));
 
                 for (List<String> tileAscii : rowAscii) {
@@ -102,19 +102,25 @@ public class CLIView extends StateMachine {
             }
             r++;
         }
-        System.out.println("  +---------++---------++---------++---------++---------++---------++---------+");
-
     }
 
     public List<String> getTileAscii(TileData tile) {
         List<String> lines = new ArrayList<>();
 
         if (tile == null) {
-            return List.of("+---------+", "|         |", "|         |", "|         |", "+---------+");
+            return List.of(
+                    "+---------+" + ConsoleColors.RESET,
+                    "|" + ConsoleColors.WHITE_BACKGROUND + "         " + ConsoleColors.RESET + "|",
+                    "|" + ConsoleColors.WHITE_BACKGROUND + "         " + ConsoleColors.RESET + "|",
+                    "|" + ConsoleColors.WHITE_BACKGROUND + "         " + ConsoleColors.RESET + "|",
+                    "+---------+" + ConsoleColors.RESET);
         }
 
         String tileName = "       ";
-        String color = ConsoleColors.GREEN.toString();
+        String borderColor = ConsoleColors.RESET.toString();
+        String insideColor = ConsoleColors.GREEN.toString();
+
+        if (tile.getType().equals("OutOfBoundsTile")) borderColor = ConsoleColors.WHITE.toString();
 
         switch (tile.getType()) {
             case "CentralCabin"     -> tileName = "C Cabin";
@@ -132,33 +138,37 @@ public class CLIView extends StateMachine {
             case "DoubleEngine"     -> tileName = "DEngine";
         }
 
-        if (tile.getType().equals("OutOfBoundsTile")) color = ConsoleColors.WHITE.toString();
+        lines.add(borderColor + "+---------+" + ConsoleColors.RESET);
 
-        lines.add(ConsoleColors.RESET + "+---------+" + ConsoleColors.RESET);
+        lines.add(borderColor + "|" + ConsoleColors.RESET +
+                    insideColor +
+                    (isDouble(tile.getLeft()) ? "←" : " ") + " " +
+                    (isDouble(tile.getTop()) ? "↑" : " ") + " " +
+                    (isSingle(tile.getTop()) ? "↑" : " ") + " " +
+                    (isDouble(tile.getTop()) ? "↑" : " ") + " " +
+                    (isDouble(tile.getRight()) ? "→" : " ") +
+                    ConsoleColors.RESET +
+                    borderColor + "|" + ConsoleColors.RESET);
 
-        lines.add(color + "|" +
-                (isDouble(tile.getLeft()) ? "←" : " ") + " " +
-                (isDouble(tile.getTop()) ? "↑" : " ") + " " +
-                (isSingle(tile.getTop()) ? "↑" : " ") + " " +
-                (isDouble(tile.getTop()) ? "↑" : " ") + " " +
-                (isDouble(tile.getRight()) ? "→" : " ") +
-                "|" + ConsoleColors.RESET);
+        lines.add(borderColor + "|" + ConsoleColors.RESET +
+                    insideColor +
+                    (isSingle(tile.getLeft()) ? "←" : " ") +
+                    tileName +
+                    (isSingle(tile.getRight()) ? "→" : " ") +
+                    ConsoleColors.RESET +
+                    borderColor + "|" + ConsoleColors.RESET);
 
-        lines.add(color + "|" +
-                (isSingle(tile.getLeft()) ? "←" : " ") +
-                tileName +
-                (isSingle(tile.getRight()) ? "→" : " ") +
-                "|" + ConsoleColors.RESET);
+        lines.add(borderColor + "|" + ConsoleColors.RESET +
+                    insideColor +
+                    (isDouble(tile.getLeft()) ? "←" : " ") + " " +
+                    (isDouble(tile.getBottom()) ? "↓" : " ") + " " +
+                    (isSingle(tile.getBottom()) ? "↓" : " ") + " " +
+                    (isDouble(tile.getBottom()) ? "↓" : " ") + " " +
+                    (isDouble(tile.getRight()) ? "→" : " ") +
+                    ConsoleColors.RESET +
+                    borderColor + "|" + ConsoleColors.RESET);
 
-        lines.add(color + "|" +
-                (isDouble(tile.getLeft()) ? "←" : " ") + " " +
-                (isDouble(tile.getBottom()) ? "↓" : " ") + " " +
-                (isSingle(tile.getBottom()) ? "↓" : " ") + " " +
-                (isDouble(tile.getBottom()) ? "↓" : " ") + " " +
-                (isDouble(tile.getRight()) ? "→" : " ") +
-                "|" + ConsoleColors.RESET);
-
-        lines.add(ConsoleColors.RESET + "+---------+" + ConsoleColors.RESET);
+        lines.add(borderColor + "+---------+" + ConsoleColors.RESET);
 
         return lines;
     }
@@ -174,11 +184,12 @@ public class CLIView extends StateMachine {
     public void displayTileList (List<TileData> tileList) {
         System.out.println("display tile list");
 
+
         if (tileList == null || tileList.isEmpty()) {
             System.out.println("There are no discarded tiles");
             return;
         }
- 
+
         List<List<String>> listAscii = new ArrayList<>();
         for (TileData tile : tileList) {
             List<String> tileAscii = getTileAscii(tile);

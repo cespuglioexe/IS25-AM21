@@ -121,6 +121,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIVirtualServer {
                controllers.get(gameIndex).discardComponentTile(playerId);
                break;
            case REQUEST:
+               System.out.println(ConsoleColors.CYAN + "Player " + playerId + " requested " + input.getRequestType() + ConsoleColors.RESET);
                switch (input.getRequestType()) {
                    case NEW_TILE:
                        controllers.get(gameIndex).requestNewComponentTile(playerId);
@@ -129,11 +130,16 @@ public class RMIServer extends UnicastRemoteObject implements RMIVirtualServer {
                        controllers.get(gameIndex).requestSavedComponentTiles(playerId);
                        break;
                    case DISCARDED_TILES:
-                        System.out.println("Case of discarded Tiles of RMIserver");
                        controllers.get(gameIndex).requestDiscardedComponentTiles(playerId);
                        break;
                    case SHIP_BOARD:
                        controllers.get(gameIndex).requestShipBoard(playerId);
+                       break;
+                   case SELECT_SAVED_TILE:
+                       controllers.get(gameIndex).selectSavedComponentTile(playerId, input.getSelectedTileIndex());
+                       break;
+                   case SELECT_DISCARDED_TILE:
+                       controllers.get(gameIndex).selectDiscardedComponentTile(playerId, input.getSelectedTileIndex());
                        break;
                }
                break;

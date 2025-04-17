@@ -78,10 +78,11 @@ public class RMIClient extends UnicastRemoteObject implements RMIVirtualView {
             case TILE_LIST:
                 view.displayTileList(update.getTileList());
                 break;
-            case SHIP_DATA: 
+            case SHIP_DATA:
                 view.displayShip(update.getShipBoard());
-
+                break;
         }
+        view.updateState(false);
     }
 
     public void receiveUserInput (UserInput input) {
