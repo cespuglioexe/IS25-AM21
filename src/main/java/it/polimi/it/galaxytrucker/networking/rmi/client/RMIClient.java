@@ -138,12 +138,13 @@ public class RMIClient extends UnicastRemoteObject implements RMIVirtualView {
                 }
                 break;
 
-            case REQUEST, PLACE_COMPONENT:
+            default:
                 try {
                     this.server.sendMessageToGame(playerID, input, gameIndex);
                 } catch (RemoteException e) {
                     e.printStackTrace();
                break; }
+
         }
     }
 }

@@ -118,6 +118,13 @@ public class GameManager extends StateMachine implements Model {
         return this.adventureDeck;
     }
 
+    @Override
+    public void getSavedComponentTiles() {
+
+    }
+
+
+
     /**
      * Adds a new player to the game. Each player is given a random available color.
      *
@@ -258,5 +265,12 @@ public class GameManager extends StateMachine implements Model {
 
     public void finishBuilding(UUID playerID) {
         updateState();
+    }
+
+    @Override
+    public void saveComponentTile(UUID playerId) {
+        Player player = getPlayerByID(playerId);
+        player.getShipManager().saveComponentTile(player.getHeldComponent());
+        player.setHeldComponent(null);
     }
 }

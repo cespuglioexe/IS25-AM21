@@ -113,6 +113,13 @@ public class RMIServer extends UnicastRemoteObject implements RMIVirtualServer {
        switch (input.getType()) {
            case PLACE_COMPONENT:
                controllers.get(gameIndex).placeComponentTile(playerId, input.getCoords().get(1), input.getCoords().get(0),input.getRotation());
+               break;
+           case SAVE_COMPONENT:
+               controllers.get(gameIndex).saveComponentTile(playerId);
+               break;
+           case DISCARD_COMPONENT:
+               controllers.get(gameIndex).discardComponentTile(playerId);
+               break;
            case REQUEST:
                switch (input.getRequestType()) {
                    case NEW_TILE:

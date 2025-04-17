@@ -72,5 +72,13 @@ public class Controller {
         model.drawComponentTile(playerId);
     }
 
+    public void saveComponentTile (UUID playerId) {
+        model.saveComponentTile(playerId);
+    }
+
+    public void discardComponentTile (UUID playerId) {
+
+    }
+
 
 }

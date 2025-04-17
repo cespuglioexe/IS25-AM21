@@ -26,13 +26,14 @@ public class GameCreation extends State {
         System.out.println(ConsoleColors.YELLOW_BACKGROUND + "" + ConsoleColors.BLACK_BOLD + "==> GAME CREATION <==" + ConsoleColors.RESET);
 
         int playerNum = 0;
-        System.out.println("How many players do you want in the game? (2, 3, 4)");
+        System.out.println("How many players do you want in the game? (" + ConsoleColors.BLUE_UNDERLINED + "1" + ConsoleColors.RESET + ", 2, 3, 4)");
         System.out.print("> ");
         while (true) {
             try {
                 playerNum = scanner.nextInt();
 
-                if (playerNum >= 2 && playerNum <= 4) {
+                // SHOULD BE playerNum >= 2! 1 IS FOR MAKING TESTING FASTER
+                if (playerNum >= 1 && playerNum <= 4) {
                     break;
                 }
 

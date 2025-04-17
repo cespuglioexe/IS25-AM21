@@ -16,20 +16,47 @@ public class BuildingStateMenu extends State {
 
     @Override
     public void enter(StateMachine fsm) {
-        System.out.println("""
-                Choose an option: \n
-                [1]: Pick a new tile \n
+        System.out.print("""
+                \nChoose an option:
+                [1]: Choose a tile
                 [2]: Look a pile of cards
-                """);
-        int option = scanner.nextInt();
-        switch (option){
+                > """);
+
+        int opt_main = scanner.nextInt();
+        switch (opt_main){
             case 1:
-                view.getClient().receiveUserInput(
-                        new UserInput.UserInputBuilder(view.getClient(), UserInputType.REQUEST)
-                                .setRequestType(RequestType.NEW_TILE)
-                                .build()
-                );
-                fsm.changeState(new PlaceTile(view));
+                System.out.print("""
+                \nChoose an option:
+                [1]: Pick a new random tile
+                [2]: Choose a saved tile
+                [3]: Choose a discarded tile
+                > """);
+
+                int opt_tile = scanner.nextInt();
+                switch (opt_tile){
+                    case 1:
+                        view.getClient().receiveUserInput(
+                                new UserInput.UserInputBuilder(view.getClient(), UserInputType.REQUEST)
+                                        .setRequestType(RequestType.NEW_TILE)
+                                        .build()
+                        );
+                        break;
+                    case 2:
+                        view.getClient().receiveUserInput(
+                                new UserInput.UserInputBuilder(view.getClient(), UserInputType.REQUEST)
+                                        .setRequestType(RequestType.EMPTY)
+                                        .build()
+                        );
+                    case 3:
+                        view.getClient().receiveUserInput(
+                                new UserInput.UserInputBuilder(view.getClient(), UserInputType.REQUEST)
+                                        .setRequestType(RequestType.EMPTY)
+                                        .build()
+                        );
+                }
+
+                fsm.changeState(new TileActions(view));
+
                 break;
             case 2:
                 view.getClient().receiveUserInput(
@@ -37,10 +64,9 @@ public class BuildingStateMenu extends State {
                                 .setRequestType(RequestType.CARD_PILE)
                                 .build()
                 );
-                System.out.println("");
                 break;
             default:
-                System.out.println(ConsoleColors.RED_BACKGROUND_BRIGHT + "Oops! Something went wrong!" + ConsoleColors.RESET);
+                System.out.println(ConsoleColors.YELLOW + "That's not a valid option. Please try again" + ConsoleColors.RESET);
             }
     }
 

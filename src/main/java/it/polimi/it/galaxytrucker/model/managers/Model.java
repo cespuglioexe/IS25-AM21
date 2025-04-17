@@ -24,11 +24,12 @@ public interface Model {
     public Set<ComponentTile> getComponentTiles();
     public FlightBoard getFlightBoard();
     public AdventureDeck getAdventureDeck();
+    public void getSavedComponentTiles();
 
     //SETTER
     public void changeState(State nextState);
     public UUID addPlayer(String name) throws InvalidActionException;
-    public void removePlayer(UUID id);    
+    public void removePlayer(UUID id);
 
     //ACTIONS
     public void drawComponentTile(UUID playerId) throws InvalidActionException;
@@ -36,4 +37,8 @@ public interface Model {
     public void placeComponentTile(UUID playerID, int row, int column);
     public void rotateComponentTile(UUID playerID, int row, int column);
     public void finishBuilding(UUID playerID);
+    public void saveComponentTile(UUID playerID);
+
+
+
 }
