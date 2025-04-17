@@ -2,8 +2,10 @@ package it.polimi.it.galaxytrucker.networking.rmi.server;
 
 import it.polimi.it.galaxytrucker.controller.Controller;
 import it.polimi.it.galaxytrucker.controller.GenericGameData;
-import it.polimi.it.galaxytrucker.networking.messages.ClientInstruction;
+import it.polimi.it.galaxytrucker.model.exceptions.InvalidActionException;
 import it.polimi.it.galaxytrucker.networking.messages.GameUpdate;
+import it.polimi.it.galaxytrucker.networking.messages.UserInput;
+import it.polimi.it.galaxytrucker.networking.messages.UserInputType;
 import it.polimi.it.galaxytrucker.networking.rmi.client.RMIVirtualServer;
 
 import java.rmi.RemoteException;
@@ -14,6 +16,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import it.polimi.it.galaxytrucker.view.ConsoleColors;
 
@@ -26,6 +30,8 @@ public class RMIServer extends UnicastRemoteObject implements RMIVirtualServer {
     private final HashMap<String, List<RMIVirtualView>> playingClients = new HashMap<>();
     // Temporary storage for clients that aren't in a game
     private final List<RMIVirtualView> connectedClients = new ArrayList<>();
+
+    private final ExecutorService executorService = Executors.newCachedThreadPool();
 
     public RMIServer() throws RemoteException {
         super();
@@ -103,8 +109,41 @@ public class RMIServer extends UnicastRemoteObject implements RMIVirtualServer {
     }
 
     @Override
-    public void sendMessageToGame(ClientInstruction instruction) throws RemoteException {
-        // controllers.get(0).receiveMessage( instruction);
+    public void sendMessageToGame(UUID playerId, UserInput input, int gameIndex) throws RemoteException {
+       switch (input.getType()) {
+           case PLACE_COMPONENT:
+               controllers.get(gameIndex).placeComponentTile(playerId, input.getCoords().get(1), input.getCoords().get(0),input.getRotation());
+               break;
+           case SAVE_COMPONENT:
+               controllers.get(gameIndex).saveComponentTile(playerId);
+               break;
+           case DISCARD_COMPONENT:
+               controllers.get(gameIndex).discardComponentTile(playerId);
+               break;
+           case REQUEST:
+               System.out.println(ConsoleColors.CYAN + "Player " + playerId + " requested " + input.getRequestType() + ConsoleColors.RESET);
+               switch (input.getRequestType()) {
+                   case NEW_TILE:
+                       controllers.get(gameIndex).requestNewComponentTile(playerId);
+                       break;
+                   case SAVED_TILES:
+                       controllers.get(gameIndex).requestSavedComponentTiles(playerId);
+                       break;
+                   case DISCARDED_TILES:
+                       controllers.get(gameIndex).requestDiscardedComponentTiles(playerId);
+                       break;
+                   case SHIP_BOARD:
+                       controllers.get(gameIndex).requestShipBoard(playerId);
+                       break;
+                   case SELECT_SAVED_TILE:
+                       controllers.get(gameIndex).selectSavedComponentTile(playerId, input.getSelectedTileIndex());
+                       break;
+                   case SELECT_DISCARDED_TILE:
+                       controllers.get(gameIndex).selectDiscardedComponentTile(playerId, input.getSelectedTileIndex());
+                       break;
+               }
+               break;
+       }
     }
 
     /**
@@ -112,11 +151,11 @@ public class RMIServer extends UnicastRemoteObject implements RMIVirtualServer {
      *
      * @param client    The {@code RMIVirtualView} instance representing the client to be added to the game
      * @param gameIndex The index of the game to which the player should be added
-     * @return
+     * @return The {@code UUID} that was generated for the added player
      * @throws RemoteException If a remote communication error occurs
      */
     @Override
-    public UUID addPlayerToGame(RMIVirtualView client, int gameIndex) throws RemoteException {
+    public UUID addPlayerToGame(RMIVirtualView client, int gameIndex) throws RemoteException, InvalidActionException {
         String matchName;
         // Get the name of the specified game
         synchronized (this.controllers) {
@@ -171,11 +210,15 @@ public class RMIServer extends UnicastRemoteObject implements RMIVirtualServer {
         }
     }
 
-    public void sendMessageToClient(String gameNickname, String clientName, GameUpdate message) throws RemoteException {
+    public void sendMessageToSinglePlayer(String gameNickname, String clientName, GameUpdate message) throws RemoteException {
         List<RMIVirtualView> players = playingClients.get(gameNickname);
         for (RMIVirtualView v : players) {
-            if (v.getName().equals(clientName)) {
-                v.recieveGameUpdate(message);
+            try {
+                if (v.getName().equals(clientName)) {
+                    v.recieveGameUpdate(message);
+                }
+            } catch (RemoteException e) {
+                e.printStackTrace();
             }
         }
     }
@@ -184,7 +227,13 @@ public class RMIServer extends UnicastRemoteObject implements RMIVirtualServer {
         List<RMIVirtualView> players = playingClients.get(gameNickname);
         System.out.println("Players: " + players.size());
         for (RMIVirtualView v : players) {
-            sendMessageToClient(gameNickname, v.getName(), message);
+            executorService.submit(() -> {
+                try {
+                    sendMessageToSinglePlayer(gameNickname, v.getName(), message);
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
+            });
         }
     }
 

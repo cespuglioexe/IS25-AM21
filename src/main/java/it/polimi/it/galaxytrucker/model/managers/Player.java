@@ -3,6 +3,7 @@ package it.polimi.it.galaxytrucker.model.managers;
 import java.awt.*;
 import java.util.UUID;
 
+import it.polimi.it.galaxytrucker.model.componenttiles.ComponentTile;
 import it.polimi.it.galaxytrucker.model.utility.Color;
 
 public class Player {
@@ -11,7 +12,7 @@ public class Player {
     private final Color color;
     private final ShipManager shipManager;
     
-    private Component heldComponent;
+    private ComponentTile heldComponent;
 
     private boolean isConnected;
     private boolean isFinishedBuilding;
@@ -27,11 +28,11 @@ public class Player {
         this.credits = 0;
     }
 
-    public Component getHeldComponent() {
+    public ComponentTile getHeldComponent() {
         return heldComponent;
     }
 
-    public void setHeldComponent(Component heldComponent) {
+    public void setHeldComponent(ComponentTile heldComponent) {
         this.heldComponent = heldComponent;
     }
 
@@ -66,7 +67,7 @@ public class Player {
     public void setIsFinishedBuilding (boolean isFinishedBuilding) {
         this.isFinishedBuilding = isFinishedBuilding;
     }
-    
+
     public boolean isEmpty(){
         if(this.playerID == null && this.playerName == null && this.color == null)
             return true;

@@ -1,11 +1,11 @@
 package it.polimi.it.galaxytrucker.controller;
 
+import it.polimi.it.galaxytrucker.model.componenttiles.TileData;
+import it.polimi.it.galaxytrucker.model.exceptions.InvalidActionException;
 import it.polimi.it.galaxytrucker.model.managers.GameManager;
-import it.polimi.it.galaxytrucker.networking.messages.ClientInstruction;
 import it.polimi.it.galaxytrucker.model.managers.Model;
 import it.polimi.it.galaxytrucker.networking.rmi.server.RMIServer;
 
-import java.rmi.RemoteException;
 import java.util.UUID;
 
 public class Controller {
@@ -16,7 +16,6 @@ public class Controller {
     private int activePlayers;
 
     public Controller(int level, int playerNum, String nickname, RMIServer server) {
-        System.out.println("Starting controller");
         this.nickname = nickname;
         this.model = new GameManager(level, playerNum, server, nickname);
         this.level = level;
@@ -25,22 +24,17 @@ public class Controller {
     }
 
     /**
-     * Used to send a message to the controller
-     * @param instruction instruction to send to the controller
-     */
-    public void receiveMessage(ClientInstruction instruction) {
-        System.out.println("Received instruction: " + instruction.getInstructionType().toString());
-    }
-
-    /**
      * Adds a player to the game associated with the controller
      *
      * @param playerName name of the player to be added
      */
-    public UUID addPlayer (String playerName) {
-        System.out.println("Adding player: " + playerName + "(controller)");
+    public UUID addPlayer (String playerName) throws InvalidActionException {
+        UUID newId;
+
+        newId = model.addPlayer(playerName);
+
         activePlayers++;
-        return model.addPlayer(playerName);
+        return newId;
     }
 
     /**
@@ -66,8 +60,45 @@ public class Controller {
     public GenericGameData getGameData() {
         return new GenericGameData(level, playerNum, activePlayers);
     }
-    
-    public void placeComponentTile (UUID playerId, int col, int row) {
-        model.placeComponentTile(playerId, null, row, col);
+
+    public void placeComponentTile (UUID playerId, int col, int row ,int rotation) {
+        model.placeComponentTile(playerId, row, col);
+        for(int i=0; i<rotation; i++) {
+            model.rotateComponentTile(playerId, row, col);
+        }
     }
+
+    public void requestNewComponentTile (UUID playerId) {
+        model.drawComponentTile(playerId);
+    }
+
+    public void requestSavedComponentTiles (UUID playerId) {
+        model.getSavedComponentTiles(playerId);
+    }
+
+    public void requestDiscardedComponentTiles (UUID playerId){
+        model.getDiscardedComponentTiles(playerId);
+    }
+
+    public void saveComponentTile (UUID playerId) {
+        model.saveComponentTile(playerId);
+    }
+
+    public void discardComponentTile (UUID playerId) {
+        model.discardComponentTile(playerId);
+    }
+
+    public void requestShipBoard (UUID playerId) {
+        model.getPlayerShipBoard(playerId);
+    }
+
+    public void selectSavedComponentTile(UUID playerId, int index){
+        System.out.println("Selected saved tile (controller)");
+        model.selectSavedComponentTile(playerId, index);
+    }
+
+    public void selectDiscardedComponentTile(UUID playerId, int index){
+        model.selectDiscardedComponentTile(playerId, index);
+    }
+
 }

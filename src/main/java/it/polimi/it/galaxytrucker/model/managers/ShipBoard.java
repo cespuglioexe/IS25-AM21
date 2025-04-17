@@ -2,6 +2,7 @@ package it.polimi.it.galaxytrucker.model.managers;
 
 import it.polimi.it.galaxytrucker.model.componenttiles.*;
 import it.polimi.it.galaxytrucker.model.exceptions.IllegalComponentPositionException;
+import it.polimi.it.galaxytrucker.view.ConsoleColors;
 
 import java.util.ArrayList;
 import java.util.Set;
@@ -46,8 +47,8 @@ import java.util.stream.IntStream;
  * @version 1.2
  */
 public class ShipBoard {
-    private List<List<Optional<ComponentTile>>> tileMatrix;
-    private Map<Class<? extends ComponentTile>, Set<List<Integer>>> componentTilesPosition;
+    private final List<List<Optional<ComponentTile>>> tileMatrix;
+    private final Map<Class<? extends ComponentTile>, Set<List<Integer>>> componentTilesPosition;
 
     /**
      * Initializes a new {@code ShipBoard} instance, representing the ship's component grid.
@@ -67,6 +68,20 @@ public class ShipBoard {
             .collect(Collectors.toList());
 
         this.componentTilesPosition = new HashMap<>();
+    }
+
+    public List<List<ComponentTile>> getShipBoard() {
+        List<List<ComponentTile>> result = new ArrayList<>();
+
+        for (List<Optional<ComponentTile>> row : tileMatrix) {
+            List<ComponentTile> newRow = new ArrayList<>();
+            for (Optional<ComponentTile> opt : row) {
+                newRow.add(opt.orElse(null));
+            }
+            result.add(newRow);
+        }
+        
+        return result;
     }
 
     /**

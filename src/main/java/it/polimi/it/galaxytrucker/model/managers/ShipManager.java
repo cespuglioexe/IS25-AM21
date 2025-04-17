@@ -23,6 +23,7 @@ import it.polimi.it.galaxytrucker.model.utility.Direction;
 import it.polimi.it.galaxytrucker.model.utility.AlienType;
 import it.polimi.it.galaxytrucker.model.exceptions.IllegalComponentPositionException;
 import it.polimi.it.galaxytrucker.model.exceptions.InvalidActionException;
+import it.polimi.it.galaxytrucker.view.ConsoleColors;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -82,9 +83,10 @@ import java.util.OptionalInt;
  * @version 1.4
  */
 public class ShipManager {
-    private ShipBoard ship;
-    private List<ComponentTile> discardedTile;
-    private HashMap<AlienType, Boolean> hasAlien;
+    private final ShipBoard ship;
+    private final List<ComponentTile> discardedTile;
+    private final HashMap<AlienType, Boolean> hasAlien;
+
     static private final int ROWS = 5;
     static private final int COLUMNS = 7;
     static private final int STARTOFBOARDROWS = 5;
@@ -104,6 +106,26 @@ public class ShipManager {
         CentralCabin cabin = (CentralCabin) ship.getComponent(centralCabinCoords.get(0), centralCabinCoords.get(1)).get();
         cabin.addCrewmate(new Human());
         cabin.addCrewmate(new Human());
+    }
+
+    public List<List<ComponentTile>> getShipBoard() {
+        return ship.getShipBoard();
+    }
+
+    public void saveComponentTile(ComponentTile componentTile) {
+        discardedTile.add(componentTile);
+        System.out.println(ConsoleColors.YELLOW + "Saved " + componentTile.getClass().getSimpleName());
+    }
+
+    public List<ComponentTile> getSavedComponentTiles() {
+        return discardedTile;
+    }
+
+    public ComponentTile getSavedComponentTile(int index) {
+        System.out.println(ConsoleColors.YELLOW + "Getting saved " + index + " tile");
+        ComponentTile comp = discardedTile.get(index);
+        discardedTile.remove(index);
+        return comp;
     }
 
     /**

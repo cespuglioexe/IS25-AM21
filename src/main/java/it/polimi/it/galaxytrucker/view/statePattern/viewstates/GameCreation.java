@@ -20,45 +20,46 @@ public class GameCreation extends State {
     public GameCreation(CLIView view) {
         super(view);
     }
-    
+
     @Override
     public void enter(StateMachine fsm) {
         System.out.println(ConsoleColors.YELLOW_BACKGROUND + "" + ConsoleColors.BLACK_BOLD + "==> GAME CREATION <==" + ConsoleColors.RESET);
-        
+
         int playerNum = 0;
-        System.out.println("How many players do you want in the game? (2, 3, 4)");
+        System.out.println("How many players do you want in the game? (" + ConsoleColors.BLUE_UNDERLINED + "1" + ConsoleColors.RESET + ", 2, 3, 4)");
         System.out.print("> ");
-        do {
+        while (true) {
             try {
                 playerNum = scanner.nextInt();
-                
-                if (playerNum >= 2 && playerNum <= 4) {
+
+                // SHOULD BE playerNum >= 2! 1 IS FOR MAKING TESTING FASTER
+                if (playerNum >= 1 && playerNum <= 4) {
                     break;
                 }
-                
+
                 System.out.println(ConsoleColors.YELLOW + "Invalid number of players, please choose a valid number" + ConsoleColors.RESET);
                 System.out.print("> ");
             } catch (NumberFormatException | InputMismatchException e) {
                 System.out.println(ConsoleColors.RED + "Invalid number format, please enter a valid number" + ConsoleColors.RESET);
                 System.out.print("> ");
-                
+
                 // Consume any leftover characters and reset the variable
                 scanner.nextLine();
                 playerNum = 0;
             }
-        } while (true);
+        }
 
         int level = 0;
         System.out.println("What level game do you want? (1, 2)");
         System.out.print("> ");
-        do {
+        while (true) {
             try {
                 level = scanner.nextInt();
 
                 if (level >= 1 && level <= 2) {
                     break;
                 }
-                
+
                 System.out.println(ConsoleColors.YELLOW + "Invalid level, please choose a valid number" + ConsoleColors.RESET);
                 System.out.print("> ");
             } catch (NumberFormatException | InputMismatchException e) {
@@ -69,7 +70,7 @@ public class GameCreation extends State {
                 scanner.nextLine();
                 level = 0;
             }
-        } while (true);
+        }
 
         view.getClient().receiveUserInput(
                 new UserInput.UserInputBuilder(null, UserInputType.GAME_CREATION)
