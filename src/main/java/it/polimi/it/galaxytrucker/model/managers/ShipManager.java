@@ -6,6 +6,7 @@ import it.polimi.it.galaxytrucker.model.componenttiles.DoubleEngine;
 import it.polimi.it.galaxytrucker.model.componenttiles.EnergyConsumer;
 import it.polimi.it.galaxytrucker.model.componenttiles.LifeSupport;
 import it.polimi.it.galaxytrucker.model.componenttiles.OutOfBoundsTile;
+import it.polimi.it.galaxytrucker.model.componenttiles.Shield;
 import it.polimi.it.galaxytrucker.model.componenttiles.SingleCannon;
 import it.polimi.it.galaxytrucker.model.componenttiles.SingleEngine;
 import it.polimi.it.galaxytrucker.model.componenttiles.SpecialCargoHold;
@@ -1562,5 +1563,64 @@ public class ShipManager {
         }
 
         return enginePower;
+    }
+
+    /**
+     * ?TESTING ONLY
+     */
+    public void printBoard() {
+        System.out.print("    ");
+        for (int i = STARTOFBOARDCOLUMNS; i < STARTOFBOARDCOLUMNS + COLUMNS; i++) {
+            System.out.print(i + "  ");
+        }
+        System.out.println();
+        for (int i = 0; i < ROWS; i++) {
+            System.out.print(this.toBoardCoord(Optional.of(i), Optional.empty()).get(0).get() + "  ");
+            for (int j = 0; j < COLUMNS; j++) {
+                Optional<ComponentTile> component = ship.getComponent(i, j);
+
+                if (component.isEmpty()) {
+                    System.out.print("[ ]");
+                }else if (component.get().getClass().equals(OutOfBoundsTile.class)) {
+                    System.out.print("   ");
+                } else {
+                    System.out.print("[" + mapComponentToLetter(component.get()) + "]");
+                }
+            }
+            System.out.println();
+        }
+    }
+    private char mapComponentToLetter(ComponentTile component) {
+        if (component.getClass().equals(CabinModule.class)) {
+            return 'm';
+        }
+        if (component.getClass().equals(SingleCannon.class)) {
+            return 'c';
+        }
+        if (component.getClass().equals(DoubleCannon.class)) {
+            return 'C';
+        }
+        if (component.getClass().equals(CargoHold.class)) {
+            return 'd';
+        }
+        if (component.getClass().equals(SpecialCargoHold.class)) {
+            return 'D';
+        }
+        if (component.getClass().equals(LifeSupport.class)) {
+            return 'l';
+        }
+        if (component.getClass().equals(Shield.class)) {
+            return 's';
+        }
+        if (component.getClass().equals(BatteryComponent.class)) {
+            return 'b';
+        }
+        if (component.getClass().equals(SingleEngine.class)) {
+            return 'e';
+        }
+        if (component.getClass().equals(DoubleEngine.class)) {
+            return 'E';
+        }
+        return 'x';
     }
 }
