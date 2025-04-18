@@ -18,11 +18,11 @@ This project is a Java-based implementation of the table game <a href="https://w
 | Simplyfied Rules | ⚪      |
 | Complete Rules   | ⚪️      |
 | Socket Connection| ⚪️      |
-| RMI Connection   | ⚪️      |
-| CLI              | ⚪️      |
+| RMI Connection   | 🟡      |
+| CLI              | 🟡      |
 | GUI              | ⚪️      |
 | Test Flight      | ⚪️      |
-| Multiple Matches | ⚪️      |
+| Multiple Matches | 🟡      |
 | Percistance      | ⚪️      |
 | Resilience       | ⚪️      |
 
