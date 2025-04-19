@@ -1,4 +1,4 @@
-package it.polimi.it.galaxytrucker.model.adventurecards.refactored;
+/*package it.polimi.it.galaxytrucker.model.adventurecards.refactored;
 
 import java.util.HashMap;
 import java.util.List;
@@ -105,3 +105,4 @@ public class Pirates extends Attack implements AdventureCard,FlightDayPenalty, C
         flightRules.movePlayerBackwards(flightDayPenalty, getPlayer());
     }
 }
+*/

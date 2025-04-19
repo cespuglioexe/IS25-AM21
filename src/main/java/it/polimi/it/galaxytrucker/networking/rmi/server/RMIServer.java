@@ -3,6 +3,7 @@ package it.polimi.it.galaxytrucker.networking.rmi.server;
 import it.polimi.it.galaxytrucker.controller.Controller;
 import it.polimi.it.galaxytrucker.controller.GenericGameData;
 import it.polimi.it.galaxytrucker.model.exceptions.InvalidActionException;
+import it.polimi.it.galaxytrucker.networking.Timer;
 import it.polimi.it.galaxytrucker.networking.messages.GameUpdate;
 import it.polimi.it.galaxytrucker.networking.messages.UserInput;
 import it.polimi.it.galaxytrucker.networking.messages.UserInputType;
@@ -18,6 +19,8 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import it.polimi.it.galaxytrucker.view.ConsoleColors;
 
@@ -235,6 +238,20 @@ public class RMIServer extends UnicastRemoteObject implements RMIVirtualServer {
                 }
             });
         }
+    }
+
+
+    public void startBuildingPhaseTimer(){
+        AtomicInteger seconds = new AtomicInteger(0);
+
+        Timer.scheduleAtFixedRate(() -> {
+            int sec = seconds.getAndIncrement();
+            System.out.print("\rSecondi: " + sec);
+        }, 0, 1, TimeUnit.SECONDS);
+
+        System.out.println("Timer avviato!");
+
+        System.out.println("Main thread is free to do other stuff...");
     }
 
 }

@@ -1,4 +1,4 @@
-package it.polimi.it.galaxytrucker.model.adventurecards.refactored;
+/*package it.polimi.it.galaxytrucker.model.adventurecards.refactored;
 
 import java.util.HashMap;
 import java.util.List;
@@ -134,4 +134,4 @@ public class MeteorSwarm extends Attack implements AdventureCard {
         ship.activateComponent(doubleCannonAndBattery);
         shootAtMeteorWith(doubleCannonCoord);
     }
-}
+}*/

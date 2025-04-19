@@ -1,5 +1,6 @@
 package it.polimi.it.galaxytrucker.view.statePattern.viewstates;
 
+import it.polimi.it.galaxytrucker.networking.Timer;
 import it.polimi.it.galaxytrucker.networking.messages.RequestType;
 import it.polimi.it.galaxytrucker.networking.messages.UserInput;
 import it.polimi.it.galaxytrucker.networking.messages.UserInputType;
@@ -7,6 +8,9 @@ import it.polimi.it.galaxytrucker.view.CLIView;
 import it.polimi.it.galaxytrucker.view.ConsoleColors;
 import it.polimi.it.galaxytrucker.view.statePattern.State;
 import it.polimi.it.galaxytrucker.view.statePattern.StateMachine;
+
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class BuildingStateMenu extends State {
 
@@ -18,6 +22,17 @@ public class BuildingStateMenu extends State {
 
     @Override
     public void enter(StateMachine fsm) {
+
+        AtomicInteger seconds = new AtomicInteger(0);
+
+        Timer.scheduleAtFixedRate(() -> {
+            int sec = seconds.getAndIncrement();
+            System.out.print("\rSecondi: " + sec);
+        }, 0, 1, TimeUnit.SECONDS);
+
+        System.out.println("Timer avviato!");
+
+        System.out.println("Main thread is free to do other stuff...");
 
         // Display ship
         view.getClient().receiveUserInput(
