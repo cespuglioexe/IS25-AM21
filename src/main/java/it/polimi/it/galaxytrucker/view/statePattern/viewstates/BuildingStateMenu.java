@@ -23,16 +23,16 @@ public class BuildingStateMenu extends State {
     @Override
     public void enter(StateMachine fsm) {
 
-        AtomicInteger seconds = new AtomicInteger(0);
-
-        Timer.scheduleAtFixedRate(() -> {
-            int sec = seconds.getAndIncrement();
-            System.out.print("\rSecondi: " + sec);
-        }, 0, 1, TimeUnit.SECONDS);
-
-        System.out.println("Timer avviato!");
-
-        System.out.println("Main thread is free to do other stuff...");
+//        AtomicInteger seconds = new AtomicInteger(0);
+//
+//        Timer.scheduleAtFixedRate(() -> {
+//            int sec = seconds.getAndIncrement();
+//            System.out.print("\rSecondi: " + sec);
+//        }, 0, 1, TimeUnit.SECONDS);
+//
+//        System.out.println("Timer avviato!");
+//
+//        System.out.println("Main thread is free to do other stuff...");
 
         // Display ship
         view.getClient().receiveUserInput(
@@ -50,7 +50,11 @@ public class BuildingStateMenu extends State {
                 \nChoose an option:
                 [1]: Choose a tile
                 [2]: Look a pile of cards
-                > """);
+                """);
+        if (!view.getClient().isBuildingTimerIsActive()){
+            System.out.println("[3]: Restart timer");
+        }
+        System.out.print("> ");
 
         int opt_main = scanner.nextInt();
         switch (opt_main){
@@ -104,6 +108,7 @@ public class BuildingStateMenu extends State {
                         System.out.println("After selected saved tile in buildingStateMenu");
                         break;
                     case 3:
+
                         view.getClient().receiveUserInput(
                                 new UserInput.UserInputBuilder(view.getClient(), UserInputType.REQUEST)
                                         .setRequestType(RequestType.DISCARDED_TILES)
@@ -133,12 +138,33 @@ public class BuildingStateMenu extends State {
 
                 break;
             case 2:
+                System.out.println("Which card pile do you want to see? (1, 2, 3)");
+                System.out.print("> ");
+                int pile = scanner.nextInt();
+
                 view.getClient().receiveUserInput(
                         new UserInput.UserInputBuilder(view.getClient(), UserInputType.REQUEST)
                                 .setRequestType(RequestType.CARD_PILE)
+                                .setCardPileIndex(pile - 1)
                                 .build()
                 );
+
+                fsm.changeState(new BuildingStateMenu(view));
+
                 break;
+            case 3:
+                System.out.println("");
+                if(!view.getClient().isBuildingTimerIsActive()){
+                    view.getClient().receiveUserInput(
+                            new UserInput.UserInputBuilder(view.getClient(), UserInputType.START_TIMER)
+                                    .build()
+                    );
+                }
+
+                fsm.changeState(new BuildingStateMenu(view));
+
+                break;
+
             default:
                 System.out.println(ConsoleColors.YELLOW + "That's not a valid option. Please try again" + ConsoleColors.RESET);
             }

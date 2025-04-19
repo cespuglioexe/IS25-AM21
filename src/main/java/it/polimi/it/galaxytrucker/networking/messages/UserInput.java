@@ -18,6 +18,7 @@ public class UserInput implements Serializable {
     private final int gamePlayers;
     private final int gameIndex;
     private final int selectedTileIndex;
+    private final int cardPileIndex;
 
     private final List<Integer> coords;
     private final int rotation;
@@ -34,6 +35,7 @@ public class UserInput implements Serializable {
         this.coords = builder.coords;
         this.rotation = builder.rotation;
         this.selectedTileIndex = builder.selectedTileIndex;
+        this.cardPileIndex = builder.cardPileIndex;
     }
 
     public UserInputType getType() {
@@ -80,6 +82,10 @@ public class UserInput implements Serializable {
         return selectedTileIndex;
     }
 
+    public int getCardPileIndex() {
+        return cardPileIndex;
+    }
+
     /**
      * Builder class for creating instances of the UserInput class.
      * This class provides a convenient way to configure all optional and required parameters
@@ -100,6 +106,7 @@ public class UserInput implements Serializable {
         private int gamePlayers = 0;
         private int gameIndex = 0;
         private int selectedTileIndex = 0;
+        private int cardPileIndex = 0;
         
         private List<Integer> coords = null;
 
@@ -152,6 +159,11 @@ public class UserInput implements Serializable {
 
         public UserInputBuilder setSelectedTileIndex(int selectedTileIndex) {
             this.selectedTileIndex = selectedTileIndex;
+            return this;
+        }
+
+        public UserInputBuilder setCardPileIndex(int cardPileIndex) {
+            this.cardPileIndex = cardPileIndex;
             return this;
         }
 

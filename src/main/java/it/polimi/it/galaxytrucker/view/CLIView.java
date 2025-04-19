@@ -212,4 +212,13 @@ public class CLIView extends StateMachine {
             System.out.println(); // Extra newline between tile rows
         }
     }
+
+    public void displayTimerEnded () {
+        System.out.println(ConsoleColors.CYAN + "Timer ended" + ConsoleColors.RESET);
+    }
+
+    public void displayTimerStarted(){
+        System.out.println(ConsoleColors.CYAN + "Timer started" + ConsoleColors.RESET);
+    }
+
 }

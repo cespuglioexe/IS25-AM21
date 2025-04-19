@@ -6,5 +6,7 @@ public enum GameUpdateType {
     PLACED_TILE,
     DISPLAY_CARD_PILE,
     SHIP_DATA,
-    TILE_LIST
+    TILE_LIST,
+    TIMER_END,
+    TIMER_START
 }

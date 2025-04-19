@@ -5,8 +5,8 @@ import it.polimi.it.galaxytrucker.controller.GenericGameData;
 import it.polimi.it.galaxytrucker.model.exceptions.InvalidActionException;
 import it.polimi.it.galaxytrucker.networking.Timer;
 import it.polimi.it.galaxytrucker.networking.messages.GameUpdate;
+import it.polimi.it.galaxytrucker.networking.messages.GameUpdateType;
 import it.polimi.it.galaxytrucker.networking.messages.UserInput;
-import it.polimi.it.galaxytrucker.networking.messages.UserInputType;
 import it.polimi.it.galaxytrucker.networking.rmi.client.RMIVirtualServer;
 
 import java.rmi.RemoteException;
@@ -20,7 +20,6 @@ import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import it.polimi.it.galaxytrucker.view.ConsoleColors;
 
@@ -35,6 +34,8 @@ public class RMIServer extends UnicastRemoteObject implements RMIVirtualServer {
     private final List<RMIVirtualView> connectedClients = new ArrayList<>();
 
     private final ExecutorService executorService = Executors.newCachedThreadPool();
+
+    private final int BUILDING_TIMER_LENGTH = 10; // DA METTERE A 60 SECONDI
 
     public RMIServer() throws RemoteException {
         super();
@@ -135,6 +136,9 @@ public class RMIServer extends UnicastRemoteObject implements RMIVirtualServer {
                    case DISCARDED_TILES:
                        controllers.get(gameIndex).requestDiscardedComponentTiles(playerId);
                        break;
+                   case CARD_PILE:
+                       controllers.get(gameIndex).getCardPile(playerId, input.getCardPileIndex());
+                       break;
                    case SHIP_BOARD:
                        controllers.get(gameIndex).requestShipBoard(playerId);
                        break;
@@ -228,7 +232,6 @@ public class RMIServer extends UnicastRemoteObject implements RMIVirtualServer {
 
     public void sendMessageToAllPlayers(String gameNickname, GameUpdate message) throws RemoteException {
         List<RMIVirtualView> players = playingClients.get(gameNickname);
-        System.out.println("Players: " + players.size());
         for (RMIVirtualView v : players) {
             executorService.submit(() -> {
                 try {
@@ -238,20 +241,40 @@ public class RMIServer extends UnicastRemoteObject implements RMIVirtualServer {
                 }
             });
         }
+
+        System.out.println("Sending message to all players");
+        if (message.getInstructionType().equals(GameUpdateType.NEW_STATE) && message.getNewSate().equals("BUILDING")) {
+            startBuildingPhaseTimer(gameNickname);
+        }
     }
 
+    private void startBuildingPhaseTimer(String gameNickname) throws RemoteException {
+//        AtomicInteger seconds = new AtomicInteger(0);
+//        Timer.scheduleAtFixedRate(() -> {
+//            int sec = seconds.getAndIncrement();
+//            System.out.print("\rSecondi: " + sec);
+//        }, 0, 1, TimeUnit.SECONDS);
 
-    public void startBuildingPhaseTimer(){
-        AtomicInteger seconds = new AtomicInteger(0);
+        sendMessageToAllPlayers(gameNickname, new GameUpdate.GameUpdateBuilder(GameUpdateType.TIMER_START).build());
 
-        Timer.scheduleAtFixedRate(() -> {
-            int sec = seconds.getAndIncrement();
-            System.out.print("\rSecondi: " + sec);
-        }, 0, 1, TimeUnit.SECONDS);
-
-        System.out.println("Timer avviato!");
-
-        System.out.println("Main thread is free to do other stuff...");
+        Timer.scheduleOnce(() -> {
+            System.out.println("Timer ended");
+            try {
+                sendMessageToAllPlayers(gameNickname, new GameUpdate.GameUpdateBuilder(GameUpdateType.TIMER_END).build());
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }, BUILDING_TIMER_LENGTH, TimeUnit.SECONDS);
     }
 
+    @Override
+    public void startBuildingPhaseTimer(int gameIndex) throws RemoteException {
+        executorService.submit(() -> {
+            try {
+                startBuildingPhaseTimer(controllers.get(gameIndex).getNickname());
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
 }

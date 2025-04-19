@@ -100,5 +100,9 @@ public class Controller {
     public void selectDiscardedComponentTile(UUID playerId, int index){
         model.selectDiscardedComponentTile(playerId, index);
     }
+    
+    public void getCardPile (UUID playerId, int pileIndex) {
+        model.getAdventureDeck().getStack(pileIndex);
+    }
 
 }

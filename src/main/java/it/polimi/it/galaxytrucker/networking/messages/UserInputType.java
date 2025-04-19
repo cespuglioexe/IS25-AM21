@@ -8,5 +8,6 @@ public enum UserInputType {
     REQUEST,
     PLACE_COMPONENT,
     SAVE_COMPONENT,
-    DISCARD_COMPONENT
+    DISCARD_COMPONENT,
+    START_TIMER
 }

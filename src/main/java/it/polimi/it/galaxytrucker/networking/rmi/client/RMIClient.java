@@ -2,8 +2,7 @@ package it.polimi.it.galaxytrucker.networking.rmi.client;
 
 import it.polimi.it.galaxytrucker.controller.GenericGameData;
 import it.polimi.it.galaxytrucker.model.exceptions.InvalidActionException;
-import it.polimi.it.galaxytrucker.networking.messages.GameUpdate;
-import it.polimi.it.galaxytrucker.networking.messages.UserInput;
+import it.polimi.it.galaxytrucker.networking.messages.*;
 import it.polimi.it.galaxytrucker.networking.rmi.server.RMIVirtualView;
 import it.polimi.it.galaxytrucker.view.CLIView;
 import it.polimi.it.galaxytrucker.view.ConsoleColors;
@@ -16,6 +15,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
@@ -28,6 +28,8 @@ public class RMIClient extends UnicastRemoteObject implements RMIVirtualView {
     private UUID playerID;
     private int gameIndex;
 
+    private boolean buildingTimerIsActive;
+
     public RMIClient () throws RemoteException {
         super();
         this.view = new CLIView(this);
@@ -35,6 +37,10 @@ public class RMIClient extends UnicastRemoteObject implements RMIVirtualView {
 
     public static void main(String[] args) throws RemoteException, NotBoundException {
         new RMIClient().run();
+    }
+
+    public boolean isBuildingTimerIsActive() {
+        return buildingTimerIsActive;
     }
 
     private void run() throws RemoteException {
@@ -68,6 +74,7 @@ public class RMIClient extends UnicastRemoteObject implements RMIVirtualView {
                     case "BUILDING":
                         view.displayBuildingStarted();
                         view.changeState(new BuildingStateMenu(view));
+                        break;
                     default:
                         break;
                 }
@@ -80,6 +87,14 @@ public class RMIClient extends UnicastRemoteObject implements RMIVirtualView {
                 break;
             case SHIP_DATA:
                 view.displayShip(update.getShipBoard());
+                break;
+            case TIMER_START:
+                buildingTimerIsActive = true;
+                view.displayTimerStarted();
+                break;
+            case TIMER_END:
+                buildingTimerIsActive = false;
+                view.displayTimerEnded();
                 break;
         }
         view.updateState(false);
@@ -143,12 +158,21 @@ public class RMIClient extends UnicastRemoteObject implements RMIVirtualView {
                 }
                 break;
 
+            case START_TIMER:
+                try {
+                    this.server.startBuildingPhaseTimer(gameIndex);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+                break;
+
             default:
                 try {
                     this.server.sendMessageToGame(playerID, input, gameIndex);
                 } catch (RemoteException e) {
-                    e.printStackTrace();
-               break; }
+                    throw new RuntimeException(e);
+                }
+                break;
 
         }
     }

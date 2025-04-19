@@ -25,4 +25,6 @@ public interface RMIVirtualServer extends Remote, VirtualServer {
     UUID addPlayerToGame(RMIVirtualView client, String gameNickname) throws RemoteException, InvalidActionException;
 
     void newGame(String gameNickname, int players, int level) throws RemoteException;
+    
+    void startBuildingPhaseTimer(int gamIndex) throws RemoteException;
 }
