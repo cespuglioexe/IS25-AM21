@@ -1,8 +1,6 @@
-package it.polimi.it.galaxytrucker.view.statePattern;
+package it.polimi.it.galaxytrucker.view.cli.statePattern;
 
-import it.polimi.it.galaxytrucker.networking.rmi.client.RMIClient;
-import it.polimi.it.galaxytrucker.view.CLIView;
-import it.polimi.it.galaxytrucker.view.listeners.EventListener;
+import it.polimi.it.galaxytrucker.view.cli.CLIView;
 
 import java.util.Scanner;
 

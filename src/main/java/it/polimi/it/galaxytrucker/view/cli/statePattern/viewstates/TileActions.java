@@ -1,13 +1,10 @@
-package it.polimi.it.galaxytrucker.view.statePattern.viewstates;
+package it.polimi.it.galaxytrucker.view.cli.statePattern.viewstates;
 
-import it.polimi.it.galaxytrucker.networking.messages.RequestType;
 import it.polimi.it.galaxytrucker.networking.messages.UserInput;
 import it.polimi.it.galaxytrucker.networking.messages.UserInputType;
-import it.polimi.it.galaxytrucker.view.CLIView;
-import it.polimi.it.galaxytrucker.view.statePattern.State;
-import it.polimi.it.galaxytrucker.view.statePattern.StateMachine;
-
-import java.util.Scanner;
+import it.polimi.it.galaxytrucker.view.cli.CLIView;
+import it.polimi.it.galaxytrucker.view.cli.statePattern.State;
+import it.polimi.it.galaxytrucker.view.cli.statePattern.StateMachine;
 
 public class TileActions extends State {
 

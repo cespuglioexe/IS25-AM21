@@ -1,23 +1,22 @@
 package it.polimi.it.galaxytrucker.controller;
 
-import it.polimi.it.galaxytrucker.model.componenttiles.TileData;
 import it.polimi.it.galaxytrucker.model.exceptions.InvalidActionException;
 import it.polimi.it.galaxytrucker.model.managers.GameManager;
 import it.polimi.it.galaxytrucker.model.managers.Model;
-import it.polimi.it.galaxytrucker.networking.rmi.server.RMIServer;
+// import it.polimi.it.galaxytrucker.networking.rmi.server.RMIServer;
 
 import java.util.UUID;
 
 public class Controller {
-    private final Model model;
+    private Model model; // MAKE FINAL!
     private final String nickname;
     private final int level;
     private final int playerNum;
     private int activePlayers;
 
-    public Controller(int level, int playerNum, String nickname, RMIServer server) {
+    public Controller(int level, int playerNum, String nickname /*, RMIServer server */ ) {
         this.nickname = nickname;
-        this.model = new GameManager(level, playerNum, server, nickname);
+        // this.model = new GameManager(level, playerNum, server, nickname);
         this.level = level;
         this.playerNum = playerNum;
         this.activePlayers = 0;

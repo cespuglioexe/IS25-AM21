@@ -1,14 +1,10 @@
-package it.polimi.it.galaxytrucker.view.statePattern.viewstates;
+package it.polimi.it.galaxytrucker.view.cli.statePattern.viewstates;
 
 import it.polimi.it.galaxytrucker.networking.messages.UserInput;
 import it.polimi.it.galaxytrucker.networking.messages.UserInputType;
-import it.polimi.it.galaxytrucker.networking.rmi.client.RMIClient;
-import it.polimi.it.galaxytrucker.view.CLIView;
-import it.polimi.it.galaxytrucker.view.listeners.EventListener;
-import it.polimi.it.galaxytrucker.view.listeners.EventType;
-import it.polimi.it.galaxytrucker.view.listeners.StringEventListener;
-import it.polimi.it.galaxytrucker.view.statePattern.State;
-import it.polimi.it.galaxytrucker.view.statePattern.StateMachine;
+import it.polimi.it.galaxytrucker.view.cli.CLIView;
+import it.polimi.it.galaxytrucker.view.cli.statePattern.State;
+import it.polimi.it.galaxytrucker.view.cli.statePattern.StateMachine;
 
 public class ConnectionState extends State {
 

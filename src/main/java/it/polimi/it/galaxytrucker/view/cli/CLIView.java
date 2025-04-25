@@ -1,14 +1,13 @@
-package it.polimi.it.galaxytrucker.view;
+package it.polimi.it.galaxytrucker.view.cli;
 
 import it.polimi.it.galaxytrucker.model.componenttiles.TileData;
 import it.polimi.it.galaxytrucker.model.componenttiles.TileEdge;
-import it.polimi.it.galaxytrucker.networking.messages.GameUpdate;
-import it.polimi.it.galaxytrucker.networking.rmi.client.RMIClient;
-import it.polimi.it.galaxytrucker.view.statePattern.StateMachine;
+import it.polimi.it.galaxytrucker.networking.client.rmi.RMIClient;
+import it.polimi.it.galaxytrucker.view.ConsoleColors;
+import it.polimi.it.galaxytrucker.view.cli.statePattern.StateMachine;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.ConsoleHandler;
 
 public class CLIView extends StateMachine {
 

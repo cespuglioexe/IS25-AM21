@@ -21,7 +21,7 @@ import it.polimi.it.galaxytrucker.model.json.Json;
 import it.polimi.it.galaxytrucker.model.utility.Color;
 import it.polimi.it.galaxytrucker.networking.messages.GameUpdate;
 import it.polimi.it.galaxytrucker.networking.messages.GameUpdateType;
-import it.polimi.it.galaxytrucker.networking.rmi.server.RMIServer;
+// import it.polimi.it.galaxytrucker.networking.rmi.server.RMIServer;
 import it.polimi.it.galaxytrucker.view.ConsoleColors;;
 
 public class GameManager extends StateMachine implements Model {
@@ -34,44 +34,44 @@ public class GameManager extends StateMachine implements Model {
     private final AdventureDeck adventureDeck;
 
 
-    private final RMIServer server;
+    // private final RMIServer server;
     private final String nickname;
 
     private ExecutorService executors = Executors.newCachedThreadPool();
 
-    public GameManager(int level, int numberOfPlayers, RMIServer server, String nickname) {
+    public GameManager(int level, int numberOfPlayers /*, RMIServer server */, String nickname) {
         this.level = level;
         this.numberOfPlayers = numberOfPlayers;
         this.flightBoard = new FlightBoard(level);
         this.adventureDeck = new AdventureDeck();
         this.discardedComponents = new ArrayList<>();
         this.players = new ArrayList<>();
-        this.server = server;
+        // this.server = server;
         this.nickname = nickname;
 
         start(new StartState());
     }
 
     public void sendGameUpdateToAllPlayers(GameUpdate gameUpdate) {
-        executors.execute(() -> {
-            try {
-                server.sendMessageToAllPlayers(nickname, gameUpdate);
-            } catch (RemoteException e) {
-                e.printStackTrace();
-            }
-        });
+//        executors.execute(() -> {
+//            try {
+//                server.sendMessageToAllPlayers(nickname, gameUpdate);
+//            } catch (RemoteException e) {
+//                e.printStackTrace();
+//            }
+//        });
     }
 
     public void sendGameUpdateToSinglePlayer(UUID playerId, GameUpdate gameUpdate) {
         System.out.println(ConsoleColors.GREEN + "Forwarding message to server of type: " + gameUpdate.getInstructionType() + ConsoleColors.RESET);
 
-        executors.execute(() -> {
-            try {
-                server.sendMessageToSinglePlayer(nickname, getPlayerByID(playerId).getPlayerName(), gameUpdate);
-            } catch (RemoteException e) {
-                e.printStackTrace();
-            }
-        });
+//        executors.execute(() -> {
+//            try {
+//                server.sendMessageToSinglePlayer(nickname, getPlayerByID(playerId).getPlayerName(), gameUpdate);
+//            } catch (RemoteException e) {
+//                e.printStackTrace();
+//            }
+//        });
     }
 
     @Override

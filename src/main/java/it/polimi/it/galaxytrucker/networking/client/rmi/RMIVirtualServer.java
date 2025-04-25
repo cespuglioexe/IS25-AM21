@@ -1,10 +1,10 @@
-package it.polimi.it.galaxytrucker.networking.rmi.client;
+package it.polimi.it.galaxytrucker.networking.client.rmi;
 
 import it.polimi.it.galaxytrucker.controller.GenericGameData;
 import it.polimi.it.galaxytrucker.model.exceptions.InvalidActionException;
 import it.polimi.it.galaxytrucker.networking.VirtualServer;
 import it.polimi.it.galaxytrucker.networking.messages.UserInput;
-import it.polimi.it.galaxytrucker.networking.rmi.server.RMIVirtualView;
+import it.polimi.it.galaxytrucker.networking.server.rmi.RMIVirtualView;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;

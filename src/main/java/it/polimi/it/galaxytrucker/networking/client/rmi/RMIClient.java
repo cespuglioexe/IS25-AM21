@@ -1,21 +1,20 @@
-package it.polimi.it.galaxytrucker.networking.rmi.client;
+package it.polimi.it.galaxytrucker.networking.client.rmi;
 
 import it.polimi.it.galaxytrucker.controller.GenericGameData;
 import it.polimi.it.galaxytrucker.model.exceptions.InvalidActionException;
 import it.polimi.it.galaxytrucker.networking.messages.*;
-import it.polimi.it.galaxytrucker.networking.rmi.server.RMIVirtualView;
-import it.polimi.it.galaxytrucker.view.CLIView;
+import it.polimi.it.galaxytrucker.networking.server.rmi.RMIVirtualView;
+import it.polimi.it.galaxytrucker.view.cli.CLIView;
 import it.polimi.it.galaxytrucker.view.ConsoleColors;
-import it.polimi.it.galaxytrucker.view.statePattern.viewstates.BuildingStateMenu;
-import it.polimi.it.galaxytrucker.view.statePattern.viewstates.ConnectionState;
-import it.polimi.it.galaxytrucker.view.statePattern.viewstates.GameSelection;
+import it.polimi.it.galaxytrucker.view.cli.statePattern.viewstates.BuildingStateMenu;
+import it.polimi.it.galaxytrucker.view.cli.statePattern.viewstates.ConnectionState;
+import it.polimi.it.galaxytrucker.view.cli.statePattern.viewstates.GameSelection;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
@@ -57,17 +56,7 @@ public class RMIClient extends UnicastRemoteObject implements RMIVirtualView {
     }
 
     @Override
-    public void showUpdate(Integer number) throws RemoteException {
-        System.out.println("Server update: " + number);
-    }
-
-    @Override
-    public void reportError(String message) throws RemoteException {
-        System.err.println("Server error: " + message);
-    }
-
-    @Override
-    public void recieveGameUpdate(GameUpdate update) throws RemoteException {
+    public void sendMessageToClient(GameUpdate update) throws RemoteException {
         switch (update.getInstructionType()) {
             case NEW_STATE:
                 switch (update.getNewSate().toUpperCase()) {
@@ -105,7 +94,7 @@ public class RMIClient extends UnicastRemoteObject implements RMIVirtualView {
 
             case CONNECT_SERVER:
                 try {
-                    Registry registry = LocateRegistry.getRegistry("127.0.0.1", 1234);
+                    Registry registry = LocateRegistry.getRegistry("localhost", 1234);
                     this.server = (RMIVirtualServer) registry.lookup(input.getServerName());
                     this.server.connect(this);
 
