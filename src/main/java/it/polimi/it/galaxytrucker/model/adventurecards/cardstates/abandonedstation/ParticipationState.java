@@ -1,6 +1,6 @@
 package it.polimi.it.galaxytrucker.model.adventurecards.cardstates.abandonedstation;
 
-import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.planets.CargoRewardState;
+import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.abandonedstation.CargoRewardState;
 import it.polimi.it.galaxytrucker.model.adventurecards.refactored.AbandonedStation;
 import it.polimi.it.galaxytrucker.model.design.statePattern.State;
 import it.polimi.it.galaxytrucker.model.design.statePattern.StateMachine;

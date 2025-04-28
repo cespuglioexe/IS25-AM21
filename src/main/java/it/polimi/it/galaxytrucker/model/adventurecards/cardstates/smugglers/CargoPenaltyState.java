@@ -1,13 +1,16 @@
-package it.polimi.it.galaxytrucker.model.adventurecards.cardstates.openSpace;
+package it.polimi.it.galaxytrucker.model.adventurecards.cardstates.smugglers;
 
-import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.openSpace.CalculateEnginePowerState;
+import it.polimi.it.galaxytrucker.model.adventurecards.refactored.Smugglers;
 import it.polimi.it.galaxytrucker.model.design.statePattern.State;
 import it.polimi.it.galaxytrucker.model.design.statePattern.StateMachine;
 
-public class StartState extends State {
+public class CargoPenaltyState extends State {
+
     @Override
     public void enter(StateMachine fsm) {
-        fsm.changeState(new CalculateEnginePowerState());
+        Smugglers card = (Smugglers) fsm;
+        card.applyCargoPenalty();
+        fsm.changeState(new StartState());
     }
 
     @Override

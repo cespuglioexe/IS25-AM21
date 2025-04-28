@@ -2,13 +2,15 @@ package it.polimi.it.galaxytrucker.model.adventurecards.refactored;
 
 import java.util.List;
 
-import it.polimi.it.galaxytrucker.model.aventurecard.interfaces.AdventureCard;
-import it.polimi.it.galaxytrucker.model.aventurecard.interfaces.FlightDayPenalty;
+import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.starDust.StartState;
+import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCard;
+import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.FlightDayPenalty;
+import it.polimi.it.galaxytrucker.model.design.statePattern.StateMachine;
 import it.polimi.it.galaxytrucker.model.design.strategyPattern.FlightRules;
 import it.polimi.it.galaxytrucker.model.managers.Player;
 import it.polimi.it.galaxytrucker.model.managers.ShipManager;
 
-public class StarDust implements AdventureCard, FlightDayPenalty {
+public class StarDust extends StateMachine implements AdventureCard, FlightDayPenalty {
     private Player currentPlayer;
     private int flightDayPenalty;
     private final FlightRules flightRules;
@@ -18,7 +20,9 @@ public class StarDust implements AdventureCard, FlightDayPenalty {
     }
     
     @Override
-    public void play() {
+    public void play() { start(new StartState());}
+
+    public void applyEffect(){
         List<Player> players = flightRules.getPlayerOrder();
 
         for (Player player : players) {
@@ -28,6 +32,7 @@ public class StarDust implements AdventureCard, FlightDayPenalty {
             applyFlightDayPenalty();
         }
     }
+
     private int countExposedConnectorsOf(Player player) {
         ShipManager ship = player.getShipManager();
 

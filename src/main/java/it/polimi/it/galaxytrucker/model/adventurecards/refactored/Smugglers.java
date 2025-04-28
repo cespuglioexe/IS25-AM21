@@ -1,55 +1,74 @@
 package it.polimi.it.galaxytrucker.model.adventurecards.refactored;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
+import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.smugglers.StartState;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCard;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.CargoPenalty;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.CargoReward;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.FlightDayPenalty;
+import it.polimi.it.galaxytrucker.model.design.statePattern.StateMachine;
 import it.polimi.it.galaxytrucker.model.design.strategyPattern.FlightRules;
 import it.polimi.it.galaxytrucker.model.managers.CargoManager;
 import it.polimi.it.galaxytrucker.model.managers.Player;
 import it.polimi.it.galaxytrucker.model.managers.ShipManager;
 import it.polimi.it.galaxytrucker.model.utility.Cargo;
 
-public class Smugglers implements AdventureCard, CargoReward, CargoPenalty, FlightDayPenalty {
+public class Smugglers extends StateMachine implements AdventureCard, CargoReward, CargoPenalty, FlightDayPenalty {
     private Player currentPlayer;
-    private int playerFirePower; //TODO initialize in FSM
-    private final int requiredFirePower;
-    private Set<Cargo> cargoReward;
+    private double playerFirePower;
+    private int requiredFirePower;
+    private List<Cargo> cargoReward;
     private final int cargoPenalty;
     private final int flightDayPenalty;
 
     private final FlightRules flightRules;
 
-    public Smugglers(int requiredFirePower, Set<Cargo> cargoReward, int cargoPenalty, int flightDayPenalty, FlightRules flightRules) {
+    public Smugglers(int requiredFirePower, List<Cargo> cargoReward, int cargoPenalty, int flightDayPenalty, FlightRules flightRules) {
         this.requiredFirePower = requiredFirePower;
-        this.cargoReward = cargoReward;
+        this.cargoReward = loadCargoList(cargoReward);
         this.cargoPenalty = cargoPenalty;
         this.flightDayPenalty = flightDayPenalty;
         this.flightRules = flightRules;
     }
 
     @Override
-    public void play() {
-
-    }
+    public void play() { start(new StartState());};
 
     public void selectCannons(HashMap<List<Integer>, List<Integer>> doubleCannonsAndBatteries) {
         ShipManager ship = currentPlayer.getShipManager();
         playerFirePower += ship.activateComponent(doubleCannonsAndBatteries);
+        updateState();
     }
    
     @Override
-    public Set<Cargo> getCargoReward() {
+    public List<Cargo> getCargoReward() {
         return cargoReward;
     }
 
+    private List<Cargo> loadCargoList(List<Cargo> list){
+        return new ArrayList<>(list);
+    }
+
     @Override
-    public void applyCargoReward() {
-        
+    public void acceptCargo(int loadIndex,int row, int column) {
+        Cargo cargo = removeCargoFromCard(loadIndex);
+        CargoManager.manageCargoAddition(cargo, List.of(row, column), currentPlayer);
+
+        updateState();
+    }
+
+    @Override
+    public void discardCargo(int loadIndex) {
+        updateState();
+    }
+
+    private Cargo removeCargoFromCard(int loadIndex) {
+        List<Cargo> cargoList = cargoReward;
+        Cargo cargo = cargoList.get(loadIndex);
+        cargoList.remove(loadIndex);
+
+        return cargo;
     }
 
     @Override
@@ -61,5 +80,43 @@ public class Smugglers implements AdventureCard, CargoReward, CargoPenalty, Flig
     @Override
     public void applyFlightDayPenalty() {
         flightRules.movePlayerBackwards(flightDayPenalty, currentPlayer);
+    }
+
+    public void setPlayer(){
+        List<Player> players = flightRules.getPlayerOrder();
+        if(currentPlayer == null){
+            currentPlayer = players.get(0);
+            return;
+        }
+        currentPlayer = nextPlayer(players).orElse(null);
+    }
+
+    public Optional<Player> nextPlayer(List<Player> players) {
+        for(int i=0;i<players.size();i++){
+            if(players.get(i).equals(currentPlayer) && (i+1) < players.size()) {
+                return Optional.of(players.get(i + 1));
+            }
+        }
+        return Optional.empty();
+    }
+
+    public Player getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    public void setPlayerFirePower(double playerFirePower) {
+        this.playerFirePower = playerFirePower;
+    }
+
+    public void setRequiredFirePower(int requiredFirePower) {
+        this.requiredFirePower = requiredFirePower;
+    }
+
+    public double getPlayerFirePower() {
+        return playerFirePower;
+    }
+
+    public double getRequiredFirePower() {
+        return requiredFirePower;
     }
 }
