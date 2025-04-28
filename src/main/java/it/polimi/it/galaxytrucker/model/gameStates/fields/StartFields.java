@@ -28,7 +28,7 @@ public enum StartFields implements FieldRequirements {
         }
     },
     NUMBER_OF_PLAYERS {
-        private final int MIN_PLAYERS = 2;
+        private final int MIN_PLAYERS = 1; // SHOULD BE SET TO 2! 1 IS FOR FASTER TESTING
         private final int MAX_PLAYERS = 4;
 
         @Override

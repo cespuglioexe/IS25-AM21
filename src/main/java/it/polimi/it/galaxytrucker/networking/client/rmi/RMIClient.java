@@ -1,0 +1,168 @@
+package it.polimi.it.galaxytrucker.networking.client.rmi;
+
+import it.polimi.it.galaxytrucker.controller.GenericGameData;
+import it.polimi.it.galaxytrucker.model.exceptions.InvalidActionException;
+import it.polimi.it.galaxytrucker.networking.messages.*;
+import it.polimi.it.galaxytrucker.networking.server.rmi.RMIVirtualView;
+import it.polimi.it.galaxytrucker.view.cli.CLIView;
+import it.polimi.it.galaxytrucker.view.ConsoleColors;
+import it.polimi.it.galaxytrucker.view.cli.statePattern.viewstates.BuildingStateMenu;
+import it.polimi.it.galaxytrucker.view.cli.statePattern.viewstates.ConnectionState;
+import it.polimi.it.galaxytrucker.view.cli.statePattern.viewstates.GameSelection;
+
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
+import java.util.List;
+import java.util.Random;
+import java.util.UUID;
+
+public class RMIClient extends UnicastRemoteObject implements RMIVirtualView {
+
+    private final CLIView view;
+    private RMIVirtualServer server;
+    private String name;
+    private UUID playerID;
+    private int gameIndex;
+
+    private boolean buildingTimerIsActive;
+
+    public RMIClient () throws RemoteException {
+        super();
+        this.view = new CLIView(this);
+    }
+
+    public static void main(String[] args) throws RemoteException, NotBoundException {
+        new RMIClient().run();
+    }
+
+    public boolean isBuildingTimerIsActive() {
+        return buildingTimerIsActive;
+    }
+
+    private void run() throws RemoteException {
+        view.start(new ConnectionState(view));
+    }
+
+    public List<GenericGameData> getActiveGames () throws RemoteException{
+        return server.getControllers();
+    }
+
+    @Override
+    public String getName() throws RemoteException {
+        return name;
+    }
+
+    @Override
+    public void sendMessageToClient(GameUpdate update) throws RemoteException {
+        switch (update.getInstructionType()) {
+            case NEW_STATE:
+                switch (update.getNewSate().toUpperCase()) {
+                    case "BUILDING":
+                        view.displayBuildingStarted();
+                        view.changeState(new BuildingStateMenu(view));
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case DRAWN_TILE:
+                view.displayComponentTile(update.getNewTile());
+                break;
+            case TILE_LIST:
+                view.displayTileList(update.getTileList());
+                break;
+            case SHIP_DATA:
+                view.displayShip(update.getShipBoard());
+                break;
+            case TIMER_START:
+                buildingTimerIsActive = true;
+                view.displayTimerStarted();
+                break;
+            case TIMER_END:
+                buildingTimerIsActive = false;
+                view.displayTimerEnded();
+                break;
+        }
+        view.updateState(false);
+    }
+
+    public void receiveUserInput (UserInput input) {
+        switch (input.getType()) {
+
+            case CONNECT_SERVER:
+                try {
+                    Registry registry = LocateRegistry.getRegistry("localhost", 1234);
+                    this.server = (RMIVirtualServer) registry.lookup(input.getServerName());
+                    this.server.connect(this);
+
+                    view.updateState(false);
+                } catch (Exception e) {
+                    System.err.println("Failed to connect to '" + input.getServerName());
+                    e.printStackTrace();
+
+                    view.updateState(true);
+                }
+                break;
+
+            case SET_USERNAME:
+                try {
+                    if (!server.checkUsernameIsUnique(this, input.getPlayerName())) {
+                        view.updateState(true);
+                    } else {
+                        name = input.getPlayerName();
+                        view.changeState(new GameSelection(view));
+                    }
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+
+            case GAME_CREATION:
+                // When a player creates a new game, they are automatically added to that game
+                try {
+                    String gameNickname = "Game_" + new Random().nextInt(10000); // Generate a random nickname
+                    server.newGame(gameNickname, input.getGamePlayers(), input.getGameLevel());
+
+                    view.updateState(false);
+                } catch (RemoteException | InvalidActionException e) {
+                    // InvalidActionException should never occur when adding a player to a newly created game
+                    e.printStackTrace();
+                }
+                break;
+
+            case GAME_SELECTION:
+                try {
+                    this.playerID = server.addPlayerToGame(this, input.getGameIndex());
+                    this.gameIndex = input.getGameIndex();
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                } catch (InvalidActionException e) {
+                    if (e.getMessage().equals("The game is full"))
+                        System.out.println(ConsoleColors.RED + "The game you tried to join is already full" + ConsoleColors.RESET);
+                    view.updateState(true);
+                }
+                break;
+
+            case START_TIMER:
+                try {
+                    this.server.startBuildingPhaseTimer(gameIndex);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+                break;
+
+            default:
+                try {
+                    this.server.sendMessageToGame(playerID, input, gameIndex);
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
+                break;
+
+        }
+    }
+}

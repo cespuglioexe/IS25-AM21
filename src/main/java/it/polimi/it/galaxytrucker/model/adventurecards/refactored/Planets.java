@@ -21,6 +21,51 @@ import it.polimi.it.galaxytrucker.model.managers.CargoManager;
 import it.polimi.it.galaxytrucker.model.managers.Player;
 import it.polimi.it.galaxytrucker.model.utility.Cargo;
 
+/**
+ * Represents the "Planets" adventure card in the game Galaxy Trucker.
+ * <p>
+ * This card allows multiple players to land on different planets to collect cargo rewards.
+ * Players choose in flight order which planet to land on, and each planet may be occupied by only one player.
+ * Once the planets are claimed, players take turns selecting cargo from their assigned planet.
+ *
+ * <ul>
+ *   <li>Each player may choose to land on one of the available planets.</li>
+ *   <li>Planets are claimed in flight order and cannot be chosen by more than one player.</li>
+ *   <li>Each planet contains a list of {@link Cargo} items as rewards.</li>
+ *   <li>Players take turns choosing cargo from their planet, loading or discarding items.</li>
+ *   <li>Once all cargo is handled, each player who landed on a planet receives a flight day penalty.</li>
+ * </ul>
+ *
+ * The card operates as a Finite State Machine (FSM) and progresses through the following states:
+ * <pre>
+ * StartState
+ *     ↓
+ * ParticipationState
+ *     ↓
+ * CargoRewardState
+ *     ↓
+ * FlightDayPenaltyState
+ *     ↓
+ * EndState
+ * </pre>
+ * Transitions are automatic and handled internally via {@code updateState()} and {@code changeState()}.
+ *
+ * <h2>Implementation Notes</h2>
+ * <ul>
+ *   <li>Implements {@link CargoReward} to allow manual cargo selection and discarding per planet.</li>
+ *   <li>Implements {@link FlightDayPenalty} to apply movement penalties after rewards.</li>
+ *   <li>Only players who landed on a planet participate in the cargo phase and receive penalties.</li>
+ * </ul>
+ * 
+ * @author Stefano Carletto
+ * @version 1.0
+ *
+ * @see AdventureCard
+ * @see Participation
+ * @see CargoReward
+ * @see FlightDayPenalty
+ * @see StateMachine
+ */
 public class Planets extends StateMachine implements AdventureCard, Participation<Cargo>, CargoReward, FlightDayPenalty {
     private Player currentPlayer;
     private HashMap<Integer, List<Cargo>> planetsAndRewards = new HashMap<>();
@@ -147,6 +192,14 @@ public class Planets extends StateMachine implements AdventureCard, Participatio
         return currentPlayer;
     }
 
+    /**
+     * Returns the index of the planet currently occupied by the specified player.
+     * <p>
+     *
+     * @param targetPlayer the player whose occupied planet is to be found
+     * @return the index of the planet occupied by the player
+     * @throws IllegalArgumentException if the player is not occupying any planet
+     */
     public int getOccupiedPlanetFromPlayer(Player targetPlayer) {
         return planetsAndPlayers.entrySet().stream()
             .filter(entry -> isOccupiedByPlayer(entry, targetPlayer))
@@ -158,14 +211,6 @@ public class Planets extends StateMachine implements AdventureCard, Participatio
         return entry.getValue().isPresent() && entry.getValue().get().equals(targetPlayer);
     }
 
-    /**
-     * Returns the total cargo reward collected from all selected planets.
-     *
-     * <p>This method aggregates all {@link Cargo} items available as rewards
-     * across the selected planets and returns them as a single set.</p>
-     *
-     * @return a set containing all cargo rewards from all the planets
-     */
     @Override
     public List<Cargo> getCargoReward() {
         int planet = getOccupiedPlanetFromPlayer(currentPlayer);
@@ -233,13 +278,6 @@ public class Planets extends StateMachine implements AdventureCard, Participatio
         }
     }
 
-    /**
-     * Applies the flight day penalty to all players who have landed on a planet.
-     *
-     * <p>The penalty is applied in reverse player order. Each affected player
-     * is moved backwards on the flight board by a fixed number of steps
-     * defined by the flight day penalty value.</p>
-     */
     @Override
     public void applyFlightDayPenalty() {
         List<Player> players = getPlayerReverseOrder();

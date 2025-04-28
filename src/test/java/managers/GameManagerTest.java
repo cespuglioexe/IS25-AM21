@@ -8,61 +8,50 @@ import it.polimi.it.galaxytrucker.model.managers.Model;
 import it.polimi.it.galaxytrucker.model.exceptions.InvalidActionException;
 import it.polimi.it.galaxytrucker.model.gameStates.BuildingState;
 import it.polimi.it.galaxytrucker.model.gameStates.ConnectionState;
-import it.polimi.it.galaxytrucker.model.gameStates.StartState;
 import it.polimi.it.galaxytrucker.model.managers.GameManager;
 
 public class GameManagerTest {
     private Model model;
+    private final int level = 1;
+    private final int numberOfPlayers = 4;
 
     @BeforeEach
     void start() {
-        model = new GameManager();
+        model = new GameManager(level, numberOfPlayers, null, "Frigeri");
     }
 
     @Test
-    void checkStartStateTest() {
-        assertTrue(() -> model.getCurrentState().getClass().equals(StartState.class));
-    }
-
-    @Test
-    void setInvalidGameSpecificsTest() {
-        assertThrows(InvalidActionException.class, () -> model.setLevel(4));
-        assertThrows(InvalidActionException.class, () -> model.setNumberOfPlayers(5));
-    }
-
-    @Test
-    void setGameSpecificsTest() {
-        setGameSpecifics();
-
+    void playerConnectsTest() {
         assertEquals(ConnectionState.class, model.getCurrentState().getClass());
-    }
-
-    private void setGameSpecifics() {
-        model.setLevel(1);
-        model.setNumberOfPlayers(4);
-    }
-
-    @Test
-    void addPlayerAlreadyPresentTest() {
-        setGameSpecifics();
 
         model.addPlayer("Margara");
-        assertThrows(InvalidActionException.class, () -> model.addPlayer("Margara"));
+
+        assertTrue(() -> model.getPlayers().stream()
+            .map(player -> player.getPlayerName())
+            .anyMatch(name -> name.equals("Margara"))
+        );
     }
 
     @Test
-    void allPlayersConnectedTest() {
+    void allPlayersConnectTest() {
+        assertEquals(ConnectionState.class, model.getCurrentState().getClass());
+
         addAllPlayers();
 
         assertEquals(BuildingState.class, model.getCurrentState().getClass());
     }
-
     private void addAllPlayers() {
-        setGameSpecifics();
-
         model.addPlayer("Margara");
         model.addPlayer("Ing. Conti");
         model.addPlayer("D'Abate");
         model.addPlayer("Balzarini");
+    }
+
+    @Test
+    void playerConnectsToFullGameTest() {
+        assertEquals(ConnectionState.class, model.getCurrentState().getClass());
+
+        addAllPlayers();
+        assertThrows(InvalidActionException.class, () -> model.addPlayer("Tomino"));
     }
 }

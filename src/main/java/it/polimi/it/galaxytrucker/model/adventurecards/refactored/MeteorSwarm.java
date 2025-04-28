@@ -1,9 +1,10 @@
-package it.polimi.it.galaxytrucker.model.adventurecards.refactored;
+/*package it.polimi.it.galaxytrucker.model.adventurecards.refactored;
 
 import java.util.HashMap;
 import java.util.List;
 
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCard;
+import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.attack.Attack;
 import it.polimi.it.galaxytrucker.model.componenttiles.SingleCannon;
 import it.polimi.it.galaxytrucker.model.design.strategyPattern.FlightRules;
 import it.polimi.it.galaxytrucker.model.exceptions.IllegalComponentPositionException;
@@ -133,4 +134,4 @@ public class MeteorSwarm extends Attack implements AdventureCard {
         ship.activateComponent(doubleCannonAndBattery);
         shootAtMeteorWith(doubleCannonCoord);
     }
-}
+}*/

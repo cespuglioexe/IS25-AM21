@@ -16,6 +16,56 @@ import it.polimi.it.galaxytrucker.model.exceptions.InvalidActionException;
 import it.polimi.it.galaxytrucker.model.managers.Player;
 import it.polimi.it.galaxytrucker.model.managers.ShipManager;
 
+/**
+ * Represents the "Abandoned Ship" adventure card in the game Galaxy Trucker.
+ * <p>
+ * This card allows players to decide whether to send a crewmember to explore a derelict ship
+ * and claim a reward in credits. Only one player can participate, and their choice comes with
+ * both a benefit and two penalties.
+ *
+ * <ul>
+ *   <li>Players are offered the opportunity to participate in salvaging the abandoned ship.</li>
+ *   <li>Only the first player to accept (in flight order) is allowed to participate.</li>
+ *   <li>The participating player receives a credit reward, but also:</li>
+ *   <ul>
+ *     <li>loses one crewmember (chosen by position), and</li>
+ *     <li>is moved backward on the flight board by a specified number of days.</li>
+ *   </ul>
+ *   <li>All other players simply are unaffected.</li>
+ * </ul>
+ *
+ * The card is implemented as a Finite State Machine, transitioning through the following states:
+ * <pre>
+ * StartState
+ *     ↓
+ * ParticipationState
+ *     ↓
+ * CreditRewardState
+ *     ↓
+ * CrewmatePenaltyState
+ *     ↓
+ * FlightDayPenaltyState
+ *     ↓
+ * EndState
+ * </pre>
+ * Each state handles a single phase of the card's effect and transitions to the next automatically.
+ *
+ * <h2>Implementation Notes</h2>
+ * <ul>
+ *   <li>Implements {@link Participation} with a single credit-based choice.</li>
+ *   <li>Implements {@link CreditReward}, {@link CrewmatePenalty}, and {@link FlightDayPenalty}.</li>
+ * </ul>
+ * 
+ * @author Stefano Carletto
+ * @version 1.0
+ *
+ * @see AdventureCard
+ * @see Participation
+ * @see CreditReward
+ * @see CrewmatePenalty
+ * @see FlightDayPenalty
+ * @see StateMachine
+ */
 public class AbandonedShip extends StateMachine implements AdventureCard, Participation<Integer>, CreditReward, CrewmatePenalty, FlightDayPenalty {
     private Optional<Player> partecipant = Optional.empty();
     private int creditReward;

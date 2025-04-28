@@ -1,0 +1,178 @@
+package it.polimi.it.galaxytrucker.view.cli.statePattern.viewstates;
+
+import it.polimi.it.galaxytrucker.networking.messages.RequestType;
+import it.polimi.it.galaxytrucker.networking.messages.UserInput;
+import it.polimi.it.galaxytrucker.networking.messages.UserInputType;
+import it.polimi.it.galaxytrucker.view.cli.CLIView;
+import it.polimi.it.galaxytrucker.view.ConsoleColors;
+import it.polimi.it.galaxytrucker.view.cli.statePattern.State;
+import it.polimi.it.galaxytrucker.view.cli.statePattern.StateMachine;
+
+public class BuildingStateMenu extends State {
+
+    private volatile boolean waiting = true;
+
+    public BuildingStateMenu(CLIView view) {
+        super(view);
+    }
+
+    @Override
+    public void enter(StateMachine fsm) {
+
+//        AtomicInteger seconds = new AtomicInteger(0);
+//
+//        Timer.scheduleAtFixedRate(() -> {
+//            int sec = seconds.getAndIncrement();
+//            System.out.print("\rSecondi: " + sec);
+//        }, 0, 1, TimeUnit.SECONDS);
+//
+//        System.out.println("Timer avviato!");
+//
+//        System.out.println("Main thread is free to do other stuff...");
+
+        // Display ship
+        view.getClient().receiveUserInput(
+                new UserInput.UserInputBuilder(view.getClient(), UserInputType.REQUEST)
+                        .setRequestType(RequestType.SHIP_BOARD)
+                        .build()
+        );
+
+        while (waiting) {
+
+        }
+        waiting = true;
+
+        System.out.print("""
+                \nChoose an option:
+                [1]: Choose a tile
+                [2]: Look a pile of cards
+                """);
+        if (!view.getClient().isBuildingTimerIsActive()){
+            System.out.println("[3]: Restart timer");
+        }
+        System.out.print("> ");
+
+        int opt_main = scanner.nextInt();
+        switch (opt_main){
+            case 1:
+                System.out.print("""
+                \nChoose an option:
+                [1]: Pick a new random tile
+                [2]: Choose a saved tile
+                [3]: Choose a discarded tile
+                > """);
+
+                int opt_tile = scanner.nextInt();
+                int chosenTile;
+                switch (opt_tile){
+                    case 1:
+                        view.getClient().receiveUserInput(
+                                new UserInput.UserInputBuilder(view.getClient(), UserInputType.REQUEST)
+                                        .setRequestType(RequestType.NEW_TILE)
+                                        .build()
+                        );
+
+                        while (waiting) {
+
+                        }
+                        waiting = true;
+
+                        break;
+                    case 2:
+                        view.getClient().receiveUserInput(
+                                new UserInput.UserInputBuilder(view.getClient(), UserInputType.REQUEST)
+                                        .setRequestType(RequestType.SAVED_TILES)
+                                        .build()
+                        );
+
+                        while (waiting) {
+
+                        }
+                        waiting = true;
+
+                        System.out.println("Which saved tile do you want to choose?");
+                        System.out.print("> ");
+                        chosenTile = scanner.nextInt();
+
+                        view.getClient().receiveUserInput(
+                                new UserInput.UserInputBuilder(view.getClient(), UserInputType.REQUEST)
+                                        .setRequestType(RequestType.SELECT_SAVED_TILE)
+                                        .setSelectedTileIndex(chosenTile)
+                                        .build()
+                        );
+
+                        System.out.println("After selected saved tile in buildingStateMenu");
+                        break;
+                    case 3:
+
+                        view.getClient().receiveUserInput(
+                                new UserInput.UserInputBuilder(view.getClient(), UserInputType.REQUEST)
+                                        .setRequestType(RequestType.DISCARDED_TILES)
+                                        .build()
+                        );
+
+                        while (waiting) {
+
+                        }
+                        waiting = true;
+
+                        System.out.println("Which discarded tile do you want to choose?");
+                        System.out.print("> ");
+                        chosenTile = scanner.nextInt();
+                         view.getClient().receiveUserInput(
+                                    new UserInput.UserInputBuilder(view.getClient(), UserInputType.REQUEST)
+                                     .setRequestType(RequestType.SELECT_DISCARDED_TILE)
+                                     .setSelectedTileIndex(chosenTile)
+                                     .build()
+                         );
+                        System.out.println("After get client ");
+
+                        break;
+                }
+
+                fsm.changeState(new TileActions(view));
+
+                break;
+            case 2:
+                System.out.println("Which card pile do you want to see? (1, 2, 3)");
+                System.out.print("> ");
+                int pile = scanner.nextInt();
+
+                view.getClient().receiveUserInput(
+                        new UserInput.UserInputBuilder(view.getClient(), UserInputType.REQUEST)
+                                .setRequestType(RequestType.CARD_PILE)
+                                .setCardPileIndex(pile - 1)
+                                .build()
+                );
+
+                fsm.changeState(new BuildingStateMenu(view));
+
+                break;
+            case 3:
+                System.out.println("");
+                if(!view.getClient().isBuildingTimerIsActive()){
+                    view.getClient().receiveUserInput(
+                            new UserInput.UserInputBuilder(view.getClient(), UserInputType.START_TIMER)
+                                    .build()
+                    );
+                }
+
+                fsm.changeState(new BuildingStateMenu(view));
+
+                break;
+
+            default:
+                System.out.println(ConsoleColors.YELLOW + "That's not a valid option. Please try again" + ConsoleColors.RESET);
+            }
+    }
+
+    @Override
+    public void update(StateMachine fsm, boolean repeat) {
+        waiting = false;
+    }
+
+    @Override
+    public void exit(StateMachine fsm) {
+
+    }
+}
