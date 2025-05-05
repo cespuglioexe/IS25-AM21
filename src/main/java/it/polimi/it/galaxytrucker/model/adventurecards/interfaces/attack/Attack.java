@@ -2,14 +2,14 @@ package it.polimi.it.galaxytrucker.model.adventurecards.interfaces.attack;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 import it.polimi.it.galaxytrucker.model.componenttiles.Shield;
 import it.polimi.it.galaxytrucker.model.design.statePattern.StateMachine;
+import it.polimi.it.galaxytrucker.model.exceptions.InvalidActionException;
 import it.polimi.it.galaxytrucker.model.managers.Player;
 import it.polimi.it.galaxytrucker.model.managers.ShipManager;
 import it.polimi.it.galaxytrucker.model.utility.Direction;
-import it.polimi.it.galaxytrucker.model.utility.Projectile;
-
 /**
  * Abstract base class for all adventure cards that involve projectile-based attacks in Galaxy Trucker.
  * <p>
@@ -52,14 +52,11 @@ public abstract class Attack extends StateMachine {
     private Player player;
     private int playerFirePower;
     private HashMap<List<Integer>, List<Direction>> shieldsAndDirection;
-    private HashMap<Projectile, Direction> projectilesAndDirection;
     private HashMap<Projectile, List<Integer>> projectilesAndAimedComponent;
 
-    public Attack(HashMap<Projectile, Direction> projectilesAndDirection) {
-        this.projectilesAndDirection = projectilesAndDirection;
-
+    public Attack(List<Projectile> projectiles) {
         projectilesAndAimedComponent = new HashMap<>();
-        for (Projectile projectile : projectilesAndDirection.keySet()) {
+        for (Projectile projectile : projectiles) {
             projectilesAndAimedComponent.put(projectile, List.of());
         }
         shieldsAndDirection = new HashMap<>();
@@ -77,8 +74,8 @@ public abstract class Attack extends StateMachine {
         return shieldsAndDirection;
     }
 
-    public HashMap<Projectile, Direction> getProjectilesAndDirection() {
-        return projectilesAndDirection;
+    public Set<Projectile> getProjectiles() {
+        return projectilesAndAimedComponent.keySet();
     }
 
     public List<Integer> getAimedCoordsByProjectile(Projectile projectile) {
@@ -99,7 +96,10 @@ public abstract class Attack extends StateMachine {
      * @return the list of two integers representing the aimed row and column
      */
     public List<Integer> aimAtCoordsWith(Projectile projectile) {
-        Direction direction = projectilesAndDirection.get(projectile);
+        if (!projectilesAndAimedComponent.containsKey(projectile)) {
+            throw new InvalidActionException("Cannot aim with projectile that is not in the arsenal");
+        }
+        Direction direction = projectile.getDirection();
 
         List<Integer> aimedCoords = AimingSystem.aimFrom(direction, player.getShipManager());
         int aimedRow = aimedCoords.get(0);
