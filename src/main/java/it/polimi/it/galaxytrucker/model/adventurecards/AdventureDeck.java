@@ -1,6 +1,12 @@
 package it.polimi.it.galaxytrucker.model.adventurecards;
 
 
+import it.polimi.it.galaxytrucker.model.adventurecards.refactored.Planets;
+import it.polimi.it.galaxytrucker.model.design.strategyPattern.FlightRules;
+import it.polimi.it.galaxytrucker.model.managers.FlightBoardFlightRules;
+import it.polimi.it.galaxytrucker.model.utility.Cargo;
+import it.polimi.it.galaxytrucker.model.utility.Color;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -15,6 +21,7 @@ public class AdventureDeck {
 
     private List<AdventureCard> initializeAdventureCards() {
         //TODO from JSON file
+
         return null;
     }
 

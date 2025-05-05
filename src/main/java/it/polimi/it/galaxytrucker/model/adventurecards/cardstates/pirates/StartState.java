@@ -1,0 +1,28 @@
+package it.polimi.it.galaxytrucker.model.adventurecards.cardstates.pirates;
+
+import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.pirates.*;
+import it.polimi.it.galaxytrucker.model.adventurecards.refactored.Pirates;
+import it.polimi.it.galaxytrucker.model.design.statePattern.State;
+import it.polimi.it.galaxytrucker.model.design.statePattern.StateMachine;
+
+public class StartState extends State {
+
+    @Override
+    public void enter(StateMachine fsm) {
+        Pirates card = (Pirates) fsm;
+        card.nextPlayer();
+        if(card.getPlayersAndFirePower().size() == card.getNumberOfBoardPlayers())
+            fsm.changeState(new EvaluatePlayerState());
+        else fsm.changeState(new CalculateFirePowerState());
+    }
+
+    @Override
+    public void update(StateMachine fsm) {
+
+    }
+
+    @Override
+    public void exit(StateMachine fsm) {
+
+    }
+}

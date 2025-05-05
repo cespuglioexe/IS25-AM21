@@ -82,6 +82,10 @@ public abstract class Attack extends StateMachine {
         return projectilesAndAimedComponent.get(projectile);
     }
 
+    public HashMap<Projectile, List<Integer>> getProjectilesAndAimedComponent() {
+        return projectilesAndAimedComponent;
+    }
+
     public void setPlayer(Player player) {
         this.player = player;
 

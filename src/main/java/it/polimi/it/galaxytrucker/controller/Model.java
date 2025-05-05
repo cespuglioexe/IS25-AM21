@@ -1,6 +1,6 @@
 package it.polimi.it.galaxytrucker.controller;
 
-import it.polimi.it.galaxytrucker.networking.rmi.server.RMIVirtualView;
+import it.polimi.it.galaxytrucker.networking.server.rmi.RMIVirtualView;
 
 import java.util.ArrayList;
 import java.util.List;

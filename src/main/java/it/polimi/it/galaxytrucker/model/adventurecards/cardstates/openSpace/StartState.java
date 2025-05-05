@@ -1,6 +1,6 @@
 package it.polimi.it.galaxytrucker.model.adventurecards.cardstates.openSpace;
 
-import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.planets.ParticipationState;
+import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.openSpace.CalculateEnginePowerState;
 import it.polimi.it.galaxytrucker.model.design.statePattern.State;
 import it.polimi.it.galaxytrucker.model.design.statePattern.StateMachine;
 

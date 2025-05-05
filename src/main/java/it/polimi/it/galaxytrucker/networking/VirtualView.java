@@ -1,6 +1,8 @@
 package it.polimi.it.galaxytrucker.networking;
 
+import it.polimi.it.galaxytrucker.networking.messages.GameUpdate;
+
+
 public interface VirtualView {
-    void showUpdate (Integer number) throws Exception;
-    void reportError (String message) throws Exception;
+    void sendMessageToClient (GameUpdate update) throws Exception;
 }

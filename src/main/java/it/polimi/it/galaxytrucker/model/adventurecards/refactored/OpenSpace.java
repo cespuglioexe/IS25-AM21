@@ -3,7 +3,7 @@ package it.polimi.it.galaxytrucker.model.adventurecards.refactored;
 import java.util.HashMap;
 import java.util.List;
 
-import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.planets.StartState;
+import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.openSpace.StartState;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCard;
 import it.polimi.it.galaxytrucker.model.design.statePattern.StateMachine;
 import it.polimi.it.galaxytrucker.model.design.strategyPattern.FlightRules;
@@ -32,12 +32,10 @@ public class OpenSpace extends StateMachine implements AdventureCard {
     @Override
     public void play() { start(new StartState());}
 
-    public void selectEngine(Player player, List<Integer> doubleEngine, List<Integer> battery) {
+    public void selectEngine(Player player, HashMap<List<Integer>, List<Integer>> doubleEngineAndBatteries) {
         ShipManager ship = player.getShipManager();
-        HashMap<List<Integer>, List<Integer>> engineAndBattery = new HashMap<>();
 
-        engineAndBattery.put(doubleEngine, battery);
-        int enginePower = (int) ship.activateComponent(engineAndBattery);
+        int enginePower = (int) ship.activateComponent(doubleEngineAndBatteries);
 
         int baseEnginePower = playersAndEnginePower.get(player);
         enginePower += baseEnginePower;
@@ -45,7 +43,6 @@ public class OpenSpace extends StateMachine implements AdventureCard {
         playersAndEnginePower.put(player, enginePower);
         updateState();
     }
-
 
     public void travel() {
         List<Player> players = flightRules.getPlayerOrder();

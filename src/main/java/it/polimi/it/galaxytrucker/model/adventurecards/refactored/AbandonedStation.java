@@ -1,10 +1,8 @@
 package it.polimi.it.galaxytrucker.model.adventurecards.refactored;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
-import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.planets.StartState;
+import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.abandonedstation.StartState;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCard;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.CargoReward;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.FlightDayPenalty;
@@ -25,8 +23,8 @@ public class AbandonedStation extends StateMachine implements AdventureCard, Par
 
     private final FlightRules flightRules;
 
-    public AbandonedStation(List<Cargo> cargoReward, int flightDayPenalty, FlightRules flightRules, int numberofCrewmatesRequired) {
-        this.cargoReward = cargoReward;
+    public AbandonedStation(List<Cargo> cargoReward, int numberofCrewmatesRequired, int flightDayPenalty, FlightRules flightRules ) {
+        this.cargoReward = loadCargoList(cargoReward);
         this.flightDayPenalty = flightDayPenalty;
         this.flightRules = flightRules;
         this.numberofCrewmatesRequired = numberofCrewmatesRequired;
@@ -48,8 +46,9 @@ public class AbandonedStation extends StateMachine implements AdventureCard, Par
         return numberofCrewmatesRequired;
     }
 
+
     public boolean isCardOccupied() {
-        if(partecipant.isPresent())
+        if(partecipant.isEmpty())
         {
             return false;
         }
@@ -57,9 +56,9 @@ public class AbandonedStation extends StateMachine implements AdventureCard, Par
     }
 
     public boolean hasPlayerRequiredNumberOfCrewmates(){
-        if(partecipant.isPresent()) {
+        if(!partecipant.isEmpty()) {
             ShipManager ship = partecipant.get().getShipManager();
-            return ship.countCrewmates() > numberofCrewmatesRequired;
+            return ship.countCrewmates() >= numberofCrewmatesRequired;
         }
         return false;
     }
@@ -116,8 +115,12 @@ public class AbandonedStation extends StateMachine implements AdventureCard, Par
         updateState();
     }
 
+    private List<Cargo> loadCargoList(List<Cargo> list){
+        return new ArrayList<>(list);
+    }
+
     private Cargo removeCargoFromCard(int loadIndex) {
-        List<Cargo> cargoList = getCargoReward();
+        List<Cargo> cargoList = cargoReward;
         Cargo cargo = cargoList.get(loadIndex);
         cargoList.remove(loadIndex);
 
