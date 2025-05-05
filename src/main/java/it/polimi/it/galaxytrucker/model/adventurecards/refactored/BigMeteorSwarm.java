@@ -1,4 +1,4 @@
-/*package it.polimi.it.galaxytrucker.model.adventurecards.refactored;
+package it.polimi.it.galaxytrucker.model.adventurecards.refactored;
 
 import java.util.HashMap;
 
@@ -11,4 +11,3 @@ public class BigMeteorSwarm extends MeteorSwarm {
         super(meteorsAndDirections, flightRules);
     }
 }
-*/

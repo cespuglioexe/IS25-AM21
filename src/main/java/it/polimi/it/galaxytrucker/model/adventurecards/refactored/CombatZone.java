@@ -334,10 +334,6 @@ public class CombatZone extends Attack implements AdventureCard, FlightDayPenalt
         updateState();
     }
 
-    @Override
-    public int getCrewmatePenalty() {
-        return 0;
-    }
 
     @Override
     public void applyFlightDayPenalty() {
