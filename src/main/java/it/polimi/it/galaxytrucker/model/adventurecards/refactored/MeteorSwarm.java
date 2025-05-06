@@ -1,8 +1,10 @@
-/*package it.polimi.it.galaxytrucker.model.adventurecards.refactored;
+package it.polimi.it.galaxytrucker.model.adventurecards.refactored;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
+import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.meteorSwarm.StartState;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCard;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.attack.Attack;
 import it.polimi.it.galaxytrucker.model.componenttiles.SingleCannon;
@@ -16,6 +18,7 @@ import it.polimi.it.galaxytrucker.model.utility.Projectile;
 
 public class MeteorSwarm extends Attack implements AdventureCard {
     private Projectile currentMeteor;
+    private Projectile meteorAttack;
     private final FlightRules flightRules;
 
     public MeteorSwarm(HashMap<Projectile, Direction> meteorsAndDirections, FlightRules flightRules) {
@@ -25,47 +28,79 @@ public class MeteorSwarm extends Attack implements AdventureCard {
 
     @Override
     public void play() {
-        nextPlayer();
-
         for (Projectile projectile : getProjectilesAndDirection().keySet()) {
             aimAtCoordsWith(projectile);
         }
+        start(new StartState());
     }
-    private void nextPlayer() {
-        List<Player> players = flightRules.getPlayerOrder();
 
-        for (int i = 0; i < players.size(); i++) {
-            if (players.get(i).equals(getPlayer())) {
-                if (i + 1 < players.size()) {
-                    setPlayer(players.get(i + 1));
-                    return;
-                }
-                break;
+    public void selectPlayer(){
+        List<Player> players = flightRules.getPlayerOrder();
+        if(getPlayer() == null){
+            setPlayer(players.getFirst());
+            return;
+        }
+        setPlayer(nextPlayer(players).orElse(null));
+    }
+
+    private Optional<Player> nextPlayer(List<Player> players) {
+        for(int i=0;i<players.size();i++){
+            if(players.get(i).equals(getPlayer()) && (i+1) < players.size()) {
+                return Optional.of(players.get(i + 1));
             }
         }
-        setPlayer(players.get(0));
+        return Optional.empty();
+    }
+
+    public void selectMeteor(){
+        List<Projectile> meteors = super.getProjectilesAndDirection().keySet().stream().toList();
+        if(currentMeteor == null){
+            currentMeteor = meteors.getFirst();
+            meteorAttack =  currentMeteor;
+            return;
+        }
+        currentMeteor = nextMeteor(meteors).orElse(null);
+        meteorAttack =  currentMeteor;
+    }
+
+    private Optional<Projectile> nextMeteor(List<Projectile> meteors) {
+        for(int i=0;i<meteors.size();i++){
+            if(meteors.get(i).equals(currentMeteor) && (i+1) <  meteors.size()) {
+                return Optional.of(meteors.get(i + 1));
+            }
+        }
+        return Optional.empty();
+    }
+
+    public Projectile getCurrentMeteor() {
+        return currentMeteor;
+    }
+
+    public Projectile getMeteorAttack() {
+        return meteorAttack;
     }
 
     @Override
     public void attack() {
-        List<Integer> aimedCoords = getAimedCoordsByProjectile(currentMeteor);
-        Direction direction = getProjectilesAndDirection().get(currentMeteor);
+        List<Integer> aimedCoords = getAimedCoordsByProjectile(meteorAttack);
+        Direction direction = getProjectilesAndDirection().get(meteorAttack);
 
-        if (currentMeteor == Projectile.SMALL) {
+        if (meteorAttack == Projectile.SMALL) {
             if (isShieldActivated(direction)) {
-                nextPlayer();
+                updateState();
                 return;
             }
             if (hasExposedConnector(aimedCoords.get(0), aimedCoords.get(1), direction)) {
                 destroyComponent(aimedCoords.get(0), aimedCoords.get(1));
             }
-            nextPlayer();
+            updateState();
             return;
         }
         destroyComponent(aimedCoords.get(0), aimedCoords.get(1));
-        nextPlayer();
+        updateState();
     }
-    private boolean isShieldActivated(Direction direction) {
+
+    public boolean isShieldActivated(Direction direction) {
         for (List<Integer> shieldCoord : getShieledsAndDirection().keySet()) {
             List<Direction> coveredDirections = getShieledsAndDirection().get(shieldCoord);
             if (coveredDirections.contains(direction)) {
@@ -95,8 +130,8 @@ public class MeteorSwarm extends Attack implements AdventureCard {
 
         SingleCannon cannon = (SingleCannon) ship.getComponent(cannonCoord.get(0), cannonCoord.get(1)).get();
         Direction cannonDirection = Direction.fromInt(cannon.getRotation());
-        Direction meteorDirection = getProjectilesAndDirection().get(currentMeteor);
-        List<Integer> aimedCoords = getAimedCoordsByProjectile(currentMeteor);
+        Direction meteorDirection = getProjectilesAndDirection().get(meteorAttack);
+        List<Integer> aimedCoords = getAimedCoordsByProjectile(meteorAttack);
 
         if (!isFacingTheMeteor(cannonDirection)) {
             throw new InvalidActionException("The cannon must face the meteor");
@@ -116,10 +151,9 @@ public class MeteorSwarm extends Attack implements AdventureCard {
             }
         }
 
-        nextPlayer();
     }
     private boolean isFacingTheMeteor(Direction direction) {
-        Direction meteorDirection = getProjectilesAndDirection().get(currentMeteor);
+        Direction meteorDirection = getProjectilesAndDirection().get(meteorAttack);
 
         if (direction == meteorDirection.reverse()) {
             return true;
@@ -132,6 +166,14 @@ public class MeteorSwarm extends Attack implements AdventureCard {
         doubleCannonAndBattery.put(doubleCannonCoord, batteryCoord);
 
         ship.activateComponent(doubleCannonAndBattery);
-        shootAtMeteorWith(doubleCannonCoord);
+        try{
+            shootAtMeteorWith(doubleCannonCoord);
+            meteorAttack=null;
+        }catch(InvalidActionException exception){
+
+        }
+
+        updateState();
     }
-}*/
+
+}

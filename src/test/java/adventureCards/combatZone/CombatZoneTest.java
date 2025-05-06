@@ -19,7 +19,7 @@ import it.polimi.it.galaxytrucker.model.managers.FlightBoardFlightRules;
 import it.polimi.it.galaxytrucker.model.managers.Player;
 import it.polimi.it.galaxytrucker.model.managers.ShipManager;
 import it.polimi.it.galaxytrucker.model.utility.Color;
-import it.polimi.it.galaxytrucker.model.utility.Projectile;
+import it.polimi.it.galaxytrucker.model.utility.ProjectileType;
 
 public class CombatZoneTest {
     private CombatZone card;
@@ -191,8 +191,16 @@ public class CombatZoneTest {
 
         card.activateNoShield();
 
-        List<Integer> smallShotCoords = card.getAimedCoordsByProjectile(Projectile.SMALL);
-        List<Integer> bigShotCoords = card.getAimedCoordsByProjectile(Projectile.BIG);
+        List<Integer> smallShotCoords = card.getProjectiles().stream()
+            .filter(p -> p.getSize() == ProjectileType.SMALL)
+            .findFirst()
+            .map(p -> card.getAimedCoordsByProjectile(p))
+            .orElse(List.of());
+        List<Integer> bigShotCoords = card.getProjectiles().stream()
+            .filter(p -> p.getSize() == ProjectileType.BIG)
+            .findFirst()
+            .map(p -> card.getAimedCoordsByProjectile(p))
+            .orElse(List.of());
 
         System.out.println("Ship after the attack:");
         ship.printBoard();
@@ -230,8 +238,16 @@ public class CombatZoneTest {
         selectedShieldAndBatteries.put(List.of(7, 9), List.of(7, 8));
         card.activateShields(selectedShieldAndBatteries);
     
-        List<Integer> smallShotCoords = card.getAimedCoordsByProjectile(Projectile.SMALL);
-        List<Integer> bigShotCoords = card.getAimedCoordsByProjectile(Projectile.BIG);
+        List<Integer> smallShotCoords = card.getProjectiles().stream()
+            .filter(p -> p.getSize() == ProjectileType.SMALL)
+            .findFirst()
+            .map(p -> card.getAimedCoordsByProjectile(p))
+            .orElse(List.of());
+        List<Integer> bigShotCoords = card.getProjectiles().stream()
+            .filter(p -> p.getSize() == ProjectileType.BIG)
+            .findFirst()
+            .map(p -> card.getAimedCoordsByProjectile(p))
+            .orElse(List.of());
 
         System.out.println("Ship after the attack:");
         ship.printBoard();

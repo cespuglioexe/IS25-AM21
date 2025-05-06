@@ -1,8 +1,9 @@
-/*package it.polimi.it.galaxytrucker.model.adventurecards.refactored;
+package it.polimi.it.galaxytrucker.model.adventurecards.refactored;
 
 import java.util.HashMap;
 import java.util.List;
 
+import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.pirates.StartState;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCard;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.CreditReward;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.FlightDayPenalty;
@@ -18,6 +19,7 @@ public class Pirates extends Attack implements AdventureCard,FlightDayPenalty, C
     private int firePowerRequired;
     private int creditReward;
     private int flightDayPenalty;
+    HashMap<Player,Double> playersAndFirePower;
 
     private final FlightRules flightRules;
     
@@ -26,17 +28,19 @@ public class Pirates extends Attack implements AdventureCard,FlightDayPenalty, C
         this.creditReward = creditReward;
         this.flightDayPenalty = flightDayPenalty;
         this.flightRules = flightRules;
+        playersAndFirePower = new HashMap<>();
     }
     
     @Override
     public void play() {
-        nextPlayer();
-
         for (Projectile projectile : getProjectilesAndDirection().keySet()) {
             aimAtCoordsWith(projectile);
         }
+        start(new StartState());
     }
-    private void nextPlayer() {
+
+
+    public void nextPlayer() {
         List<Player> players = flightRules.getPlayerOrder();
 
         for (int i = 0; i < players.size(); i++) {
@@ -51,12 +55,28 @@ public class Pirates extends Attack implements AdventureCard,FlightDayPenalty, C
         setPlayer(players.get(0));
     }
 
+    public HashMap<Player,Double> getPlayersAndFirePower() {
+        return this.playersAndFirePower;
+    }
+
+    public void selectCannons(HashMap<List<Integer>, List<Integer>> doubleCannonsAndBatteries) {
+        ShipManager ship = super.getPlayer().getShipManager();
+        double firePower = ship.activateComponent(doubleCannonsAndBatteries);
+
+        double baseFirePower = playersAndFirePower.get(super.getPlayer());
+        firePower += baseFirePower;
+
+        playersAndFirePower.put(super.getPlayer(), firePower);
+        updateState();
+    }
+
+    public void selectNoCannons() {
+        playersAndFirePower.put(super.getPlayer(),(double)super.getPlayerFirePower());
+        updateState();
+    }
+
     @Override
     public void attack() {
-        if (getPlayerFirePower() > firePowerRequired) {
-            return;
-        }
-       
         for (Projectile projectile : getProjectilesAndDirection().keySet()) {
             List<Integer> aimedCoords = getAimedCoordsByProjectile(projectile);
             Direction direction = getProjectilesAndDirection().get(projectile);
@@ -68,17 +88,8 @@ public class Pirates extends Attack implements AdventureCard,FlightDayPenalty, C
             }
             destroyComponent(aimedCoords.get(0), aimedCoords.get(1));
         }
-        nextPlayer();
     }
-    private boolean isShieldActivated(Direction direction) {
-        for (List<Integer> shieldCoord : getShieledsAndDirection().keySet()) {
-            List<Direction> coveredDirections = getShieledsAndDirection().get(shieldCoord);
-            if (coveredDirections.contains(direction)) {
-                return true;
-            }
-        }
-        return false;
-    }
+
     private void destroyComponent(int row, int column) {
         ShipManager ship = getPlayer().getShipManager();
         try {
@@ -89,15 +100,30 @@ public class Pirates extends Attack implements AdventureCard,FlightDayPenalty, C
 
         }
     }
+
+    public int getNumberOfBoardPlayers() {
+        return flightRules.getPlayerOrder().size();
+    }
     
     @Override
     public int getCreditReward() {
         return creditReward;
     }
 
+    public int getFirePowerRequired() {
+        return firePowerRequired;
+    }
+
     @Override
     public void applyCreditReward() {
         getPlayer().addCredits(creditReward);
+        updateState();
+    }
+
+    public void discardCreditReward(){
+        creditReward = 0;
+        flightDayPenalty = 0;
+        updateState();
     }
     
     @Override
@@ -105,4 +131,3 @@ public class Pirates extends Attack implements AdventureCard,FlightDayPenalty, C
         flightRules.movePlayerBackwards(flightDayPenalty, getPlayer());
     }
 }
-*/

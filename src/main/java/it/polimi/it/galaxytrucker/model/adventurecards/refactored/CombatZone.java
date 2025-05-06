@@ -9,12 +9,13 @@ import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCard;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.CrewmatePenalty;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.FlightDayPenalty;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.attack.Attack;
+import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.attack.Projectile;
 import it.polimi.it.galaxytrucker.model.design.statePattern.StateMachine;
 import it.polimi.it.galaxytrucker.model.design.strategyPattern.FlightRules;
 import it.polimi.it.galaxytrucker.model.managers.Player;
 import it.polimi.it.galaxytrucker.model.managers.ShipManager;
 import it.polimi.it.galaxytrucker.model.utility.Direction;
-import it.polimi.it.galaxytrucker.model.utility.Projectile;
+import it.polimi.it.galaxytrucker.model.utility.ProjectileType;
 import it.polimi.it.galaxytrucker.model.exceptions.IllegalComponentPositionException;
 import it.polimi.it.galaxytrucker.model.exceptions.NotFoundException;
 
@@ -105,15 +106,11 @@ public class CombatZone extends Attack implements AdventureCard, FlightDayPenalt
             playersAndFirePower.put(player, ship.calculateFirePower());
         }
     }
-    private static HashMap<Projectile, Direction> createProjectiles() {
-        Projectile smallProjectile = Projectile.SMALL;
-        Projectile bigProjectile = Projectile.BIG;
+    private static List<Projectile> createProjectiles() {
+        Projectile smallProjectile = new Projectile(ProjectileType.SMALL, Direction.UP);
+        Projectile bigProjectile = new Projectile(ProjectileType.BIG, Direction.UP);
 
-        HashMap<Projectile, Direction> projectilesAndDirections = new HashMap<>();
-        projectilesAndDirections.put(smallProjectile, Direction.UP);
-        projectilesAndDirections.put(bigProjectile, Direction.UP);
-
-        return projectilesAndDirections;
+        return List.of(smallProjectile, bigProjectile);
     }
 
     @Override
@@ -298,11 +295,11 @@ public class CombatZone extends Attack implements AdventureCard, FlightDayPenalt
      */
     @Override
     public void attack() {
-        for (Projectile projectile : getProjectilesAndDirection().keySet()) {
+        for (Projectile projectile : getProjectiles()) {
             List<Integer> aimedCoords = aimAtCoordsWith(projectile);
-            Direction direction = getProjectilesAndDirection().get(projectile);
+            Direction direction = projectile.getDirection();
 
-            if (projectile == Projectile.SMALL) {
+            if (projectile.getSize() == ProjectileType.SMALL) {
                 if (isShieldActivated(direction)) {
                     continue;
                 }
@@ -333,6 +330,7 @@ public class CombatZone extends Attack implements AdventureCard, FlightDayPenalt
         ship.removeCrewmate(shipRow, shipColumn);
         updateState();
     }
+
 
     @Override
     public void applyFlightDayPenalty() {
