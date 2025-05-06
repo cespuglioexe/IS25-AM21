@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
-public class Json {
+public abstract class Json {
     public static ObjectMapper objectMapper = getDefaultObjectMapper();
 
     private static ObjectMapper getDefaultObjectMapper() {

@@ -4,7 +4,7 @@
  * @author jcomeau_ictx
  */
 
-package it.polimi.it.galaxytrucker.view;
+package it.polimi.it.galaxytrucker.view.cli;
 
 public enum ConsoleColors {
 

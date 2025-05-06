@@ -1,11 +1,9 @@
-package it.polimi.it.galaxytrucker.networking.messages;
+package it.polimi.it.galaxytrucker.commands.servercommands;
 
 import it.polimi.it.galaxytrucker.model.componenttiles.ComponentTile;
 import it.polimi.it.galaxytrucker.model.componenttiles.TileData;
-import it.polimi.it.galaxytrucker.model.componenttiles.TileEdge;
-import it.polimi.it.galaxytrucker.view.ConsoleColors;
+import it.polimi.it.galaxytrucker.view.cli.ConsoleColors;
 
-import javax.naming.TimeLimitExceededException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;

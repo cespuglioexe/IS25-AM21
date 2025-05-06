@@ -1,6 +1,6 @@
 package it.polimi.it.galaxytrucker.controller;
 
-import it.polimi.it.galaxytrucker.networking.server.rmi.RMIVirtualView;
+import it.polimi.it.galaxytrucker.networking.server.rmi.RMIVirtualClient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,7 @@ public class Model {
     Integer state = 0;
     int level;
     int playerNum;
-    final List<RMIVirtualView> players;
+    final List<RMIVirtualClient> players;
 
     public Model(int level, int playerNum) {
         this.level = level;
@@ -18,7 +18,7 @@ public class Model {
         players = new ArrayList<>();
     }
 
-    public boolean addPlayer(RMIVirtualView player) {
+    public boolean addPlayer(RMIVirtualClient player) {
         synchronized (this.players) {
             this.players.add(player);
             System.out.println("Added a player to the model");

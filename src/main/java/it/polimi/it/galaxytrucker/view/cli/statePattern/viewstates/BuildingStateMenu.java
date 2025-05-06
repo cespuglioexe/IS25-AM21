@@ -1,10 +1,10 @@
 package it.polimi.it.galaxytrucker.view.cli.statePattern.viewstates;
 
-import it.polimi.it.galaxytrucker.networking.messages.RequestType;
-import it.polimi.it.galaxytrucker.networking.messages.UserInput;
-import it.polimi.it.galaxytrucker.networking.messages.UserInputType;
+import it.polimi.it.galaxytrucker.commands.RequestType;
+import it.polimi.it.galaxytrucker.commands.UserInput;
+import it.polimi.it.galaxytrucker.commands.UserInputType;
 import it.polimi.it.galaxytrucker.view.cli.CLIView;
-import it.polimi.it.galaxytrucker.view.ConsoleColors;
+import it.polimi.it.galaxytrucker.view.cli.ConsoleColors;
 import it.polimi.it.galaxytrucker.view.cli.statePattern.State;
 import it.polimi.it.galaxytrucker.view.cli.statePattern.StateMachine;
 

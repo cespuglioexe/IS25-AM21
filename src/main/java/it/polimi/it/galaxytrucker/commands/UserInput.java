@@ -1,13 +1,13 @@
-package it.polimi.it.galaxytrucker.networking.messages;
+package it.polimi.it.galaxytrucker.commands;
 
-import it.polimi.it.galaxytrucker.networking.server.rmi.RMIVirtualView;
+import it.polimi.it.galaxytrucker.networking.server.rmi.RMIVirtualClient;
 
 import java.io.Serializable;
 import java.util.List;
 
 public class UserInput implements Serializable {
     private final UserInputType type;
-    private final RMIVirtualView client;
+    private final RMIVirtualClient client;
 
     private final RequestType requestType;
 
@@ -42,7 +42,7 @@ public class UserInput implements Serializable {
         return type;
     }
 
-    public RMIVirtualView getClient() {
+    public RMIVirtualClient getClient() {
         return client;
     }
 
@@ -94,7 +94,7 @@ public class UserInput implements Serializable {
     public static class UserInputBuilder {
         // Required parameters
         private final UserInputType type;
-        private final RMIVirtualView client;
+        private final RMIVirtualClient client;
 
         // Optional parameters
         private RequestType requestType = RequestType.EMPTY;
@@ -112,7 +112,7 @@ public class UserInput implements Serializable {
 
         private int rotation = 0;
 
-        public UserInputBuilder(RMIVirtualView client, UserInputType type) {
+        public UserInputBuilder(RMIVirtualClient client, UserInputType type) {
             this.client = client;
             this.type = type;
         }

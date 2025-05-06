@@ -3,11 +3,8 @@ package it.polimi.it.galaxytrucker.model.gameStates;
 import it.polimi.it.galaxytrucker.model.design.statePattern.State;
 import it.polimi.it.galaxytrucker.model.design.statePattern.StateMachine;
 import it.polimi.it.galaxytrucker.model.gameStates.fields.ConnectionFields;
-import it.polimi.it.galaxytrucker.model.managers.GameManager;
 import it.polimi.it.galaxytrucker.model.managers.Model;
-import it.polimi.it.galaxytrucker.networking.messages.GameUpdate;
-import it.polimi.it.galaxytrucker.networking.messages.GameUpdateType;
-import it.polimi.it.galaxytrucker.view.ConsoleColors;
+import it.polimi.it.galaxytrucker.view.cli.ConsoleColors;
 
 public class ConnectionState extends State {
     @Override

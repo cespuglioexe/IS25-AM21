@@ -1,11 +1,12 @@
 package it.polimi.it.galaxytrucker.networking.client.rmi;
 
+import it.polimi.it.galaxytrucker.commands.UserInput;
 import it.polimi.it.galaxytrucker.controller.GenericGameData;
 import it.polimi.it.galaxytrucker.model.exceptions.InvalidActionException;
-import it.polimi.it.galaxytrucker.networking.messages.*;
-import it.polimi.it.galaxytrucker.networking.server.rmi.RMIVirtualView;
+import it.polimi.it.galaxytrucker.commands.servercommands.GameUpdate;
+import it.polimi.it.galaxytrucker.networking.server.rmi.RMIVirtualClient;
 import it.polimi.it.galaxytrucker.view.cli.CLIView;
-import it.polimi.it.galaxytrucker.view.ConsoleColors;
+import it.polimi.it.galaxytrucker.view.cli.ConsoleColors;
 import it.polimi.it.galaxytrucker.view.cli.statePattern.viewstates.BuildingStateMenu;
 import it.polimi.it.galaxytrucker.view.cli.statePattern.viewstates.ConnectionState;
 import it.polimi.it.galaxytrucker.view.cli.statePattern.viewstates.GameSelection;
@@ -19,7 +20,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
-public class RMIClient extends UnicastRemoteObject implements RMIVirtualView {
+public class RMIClient extends UnicastRemoteObject implements RMIVirtualClient {
 
     private final CLIView view;
     private RMIVirtualServer server;

@@ -2,7 +2,6 @@ package it.polimi.it.galaxytrucker.model.managers;
 
 import java.io.File;
 import java.io.IOException;
-import java.rmi.RemoteException;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -19,10 +18,10 @@ import it.polimi.it.galaxytrucker.model.exceptions.NotFoundException;
 import it.polimi.it.galaxytrucker.model.gameStates.StartState;
 import it.polimi.it.galaxytrucker.model.json.Json;
 import it.polimi.it.galaxytrucker.model.utility.Color;
-import it.polimi.it.galaxytrucker.networking.messages.GameUpdate;
-import it.polimi.it.galaxytrucker.networking.messages.GameUpdateType;
+import it.polimi.it.galaxytrucker.commands.servercommands.GameUpdate;
+import it.polimi.it.galaxytrucker.commands.servercommands.GameUpdateType;
 // import it.polimi.it.galaxytrucker.networking.rmi.server.RMIServer;
-import it.polimi.it.galaxytrucker.view.ConsoleColors;;
+import it.polimi.it.galaxytrucker.view.cli.ConsoleColors;;
 
 public class GameManager extends StateMachine implements Model {
     private final Integer level;

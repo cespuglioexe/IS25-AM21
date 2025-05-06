@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit;
 
 import it.polimi.it.galaxytrucker.networking.client.rmi.RMIVirtualServer;
 import it.polimi.it.galaxytrucker.networking.server.RMIVirtualView;
-import it.polimi.it.galaxytrucker.view.ConsoleColors;
+import it.polimi.it.galaxytrucker.view.cli.ConsoleColors;
 
 import static org.fusesource.jansi.Ansi.ansi;
 

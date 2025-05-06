@@ -1,7 +1,7 @@
 package it.polimi.it.galaxytrucker.networking.server.socket;
 
 
-import it.polimi.it.galaxytrucker.networking.messages.GameUpdate;
+import it.polimi.it.galaxytrucker.commands.servercommands.GameUpdate;
 import it.polimi.it.galaxytrucker.networking.server.Server;
 
 import java.io.BufferedReader;
@@ -11,7 +11,7 @@ import java.io.PrintWriter;
 /**
  * Questa classe implementa la logica di interazione tra il server e un singolo client.
  */
-public class SocketClientHandler implements SocketVirtualView {
+public class SocketClientHandler implements SocketVirtualClient {
 
     final Server server;
     final BufferedReader input;

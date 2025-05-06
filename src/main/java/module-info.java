@@ -10,5 +10,6 @@ open module it.polimi.it.galaxytrucker {
     requires org.fusesource.jansi;
     requires java.naming;
 
-    exports it.polimi.it.galaxytrucker.networking.messages;
+    exports it.polimi.it.galaxytrucker.commands;
+    exports it.polimi.it.galaxytrucker.commands.servercommands;
 }

@@ -1,12 +1,12 @@
 package it.polimi.it.galaxytrucker.networking.server.rmi;
 
-import it.polimi.it.galaxytrucker.networking.VirtualView;
-import it.polimi.it.galaxytrucker.networking.messages.GameUpdate;
+import it.polimi.it.galaxytrucker.networking.VirtualClient;
+import it.polimi.it.galaxytrucker.commands.servercommands.GameUpdate;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-public interface RMIVirtualView extends Remote, VirtualView {
+public interface RMIVirtualClient extends Remote, VirtualClient {
     @Override
     void sendMessageToClient(GameUpdate update) throws RemoteException;
     String getName() throws RemoteException;

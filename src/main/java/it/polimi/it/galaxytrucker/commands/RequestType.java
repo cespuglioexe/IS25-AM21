@@ -1,4 +1,4 @@
-package it.polimi.it.galaxytrucker.networking.messages;
+package it.polimi.it.galaxytrucker.commands;
 
 public enum RequestType {
     // Default value

@@ -1,10 +1,12 @@
 package it.polimi.it.galaxytrucker.networking.server;
 
+import it.polimi.it.galaxytrucker.controller.Controller;
 import it.polimi.it.galaxytrucker.controller.GenericGameData;
 import it.polimi.it.galaxytrucker.model.exceptions.InvalidActionException;
-import it.polimi.it.galaxytrucker.networking.messages.UserInput;
+import it.polimi.it.galaxytrucker.networking.VirtualClient;
+import it.polimi.it.galaxytrucker.commands.UserInput;
 import it.polimi.it.galaxytrucker.networking.server.rmi.RMIServer;
-import it.polimi.it.galaxytrucker.networking.server.rmi.RMIVirtualView;
+import it.polimi.it.galaxytrucker.networking.server.rmi.RMIVirtualClient;
 import it.polimi.it.galaxytrucker.networking.server.socket.SocketClientHandler;
 
 import java.io.*;
@@ -15,8 +17,11 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Server implements RMIServer, Runnable {
 
@@ -26,6 +31,21 @@ public class Server implements RMIServer, Runnable {
 
     final List<SocketClientHandler> clients = new ArrayList<>();
     private ServerSocket listenSocket;
+
+
+
+    // List of active games, each one has a nickname
+    private final List<Controller> controllers = new ArrayList<>();
+    // Each game is associated with the list of participating players
+    private final HashMap<String, List<VirtualClient>> playingClients = new HashMap<>();
+    // Temporary storage for clients that aren't in a game
+    private final List<VirtualClient> connectedClients = new ArrayList<>();
+
+    private final ExecutorService executorService = Executors.newCachedThreadPool();
+
+    private final int BUILDING_TIMER_LENGTH = 10; // DA METTERE A 60 SECONDI
+
+
 
     protected Server() {
         super();
@@ -58,13 +78,13 @@ public class Server implements RMIServer, Runnable {
             while ((clientSocket = this.listenSocket.accept()) != null) {
                 System.out.println("Accepted connection from: " + clientSocket.getInetAddress().getHostAddress());
 
-                InputStreamReader socketRx = new InputStreamReader(clientSocket.getInputStream());
-                OutputStreamWriter socketTx = new OutputStreamWriter(clientSocket.getOutputStream());
+                InputStreamReader inReader = new InputStreamReader(clientSocket.getInputStream());
+                OutputStreamWriter outWriter = new OutputStreamWriter(clientSocket.getOutputStream());
 
                 SocketClientHandler handler = new SocketClientHandler(
                         this,
-                        new BufferedReader(socketRx),
-                        new PrintWriter(socketTx)
+                        new BufferedReader(inReader),
+                        new PrintWriter(outWriter)
                 );
 
                 synchronized (this.clients) {
@@ -91,12 +111,12 @@ public class Server implements RMIServer, Runnable {
     }
 
     @Override
-    public UUID addPlayerToGame(RMIVirtualView client, int gameIndex) throws RemoteException {
+    public UUID addPlayerToGame(RMIVirtualClient client, int gameIndex) throws RemoteException {
         return null;
     }
 
     @Override
-    public boolean checkUsernameIsUnique(RMIVirtualView client, String username) throws RemoteException, Exception {
+    public boolean checkUsernameIsUnique(RMIVirtualClient client, String username) throws RemoteException, Exception {
         return false;
     }
 
@@ -105,12 +125,12 @@ public class Server implements RMIServer, Runnable {
         return List.of();
     }
 
-    public void connect(RMIVirtualView client) throws RemoteException {
+    public void connect(RMIVirtualClient client) throws RemoteException {
         System.out.println("\nIncoming connection");
     }
 
     @Override
-    public UUID addPlayerToGame(RMIVirtualView client, String gameNickname) throws RemoteException, InvalidActionException {
+    public UUID addPlayerToGame(RMIVirtualClient client, String gameNickname) throws RemoteException, InvalidActionException {
         return null;
     }
 

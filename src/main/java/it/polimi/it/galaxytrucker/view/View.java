@@ -1,4 +1,5 @@
 package it.polimi.it.galaxytrucker.view;
 
-public class View {
+public abstract class View {
+    public abstract void printText(String text);
 }
