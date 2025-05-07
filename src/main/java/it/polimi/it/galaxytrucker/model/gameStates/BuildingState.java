@@ -5,6 +5,7 @@ import it.polimi.it.galaxytrucker.model.design.statePattern.StateMachine;
 import it.polimi.it.galaxytrucker.model.exceptions.IllegalComponentPositionException;
 import it.polimi.it.galaxytrucker.model.exceptions.InvalidActionException;
 import it.polimi.it.galaxytrucker.model.exceptions.InvalidFunctionCallInState;
+import it.polimi.it.galaxytrucker.model.managers.FlightBoard;
 import it.polimi.it.galaxytrucker.model.managers.GameManager;
 import it.polimi.it.galaxytrucker.model.managers.Player;
 import it.polimi.it.galaxytrucker.model.managers.ShipManager;
@@ -118,7 +119,13 @@ public class BuildingState extends GameState {
 
     @Override
     public void finishBuilding(StateMachine fsm, UUID playerID) throws InvalidFunctionCallInState {
+        GameManager game = (GameManager) fsm;
+
         playerHasFinished.put(playerID, true);
+
+        FlightBoard flightBoard = game.getFlightBoard();
+        flightBoard.addPlayerMarker(game.getPlayerByID(playerID));
+
         update(fsm);
     }
 

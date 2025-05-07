@@ -247,4 +247,12 @@ public class GameManager extends StateMachine implements Model {
 
         // TODO: notify
     }
+
+    @Override
+    public void deleteComponentTile(UUID playerID, int row, int column) {
+        GameState gameState = (GameState) this.getCurrentState();
+        gameState.deleteComponentTile(this, playerID, row, column);
+
+        // TODO: notify
+    }
 }

@@ -9,6 +9,7 @@ import it.polimi.it.galaxytrucker.model.exceptions.InvalidFunctionCallInState;
 import java.util.UUID;
 
 public abstract class GameState extends State { 
+    // CONNECTION STATE
     public UUID addPlayer(StateMachine fsm, String name) throws InvalidActionException, InvalidFunctionCallInState {
         throw new InvalidFunctionCallInState("Can't add player in state: " + this.getClass().getSimpleName());
     }
@@ -16,7 +17,7 @@ public abstract class GameState extends State {
         throw new InvalidFunctionCallInState("Can't remove player in state: " + this.getClass().getSimpleName());
     }
 
-    //ACTIONS
+    // BUILDING STATE
     public void drawComponentTile(StateMachine fsm, UUID playerID) throws InvalidActionException, InvalidFunctionCallInState {
         throw new InvalidFunctionCallInState("Can't draw a component in state: " + this.getClass().getSimpleName());
     }
@@ -33,15 +34,20 @@ public abstract class GameState extends State {
         throw new InvalidFunctionCallInState("Can't save a component in state: " + this.getClass().getSimpleName());
     }
     public void discardComponentTile(StateMachine fsm, UUID playerID) throws InvalidFunctionCallInState {
-        throw new InvalidFunctionCallInState("Can't discard a component tile in state: " + this.getClass().getSimpleName());
+        throw new InvalidFunctionCallInState("Can't discard a component in state: " + this.getClass().getSimpleName());
     }
     public List<ComponentTile> getDiscardedComponentTiles() {
-        throw new InvalidFunctionCallInState("Can't discard a component tile in state: " + this.getClass().getSimpleName());
+        throw new InvalidFunctionCallInState("Can't discard a component in state: " + this.getClass().getSimpleName());
     }
     public void selectSavedComponentTile (StateMachine fsm, UUID playerID, int index) throws InvalidFunctionCallInState {
-        throw new InvalidFunctionCallInState("Can't select component tiles in state: " + this.getClass().getSimpleName());
+        throw new InvalidFunctionCallInState("Can't select component in state: " + this.getClass().getSimpleName());
     }
     public void selectDiscardedComponentTile (StateMachine fsm, UUID playerID, int index) throws InvalidFunctionCallInState {
-        throw new InvalidFunctionCallInState("Can't select component tiles in state: " + this.getClass().getSimpleName());
+        throw new InvalidFunctionCallInState("Can't select component in state: " + this.getClass().getSimpleName());
+    }
+    
+    // FIXING STATE
+    public void deleteComponentTile(StateMachine fsm, UUID playerID, int row, int column) throws InvalidFunctionCallInState {
+        throw new InvalidFunctionCallInState("Can't delete component in state: " + this.getClass().getSimpleName());
     }
 }

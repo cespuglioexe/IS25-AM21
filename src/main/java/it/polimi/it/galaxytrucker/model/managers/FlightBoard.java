@@ -266,4 +266,11 @@ public class FlightBoard {
             }
         }
     }
+
+    public void removePlayerMarker(Player player) {
+        int position = playerPosition.get(player);
+
+        board[position] = null;
+        playerPosition.remove(player);
+    }
 }

@@ -45,4 +45,5 @@ public interface Model {
     public void selectSavedComponentTile (UUID playerId, int index);
     public void selectDiscardedComponentTile (UUID playerId, int index);
 
+    public void deleteComponentTile(UUID playerID, int row, int column);
 }
