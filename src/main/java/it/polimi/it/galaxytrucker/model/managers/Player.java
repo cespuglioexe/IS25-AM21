@@ -15,7 +15,6 @@ public class Player {
     private ComponentTile heldComponent;
 
     private boolean isConnected;
-    private boolean isFinishedBuilding;
 
     private int credits;
 
@@ -60,18 +59,8 @@ public class Player {
         this.credits += credits;
     }
 
-    public boolean isFinishedBuilding () {
-        return isFinishedBuilding;
-    }
-
-    public void setIsFinishedBuilding (boolean isFinishedBuilding) {
-        this.isFinishedBuilding = isFinishedBuilding;
-    }
-
     public boolean isEmpty(){
-        if(this.playerID == null && this.playerName == null && this.color == null)
-            return true;
-          else return false;
+        return this.playerID == null && this.playerName == null && this.color == null;
     }
     
 }

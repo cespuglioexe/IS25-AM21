@@ -1,13 +1,12 @@
 package it.polimi.it.galaxytrucker.model.gameStates;
 
-import it.polimi.it.galaxytrucker.model.design.statePattern.State;
 import it.polimi.it.galaxytrucker.model.design.statePattern.StateMachine;
 import it.polimi.it.galaxytrucker.model.exceptions.InvalidActionException;
 import it.polimi.it.galaxytrucker.model.gameStates.fields.StartFields;
 import it.polimi.it.galaxytrucker.model.managers.Model;
 import it.polimi.it.galaxytrucker.view.cli.ConsoleColors;
 
-public class StartState extends State {
+public class StartState extends GameState {
     @Override
     public void enter(StateMachine fsm) {
         System.out.println(ConsoleColors.BLUE_UNDERLINED + "\n> " + this.getClass().getSimpleName() + " <\n" + ConsoleColors.RESET);

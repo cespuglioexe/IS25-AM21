@@ -1,7 +1,7 @@
 package it.polimi.it.galaxytrucker.model.adventurecards;
 
 
-import it.polimi.it.galaxytrucker.model.adventurecards.refactored.Planets;
+// wimport it.polimi.it.galaxytrucker.model.adventurecards.refactored.Planets;
 import it.polimi.it.galaxytrucker.model.design.strategyPattern.FlightRules;
 import it.polimi.it.galaxytrucker.model.managers.FlightBoardFlightRules;
 import it.polimi.it.galaxytrucker.model.utility.Cargo;
