@@ -8,12 +8,13 @@ import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCard;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.CreditReward;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.FlightDayPenalty;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.attack.Attack;
+import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.attack.Projectile;
 import it.polimi.it.galaxytrucker.model.design.strategyPattern.FlightRules;
 import it.polimi.it.galaxytrucker.model.exceptions.IllegalComponentPositionException;
 import it.polimi.it.galaxytrucker.model.managers.Player;
 import it.polimi.it.galaxytrucker.model.managers.ShipManager;
 import it.polimi.it.galaxytrucker.model.utility.Direction;
-import it.polimi.it.galaxytrucker.model.utility.Projectile;
+import it.polimi.it.galaxytrucker.model.utility.ProjectileType;
 
 public class Pirates extends Attack implements AdventureCard,FlightDayPenalty, CreditReward{
     private int firePowerRequired;
@@ -23,8 +24,8 @@ public class Pirates extends Attack implements AdventureCard,FlightDayPenalty, C
 
     private final FlightRules flightRules;
     
-    public Pirates(int firePowerRequired, int creditReward, int flightDayPenalty, HashMap<Projectile, Direction> projectilesAndDirections, FlightRules flightRules) {
-        super(projectilesAndDirections); 
+    public Pirates(int firePowerRequired, int creditReward, int flightDayPenalty, List<Projectile> projectiles, FlightRules flightRules) {
+        super(projectiles);
         this.creditReward = creditReward;
         this.flightDayPenalty = flightDayPenalty;
         this.flightRules = flightRules;
@@ -33,9 +34,6 @@ public class Pirates extends Attack implements AdventureCard,FlightDayPenalty, C
     
     @Override
     public void play() {
-        for (Projectile projectile : getProjectilesAndDirection().keySet()) {
-            aimAtCoordsWith(projectile);
-        }
         start(new StartState());
     }
 
@@ -47,12 +45,13 @@ public class Pirates extends Attack implements AdventureCard,FlightDayPenalty, C
             if (players.get(i).equals(getPlayer())) {
                 if (i + 1 < players.size()) {
                     setPlayer(players.get(i + 1));
+                    playersAndFirePower.put(players.get(i + 1),(double)super.getPlayerFirePower());
                     return;
                 }
-                //TODO NEXT STATE
             }
         }
-        setPlayer(players.get(0));
+        setPlayer(players.getFirst());
+        playersAndFirePower.put(players.getFirst(),(double)super.getPlayerFirePower());
     }
 
     public HashMap<Player,Double> getPlayersAndFirePower() {
@@ -77,11 +76,11 @@ public class Pirates extends Attack implements AdventureCard,FlightDayPenalty, C
 
     @Override
     public void attack() {
-        for (Projectile projectile : getProjectilesAndDirection().keySet()) {
+        for (Projectile projectile : super.getProjectiles()) {
             List<Integer> aimedCoords = getAimedCoordsByProjectile(projectile);
-            Direction direction = getProjectilesAndDirection().get(projectile);
+            Direction direction = projectile.getDirection();
 
-            if (projectile == Projectile.SMALL) {
+            if (projectile.getSize() == ProjectileType.SMALL) {
                 if (isShieldActivated(direction)) {
                     continue;
                 }

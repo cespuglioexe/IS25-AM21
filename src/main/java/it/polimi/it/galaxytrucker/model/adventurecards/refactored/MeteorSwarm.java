@@ -7,6 +7,7 @@ import java.util.Optional;
 import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.meteorSwarm.StartState;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCard;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.attack.Attack;
+import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.attack.Projectile;
 import it.polimi.it.galaxytrucker.model.componenttiles.SingleCannon;
 import it.polimi.it.galaxytrucker.model.design.strategyPattern.FlightRules;
 import it.polimi.it.galaxytrucker.model.exceptions.IllegalComponentPositionException;
@@ -14,21 +15,21 @@ import it.polimi.it.galaxytrucker.model.exceptions.InvalidActionException;
 import it.polimi.it.galaxytrucker.model.managers.Player;
 import it.polimi.it.galaxytrucker.model.managers.ShipManager;
 import it.polimi.it.galaxytrucker.model.utility.Direction;
-import it.polimi.it.galaxytrucker.model.utility.Projectile;
+import it.polimi.it.galaxytrucker.model.utility.ProjectileType;
 
 public class MeteorSwarm extends Attack implements AdventureCard {
     private Projectile currentMeteor;
     private Projectile meteorAttack;
     private final FlightRules flightRules;
 
-    public MeteorSwarm(HashMap<Projectile, Direction> meteorsAndDirections, FlightRules flightRules) {
-        super(meteorsAndDirections);
+    public MeteorSwarm(List<Projectile> projectiles, FlightRules flightRules) {
+        super(projectiles);
         this.flightRules = flightRules;
     }
 
     @Override
     public void play() {
-        for (Projectile projectile : getProjectilesAndDirection().keySet()) {
+        for (Projectile projectile : super.getProjectiles().stream().toList()) {
             aimAtCoordsWith(projectile);
         }
         start(new StartState());
@@ -53,7 +54,7 @@ public class MeteorSwarm extends Attack implements AdventureCard {
     }
 
     public void selectMeteor(){
-        List<Projectile> meteors = super.getProjectilesAndDirection().keySet().stream().toList();
+        List<Projectile> meteors = super.getProjectiles().stream().toList();
         if(currentMeteor == null){
             currentMeteor = meteors.getFirst();
             meteorAttack =  currentMeteor;
@@ -83,9 +84,9 @@ public class MeteorSwarm extends Attack implements AdventureCard {
     @Override
     public void attack() {
         List<Integer> aimedCoords = getAimedCoordsByProjectile(meteorAttack);
-        Direction direction = getProjectilesAndDirection().get(meteorAttack);
+        Direction direction = meteorAttack.getDirection();
 
-        if (meteorAttack == Projectile.SMALL) {
+        if (meteorAttack.getSize() == ProjectileType.SMALL) {
             if (isShieldActivated(direction)) {
                 updateState();
                 return;
@@ -130,7 +131,7 @@ public class MeteorSwarm extends Attack implements AdventureCard {
 
         SingleCannon cannon = (SingleCannon) ship.getComponent(cannonCoord.get(0), cannonCoord.get(1)).get();
         Direction cannonDirection = Direction.fromInt(cannon.getRotation());
-        Direction meteorDirection = getProjectilesAndDirection().get(meteorAttack);
+        Direction meteorDirection = meteorAttack.getDirection();
         List<Integer> aimedCoords = getAimedCoordsByProjectile(meteorAttack);
 
         if (!isFacingTheMeteor(cannonDirection)) {
@@ -153,7 +154,7 @@ public class MeteorSwarm extends Attack implements AdventureCard {
 
     }
     private boolean isFacingTheMeteor(Direction direction) {
-        Direction meteorDirection = getProjectilesAndDirection().get(meteorAttack);
+        Direction meteorDirection = meteorAttack.getDirection();
 
         if (direction == meteorDirection.reverse()) {
             return true;

@@ -17,10 +17,10 @@ public class EvaluatePlayerState extends State {
             card.getPlayersAndFirePower().remove(player);
             if(firePower > card.getFirePowerRequired())
                 fsm.changeState(new CreditRewardState());
-            else{
-                if(firePower < card.getFirePowerRequired())
-                    fsm.changeState(new AttackState());
-                else fsm.changeState(new EvaluatePlayerState());
+        else{
+            if(firePower < card.getFirePowerRequired())
+                fsm.changeState(new ActivateShieldState());
+            else fsm.changeState(new EvaluatePlayerState());
             }
         } else fsm.changeState(new EndState());
     }
