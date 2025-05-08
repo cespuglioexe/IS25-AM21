@@ -35,7 +35,7 @@ public class MeteorSwarmTest {
 
         flightBoard = new FlightBoard(gameLevel);
 
-        flightBoard.addPlayerMarker(player1);   
+        flightBoard.addPlayerMarker(player1);
         flightBoard.addPlayerMarker(player2);
         flightBoard.addPlayerMarker(player3);
         flightBoard.addPlayerMarker(player4);

@@ -1,13 +1,14 @@
 package it.polimi.it.galaxytrucker.model.adventurecards.refactored;
 
 import java.util.HashMap;
+import java.util.List;
 
+import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.attack.Projectile;
 import it.polimi.it.galaxytrucker.model.design.strategyPattern.FlightRules;
 import it.polimi.it.galaxytrucker.model.utility.Direction;
-import it.polimi.it.galaxytrucker.model.utility.Projectile;
 
 public class BigMeteorSwarm extends MeteorSwarm {
-    public BigMeteorSwarm(HashMap<Projectile, Direction> meteorsAndDirections, FlightRules flightRules) {
+    public BigMeteorSwarm(List<Projectile> meteorsAndDirections, FlightRules flightRules) {
         super(meteorsAndDirections, flightRules);
     }
 }
