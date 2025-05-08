@@ -15,6 +15,7 @@ import it.polimi.it.galaxytrucker.model.design.statePattern.StateMachine;
 import it.polimi.it.galaxytrucker.model.exceptions.IllegalComponentPositionException;
 import it.polimi.it.galaxytrucker.model.exceptions.InvalidActionException;
 import it.polimi.it.galaxytrucker.model.exceptions.NotFoundException;
+import it.polimi.it.galaxytrucker.model.gameStates.GameState;
 import it.polimi.it.galaxytrucker.model.gameStates.StartState;
 import it.polimi.it.galaxytrucker.model.json.Json;
 import it.polimi.it.galaxytrucker.model.utility.Color;
@@ -28,7 +29,6 @@ public class GameManager extends StateMachine implements Model {
     private final Integer numberOfPlayers;
     private final List<Player> players;
     private Set<ComponentTile> components;
-    private final List<ComponentTile> discardedComponents;
     private final FlightBoard flightBoard;
     private final AdventureDeck adventureDeck;
 
@@ -43,7 +43,6 @@ public class GameManager extends StateMachine implements Model {
         this.numberOfPlayers = numberOfPlayers;
         this.flightBoard = new FlightBoard(level);
         this.adventureDeck = new AdventureDeck();
-        this.discardedComponents = new ArrayList<>();
         this.players = new ArrayList<>();
         // this.server = server;
         this.nickname = nickname;
@@ -140,13 +139,10 @@ public class GameManager extends StateMachine implements Model {
     }
 
     @Override
-    public void getDiscardedComponentTiles(UUID playerId) {
-        System.out.println(ConsoleColors.GREEN + "Received discarded tile request from " + getPlayerByID(playerId).getPlayerName() + ConsoleColors.RESET);
-        sendGameUpdateToSinglePlayer(playerId,
-                new GameUpdate.GameUpdateBuilder(GameUpdateType.TILE_LIST)
-                .setTileList(discardedComponents)
-                .build()
-        );
+    public List<ComponentTile> getDiscardedComponentTiles() {
+        GameState gameState = (GameState) this.getCurrentState();
+
+        return gameState.getDiscardedComponentTiles();
     }
 
 
@@ -171,49 +167,14 @@ public class GameManager extends StateMachine implements Model {
      */
     @Override
     public UUID addPlayer(String name) throws InvalidActionException {
-        if (isGameFull()) {
-            throw new InvalidActionException("The game is full");
-        }
-        ensureNameIsUnique(name);
-        Color playerColor = findFirstAvailableColor();
-
-        Player newPlayer = new Player(UUID.randomUUID(), name, playerColor, new ShipManager(level));
-        players.add(newPlayer);
-
-        System.out.println("Players: " + players.stream().map(Player::getPlayerName).collect(Collectors.joining(", ")));
-
-        updateState();
-
-        return newPlayer.getPlayerID();
-    }
-
-    private void ensureNameIsUnique(String name) throws InvalidActionException {
-        boolean isTaken = this.players.stream()
-            .anyMatch(player -> player.getPlayerName().equals(name));
-        
-        if (isTaken) {
-            throw new InvalidActionException("Another player named " + name + " is already playing");
-        }
-    }
-    private Color findFirstAvailableColor() throws InvalidActionException {
-        return Arrays.stream(Color.values())
-            .filter(color -> players.stream()
-                .noneMatch(player -> player.getColor().equals(color)))
-            .findFirst()
-            .orElseThrow(() -> new InvalidActionException("No available color"));
-    }
-    private boolean isGameFull() {
-        return players.size() == numberOfPlayers;
+        GameState gameState = (GameState) this.getCurrentState();
+        return gameState.addPlayer(this, name);
     }
 
     @Override
     public void removePlayer(UUID id) throws NotFoundException {
-        Player playerToRemove = this.players.stream()
-            .filter(player -> player.getPlayerID().equals(id))
-            .findFirst()
-            .orElseThrow(() -> new NotFoundException("Cannot find the player"));
-
-        this.players.remove(playerToRemove);
+        GameState gameState = (GameState) this.getCurrentState();
+        gameState.removePlayer(this, id);
     }
 
     public void initializeComponentTiles() {
@@ -227,112 +188,71 @@ public class GameManager extends StateMachine implements Model {
         }
     }
 
-    public void drawComponentTile(UUID playerId) throws InvalidActionException {
-        if (components.isEmpty()) {
-            throw new InvalidActionException("There are no components left");
-        }
-        updateState();
+    public void drawComponentTile(UUID playerID) throws InvalidActionException {
+        GameState gameState = (GameState) this.getCurrentState();
+        gameState.drawComponentTile(this, playerID);
 
-        ComponentTile tile = drawRandomComponentTile();
-        getPlayerByID(playerId).setHeldComponent(tile);
-
-        sendGameUpdateToSinglePlayer(
-                playerId,
-                new GameUpdate.GameUpdateBuilder(GameUpdateType.DRAWN_TILE)
-                        .setNewTile(tile)
-                        .build()
-        );
-    }
-
-    private ComponentTile drawRandomComponentTile() {
-        int index = getRandomIndex(components.size());
-
-        return removeComponentTileAtIndex(index);
-    }
-
-    private int getRandomIndex(int upperBoundExclusive) {
-        return new Random().nextInt(upperBoundExclusive);
-    }
-
-    private ComponentTile removeComponentTileAtIndex(int index) throws IndexOutOfBoundsException {
-        Iterator<ComponentTile> iterator = components.iterator();
-        int currentIndex = 0;
-    
-        while (iterator.hasNext()) {
-            ComponentTile tile = iterator.next();
-
-            if (currentIndex++ == index) {
-                iterator.remove();
-                return tile;
-            }
-        }
-    
-        throw new IndexOutOfBoundsException("Index " + index + " is out of bounds");
+        // TODO: notify player listeners that a component was drawn
     }
 
     public void placeComponentTile(UUID playerID, int row, int column) throws IndexOutOfBoundsException, IllegalComponentPositionException {
-        Player player = this.getPlayerByID(playerID);
-        ShipManager ship = player.getShipManager();
+        GameState gameState = (GameState) this.getCurrentState();
+        gameState.placeComponentTile(this, playerID, row, column);
 
-        ComponentTile comp = player.getHeldComponent();
-
-        ship.addComponentTile(row, column, comp);
-        player.setHeldComponent(null);
-
-        System.out.println(ConsoleColors.GREEN + "Placed " + comp.getClass().getSimpleName() + row + ", " + column);
+        // TODO: notify all model listeners that a component was drawn
     }
 
     public void rotateComponentTile(UUID playerID, int row, int column) throws IndexOutOfBoundsException, IllegalComponentPositionException {
-        Player player = getPlayerByID(playerID);
-        ShipManager ship = player.getShipManager();
+        GameState gameState = (GameState) this.getCurrentState();
+        gameState.rotateComponentTile(this, playerID, row, column);
 
-        if (ship.isOutside(row, column)) {
-            throw new IllegalComponentPositionException("Position (" + row + ", " + column + ") is outside the ship.");
-        }
-
-        ship.getComponent(row, column).ifPresentOrElse(
-            ComponentTile::rotate,
-            () -> {
-                throw new IllegalComponentPositionException("No component found at position (" + row + ", " + column + ").");
-            }
-        );
-
-        System.out.println("Component rotated");
+        // TODO: notify all model listeners that a component was rotated
     }
 
     public void finishBuilding(UUID playerID) {
-        updateState();
+        GameState gameState = (GameState) this.getCurrentState();
+        gameState.finishBuilding(this, playerID);
+
+        // TODO: notify
     }
 
     @Override
-    public void saveComponentTile(UUID playerId) {
-        Player player = getPlayerByID(playerId);
-        player.getShipManager().saveComponentTile(player.getHeldComponent());
-        player.setHeldComponent(null);
+    public void saveComponentTile(UUID playerID) {
+        GameState gameState = (GameState) this.getCurrentState();
+        gameState.saveComponentTile(this, playerID);
+
+        // TODO: notify
     }
 
     @Override
-    public void discardComponentTile(UUID playerId) {
-        discardedComponents.add(getPlayerByID(playerId).getHeldComponent());
-        System.out.println("Discarded " + getPlayerByID(playerId).getHeldComponent().getClass().getSimpleName() + " component");
-        getPlayerByID(playerId).setHeldComponent(null);
-        System.out.println(discardedComponents);
+    public void discardComponentTile(UUID playerID) {
+        GameState gameState = (GameState) this.getCurrentState();
+        gameState.discardComponentTile(this, playerID);
+
+        // TODO: notify
     }
 
     @Override
-    public void selectSavedComponentTile(UUID playerId, int index) {
-        System.out.println("Selected saved tile (model)");
+    public void selectSavedComponentTile(UUID playerID, int index) {
+        GameState gameState = (GameState) this.getCurrentState();
+        gameState.selectSavedComponentTile(this, playerID, index);
 
-        Player player = getPlayerByID(playerId);
-        ComponentTile comp = player.getShipManager().getSavedComponentTile(index);
-        player.setHeldComponent(comp);
+        // TODO: notify
     }
 
     @Override
-    public void selectDiscardedComponentTile(UUID playerId, int index) {
-        Player player = getPlayerByID(playerId);
-        ComponentTile comp = discardedComponents.get(index);
-        discardedComponents.remove(index);
-        player.setHeldComponent(comp);
+    public void selectDiscardedComponentTile(UUID playerID, int index) {
+        GameState gameState = (GameState) this.getCurrentState();
+        gameState.selectDiscardedComponentTile(this, playerID, index);
+
+        // TODO: notify
+    }
+
+    @Override
+    public void deleteComponentTile(UUID playerID, int row, int column) {
+        GameState gameState = (GameState) this.getCurrentState();
+        gameState.deleteComponentTile(this, playerID, row, column);
+
+        // TODO: notify
     }
 }

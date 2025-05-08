@@ -24,7 +24,7 @@ public interface Model {
     public FlightBoard getFlightBoard();
     public AdventureDeck getAdventureDeck();
     public void getSavedComponentTiles(UUID playerId);
-    public void getDiscardedComponentTiles(UUID playerId);
+    public List<ComponentTile> getDiscardedComponentTiles();
     public void getPlayerShipBoard(UUID playerId);
 
 
@@ -45,4 +45,5 @@ public interface Model {
     public void selectSavedComponentTile (UUID playerId, int index);
     public void selectDiscardedComponentTile (UUID playerId, int index);
 
+    public void deleteComponentTile(UUID playerID, int row, int column);
 }

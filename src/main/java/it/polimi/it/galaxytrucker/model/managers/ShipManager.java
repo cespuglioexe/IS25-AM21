@@ -92,6 +92,7 @@ public class ShipManager {
     static private final int COLUMNS = 7;
     static private final int STARTOFBOARDROWS = 5;
     static private final int STARTOFBOARDCOLUMNS = 4;
+    static private final int DISCARD_LIMIT = 2;
 
     public ShipManager(int level) {
         this.ship = new ShipBoard(level);
@@ -113,7 +114,10 @@ public class ShipManager {
         return ship.getShipBoard();
     }
 
-    public void saveComponentTile(ComponentTile componentTile) {
+    public void saveComponentTile(ComponentTile componentTile) throws InvalidActionException {
+        if (discardedTile.size() >= DISCARD_LIMIT) {
+            throw new InvalidActionException("Cannot save more than " + DISCARD_LIMIT + " components");
+        }
         discardedTile.add(componentTile);
         System.out.println(ConsoleColors.YELLOW + "Saved " + componentTile.getClass().getSimpleName());
     }

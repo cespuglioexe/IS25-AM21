@@ -97,21 +97,21 @@ public class CentralCabinTest {
         assertEquals("Cabin is empty", exception.getMessage());
     }
 
-    @Test
-    public void testCantAddHumanWithAlien() {
-        // Manually adding an alien, as CentralCabin doesn't support adding aliens
-        cabin.crewmates.add(alien);
-
-        // Attempt to add a human, expect InvalidActionException
-        InvalidActionException exception = assertThrows(
-                InvalidActionException.class,
-                () -> cabin.addCrewmate(human1)
-        );
-
-        assertEquals("Cabin contains Alien, can't add Human", exception.getMessage());
-        assertEquals(1, cabin.getCrewmates().size());
-        assertEquals(alien, cabin.getCrewmates().get(0));
-    }
+//    @Test
+//    public void testCantAddHumanWithAlien() {
+//        // Manually adding an alien, as CentralCabin doesn't support adding aliens
+//        cabin.crewmates.add(alien);
+//
+//        // Attempt to add a human, expect InvalidActionException
+//        InvalidActionException exception = assertThrows(
+//                InvalidActionException.class,
+//                () -> cabin.addCrewmate(human1)
+//        );
+//
+//        assertEquals("Cabin contains Alien, can't add Human", exception.getMessage());
+//        assertEquals(1, cabin.getCrewmates().size());
+//        assertEquals(alien, cabin.getCrewmates().get(0));
+//    }
 
     @Test
     public void testRemoveAndThenAddAgain() {

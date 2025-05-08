@@ -76,7 +76,7 @@ public class Controller {
     }
 
     public void requestDiscardedComponentTiles (UUID playerId){
-        model.getDiscardedComponentTiles(playerId);
+        // model.getDiscardedComponentTiles(playerId);
     }
 
     public void saveComponentTile (UUID playerId) {
