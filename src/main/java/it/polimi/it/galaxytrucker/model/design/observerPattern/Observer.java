@@ -1,5 +1,5 @@
 package it.polimi.it.galaxytrucker.model.design.observerPattern;
 
 public interface Observer {
-    public void update();
+    public void notify (Object o);
 }

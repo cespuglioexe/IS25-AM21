@@ -6,7 +6,7 @@ import it.polimi.it.galaxytrucker.model.managers.Player;
 import java.util.*;
 
 public abstract class AdventureCard<T> extends StateMachine {
-    private List<Player> partecipants;
+    private List<Player> participants;
     private Optional<Integer> penalty; //Penalità generidca che dopo viene implementata da cargopenalty e crewmatepenalty
     private Optional<Integer> flightDayPenalty;
     private Optional<T> reward;
@@ -20,11 +20,11 @@ public abstract class AdventureCard<T> extends StateMachine {
         this.reward = reward;
         this.firePowerRequired = firePowerRequired;
         this.creditReward = creditReward;
-        this.partecipants = new ArrayList<>();
+        this.participants = new ArrayList<>();
     }
 
-    public List<Player> getPartecipants() {
-        return partecipants;
+    public List<Player> getParticipants() {
+        return participants;
     }
 
     public Optional<Integer> getPenalty() {
@@ -50,12 +50,12 @@ public abstract class AdventureCard<T> extends StateMachine {
         return this.playersInOrder;
     }
 
-    public void setPartecipants(List<Player> partecipants) {
-        this.partecipants = partecipants;
+    public void setParticipants(List<Player> participants) {
+        this.participants = participants;
     }
 
     public void addPlayer(Player player){
-        partecipants.add(player);
+        participants.add(player);
     }
 
     public void setPlayersInOrder(List<UUID> playersInOrder) {
