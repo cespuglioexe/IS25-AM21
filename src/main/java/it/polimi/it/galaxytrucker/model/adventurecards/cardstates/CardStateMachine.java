@@ -13,12 +13,7 @@ public class CardStateMachine extends StateMachine implements Subject {
 
     @Override
     public void changeState(State nextState) {
-        State currentState = getCurrentState();
-
-        currentState.exit(this);
-        currentState = nextState;
-        currentState.enter(this);
-
+        super.changeState(nextState);
         notifyObservers();
     }
 

@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.CardStateMachine;
 import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.planets.StartState;
 import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.planets.FlightDayPenaltyState;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCard;
@@ -66,7 +67,7 @@ import it.polimi.it.galaxytrucker.model.utility.Cargo;
  * @see FlightDayPenalty
  * @see StateMachine
  */
-public class Planets extends StateMachine implements AdventureCard, Participation<Cargo>, CargoReward, FlightDayPenalty {
+public class Planets extends CardStateMachine implements AdventureCard, Participation<Cargo>, CargoReward, FlightDayPenalty {
     private Player currentPlayer;
     private HashMap<Integer, List<Cargo>> planetsAndRewards = new HashMap<>();
     private HashMap<Integer, Optional<Player>> planetsAndPlayers = new HashMap<>();

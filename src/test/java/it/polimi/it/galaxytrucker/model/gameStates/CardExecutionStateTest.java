@@ -1,6 +1,7 @@
 package it.polimi.it.galaxytrucker.model.gameStates;
 
 import it.polimi.it.galaxytrucker.model.adventurecards.AdventureDeck;
+import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCard;
 import it.polimi.it.galaxytrucker.model.adventurecards.refactored.Planets;
 import it.polimi.it.galaxytrucker.model.design.strategyPattern.FlightRules;
 import it.polimi.it.galaxytrucker.model.managers.FlightBoardFlightRules;
@@ -10,6 +11,7 @@ import it.polimi.it.galaxytrucker.model.utility.Color;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,13 +27,14 @@ class CardExecutionStateTest {
     @BeforeEach
     void initializeParameters() {
         gameManager = new GameManager(2, 3, "game");
+        
+        fillDeckWithPlanetCard();
 
         playerId1 = gameManager.addPlayer("Margarozzo");
         playerId2 = gameManager.addPlayer("Balzarini");
         playerId3 = gameManager.addPlayer("Ing. Conti");
 
         playersBuildAllLegalShips();
-        fillDeckWithPlanetCard();
     }
     private void playersBuildAllLegalShips() {
         // All three players have legal ships
@@ -55,8 +58,10 @@ class CardExecutionStateTest {
         List<List<Cargo>> cargoRewardsByPlanet = List.of(cargoPlanet1, cargoPlanet2, cargoPlanet3);
 
         Planets card = new Planets(numberOfPlanets, cargoRewardsByPlanet, flightDayPenalty, new FlightBoardFlightRules(gameManager.getFlightBoard()));
-
-        deck.initializeAdventureCards(List.of(card));
+        List<AdventureCard> cards = new ArrayList<>();
+        cards.add(card);
+        
+        deck.initializeAdventureCards(cards);
     }
 
     @Test
