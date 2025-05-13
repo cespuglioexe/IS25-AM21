@@ -5,24 +5,28 @@ import it.polimi.it.galaxytrucker.model.design.statePattern.State;
 import it.polimi.it.galaxytrucker.model.design.statePattern.StateMachine;
 import it.polimi.it.galaxytrucker.model.managers.Player;
 
+import java.util.NoSuchElementException;
+
 public class EvaluatePlayerState extends State {
 
     @Override
     public void enter(StateMachine fsm) {
         Pirates card = (Pirates) fsm;
-        Player player = card.getPlayersAndFirePower().keySet().stream().toList().getFirst();
-        double firePower = card.getPlayersAndFirePower().get(player);
-
-        if(player != null){
+        try{
+            Player player = card.getPlayersAndFirePower().keySet().stream().toList().getFirst();
+            double firePower = card.getPlayersAndFirePower().get(player);
+            card.setPlayer(player);
             card.getPlayersAndFirePower().remove(player);
             if(firePower > card.getFirePowerRequired())
                 fsm.changeState(new CreditRewardState());
-        else{
-            if(firePower < card.getFirePowerRequired())
-                fsm.changeState(new ActivateShieldState());
-            else fsm.changeState(new EvaluatePlayerState());
+            else{
+                if(firePower < card.getFirePowerRequired())
+                    fsm.changeState(new ActivateShieldState());
+                else fsm.changeState(new EvaluatePlayerState());
             }
-        } else fsm.changeState(new EndState());
+        }catch(NoSuchElementException e){
+            fsm.changeState(new EndState());
+        }
     }
 
     @Override

@@ -11,7 +11,7 @@ public class StartState extends State {
     @Override
     public void enter(StateMachine fsm) {
         Pirates card = (Pirates) fsm;
-        card.nextPlayer();
+        card.selectPlayer();
         for (Projectile projectile : card.getProjectiles().stream().toList()) {
             card.aimAtCoordsWith(projectile);
         }

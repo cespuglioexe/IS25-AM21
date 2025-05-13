@@ -32,6 +32,7 @@ public class ShipCreation {
          *
          * Crewmates: 9
          * FirePower:8
+         * FirePower Base:4
          */
 
         ship.addComponentTile(7, 5, new CabinModule(List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE)));
@@ -51,6 +52,7 @@ public class ShipCreation {
         ship.addComponentTile(9, 5, new BatteryComponent(2,List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE)));
         ship.addComponentTile(9, 6, new BatteryComponent(2,List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE)));
 
+
         ship.addCrewmate(7, 5, new Alien(AlienType.PURPLEALIEN));
         ship.addCrewmate(7, 8, new Human());
 
@@ -68,6 +70,7 @@ public class ShipCreation {
          * 9  [ ][B][ ]   [ ][ ][ ]
          *
          * Where C stands for CabinModule with two crewmates
+         * Where S stands for Shield
          * Where c stands for CabinModule with one crewmate
          * Where A stands for CabinModule with one alien
          * Where N stands for CabinModule without crewmates
@@ -75,6 +78,7 @@ public class ShipCreation {
          *
          * Crewmates: 9
          * FirePower: 6
+         * FirePower Base: 4
          */
         ship.addComponentTile(7, 5, new CabinModule(List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE)));
         ship.addComponentTile(7, 8, new CabinModule(List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE)));
@@ -87,6 +91,7 @@ public class ShipCreation {
 
         ship.addComponentTile(6, 5, new DoubleCannon(List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE)));
         ship.addComponentTile(7, 9, new Shield(Direction.RIGHT,List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE)));
+
         ship.addComponentTile(8, 4, new Shield(Direction.LEFT,List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE)));
 
 
@@ -116,6 +121,7 @@ public class ShipCreation {
          *
          * Crewmates: 9
          * FirePower: 6
+         * FirePower Base: 5
          */
         ship.addComponentTile(7, 5, new CabinModule(List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE)));
         ship.addComponentTile(7, 8, new CabinModule(List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE)));
@@ -160,6 +166,7 @@ public class ShipCreation {
          *
          * Crewmates: 9
          * FirePower:8
+         * FirePower Base:4
          */
 
         ship.addComponentTile(7, 5, new CabinModule(List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE)));

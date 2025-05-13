@@ -1,7 +1,9 @@
 package it.polimi.it.galaxytrucker.model.adventurecards.refactored;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Optional;
 
 import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.pirates.StartState;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCard;
@@ -20,7 +22,7 @@ public class Pirates extends Attack implements AdventureCard,FlightDayPenalty, C
     private int firePowerRequired;
     private int creditReward;
     private int flightDayPenalty;
-    HashMap<Player,Double> playersAndFirePower;
+    LinkedHashMap<Player,Double> playersAndFirePower;
 
     private final FlightRules flightRules;
     
@@ -29,7 +31,8 @@ public class Pirates extends Attack implements AdventureCard,FlightDayPenalty, C
         this.creditReward = creditReward;
         this.flightDayPenalty = flightDayPenalty;
         this.flightRules = flightRules;
-        playersAndFirePower = new HashMap<>();
+        this.firePowerRequired = firePowerRequired;
+        playersAndFirePower = new LinkedHashMap<>();
     }
     
     @Override
@@ -38,23 +41,25 @@ public class Pirates extends Attack implements AdventureCard,FlightDayPenalty, C
     }
 
 
-    public void nextPlayer() {
+    public void selectPlayer(){
         List<Player> players = flightRules.getPlayerOrder();
-
-        for (int i = 0; i < players.size(); i++) {
-            if (players.get(i).equals(getPlayer())) {
-                if (i + 1 < players.size()) {
-                    setPlayer(players.get(i + 1));
-                    playersAndFirePower.put(players.get(i + 1),(double)super.getPlayerFirePower());
-                    return;
-                }
-            }
+        if(super.getPlayer() == null){
+            super.setPlayer(players.getFirst());
+            return;
         }
-        setPlayer(players.getFirst());
-        playersAndFirePower.put(players.getFirst(),(double)super.getPlayerFirePower());
+        super.setPlayer(nextPlayer(players).orElse(null));
     }
 
-    public HashMap<Player,Double> getPlayersAndFirePower() {
+    private Optional<Player> nextPlayer(List<Player> players) {
+        for(int i=0;i<players.size();i++){
+            if(players.get(i).equals(getPlayer()) && (i+1) < players.size()) {
+                return Optional.of(players.get(i + 1));
+            }
+        }
+        return Optional.empty();
+    }
+
+    public LinkedHashMap<Player,Double> getPlayersAndFirePower() {
         return this.playersAndFirePower;
     }
 
@@ -62,10 +67,10 @@ public class Pirates extends Attack implements AdventureCard,FlightDayPenalty, C
         ShipManager ship = super.getPlayer().getShipManager();
         double firePower = ship.activateComponent(doubleCannonsAndBatteries);
 
-        double baseFirePower = playersAndFirePower.get(super.getPlayer());
+        double baseFirePower = super.getPlayerFirePower();
         firePower += baseFirePower;
 
-        playersAndFirePower.put(super.getPlayer(), firePower);
+        playersAndFirePower.put(super.getPlayer(),firePower);
         updateState();
     }
 

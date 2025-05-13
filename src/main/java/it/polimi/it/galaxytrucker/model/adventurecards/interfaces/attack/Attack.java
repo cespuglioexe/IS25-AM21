@@ -1,6 +1,7 @@
 package it.polimi.it.galaxytrucker.model.adventurecards.interfaces.attack;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
 
@@ -52,10 +53,10 @@ public abstract class Attack extends StateMachine {
     private Player player;
     private int playerFirePower;
     private HashMap<List<Integer>, List<Direction>> shieldsAndDirection;
-    private HashMap<Projectile, List<Integer>> projectilesAndAimedComponent;
+    private LinkedHashMap<Projectile, List<Integer>> projectilesAndAimedComponent;
 
     public Attack(List<Projectile> projectiles) {
-        projectilesAndAimedComponent = new HashMap<>();
+        projectilesAndAimedComponent = new LinkedHashMap<>();
         for (Projectile projectile : projectiles) {
             projectilesAndAimedComponent.put(projectile, List.of());
         }
@@ -83,10 +84,11 @@ public abstract class Attack extends StateMachine {
     }
 
     public void setPlayer(Player player) {
-        this.player = player;
-
-        ShipManager ship = player.getShipManager();
-        playerFirePower = (int) ship.calculateFirePower();
+        if(player!=null) {
+            this.player = player;
+            ShipManager ship = player.getShipManager();
+            playerFirePower = (int) ship.calculateFirePower();
+        }
     }
 
     /**
@@ -128,6 +130,7 @@ public abstract class Attack extends StateMachine {
      */
     public void activateShields(HashMap<List<Integer>, List<Integer>> shieldsAndBatteries) {
         ShipManager ship = player.getShipManager();
+        System.out.println(player.getPlayerName());
         ship.activateComponent(shieldsAndBatteries);
 
         for (List<Integer> shieldCoord : shieldsAndBatteries.keySet()) {
