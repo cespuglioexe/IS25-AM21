@@ -10,6 +10,8 @@ import java.util.stream.Collectors;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import it.polimi.it.galaxytrucker.model.adventurecards.AdventureDeck;
+import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCard;
+import it.polimi.it.galaxytrucker.model.adventurecards.refactored.Planets;
 import it.polimi.it.galaxytrucker.model.componenttiles.ComponentTile;
 import it.polimi.it.galaxytrucker.model.design.statePattern.StateMachine;
 import it.polimi.it.galaxytrucker.model.exceptions.IllegalComponentPositionException;
@@ -18,6 +20,7 @@ import it.polimi.it.galaxytrucker.model.exceptions.NotFoundException;
 import it.polimi.it.galaxytrucker.model.gameStates.GameState;
 import it.polimi.it.galaxytrucker.model.gameStates.StartState;
 import it.polimi.it.galaxytrucker.model.json.Json;
+import it.polimi.it.galaxytrucker.model.utility.Cargo;
 import it.polimi.it.galaxytrucker.model.utility.Color;
 import it.polimi.it.galaxytrucker.commands.servercommands.GameUpdate;
 import it.polimi.it.galaxytrucker.commands.servercommands.GameUpdateType;

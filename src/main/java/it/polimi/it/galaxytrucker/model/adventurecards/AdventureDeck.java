@@ -1,28 +1,17 @@
 package it.polimi.it.galaxytrucker.model.adventurecards;
 
-
-// wimport it.polimi.it.galaxytrucker.model.adventurecards.refactored.Planets;
-import it.polimi.it.galaxytrucker.model.design.strategyPattern.FlightRules;
-import it.polimi.it.galaxytrucker.model.managers.FlightBoardFlightRules;
-import it.polimi.it.galaxytrucker.model.utility.Cargo;
-import it.polimi.it.galaxytrucker.model.utility.Color;
+import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCard;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Random;
 
 public class AdventureDeck {
-
     private List<AdventureCard> cards;
 
-    public AdventureDeck() {
-        this.cards = initializeAdventureCards();
-    }
-
-    private List<AdventureCard> initializeAdventureCards() {
-        //TODO from JSON file
-
-        return null;
+    public void initializeAdventureCards(List<AdventureCard> cards) {
+        this.cards = cards;
     }
 
     public List<AdventureCard> getCards() {
@@ -47,7 +36,13 @@ public class AdventureDeck {
         cards = support;
     }
 
-    public AdventureCard draw(){
+    /**
+     * Draws the top card of the adventure card deck.
+     *
+     * @return the first card of the deck, as a {@code AdventureCard} interface.
+     * @throws NoSuchElementException if the deck is empty, so a card can't be drawn.
+     */
+    public AdventureCard draw() throws NoSuchElementException {
         AdventureCard card = cards.getFirst();
         cards.remove(card);
         return card;
