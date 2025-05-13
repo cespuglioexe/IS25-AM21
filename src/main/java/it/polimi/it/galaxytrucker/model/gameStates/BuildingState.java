@@ -1,17 +1,21 @@
 package it.polimi.it.galaxytrucker.model.gameStates;
+import it.polimi.it.galaxytrucker.commands.servercommands.GameUpdate;
+import it.polimi.it.galaxytrucker.commands.servercommands.GameUpdateType;
 import it.polimi.it.galaxytrucker.model.componenttiles.ComponentTile;
-import it.polimi.it.galaxytrucker.model.design.statePattern.State;
+import it.polimi.it.galaxytrucker.model.componenttiles.TileData;
 import it.polimi.it.galaxytrucker.model.design.statePattern.StateMachine;
-import it.polimi.it.galaxytrucker.model.exceptions.IllegalComponentPositionException;
-import it.polimi.it.galaxytrucker.model.exceptions.InvalidActionException;
-import it.polimi.it.galaxytrucker.model.exceptions.InvalidFunctionCallInState;
+import it.polimi.it.galaxytrucker.exceptions.IllegalComponentPositionException;
+import it.polimi.it.galaxytrucker.exceptions.InvalidActionException;
+import it.polimi.it.galaxytrucker.exceptions.InvalidFunctionCallInState;
 import it.polimi.it.galaxytrucker.model.managers.FlightBoard;
 import it.polimi.it.galaxytrucker.model.managers.GameManager;
 import it.polimi.it.galaxytrucker.model.managers.Player;
 import it.polimi.it.galaxytrucker.model.managers.ShipManager;
-import it.polimi.it.galaxytrucker.view.cli.ConsoleColors;
 
 import java.util.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 public class BuildingState extends GameState {
     private HashMap<UUID, Boolean> playerHasFinished;
@@ -19,16 +23,39 @@ public class BuildingState extends GameState {
 
     @Override
     public void enter(StateMachine fsm) {
-        System.out.println(ConsoleColors.BLUE_UNDERLINED + "\n> " + this.getClass().getSimpleName() + " <\n" + ConsoleColors.RESET);
-
         GameManager gameManager = (GameManager) fsm;
         gameManager.initializeComponentTiles();
+        // List<List<AdventureCard>> cardStacks = gameManager.getAdventureDeck().getStack();
 
         this.discardedComponents = new ArrayList<>();
         this.playerHasFinished = new HashMap<>();
         for(Player player : gameManager.getPlayers()) {
             playerHasFinished.put(player.getPlayerID(), false);
         }
+
+
+        // Probabilmente questa operazione si può spostare da qualche parte
+        Map<UUID, List<List<ComponentTile>>> playerShips = gameManager.getPlayers().stream()
+                .collect(Collectors.toMap(
+                        player -> player.getPlayerID(),
+                        player -> player.getShipManager().getShipBoard()
+                ));
+
+        HashMap<UUID, List<List<TileData>>> convertedShips = new HashMap<>();
+
+        for (Map.Entry<UUID, List<List<ComponentTile>>> entry : playerShips.entrySet()) {
+            List<List<TileData>> tileDataGrid = TileData.createTileDataShipFromComponentTileShip(entry.getValue());
+            convertedShips.put(entry.getKey(), tileDataGrid);
+        }
+
+        ((GameManager) fsm).updateListeners(
+                new GameUpdate.GameUpdateBuilder(GameUpdateType.NEW_STATE, new UUID(0, 0))
+                        .setNewSate(this.getClass().getSimpleName())
+                        .setPlayerIds(gameManager.getPlayers().stream().map(Player::getPlayerID).toList())
+                        .setAllPlayerShipBoards(convertedShips)
+                        // TODO: get card pile compositions
+                        //.setCardPileCompositions(cardStacks)
+                        .build());
     }
 
     @Override
@@ -50,7 +77,7 @@ public class BuildingState extends GameState {
     public void drawComponentTile(StateMachine fsm, UUID playerID) throws InvalidActionException, InvalidFunctionCallInState {
         GameManager game = (GameManager) fsm;
 
-           if (game.getComponentTiles().isEmpty()) {
+        if (game.getComponentTiles().isEmpty()) {
             throw new InvalidActionException("There are no components left");
         }
 
@@ -93,8 +120,7 @@ public class BuildingState extends GameState {
         ComponentTile comp = player.getHeldComponent();
 
         ship.addComponentTile(row, column, comp);
-        player.setHeldComponent(null);
-        System.out.println(ConsoleColors.GREEN + "Placed " + comp.getClass().getSimpleName() + row + ", " + column);
+        player.resetHeldComponent();
     }
 
     public void rotateComponentTile(StateMachine fsm, UUID playerID, int row, int column) throws InvalidFunctionCallInState {
@@ -113,8 +139,6 @@ public class BuildingState extends GameState {
                 throw new IllegalComponentPositionException("No component found at position (" + row + ", " + column + ").");
             }
         );
-
-        System.out.println("Component rotated");
     }
 
     @Override
@@ -140,7 +164,7 @@ public class BuildingState extends GameState {
         }
 
         player.getShipManager().saveComponentTile(player.getHeldComponent());
-        player.setHeldComponent(null);
+        player.resetHeldComponent();
     }
 
     @Override
@@ -153,9 +177,7 @@ public class BuildingState extends GameState {
             throw new InvalidActionException("No component held by " + game.getPlayerByID(playerID).getPlayerName());
         }
         discardedComponents.add(player.getHeldComponent());
-        System.out.println("Discarded " + player.getHeldComponent().getClass().getSimpleName() + " component");
-        player.setHeldComponent(null);
-        System.out.println(discardedComponents);
+        player.resetHeldComponent();
     }
 
     @Override
@@ -190,5 +212,19 @@ public class BuildingState extends GameState {
         ComponentTile comp = discardedComponents.get(index);
         discardedComponents.remove(index);
         player.setHeldComponent(comp);
+    }
+
+    @Override
+    public void startBuildPhaseTimer(GameManager gm) {
+        Executors.newScheduledThreadPool(1).schedule(() -> {
+            gm.updateListeners(
+                    new GameUpdate.GameUpdateBuilder(GameUpdateType.TIMER_END, new UUID(0,0))
+                            .build()
+            );
+        }, 10, TimeUnit.SECONDS);
+        gm.updateListeners(
+                new GameUpdate.GameUpdateBuilder(GameUpdateType.TIMER_START, new UUID(0,0))
+                        .build()
+        );
     }
 }

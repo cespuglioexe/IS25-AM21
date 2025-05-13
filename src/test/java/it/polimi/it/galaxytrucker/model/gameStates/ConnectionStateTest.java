@@ -1,8 +1,10 @@
 package it.polimi.it.galaxytrucker.model.gameStates;
 
-import it.polimi.it.galaxytrucker.model.exceptions.InvalidFunctionCallInState;
+import it.polimi.it.galaxytrucker.exceptions.InvalidFunctionCallInState;
 import it.polimi.it.galaxytrucker.model.managers.GameManager;
 import it.polimi.it.galaxytrucker.model.managers.Player;
+import it.polimi.it.galaxytrucker.model.managers.ShipManager;
+import it.polimi.it.galaxytrucker.model.utility.Color;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -17,12 +19,12 @@ class ConnectionStateTest {
     @BeforeEach
     void initializeParameters() {
         connectionState = new ConnectionState();
-        gameManager = new GameManager(2, 3, "game");
+        gameManager = new GameManager(2, 3);
     }
 
     @Test
     void addPlayerTest () {
-        connectionState.addPlayer(gameManager ,"Frigeri");
+        gameManager.addPlayer(new Player(UUID.randomUUID(), "Frigeri", Color.RED, new ShipManager(2)));
 
         assertEquals(1, gameManager.getPlayers().size());
         assertTrue(gameManager.getPlayers().stream()
@@ -33,8 +35,11 @@ class ConnectionStateTest {
 
     @Test
     void removePlayerTest () {
-        UUID playerId1 = connectionState.addPlayer(gameManager ,"Frigeri");
-        UUID playerId2 = connectionState.addPlayer(gameManager, "Margarozzo");
+        UUID playerId1 = UUID.randomUUID();
+        UUID playerId2 = UUID.randomUUID();
+
+        gameManager.addPlayer(new Player(playerId1, "Frigeri", Color.RED, new ShipManager(2)));
+        gameManager.addPlayer(new Player(playerId2, "Blazarini", Color.RED, new ShipManager(2)));
 
         connectionState.removePlayer(gameManager, playerId1);
 
@@ -55,7 +60,9 @@ class ConnectionStateTest {
 
     @Test
     void nonValidFunctionTest () {
-        UUID playerId = connectionState.addPlayer(gameManager ,"Ing.Conti");
+        UUID playerId = UUID.randomUUID();
+
+        gameManager.addPlayer(new Player(playerId, "Ing. Conti", Color.RED, new ShipManager(2)));
         InvalidFunctionCallInState e = assertThrows(InvalidFunctionCallInState.class, () -> connectionState.placeComponentTile(gameManager, playerId, 4, 6));
         System.out.println(e.getMessage());
     }

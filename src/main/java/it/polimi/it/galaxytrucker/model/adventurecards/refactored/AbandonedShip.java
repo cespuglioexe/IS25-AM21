@@ -12,7 +12,7 @@ import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.FlightDayPenal
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.Participation;
 import it.polimi.it.galaxytrucker.model.design.statePattern.StateMachine;
 import it.polimi.it.galaxytrucker.model.design.strategyPattern.FlightRules;
-import it.polimi.it.galaxytrucker.model.exceptions.InvalidActionException;
+import it.polimi.it.galaxytrucker.exceptions.InvalidActionException;
 import it.polimi.it.galaxytrucker.model.managers.Player;
 import it.polimi.it.galaxytrucker.model.managers.ShipManager;
 
@@ -34,7 +34,7 @@ import it.polimi.it.galaxytrucker.model.managers.ShipManager;
  *   <li>All other players simply are unaffected.</li>
  * </ul>
  *
- * The card is implemented as a Finite State Machine, transitioning through the following states:
+ * The card is implemented as a Finite CLIViewState Machine, transitioning through the following states:
  * <pre>
  * StartState
  *     ↓

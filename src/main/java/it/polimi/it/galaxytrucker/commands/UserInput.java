@@ -1,13 +1,16 @@
 package it.polimi.it.galaxytrucker.commands;
 
+import it.polimi.it.galaxytrucker.networking.VirtualClient;
+import it.polimi.it.galaxytrucker.networking.client.Client;
 import it.polimi.it.galaxytrucker.networking.server.rmi.RMIVirtualClient;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.UUID;
 
 public class UserInput implements Serializable {
     private final UserInputType type;
-    private final RMIVirtualClient client;
+    private final VirtualClient client;
 
     private final RequestType requestType;
 
@@ -16,7 +19,7 @@ public class UserInput implements Serializable {
 
     private final int gameLevel;
     private final int gamePlayers;
-    private final int gameIndex;
+    private final UUID gameId;
     private final int selectedTileIndex;
     private final int cardPileIndex;
 
@@ -30,7 +33,7 @@ public class UserInput implements Serializable {
         this.playerName = builder.playerName;
         this.gameLevel = builder.gameLevel;
         this.gamePlayers = builder.gamePlayers;
-        this.gameIndex = builder.gameIndex;
+        this.gameId = builder.gameId;
         this.requestType = builder.requestType;
         this.coords = builder.coords;
         this.rotation = builder.rotation;
@@ -42,7 +45,7 @@ public class UserInput implements Serializable {
         return type;
     }
 
-    public RMIVirtualClient getClient() {
+    public VirtualClient getClient() {
         return client;
     }
 
@@ -62,8 +65,8 @@ public class UserInput implements Serializable {
         return gamePlayers;
     }
 
-    public int getGameIndex() {
-        return gameIndex;
+    public UUID getGameId() {
+        return gameId;
     }
 
     public RequestType getRequestType() {
@@ -94,7 +97,7 @@ public class UserInput implements Serializable {
     public static class UserInputBuilder {
         // Required parameters
         private final UserInputType type;
-        private final RMIVirtualClient client;
+        private final VirtualClient client;
 
         // Optional parameters
         private RequestType requestType = RequestType.EMPTY;
@@ -104,7 +107,7 @@ public class UserInput implements Serializable {
 
         private int gameLevel = 0;
         private int gamePlayers = 0;
-        private int gameIndex = 0;
+        private UUID gameId;
         private int selectedTileIndex = 0;
         private int cardPileIndex = 0;
         
@@ -112,7 +115,7 @@ public class UserInput implements Serializable {
 
         private int rotation = 0;
 
-        public UserInputBuilder(RMIVirtualClient client, UserInputType type) {
+        public UserInputBuilder(VirtualClient client, UserInputType type) {
             this.client = client;
             this.type = type;
         }
@@ -137,8 +140,8 @@ public class UserInput implements Serializable {
             return this;
         }
 
-        public UserInputBuilder setGameIndex(int gameIndex) {
-            this.gameIndex = gameIndex;
+        public UserInputBuilder setGameId(UUID gameId) {
+            this.gameId = gameId;
             return this;
         }
 

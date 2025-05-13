@@ -5,7 +5,7 @@ import it.polimi.it.galaxytrucker.model.componenttiles.TileEdge;
 import it.polimi.it.galaxytrucker.model.crewmates.Alien;
 import it.polimi.it.galaxytrucker.model.crewmates.Crewmate;
 import it.polimi.it.galaxytrucker.model.crewmates.Human;
-import it.polimi.it.galaxytrucker.model.exceptions.InvalidActionException;
+import it.polimi.it.galaxytrucker.exceptions.InvalidActionException;
 import it.polimi.it.galaxytrucker.model.utility.AlienType;
 import org.junit.jupiter.api.Test;
 

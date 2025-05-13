@@ -1,8 +1,8 @@
 package it.polimi.it.galaxytrucker.model.gameStates;
 
 import it.polimi.it.galaxytrucker.model.design.statePattern.StateMachine;
-import it.polimi.it.galaxytrucker.model.exceptions.InvalidActionException;
-import it.polimi.it.galaxytrucker.model.exceptions.InvalidFunctionCallInState;
+import it.polimi.it.galaxytrucker.exceptions.InvalidActionException;
+import it.polimi.it.galaxytrucker.exceptions.InvalidFunctionCallInState;
 import it.polimi.it.galaxytrucker.model.managers.FlightBoard;
 import it.polimi.it.galaxytrucker.model.managers.GameManager;
 import it.polimi.it.galaxytrucker.model.managers.Player;

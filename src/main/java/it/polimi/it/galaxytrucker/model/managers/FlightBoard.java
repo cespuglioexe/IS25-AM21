@@ -65,7 +65,7 @@ public class FlightBoard {
      * </p>
      */
     public void printFlightBoardState() {
-        System.out.println("Flight Board State");
+        System.out.println("Flight Board CLIViewState");
         System.out.println();
         System.out.println();
         int dimension = board.length;

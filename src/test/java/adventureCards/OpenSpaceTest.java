@@ -1,13 +1,11 @@
 package adventureCards;
 
-import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.abandonedstation.ParticipationState;
 import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.openSpace.CalculateEnginePowerState;
 import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.openSpace.EndState;
 import it.polimi.it.galaxytrucker.model.adventurecards.refactored.OpenSpace;
 import it.polimi.it.galaxytrucker.model.componenttiles.*;
 import it.polimi.it.galaxytrucker.model.crewmates.Alien;
 import it.polimi.it.galaxytrucker.model.crewmates.Human;
-import it.polimi.it.galaxytrucker.model.exceptions.InvalidActionException;
 import it.polimi.it.galaxytrucker.model.managers.FlightBoard;
 import it.polimi.it.galaxytrucker.model.managers.FlightBoardFlightRules;
 import it.polimi.it.galaxytrucker.model.managers.Player;

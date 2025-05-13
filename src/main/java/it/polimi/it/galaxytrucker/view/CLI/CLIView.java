@@ -1,25 +1,100 @@
-package it.polimi.it.galaxytrucker.view.cli;
+package it.polimi.it.galaxytrucker.view.CLI;
 
 import it.polimi.it.galaxytrucker.model.componenttiles.TileData;
 import it.polimi.it.galaxytrucker.model.componenttiles.TileEdge;
-import it.polimi.it.galaxytrucker.networking.client.rmi.RMIClient;
-import it.polimi.it.galaxytrucker.view.cli.statePattern.StateMachine;
+import it.polimi.it.galaxytrucker.view.CLI.CLIViewStates.*;
+import it.polimi.it.galaxytrucker.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
-public class CLIView extends StateMachine {
-
-    private final RMIClient client;
-
-    public CLIView(RMIClient client) {
+public class CLIView extends View {
+    public CLIView() {
         displayGameTitle();
-        this.client = client;
     }
 
-    public RMIClient getClient() {
-        return client;
+    @Override
+    public void repromptState() {
+
     }
+
+    @Override
+    public void begin() {
+        CLIViewState.setView(this);
+        CLIViewState.setCurrentState(new NameSelectionState());
+        CLIViewState.getCurrentState().executeState();
+    }
+
+    @Override
+    public void titleScreen() {
+        displayGameTitle();
+    }
+
+    @Override
+    public void displayShip(List<List<TileData>> ship) {
+        printShip(ship);
+    }
+
+    @Override
+    public void displayComponentTile(TileData newTile) {
+        CLIViewState.getCurrentState().displayComponentTile(newTile);
+    }
+
+    @Override
+    public void tileActions() {
+        CLIViewState.setCurrentState(new TileActionState());
+        CLIViewState.getCurrentState().executeState();
+    }
+
+    @Override
+    public void displayTiles(List<TileData> tiles) {
+        displayTileList(tiles);
+    }
+
+    @Override
+    public void displayCards(List<Integer> cards) {
+
+    }
+
+    @Override
+    public void nameNotAvailable() {
+        CLIViewState.getCurrentState().nameNotAvailable();
+    }
+
+    @Override
+    public void buildingStarted() {
+        displayBuildingStarted();
+        CLIViewState.setCurrentState(new BuildingMenuState());
+        CLIViewState.getCurrentState().executeState();
+    }
+
+    @Override
+    public void gameSelectionScreen() {
+        CLIViewState.setCurrentState(new GameSelectionState());
+        CLIViewState.getCurrentState().executeState();
+    }
+
+    @Override
+    public void gameCreationSuccess(boolean success) {
+        CLIViewState.getCurrentState().gameCreationSuccess(success);
+    }
+
+    @Override
+    public void joinedGameIsFull() {
+        CLIViewState.getCurrentState().joinedGameIsFull();
+    }
+
+    @Override
+    public void remoteExceptionThrown() {
+        CLIViewState.getCurrentState().remoteExceptionThrown();
+    }
+
+
+
+
+    ////////////////////////////////////
+
 
     private void displayGameTitle () {
         String title = """
@@ -48,7 +123,7 @@ public class CLIView extends StateMachine {
         System.out.print("\n");
     }
 
-    public void displayComponentTile (TileData tile) {
+    public void printSingleComponent (TileData tile) {
         System.out.println("COMPONENT: " + tile.getType());
         System.out.println("EDGES: " + tile.getTop() + ", " + tile.getRight() + ", " + tile.getBottom() + ", " + tile.getLeft());
 
@@ -76,7 +151,7 @@ public class CLIView extends StateMachine {
         System.out.print("\n");
     }
 
-    public void displayShip (List<List<TileData>> ship) {
+    public void printShip (List<List<TileData>> ship) {
         // NAVE: 5x7
         List<List<List<String>>> shipAscii = new ArrayList<>();
         for (List<TileData> row : ship) {
@@ -184,17 +259,20 @@ public class CLIView extends StateMachine {
 
 
         if (tileList == null || tileList.isEmpty()) {
-            System.out.println("There are no discarded tiles");
+            System.out.println(ConsoleColors.YELLOW + "There are no tiles." + ConsoleColors.RESET);
             return;
         }
 
         List<List<String>> listAscii = new ArrayList<>();
+        int counter = 1;
         for (TileData tile : tileList) {
             List<String> tileAscii = getTileAscii(tile);
+            tileAscii.add("     " + counter + "     ");
             listAscii.add(tileAscii);
+            counter++;
         }
 
-        int tileHeight = listAscii.get(0).size(); // e.g., 5
+        int tileHeight = listAscii.get(0).size();
 
         for (int i = 0; i < listAscii.size(); i += 5) {
             int end = Math.min(i + 5, listAscii.size());
@@ -212,11 +290,10 @@ public class CLIView extends StateMachine {
     }
 
     public void displayTimerEnded () {
-        System.out.println(ConsoleColors.CYAN + "Timer ended" + ConsoleColors.RESET);
+        System.out.println(ConsoleColors.CYAN + "Building timer has ended!" + ConsoleColors.RESET);
     }
 
     public void displayTimerStarted(){
-        System.out.println(ConsoleColors.CYAN + "Timer started" + ConsoleColors.RESET);
+        System.out.println(ConsoleColors.CYAN + "Building timer has been started!" + ConsoleColors.RESET);
     }
-
 }

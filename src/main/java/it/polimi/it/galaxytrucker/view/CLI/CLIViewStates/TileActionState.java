@@ -1,26 +1,20 @@
-package it.polimi.it.galaxytrucker.view.cli.statePattern.viewstates;
+package it.polimi.it.galaxytrucker.view.CLI.CLIViewStates;
 
 import it.polimi.it.galaxytrucker.commands.UserInput;
 import it.polimi.it.galaxytrucker.commands.UserInputType;
-import it.polimi.it.galaxytrucker.view.cli.CLIView;
-import it.polimi.it.galaxytrucker.view.cli.statePattern.State;
-import it.polimi.it.galaxytrucker.view.cli.statePattern.StateMachine;
+import it.polimi.it.galaxytrucker.model.componenttiles.TileData;
+import it.polimi.it.galaxytrucker.networking.VirtualClient;
+import it.polimi.it.galaxytrucker.view.CLI.CLIView;
 
-public class TileActions extends State {
-
-    public TileActions(CLIView view) {
-        super(view);
-    }
-
+public class TileActionState extends CLIViewState{
     @Override
-    public void enter(StateMachine fsm) {
-
+    public void executeState() {
         System.out.print("""
                 \nChoose an option:
                 [1]: Place the tile
                 [2]: Save the tile
                 [3]: Discard the tile
-                > """);
+                >\s""");
 
         int option = scanner.nextInt();
 
@@ -39,7 +33,7 @@ public class TileActions extends State {
                 int rotation = scanner.nextInt();
 
                 view.getClient().receiveUserInput(
-                        new UserInput.UserInputBuilder(view.getClient(), UserInputType.PLACE_COMPONENT)
+                        new UserInput.UserInputBuilder((VirtualClient) view.getClient(), UserInputType.PLACE_COMPONENT)
                                 .setCoords(x, y)
                                 .setRotation(rotation)
                                 .build()
@@ -47,29 +41,25 @@ public class TileActions extends State {
                 break;
             case 2:
                 view.getClient().receiveUserInput(
-                        new UserInput.UserInputBuilder(view.getClient(), UserInputType.SAVE_COMPONENT)
+                        new UserInput.UserInputBuilder((VirtualClient) view.getClient(), UserInputType.SAVE_COMPONENT)
                                 .build()
                 );
                 break;
             case 3:
 
                 view.getClient().receiveUserInput(
-                        new UserInput.UserInputBuilder(view.getClient(), UserInputType.DISCARD_COMPONENT)
+                        new UserInput.UserInputBuilder((VirtualClient) view.getClient(), UserInputType.DISCARD_COMPONENT)
                                 .build()
                 );
                 break;
         }
 
-        fsm.changeState(new BuildingStateMenu(view));
+        currentState = new BuildingMenuState();
+        currentState.executeState();
     }
 
     @Override
-    public void update(StateMachine fsm, boolean repeat) {
-
-    }
-
-    @Override
-    public void exit(StateMachine fsm) {
-
+    public void displayComponentTile(TileData newTile) {
+        ((CLIView) view).printSingleComponent(newTile);
     }
 }

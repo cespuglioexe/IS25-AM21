@@ -4,7 +4,7 @@
  * @author jcomeau_ictx
  */
 
-package it.polimi.it.galaxytrucker.view.cli;
+package it.polimi.it.galaxytrucker.view.CLI;
 
 public enum ConsoleColors {
 
@@ -79,7 +79,14 @@ public enum ConsoleColors {
     BLUE_BACKGROUND_BRIGHT("\033[0;104m"),      // BLUE
     MAGENTA_BACKGROUND_BRIGHT("\033[0;105m"),   // MAGENTA
     CYAN_BACKGROUND_BRIGHT("\033[0;106m"),      // CYAN
-    WHITE_BACKGROUND_BRIGHT("\033[0;107m");     // WHITE
+    WHITE_BACKGROUND_BRIGHT("\033[0;107m"),     // WHITE
+
+    // Pre-made debug styles
+    MAIN_SERVER_DEBUG(BLUE + "[MAIN SERVER]:\t"),
+    CLIENT_HANDLER_DEBUG(CYAN + "[HANDLER - %s]:\t"),
+    CLIENT_DEBUG(MAGENTA + "[CLIENT]:\t"),
+    MODEL_DEBUG(YELLOW + "[MODEL]:\t"),
+    CONTROLLER_DEBUG(MAGENTA + "[CONTROLLER]:\t"),;
 
     private final String code;
 
@@ -90,5 +97,9 @@ public enum ConsoleColors {
     @Override
     public String toString() {
         return code;
+    }
+
+    public String tag(String args) {
+        return String.format(code, args);
     }
 }

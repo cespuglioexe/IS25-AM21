@@ -7,8 +7,7 @@ import it.polimi.it.galaxytrucker.networking.server.Server;
  */
 public class ServerApplication {
     public static void main(String[] args) {
-        Server server = Server.getInstance();
-
+        Server server = new Server();
         server.run();
     }
 }

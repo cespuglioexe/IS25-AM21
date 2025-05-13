@@ -7,43 +7,45 @@ import java.util.UUID;
 import it.polimi.it.galaxytrucker.model.adventurecards.AdventureDeck;
 import it.polimi.it.galaxytrucker.model.componenttiles.ComponentTile;
 import it.polimi.it.galaxytrucker.model.design.statePattern.State;
-import it.polimi.it.galaxytrucker.model.exceptions.InvalidActionException;
+import it.polimi.it.galaxytrucker.exceptions.InvalidActionException;
 ;
 
 public interface Model {
     //GETTER
-    public State getCurrentState();
-    public Integer getLevel();
-    public Integer getNumberOfPlayers();
-    public List<Player> getPlayers();
-    public Player getPlayerByID(UUID id);
-    public boolean allPlayersConnected();
-    public ShipManager getPlayerShip(UUID id);
-    public Set<Player> getPlayersWithIllegalShips();
-    public Set<ComponentTile> getComponentTiles();
-    public FlightBoard getFlightBoard();
-    public AdventureDeck getAdventureDeck();
-    public void getSavedComponentTiles(UUID playerId);
-    public List<ComponentTile> getDiscardedComponentTiles();
-    public void getPlayerShipBoard(UUID playerId);
+     State getCurrentState();
+     Integer getLevel();
+     Integer getNumberOfPlayers();
+     List<Player> getPlayers();
+     Player getPlayerByID(UUID id);
+     boolean allPlayersConnected();
+     ShipManager getPlayerShip(UUID id);
+     Set<Player> getPlayersWithIllegalShips();
+     Set<ComponentTile> getComponentTiles();
+     FlightBoard getFlightBoard();
+     AdventureDeck getAdventureDeck();
+     void getSavedComponentTiles(UUID playerId);
+     List<ComponentTile> getDiscardedComponentTiles(UUID playerId);
+     void getPlayerShipBoard(UUID playerId);
 
 
     //SETTER
-    public void changeState(State nextState);
-    public UUID addPlayer(String name) throws InvalidActionException;
-    public void removePlayer(UUID id);
+     void changeState(State nextState);
+     void addPlayer(Player player) throws InvalidActionException;
+     void removePlayer(UUID id);
 
     //ACTIONS
-    public void drawComponentTile(UUID playerId) throws InvalidActionException;
+     void drawComponentTile(UUID playerId) throws InvalidActionException;
 
-    public void placeComponentTile(UUID playerID, int row, int column);
-    public void rotateComponentTile(UUID playerID, int row, int column);
-    public void finishBuilding(UUID playerID);
-    public void saveComponentTile(UUID playerID);
-    public void discardComponentTile(UUID playerId);
+     void placeComponentTile(UUID playerID, int row, int column, int rotation);
+     void rotateComponentTile(UUID playerID, int row, int column);
+     void finishBuilding(UUID playerID);
+     void saveComponentTile(UUID playerID);
+     void discardComponentTile(UUID playerId);
 
-    public void selectSavedComponentTile (UUID playerId, int index);
-    public void selectDiscardedComponentTile (UUID playerId, int index);
+     void selectSavedComponentTile (UUID playerId, int index);
+     void selectDiscardedComponentTile (UUID playerId, int index);
 
-    public void deleteComponentTile(UUID playerID, int row, int column);
+     void deleteComponentTile(UUID playerID, int row, int column);
+
+     void startBuildPhaseTimer();
 }

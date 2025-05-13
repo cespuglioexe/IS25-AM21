@@ -1,6 +1,6 @@
 package it.polimi.it.galaxytrucker.model.gameStates.fields;
 
-import it.polimi.it.galaxytrucker.model.exceptions.InvalidActionException;
+import it.polimi.it.galaxytrucker.exceptions.InvalidActionException;
 import it.polimi.it.galaxytrucker.model.managers.Model;
 
 public interface FieldRequirements {

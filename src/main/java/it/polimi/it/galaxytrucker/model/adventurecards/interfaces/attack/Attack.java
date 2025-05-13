@@ -7,7 +7,7 @@ import java.util.Set;
 
 import it.polimi.it.galaxytrucker.model.componenttiles.Shield;
 import it.polimi.it.galaxytrucker.model.design.statePattern.StateMachine;
-import it.polimi.it.galaxytrucker.model.exceptions.InvalidActionException;
+import it.polimi.it.galaxytrucker.exceptions.InvalidActionException;
 import it.polimi.it.galaxytrucker.model.managers.Player;
 import it.polimi.it.galaxytrucker.model.managers.ShipManager;
 import it.polimi.it.galaxytrucker.model.utility.Direction;

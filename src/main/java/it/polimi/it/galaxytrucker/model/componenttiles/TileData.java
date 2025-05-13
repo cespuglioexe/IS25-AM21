@@ -1,6 +1,8 @@
 package it.polimi.it.galaxytrucker.model.componenttiles;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TileData implements Serializable {
     private int rotation;
@@ -58,4 +60,18 @@ public class TileData implements Serializable {
         }
         return null;
     }
+
+    public static List<List<TileData>> createTileDataShipFromComponentTileShip(List<List<ComponentTile>> ship) {
+        List<List<TileData>> result = new ArrayList<>();
+
+        for (List<ComponentTile> row : ship) {
+            List<TileData> rowData = new ArrayList<>();
+            for (ComponentTile componentTile : row) {
+                rowData.add(TileData.createTileDataFromComponentTile(componentTile));
+            }
+            result.add(rowData);
+        }
+        return result;
+    }
+
 }

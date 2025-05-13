@@ -3,14 +3,16 @@ package it.polimi.it.galaxytrucker.model.gameStates;
 import java.util.List;
 import it.polimi.it.galaxytrucker.model.componenttiles.ComponentTile;
 import it.polimi.it.galaxytrucker.model.design.statePattern.*;
-import it.polimi.it.galaxytrucker.model.exceptions.InvalidActionException;
-import it.polimi.it.galaxytrucker.model.exceptions.InvalidFunctionCallInState;
+import it.polimi.it.galaxytrucker.exceptions.InvalidActionException;
+import it.polimi.it.galaxytrucker.exceptions.InvalidFunctionCallInState;
+import it.polimi.it.galaxytrucker.model.managers.GameManager;
+import it.polimi.it.galaxytrucker.model.managers.Player;
 
 import java.util.UUID;
 
-public abstract class GameState extends State { 
+public abstract class GameState extends State {
     // CONNECTION STATE
-    public UUID addPlayer(StateMachine fsm, String name) throws InvalidActionException, InvalidFunctionCallInState {
+    public void addPlayer(StateMachine fsm, Player player) throws InvalidActionException, InvalidFunctionCallInState {
         throw new InvalidFunctionCallInState("Can't add player in state: " + this.getClass().getSimpleName());
     }
     public void removePlayer(StateMachine fsm, UUID id) throws InvalidFunctionCallInState {
@@ -49,5 +51,9 @@ public abstract class GameState extends State {
     // FIXING STATE
     public void deleteComponentTile(StateMachine fsm, UUID playerID, int row, int column) throws InvalidFunctionCallInState {
         throw new InvalidFunctionCallInState("Can't delete component in state: " + this.getClass().getSimpleName());
+    }
+
+    public void startBuildPhaseTimer(GameManager gameManager) {
+        throw new InvalidFunctionCallInState("Can't start a building timer in state: " + this.getClass().getSimpleName());
     }
 }

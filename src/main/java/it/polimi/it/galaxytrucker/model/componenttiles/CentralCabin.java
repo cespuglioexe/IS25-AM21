@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.it.galaxytrucker.model.crewmates.Alien;
 import it.polimi.it.galaxytrucker.model.crewmates.Crewmate;
 import it.polimi.it.galaxytrucker.model.crewmates.Human;
-import it.polimi.it.galaxytrucker.model.exceptions.InvalidActionException;
+import it.polimi.it.galaxytrucker.exceptions.InvalidActionException;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -9,25 +9,23 @@ import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
+import it.polimi.it.galaxytrucker.listeners.Listener;
+import it.polimi.it.galaxytrucker.listeners.Observable;
 import it.polimi.it.galaxytrucker.model.adventurecards.AdventureDeck;
-import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCard;
-import it.polimi.it.galaxytrucker.model.adventurecards.refactored.Planets;
 import it.polimi.it.galaxytrucker.model.componenttiles.ComponentTile;
 import it.polimi.it.galaxytrucker.model.design.statePattern.StateMachine;
-import it.polimi.it.galaxytrucker.model.exceptions.IllegalComponentPositionException;
-import it.polimi.it.galaxytrucker.model.exceptions.InvalidActionException;
-import it.polimi.it.galaxytrucker.model.exceptions.NotFoundException;
+import it.polimi.it.galaxytrucker.exceptions.IllegalComponentPositionException;
+import it.polimi.it.galaxytrucker.exceptions.InvalidActionException;
+import it.polimi.it.galaxytrucker.exceptions.NotFoundException;
 import it.polimi.it.galaxytrucker.model.gameStates.GameState;
 import it.polimi.it.galaxytrucker.model.gameStates.StartState;
 import it.polimi.it.galaxytrucker.model.json.Json;
-import it.polimi.it.galaxytrucker.model.utility.Cargo;
-import it.polimi.it.galaxytrucker.model.utility.Color;
 import it.polimi.it.galaxytrucker.commands.servercommands.GameUpdate;
 import it.polimi.it.galaxytrucker.commands.servercommands.GameUpdateType;
 // import it.polimi.it.galaxytrucker.networking.rmi.server.RMIServer;
-import it.polimi.it.galaxytrucker.view.cli.ConsoleColors;;
+;
 
-public class GameManager extends StateMachine implements Model {
+public class GameManager extends StateMachine implements Model, Observable {
     private final Integer level;
     private final Integer numberOfPlayers;
     private final List<Player> players;
@@ -35,44 +33,20 @@ public class GameManager extends StateMachine implements Model {
     private final FlightBoard flightBoard;
     private final AdventureDeck adventureDeck;
 
-
-    // private final RMIServer server;
-    private final String nickname;
+    private final List<Listener> listeners;
 
     private ExecutorService executors = Executors.newCachedThreadPool();
 
-    public GameManager(int level, int numberOfPlayers /*, RMIServer server */, String nickname) {
+    public GameManager(int level, int numberOfPlayers) {
         this.level = level;
         this.numberOfPlayers = numberOfPlayers;
         this.flightBoard = new FlightBoard(level);
         this.adventureDeck = new AdventureDeck();
         this.players = new ArrayList<>();
-        // this.server = server;
-        this.nickname = nickname;
+
+        this.listeners = new ArrayList<>();
 
         start(new StartState());
-    }
-
-    public void sendGameUpdateToAllPlayers(GameUpdate gameUpdate) {
-//        executors.execute(() -> {
-//            try {
-//                server.sendMessageToAllPlayers(nickname, gameUpdate);
-//            } catch (RemoteException e) {
-//                e.printStackTrace();
-//            }
-//        });
-    }
-
-    public void sendGameUpdateToSinglePlayer(UUID playerId, GameUpdate gameUpdate) {
-        System.out.println(ConsoleColors.GREEN + "Forwarding message to server of type: " + gameUpdate.getInstructionType() + ConsoleColors.RESET);
-
-//        executors.execute(() -> {
-//            try {
-//                server.sendMessageToSinglePlayer(nickname, getPlayerByID(playerId).getPlayerName(), gameUpdate);
-//            } catch (RemoteException e) {
-//                e.printStackTrace();
-//            }
-//        });
     }
 
     @Override
@@ -100,8 +74,7 @@ public class GameManager extends StateMachine implements Model {
 
     @Override
     public boolean allPlayersConnected() {
-        System.out.println(">> Number of connected players: " + players.size());
-        return this.players.size() == this.numberOfPlayers ? true : false;
+        return this.players.size() == this.numberOfPlayers;
     }
 
     @Override
@@ -134,15 +107,15 @@ public class GameManager extends StateMachine implements Model {
 
     @Override
     public void getSavedComponentTiles(UUID playerId) {
-        sendGameUpdateToSinglePlayer(playerId,
-                new GameUpdate.GameUpdateBuilder(GameUpdateType.TILE_LIST)
-                        .setTileList(getPlayerByID(playerId).getShipManager().getSavedComponentTiles())
-                        .build()
-        );
+//        sendGameUpdateToSinglePlayer(playerId,
+//                new GameUpdate.GameUpdateBuilder(GameUpdateType.TILE_LIST)
+//                        .setTileList(getPlayerByID(playerId).getShipManager().getSavedComponentTiles())
+//                        .build()
+//        );
     }
 
     @Override
-    public List<ComponentTile> getDiscardedComponentTiles() {
+    public List<ComponentTile> getDiscardedComponentTiles(UUID playerId) {
         GameState gameState = (GameState) this.getCurrentState();
 
         return gameState.getDiscardedComponentTiles();
@@ -151,27 +124,24 @@ public class GameManager extends StateMachine implements Model {
 
     @Override
     public void getPlayerShipBoard(UUID playerId) {
-        sendGameUpdateToSinglePlayer(
-                playerId,
-                new GameUpdate.GameUpdateBuilder(GameUpdateType.SHIP_DATA)
-                        .setShipBoard(getPlayerShip(playerId).getShipBoard())
-                        .build()
-        );
-        System.out.println(ConsoleColors.GREEN + "Sent ShipBoard update to " + getPlayerByID(playerId).getPlayerName() + ConsoleColors.RESET);
+//        sendGameUpdateToSinglePlayer(
+//                playerId,
+//                new GameUpdate.GameUpdateBuilder(GameUpdateType.SHIP_DATA)
+//                        .setShipBoard(getPlayerShip(playerId).getShipBoard())
+//                        .build()
+//        );
     }
 
 
     /**
-     * Adds a new player to the game. Each player is given a random available color.
+     * Adds a new player to the game.
      *
-     * @param name The name of the new player
-     * @return The {@code UUID} generated for the added player
      * @throws InvalidActionException if the game is already full
      */
     @Override
-    public UUID addPlayer(String name) throws InvalidActionException {
+    public void addPlayer(Player player) throws InvalidActionException {
         GameState gameState = (GameState) this.getCurrentState();
-        return gameState.addPlayer(this, name);
+        gameState.addPlayer(this, player);
     }
 
     @Override
@@ -194,22 +164,26 @@ public class GameManager extends StateMachine implements Model {
     public void drawComponentTile(UUID playerID) throws InvalidActionException {
         GameState gameState = (GameState) this.getCurrentState();
         gameState.drawComponentTile(this, playerID);
-
-        // TODO: notify player listeners that a component was drawn
     }
 
-    public void placeComponentTile(UUID playerID, int row, int column) throws IndexOutOfBoundsException, IllegalComponentPositionException {
+    @Override
+    public void placeComponentTile(UUID playerID, int row, int column, int rotation) throws IndexOutOfBoundsException, IllegalComponentPositionException {
         GameState gameState = (GameState) this.getCurrentState();
         gameState.placeComponentTile(this, playerID, row, column);
 
-        // TODO: notify all model listeners that a component was drawn
+        for(int i = 0; i < rotation; i++) {
+            gameState.rotateComponentTile(this, playerID, row, column);
+        }
+
+        updateListeners(new GameUpdate.GameUpdateBuilder(GameUpdateType.PLAYER_SHIP_UPDATED, playerID)
+                .setShipBoard(getPlayerShip(playerID).getShipBoard())
+                .build()
+        );
     }
 
     public void rotateComponentTile(UUID playerID, int row, int column) throws IndexOutOfBoundsException, IllegalComponentPositionException {
         GameState gameState = (GameState) this.getCurrentState();
         gameState.rotateComponentTile(this, playerID, row, column);
-
-        // TODO: notify all model listeners that a component was rotated
     }
 
     public void finishBuilding(UUID playerID) {
@@ -223,8 +197,13 @@ public class GameManager extends StateMachine implements Model {
     public void saveComponentTile(UUID playerID) {
         GameState gameState = (GameState) this.getCurrentState();
         gameState.saveComponentTile(this, playerID);
-
-        // TODO: notify
+        
+        Player player = getPlayerByID(playerID);
+        player.updateListeners(
+                new GameUpdate.GameUpdateBuilder(GameUpdateType.SAVED_COMPONENTS_UPDATED, playerID)
+                        .setTileList(player.getShipManager().getSavedComponentTiles())
+                        .build()
+        );
     }
 
     @Override
@@ -232,7 +211,11 @@ public class GameManager extends StateMachine implements Model {
         GameState gameState = (GameState) this.getCurrentState();
         gameState.discardComponentTile(this, playerID);
 
-        // TODO: notify
+        updateListeners(
+                new GameUpdate.GameUpdateBuilder(GameUpdateType.DISCARDED_COMPONENTS_UPDATED, new UUID(0,0))
+                        .setTileList(((GameState) getCurrentState()).getDiscardedComponentTiles())
+                        .build()
+        );
     }
 
     @Override
@@ -257,5 +240,33 @@ public class GameManager extends StateMachine implements Model {
         gameState.deleteComponentTile(this, playerID, row, column);
 
         // TODO: notify
+    }
+
+    @Override
+    public void startBuildPhaseTimer() {
+        GameState gameState = (GameState) this.getCurrentState();
+        gameState.startBuildPhaseTimer(this);
+    }
+
+    @Override
+    public void addListener(Listener listener) {
+        synchronized (listeners) {
+            listeners.add(listener);
+        }
+    }
+
+    @Override
+    public void removeListener(Listener listener) {
+        synchronized (listeners) {
+            listeners.remove(listener);
+        }
+    }
+
+    public void updateListeners(GameUpdate command) {
+        synchronized (listeners) {
+            for (Listener listener : listeners) {
+                listener.notify(command);
+            }
+        }
     }
 }

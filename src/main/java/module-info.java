@@ -9,6 +9,8 @@ open module it.polimi.it.galaxytrucker {
     requires java.sql;
     requires org.fusesource.jansi;
     requires java.naming;
+    requires java.net.http;
+    requires java.smartcardio;
 
     exports it.polimi.it.galaxytrucker.commands;
     exports it.polimi.it.galaxytrucker.commands.servercommands;

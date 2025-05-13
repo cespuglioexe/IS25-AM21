@@ -1,24 +1,19 @@
 package it.polimi.it.galaxytrucker.model.gameStates;
 
 import it.polimi.it.galaxytrucker.model.design.statePattern.StateMachine;
-import it.polimi.it.galaxytrucker.model.exceptions.InvalidActionException;
-import it.polimi.it.galaxytrucker.model.exceptions.InvalidFunctionCallInState;
-import it.polimi.it.galaxytrucker.model.exceptions.NotFoundException;
+import it.polimi.it.galaxytrucker.exceptions.InvalidActionException;
+import it.polimi.it.galaxytrucker.exceptions.InvalidFunctionCallInState;
+import it.polimi.it.galaxytrucker.exceptions.NotFoundException;
 import it.polimi.it.galaxytrucker.model.gameStates.fields.ConnectionFields;
 import it.polimi.it.galaxytrucker.model.managers.GameManager;
 import it.polimi.it.galaxytrucker.model.managers.Model;
 import it.polimi.it.galaxytrucker.model.managers.Player;
-import it.polimi.it.galaxytrucker.model.managers.ShipManager;
-import it.polimi.it.galaxytrucker.model.utility.Color;
-import it.polimi.it.galaxytrucker.view.cli.ConsoleColors;
 
-import java.util.Arrays;
 import java.util.UUID;
 
 public class ConnectionState extends GameState {
     @Override
     public void enter(StateMachine fsm) {
-        System.out.println(ConsoleColors.BLUE_UNDERLINED + "\n> " + this.getClass().getSimpleName() + " <\n" + ConsoleColors.RESET);
     }
 
     @Override
@@ -47,25 +42,11 @@ public class ConnectionState extends GameState {
     // STATE SPECIFIC FUNCITONALITY
 
     @Override
-    public UUID addPlayer(StateMachine fsm, String name) throws InvalidActionException, InvalidFunctionCallInState {
-
+    public void addPlayer(StateMachine fsm, Player player) throws InvalidActionException, InvalidFunctionCallInState {
         GameManager gameManager = (GameManager) fsm;
-
-        Color playerColor = findFirstAvailableColor(gameManager);
-        Player newPlayer = new Player(UUID.randomUUID(), name, playerColor, new ShipManager(((Model) fsm).getLevel()));
-        gameManager.getPlayers().add(newPlayer);
+        gameManager.getPlayers().add(player);
 
         update(fsm);
-
-        return newPlayer.getPlayerID();
-    }
-
-    private Color findFirstAvailableColor(GameManager game) throws InvalidActionException {
-        return Arrays.stream(Color.values())
-            .filter(color -> game.getPlayers().stream()
-                    .noneMatch(player -> player.getColor().equals(color)))
-            .findFirst()
-            .orElseThrow(() -> new InvalidActionException("No available color"));
     }
 
     @Override

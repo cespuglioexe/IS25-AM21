@@ -1,17 +1,16 @@
-package it.polimi.it.galaxytrucker.view.cli.statePattern.viewstates;
+package it.polimi.it.galaxytrucker.view.CLI.statePattern.CLIViewStates;
 
 import it.polimi.it.galaxytrucker.commands.UserInput;
 import it.polimi.it.galaxytrucker.commands.UserInputType;
-import it.polimi.it.galaxytrucker.view.cli.CLIView;
-import it.polimi.it.galaxytrucker.view.cli.ConsoleColors;
-import it.polimi.it.galaxytrucker.view.cli.statePattern.State;
-import it.polimi.it.galaxytrucker.view.cli.statePattern.StateMachine;
+import it.polimi.it.galaxytrucker.view.CLI.CLIView;
+import it.polimi.it.galaxytrucker.view.CLI.ConsoleColors;
+import it.polimi.it.galaxytrucker.view.CLI.statePattern.CLIViewState;
 
 import java.util.InputMismatchException;
 
 import static org.fusesource.jansi.Ansi.ansi;
 
-public class GameCreation extends State {
+public class GameCreation extends CLIViewState {
 
     public GameCreation(CLIView view) {
         super(view);
@@ -24,6 +23,7 @@ public class GameCreation extends State {
         int playerNum = 0;
         System.out.println("How many players do you want in the game? (" + ConsoleColors.BLUE_UNDERLINED + "1" + ConsoleColors.RESET + ", 2, 3, 4)");
         System.out.print("> ");
+
         while (true) {
             try {
                 playerNum = scanner.nextInt();
@@ -48,6 +48,7 @@ public class GameCreation extends State {
         int level = 0;
         System.out.println("What level game do you want? (1, 2)");
         System.out.print("> ");
+
         while (true) {
             try {
                 level = scanner.nextInt();
@@ -72,14 +73,18 @@ public class GameCreation extends State {
                 new UserInput.UserInputBuilder(null, UserInputType.GAME_CREATION)
                         .setGameLevel(level)
                         .setGamePlayers(playerNum)
-                        .build());
+                        .build()
+        );
     }
 
     @Override
-    public void update(StateMachine fsm, boolean repeat) {
-        if (!repeat) {
-            fsm.changeState(new GameSelection(view));
-        }
+    public void repromtUser(StateMachine fsm) {
+
+    }
+
+    @Override
+    public void update(StateMachine fsm) {
+
     }
 
     @Override

@@ -17,7 +17,7 @@ import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.FlightDayPenal
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.Participation;
 import it.polimi.it.galaxytrucker.model.design.statePattern.StateMachine;
 import it.polimi.it.galaxytrucker.model.design.strategyPattern.FlightRules;
-import it.polimi.it.galaxytrucker.model.exceptions.InvalidActionException;
+import it.polimi.it.galaxytrucker.exceptions.InvalidActionException;
 import it.polimi.it.galaxytrucker.model.managers.CargoManager;
 import it.polimi.it.galaxytrucker.model.managers.Player;
 import it.polimi.it.galaxytrucker.model.utility.Cargo;
@@ -37,7 +37,7 @@ import it.polimi.it.galaxytrucker.model.utility.Cargo;
  *   <li>Once all cargo is handled, each player who landed on a planet receives a flight day penalty.</li>
  * </ul>
  *
- * The card operates as a Finite State Machine (FSM) and progresses through the following states:
+ * The card operates as a Finite CLIViewState Machine (FSM) and progresses through the following states:
  * <pre>
  * StartState
  *     ↓

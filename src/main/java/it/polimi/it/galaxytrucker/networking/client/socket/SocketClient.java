@@ -2,6 +2,7 @@ package it.polimi.it.galaxytrucker.networking.client.socket;
 
 import it.polimi.it.galaxytrucker.commands.servercommands.GameUpdate;
 import it.polimi.it.galaxytrucker.networking.server.socket.SocketVirtualClient;
+import it.polimi.it.galaxytrucker.view.View;
 
 import java.io.*;
 import java.net.Socket;
@@ -13,13 +14,16 @@ import java.util.Scanner;
 public class SocketClient implements SocketVirtualClient {
     final BufferedReader input;
     final SocketServerHandler output;
+    
+    private final View view;
 
-    protected SocketClient(BufferedReader input, BufferedWriter output) {
+    public SocketClient(BufferedReader input, BufferedWriter output, View view) {
         this.input = input;
         this.output = new SocketServerHandler(output);
+        this.view = view;
     }
 
-    private void run() {
+    public void run() {
         new Thread(() -> {
             try {
                 runVirtualServer();
@@ -44,17 +48,7 @@ public class SocketClient implements SocketVirtualClient {
     }
 
     private void runCli()  {
-        Scanner scan = new Scanner(System.in);
-        while (true) {
-            System.out.print("> ");
-            int command = scan.nextInt();
-
-            if (command == 0) {
-                this.output.reset();
-            } else {
-                this.output.add(command);
-            }
-        }
+        System.out.println("Socket client started.");
     }
 
     public void showUpdate(Integer number) {
@@ -65,18 +59,6 @@ public class SocketClient implements SocketVirtualClient {
     public void reportError(String details) {
         // TODO. Attenzione, questo può causare data race con il thread dell'interfaccia o un altro thread!
         System.err.print("\n[ERROR] " + details + "\n> ");
-    }
-
-    public static void main(String[] args) throws IOException {
-        String host = args[0];
-        int port = Integer.parseInt(args[1]);
-
-        Socket serverSocket = new Socket(host, port);
-
-        InputStreamReader socketRx = new InputStreamReader(serverSocket.getInputStream());
-        OutputStreamWriter socketTx = new OutputStreamWriter(serverSocket.getOutputStream());
-
-        new SocketClient(new BufferedReader(socketRx), new BufferedWriter(socketTx)).run();
     }
 
     @Override

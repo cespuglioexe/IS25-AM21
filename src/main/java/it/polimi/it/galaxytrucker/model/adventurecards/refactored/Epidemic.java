@@ -13,7 +13,7 @@ import it.polimi.it.galaxytrucker.model.componenttiles.CabinModule;
 import it.polimi.it.galaxytrucker.model.componenttiles.CentralCabin;
 import it.polimi.it.galaxytrucker.model.design.statePattern.StateMachine;
 import it.polimi.it.galaxytrucker.model.design.strategyPattern.FlightRules;
-import it.polimi.it.galaxytrucker.model.exceptions.InvalidActionException;
+import it.polimi.it.galaxytrucker.exceptions.InvalidActionException;
 import it.polimi.it.galaxytrucker.model.managers.Player;
 import it.polimi.it.galaxytrucker.model.managers.ShipManager;
 

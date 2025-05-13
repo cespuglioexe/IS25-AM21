@@ -8,7 +8,7 @@ import java.util.NoSuchElementException;
 import java.util.Random;
 
 public class AdventureDeck {
-    private List<AdventureCard> cards;
+    private List<AdventureCard> cards = new ArrayList<>();
 
     public void initializeAdventureCards(List<AdventureCard> cards) {
         this.cards = cards;
@@ -48,6 +48,7 @@ public class AdventureDeck {
         return card;
     }
 
+    // TODO: fare che questa funzione generi gli stack, invece che ritornarne uno
     public List<AdventureCard> getStack(int stack){
 
         int unit =  cards.size()/4;
