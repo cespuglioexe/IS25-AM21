@@ -2,6 +2,7 @@ package it.polimi.it.galaxytrucker.model.adventurecards.cardstates.meteorSwarm;
 
 import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.slavers.CalculateFirePowerState;
 import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.slavers.EndState;
+import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.attack.Projectile;
 import it.polimi.it.galaxytrucker.model.adventurecards.refactored.MeteorSwarm;
 import it.polimi.it.galaxytrucker.model.design.statePattern.State;
 import it.polimi.it.galaxytrucker.model.design.statePattern.StateMachine;
@@ -11,6 +12,9 @@ public class StartState extends State {
     public void enter(StateMachine fsm) {
         MeteorSwarm card =(MeteorSwarm) fsm;
         card.selectPlayer();
+        for (Projectile projectile : card.getProjectiles().stream().toList()) {
+            card.aimAtCoordsWith(projectile);
+        }
         if(card.getPlayer() == null)
             fsm.changeState(new EndState());
         else fsm.changeState(new EvaluateMeteorState());

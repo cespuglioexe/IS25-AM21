@@ -55,10 +55,10 @@ public class PiratesTest {
         ShipCreation.createShip2(player2);
         ShipCreation.createShip3(player3);
         ShipCreation.createShip4(player4);
-        System.out.println("Player 1 - FirePower : "+player1.getShipManager().calculateFirePower());
-        System.out.println("Player 2 - FirePower : "+player2.getShipManager().calculateFirePower());
-        System.out.println("Player 3 - FirePower : "+player3.getShipManager().calculateFirePower());
-        System.out.println("Player 4 - FirePower : "+player4.getShipManager().calculateFirePower());
+        System.out.println("Player "+player1.getPlayerName()+" FirePower : "+player1.getShipManager().calculateFirePower());
+        System.out.println("Player "+player2.getPlayerName()+" FirePower : "+player2.getShipManager().calculateFirePower());
+        System.out.println("Player "+player3.getPlayerName()+" FirePower : "+player3.getShipManager().calculateFirePower());
+        System.out.println("Player "+player4.getPlayerName()+" FirePower : "+player4.getShipManager().calculateFirePower());
 
         List<Projectile> projectiles = new ArrayList<>();
         projectiles.add(new Projectile(ProjectileType.SMALL,Direction.DOWN));
@@ -84,10 +84,26 @@ public class PiratesTest {
     }
 
     @Test
-    void defeatPiratesTest() {
+    void notSelectAllPlayersTest() {
         initializeProjectileTest();
+
         assertEquals(CalculateFirePowerState.class, card.getCurrentState().getClass());
         doubleCannon.put(List.of(7,10),List.of(9,5));
+        card.selectCannons(doubleCannon);
+        assertEquals(CalculateFirePowerState.class, card.getCurrentState().getClass());
+        card.selectNoCannons();
+        card.selectNoCannons();
+        assertEquals(CalculateFirePowerState.class, card.getCurrentState().getClass());
+    }
+
+    @Test
+    void defeatPiratesTest() {
+        initializeProjectileTest();
+
+        assertEquals(CalculateFirePowerState.class, card.getCurrentState().getClass());
+        doubleCannon.put(List.of(7,10),List.of(9,5));
+        doubleCannon.put(List.of(6,5),List.of(9,5));
+        doubleCannon.put(List.of(6,9),List.of(9,6));
         card.selectCannons(doubleCannon);
         assertEquals(CalculateFirePowerState.class, card.getCurrentState().getClass());
         card.selectNoCannons();
@@ -99,7 +115,22 @@ public class PiratesTest {
     @Test
     void leaderGetReward(){
         defeatPiratesTest();
+        Player currentPlayer = card.getPlayer();
+        int credit = currentPlayer.getCredits();
         card.applyCreditReward();
+        assertNotEquals(credit,currentPlayer.getCredits());
+        assertEquals(ActivateShieldState.class, card.getCurrentState().getClass());
+    }
+
+    @Test
+    void leaderDoesNotGetReward(){
+        defeatPiratesTest();
+        Player currentPlayer = card.getPlayer();
+        int prePos = flightBoard.getPlayerPosition().get(currentPlayer);
+        int credit = currentPlayer.getCredits();
+        card.discardCreditReward();
+        assertEquals(credit,currentPlayer.getCredits());
+        assertEquals(prePos,flightBoard.getPlayerPosition().get(currentPlayer));
         assertEquals(ActivateShieldState.class, card.getCurrentState().getClass());
     }
 
@@ -107,11 +138,24 @@ public class PiratesTest {
     void loserPlayerActiveShield(){
         leaderGetReward();
         HashMap<List<Integer>,List<Integer>> shieldBattery = new HashMap<>();
+        Player currentPlayer = card.getPlayer();
         shieldBattery.put(List.of(7,9),List.of(9,5));
         shieldBattery.put(List.of(8,4),List.of(9,5));
         card.activateShields(shieldBattery);
+        currentPlayer.getShipManager().printBoard();
+
         assertEquals(ActivateShieldState.class, card.getCurrentState().getClass());
     }
 
-
+    @Test
+    void allPlayersActivateShieldsTest(){
+        loserPlayerActiveShield();
+        Player currentPlayer = card.getPlayer();
+        card.activateNoShield();
+        currentPlayer.getShipManager().printBoard();
+        currentPlayer = card.getPlayer();
+        card.activateNoShield();
+        currentPlayer.getShipManager().printBoard();
+        assertEquals(EndState.class, card.getCurrentState().getClass());
+    }
 }

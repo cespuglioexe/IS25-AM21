@@ -29,9 +29,6 @@ public class MeteorSwarm extends Attack implements AdventureCard {
 
     @Override
     public void play() {
-        for (Projectile projectile : super.getProjectiles().stream().toList()) {
-            aimAtCoordsWith(projectile);
-        }
         start(new StartState());
     }
 
@@ -153,6 +150,12 @@ public class MeteorSwarm extends Attack implements AdventureCard {
         }
 
     }
+
+    public void noShootAtMeteorWith() {
+        updateState();
+    }
+
+
     private boolean isFacingTheMeteor(Direction direction) {
         Direction meteorDirection = meteorAttack.getDirection();
 

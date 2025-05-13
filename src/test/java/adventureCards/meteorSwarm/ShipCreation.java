@@ -1,13 +1,12 @@
 package adventureCards.meteorSwarm;
 
-import it.polimi.it.galaxytrucker.model.componenttiles.CabinModule;
-import it.polimi.it.galaxytrucker.model.componenttiles.LifeSupport;
-import it.polimi.it.galaxytrucker.model.componenttiles.TileEdge;
+import it.polimi.it.galaxytrucker.model.componenttiles.*;
 import it.polimi.it.galaxytrucker.model.crewmates.Alien;
 import it.polimi.it.galaxytrucker.model.crewmates.Human;
 import it.polimi.it.galaxytrucker.model.managers.Player;
 import it.polimi.it.galaxytrucker.model.managers.ShipManager;
 import it.polimi.it.galaxytrucker.model.utility.AlienType;
+import it.polimi.it.galaxytrucker.model.utility.Direction;
 
 import java.util.List;
 
@@ -17,12 +16,14 @@ public class ShipCreation {
         /*
          *     4  5  6  7  8  9  10
          * 5        [ ]   [ ]
-         * 6     [ ][ ][C][ ][ ]
-         * 7  [ ][A][c][x][c][N][ ]
-         * 8  [ ][l][ ][ ][ ][C][ ]
-         * 9  [ ][ ][ ]   [ ][ ][ ]
+         * 6     [D][ ][C][ ][D]
+         * 7  [C][A][ ][x][c][ ][D]
+         * 8  [ ][l][ ][ ][ ][C][S]
+         * 9  [ ][B][B]   [ ][ ][ ]
          *
-         * Where C stands for CabinModule with two crewmates
+         * Where B stands for BatteryComponent
+         * Where D stands for DoubleCannon
+         * Where C stands for SingleCannon
          * Where c stands for CabinModule with one crewmate
          * Where N stands for CabinModule without crewmates
          * Where A stands for CabinModule with one alien
@@ -30,22 +31,30 @@ public class ShipCreation {
          * Where x stands for CentralCabin with two crewmates
          *
          * Crewmates: 9
+         * FirePower:8
+         * FirePower Base:4
          */
-        ship.addComponentTile(6, 7, new CabinModule(List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE)));
 
         ship.addComponentTile(7, 5, new CabinModule(List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE)));
-        ship.addComponentTile(7, 6, new CabinModule(List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE)));
         ship.addComponentTile(7, 8, new CabinModule(List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE)));
-        ship.addComponentTile(7, 9, new CabinModule(List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE)));
 
         ship.addComponentTile(8, 5, new LifeSupport(AlienType.PURPLEALIEN, List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE)));
         ship.addComponentTile(8, 9, new CabinModule(List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE)));
 
-        ship.addCrewmate(6, 7, new Human());
-        ship.addCrewmate(6, 7, new Human());
+        ship.addComponentTile(6, 7, new SingleCannon(List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE)));
+        ship.addComponentTile(7, 4, new SingleCannon(List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE)));
+
+        ship.addComponentTile(6, 5, new DoubleCannon(List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE)));
+        ship.addComponentTile(6, 9, new DoubleCannon(List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE)));
+        ship.addComponentTile(7, 10, new DoubleCannon(List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE)));
+
+        ship.addComponentTile(8,10,new Shield(Direction.LEFT,List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE)));
+
+        ship.addComponentTile(9, 5, new BatteryComponent(2,List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE)));
+        ship.addComponentTile(9, 6, new BatteryComponent(2,List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE)));
+
 
         ship.addCrewmate(7, 5, new Alien(AlienType.PURPLEALIEN));
-        ship.addCrewmate(7, 6, new Human());
         ship.addCrewmate(7, 8, new Human());
 
         ship.addCrewmate(8, 9, new Human());
