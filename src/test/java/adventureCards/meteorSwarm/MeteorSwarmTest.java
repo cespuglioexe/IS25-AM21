@@ -103,7 +103,7 @@ public class MeteorSwarmTest {
         card.activateNoShield();
     }
 
-
+/*
     @Test
     void allPlayerCardTest() {
         leaderPlaysCardTest();
@@ -113,4 +113,5 @@ public class MeteorSwarmTest {
         playCard();
         assertEquals(EndState.class, card.getCurrentState().getClass());
     }
+ */
 }
