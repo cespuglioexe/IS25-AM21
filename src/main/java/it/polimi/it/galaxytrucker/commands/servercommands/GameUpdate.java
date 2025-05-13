@@ -2,20 +2,27 @@ package it.polimi.it.galaxytrucker.commands.servercommands;
 
 import it.polimi.it.galaxytrucker.model.componenttiles.ComponentTile;
 import it.polimi.it.galaxytrucker.model.componenttiles.TileData;
-import it.polimi.it.galaxytrucker.view.cli.ConsoleColors;
+import it.polimi.it.galaxytrucker.view.CLI.ConsoleColors;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 public class GameUpdate implements Serializable {
     private final GameUpdateType instructionType;
+    private final UUID interestedPlayerId;
     private final String newSate;
+
+    private final List<UUID> playerIds;
+    private final List<List<Integer>> cardPileCompositions;
 
     private final TileData newTile;
     private final List<TileData> tileList;
 
     private final List<List<TileData>> shipBoard;
+    private final HashMap<UUID, List<List<TileData>>> allPlayerShipBoards;
 
     public GameUpdate(GameUpdateBuilder builder) {
         this.instructionType = builder.instructionType;
@@ -23,6 +30,10 @@ public class GameUpdate implements Serializable {
         this.newTile = builder.newTile;
         this.shipBoard = builder.shipBoard;
         this.tileList = builder.tileList;
+        this.interestedPlayerId = builder.interestedPlayerId;
+        this.playerIds = builder.playerIds;
+        this.cardPileCompositions = builder.cardPileCompositions;
+        this.allPlayerShipBoards = builder.allPlayerShipBoards;
     }
 
     public GameUpdateType getInstructionType() {
@@ -45,22 +56,66 @@ public class GameUpdate implements Serializable {
         return tileList;
     }
 
+    public UUID getInterestedPlayerId() {
+        return interestedPlayerId;
+    }
+
+    public List<UUID> getPlayerIds() {
+        return playerIds;
+    }
+
+    public List<List<Integer>> getCardPileCompositions() {
+        return cardPileCompositions;
+    }
+
+    public HashMap<UUID, List<List<TileData>>> getAllPlayersShipboard(){
+        return allPlayerShipBoards;
+    }
+
     public static class GameUpdateBuilder {
         // Required fields
         private final GameUpdateType instructionType;
+        private final UUID interestedPlayerId;
 
         // Optional fields
         private String newSate;
         private TileData newTile;
         private List<List<TileData>> shipBoard;
         private List<TileData> tileList;
+        private List<UUID> playerIds;
+        private List<List<Integer>> cardPileCompositions;
+        private HashMap<UUID, List<List<TileData>>> allPlayerShipBoards;
 
-        public GameUpdateBuilder(GameUpdateType instructionType) {
+
+        public GameUpdateBuilder(GameUpdateType instructionType, UUID interestedPlayerId) {
             this.instructionType = instructionType;
+            this.interestedPlayerId = interestedPlayerId;
+        }
+
+        public GameUpdateBuilder setAllPlayerShipBoards(HashMap<UUID, List<List<TileData>>> allPlayerShipBoards) {
+            this.allPlayerShipBoards = allPlayerShipBoards;
+            return this;
         }
 
         public GameUpdateBuilder setNewSate(String newSate) {
             this.newSate = newSate;
+            return this;
+        }
+
+        // It's recommended to use the overloaded function {@code #setNewTile(ComponentTile)}
+        @Deprecated
+        public GameUpdateBuilder setNewTile(TileData newTile) {
+            this.newTile = newTile;
+            return this;
+        }
+
+        public GameUpdateBuilder setPlayerIds(List<UUID> playerIds) {
+            this.playerIds = playerIds;
+            return this;
+        }
+
+        public GameUpdateBuilder setCardPileCompositions(List<List<Integer>> cardPileCompositions) {
+            this.cardPileCompositions = cardPileCompositions;
             return this;
         }
 

@@ -1,10 +1,13 @@
 package it.polimi.it.galaxytrucker.model.gameStates;
 
 import it.polimi.it.galaxytrucker.model.componenttiles.ComponentTile;
-import it.polimi.it.galaxytrucker.model.exceptions.IllegalComponentPositionException;
-import it.polimi.it.galaxytrucker.model.exceptions.InvalidActionException;
-import it.polimi.it.galaxytrucker.model.exceptions.InvalidFunctionCallInState;
+import it.polimi.it.galaxytrucker.exceptions.IllegalComponentPositionException;
+import it.polimi.it.galaxytrucker.exceptions.InvalidActionException;
+import it.polimi.it.galaxytrucker.exceptions.InvalidFunctionCallInState;
 import it.polimi.it.galaxytrucker.model.managers.GameManager;
+import it.polimi.it.galaxytrucker.model.managers.Player;
+import it.polimi.it.galaxytrucker.model.managers.ShipManager;
+import it.polimi.it.galaxytrucker.model.utility.Color;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -15,17 +18,17 @@ import static org.junit.jupiter.api.Assertions.*;
 class BuildingStateTest {
     private GameManager gameManager;
 
-    private UUID playerId1;
-    private UUID playerId2;
-    private UUID playerId3;
+    private final UUID playerId1 = UUID.randomUUID();
+    private final UUID playerId2 = UUID.randomUUID();
+    private final UUID playerId3 = UUID.randomUUID();
 
     @BeforeEach
     void initializeParameters() {
-        gameManager = new GameManager(2, 3, "game");
+        gameManager = new GameManager(2, 3);
 
-        playerId1 = gameManager.addPlayer("Margarozzo");
-        playerId2 = gameManager.addPlayer("Balzarini");
-        playerId3 = gameManager.addPlayer("Ing. Conti");
+        gameManager.addPlayer(new Player(playerId1, "Margarozzo", Color.RED, new ShipManager(2)));
+        gameManager.addPlayer(new Player(playerId2, "Blazarini", Color.RED, new ShipManager(2)));
+        gameManager.addPlayer(new Player(playerId3, "Ing. Conti", Color.RED, new ShipManager(2)));
     }
 
     @Test
@@ -47,7 +50,7 @@ class BuildingStateTest {
     @Test
     void placeComponentTileTest() {
         gameManager.drawComponentTile(playerId1);
-        gameManager.placeComponentTile(playerId1, 6, 7);
+        gameManager.placeComponentTile(playerId1, 6, 7, 0);
 
         assertTrue(() -> gameManager.getPlayerByID(playerId1).getShipManager().getComponent(6, 7).isPresent());
     }
@@ -55,23 +58,23 @@ class BuildingStateTest {
     @Test
     void placeComponentTileSpotTakenTest() {
         gameManager.drawComponentTile(playerId1);
-        gameManager.placeComponentTile(playerId1, 6, 7);
+        gameManager.placeComponentTile(playerId1, 6, 7, 0);
         gameManager.drawComponentTile(playerId1);
 
-        assertThrows(IllegalComponentPositionException.class, () -> gameManager.placeComponentTile(playerId1, 6, 7));
+        assertThrows(IllegalComponentPositionException.class, () -> gameManager.placeComponentTile(playerId1, 6, 7, 0));
     }
 
     @Test
     void placeComponentTileOutsideTheShipTest() {
         gameManager.drawComponentTile(playerId1);
 
-        assertThrows(IndexOutOfBoundsException.class, () -> gameManager.placeComponentTile(playerId1, 0, 0));
+        assertThrows(IndexOutOfBoundsException.class, () -> gameManager.placeComponentTile(playerId1, 0, 0, 0));
     }
 
     @Test
     void rotateComponentTileTest() {
         gameManager.drawComponentTile(playerId1);
-        gameManager.placeComponentTile(playerId1, 6, 7);
+        gameManager.placeComponentTile(playerId1, 6, 7, 0);
         gameManager.rotateComponentTile(playerId1, 6, 7);
 
         assertEquals(1, gameManager.getPlayerByID(playerId1).getShipManager().getComponent(6, 7).get().getRotation());
@@ -118,7 +121,7 @@ class BuildingStateTest {
 
         gameManager.discardComponentTile(playerId1);
 
-        assertTrue(() -> gameManager.getDiscardedComponentTiles().contains(comp));
+        assertTrue(() -> gameManager.getDiscardedComponentTiles(new UUID(0,0)).contains(comp));
     }
 
     @Test
@@ -175,6 +178,6 @@ class BuildingStateTest {
 
     @Test
     void callInvalidFunctionTest() {
-        assertThrows(InvalidFunctionCallInState.class, () -> gameManager.addPlayer("Schumi"));
+        assertThrows(InvalidFunctionCallInState.class, () -> gameManager.addPlayer(new Player(playerId1, "Schumi", Color.RED, new ShipManager(2))));
     }
 }

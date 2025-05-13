@@ -2,68 +2,98 @@ package it.polimi.it.galaxytrucker.networking.client.rmi;
 
 import it.polimi.it.galaxytrucker.commands.UserInput;
 import it.polimi.it.galaxytrucker.controller.GenericGameData;
-import it.polimi.it.galaxytrucker.model.exceptions.InvalidActionException;
+import it.polimi.it.galaxytrucker.model.componenttiles.TileData;
+import it.polimi.it.galaxytrucker.exceptions.GameFullException;
 import it.polimi.it.galaxytrucker.commands.servercommands.GameUpdate;
+import it.polimi.it.galaxytrucker.networking.client.Client;
+import it.polimi.it.galaxytrucker.networking.client.clientmodel.ClientModel;
+import it.polimi.it.galaxytrucker.networking.server.rmi.RMIServer;
 import it.polimi.it.galaxytrucker.networking.server.rmi.RMIVirtualClient;
-import it.polimi.it.galaxytrucker.view.cli.CLIView;
-import it.polimi.it.galaxytrucker.view.cli.ConsoleColors;
-import it.polimi.it.galaxytrucker.view.cli.statePattern.viewstates.BuildingStateMenu;
-import it.polimi.it.galaxytrucker.view.cli.statePattern.viewstates.ConnectionState;
-import it.polimi.it.galaxytrucker.view.cli.statePattern.viewstates.GameSelection;
+import it.polimi.it.galaxytrucker.view.View;
+//import it.polimi.it.galaxytrucker.view.cli.view;
+import it.polimi.it.galaxytrucker.view.CLI.ConsoleColors;
+//import it.polimi.it.galaxytrucker.view.cli.statePattern.viewstates.BuildingStateMenu;
+//import it.polimi.it.galaxytrucker.view.cli.statePattern.viewstates.GameSelection;
+//import it.polimi.it.galaxytrucker.view.cli.statePattern.viewstates.NameSelectionState;
 
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.List;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
-public class RMIClient extends UnicastRemoteObject implements RMIVirtualClient {
+public class RMIClient extends UnicastRemoteObject implements RMIVirtualClient, Runnable, Client {
 
-    private final CLIView view;
+    private final ClientModel model;
     private RMIVirtualServer server;
-    private String name;
-    private UUID playerID;
-    private int gameIndex;
+    private final View view;
 
     private boolean buildingTimerIsActive;
 
-    public RMIClient () throws RemoteException {
+    public RMIClient (View view) throws RemoteException {
         super();
-        this.view = new CLIView(this);
+        this.model = new ClientModel();
+        this.view = view;
+        view.setClient(this);
     }
 
-    public static void main(String[] args) throws RemoteException, NotBoundException {
-        new RMIClient().run();
+    @Override
+    public void run() {
+        boolean connected = false;
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Insert server name\n> ");
+
+        do {
+            String server = scanner.nextLine();
+
+            try {
+                Registry registry = LocateRegistry.getRegistry("localhost", 1234);
+                RMIServer connectionServer = ((RMIServer) registry.lookup(server));
+                connectionServer.connect(this);
+                connected = true;
+            } catch (Exception e) {
+                System.out.println(ConsoleColors.RED + "Failed to connect to '" + server + "'" + ConsoleColors.RESET);
+                System.out.print("Insert server name\n> ");
+            }
+        } while (!connected);
+
+        view.begin();
     }
 
+    @Override
+    public ClientModel getModel() {
+        return model;
+    }
+
+    @Override
     public boolean isBuildingTimerIsActive() {
         return buildingTimerIsActive;
     }
 
-    private void run() throws RemoteException {
-        view.start(new ConnectionState(view));
-    }
-
-    public List<GenericGameData> getActiveGames () throws RemoteException{
+    @Override
+    public List<GenericGameData> getActiveGames() throws RemoteException{
         return server.getControllers();
     }
 
     @Override
-    public String getName() throws RemoteException {
-        return name;
+    public void setHandler(RMIVirtualServer handler) throws RemoteException {
+        server = handler;
     }
 
     @Override
     public void sendMessageToClient(GameUpdate update) throws RemoteException {
+        System.out.println(ConsoleColors.CLIENT_DEBUG + "received update of type " + update.getInstructionType() + ConsoleColors.RESET);
         switch (update.getInstructionType()) {
             case NEW_STATE:
-                switch (update.getNewSate().toUpperCase()) {
-                    case "BUILDING":
-                        view.displayBuildingStarted();
-                        view.changeState(new BuildingStateMenu(view));
+                switch (update.getNewSate()) {
+                    case "BuildingState":
+                        HashMap<UUID, List<List<TileData>>> ships = update.getAllPlayersShipboard();
+                        for (UUID playerId : ships.keySet()) {
+                            model.updatePlayerShip(playerId, ships.get(playerId));
+                        }
+                        // model.setCardPiles(update.getCardPileCompositions());
+
+                        view.buildingStarted();
                         break;
                     default:
                         break;
@@ -71,12 +101,16 @@ public class RMIClient extends UnicastRemoteObject implements RMIVirtualClient {
                 break;
             case DRAWN_TILE:
                 view.displayComponentTile(update.getNewTile());
+                // view.tileActions();
                 break;
-            case TILE_LIST:
-                view.displayTileList(update.getTileList());
+            case SAVED_COMPONENTS_UPDATED:
+                model.setSavedTiles(update.getTileList());
                 break;
-            case SHIP_DATA:
-                view.displayShip(update.getShipBoard());
+            case DISCARDED_COMPONENTS_UPDATED:
+                model.setDiscardedTiles(update.getTileList());
+                break;
+            case PLAYER_SHIP_UPDATED:
+                model.updatePlayerShip(update.getInterestedPlayerId(), update.getShipBoard());
                 break;
             case TIMER_START:
                 buildingTimerIsActive = true;
@@ -87,34 +121,18 @@ public class RMIClient extends UnicastRemoteObject implements RMIVirtualClient {
                 view.displayTimerEnded();
                 break;
         }
-        view.updateState(false);
     }
 
-    public void receiveUserInput (UserInput input) {
+    @Override
+    public void receiveUserInput(UserInput input) {
         switch (input.getType()) {
-
-            case CONNECT_SERVER:
-                try {
-                    Registry registry = LocateRegistry.getRegistry("localhost", 1234);
-                    this.server = (RMIVirtualServer) registry.lookup(input.getServerName());
-                    this.server.connect(this);
-
-                    view.updateState(false);
-                } catch (Exception e) {
-                    System.err.println("Failed to connect to '" + input.getServerName());
-                    e.printStackTrace();
-
-                    view.updateState(true);
-                }
-                break;
-
             case SET_USERNAME:
                 try {
-                    if (!server.checkUsernameIsUnique(this, input.getPlayerName())) {
-                        view.updateState(true);
+                    if(server.setPlayerName(input.getPlayerName())) {
+                        this.model.getMyData().setNickname(input.getPlayerName());
+                        view.gameSelectionScreen();
                     } else {
-                        name = input.getPlayerName();
-                        view.changeState(new GameSelection(view));
+                        view.nameNotAvailable();
                     }
                 }
                 catch (Exception e) {
@@ -125,32 +143,41 @@ public class RMIClient extends UnicastRemoteObject implements RMIVirtualClient {
             case GAME_CREATION:
                 // When a player creates a new game, they are automatically added to that game
                 try {
-                    String gameNickname = "Game_" + new Random().nextInt(10000); // Generate a random nickname
-                    server.newGame(gameNickname, input.getGamePlayers(), input.getGameLevel());
+                    UUID gameId = server.newGame(input.getGamePlayers(), input.getGameLevel());
+                    UUID playerId = server.addPlayerToGame(gameId);
 
-                    view.updateState(false);
-                } catch (RemoteException | InvalidActionException e) {
-                    // InvalidActionException should never occur when adding a player to a newly created game
-                    e.printStackTrace();
+                    this.model.getMyData().setPlayerId(playerId);
+                    this.model.getMyData().setMatchId(gameId);
+
+                    view.gameCreationSuccess(true);
+                } catch (GameFullException e) {
+                    // Should never happen
+                    view.joinedGameIsFull();
+                    System.out.println(ConsoleColors.RED + "The game you tried to join is already full" + ConsoleColors.RESET); // Should never happen
+                } catch (RemoteException e) {
+                    view.remoteExceptionThrown();
                 }
                 break;
 
             case GAME_SELECTION:
                 try {
-                    this.playerID = server.addPlayerToGame(this, input.getGameIndex());
-                    this.gameIndex = input.getGameIndex();
+                    UUID playerId = server.addPlayerToGame(input.getGameId());
+                    UUID gameId = input.getGameId();
+
+                    this.model.getMyData().setPlayerId(playerId);
+                    this.model.getMyData().setMatchId(gameId);
+                } catch (GameFullException e) {
+                    view.joinedGameIsFull();
+                    System.out.println(ConsoleColors.RED + "The game you tried to join is already full" + ConsoleColors.RESET);
+                    view.joinedGameIsFull();
                 } catch (RemoteException e) {
-                    e.printStackTrace();
-                } catch (InvalidActionException e) {
-                    if (e.getMessage().equals("The game is full"))
-                        System.out.println(ConsoleColors.RED + "The game you tried to join is already full" + ConsoleColors.RESET);
-                    view.updateState(true);
+                    view.remoteExceptionThrown();
                 }
                 break;
 
             case START_TIMER:
                 try {
-                    this.server.startBuildingPhaseTimer(gameIndex);
+                    this.server.startBuildingPhaseTimer();
                 } catch (RemoteException e) {
                     e.printStackTrace();
                 }
@@ -158,7 +185,7 @@ public class RMIClient extends UnicastRemoteObject implements RMIVirtualClient {
 
             default:
                 try {
-                    this.server.sendMessageToGame(playerID, input, gameIndex);
+                    this.server.sendMessageToGame(input);
                 } catch (RemoteException e) {
                     throw new RuntimeException(e);
                 }

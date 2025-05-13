@@ -3,9 +3,12 @@ package it.polimi.it.galaxytrucker.networking.client.clientmodel;
 import java.util.UUID;
 
 public class PlayerData {
-    private final String nickname;
+    private String nickname;
     private UUID playerId;
     private UUID matchId;
+
+    public PlayerData() {
+    }
 
     public PlayerData(String nickname, UUID playerId, UUID matchId) {
         this.nickname = nickname;
@@ -14,6 +17,10 @@ public class PlayerData {
     }
 
     public PlayerData(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public void setNickname(String nickname) {
         this.nickname = nickname;
     }
 

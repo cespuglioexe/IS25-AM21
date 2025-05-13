@@ -22,9 +22,8 @@ import it.polimi.it.galaxytrucker.model.utility.Cargo;
 import it.polimi.it.galaxytrucker.model.utility.Color;
 import it.polimi.it.galaxytrucker.model.utility.Direction;
 import it.polimi.it.galaxytrucker.model.utility.AlienType;
-import it.polimi.it.galaxytrucker.model.exceptions.IllegalComponentPositionException;
-import it.polimi.it.galaxytrucker.model.exceptions.InvalidActionException;
-import it.polimi.it.galaxytrucker.view.cli.ConsoleColors;
+import it.polimi.it.galaxytrucker.exceptions.IllegalComponentPositionException;
+import it.polimi.it.galaxytrucker.exceptions.InvalidActionException;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -92,7 +91,7 @@ public class ShipManager {
     static private final int COLUMNS = 7;
     static private final int STARTOFBOARDROWS = 5;
     static private final int STARTOFBOARDCOLUMNS = 4;
-    static private final int DISCARD_LIMIT = 2;
+    static private final int SAVE_LIMIT = 2;
 
     public ShipManager(int level) {
         this.ship = new ShipBoard(level);
@@ -115,11 +114,10 @@ public class ShipManager {
     }
 
     public void saveComponentTile(ComponentTile componentTile) throws InvalidActionException {
-        if (discardedTile.size() >= DISCARD_LIMIT) {
-            throw new InvalidActionException("Cannot save more than " + DISCARD_LIMIT + " components");
+        if (discardedTile.size() >= SAVE_LIMIT) {
+            throw new InvalidActionException("Cannot save more than " + SAVE_LIMIT + " components");
         }
         discardedTile.add(componentTile);
-        System.out.println(ConsoleColors.YELLOW + "Saved " + componentTile.getClass().getSimpleName());
     }
 
     public List<ComponentTile> getSavedComponentTiles() {
@@ -127,7 +125,6 @@ public class ShipManager {
     }
 
     public ComponentTile getSavedComponentTile(int index) {
-        System.out.println(ConsoleColors.YELLOW + "Getting saved " + index + " tile");
         ComponentTile comp = discardedTile.get(index);
         discardedTile.remove(index);
         return comp;

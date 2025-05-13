@@ -16,13 +16,13 @@ import it.polimi.it.galaxytrucker.model.managers.Player;
 import it.polimi.it.galaxytrucker.model.managers.ShipManager;
 import it.polimi.it.galaxytrucker.model.utility.Direction;
 import it.polimi.it.galaxytrucker.model.utility.ProjectileType;
-import it.polimi.it.galaxytrucker.model.exceptions.IllegalComponentPositionException;
-import it.polimi.it.galaxytrucker.model.exceptions.NotFoundException;
+import it.polimi.it.galaxytrucker.exceptions.IllegalComponentPositionException;
+import it.polimi.it.galaxytrucker.exceptions.NotFoundException;
 
 /**
  * Represents the "Combat Zone" adventure card in the game Galaxy Trucker.
  * <p>
- * It is implemented as a Finite State Machine (FSM),
+ * It is implemented as a Finite CLIViewState Machine (FSM),
  * transitioning through several internal states that model the card's phases.
  * <p>
  * In the event of ties, the player furthest ahead in flight order is affected.
@@ -46,7 +46,7 @@ import it.polimi.it.galaxytrucker.model.exceptions.NotFoundException;
  *   </li>
  * </ol>
  *
- * The card is implemented as a Finite State Machine with the following states:
+ * The card is implemented as a Finite CLIViewState Machine with the following states:
  * <pre>
  * StartState
  *     ↓

@@ -1,4 +1,4 @@
-package it.polimi.it.galaxytrucker.model.exceptions;
+package it.polimi.it.galaxytrucker.exceptions;
 
 public class InvalidFunctionCallInState extends RuntimeException {
     public InvalidFunctionCallInState(String message) {

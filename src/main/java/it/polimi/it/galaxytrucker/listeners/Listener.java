@@ -1,15 +1,12 @@
 package it.polimi.it.galaxytrucker.listeners;
 
 import it.polimi.it.galaxytrucker.commands.Command;
+import it.polimi.it.galaxytrucker.commands.servercommands.GameUpdate;
 
 /**
- * Represents an entity capable of receiving notifications in the form of {@code Command} objects.
- * Implementing classes define the behavior upon receiving a command.
- *
- * <p>
- *     This interface follows a typical observer pattern structure, where listeners
- *     react to events or changes signaled by other components in the system.
- * </p>
+ * Represents an entity capable of receiving notifications in the form of
+ * {@link GameUpdate} objects. Implementing classes define the behavior upon
+ * receiving a command.
  *
  * @author Giacomo Amaducci
  * @version 1.0
@@ -17,9 +14,9 @@ import it.polimi.it.galaxytrucker.commands.Command;
 public interface Listener {
 
     /**
-     * Notifies the listener of a new {@code Command} to process.
+     * Notifies the listener of a new {@link GameUpdate} to process.
      *
-     * @param command the {@code Command} object being sent to the listener
+     * @param update the {@link GameUpdate} object being sent to the listener
      */
-    void notify(Command command);
+    void notify(GameUpdate update);
 }

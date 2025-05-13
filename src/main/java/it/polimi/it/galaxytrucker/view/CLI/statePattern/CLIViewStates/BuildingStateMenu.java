@@ -1,14 +1,15 @@
-package it.polimi.it.galaxytrucker.view.cli.statePattern.viewstates;
+package it.polimi.it.galaxytrucker.view.CLI.statePattern.CLIViewStates;
 
 import it.polimi.it.galaxytrucker.commands.RequestType;
 import it.polimi.it.galaxytrucker.commands.UserInput;
 import it.polimi.it.galaxytrucker.commands.UserInputType;
-import it.polimi.it.galaxytrucker.view.cli.CLIView;
-import it.polimi.it.galaxytrucker.view.cli.ConsoleColors;
-import it.polimi.it.galaxytrucker.view.cli.statePattern.State;
-import it.polimi.it.galaxytrucker.view.cli.statePattern.StateMachine;
+import it.polimi.it.galaxytrucker.networking.VirtualClient;
+import it.polimi.it.galaxytrucker.networking.client.clientmodel.ClientModel;
+import it.polimi.it.galaxytrucker.view.CLI.CLIView;
+import it.polimi.it.galaxytrucker.view.CLI.ConsoleColors;
+import it.polimi.it.galaxytrucker.view.CLI.statePattern.CLIViewState;
 
-public class BuildingStateMenu extends State {
+public class BuildingStateMenu extends CLIViewState {
 
     private volatile boolean waiting = true;
 
@@ -18,29 +19,9 @@ public class BuildingStateMenu extends State {
 
     @Override
     public void enter(StateMachine fsm) {
-
-//        AtomicInteger seconds = new AtomicInteger(0);
-//
-//        Timer.scheduleAtFixedRate(() -> {
-//            int sec = seconds.getAndIncrement();
-//            System.out.print("\rSecondi: " + sec);
-//        }, 0, 1, TimeUnit.SECONDS);
-//
-//        System.out.println("Timer avviato!");
-//
-//        System.out.println("Main thread is free to do other stuff...");
-
-        // Display ship
-        view.getClient().receiveUserInput(
-                new UserInput.UserInputBuilder(view.getClient(), UserInputType.REQUEST)
-                        .setRequestType(RequestType.SHIP_BOARD)
-                        .build()
-        );
-
-        while (waiting) {
-
-        }
-        waiting = true;
+       // Display ship
+        ClientModel model = view.getClient().getModel();
+        view.displayShip(model.getPlayerShips(model.getMyData().getPlayerId()));
 
         System.out.print("""
                 \nChoose an option:
@@ -67,7 +48,7 @@ public class BuildingStateMenu extends State {
                 switch (opt_tile){
                     case 1:
                         view.getClient().receiveUserInput(
-                                new UserInput.UserInputBuilder(view.getClient(), UserInputType.REQUEST)
+                                new UserInput.UserInputBuilder((VirtualClient) view.getClient(), UserInputType.REQUEST)
                                         .setRequestType(RequestType.NEW_TILE)
                                         .build()
                         );
@@ -100,8 +81,6 @@ public class BuildingStateMenu extends State {
                                         .setSelectedTileIndex(chosenTile)
                                         .build()
                         );
-
-                        System.out.println("After selected saved tile in buildingStateMenu");
                         break;
                     case 3:
 
@@ -125,8 +104,6 @@ public class BuildingStateMenu extends State {
                                      .setSelectedTileIndex(chosenTile)
                                      .build()
                          );
-                        System.out.println("After get client ");
-
                         break;
                 }
 
@@ -164,10 +141,17 @@ public class BuildingStateMenu extends State {
             default:
                 System.out.println(ConsoleColors.YELLOW + "That's not a valid option. Please try again" + ConsoleColors.RESET);
             }
+
+            System.out.println("End of enter");
     }
 
     @Override
-    public void update(StateMachine fsm, boolean repeat) {
+    public void repromtUser(StateMachine fsm) {
+
+    }
+
+    @Override
+    public void update(StateMachine fsm) {
         waiting = false;
     }
 

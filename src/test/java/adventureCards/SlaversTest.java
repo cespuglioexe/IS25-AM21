@@ -6,7 +6,7 @@ import it.polimi.it.galaxytrucker.model.adventurecards.refactored.Slavers;
 import it.polimi.it.galaxytrucker.model.componenttiles.*;
 import it.polimi.it.galaxytrucker.model.crewmates.Alien;
 import it.polimi.it.galaxytrucker.model.crewmates.Human;
-import it.polimi.it.galaxytrucker.model.exceptions.InvalidActionException;
+import it.polimi.it.galaxytrucker.exceptions.InvalidActionException;
 import it.polimi.it.galaxytrucker.model.managers.FlightBoard;
 import it.polimi.it.galaxytrucker.model.managers.FlightBoardFlightRules;
 import it.polimi.it.galaxytrucker.model.managers.Player;

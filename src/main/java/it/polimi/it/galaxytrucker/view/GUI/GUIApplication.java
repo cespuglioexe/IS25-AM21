@@ -25,12 +25,12 @@ public class GUIApplication extends Application {
 
         Scene stageScene = new Scene(new Pane(), stage.getWidth(), stage.getHeight());
         AnchorPane initializationPane = new AnchorPane();
-        initializationPane.setStyle("-fx-background-color: black;");
+        initializationPane.setStyle("-fx-background-color: #00134e;");
         stageScene.setRoot(initializationPane);
         stage.setScene(stageScene);
 
-        stage.setTitle("Codex Naturalis");
-        stage.setFullScreenExitHint("Press ESC to exit fullscreen. If you want to re-enter fullscreen afterwards, press F11.");
+        stage.setTitle("Galaxy Trucker");
+        stage.setFullScreenExitHint("Press ESC to exit fullscreen. If you want to re-enter fullscreen afterwards, press F7.");
 
         stage.addEventHandler(KeyEvent.KEY_PRESSED, (event) -> {
             if (event.getCode().equals(KeyCode.ESCAPE)) {
@@ -42,7 +42,7 @@ public class GUIApplication extends Application {
         });
 
         stage.addEventHandler(KeyEvent.KEY_PRESSED, (event) -> {
-            if (event.getCode().equals(KeyCode.F11)) {
+            if (event.getCode().equals(KeyCode.F7)) {
                 stage.setFullScreen(true);
             }
         });

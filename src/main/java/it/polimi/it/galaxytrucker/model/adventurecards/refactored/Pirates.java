@@ -10,7 +10,7 @@ import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.FlightDayPenal
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.attack.Attack;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.attack.Projectile;
 import it.polimi.it.galaxytrucker.model.design.strategyPattern.FlightRules;
-import it.polimi.it.galaxytrucker.model.exceptions.IllegalComponentPositionException;
+import it.polimi.it.galaxytrucker.exceptions.IllegalComponentPositionException;
 import it.polimi.it.galaxytrucker.model.managers.Player;
 import it.polimi.it.galaxytrucker.model.managers.ShipManager;
 import it.polimi.it.galaxytrucker.model.utility.Direction;

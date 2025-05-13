@@ -7,7 +7,7 @@ import it.polimi.it.galaxytrucker.model.utility.Color;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import it.polimi.it.galaxytrucker.model.utility.Cargo;
-import it.polimi.it.galaxytrucker.model.exceptions.InvalidActionException;
+import it.polimi.it.galaxytrucker.exceptions.InvalidActionException;
 
 import java.util.List;
 

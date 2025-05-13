@@ -6,6 +6,8 @@ import it.polimi.it.galaxytrucker.model.adventurecards.refactored.Planets;
 import it.polimi.it.galaxytrucker.model.design.strategyPattern.FlightRules;
 import it.polimi.it.galaxytrucker.model.managers.FlightBoardFlightRules;
 import it.polimi.it.galaxytrucker.model.managers.GameManager;
+import it.polimi.it.galaxytrucker.model.managers.Player;
+import it.polimi.it.galaxytrucker.model.managers.ShipManager;
 import it.polimi.it.galaxytrucker.model.utility.Cargo;
 import it.polimi.it.galaxytrucker.model.utility.Color;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,19 +22,19 @@ import static org.junit.jupiter.api.Assertions.*;
 class CardExecutionStateTest {
     private GameManager gameManager;
 
-    private UUID playerId1;
-    private UUID playerId2;
-    private UUID playerId3;
+    private final UUID playerId1 = UUID.randomUUID();
+    private final UUID playerId2 = UUID.randomUUID();
+    private final UUID playerId3 = UUID.randomUUID();
 
     @BeforeEach
     void initializeParameters() {
-        gameManager = new GameManager(2, 3, "game");
+        gameManager = new GameManager(2, 3);
         
         fillDeckWithPlanetCard();
 
-        playerId1 = gameManager.addPlayer("Margarozzo");
-        playerId2 = gameManager.addPlayer("Balzarini");
-        playerId3 = gameManager.addPlayer("Ing. Conti");
+        gameManager.addPlayer(new Player(playerId1, "Margarozzo", Color.RED, new ShipManager(2)));
+        gameManager.addPlayer(new Player(playerId2, "Blazarini", Color.RED, new ShipManager(2)));
+        gameManager.addPlayer(new Player(playerId3, "Ing. Conti", Color.RED, new ShipManager(2)));
 
         playersBuildAllLegalShips();
     }
