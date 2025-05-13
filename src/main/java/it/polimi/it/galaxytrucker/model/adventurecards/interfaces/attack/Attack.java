@@ -45,7 +45,7 @@ import it.polimi.it.galaxytrucker.model.utility.Direction;
  *
  * @author Stefano Carletto
  * @version 1.0
- * 
+ *
  * @see StateMachine
  */
 public abstract class Attack extends StateMachine {
@@ -80,10 +80,6 @@ public abstract class Attack extends StateMachine {
 
     public List<Integer> getAimedCoordsByProjectile(Projectile projectile) {
         return projectilesAndAimedComponent.get(projectile);
-    }
-
-    public HashMap<Projectile, List<Integer>> getProjectilesAndAimedComponent() {
-        return projectilesAndAimedComponent;
     }
 
     public void setPlayer(Player player) {

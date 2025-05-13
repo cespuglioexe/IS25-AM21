@@ -3,7 +3,7 @@ package it.polimi.it.galaxytrucker.model.adventurecards.cardstates.meteorSwarm;
 import it.polimi.it.galaxytrucker.model.adventurecards.refactored.MeteorSwarm;
 import it.polimi.it.galaxytrucker.model.design.statePattern.State;
 import it.polimi.it.galaxytrucker.model.design.statePattern.StateMachine;
-import it.polimi.it.galaxytrucker.model.utility.Projectile;
+import it.polimi.it.galaxytrucker.model.utility.ProjectileType;
 
 public class EvaluateMeteorState extends State {
     @Override
@@ -13,7 +13,7 @@ public class EvaluateMeteorState extends State {
         if(card.getCurrentMeteor() == null)
             fsm.changeState(new StartState());
         else{
-            if(card.getCurrentMeteor() == Projectile.BIG) {
+            if(card.getCurrentMeteor().getSize() == ProjectileType.BIG) {
                 fsm.changeState(new BigMeteorState());
             }else  fsm.changeState(new SmallMeteorState());
         }
