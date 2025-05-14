@@ -12,7 +12,7 @@ public class NameSelectionState extends CLIViewState {
         String name = scanner.nextLine();
 
         view.getClient().receiveUserInput(
-                new UserInput.UserInputBuilder(null, UserInputType.SET_USERNAME)
+                new UserInput.UserInputBuilder(null, UserInputType.SET_PLAYER_USERNAME)
                         .setPlayerName(name)
                         .build());
     }

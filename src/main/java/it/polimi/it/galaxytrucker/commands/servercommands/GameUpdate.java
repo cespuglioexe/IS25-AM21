@@ -1,5 +1,6 @@
 package it.polimi.it.galaxytrucker.commands.servercommands;
 
+import it.polimi.it.galaxytrucker.controller.GenericGameData;
 import it.polimi.it.galaxytrucker.model.componenttiles.ComponentTile;
 import it.polimi.it.galaxytrucker.model.componenttiles.TileData;
 import it.polimi.it.galaxytrucker.view.CLI.ConsoleColors;
@@ -22,7 +23,15 @@ public class GameUpdate implements Serializable {
     private final List<TileData> tileList;
 
     private final List<List<TileData>> shipBoard;
-    private final HashMap<UUID, List<List<TileData>>> allPlayerShipBoards;
+    private final HashMap<UUID, List<List<TileData>>> allPlayerShipBoard;
+
+    // Server-sent update contents
+    private final String playerName;
+    private final UUID gameUuid;
+    private final UUID playerUuid;
+    private final List<GenericGameData> activeControllers;
+    private final boolean successfulOperation;
+    private final String operationMessage;
 
     public GameUpdate(GameUpdateBuilder builder) {
         this.instructionType = builder.instructionType;
@@ -33,7 +42,13 @@ public class GameUpdate implements Serializable {
         this.interestedPlayerId = builder.interestedPlayerId;
         this.playerIds = builder.playerIds;
         this.cardPileCompositions = builder.cardPileCompositions;
-        this.allPlayerShipBoards = builder.allPlayerShipBoards;
+        this.allPlayerShipBoard = builder.allPlayerShipBoard;
+        this.playerName = builder.playerName;
+        this.gameUuid = builder.gameUuid;
+        this.activeControllers = builder.activeControllers;
+        this.playerUuid = builder.playerUuid;
+        this.successfulOperation = builder.successfulOperation;
+        this.operationMessage = builder.operationMessage;
     }
 
     public GameUpdateType getInstructionType() {
@@ -69,31 +84,93 @@ public class GameUpdate implements Serializable {
     }
 
     public HashMap<UUID, List<List<TileData>>> getAllPlayersShipboard(){
-        return allPlayerShipBoards;
+        return allPlayerShipBoard;
+    }
+
+    public String getPlayerName() {
+        return playerName;
+    }
+
+    public UUID getGameUuid() {
+        return gameUuid;
+    }
+
+    public List<GenericGameData> getActiveControllers() {
+        return activeControllers;
+    }
+
+    public UUID getPlayerUuid() {
+        return playerUuid;
+    }
+
+    public boolean isSuccessfulOperation() {
+        return successfulOperation;
+    }
+
+    public String getOperationMessage() {
+        return operationMessage;
     }
 
     public static class GameUpdateBuilder {
         // Required fields
         private final GameUpdateType instructionType;
-        private final UUID interestedPlayerId;
 
         // Optional fields
+        final UUID interestedPlayerId;
         private String newSate;
         private TileData newTile;
         private List<List<TileData>> shipBoard;
         private List<TileData> tileList;
         private List<UUID> playerIds;
         private List<List<Integer>> cardPileCompositions;
-        private HashMap<UUID, List<List<TileData>>> allPlayerShipBoards;
+        private HashMap<UUID, List<List<TileData>>> allPlayerShipBoard;
+
+        private String playerName;
+        private UUID gameUuid;
+        private UUID playerUuid;
+        private List<GenericGameData> activeControllers;
+        private boolean successfulOperation;
+        private String operationMessage;
 
 
+        // TODO: remove 'interestedPlayer' from the constructor, move it to setter function
         public GameUpdateBuilder(GameUpdateType instructionType, UUID interestedPlayerId) {
             this.instructionType = instructionType;
             this.interestedPlayerId = interestedPlayerId;
         }
 
+        public GameUpdateBuilder setOperationMessage(String operationMessage) {
+            this.operationMessage = operationMessage;
+            return this;
+        }
+
+        public GameUpdateBuilder setSuccessfulOperation(boolean successfulOperation) {
+            this.successfulOperation = successfulOperation;
+            return this;
+        }
+
+        public GameUpdateBuilder setPlayerUuid(UUID playerUuid) {
+            this.playerUuid = playerUuid;
+            return this;
+        }
+
+        public GameUpdateBuilder setPlayerName(String playerName) {
+            this.playerName = playerName;
+            return this;
+        }
+
+        public GameUpdateBuilder setGameUuid(UUID gameUuid) {
+            this.gameUuid = gameUuid;
+            return this;
+        }
+
+        public GameUpdateBuilder setActiveControllers(List<GenericGameData> activeControllers) {
+            this.activeControllers = activeControllers;
+            return this;
+        }
+
         public GameUpdateBuilder setAllPlayerShipBoards(HashMap<UUID, List<List<TileData>>> allPlayerShipBoards) {
-            this.allPlayerShipBoards = allPlayerShipBoards;
+            this.allPlayerShipBoard = allPlayerShipBoards;
             return this;
         }
 

@@ -3,6 +3,7 @@ package it.polimi.it.galaxytrucker.view.CLI.CLIViewStates;
 import it.polimi.it.galaxytrucker.commands.UserInput;
 import it.polimi.it.galaxytrucker.commands.UserInputType;
 import it.polimi.it.galaxytrucker.controller.GenericGameData;
+import it.polimi.it.galaxytrucker.networking.VirtualClient;
 import it.polimi.it.galaxytrucker.view.CLI.ConsoleColors;
 
 import java.rmi.RemoteException;
@@ -10,14 +11,17 @@ import java.util.InputMismatchException;
 import java.util.List;
 
 public class GameSelectionState extends  CLIViewState {
-    List<GenericGameData> activeGames;
-
+    volatile List<GenericGameData> activeGames;
+    
     @Override
     public void executeState() {
-        try {
-            activeGames = view.getClient().getActiveGames();
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
+        view.getClient().receiveUserInput(
+                new UserInput.UserInputBuilder((VirtualClient) view.getClient(), UserInputType.SEE_ACTIVE_GAMES)
+                        .build()
+        );
+
+        while (activeGames == null) {
+            Thread.onSpinWait();
         }
 
         if (activeGames.isEmpty()) {
@@ -71,7 +75,7 @@ public class GameSelectionState extends  CLIViewState {
         }
 
         view.getClient().receiveUserInput(
-                new UserInput.UserInputBuilder(null, UserInputType.GAME_SELECTION)
+                new UserInput.UserInputBuilder(null, UserInputType.JOIN_ACTIVE_GAME)
                         .setGameId(activeGames.get(gameNum - 1).gameId())
                         .build());
     }
@@ -86,5 +90,10 @@ public class GameSelectionState extends  CLIViewState {
     public void remoteExceptionThrown() {
         System.out.println(ConsoleColors.RED + "There was an error joining the game. Please try again." + ConsoleColors.RESET);
         executeState();
+    }
+    
+    @Override
+    public void activeControllers(List<GenericGameData> activeControllers) {
+        this.activeGames = activeControllers;
     }
 }

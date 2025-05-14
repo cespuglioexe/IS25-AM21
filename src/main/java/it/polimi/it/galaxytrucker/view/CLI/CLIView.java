@@ -1,5 +1,6 @@
 package it.polimi.it.galaxytrucker.view.CLI;
 
+import it.polimi.it.galaxytrucker.controller.GenericGameData;
 import it.polimi.it.galaxytrucker.model.componenttiles.TileData;
 import it.polimi.it.galaxytrucker.model.componenttiles.TileEdge;
 import it.polimi.it.galaxytrucker.view.CLI.CLIViewStates.*;
@@ -90,7 +91,10 @@ public class CLIView extends View {
         CLIViewState.getCurrentState().remoteExceptionThrown();
     }
 
-
+    @Override
+    public void activeControllers(List<GenericGameData> activeControllers) {
+        CLIViewState.getCurrentState().activeControllers(activeControllers);
+    }
 
 
     ////////////////////////////////////

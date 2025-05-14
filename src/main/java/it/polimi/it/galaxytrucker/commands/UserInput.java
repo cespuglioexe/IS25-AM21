@@ -8,14 +8,21 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * A data class used for communicating client actions to the server.
+ *
+ * @author giacomoamaducci
+ * @version 1.1
+ */
 public class UserInput implements Serializable {
     private final UserInputType type;
     private final VirtualClient client;
 
-    private final RequestType requestType;
+    // private final RequestType requestType;
 
     private final String serverName;
     private final String playerName;
+    private final UUID playerUuid;
 
     private final int gameLevel;
     private final int gamePlayers;
@@ -34,11 +41,12 @@ public class UserInput implements Serializable {
         this.gameLevel = builder.gameLevel;
         this.gamePlayers = builder.gamePlayers;
         this.gameId = builder.gameId;
-        this.requestType = builder.requestType;
+        // this.requestType = builder.requestType;
         this.coords = builder.coords;
         this.rotation = builder.rotation;
         this.selectedTileIndex = builder.selectedTileIndex;
         this.cardPileIndex = builder.cardPileIndex;
+        this.playerUuid = builder.playerUuid;
     }
 
     public UserInputType getType() {
@@ -69,9 +77,9 @@ public class UserInput implements Serializable {
         return gameId;
     }
 
-    public RequestType getRequestType() {
-        return requestType;
-    }
+//    public RequestType getRequestType() {
+//        return requestType;
+//    }
     
     public List<Integer> getCoords() {
         return coords;
@@ -89,6 +97,10 @@ public class UserInput implements Serializable {
         return cardPileIndex;
     }
 
+    public UUID getPlayerUuid() {
+        return playerUuid;
+    }
+
     /**
      * Builder class for creating instances of the UserInput class.
      * This class provides a convenient way to configure all optional and required parameters
@@ -100,10 +112,12 @@ public class UserInput implements Serializable {
         private final VirtualClient client;
 
         // Optional parameters
-        private RequestType requestType = RequestType.EMPTY;
+        // private RequestType requestType = RequestType.EMPTY;
 
         private String serverName = "";
         private String playerName = "";
+        private UUID playerUuid;
+
 
         private int gameLevel = 0;
         private int gamePlayers = 0;
@@ -130,6 +144,11 @@ public class UserInput implements Serializable {
             return this;
         }
 
+        public UserInputBuilder setPlayerUuid(UUID playerUuid) {
+            this.playerUuid = playerUuid;
+            return this;
+        }
+
         public UserInputBuilder setGameLevel(int gameLevel) {
             this.gameLevel = gameLevel;
             return this;
@@ -145,10 +164,10 @@ public class UserInput implements Serializable {
             return this;
         }
 
-        public UserInputBuilder setRequestType(RequestType requestType) {
-            this.requestType = requestType;
-            return this;
-        }
+//        public UserInputBuilder setRequestType(RequestType requestType) {
+//            this.requestType = requestType;
+//            return this;
+//        }
         
         public UserInputBuilder setCoords(int x, int y) {
             this.coords = List.of(y, x);

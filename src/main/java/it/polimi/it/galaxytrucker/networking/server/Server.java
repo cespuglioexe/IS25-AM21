@@ -2,10 +2,10 @@ package it.polimi.it.galaxytrucker.networking.server;
 
 import it.polimi.it.galaxytrucker.controller.Controller;
 import it.polimi.it.galaxytrucker.controller.GenericGameData;
-import it.polimi.it.galaxytrucker.networking.server.rmi.RMIClientHandler;
+import it.polimi.it.galaxytrucker.exceptions.GameFullException;
+import it.polimi.it.galaxytrucker.networking.CommunicationType;
 import it.polimi.it.galaxytrucker.networking.server.rmi.RMIServer;
 import it.polimi.it.galaxytrucker.networking.server.rmi.RMIVirtualClient;
-import it.polimi.it.galaxytrucker.networking.server.socket.SocketClientHandler;
 import it.polimi.it.galaxytrucker.view.CLI.ConsoleColors;
 
 import java.io.*;
@@ -16,9 +16,6 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.*;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 public class Server implements RMIServer, Runnable, ServerInterface {
     String serverIPAddress = "localhost";
@@ -61,24 +58,13 @@ public class Server implements RMIServer, Runnable, ServerInterface {
                 InputStreamReader inReader = new InputStreamReader(clientSocket.getInputStream());
                 OutputStreamWriter outWriter = new OutputStreamWriter(clientSocket.getOutputStream());
 
-                SocketClientHandler handler = new SocketClientHandler(
-                        this,
-                        new BufferedReader(inReader),
-                        new PrintWriter(outWriter)
-                );
+                ClientHandler handler = new ClientHandler(this, CommunicationType.SOCKET, inReader, outWriter);
 
                 synchronized (this.clients) {
                     clients.add(handler);
                 }
 
-                new Thread(() -> {
-                    try {
-                        // RUN THE CLIENT HANDLER
-                        handler.runVirtualView();
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                }).start();
+                new Thread(handler::run).start();
             }
         }
         catch (IOException e) {
@@ -95,18 +81,12 @@ public class Server implements RMIServer, Runnable, ServerInterface {
     public void connect(RMIVirtualClient client) throws RemoteException {
         System.out.println(ConsoleColors.MAIN_SERVER_DEBUG + "incoming RMI connection" + ConsoleColors.RESET);
 
-        RMIClientHandler handler = new RMIClientHandler(this, client);
+        ClientHandler handler = new ClientHandler(this, CommunicationType.RMI, client);
         synchronized (this.clients) {
             clients.add(handler);
         }
         client.setHandler(handler);
-        new Thread(() -> {
-            try {
-                handler.run();
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        }).start();
+        new Thread(handler::run).start();
     }
 
     @Override
@@ -122,14 +102,9 @@ public class Server implements RMIServer, Runnable, ServerInterface {
 
     @Override
     public boolean setUsername(ClientHandler client, String username) {
-        boolean success = false;
         synchronized (this.clients) {
-            if (isUsernameUnique(username)) {
-                client.setUsername(username);
-                success = true;
-            }
+            return isUsernameUnique(username);
         }
-        return success;
     }
 
     private boolean isUsernameUnique(String username) {
@@ -141,14 +116,11 @@ public class Server implements RMIServer, Runnable, ServerInterface {
     }
 
     @Override
-    public UUID addPlayerToGame(ClientHandler client, UUID gameId) {
-        UUID newPlayerId;
+    public void addPlayerToGame(ClientHandler client, UUID gameId) throws GameFullException {
         synchronized (this.controllers) {
-            newPlayerId = controllers.get(gameId).addPlayer(client);
-            client.setUuid(newPlayerId);
+            controllers.get(gameId).addPlayer(client);
             client.setController(controllers.get(gameId));
         }
-        return newPlayerId;
     }
 
     @Override

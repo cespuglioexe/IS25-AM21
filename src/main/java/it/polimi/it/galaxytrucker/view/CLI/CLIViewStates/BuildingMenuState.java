@@ -47,15 +47,14 @@ public class BuildingMenuState extends CLIViewState {
                         [1]: Pick a new random tile
                         [2]: Choose a saved tile
                         [3]: Choose a discarded tile
-                        > """);
+                        >\s""");
 
                 int opt_tile = scanner.nextInt();
                 int chosenTile;
                 switch (opt_tile) {
                     case 1:
                         view.getClient().receiveUserInput(
-                                new UserInput.UserInputBuilder((VirtualClient) view.getClient(), UserInputType.REQUEST)
-                                        .setRequestType(RequestType.NEW_TILE)
+                                new UserInput.UserInputBuilder((VirtualClient) view.getClient(), UserInputType.SELECT_RANDOM_COMPONENT)
                                         .build()
                         );
                         break;
@@ -75,8 +74,7 @@ public class BuildingMenuState extends CLIViewState {
                         }
 
                         view.getClient().receiveUserInput(
-                                new UserInput.UserInputBuilder((VirtualClient) view.getClient(), UserInputType.REQUEST)
-                                        .setRequestType(RequestType.SELECT_SAVED_TILE)
+                                new UserInput.UserInputBuilder((VirtualClient) view.getClient(), UserInputType.SELECT_SAVED_COMPONENT)
                                         .setSelectedTileIndex(chosenTile)
                                         .build()
                         );
@@ -97,8 +95,7 @@ public class BuildingMenuState extends CLIViewState {
                         }
 
                         view.getClient().receiveUserInput(
-                                new UserInput.UserInputBuilder((VirtualClient) view.getClient(), UserInputType.REQUEST)
-                                        .setRequestType(RequestType.SELECT_DISCARDED_TILE)
+                                new UserInput.UserInputBuilder((VirtualClient) view.getClient(), UserInputType.SELECT_DISCARDED_COMPONENT)
                                         .setSelectedTileIndex(chosenTile)
                                         .build()
                         );
@@ -124,7 +121,7 @@ public class BuildingMenuState extends CLIViewState {
             case 3:
                 if (!view.getClient().isBuildingTimerIsActive()) {
                     view.getClient().receiveUserInput(
-                            new UserInput.UserInputBuilder((VirtualClient) view.getClient(), UserInputType.START_TIMER)
+                            new UserInput.UserInputBuilder((VirtualClient) view.getClient(), UserInputType.RESTART_BUILDING_TIMER)
                                     .build()
                     );
                 }

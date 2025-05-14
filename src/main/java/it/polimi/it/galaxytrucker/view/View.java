@@ -1,5 +1,6 @@
 package it.polimi.it.galaxytrucker.view;
 
+import it.polimi.it.galaxytrucker.controller.GenericGameData;
 import it.polimi.it.galaxytrucker.model.adventurecards.AdventureCardData;
 import it.polimi.it.galaxytrucker.model.componenttiles.TileData;
 import it.polimi.it.galaxytrucker.networking.client.Client;
@@ -51,4 +52,6 @@ public abstract class View {
     public abstract void displayTimerStarted();
 
     public abstract void displayTimerEnded();
+
+    public abstract void activeControllers(List<GenericGameData> activeControllers);
 }

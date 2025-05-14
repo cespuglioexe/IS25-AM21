@@ -12,7 +12,5 @@ public interface Client {
 
     boolean isBuildingTimerIsActive();
 
-    List<GenericGameData> getActiveGames() throws RemoteException;
-
     void receiveUserInput (UserInput input);
 }

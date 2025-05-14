@@ -223,7 +223,12 @@ public class GameManager extends StateMachine implements Model, Observable {
         GameState gameState = (GameState) this.getCurrentState();
         gameState.selectSavedComponentTile(this, playerID, index);
 
-        // TODO: notify
+        Player player = getPlayerByID(playerID);
+        player.updateListeners(
+                new GameUpdate.GameUpdateBuilder(GameUpdateType.SAVED_COMPONENTS_UPDATED, playerID)
+                        .setTileList(player.getShipManager().getSavedComponentTiles())
+                        .build()
+        );
     }
 
     @Override
@@ -231,7 +236,11 @@ public class GameManager extends StateMachine implements Model, Observable {
         GameState gameState = (GameState) this.getCurrentState();
         gameState.selectDiscardedComponentTile(this, playerID, index);
 
-        // TODO: notify
+        updateListeners(
+                new GameUpdate.GameUpdateBuilder(GameUpdateType.DISCARDED_COMPONENTS_UPDATED, new UUID(0,0))
+                        .setTileList(((GameState) getCurrentState()).getDiscardedComponentTiles())
+                        .build()
+        );
     }
 
     @Override

@@ -4,15 +4,14 @@ import java.util.UUID;
 
 public class PlayerData {
     private String nickname;
-    private UUID playerId;
+    private final UUID playerId = UUID.randomUUID();
     private UUID matchId;
 
     public PlayerData() {
     }
 
-    public PlayerData(String nickname, UUID playerId, UUID matchId) {
+    public PlayerData(String nickname, UUID matchId) {
         this.nickname = nickname;
-        this.playerId = playerId;
         this.matchId = matchId;
     }
 
@@ -26,10 +25,6 @@ public class PlayerData {
 
     public String getNickname() {
         return nickname;
-    }
-
-    public void setPlayerId(UUID playerId) {
-        this.playerId = playerId;
     }
 
     public UUID getPlayerId() {
