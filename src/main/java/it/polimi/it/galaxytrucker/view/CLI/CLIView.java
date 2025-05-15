@@ -9,8 +9,13 @@ import it.polimi.it.galaxytrucker.view.View;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class CLIView extends View {
+
+    public final ExecutorService executorService = Executors.newSingleThreadExecutor();
+
     public CLIView() {
         displayGameTitle();
     }
@@ -22,6 +27,8 @@ public class CLIView extends View {
 
     @Override
     public void begin() {
+        CLIInputReader.getInstance().run();
+
         CLIViewState.setView(this);
         CLIViewState.setCurrentState(new NameSelectionState());
         CLIViewState.getCurrentState().executeState();
@@ -96,6 +103,28 @@ public class CLIView extends View {
         CLIViewState.getCurrentState().activeControllers(activeControllers);
     }
 
+    @Override
+    public void shipUpdated(UUID interestedPlayerId) {
+        if (interestedPlayerId.equals(getClient().getModel().getMyData().getPlayerId()))
+            CLIViewState.getCurrentState().displayPlayerShip();
+    }
+
+    @Override
+    public void componentTileReceived(TileData newTile) {
+        CLIViewState.getCurrentState().displayComponentTile(newTile);
+    }
+
+    @Override
+    public void savedComponentsUpdated() {
+        // This function is not necessary when using a TUI implementation
+        return;
+    }
+
+    @Override
+    public void discardedComponentsUpdated() {
+        CLIViewState.getCurrentState().discardedComponentsUpdated();
+    }
+
 
     ////////////////////////////////////
 
@@ -128,13 +157,15 @@ public class CLIView extends View {
     }
 
     public void printSingleComponent (TileData tile) {
-        System.out.println("COMPONENT: " + tile.getType());
-        System.out.println("EDGES: " + tile.getTop() + ", " + tile.getRight() + ", " + tile.getBottom() + ", " + tile.getLeft());
+//        System.out.println("COMPONENT: " + tile.getType());
+//        System.out.println("EDGES: " + tile.getTop() + ", " + tile.getRight() + ", " + tile.getBottom() + ", " + tile.getLeft());
 
+        System.out.println();
         List<String> tileAscii = getTileAscii(tile);
         for (String s : tileAscii) {
             System.out.println(s);
         }
+        System.out.println();
     }
 
     public void displayBuildingStarted () {

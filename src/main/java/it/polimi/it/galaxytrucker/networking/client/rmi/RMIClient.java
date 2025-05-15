@@ -3,12 +3,14 @@ package it.polimi.it.galaxytrucker.networking.client.rmi;
 import it.polimi.it.galaxytrucker.commands.GameError;
 import it.polimi.it.galaxytrucker.commands.UserInput;
 import it.polimi.it.galaxytrucker.commands.UserInputType;
+import it.polimi.it.galaxytrucker.exceptions.InvalidFunctionCallInState;
 import it.polimi.it.galaxytrucker.model.componenttiles.TileData;
 import it.polimi.it.galaxytrucker.commands.servercommands.GameUpdate;
 import it.polimi.it.galaxytrucker.networking.client.Client;
 import it.polimi.it.galaxytrucker.networking.client.clientmodel.ClientModel;
 import it.polimi.it.galaxytrucker.networking.server.rmi.RMIServer;
 import it.polimi.it.galaxytrucker.networking.server.rmi.RMIVirtualClient;
+import it.polimi.it.galaxytrucker.view.CLI.CLIInputReader;
 import it.polimi.it.galaxytrucker.view.View;
 import it.polimi.it.galaxytrucker.view.CLI.ConsoleColors;
 
@@ -93,7 +95,6 @@ public class RMIClient extends UnicastRemoteObject implements RMIVirtualClient, 
     @Override
     public void sendMessageToClient(GameUpdate update) throws RemoteException {
         System.out.println(ConsoleColors.CLIENT_DEBUG + "received update of type " + update.getInstructionType() + ConsoleColors.RESET);
-        new Thread(() -> {
             switch (update.getInstructionType()) {
                 case SET_USERNAME_RESULT:
                     if (update.isSuccessfulOperation()) {
@@ -107,7 +108,12 @@ public class RMIClient extends UnicastRemoteObject implements RMIVirtualClient, 
                 case CREATE_GAME_RESULT:
                     if (update.isSuccessfulOperation()) {
                         model.getMyData().setMatchId(update.getGameUuid());
-                        view.gameCreationSuccess(true);
+                        try {
+                            view.gameCreationSuccess(true);
+                        } catch (InvalidFunctionCallInState e) {
+                            // This error is only thrown when creating a 1 player game
+                            // It can be ignored as it has no adverse effects
+                        }
                     } else {
                         view.gameCreationSuccess(false);
                     }
@@ -142,17 +148,20 @@ public class RMIClient extends UnicastRemoteObject implements RMIVirtualClient, 
                     }
                     break;
                 case DRAWN_TILE:
-                    view.displayComponentTile(update.getNewTile());
+                    view.componentTileReceived(update.getNewTile());
                     // view.tileActions();
                     break;
                 case SAVED_COMPONENTS_UPDATED:
                     model.setSavedTiles(update.getTileList());
+                    view.savedComponentsUpdated();
                     break;
                 case DISCARDED_COMPONENTS_UPDATED:
                     model.setDiscardedTiles(update.getTileList());
+                    view.discardedComponentsUpdated();
                     break;
                 case PLAYER_SHIP_UPDATED:
                     model.updatePlayerShip(update.getInterestedPlayerId(), update.getShipBoard());
+                    view.shipUpdated(update.getInterestedPlayerId());
                     break;
                 case TIMER_START:
                     buildingTimerIsActive = true;
@@ -163,7 +172,7 @@ public class RMIClient extends UnicastRemoteObject implements RMIVirtualClient, 
                     view.displayTimerEnded();
                     break;
             }
-        }).start();
+
     }
 
     @Override

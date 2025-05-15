@@ -54,4 +54,12 @@ public abstract class View {
     public abstract void displayTimerEnded();
 
     public abstract void activeControllers(List<GenericGameData> activeControllers);
+
+    public abstract void shipUpdated(UUID interestedPlayerId);
+
+    public abstract void componentTileReceived(TileData newTile);
+
+    public abstract void savedComponentsUpdated();
+
+    public abstract void discardedComponentsUpdated();
 }
