@@ -8,15 +8,14 @@ public class BigMeteorState extends State {
 
     @Override
     public void enter(StateMachine fsm) {
+        MeteorSwarm card = (MeteorSwarm) fsm;
 
+        card.aimAtCoordsWith(card.getCurrentMeteor());
     }
 
     @Override
     public void update(StateMachine fsm) {
-        MeteorSwarm card = (MeteorSwarm) fsm;
-        if(card.getMeteorAttack()==null)
-            fsm.changeState(new EvaluateMeteorState());
-        else fsm.changeState(new AttackState());
+        fsm.changeState(new AttackState());
     }
 
     @Override

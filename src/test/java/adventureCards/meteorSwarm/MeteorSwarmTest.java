@@ -1,8 +1,8 @@
 package adventureCards.meteorSwarm;
 
-import adventureCards.meteorSwarm.ShipCreation;
-import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.meteorSwarm.BigMeteorState;
+import it.polimi.it.galaxytrucker.exceptions.InvalidActionException;
 import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.meteorSwarm.EndState;
+import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.meteorSwarm.BigMeteorState;
 import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.meteorSwarm.SmallMeteorState;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.attack.Projectile;
 import it.polimi.it.galaxytrucker.model.adventurecards.refactored.MeteorSwarm;
@@ -59,59 +59,200 @@ public class MeteorSwarmTest {
         projectiles.add(new Projectile(ProjectileType.SMALL,Direction.RIGHT));
         projectiles.add(new Projectile(ProjectileType.SMALL,Direction.LEFT));
 
-        card = new MeteorSwarm(projectiles,new FlightBoardFlightRules(flightBoard));
+        card = new MeteorSwarm(projectiles, new FlightBoardFlightRules(flightBoard));
         card.play();
     }
 
     @Test
-    void initializeProjectileTest() {
-        int i=0;
-        for(Projectile projectile: card.getProjectiles().stream().toList()){
-            assertNotEquals(card.getAimedCoordsByProjectile(projectile).stream().toList().getFirst(),0);
-            System.out.print(("Meteor "+i+" : "+card.getAimedCoordsByProjectile(projectile).stream().toList().get(0)));
-            assertNotEquals(card.getAimedCoordsByProjectile(projectile).stream().toList().get(1),0);
-            System.out.println((" "+card.getAimedCoordsByProjectile(projectile).stream().toList().get(1)));
-            i++;
+    void playerShootsAtMeteorTest() {
+        assertEquals(BigMeteorState.class, card.getCurrentState().getClass());
+
+        List<Integer> cannonCoord = List.of(7, 4);
+        Projectile meteor = card.getCurrentMeteor();
+        List<Integer> aimedCoords = card.getAimedCoordsByProjectile(meteor);
+
+        ShipManager ship = player1.getShipManager();
+        ship.printBoard();
+
+        if (aimedCoords.get(1) == cannonCoord.get(1)) {
+            card.shootAtMeteorWith(cannonCoord);
+            System.out.println("The cannon shot the meteor");
+            assertComponentNotDestroyedAt(aimedCoords, ship, meteor.getSize().toString());
+        } else {
+            System.out.println(meteor.getSize().toString() + ": " + aimedCoords);
+            assertThrows(InvalidActionException.class, () -> card.shootAtMeteorWith(cannonCoord));
         }
-        System.out.println("Tot Meteor : "+card.getProjectiles().stream().toList().size());
-        assertTrue(card.getProjectiles().stream().toList().size()==3);
+
+        System.out.println("Ship after the attack:");
+        ship.printBoard();
+    }
+    private void assertComponentNotDestroyedAt(List<Integer> coords, ShipManager ship, String label) {
+        System.out.println(label + ": " + coords);
+    
+        try {
+            int row = coords.get(0);
+            int col = coords.get(1);
+    
+            if (!ship.isOutside(row, col)) {
+                assertTrue(ship.getComponent(row, col).isPresent(), "Expected component to not be destroyed at " + coords);
+                System.out.println("The component survived the attack at: " + coords);
+            }
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("The shot missed the ship");
+        }
     }
 
     @Test
-    void leaderPlaysCardTest() {
-        initializeProjectileTest();
+    void playerShootsAtMeteorDoubleCannonTest() {
+         assertEquals(BigMeteorState.class, card.getCurrentState().getClass());
 
-        assertEquals(BigMeteorState.class, card.getCurrentState().getClass());
-        card.shootAtMeteorWith(List.of(6,5),List.of(9,5));
-        assertEquals(SmallMeteorState.class, card.getCurrentState().getClass());
-        HashMap<List<Integer>,List<Integer>> shieldBattery = new HashMap<>();
-        Player currentPlayer = card.getPlayer();
-        shieldBattery.put(List.of(8,10),List.of(9,5));
-        card.activateShields(shieldBattery);
-        currentPlayer.getShipManager().printBoard();
-        assertEquals(SmallMeteorState.class, card.getCurrentState().getClass());
-        card.activateNoShield();
-        assertNotEquals(currentPlayer, card.getPlayer());
+        List<Integer> cannonCoord = List.of(6, 5);
+        List<Integer> batteryCoord = List.of(9, 5);
+        Projectile meteor = card.getCurrentMeteor();
+        List<Integer> aimedCoords = card.getAimedCoordsByProjectile(meteor);
+
+        ShipManager ship = player1.getShipManager();
+        ship.printBoard();
+
+        if (aimedCoords.get(1) == cannonCoord.get(1)) {
+            card.shootAtMeteorWith(cannonCoord, batteryCoord);
+            System.out.println("The cannon shot the meteor");
+            assertComponentNotDestroyedAt(aimedCoords, ship, meteor.getSize().toString());
+        } else {
+            System.out.println(meteor.getSize().toString() + ": " + aimedCoords);
+            assertThrows(InvalidActionException.class, () -> card.shootAtMeteorWith(cannonCoord));
+        }
+
+        System.out.println("Ship after the attack:");
+        ship.printBoard();
     }
 
-    private void playCard(){
-        assertEquals(BigMeteorState.class, card.getCurrentState().getClass());
-        card.noShootAtMeteorWith();
-        assertEquals(SmallMeteorState.class, card.getCurrentState().getClass());
-        card.activateNoShield();
-        assertEquals(SmallMeteorState.class, card.getCurrentState().getClass());
-        card.activateNoShield();
-    }
-
-/*
     @Test
-    void allPlayerCardTest() {
-        leaderPlaysCardTest();
+    void playerDoesNotShootAtMeteorTest() {
+        assertEquals(BigMeteorState.class, card.getCurrentState().getClass());
 
-        playCard();
-        playCard();
-        playCard();
+        Projectile meteor = card.getCurrentMeteor();
+        List<Integer> aimedCoords = card.getAimedCoordsByProjectile(meteor);
+
+        ShipManager ship = player1.getShipManager();
+        ship.printBoard();
+
+        card.notShootAtMeteor();
+
+        assertComponentDestroyedAt(aimedCoords, ship, meteor.getSize().toString());
+
+        System.out.println("Ship after the attack:");
+        ship.printBoard();
+    }
+    private void assertComponentDestroyedAt(List<Integer> coords, ShipManager ship, String label) {
+        System.out.println(label + ": " + coords);
+    
+        try {
+            int row = coords.get(0);
+            int col = coords.get(1);
+    
+            if (!ship.isOutside(row, col)) {
+                assertTrue(ship.getComponent(row, col).isEmpty(), "Expected component to be destroyed at " + coords);
+                System.out.println("The shot destroyed the component at " + coords);
+            }
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("The shot missed the ship");
+        }
+    }
+
+    @Test
+    void playerActivatesShieldTest() {
+        playerDoesNotShootAtMeteorTest();
+
+        assertEquals(SmallMeteorState.class, card.getCurrentState().getClass());
+
+        Projectile meteor = card.getCurrentMeteor();
+        List<Integer> aimedCoords = card.getAimedCoordsByProjectile(meteor);
+
+        ShipManager ship = player1.getShipManager();
+        ship.printBoard();
+
+        HashMap<List<Integer>, List<Integer>> selectedShieldAndBatteries = new HashMap<>();
+        selectedShieldAndBatteries.put(List.of(8, 10), List.of(9, 5));
+        card.activateShields(selectedShieldAndBatteries);
+
+        assertComponentProtectedAt(aimedCoords, ship, meteor.getSize().toString());
+
+        System.out.println("Ship after the attack:");
+        ship.printBoard();
+    }
+    private void assertComponentProtectedAt(List<Integer> coords, ShipManager ship, String label) {
+        System.out.println(label + ": " + coords);
+    
+        try {
+            int row = coords.get(0);
+            int col = coords.get(1);
+    
+            if (!ship.isOutside(row, col)) {
+                assertTrue(ship.getComponent(row, col).isPresent(), "Expected component to be protected at " + coords);
+                System.out.println("Shield protected the ship at " + coords);
+            }
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("The shot missed the ship");
+        }
+    }
+
+    @Test
+    void playerDoesNotActivateShieldTest() {
+         playerDoesNotShootAtMeteorTest();
+
+        assertEquals(SmallMeteorState.class, card.getCurrentState().getClass());
+
+        Projectile meteor = card.getCurrentMeteor();
+        List<Integer> aimedCoords = card.getAimedCoordsByProjectile(meteor);
+
+        ShipManager ship = player1.getShipManager();
+        ship.printBoard();
+
+        boolean exposedConnectors = hasExposedConnector(ship, aimedCoords.get(0), aimedCoords.get(1), meteor.getDirection());
+
+        card.activateNoShield();
+
+        if (exposedConnectors) {
+            System.out.println("The component had exposed connectors");
+            assertComponentDestroyedAt(aimedCoords, ship, meteor.getSize().toString());
+        } else {
+            assertComponentNotDestroyedAt(aimedCoords, ship, meteor.getSize().toString());
+        }
+
+        System.out.println("Ship after the attack:");
+        ship.printBoard();
+    }
+    private boolean hasExposedConnector(ShipManager ship, int row, int column, Direction direction) {
+        try {
+            return ship.hasExposedConnectorAtDirection(row, column, direction.reverse());
+        } catch (IndexOutOfBoundsException e) {
+            return false;
+        }
+    }
+
+    @Test
+    void endStateTest() {
+        assertEquals(player1, card.getPlayer());
+        card.notShootAtMeteor();
+        card.activateNoShield();
+        card.activateNoShield();
+
+        assertEquals(player2, card.getPlayer());
+        card.notShootAtMeteor();
+        card.activateNoShield();
+        card.activateNoShield();
+
+        assertEquals(player3, card.getPlayer());
+        card.notShootAtMeteor();
+        card.activateNoShield();
+        card.activateNoShield();
+
+        assertEquals(player4, card.getPlayer());
+        card.notShootAtMeteor();
+        card.activateNoShield();
+        card.activateNoShield();
+
         assertEquals(EndState.class, card.getCurrentState().getClass());
     }
- */
 }

@@ -10,11 +10,13 @@ public class AttackState extends State {
     public void enter(StateMachine fsm) {
         MeteorSwarm card =(MeteorSwarm) fsm;
         card.attack();
+
+        fsm.changeState(new EvaluateMeteorState());
     }
 
     @Override
     public void update(StateMachine fsm) {
-        fsm.changeState(new EvaluateMeteorState());
+        
     }
 
     @Override

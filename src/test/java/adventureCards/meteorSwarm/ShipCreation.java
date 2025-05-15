@@ -42,7 +42,7 @@ public class ShipCreation {
         ship.addComponentTile(8, 9, new CabinModule(List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE)));
 
         ship.addComponentTile(6, 7, new SingleCannon(List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE)));
-        ship.addComponentTile(7, 4, new SingleCannon(List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE)));
+        ship.addComponentTile(7, 4, new SingleCannon(List.of(TileEdge.INCOMPATIBLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE)));
 
         ship.addComponentTile(6, 5, new DoubleCannon(List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE)));
         ship.addComponentTile(6, 9, new DoubleCannon(List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE)));

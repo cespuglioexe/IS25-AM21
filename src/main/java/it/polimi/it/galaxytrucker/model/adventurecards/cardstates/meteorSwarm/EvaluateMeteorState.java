@@ -1,5 +1,8 @@
 package it.polimi.it.galaxytrucker.model.adventurecards.cardstates.meteorSwarm;
 
+import java.util.Optional;
+
+import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.attack.Projectile;
 import it.polimi.it.galaxytrucker.model.adventurecards.refactored.MeteorSwarm;
 import it.polimi.it.galaxytrucker.model.design.statePattern.State;
 import it.polimi.it.galaxytrucker.model.design.statePattern.StateMachine;
@@ -9,13 +12,18 @@ public class EvaluateMeteorState extends State {
     @Override
     public void enter(StateMachine fsm)     {
         MeteorSwarm card = (MeteorSwarm) fsm;
-        card.selectMeteor();
-        if(card.getCurrentMeteor() == null)
-            fsm.changeState(new StartState());
-        else{
-            if(card.getCurrentMeteor().getSize() == ProjectileType.BIG) {
-                fsm.changeState(new BigMeteorState());
-            }else  fsm.changeState(new SmallMeteorState());
+
+        Optional<Projectile> meteor = card.nextMeteor();
+
+        if (meteor.isEmpty()) {
+            fsm.changeState(new UserSelectionState());
+            return;
+        }
+
+        if (meteor.get().getSize() == ProjectileType.BIG) {
+            fsm.changeState(new BigMeteorState());
+        } else {
+            fsm.changeState(new SmallMeteorState());
         }
     }
 

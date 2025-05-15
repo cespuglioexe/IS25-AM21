@@ -17,4 +17,8 @@ public class AimingSystem {
     public static List<Integer> aimFrom(Direction direction, ShipManager ship) {
         return strategies.get(direction).aim(ship);
     }
+
+    public static List<Integer> aimFrom(Direction direction, ShipManager ship, int coord) {
+        return strategies.get(direction).aimWithFixedCoord(ship, coord);
+    }
 }

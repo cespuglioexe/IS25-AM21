@@ -19,8 +19,8 @@ import it.polimi.it.galaxytrucker.model.utility.ProjectileType;
 
 public class MeteorSwarm extends Attack implements AdventureCard {
     private Projectile currentMeteor;
-    private Projectile meteorAttack;
     private final FlightRules flightRules;
+    private boolean shootingAtMeteor = false;
 
     public MeteorSwarm(List<Projectile> projectiles, FlightRules flightRules) {
         super(projectiles);
@@ -32,80 +32,83 @@ public class MeteorSwarm extends Attack implements AdventureCard {
         start(new StartState());
     }
 
-    public void selectPlayer(){
+    public Optional<Player> nextPlayer() {
         List<Player> players = flightRules.getPlayerOrder();
-        if(getPlayer() == null){
-            setPlayer(players.getFirst());
-            return;
-        }
-        setPlayer(nextPlayer(players).orElse(null));
-    }
+        Optional<Player> player;
 
-    private Optional<Player> nextPlayer(List<Player> players) {
-        for(int i=0;i<players.size();i++){
-            if(players.get(i).equals(getPlayer()) && (i+1) < players.size()) {
-                return Optional.of(players.get(i + 1));
-            }
+        if (playerNotSet()) {
+            player = Optional.of(players.get(0));
+            setPlayer(player.get());
+            return player;
         }
+    
+        int index = players.indexOf(getPlayer());
+        if (index != -1 && index < players.size() - 1) {
+            player = Optional.of(players.get(index + 1));
+            setPlayer(player.get());
+            return player;
+        }
+    
         return Optional.empty();
     }
+    private boolean playerNotSet() {
+        if (Optional.ofNullable(getPlayer()).isEmpty()) {
+            return true;
+        }
+        return false;
+    }
 
-    public void selectMeteor(){
+    public Optional<Projectile> nextMeteor(){
         List<Projectile> meteors = super.getProjectiles().stream().toList();
-        if(currentMeteor == null){
-            currentMeteor = meteors.getFirst();
-            meteorAttack =  currentMeteor;
-            return;
-        }
-        currentMeteor = nextMeteor(meteors).orElse(null);
-        meteorAttack =  currentMeteor;
-    }
+        Optional<Projectile> meteor;
 
-    private Optional<Projectile> nextMeteor(List<Projectile> meteors) {
-        for(int i=0;i<meteors.size();i++){
-            if(meteors.get(i).equals(currentMeteor) && (i+1) <  meteors.size()) {
-                return Optional.of(meteors.get(i + 1));
-            }
+        if (meterNotSet()) {
+            meteor = Optional.of(meteors.get(0));
+            currentMeteor = meteor.get();
+            return meteor;
         }
+
+        int index = meteors.indexOf(currentMeteor);
+        if (index != -1 && index < meteors.size() - 1) {
+            meteor = Optional.of(meteors.get(index + 1));
+            currentMeteor = meteor.get();
+            return meteor;
+        }
+
+        currentMeteor = null;
         return Optional.empty();
+    }
+    private boolean meterNotSet() {
+        if (Optional.ofNullable(currentMeteor).isEmpty()) {
+            return true;
+        }
+        return false;
     }
 
     public Projectile getCurrentMeteor() {
         return currentMeteor;
     }
 
-    public Projectile getMeteorAttack() {
-        return meteorAttack;
-    }
-
     @Override
     public void attack() {
-        List<Integer> aimedCoords = getAimedCoordsByProjectile(meteorAttack);
-        Direction direction = meteorAttack.getDirection();
+        List<Integer> aimedCoords = getAimedCoordsByProjectile(currentMeteor);
+        Direction direction = currentMeteor.getDirection();
 
-        if (meteorAttack.getSize() == ProjectileType.SMALL) {
+        if (currentMeteor.getSize() == ProjectileType.SMALL) {
             if (isShieldActivated(direction)) {
-                updateState();
                 return;
             }
             if (hasExposedConnector(aimedCoords.get(0), aimedCoords.get(1), direction)) {
                 destroyComponent(aimedCoords.get(0), aimedCoords.get(1));
             }
-            updateState();
             return;
-        }
-        destroyComponent(aimedCoords.get(0), aimedCoords.get(1));
-        updateState();
-    }
-
-    public boolean isShieldActivated(Direction direction) {
-        for (List<Integer> shieldCoord : getShieledsAndDirection().keySet()) {
-            List<Direction> coveredDirections = getShieledsAndDirection().get(shieldCoord);
-            if (coveredDirections.contains(direction)) {
-                return true;
+        } else {
+            if (!shootingAtMeteor) {
+                destroyComponent(aimedCoords.get(0), aimedCoords.get(1));
+            } else {
+                shootingAtMeteor = false;
             }
         }
-        return false;
     }
     private void destroyComponent(int row, int column) {
         ShipManager ship = getPlayer().getShipManager();
@@ -120,7 +123,11 @@ public class MeteorSwarm extends Attack implements AdventureCard {
     private boolean hasExposedConnector(int row, int column, Direction direction) {
         ShipManager ship = getPlayer().getShipManager();
         
-        return ship.hasExposedConnectorAtDirection(row, column, direction.reverse());
+        try {
+            return ship.hasExposedConnectorAtDirection(row, column, direction.reverse());
+        } catch (IndexOutOfBoundsException e) {
+            return false;
+        }
     }
 
     public void shootAtMeteorWith(List<Integer> cannonCoord) {
@@ -128,56 +135,54 @@ public class MeteorSwarm extends Attack implements AdventureCard {
 
         SingleCannon cannon = (SingleCannon) ship.getComponent(cannonCoord.get(0), cannonCoord.get(1)).get();
         Direction cannonDirection = Direction.fromInt(cannon.getRotation());
-        Direction meteorDirection = meteorAttack.getDirection();
-        List<Integer> aimedCoords = getAimedCoordsByProjectile(meteorAttack);
+        List<Integer> aimedCoords = getAimedCoordsByProjectile(currentMeteor);
 
         if (!isFacingTheMeteor(cannonDirection)) {
             throw new InvalidActionException("The cannon must face the meteor");
         }
 
-        if (meteorDirection == Direction.DOWN) {
-            int aimedColumn = aimedCoords.get(1);
-            if (cannonCoord.get(1) != aimedColumn) {
-                throw new InvalidActionException("The cannon must be in the same column of the meteor");
-            }
-        } else {
-            int aimedColumn = aimedCoords.get(1);
-            int minCannonColumn = aimedColumn - 1;
-            int maxCannonColumn = aimedColumn + 1;
-            if (cannonCoord.get(1) < minCannonColumn || cannonCoord.get(1) > maxCannonColumn) {
-                throw new InvalidActionException("The cannon must be in the range of one column from the meteor");
-            }
+        if (!isInTheSameDirection(cannonCoord, aimedCoords)) {
+            throw new InvalidActionException("The cannon must face the meteor");
         }
 
-    }
-
-    public void noShootAtMeteorWith() {
+        shootingAtMeteor = true;
         updateState();
     }
-
-
     private boolean isFacingTheMeteor(Direction direction) {
-        Direction meteorDirection = meteorAttack.getDirection();
+        Direction meteorDirection = currentMeteor.getDirection();
 
         if (direction == meteorDirection.reverse()) {
             return true;
         }
         return false;
     }
+    private boolean isInTheSameDirection(List<Integer> cannonCoord, List<Integer> meteorCoord) {
+        Direction meteorDirection = currentMeteor.getDirection();
+
+        if (meteorDirection == Direction.DOWN || meteorDirection == Direction.UP) {
+            if (cannonCoord.get(1) == meteorCoord.get(1)) {
+                return true;
+            }
+            return false;
+        }
+        if (cannonCoord.get(0) == meteorCoord.get(0)) {
+            return true;
+        }
+        return false;
+    }
+
+    public void notShootAtMeteor() {
+        updateState();
+    }
+
     public void shootAtMeteorWith(List<Integer> doubleCannonCoord, List<Integer> batteryCoord) {
         ShipManager ship = getPlayer().getShipManager();
         HashMap<List<Integer>, List<Integer>> doubleCannonAndBattery = new HashMap<>();
         doubleCannonAndBattery.put(doubleCannonCoord, batteryCoord);
 
         ship.activateComponent(doubleCannonAndBattery);
-        try{
-            shootAtMeteorWith(doubleCannonCoord);
-            meteorAttack=null;
-        }catch(InvalidActionException exception){
 
-        }
-
-        updateState();
+        shootAtMeteorWith(doubleCannonCoord);
     }
 
 }
