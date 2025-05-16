@@ -1,117 +1,122 @@
 package it.polimi.it.galaxytrucker.model.adventurecards.cards;
 
-import it.polimi.it.galaxytrucker.model.adventurecards.AdventureCard;
-import it.polimi.it.galaxytrucker.model.cardEffects.CargoPenalty;
-import it.polimi.it.galaxytrucker.model.cardEffects.CargoReward;
-import it.polimi.it.galaxytrucker.model.cardEffects.FlightDayPenalty;
-import it.polimi.it.galaxytrucker.model.managers.CargoManager;
-import it.polimi.it.galaxytrucker.model.managers.FlightBoard;
-import it.polimi.it.galaxytrucker.model.managers.Player;
-import it.polimi.it.galaxytrucker.model.utility.Cargo;
-
 import java.util.*;
 
-public class Smugglers extends AdventureCard implements CargoReward, CargoPenalty, FlightDayPenalty {
+import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.CardStateMachine;
+import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.smugglers.StartState;
+import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCard;
+import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.CargoPenalty;
+import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.CargoReward;
+import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.FlightDayPenalty;
+import it.polimi.it.galaxytrucker.model.design.strategyPattern.FlightRules;
+import it.polimi.it.galaxytrucker.model.managers.CargoManager;
+import it.polimi.it.galaxytrucker.model.managers.Player;
+import it.polimi.it.galaxytrucker.model.managers.ShipManager;
+import it.polimi.it.galaxytrucker.model.utility.Cargo;
 
-    private boolean isDefeated;
-    private CargoManager manager;
+public class Smugglers extends CardStateMachine implements AdventureCard, CargoReward, CargoPenalty, FlightDayPenalty {
+    private Player currentPlayer;
+    private double playerFirePower;
+    private int requiredFirePower;
+    private List<Cargo> cargoReward;
+    private final int cargoPenalty;
+    private final int flightDayPenalty;
 
-    public Smugglers(Optional<Integer> penalty, Optional<Integer> flightDayPenalty, Optional<Set<Cargo>> reward, int firePower, int creditReward, CargoManager manager) {
-        super(penalty, flightDayPenalty, reward,firePower, creditReward);
-        this.manager = manager;
-        this.isDefeated = false;
+    private final FlightRules flightRules;
+
+    public Smugglers(int requiredFirePower, List<Cargo> cargoReward, int cargoPenalty, int flightDayPenalty, FlightRules flightRules) {
+        this.requiredFirePower = requiredFirePower;
+        this.cargoReward = loadCargoList(cargoReward);
+        this.cargoPenalty = cargoPenalty;
+        this.flightDayPenalty = flightDayPenalty;
+        this.flightRules = flightRules;
     }
 
-    public void setDefeated(boolean defeated) {
-        isDefeated = defeated;
+    @Override
+    public void play() { start(new StartState());};
+
+    public void selectCannons(HashMap<List<Integer>, List<Integer>> doubleCannonsAndBatteries) {
+        ShipManager ship = currentPlayer.getShipManager();
+        playerFirePower += ship.activateComponent(doubleCannonsAndBatteries);
+        updateState();
+    }
+   
+    @Override
+    public List<Cargo> getCargoReward() {
+        return cargoReward;
     }
 
-    public void setPlayer(List<Player> partecipants) {
-        super.setPartecipants(partecipants);
+    private List<Cargo> loadCargoList(List<Cargo> list){
+        return new ArrayList<>(list);
     }
 
+    @Override
+    public void acceptCargo(int loadIndex,int row, int column) {
+        Cargo cargo = removeCargoFromCard(loadIndex);
+        CargoManager.manageCargoAddition(cargo, List.of(row, column), currentPlayer);
 
-    public void checkReward(Player player, FlightBoard board) {
-        if(!isDefeated) {
-            if (player.getShipManager().calculateFirePower() < super.getFirePowerRequired()) {
-                applyPenalty((Integer)super.getPenalty().orElse(0),player);
-            } else {
-                if (player.getShipManager().calculateFirePower() > super.getFirePowerRequired()) {
-                    setDefeated(true);
-                    giveCargoReward(player);
-                    applyFlightDayPenalty(board,player);
-                }
+        updateState();
+    }
+
+    @Override
+    public void discardCargo(int loadIndex) {
+        updateState();
+    }
+
+    private Cargo removeCargoFromCard(int loadIndex) {
+        List<Cargo> cargoList = cargoReward;
+        Cargo cargo = cargoList.get(loadIndex);
+        cargoList.remove(loadIndex);
+
+        return cargo;
+    }
+
+    @Override
+    public void applyCargoPenalty() {
+        CargoManager cargoManager = new CargoManager();
+        cargoManager.manageCargoDischarge(cargoPenalty, currentPlayer);
+    }
+    
+    @Override
+    public void applyFlightDayPenalty() {
+        flightRules.movePlayerBackwards(flightDayPenalty, currentPlayer);
+    }
+
+    public void setPlayer(){
+        List<Player> players = flightRules.getPlayerOrder();
+        if(currentPlayer == null){
+            currentPlayer = players.get(0);
+            return;
+        }
+        currentPlayer = nextPlayer(players).orElse(null);
+    }
+
+    public Optional<Player> nextPlayer(List<Player> players) {
+        for(int i=0;i<players.size();i++){
+            if(players.get(i).equals(currentPlayer) && (i+1) < players.size()) {
+                return Optional.of(players.get(i + 1));
             }
         }
+        return Optional.empty();
     }
 
-    @Override
-    public void applyPenalty(int penalty, Player player) {
-            manager.manageCargoDischarge(penalty, player);
+    public Player getCurrentPlayer() {
+        return currentPlayer;
     }
 
-    @Override
-    public void giveCargoReward(Player player) {
-        for(Cargo cargo : (Set<Cargo>) super.getReward().orElse(0)){
-            manager.manageCargoAddition(cargo, new ArrayList<>(), player);
-        }
+    public void setPlayerFirePower(double playerFirePower) {
+        this.playerFirePower = playerFirePower;
     }
 
-    @Override
-    public void applyFlightDayPenalty(FlightBoard board, Player player) {
-        //board.movePlayerBackwards((int)getFlightDayPenalty().orElse(0), player.getPlayerID());
+    public void setRequiredFirePower(int requiredFirePower) {
+        this.requiredFirePower = requiredFirePower;
     }
 
-
-
-    private boolean selection(Player player) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Cargo: ");
-        for (Cargo cargo : (Set<Cargo>) super.getReward().get()) {
-            System.out.print(" " + cargo.getColor());
-        }
-        System.out.println("Do you want to retire the load losing days of travel? :");
-        System.out.println("1. Yes");
-        System.out.println("2. No");
-        int choice = scanner.nextInt();
-        if(choice == 1){
-            return true;
-        }
-        return false;
+    public double getPlayerFirePower() {
+        return playerFirePower;
     }
-/*
-    @Override
-    public void play() {
 
-            System.out.println("------------------------Smugglers--------------------------");
-
-            List<Player> players = (List<Player>) super.getPartecipants().orElse(Collections.emptyList());
-            if (!players.isEmpty()) {
-
-                int lost = 0;
-
-                System.out.println("Smugglers require a firepower of" +super.getFirePowerRequired());
-                for (Player player : players) {
-
-                    if(lost == 0) {
-                        if (player.getShipManager().calculateEnginePower() < super.getFirePowerRequired()) {
-                            applyPenalty((int) super.getPenalty().orElse(0), player);
-                        } else {
-                            if (player.getShipManager().calculateEnginePower() > super.getFirePowerRequired()) {
-                                if (selection(player)) {
-                                    applyFlightDayPenalty((int) super.getFlightDayPenalty().orElse(0), player);
-                                    giveCargoReward((Set<Cargo>) super.getReward().get(), player);
-                                }
-                            }
-                            System.out.println("Player " + player.getPlayerID() + "  defeated the smugglers");
-                            lost = 1;
-                        }
-                    }
-                }
-            } else
-                System.out.println("No player can play this card");
-
+    public double getRequiredFirePower() {
+        return requiredFirePower;
     }
-*/
-
 }

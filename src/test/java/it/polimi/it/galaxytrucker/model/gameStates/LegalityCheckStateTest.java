@@ -1,5 +1,7 @@
 package it.polimi.it.galaxytrucker.model.gameStates;
 
+import it.polimi.it.galaxytrucker.model.gamestates.GameTurnStartState;
+import it.polimi.it.galaxytrucker.model.gamestates.ShipFixingState;
 import it.polimi.it.galaxytrucker.model.managers.GameManager;
 import it.polimi.it.galaxytrucker.model.managers.Player;
 import it.polimi.it.galaxytrucker.model.managers.ShipManager;
@@ -7,7 +9,6 @@ import it.polimi.it.galaxytrucker.model.utility.Color;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;

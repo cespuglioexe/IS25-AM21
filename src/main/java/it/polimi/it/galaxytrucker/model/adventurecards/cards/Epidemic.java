@@ -1,107 +1,131 @@
 package it.polimi.it.galaxytrucker.model.adventurecards.cards;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Stream;
 
-import it.polimi.it.galaxytrucker.model.adventurecards.AdventureCard;
+import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.epidemic.StartState;
+import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCard;
 import it.polimi.it.galaxytrucker.model.componenttiles.CabinModule;
 import it.polimi.it.galaxytrucker.model.componenttiles.CentralCabin;
+import it.polimi.it.galaxytrucker.model.design.strategyPattern.FlightRules;
+import it.polimi.it.galaxytrucker.exceptions.InvalidActionException;
 import it.polimi.it.galaxytrucker.model.managers.Player;
-import it.polimi.it.galaxytrucker.model.utility.Cargo;
+import it.polimi.it.galaxytrucker.model.managers.ShipManager;
+import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.CardStateMachine;
+import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.EndState;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
+/**
+ * Represents the "Epidemic" adventure card in the game Galaxy Trucker.
+ * <p>
+ * This card simulates the spread of an epidemic on each player's ship.
+ * If at least one cabin (either a CabinModule or CentralCabin) in a connected group
+ * contains crewmates, the epidemic spreads and removes crewmates from all cabins
+ * in that group.
+ * <p>
+ * The behavior is implemented using a finite state machine pattern. The card
+ * transitions through a {@link StartState} and ends in an {@link EndState}
+ * after applying the epidemic effect.
+ * 
+ * @author Stefano Carletto
+ * @version 1.0
+ *
+ * @see AdventureCard
+ * @see CardStateMachine
+ */
+public class Epidemic extends CardStateMachine implements AdventureCard {
+    private FlightRules flightRules;
 
-public class Epidemic extends AdventureCard {
-
-    public Epidemic(Optional<Integer> penalty, Optional<Integer> flightDayPenalty, Optional<Cargo> reward, int firePower, int creditReward) {
-        super(penalty, flightDayPenalty, reward,firePower, creditReward);
+    public Epidemic(FlightRules flightRules) {
+        this.flightRules = flightRules;
     }
 
-    public void setPlayer(List<Player> partecipants) {
-        super.setPartecipants(partecipants);
-    }
-
-    public void HumanRemove(Player player) {
-        int delCentre;
-        int del;
-        Set<List<Integer>> SetPositionCentre = player.getShipManager().getAllComponentsPositionOfType(CentralCabin.class);
-
-        List<Integer> positionCentre = SetPositionCentre.stream()
-                .flatMap(List::stream)
-                .collect(Collectors.toList());
-
-        delCentre=0;
-        for (List<Integer> position :  player.getShipManager().getAllComponentsPositionOfType(CabinModule.class)) {
-            del = 0;
-            if(!positionCentre.isEmpty()) {
-                if (position.get(0) == positionCentre.get(0) + 1 || position.get(0) == positionCentre.get(0) - 1) {
-                    if(del == 0 && position.get(1) == positionCentre.get(1)) {
-                        player.getShipManager().removeCrewmate(position.get(0), position.get(1));
-                        del = 1;
-                        if(delCentre==0){
-                            delCentre++;
-                            player.getShipManager().removeCrewmate(positionCentre.get(0), positionCentre.get(1));
-                        }
-                    }
-                } else{
-                    if (position.get(1) == positionCentre.get(1) + 1 || position.get(1) == positionCentre.get(1) - 1) {
-                        if(del == 0 && position.get(0) == positionCentre.get(0)) {
-                            player.getShipManager().removeCrewmate(position.get(0), position.get(1));
-                            del = 1;
-                        }
-                    }
-                }
-            }
-            for (List<Integer> support : player.getShipManager().getAllComponentsPositionOfType(CabinModule.class)) {
-                if (position.get(0) == support.get(0) + 1 || position.get(0) == support.get(0) - 1) {
-                    if(del == 0 && position.get(1) == support.get(1)) {
-                        player.getShipManager().removeCrewmate(position.get(0), position.get(1));
-                        del = 1;
-                    }
-                } else{
-                    if (position.get(1) == support.get(1) + 1 || position.get(1) == support.get(1) - 1) {
-                        if(del == 0 && position.get(0) == support.get(0)) {
-                            player.getShipManager().removeCrewmate(position.get(0), position.get(1));
-                            del = 1;
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    /*
     @Override
     public void play() {
-        System.out.println("------------------------Epidemic--------------------------");
+        start(new StartState());
+        
+        spreadEpidemy();
 
-        List<Player> players = (List<Player>) super.getPartecipants().stream().toList();
-        if (!players.isEmpty()) {
+        changeState(new EndState());     
+    }
 
-           for (Player player : players) {
-               Set<List<Integer>> SetPositionCentre = player.getShipManager().getAllComponentsPositionOfType(CentralCabin.class);
+    private void spreadEpidemy() {
+        for (Player player : flightRules.getPlayerOrder()) {
+            ShipManager ship = player.getShipManager();
 
-               List<Integer> positionCentre = SetPositionCentre.stream()
-                                                                .flatMap(List::stream)
-                                                                .collect(Collectors.toList());
-
-               for (List<Integer> position :  player.getShipManager().getAllComponentsPositionOfType(CabinModule.class)) {
-                   if(position.get(0) == positionCentre.get(0)+1 || position.get(0) == positionCentre.get(0)-1 || position.get(1) == positionCentre.get(1)+1 || position.get(1) == positionCentre.get(1)-1 ){
-                       player.getShipManager().removeCrewmate(position.get(0), position.get(1));
-                       player.getShipManager().removeCrewmate(positionCentre.get(0), positionCentre.get(1));}
-                   for (List<Integer> support :  player.getShipManager().getAllComponentsPositionOfType(CabinModule.class)) {
-                       if(position.get(0) == support.get(0)+1 || position.get(0) == support.get(0)-1 || position.get(1) == support.get(1)+1 || position.get(1) == support.get(1)-1 ){
-                           player.getShipManager().removeCrewmate(position.get(0), position.get(1));
-                           player.getShipManager().removeCrewmate(support.get(0), support.get(1));
-                       }
-                   }
-               }
-           }
-        } else {
-            System.out.println("No player can play this card");
+            removeCrewmatesNearCabins(ship);
         }
     }
-    */
+    private void removeCrewmatesNearCabins(ShipManager ship) {
+        Set<List<Integer>> cabinsCoords = new HashSet<>();
+        cabinsCoords.addAll(ship.getAllComponentsPositionOfType(CabinModule.class));
+        cabinsCoords.addAll(ship.getAllComponentsPositionOfType(CentralCabin.class));
 
+        List<Set<List<Integer>>> cabinBranches = getCabinBranches(cabinsCoords, ship);
+
+        for (Set<List<Integer>> branch : cabinBranches) {
+            removeCrewmatesFromBranchIfAnyInfected(branch, ship);
+        }
+    }
+    private List<Set<List<Integer>>> getCabinBranches(Set<List<Integer>> cabins, ShipManager ship) {
+        List<Set<List<Integer>>> cabinBranches = new ArrayList<>();
+        Set<List<Integer>> visitedCabins = new HashSet<>();
+
+        for (List<Integer> cabin : cabins) {
+            if (!visitedCabins.contains(cabin)) {
+                Set<List<Integer>> newBranch = new HashSet<>();
+
+                getBranchOfCabin(cabin, ship, newBranch);
+                visitedCabins.addAll(newBranch);
+                cabinBranches.add(newBranch);
+            }
+        }
+        return cabinBranches;
+    }
+    private void removeCrewmatesFromBranchIfAnyInfected(Set<List<Integer>> branch, ShipManager ship) {
+        if (branch.size() == 1) {
+            return;
+        }
+        for (List<Integer> cabin : branch) {
+            removeCrewmateAt(ship, cabin);
+        }
+    }
+    private void getBranchOfCabin(List<Integer> cabinCoords, ShipManager ship, Set<List<Integer>> branch) {
+        CentralCabin cabin = (CentralCabin) ship.getComponent(cabinCoords.get(0), cabinCoords.get(1)).get();
+
+        if (cabin.getCrewmates().isEmpty()) {
+            return;
+        }
+        if (branch.contains(cabinCoords)) {
+            return;
+        }
+
+        branch.add(cabinCoords);
+
+        for (List<Integer> adjacentCabin : getAdjacentCabins(ship, cabinCoords)) {
+            getBranchOfCabin(adjacentCabin, ship, branch);
+        }
+    }
+    private void removeCrewmateAt(ShipManager ship, List<Integer> pos) {
+        try {
+            ship.removeCrewmate(pos.get(0), pos.get(1));
+        } catch (InvalidActionException e) {
+            
+        }
+    }
+    private List<List<Integer>> getAdjacentCabins(ShipManager ship, List<Integer> referenceCabin) {
+        return Stream.concat(
+                ship.getAllComponentsPositionOfType(CabinModule.class).stream(),
+                ship.getAllComponentsPositionOfType(CentralCabin.class).stream()
+            )
+            .filter(cabin -> isAdjacent(cabin, referenceCabin))
+            .toList();
+    }
+    private boolean isAdjacent(List<Integer> a, List<Integer> b) {
+        int rowDiff = Math.abs(a.get(0) - b.get(0));
+        int colDiff = Math.abs(a.get(1) - b.get(1));
+        return (rowDiff == 1 && colDiff == 0) || (rowDiff == 0 && colDiff == 1);
+    }
 }

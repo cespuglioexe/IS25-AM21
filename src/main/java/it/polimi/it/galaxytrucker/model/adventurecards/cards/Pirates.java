@@ -1,88 +1,137 @@
 package it.polimi.it.galaxytrucker.model.adventurecards.cards;
 
-import it.polimi.it.galaxytrucker.model.adventurecards.AdventureCard;
-import it.polimi.it.galaxytrucker.model.cardEffects.CreditReward;
-import it.polimi.it.galaxytrucker.model.cardEffects.FlightDayPenalty;
-import it.polimi.it.galaxytrucker.model.componenttiles.ComponentTile;
-import it.polimi.it.galaxytrucker.model.componenttiles.Shield;
-import it.polimi.it.galaxytrucker.model.managers.FlightBoard;
-import it.polimi.it.galaxytrucker.model.managers.Player;
-import it.polimi.it.galaxytrucker.model.utility.Direction;
-import it.polimi.it.galaxytrucker.model.utility.Projectile;
-
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
-public class Pirates extends AdventureCard implements FlightDayPenalty, CreditReward {
-    private List<Optional<ComponentTile>> sequence;
-    private int index, line;
+import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.pirates.StartState;
+import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCard;
+import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.CreditReward;
+import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.FlightDayPenalty;
+import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.attack.Attack;
+import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.attack.Projectile;
+import it.polimi.it.galaxytrucker.model.design.strategyPattern.FlightRules;
+import it.polimi.it.galaxytrucker.exceptions.IllegalComponentPositionException;
+import it.polimi.it.galaxytrucker.model.managers.Player;
+import it.polimi.it.galaxytrucker.model.managers.ShipManager;
+import it.polimi.it.galaxytrucker.model.utility.Direction;
+import it.polimi.it.galaxytrucker.model.utility.ProjectileType;
 
-    public Pirates(Optional penalty, Optional flightDayPenalty, Optional reward, int firePowerRequired, int creditReward) {
-        super(penalty, flightDayPenalty, reward, firePowerRequired, creditReward);
+public class Pirates extends Attack implements AdventureCard,FlightDayPenalty, CreditReward {
+    private int firePowerRequired;
+    private int creditReward;
+    private int flightDayPenalty;
+    LinkedHashMap<Player,Double> playersAndFirePower;
+
+    private final FlightRules flightRules;
+    
+    public Pirates(int firePowerRequired, int creditReward, int flightDayPenalty, List<Projectile> projectiles, FlightRules flightRules) {
+        super(projectiles);
+        this.creditReward = creditReward;
+        this.flightDayPenalty = flightDayPenalty;
+        this.flightRules = flightRules;
+        this.firePowerRequired = firePowerRequired;
+        playersAndFirePower = new LinkedHashMap<>();
+    }
+    
+    @Override
+    public void play() {
+        start(new StartState());
     }
 
 
-    public boolean checkIfPlayerLoseToPirates(Player player){
-        return player.getShipManager().calculateFirePower() < super.getFirePowerRequired();
+    public void selectPlayer(){
+        List<Player> players = flightRules.getPlayerOrder();
+        if(super.getPlayer() == null){
+            super.setPlayer(players.getFirst());
+            return;
+        }
+        super.setPlayer(nextPlayer(players).orElse(null));
     }
 
-    public void checkComponentHit(Player player, Map<Projectile,Direction> projectile, int lines) {
-        for(Map.Entry<Projectile,Direction> entry : projectile.entrySet()){
-            if (entry.getValue() == Direction.UP || entry.getValue() == Direction.DOWN) {
-                sequence = player.getShipManager().getComponentsAtColumn(lines);
-            } else {
-                sequence = player.getShipManager().getComponentsAtRow(lines);
+    private Optional<Player> nextPlayer(List<Player> players) {
+        for(int i=0;i<players.size();i++){
+            if(players.get(i).equals(getPlayer()) && (i+1) < players.size()) {
+                return Optional.of(players.get(i + 1));
             }
+        }
+        return Optional.empty();
+    }
 
-            line = lines;
+    public LinkedHashMap<Player,Double> getPlayersAndFirePower() {
+        return this.playersAndFirePower;
+    }
 
-            index=4;
-            for (Optional<ComponentTile> c : sequence) {
-                if (c.isPresent()) {
-                    break;
+    public void selectCannons(HashMap<List<Integer>, List<Integer>> doubleCannonsAndBatteries) {
+        ShipManager ship = super.getPlayer().getShipManager();
+        double firePower = ship.activateComponent(doubleCannonsAndBatteries);
+
+        double baseFirePower = super.getPlayerFirePower();
+        firePower += baseFirePower;
+
+        playersAndFirePower.put(super.getPlayer(),firePower);
+        updateState();
+    }
+
+    public void selectNoCannons() {
+        playersAndFirePower.put(super.getPlayer(),(double)super.getPlayerFirePower());
+        updateState();
+    }
+
+    @Override
+    public void attack() {
+        for (Projectile projectile : super.getProjectiles()) {
+            List<Integer> aimedCoords = getAimedCoordsByProjectile(projectile);
+            Direction direction = projectile.getDirection();
+
+            if (projectile.getSize() == ProjectileType.SMALL) {
+                if (isShieldActivated(direction)) {
+                    continue;
                 }
-                index++;
             }
+            destroyComponent(aimedCoords.get(0), aimedCoords.get(1));
+        }
+    }
+
+    private void destroyComponent(int row, int column) {
+        ShipManager ship = getPlayer().getShipManager();
+        try {
+            ship.removeComponentTile(row, column);
+        } catch (IllegalComponentPositionException emptyTile) {
+
+        } catch (IndexOutOfBoundsException missedShot) {
 
         }
     }
 
-    public void attack(Player player, List<Shield> shieldActivated, Map<Projectile,Direction> projectile) {
-        int protect = 0;
-
-        for(Map.Entry<Projectile,Direction> entry : projectile.entrySet()){
-            for (Shield shield : shieldActivated) {
-                if(entry.getValue()== shield.getOrientation().getFirst() ||entry.getValue()== shield.getOrientation().get(1) && entry.getKey() == Projectile.SMALL){
-                    protect = 1;
-                    break;
-                }
-            }
-
-            if(protect!=1){
-                    if(entry.getValue()== Direction.UP||entry.getValue()== Direction.DOWN){
-                        destroyComponent(player,index,line);
-                    }else{
-                        destroyComponent(player,line, index);
-                    }
-            }
-        }
-
+    public int getNumberOfBoardPlayers() {
+        return flightRules.getPlayerOrder().size();
+    }
+    
+    @Override
+    public int getCreditReward() {
+        return creditReward;
     }
 
-    public void destroyComponent(Player player,int row, int col) {
-        player.getShipManager().removeComponentTile(row, col);
+    public int getFirePowerRequired() {
+        return firePowerRequired;
     }
-
 
     @Override
-    public void giveCreditReward(Player player) {
-        player.addCredits(super.getCreditReward());
+    public void applyCreditReward() {
+        getPlayer().addCredits(creditReward);
+        updateState();
     }
 
-
+    public void discardCreditReward(){
+        creditReward = 0;
+        flightDayPenalty = 0;
+        updateState();
+    }
+    
     @Override
-    public void applyFlightDayPenalty(FlightBoard fs, Player player) {
-        //fs.movePlayerBackwards((int)getFlightDayPenalty().orElse(0), player.getPlayerID());
+    public void applyFlightDayPenalty() {
+        flightRules.movePlayerBackwards(flightDayPenalty, getPlayer());
     }
 }

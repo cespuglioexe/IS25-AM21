@@ -1,9 +1,9 @@
-package it.polimi.it.galaxytrucker.model.adventurecards.cardstates.starDust;
+package it.polimi.it.galaxytrucker.model.adventurecards.cardstates.stardust;
 
-import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.starDust.EndState;
-import it.polimi.it.galaxytrucker.model.adventurecards.refactored.StarDust;
+import it.polimi.it.galaxytrucker.model.adventurecards.cards.StarDust;
 import it.polimi.it.galaxytrucker.model.design.statePattern.State;
 import it.polimi.it.galaxytrucker.model.design.statePattern.StateMachine;
+import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.EndState;
 
 public class StartState extends State {
     @Override

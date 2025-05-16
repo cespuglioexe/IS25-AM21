@@ -1,4 +1,4 @@
-package it.polimi.it.galaxytrucker.model.adventurecards.cardstates.combatZone;
+package it.polimi.it.galaxytrucker.model.adventurecards.cardstates.combatzone;
 
 import it.polimi.it.galaxytrucker.model.design.statePattern.State;
 import it.polimi.it.galaxytrucker.model.design.statePattern.StateMachine;

@@ -1,40 +1,61 @@
 package it.polimi.it.galaxytrucker.model.adventurecards.cards;
 
-import it.polimi.it.galaxytrucker.model.adventurecards.AdventureCard;
-import it.polimi.it.galaxytrucker.model.managers.FlightBoard;
+import java.util.HashMap;
+import java.util.List;
+
+import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.CardStateMachine;
+import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.openspace.StartState;
+import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCard;
+import it.polimi.it.galaxytrucker.model.design.strategyPattern.FlightRules;
 import it.polimi.it.galaxytrucker.model.managers.Player;
+import it.polimi.it.galaxytrucker.model.managers.ShipManager;
 
-import java.util.Optional;
+public class OpenSpace extends CardStateMachine implements AdventureCard {
+    private HashMap<Player, Integer> playersAndEnginePower;
 
-public class OpenSpace extends AdventureCard {
+    private FlightRules flightRules;
 
-    //
-    public OpenSpace(Optional<Integer> penalty, Optional<Integer> flightDayPenalty, Optional<Integer> reward, int firePower, int creditReward) {
-        super(penalty, flightDayPenalty, reward,firePower, creditReward);
+    public OpenSpace(FlightRules flightRules) {
+        this.flightRules = flightRules;
+        setPlayers();
     }
+    private void setPlayers() {
+        List<Player> players = flightRules.getPlayerOrder();
+        playersAndEnginePower = new HashMap<>();
 
-
-    public void travel(FlightBoard board, Player player, int enginePower) {
-        //board.movePlayerForward(enginePower,player.getPlayerID());
-    }
-
-/*
-
-    public void play() {
-        System.out.println("------------------------Open Space--------------------------");
-
-        List<Player> players = (List<Player>) super.getPartecipants().orElse(Collections.emptyList());
-        if (!players.isEmpty()) {
-
-            for (Player player : players) {
-                if(player.getShipManager().calculateEnginePower() > 0)
-                    travel((int)getReward().orElse(0), player);
-                else new GameLostException("Player "+player.getPlayerID()+" lost");
-            }
-        } else {
-            System.out.println("No player can play this card");
+        for (Player player : players) {
+            ShipManager ship = player.getShipManager();
+            playersAndEnginePower.put(player, ship.calculateEnginePower());
         }
     }
 
- */
+    @Override
+    public void play() { start(new StartState());}
+
+    public void selectEngine(Player player, HashMap<List<Integer>, List<Integer>> doubleEngineAndBatteries) {
+        ShipManager ship = player.getShipManager();
+
+        int enginePower = (int) ship.activateComponent(doubleEngineAndBatteries);
+
+        int baseEnginePower = playersAndEnginePower.get(player);
+        enginePower += baseEnginePower;
+
+        playersAndEnginePower.put(player, enginePower);
+        updateState();
+    }
+
+    public void travel() {
+        List<Player> players = flightRules.getPlayerOrder();
+
+        for (Player player : players) {
+            int enginePower = playersAndEnginePower.get(player);
+
+            flightRules.movePlayerForward(enginePower, player);
+        }
+    }
+
+    public int getNumberOfPlayer(){
+        return playersAndEnginePower.keySet().size();
+    }
+
 }

@@ -1,6 +1,7 @@
 package it.polimi.it.galaxytrucker.model.gameStates;
 
 import it.polimi.it.galaxytrucker.exceptions.InvalidFunctionCallInState;
+import it.polimi.it.galaxytrucker.model.gamestates.ConnectionState;
 import it.polimi.it.galaxytrucker.model.managers.GameManager;
 import it.polimi.it.galaxytrucker.model.managers.Player;
 import it.polimi.it.galaxytrucker.model.managers.ShipManager;

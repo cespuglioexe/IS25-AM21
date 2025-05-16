@@ -1,4 +1,4 @@
-package it.polimi.it.galaxytrucker.model.gameStates;
+package it.polimi.it.galaxytrucker.model.gamestates;
 
 import it.polimi.it.galaxytrucker.model.design.statePattern.StateMachine;
 

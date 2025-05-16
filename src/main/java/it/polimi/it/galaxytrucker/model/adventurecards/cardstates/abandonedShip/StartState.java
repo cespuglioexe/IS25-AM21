@@ -1,4 +1,4 @@
-package it.polimi.it.galaxytrucker.model.adventurecards.cardstates.abandonedShip;
+package it.polimi.it.galaxytrucker.model.adventurecards.cardstates.abandonedship;
 
 import it.polimi.it.galaxytrucker.model.design.statePattern.State;
 import it.polimi.it.galaxytrucker.model.design.statePattern.StateMachine;

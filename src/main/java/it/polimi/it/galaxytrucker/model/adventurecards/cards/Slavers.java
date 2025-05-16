@@ -1,125 +1,128 @@
 package it.polimi.it.galaxytrucker.model.adventurecards.cards;
 
-import it.polimi.it.galaxytrucker.model.adventurecards.AdventureCard;
-import it.polimi.it.galaxytrucker.model.cardEffects.CreditReward;
-import it.polimi.it.galaxytrucker.model.cardEffects.CrewmatePenalty;
-import it.polimi.it.galaxytrucker.model.cardEffects.FlightDayPenalty;
-import it.polimi.it.galaxytrucker.model.managers.FlightBoard;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Optional;
+
+import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.CardStateMachine;
+import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.slavers.StartState;
+import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCard;
+import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.CreditReward;
+import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.CrewmatePenalty;
+import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.FlightDayPenalty;
+import it.polimi.it.galaxytrucker.model.design.strategyPattern.FlightRules;
+import it.polimi.it.galaxytrucker.exceptions.InvalidActionException;
 import it.polimi.it.galaxytrucker.model.managers.Player;
-import it.polimi.it.galaxytrucker.model.utility.Cargo;
+import it.polimi.it.galaxytrucker.model.managers.ShipManager;
 
-import java.util.*;
+public class Slavers extends CardStateMachine implements AdventureCard, CreditReward, CrewmatePenalty, FlightDayPenalty {
+    private Player currentPlayer;
+    private double playerFirePower;
+    private double requiredFirePower;
+    private int creditReward;
+    private int crewmatePenalty;
+    private int flightDayPenalty;
 
-public class Slavers extends AdventureCard implements FlightDayPenalty, CreditReward, CrewmatePenalty {
-    private boolean isDefeated;
+    private FlightRules flightRules;
 
-    public Slavers(Optional<Integer> penalty, Optional<Integer> flightDayPenalty, Optional<Integer> reward, int firePower, int creditReward) {
-        super(penalty, flightDayPenalty, reward,firePower, creditReward);
-        this.isDefeated = false;
+    public Slavers(int creditReward, int crewmatePenalty, int flightDayPenalty, double requiredFirePower, FlightRules flightRules) {
+        this.creditReward = creditReward;
+        this.crewmatePenalty = crewmatePenalty;
+        this.flightDayPenalty = flightDayPenalty;
+        this.flightRules = flightRules;
+        this.requiredFirePower = requiredFirePower;
     }
 
-    public boolean isDefeated() {
-        return isDefeated;
+    @Override
+    public void play() { start(new StartState());};
+
+    public void selectCannons(HashMap<List<Integer>, List<Integer>> doubleCannonsAndBatteries) {
+        ShipManager ship = currentPlayer.getShipManager();
+        playerFirePower += ship.activateComponent(doubleCannonsAndBatteries);
+        updateState();
     }
 
-    public void setDefeated(boolean defeated) {
-        isDefeated = defeated;
+    @Override
+    public int getCreditReward() {
+        return creditReward;
     }
 
-    public void setPlayer(List<Player> partecipants) {
-        super.setPartecipants(partecipants);
+    @Override
+    public void applyCreditReward() {
+        currentPlayer.addCredits(creditReward);
+        updateState();
     }
 
-    public void checkReward(Player player, FlightBoard board) {
-        if(!isDefeated) {
-            if (player.getShipManager().calculateFirePower() < super.getFirePowerRequired()) {
-                applyCrewmatePenalty((Integer)super.getPenalty().orElse(0),player);
-            } else {
-                if (player.getShipManager().calculateFirePower() > super.getFirePowerRequired()) {
-                    setDefeated(true);
-                    giveCreditReward(player);
-                    applyFlightDayPenalty(board,player);
-                }
+    public void discardCreditReward(){
+        creditReward = 0;
+        flightDayPenalty = 0;
+        updateState();
+    }
+
+    public void sellSlaves(List<List<Integer>> crewmatesCoords) throws InvalidActionException {
+        if(currentPlayer.getShipManager().countCrewmates() > crewmatePenalty) {
+            if (crewmatesCoords.size() < crewmatePenalty) {
+                throw new InvalidActionException("Not enough crewmates selected");
             }
         }
-    }
-
-    @Override
-    public void giveCreditReward(Player player) {
-        player.addCredits((int)super.getCreditReward());
-    }
-
-    @Override
-    public void applyCrewmatePenalty(int penalty, Player player) {
-
-        /*
-        int[] position = new int[2];
-        position = super.getDeck().getGameManager().positionSelection(penalty,player);
-        player.getShipManager().removeCrewmate(position[0], position[1]);cv
-        */
-
-        // Ricevo coordinate e mando a shipManager che se tutto va bene elimina il crewmate
-    }
-
-    @Override
-    public void applyFlightDayPenalty(FlightBoard board, Player player) {
-        //board.movePlayerBackwards((int)getFlightDayPenalty().orElse(0), player.getPlayerID());
-    }
-
-
-
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    private boolean selection(Player player) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Cargo: ");
-        for (Cargo cargo : (Set<Cargo>) super.getReward().get()) {
-            System.out.print(" " + cargo.getColor());
+        for (List<Integer> coord : crewmatesCoords) {
+            applyCrewmatePenalty(coord.get(0), coord.get(1));
         }
-        System.out.println("Do you want to retire the load losing days of travel? :");
-        System.out.println("1. Yes");
-        System.out.println("2. No");
-
-        int choice = scanner.nextInt();
-        if(choice == 1){
-            return true;
-        }
-        return false;
+        updateState();
     }
-/*
+
     @Override
-    public void play() {
-        System.out.println("------------------------Slavers--------------------------");
+    public void applyCrewmatePenalty(int shipRow, int shipColumn) {
+        ShipManager ship = currentPlayer.getShipManager();
 
-        List<Player> players = (List<Player>) super.getPartecipants().orElse(Collections.emptyList());
-        if (!players.isEmpty()) {
+        ship.removeCrewmate(shipRow, shipColumn);
+    }
 
-            int lost = 0;
+    @Override
+    public int getCrewmatePenalty() {
+        return crewmatePenalty;
+    }
 
-            System.out.println("Slavers require a firepower of" +super.getFirePowerRequired());
-            for (Player player : players) {
+    @Override
+    public void applyFlightDayPenalty() {
+        flightRules.movePlayerBackwards(flightDayPenalty, currentPlayer);
+    }
 
-                if(lost == 0) {
-                    if (player.getShipManager().calculateEnginePower() < super.getFirePowerRequired()) {
-                        applyCrewmatePenalty((int) super.getPenalty().orElse(0), player);
-                    } else {
-                        if (player.getShipManager().calculateEnginePower() > super.getFirePowerRequired()) {
-                            if (selection(player)) {
-                                applyFlightDayPenalty((int) super.getFlightDayPenalty().orElse(0), player);
-                                giveCreditReward(super.getCreditReward(), player);
-                            }
-                        }
-                        System.out.println("Player " + player.getPlayerID() + "  defeated the slavers");
-                        lost = 1;
-                    }
-                }
+    public void setPlayer(){
+        List<Player> players = flightRules.getPlayerOrder();
+        if(currentPlayer == null){
+            currentPlayer = players.get(0);
+            return;
+        }
+        currentPlayer = nextPlayer(players).orElse(null);
+    }
+
+    private Optional<Player> nextPlayer(List<Player> players) {
+        for(int i=0;i<players.size();i++){
+            if(players.get(i).equals(currentPlayer) && (i+1) < players.size()) {
+                return Optional.of(players.get(i + 1));
             }
-        } else {
-            System.out.println("No player can play this card");
         }
+        return Optional.empty();
     }
 
- */
+    public Player getCurrentPlayer() {
+        return currentPlayer;
+    }
 
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+    public void setPlayerFirePower(double playerFirePower) {
+        this.playerFirePower = playerFirePower;
+    }
+
+    public void setRequiredFirePower(double requiredFirePower) {
+        this.requiredFirePower = requiredFirePower;
+    }
+
+    public double getPlayerFirePower() {
+        return playerFirePower;
+    }
+
+    public double getRequiredFirePower() {
+        return requiredFirePower;
+    }
 }

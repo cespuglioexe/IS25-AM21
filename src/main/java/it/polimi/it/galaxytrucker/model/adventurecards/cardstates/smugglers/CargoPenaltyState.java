@@ -1,6 +1,6 @@
 package it.polimi.it.galaxytrucker.model.adventurecards.cardstates.smugglers;
 
-import it.polimi.it.galaxytrucker.model.adventurecards.refactored.Smugglers;
+import it.polimi.it.galaxytrucker.model.adventurecards.cards.Smugglers;
 import it.polimi.it.galaxytrucker.model.design.statePattern.State;
 import it.polimi.it.galaxytrucker.model.design.statePattern.StateMachine;
 

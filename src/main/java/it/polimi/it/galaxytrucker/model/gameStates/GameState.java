@@ -1,4 +1,4 @@
-package it.polimi.it.galaxytrucker.model.gameStates;
+package it.polimi.it.galaxytrucker.model.gamestates;
 
 import java.util.List;
 import it.polimi.it.galaxytrucker.model.componenttiles.ComponentTile;

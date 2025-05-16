@@ -1,126 +1,345 @@
 package it.polimi.it.galaxytrucker.model.adventurecards.cards;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
 
-import it.polimi.it.galaxytrucker.model.adventurecards.AdventureCard;
-import it.polimi.it.galaxytrucker.model.cardEffects.CrewmatePenalty;
-import it.polimi.it.galaxytrucker.model.cardEffects.FlightDayPenalty;
-import it.polimi.it.galaxytrucker.model.componenttiles.ComponentTile;
-import it.polimi.it.galaxytrucker.model.componenttiles.Shield;
-import it.polimi.it.galaxytrucker.model.managers.FlightBoard;
+import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.CardStateMachine;
+import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.combatzone.StartState;
+import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCard;
+import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.CrewmatePenalty;
+import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.FlightDayPenalty;
+import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.attack.Attack;
+import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.attack.Projectile;
+import it.polimi.it.galaxytrucker.model.design.strategyPattern.FlightRules;
 import it.polimi.it.galaxytrucker.model.managers.Player;
+import it.polimi.it.galaxytrucker.model.managers.ShipManager;
 import it.polimi.it.galaxytrucker.model.utility.Direction;
-import it.polimi.it.galaxytrucker.model.utility.Projectile;
+import it.polimi.it.galaxytrucker.model.utility.ProjectileType;
+import it.polimi.it.galaxytrucker.exceptions.IllegalComponentPositionException;
+import it.polimi.it.galaxytrucker.exceptions.NotFoundException;
 
-import java.util.*;
+/**
+ * Represents the "Combat Zone" adventure card in the game Galaxy Trucker.
+ * <p>
+ * It is implemented as a Finite CLIViewState Machine (FSM),
+ * transitioning through several internal states that model the card's phases.
+ * <p>
+ * In the event of ties, the player furthest ahead in flight order is affected.
+ *
+ * The card evaluates the following three criteria, one after the other:
+ * <ol>
+ *   <li><b>Crew Size Test:</b> The player with the fewest total crewmates (humans + aliens)
+ *       loses 3 flight days (is moved backwards by 3 spaces on the flight board).</li>
+ *   <li><b>Engine Power Test:</b> In flight order, players may choose to activate double engines
+ *       by spending battery tokens. The player with the lowest engine power (after activations)
+ *       must remove 2 crewmates from their ship.</li>
+ *   <li><b>Firepower Test:</b> Again in flight order, players may activate double cannons
+ *       by spending batteries. The player with the lowest firepower is targeted by two projectiles:
+ *       <ul>
+ *         <li>One small shot and one big shot, both fired from behind (upward direction on the ship).</li>
+ *         <li>The small shot can be blocked using an active shield in the correct direction
+ *             (at the cost of one battery). If not blocked, it destroys the hit component.</li>
+ *         <li>The big shot cannot be blocked. It always destroys the component it hits,
+ *             unless the shot misses the ship entirely based on the dice roll.</li>
+ *       </ul>
+ *   </li>
+ * </ol>
+ *
+ * The card is implemented as a Finite CLIViewState Machine with the following states:
+ * <pre>
+ * StartState
+ *     ↓
+ * FlightDayPenaltyState
+ *     ↓
+ * EngineSelectionState
+ *     ↓
+ * CrewmatePenaltyState
+ *     ↓
+ * CannonSelectionState
+ *     ↓
+ * AttackState
+ *     ↓
+ * EndState
+ * </pre>
+ * Each state encapsulates its own behavior and triggers a transition to the next
+ * state upon completion.
+ *
+ * <h2>Implementation Notes</h2>
+ * <ul>
+ *   <li>This class extends {@link Attack} and uses its projectile-based attack logic.</li>
+ *   <li>It implements {@link AdventureCard}, {@link FlightDayPenalty}, and {@link CrewmatePenalty}.</li>
+ * </ul>
+ * 
+ * @author Stefano Carletto
+ * @version 1.0
+ *
+ * @see AdventureCard
+ * @see Attack
+ * @see FlightDayPenalty
+ * @see CrewmatePenalty
+ * @see CardStateMachine
+ */
+public class CombatZone extends Attack implements AdventureCard, FlightDayPenalty, CrewmatePenalty {
+    private final int crewmatePenalty = 2;
+    private final int flightDayPenalty = 3;
+    private HashMap<Player, Integer> playersAndEnginePower;
+    private HashMap<Player, Double> playersAndFirePower;
 
-public class CombatZone extends AdventureCard implements FlightDayPenalty, CrewmatePenalty{
-    private final int FLYPENALTY = 3;
-    private final int CREWPENALTY = 2;;
+    private Player playerWithLeastEnginePower;
 
-    private int index,line;
+    private FlightRules flightRules;
 
-    public CombatZone(Optional penalty, Optional flightDayPenalty, Optional reward, int firePowerRequired, int creditReward) {
-        super(penalty, flightDayPenalty, reward, firePowerRequired, creditReward);
+    public CombatZone(int crewmatePenalty, int flightDayPenalty, FlightRules flightRules) {
+        super(createProjectiles());
+        this.flightRules = flightRules;
+        setPlayers();
     }
+    private void setPlayers() {
+        List<Player> players = flightRules.getPlayerOrder();
+        playersAndEnginePower = new HashMap<>();
+        playersAndFirePower = new HashMap<>();
 
-
-    public Player checkLoserEp(List<Player> players) {
-        Player loserEp = players.get(0);
-        for (int i = 1; i < players.size(); i++) {
-            if (loserEp.getShipManager().calculateEnginePower() > players.get(i).getShipManager().calculateEnginePower()) {
-                loserEp = players.get(i);
-            }
+        for (Player player : players) {
+            ShipManager ship = player.getShipManager();
+            playersAndEnginePower.put(player, ship.calculateEnginePower());
+            playersAndFirePower.put(player, ship.calculateFirePower());
         }
+    }
+    private static List<Projectile> createProjectiles() {
+        Projectile smallProjectile = new Projectile(ProjectileType.SMALL, Direction.UP);
+        Projectile bigProjectile = new Projectile(ProjectileType.BIG, Direction.UP);
 
-
-        return loserEp;
+        return List.of(smallProjectile, bigProjectile);
     }
 
-    public Player checkLoserFp(List<Player> players) {
-        Player loserFp = players.get(0);
+    @Override
+    public void play() {
+        start(new StartState());
+    }
 
-        for (int i = 1; i < players.size(); i++) {
-            if (loserFp.getShipManager().calculateFirePower() > players.get(i).getShipManager().calculateFirePower()) {
-                loserFp = players.get(i);
-            }
+    /**
+     * Identifies the player with the fewest crewmates (humans + aliens).
+     * <p>
+     * If multiple players are tied for the lowest number of crewmates,
+     * the tie is resolved by flight order: the player furthest ahead on the route
+     * is selected.
+     *
+     * @return the player with the lowest number of crewmates, breaking ties by flight order
+     */
+    public Player findPlayerWithLeastCrewmates() {
+        List<Player> players = flightRules.getPlayerOrder();
+
+        int minCrewmates = getMinimumCrewmateCount(players);
+        List<Player> playersWithLeastCrewmates = getPlayersWithCrewmatesNumber(players, minCrewmates);
+
+        if (playersWithLeastCrewmates.size() == 1) {
+            return playersWithLeastCrewmates.get(0);
         }
-
-        return loserFp;
+        return findLeadingPlayerAmong(players, playersWithLeastCrewmates);
+    }
+    private int getMinimumCrewmateCount(List<Player> players) {
+        return players.stream()
+            .mapToInt(p -> p.getShipManager().countCrewmates())
+            .min()
+            .orElseThrow(() -> new NotFoundException("No user found"));
+    }
+    private List<Player> getPlayersWithCrewmatesNumber(List<Player> players, int crewmatersNumber) {
+        return players.stream()
+            .filter(p -> p.getShipManager().countCrewmates() == crewmatersNumber)
+            .collect(Collectors.toList());
+    }
+    private Player findLeadingPlayerAmong(List<Player> playersInFlightOrder, List<Player> players) {
+        return playersInFlightOrder.stream()
+            .filter(players::contains)
+            .findFirst()
+            .orElseThrow(() -> new NotFoundException("No user found"));
     }
 
-    public Player checkLoserCm(List<Player> players) {
-        Player loserCm = players.get(0);
-        List<Player> playerList;
+    /**
+     * Determines the player with the lowest engine power.
+     * <p>
+     * If multiple players share the same minimum engine power,
+     * the tie is resolved by flight order: the player furthest ahead
+     * is selected. The resulting player is stored in {@code playerWithLeastEnginePower}
+     * for use in subsequent phases, such as applying the crewmate penalty.
+     *
+     * @return the player with the lowest engine power, with ties broken by flight order
+     */
+    public Player findPlayerWithLeastEnginePower() {
+        int minEnginePower = getMinimumEnginePower();
+        List<Player> playersWithLeastEnginePower = getPlayersWithEnginePower(minEnginePower);
 
-        for (int i = 1; i < players.size(); i++) {
-            if(players.get(i).getShipManager().countCrewmates() < loserCm.getShipManager().countCrewmates()) {
-                loserCm = players.get(i);
-            }
+        if (playersWithLeastEnginePower.size() == 1) {
+            Player player = playersWithLeastEnginePower.get(0);
+            playerWithLeastEnginePower = player;
+            return player;
         }
-
-        return loserCm;
+        Player player = findLeadingPlayerAmong(flightRules.getPlayerOrder(), playersWithLeastEnginePower);
+        playerWithLeastEnginePower = player;
+        return player;
+    }
+    private int getMinimumEnginePower() {
+        return playersAndEnginePower.keySet().stream()
+            .mapToInt(p -> playersAndEnginePower.get(p))
+            .min()
+            .orElseThrow(() -> new NotFoundException("No user found"));
+    }
+    private List<Player> getPlayersWithEnginePower(int enginePower) {
+        return playersAndEnginePower.keySet().stream()
+            .filter(p -> playersAndEnginePower.get(p) == enginePower)
+            .collect(Collectors.toList());
     }
 
-    public void checkComponentHit(Player player, Map<Projectile,Direction> projectile, int lines) {
-        List<Optional<ComponentTile>> sequence;
+    /**
+     * Determines the player with the lowest firepower.
+     * <p>
+     * If multiple players share the same minimum firepower,
+     * the tie is resolved by flight order: the player furthest ahead is selected.
+     *
+     * @return the player with the lowest firepower, with ties broken by flight order
+     */
+    public Player findPlayerWithLeastFirePower() {
+        double minFirePower = getMinimumFirePower();
+        List<Player> playersWithLeastFirePower = getPlayersWithFirePower(minFirePower);
 
+        if (playersWithLeastFirePower.size() == 0) {
+            Player player = playersWithLeastFirePower.get(0);
+            setPlayer(player);
+            return player;
+        }
+        Player player = findLeadingPlayerAmong(flightRules.getPlayerOrder(), playersWithLeastFirePower);
+        setPlayer(player);
+        return player;
+    }
+    private double getMinimumFirePower() {
+        return playersAndFirePower.keySet().stream()
+            .mapToDouble(p -> playersAndFirePower.get(p))
+            .min()
+            .orElseThrow(() -> new NotFoundException("No user found"));
+    }
+    private List<Player> getPlayersWithFirePower(double firePower) {
+        return playersAndFirePower.keySet().stream()
+            .filter(p -> playersAndFirePower.get(p) == firePower)
+            .collect(Collectors.toList());
+    }
 
-        for(Map.Entry<Projectile,Direction> entry : projectile.entrySet()){
+    /**
+     * Handles the player's selection of engines to activate for the engine power test.
+     * <p>
+     * The player may choose to activate double engines by providing a map of engine positions
+     * and the battery slots used to power them.
+     *
+     * @param player the player making the engine selection
+     * @param enginesAndBatteries a map where each key is the position of a double engine,
+     *                            and each value is the list of battery slot positions used to activate it
+     */
+    public void selectEngines(Player player, HashMap<List<Integer>, List<Integer>> enginesAndBatteries) {
+        ShipManager ship = player.getShipManager();
+        int enginePower = (int) ship.activateComponent(enginesAndBatteries);
 
-            if (entry.getValue() == Direction.UP || entry.getValue() == Direction.DOWN) {
-                sequence = player.getShipManager().getComponentsAtColumn(lines);
-            } else {
-                sequence = player.getShipManager().getComponentsAtRow(lines);
-            }
+        int baseEnginePower = playersAndEnginePower.get(player);
+        enginePower += baseEnginePower;
 
-            line = lines;
+        playersAndEnginePower.put(player, enginePower);
+        updateState();
+    }
 
-            index=4;
-            for (Optional<ComponentTile> c : sequence) {
-                if (c.isPresent()) {
-                    break;
+    /**
+     * Called when the player chooses not to activate any engines during the engine power test.
+     *
+     * @param player the player who declines to activate engines
+     */
+    public void selectNoEngines(Player player) {
+        updateState();
+    }
+
+    /**
+     * Handles the player's selection of cannons to activate for the firepower test.
+     * <p>
+     * The player may choose to activate double cannons by providing a map of cannon positions
+     * and the battery slots used to power them.
+     *
+     * @param player the player making the cannon selection
+     * @param doubleCannonsAndBatteries a map where each key is the position of a double cannon,
+     *                                  and each value is the list of battery slot positions used to activate it
+     */
+    public void selectCannons(Player player, HashMap<List<Integer>, List<Integer>> doubleCannonsAndBatteries) {
+        ShipManager ship = player.getShipManager();
+        double firePower = ship.activateComponent(doubleCannonsAndBatteries);
+
+        double baseFirePower = playersAndFirePower.get(player);
+        firePower += baseFirePower;
+
+        playersAndFirePower.put(player, firePower);
+        updateState();
+    }
+
+    /**
+     * Called when the player chooses not to activate any cannons during the firepower test.
+     * 
+     * @param player the player who declines to activate cannons
+     */
+    public void selectNoCannons(Player player) {
+        updateState();
+    }
+    
+    /**
+     * Executes the projectile attack on the player with the lowest firepower.
+     * <p>
+     * Two shots are fired from the rear of the ship: one small and one big.
+     * <ul>
+     *   <li><b>Small projectile:</b> Can be blocked if the player has an active shield facing the correct direction and a battery is spent. If blocked, the attack is skipped.</li>
+     *   <li><b>Big projectile:</b> Cannot be blocked. If the shot hits the ship, the targeted component is destroyed.</li>
+     * </ul>
+     */
+    @Override
+    public void attack() {
+        for (Projectile projectile : getProjectiles()) {
+            List<Integer> aimedCoords = aimAtCoordsWith(projectile);
+            Direction direction = projectile.getDirection();
+
+            if (projectile.getSize() == ProjectileType.SMALL) {
+                if (isShieldActivated(direction)) {
+                    continue;
                 }
-                index++;
             }
+            destroyComponent(aimedCoords.get(0), aimedCoords.get(1));
+        }
+    }
+    private void destroyComponent(int row, int column) {
+        ShipManager ship = getPlayer().getShipManager();
+        try {
+            ship.removeComponentTile(row, column);
+        } catch (IllegalComponentPositionException emptyTile) {
+
+        } catch (IndexOutOfBoundsException missedShot) {
 
         }
     }
 
-    public void attack(Player player, List<Shield> shieldActivated, Map<Projectile,Direction> projectile) {
-        int protect =0;
-
-        for(Map.Entry<Projectile,Direction> entry : projectile.entrySet()) {
-            for (Shield shield : shieldActivated) {
-                if (entry.getValue() == shield.getOrientation().getFirst() || entry.getValue() == shield.getOrientation().get(1) && entry.getKey() == Projectile.SMALL) {
-                    protect =1;
-                    break;
-                }
-            }
-
-            if(protect!=1){
-                if(entry.getValue()== Direction.UP||entry.getValue()== Direction.DOWN){
-                    destroyComponent(player,index,line);
-                }else{
-                    destroyComponent(player,line, index);
-                }
-            }
-        }
-
+    @Override
+    public int getCrewmatePenalty() {
+        return crewmatePenalty;
     }
 
-    public void destroyComponent(Player player, int row, int col) {
-         player.getShipManager().removeComponentTile(row,col);
+    @Override
+    public void applyCrewmatePenalty(int shipRow, int shipColumn) {
+        ShipManager ship = playerWithLeastEnginePower.getShipManager();
+
+        ship.removeCrewmate(shipRow, shipColumn);
+        updateState();
     }
 
 
     @Override
-    public void applyCrewmatePenalty(int penalty, Player player) {
-        player.getShipManager();
+    public void applyFlightDayPenalty() {
+        Player player = findPlayerWithLeastCrewmates();
+
+        flightRules.movePlayerBackwards(flightDayPenalty, player);
     }
 
-    @Override
-    public void applyFlightDayPenalty(FlightBoard fs, Player player) {
-        //fs.movePlayerBackwards(FLYPENALTY,player.getPlayerID());
+    public int getNumberOfBoardPlayers() {
+        return flightRules.getPlayerOrder().size();
     }
-
 }

@@ -1,8 +1,9 @@
-package it.polimi.it.galaxytrucker.model.adventurecards.cardstates.openSpace;
+package it.polimi.it.galaxytrucker.model.adventurecards.cardstates.openspace;
 
-import it.polimi.it.galaxytrucker.model.adventurecards.refactored.OpenSpace;
+import it.polimi.it.galaxytrucker.model.adventurecards.cards.OpenSpace;
 import it.polimi.it.galaxytrucker.model.design.statePattern.State;
 import it.polimi.it.galaxytrucker.model.design.statePattern.StateMachine;
+import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.EndState;
 
 public class TravelState extends State {
     @Override

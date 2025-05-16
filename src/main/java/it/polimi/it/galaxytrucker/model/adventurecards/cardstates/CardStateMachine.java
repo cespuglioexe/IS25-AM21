@@ -14,7 +14,6 @@ public class CardStateMachine extends StateMachine implements Subject {
     @Override
     public void changeState(State nextState) {
         super.changeState(nextState);
-        notifyObservers();
     }
 
     @Override
@@ -28,9 +27,9 @@ public class CardStateMachine extends StateMachine implements Subject {
     }
 
     @Override
-    public void notifyObservers() {
+    public void notifyObservers(Object event) {
         for(Observer observer : observers) {
-            observer.notify(getCurrentState().getClass().getSimpleName());
+            observer.notify(event);
         }
     }
 }

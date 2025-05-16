@@ -1,11 +1,9 @@
 package it.polimi.it.galaxytrucker.model.adventurecards.cardstates.smugglers;
 
-import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.smugglers.EndState;
-import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.smugglers.FlightDayPenaltyState;
-import it.polimi.it.galaxytrucker.model.adventurecards.refactored.AbandonedStation;
-import it.polimi.it.galaxytrucker.model.adventurecards.refactored.Smugglers;
+import it.polimi.it.galaxytrucker.model.adventurecards.cards.Smugglers;
 import it.polimi.it.galaxytrucker.model.design.statePattern.State;
 import it.polimi.it.galaxytrucker.model.design.statePattern.StateMachine;
+import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.EndState;
 
 public class CargoRewardState extends State {
     int numberCargoDecision = 0;

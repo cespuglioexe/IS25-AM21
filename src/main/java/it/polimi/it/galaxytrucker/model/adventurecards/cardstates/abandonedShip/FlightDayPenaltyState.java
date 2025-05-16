@@ -1,8 +1,9 @@
-package it.polimi.it.galaxytrucker.model.adventurecards.cardstates.abandonedShip;
+package it.polimi.it.galaxytrucker.model.adventurecards.cardstates.abandonedship;
 
-import it.polimi.it.galaxytrucker.model.adventurecards.refactored.AbandonedShip;
+import it.polimi.it.galaxytrucker.model.adventurecards.cards.AbandonedShip;
 import it.polimi.it.galaxytrucker.model.design.statePattern.State;
 import it.polimi.it.galaxytrucker.model.design.statePattern.StateMachine;
+import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.EndState;
 
 public class FlightDayPenaltyState extends State {
 

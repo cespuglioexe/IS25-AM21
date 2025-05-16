@@ -1,7 +1,7 @@
-package it.polimi.it.galaxytrucker.model.adventurecards.cardstates.meteorSwarm;
+package it.polimi.it.galaxytrucker.model.adventurecards.cardstates.meteorswarm;
 
+import it.polimi.it.galaxytrucker.model.adventurecards.cards.MeteorSwarm;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.attack.Projectile;
-import it.polimi.it.galaxytrucker.model.adventurecards.refactored.MeteorSwarm;
 import it.polimi.it.galaxytrucker.model.design.statePattern.State;
 import it.polimi.it.galaxytrucker.model.design.statePattern.StateMachine;
 

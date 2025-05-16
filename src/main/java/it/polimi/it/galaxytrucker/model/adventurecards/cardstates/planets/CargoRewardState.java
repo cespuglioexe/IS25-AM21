@@ -1,6 +1,6 @@
 package it.polimi.it.galaxytrucker.model.adventurecards.cardstates.planets;
 
-import it.polimi.it.galaxytrucker.model.adventurecards.refactored.Planets;
+import it.polimi.it.galaxytrucker.model.adventurecards.cards.Planets;
 import it.polimi.it.galaxytrucker.model.design.statePattern.State;
 import it.polimi.it.galaxytrucker.model.design.statePattern.StateMachine;
 

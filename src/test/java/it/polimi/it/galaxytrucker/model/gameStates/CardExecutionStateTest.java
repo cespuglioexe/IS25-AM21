@@ -1,9 +1,8 @@
 package it.polimi.it.galaxytrucker.model.gameStates;
 
 import it.polimi.it.galaxytrucker.model.adventurecards.AdventureDeck;
+import it.polimi.it.galaxytrucker.model.adventurecards.cards.Planets;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCard;
-import it.polimi.it.galaxytrucker.model.adventurecards.refactored.Planets;
-import it.polimi.it.galaxytrucker.model.design.strategyPattern.FlightRules;
 import it.polimi.it.galaxytrucker.model.managers.FlightBoardFlightRules;
 import it.polimi.it.galaxytrucker.model.managers.GameManager;
 import it.polimi.it.galaxytrucker.model.managers.Player;
@@ -68,6 +67,6 @@ class CardExecutionStateTest {
 
     @Test
     void cardExecutionStateTest() {
-
+        
     }
 }

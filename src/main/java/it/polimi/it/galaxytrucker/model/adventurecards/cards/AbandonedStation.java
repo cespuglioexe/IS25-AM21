@@ -1,130 +1,145 @@
 package it.polimi.it.galaxytrucker.model.adventurecards.cards;
 
-import it.polimi.it.galaxytrucker.model.adventurecards.AdventureCard;
-import it.polimi.it.galaxytrucker.model.cardEffects.CargoReward;
-import it.polimi.it.galaxytrucker.model.cardEffects.FlightDayPenalty;
-import it.polimi.it.galaxytrucker.model.cardEffects.Participation;
-import it.polimi.it.galaxytrucker.model.managers.CargoManager;
-import it.polimi.it.galaxytrucker.model.managers.FlightBoard;
-import it.polimi.it.galaxytrucker.model.managers.Player;
-import it.polimi.it.galaxytrucker.model.utility.Cargo;
-
 import java.util.*;
 
-public class AbandonedStation extends AdventureCard implements Participation, CargoReward, FlightDayPenalty {
+import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.CardStateMachine;
+import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.abandonedstation.StartState;
+import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCard;
+import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.CargoReward;
+import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.FlightDayPenalty;
+import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.Participation;
+import it.polimi.it.galaxytrucker.model.design.strategyPattern.FlightRules;
+import it.polimi.it.galaxytrucker.exceptions.InvalidActionException;
+import it.polimi.it.galaxytrucker.model.managers.CargoManager;
+import it.polimi.it.galaxytrucker.model.managers.Player;
+import it.polimi.it.galaxytrucker.model.managers.ShipManager;
+import it.polimi.it.galaxytrucker.model.utility.Cargo;
 
-    public String mosconi = "Ma che oh";
-    public boolean isTaken;
-    private CargoManager manager;
+public class AbandonedStation extends CardStateMachine implements AdventureCard, Participation<Cargo>, CargoReward, FlightDayPenalty {
+    private Optional<Player> partecipant = Optional.empty();
+    private List<Cargo> cargoReward;
+    private final int flightDayPenalty;
+    private int numberofCrewmatesRequired;
 
-    public AbandonedStation(Optional<Integer> penalty, Optional<Integer> flightDayPenalty, Optional<Set<Cargo>> reward, int firePower, int creditReward,CargoManager manager) {
-        super(penalty, flightDayPenalty, reward,firePower, creditReward);
-        this.manager = manager;
-        isTaken = false;
+    private final FlightRules flightRules;
+
+    public AbandonedStation(List<Cargo> cargoReward, int numberofCrewmatesRequired, int flightDayPenalty, FlightRules flightRules ) {
+        this.cargoReward = loadCargoList(cargoReward);
+        this.flightDayPenalty = flightDayPenalty;
+        this.flightRules = flightRules;
+        this.numberofCrewmatesRequired = numberofCrewmatesRequired;
     }
-
-    public void setPlayer(List<Player> partecipants) {
-        super.setPartecipants(partecipants);
-    }
-
+    
     @Override
-    public void addPlayer(Player player) {
-
-    }
-
-
-    public void getChoise(){
-
-    }
-
-    public void setTaken(boolean taken) {
-        isTaken = taken;
-    }
-
-    public boolean getIsTaken() {
-        return isTaken;
-    }
-
+    public void play() { start(new StartState()); }
+    
     @Override
-    public void giveCargoReward(Player player) {
-        for(Cargo cargo : (Set<Cargo>) super.getReward().orElse(0)){
-            manager.manageCargoAddition(cargo, new ArrayList<>(), player);
+    public void participate(Player player, int choice) throws InvalidActionException{
+        if (isCardOccupied()) {
+            throw new InvalidActionException("The card is occupied");
         }
+        partecipant = Optional.of(player);
+        updateState();
     }
 
-    @Override
-    public void applyFlightDayPenalty(FlightBoard board, Player player) {
-        //board.movePlayerBackwards((int)getFlightDayPenalty().orElse(0), player.getPlayerID());
+    public int getNumberofCrewmatesRequired(){
+        return numberofCrewmatesRequired;
     }
 
 
-    public void RequiredHumanVerification(FlightBoard board) {
-        for (Player player : (List<Player>)super.getPartecipants()){
-            if (!getIsTaken()) {
-                int nMin = (int) super.getPenalty().orElse(0);
-                if (player.getShipManager().countCrewmates() >= nMin) {
-                    applyFlightDayPenalty(board, player);
-                    giveCargoReward(player);
-                    setTaken(true);
-                }
-            }
+    public boolean isCardOccupied() {
+        if(partecipant.isEmpty())
+        {
+            return false;
         }
+        return true;
     }
 
-    @Override
-    public void partecipate(Player player, int choice) {
-
+    public boolean hasPlayerRequiredNumberOfCrewmates(){
+        if(!partecipant.isEmpty()) {
+            ShipManager ship = partecipant.get().getShipManager();
+            return ship.countCrewmates() >= numberofCrewmatesRequired;
+        }
+        return false;
     }
+
 
     @Override
     public void decline(Player player) {
-
+        updateState();
+    }
+    
+    @Override
+    public List<List<Cargo>> getChoices() {
+        return List.of(cargoReward);
     }
 
     @Override
-    public List<Integer> getSlots() {
-        return List.of();
+    public HashMap<Integer, Player> getTakenChoices() {
+        HashMap<Integer, Player> takenChoices = new HashMap<>();
+
+        partecipant.ifPresent(player -> takenChoices.put(0, player));
+
+        return takenChoices;
+    }
+
+    public Player getPartecipant() {
+        return partecipant.orElseThrow(() -> new IllegalStateException("No player is currently participating"));
+    }
+
+
+    /**
+     * Returns the total cargo reward collected from all selected planets.
+     *
+     * <p>This method aggregates all {@link Cargo} items available as rewards
+     * across the selected planets and returns them as a single set.</p>
+     *
+     * @return a set containing all cargo rewards from all the planets
+     */
+    @Override
+    public List<Cargo> getCargoReward() {
+        return cargoReward;
     }
 
     @Override
-    public Set getRewards() {
-        return Set.of();
+    public void acceptCargo(int loadIndex,int row, int column) {
+        Cargo cargo = removeCargoFromCard(loadIndex);
+        CargoManager.manageCargoAddition(cargo, List.of(row, column), partecipant.get());
+
+        updateState();
     }
 
-
-/*
     @Override
-    public void play() {
-        System.out.println("------------------------Abandoned Station--------------------------");
-
-        List<Player> players = (List<Player>) super.getPartecipants().orElse(Collections.emptyList());
-        if (!players.isEmpty()) {
-            int choise = 0;
-            for (Player player : players) {
-                if (choise == 0) {
-                    int nMin = (int) super.getPenalty().orElse(0);
-                    if (player.getShipManager().countCrewmates() > nMin && choise == 0) {
-                        System.out.println("Minimum number of crewmates:  " + nMin);
-                        System.out.print("Cargo: ");
-                        for (Cargo cargo : (Set<Cargo>) super.getReward().get()) {
-                            System.out.print(" " + cargo.getColor());
-                        }
-                        if (partecipate(player) == true && choise == 0) {
-                            giveCargoReward((Set<Cargo>) super.getReward().get(), player);
-                            applyFlightDayPenalty((int) super.getFlightDayPenalty().orElse(0), player);
-                            choise = 1;
-                        }
-                    } else
-                        System.out.println("Player " + player.getPlayerID() + " doesn't have the minimum number of humans");
-                }
-            }
-        } else {
-            System.out.println("No player can play this card");
-        }
-
-
-
+    public void discardCargo(int loadIndex) {
+        removeCargoFromCard(loadIndex);
+        updateState();
     }
-    */
 
+    private List<Cargo> loadCargoList(List<Cargo> list){
+        return new ArrayList<>(list);
+    }
+
+    private Cargo removeCargoFromCard(int loadIndex) {
+        List<Cargo> cargoList = cargoReward;
+        Cargo cargo = cargoList.get(loadIndex);
+        cargoList.remove(loadIndex);
+
+        return cargo;
+    }
+
+    /**
+     * Applies the flight day penalty to all players who have landed on a planet.
+     *
+     * <p>The penalty is applied in reverse player order. Each affected player
+     * is moved backwards on the flight board by a fixed number of steps
+     * defined by the flight day penalty value.</p>
+     */
+    @Override
+    public void applyFlightDayPenalty() {
+        flightRules.movePlayerBackwards(flightDayPenalty, partecipant.get());
+    }
+
+    public int getNumberOfBoardPlayers() {
+        return flightRules.getPlayerOrder().size();
+    }
 }

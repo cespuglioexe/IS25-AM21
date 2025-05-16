@@ -3,8 +3,6 @@ package it.polimi.it.galaxytrucker.model.managers;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -14,11 +12,11 @@ import it.polimi.it.galaxytrucker.listeners.Observable;
 import it.polimi.it.galaxytrucker.model.adventurecards.AdventureDeck;
 import it.polimi.it.galaxytrucker.model.componenttiles.ComponentTile;
 import it.polimi.it.galaxytrucker.model.design.statePattern.StateMachine;
+import it.polimi.it.galaxytrucker.model.gamestates.GameState;
+import it.polimi.it.galaxytrucker.model.gamestates.StartState;
 import it.polimi.it.galaxytrucker.exceptions.IllegalComponentPositionException;
 import it.polimi.it.galaxytrucker.exceptions.InvalidActionException;
 import it.polimi.it.galaxytrucker.exceptions.NotFoundException;
-import it.polimi.it.galaxytrucker.model.gameStates.GameState;
-import it.polimi.it.galaxytrucker.model.gameStates.StartState;
 import it.polimi.it.galaxytrucker.model.json.Json;
 import it.polimi.it.galaxytrucker.commands.servercommands.GameUpdate;
 import it.polimi.it.galaxytrucker.commands.servercommands.GameUpdateType;
@@ -34,8 +32,6 @@ public class GameManager extends StateMachine implements Model, Observable {
     private final AdventureDeck adventureDeck;
 
     private final List<Listener> listeners;
-
-    private ExecutorService executors = Executors.newCachedThreadPool();
 
     public GameManager(int level, int numberOfPlayers) {
         this.level = level;

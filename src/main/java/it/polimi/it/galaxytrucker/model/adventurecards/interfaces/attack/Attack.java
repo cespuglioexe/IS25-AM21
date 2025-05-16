@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.CardStateMachine;
 import it.polimi.it.galaxytrucker.model.componenttiles.Shield;
-import it.polimi.it.galaxytrucker.model.design.statePattern.StateMachine;
 import it.polimi.it.galaxytrucker.exceptions.InvalidActionException;
 import it.polimi.it.galaxytrucker.model.managers.Player;
 import it.polimi.it.galaxytrucker.model.managers.ShipManager;
@@ -49,9 +49,9 @@ import it.polimi.it.galaxytrucker.model.utility.Direction;
  * @author Stefano Carletto
  * @version 1.0
  *
- * @see StateMachine
+ * @see CardStateMachine
  */
-public abstract class Attack extends StateMachine {
+public abstract class Attack extends CardStateMachine {
     private Player player;
     private int playerFirePower;
     private HashMap<Projectile, Integer> rolledProjectileAndCoord;

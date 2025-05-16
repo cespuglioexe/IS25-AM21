@@ -1,143 +1,160 @@
 package it.polimi.it.galaxytrucker.model.adventurecards.cards;
 
-import it.polimi.it.galaxytrucker.model.adventurecards.AdventureCard;
-import it.polimi.it.galaxytrucker.model.cardEffects.CreditReward;
-import it.polimi.it.galaxytrucker.model.cardEffects.CrewmatePenalty;
-import it.polimi.it.galaxytrucker.model.cardEffects.FlightDayPenalty;
-import it.polimi.it.galaxytrucker.model.cardEffects.Participation;
-import it.polimi.it.galaxytrucker.model.managers.FlightBoard;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Optional;
+
+import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.CardStateMachine;
+import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.abandonedship.StartState;
+import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCard;
+import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.CreditReward;
+import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.CrewmatePenalty;
+import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.FlightDayPenalty;
+import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.Participation;
+import it.polimi.it.galaxytrucker.model.design.strategyPattern.FlightRules;
+import it.polimi.it.galaxytrucker.exceptions.InvalidActionException;
 import it.polimi.it.galaxytrucker.model.managers.Player;
+import it.polimi.it.galaxytrucker.model.managers.ShipManager;
 
-import java.util.*;
+/**
+ * Represents the "Abandoned Ship" adventure card in the game Galaxy Trucker.
+ * <p>
+ * This card allows players to decide whether to send a crewmember to explore a derelict ship
+ * and claim a reward in credits. Only one player can participate, and their choice comes with
+ * both a benefit and two penalties.
+ *
+ * <ul>
+ *   <li>Players are offered the opportunity to participate in salvaging the abandoned ship.</li>
+ *   <li>Only the first player to accept (in flight order) is allowed to participate.</li>
+ *   <li>The participating player receives a credit reward, but also:</li>
+ *   <ul>
+ *     <li>loses one crewmember (chosen by position), and</li>
+ *     <li>is moved backward on the flight board by a specified number of days.</li>
+ *   </ul>
+ *   <li>All other players simply are unaffected.</li>
+ * </ul>
+ *
+ * The card is implemented as a Finite CLIViewState Machine, transitioning through the following states:
+ * <pre>
+ * StartState
+ *     ↓
+ * ParticipationState
+ *     ↓
+ * CreditRewardState
+ *     ↓
+ * CrewmatePenaltyState
+ *     ↓
+ * FlightDayPenaltyState
+ *     ↓
+ * EndState
+ * </pre>
+ * Each state handles a single phase of the card's effect and transitions to the next automatically.
+ *
+ * <h2>Implementation Notes</h2>
+ * <ul>
+ *   <li>Implements {@link Participation} with a single credit-based choice.</li>
+ *   <li>Implements {@link CreditReward}, {@link CrewmatePenalty}, and {@link FlightDayPenalty}.</li>
+ * </ul>
+ * 
+ * @author Stefano Carletto
+ * @version 1.0
+ *
+ * @see AdventureCard
+ * @see Participation
+ * @see CreditReward
+ * @see CrewmatePenalty
+ * @see FlightDayPenalty
+ * @see CardStateMachine
+ */
+public class AbandonedShip extends CardStateMachine implements AdventureCard, Participation<Integer>, CreditReward, CrewmatePenalty, FlightDayPenalty {
+    private Optional<Player> partecipant = Optional.empty();
+    private int creditReward;
+    private int crewmatePenalty;
+    private int flightDayPenalty;
 
-public class AbandonedShip extends AdventureCard implements Participation, CreditReward, FlightDayPenalty, CrewmatePenalty {
+    private final FlightRules flightRules;
 
-    public boolean isTaken;
-
-    public AbandonedShip(Optional<Integer> penalty, Optional<Integer> flightDayPenalty, Optional<Integer> reward, int firePower, int creditReward) {
-        super(penalty, flightDayPenalty, reward,firePower, creditReward);
-        isTaken = false;
-    }
-
-    public void setTaken(boolean taken) {
-        isTaken = taken;
-    }
-
-    public boolean getIsTaken() {
-        return isTaken;
-    }
-
-    public void setPlayer(List<Player> partecipants) {
-        super.setPartecipants(partecipants);
+    public AbandonedShip(int creditReward, int crewmatePenalty, int flightDayPenalty, FlightRules flightRules) {
+        this.creditReward = creditReward;
+        this.crewmatePenalty = crewmatePenalty;
+        this.flightDayPenalty = flightDayPenalty;
+        this.flightRules = flightRules;
     }
 
     @Override
-    public void giveCreditReward(Player player) {
-        player.addCredits((super.getCreditReward()));
+    public void play() {
+        start(new StartState());
     }
 
     @Override
-    public void applyCrewmatePenalty(int penalty, Player player) {
-        /*
-        int[] position = new int[2];
-        position = super.getDeck().getGameManager().positionSelection(penalty,player);
-        player.getShipManager().removeCrewmate(position[0], position[1]);
-        */
-    }
-
-    @Override
-    public void applyFlightDayPenalty(FlightBoard board, Player player) {
-        //board.movePlayerBackwards((int)getFlightDayPenalty().orElse(0), player.getPlayerID());
-    }
-
-    public void RequiredHumanVerification(FlightBoard board) {
-        for (Player player : (List<Player>)super.getPartecipants()){
-            if (!getIsTaken()) {
-                int nMin = (int) super.getPenalty().orElse(0);
-                if (player.getShipManager().countCrewmates() >= nMin) {
-                    applyFlightDayPenalty(board, player);
-                    giveCreditReward(player);
-                    applyCrewmatePenalty((int)super.getPenalty().orElse(0), player);
-                    setTaken(true);
-                }
-            }
+    public void participate(Player player, int choice) throws InvalidActionException{
+        if (isCardOccupied()) {
+            throw new InvalidActionException("The card is occupied");
         }
+        partecipant = Optional.of(player);
+        updateState();
     }
-
-
-
-    public boolean partecipate(Player player) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Do you want to participate? :");
-        System.out.println("1. Yes");
-        System.out.println("2. No");
-        int choice = scanner.nextInt();
-        if(choice == 1){
-            return true;
+    private boolean isCardOccupied() {
+        if(partecipant.isEmpty())
+        {
+            return false;
         }
-        return false;
-    }
-
-    @Override
-    public void partecipate(Player player, int choice) {
-
+        return true;
     }
 
     @Override
     public void decline(Player player) {
-
+        updateState();
     }
 
     @Override
-    public List<Integer> getSlots() {
-        return List.of();
+    public HashMap<Integer, Player> getTakenChoices() {
+        HashMap<Integer, Player> takenChoices = new HashMap<>();
+
+        partecipant.ifPresent(player -> takenChoices.put(0, player));
+
+        return takenChoices;
+    }
+
+    public Player getPartecipant() {
+        return partecipant.orElseThrow(() -> 
+            new IllegalStateException("No player is currently participating"));
     }
 
     @Override
-    public Set getRewards() {
-        return Set.of();
+    public List<List<Integer>> getChoices() {
+        return List.of(List.of(creditReward));
     }
 
-
-    /*
-     * Mi arrivano i giocatori già ordinati per ordine di FlightBoard (io aggiungo i partecipanti alla carta con setPlayer()):
-     * Controllo che alla carta partecipi un Player e basta con il getter alla variabile final MAX_PARTICIPATION (choice = 0, if choice==0 ecc...)
-     * Il controller chiede alla view se vuole partecipare un determinato partecipante
-     * Di quel player viene calcolato se ha raggiunto il numero di umani richiesto
-     * Applico le penalty o reward specifiche della carta
-     * */
-/*
     @Override
-    public void play() {
-        System.out.println("------------------------Abandoned Ship--------------------------");
-
-        List<Player> players = (List<Player>) super.getPartecipants().get(1);
-        if (!players.isEmpty()) {
-            int choise = 0;
-            for (Player player : players) {
-
-                if(choise==0) {
-                    int nMin = (int)super.getPenalty().orElse(0);
-                    if (player.getShipManager().countCrewmates() > nMin) {
-
-                        System.out.println("Minimum number of crewmates:  " + nMin);
-                        System.out.print("Credits: " + getCreditReward());
-
-                        if (partecipate(player) == true) {
-                            giveCreditReward(getCreditReward(), player);
-                            applyFlightDayPenalty((int) super.getFlightDayPenalty().orElse(0), player);
-                            applyCrewmatePenalty((int) super.getPenalty().orElse(0), player);
-                            choise = 1;
-                        }
-                    } else
-                        System.out.println("Player " + player.getPlayerID() + " doesn't have the minimum number of humans");
-                }
-            }
-        } else {
-            System.out.println("No player can play this card");
-        }
+    public int getCreditReward() {
+        return creditReward;
     }
 
+    @Override
+    public void applyCreditReward() {
+        partecipant.get().addCredits(creditReward);
+    }
 
- */
+    @Override
+    public void applyCrewmatePenalty(int shipRow, int shipColumn) {
+        ShipManager ship = partecipant.get().getShipManager();
+
+        ship.removeCrewmate(shipRow, shipColumn);
+        updateState();
+    }
+
+    @Override
+    public int getCrewmatePenalty() {
+        return crewmatePenalty;
+    }
+
+    @Override
+    public void applyFlightDayPenalty() {
+        flightRules.movePlayerBackwards(flightDayPenalty, partecipant.get());
+    }
+
+    public int getNumberOfBoardPlayers() {
+        return flightRules.getPlayerOrder().size();
+    }
 }

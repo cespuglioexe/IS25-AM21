@@ -1,11 +1,12 @@
-package it.polimi.it.galaxytrucker.model.adventurecards.cardstates.meteorSwarm;
+package it.polimi.it.galaxytrucker.model.adventurecards.cardstates.meteorswarm;
 
 import java.util.Optional;
 
-import it.polimi.it.galaxytrucker.model.adventurecards.refactored.MeteorSwarm;
+import it.polimi.it.galaxytrucker.model.adventurecards.cards.MeteorSwarm;
 import it.polimi.it.galaxytrucker.model.design.statePattern.State;
 import it.polimi.it.galaxytrucker.model.design.statePattern.StateMachine;
 import it.polimi.it.galaxytrucker.model.managers.Player;
+import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.EndState;
 
 public class UserSelectionState extends State {
 
