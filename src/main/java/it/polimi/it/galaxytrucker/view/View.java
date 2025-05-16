@@ -1,12 +1,9 @@
 package it.polimi.it.galaxytrucker.view;
 
-import it.polimi.it.galaxytrucker.model.adventurecards.AdventureCardData;
 import it.polimi.it.galaxytrucker.model.componenttiles.TileData;
 import it.polimi.it.galaxytrucker.networking.client.Client;
 
-import javax.smartcardio.Card;
 import java.util.List;
-import java.util.UUID;
 
 public abstract class View {
     private Client client = null;
