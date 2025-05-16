@@ -24,9 +24,9 @@ public class TileActionState extends CLIViewState{
                 case 1:
                     System.out.println("\nWhere do you want to place the tile?");
                     System.out.print("Column> ");
-                    int x = CLIInputReader.readInt();
+                    int column = CLIInputReader.readInt();
                     System.out.print("Row> ");
-                    int y = CLIInputReader.readInt();
+                    int row = CLIInputReader.readInt();
 
                     System.out.println("\nIn which direction do you want to rotate the tile?");
                     System.out.println("[0]: ↑, [1]: →, [2]: ↓, [3]: ←");
@@ -36,7 +36,7 @@ public class TileActionState extends CLIViewState{
 
                     view.getClient().receiveUserInput(
                             new UserInput.UserInputBuilder(UserInputType.PLACE_COMPONENT)
-                                    .setCoords(x, y)
+                                    .setCoords(column, row)
                                     .setRotation(rotation)
                                     .build()
                     );

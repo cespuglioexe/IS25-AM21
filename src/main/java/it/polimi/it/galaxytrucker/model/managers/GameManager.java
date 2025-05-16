@@ -175,8 +175,9 @@ public class GameManager extends StateMachine implements Model, Observable {
             gameState.rotateComponentTile(this, playerID, row, column);
         }
 
-        updateListeners(new GameUpdate.GameUpdateBuilder(GameUpdateType.PLAYER_SHIP_UPDATED, playerID)
+        updateListeners(new GameUpdate.GameUpdateBuilder(GameUpdateType.PLAYER_SHIP_UPDATED)
                 .setShipBoard(getPlayerShip(playerID).getShipBoard())
+                .setInterestedPlayerId(playerID)
                 .build()
         );
     }
@@ -200,7 +201,7 @@ public class GameManager extends StateMachine implements Model, Observable {
         
         Player player = getPlayerByID(playerID);
         player.updateListeners(
-                new GameUpdate.GameUpdateBuilder(GameUpdateType.SAVED_COMPONENTS_UPDATED, playerID)
+                new GameUpdate.GameUpdateBuilder(GameUpdateType.SAVED_COMPONENTS_UPDATED)
                         .setTileList(player.getShipManager().getSavedComponentTiles())
                         .build()
         );
@@ -212,7 +213,7 @@ public class GameManager extends StateMachine implements Model, Observable {
         gameState.discardComponentTile(this, playerID);
 
         updateListeners(
-                new GameUpdate.GameUpdateBuilder(GameUpdateType.DISCARDED_COMPONENTS_UPDATED, new UUID(0,0))
+                new GameUpdate.GameUpdateBuilder(GameUpdateType.DISCARDED_COMPONENTS_UPDATED)
                         .setTileList(((GameState) getCurrentState()).getDiscardedComponentTiles())
                         .build()
         );
@@ -225,7 +226,7 @@ public class GameManager extends StateMachine implements Model, Observable {
 
         Player player = getPlayerByID(playerID);
         player.updateListeners(
-                new GameUpdate.GameUpdateBuilder(GameUpdateType.SAVED_COMPONENTS_UPDATED, playerID)
+                new GameUpdate.GameUpdateBuilder(GameUpdateType.SAVED_COMPONENTS_UPDATED)
                         .setTileList(player.getShipManager().getSavedComponentTiles())
                         .build()
         );
@@ -237,7 +238,7 @@ public class GameManager extends StateMachine implements Model, Observable {
         gameState.selectDiscardedComponentTile(this, playerID, index);
 
         updateListeners(
-                new GameUpdate.GameUpdateBuilder(GameUpdateType.DISCARDED_COMPONENTS_UPDATED, new UUID(0,0))
+                new GameUpdate.GameUpdateBuilder(GameUpdateType.DISCARDED_COMPONENTS_UPDATED)
                         .setTileList(((GameState) getCurrentState()).getDiscardedComponentTiles())
                         .build()
         );

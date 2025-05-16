@@ -14,7 +14,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class GameUpdate implements Serializable {
     private final GameUpdateType instructionType;
     private final UUID interestedPlayerId;
@@ -155,7 +154,7 @@ public class GameUpdate implements Serializable {
         private final GameUpdateType instructionType;
 
         // Optional fields
-        final UUID interestedPlayerId;
+        private UUID interestedPlayerId;
         private String newSate;
         private TileData newTile;
         private List<List<TileData>> shipBoard;
@@ -171,15 +170,17 @@ public class GameUpdate implements Serializable {
         private boolean successfulOperation;
         private String operationMessage;
 
-
-        // TODO: remove 'interestedPlayer' from the constructor, move it to setter function
-        public GameUpdateBuilder(GameUpdateType instructionType, UUID interestedPlayerId) {
+        public GameUpdateBuilder(GameUpdateType instructionType) {
             this.instructionType = instructionType;
-            this.interestedPlayerId = interestedPlayerId;
         }
 
         public GameUpdateBuilder setOperationMessage(String operationMessage) {
             this.operationMessage = operationMessage;
+            return this;
+        }
+
+        public GameUpdateBuilder setInterestedPlayerId(UUID interestedPlayerId) {
+            this.interestedPlayerId = interestedPlayerId;
             return this;
         }
 

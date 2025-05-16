@@ -46,7 +46,7 @@ public class Player implements Observable {
         this.heldComponent = heldComponent;
         // TODO: do in thread
         updateListeners(
-                new GameUpdate.GameUpdateBuilder(GameUpdateType.DRAWN_TILE, playerID)
+                new GameUpdate.GameUpdateBuilder(GameUpdateType.DRAWN_TILE)
                         .setNewTile(heldComponent)
                         .build()
         );

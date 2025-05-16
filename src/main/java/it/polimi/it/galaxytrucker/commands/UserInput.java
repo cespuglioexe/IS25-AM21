@@ -103,7 +103,13 @@ public class UserInput implements Serializable {
 //    public RequestType getRequestType() {
 //        return requestType;
 //    }
-    
+
+    /**
+     * Return a list of two integers, representing coordinates on a ship board.
+     * The content of the list is {@code [column, row]}.
+     *
+     * @return a {@code List<Integer>} containing 2 elements.
+     */
     public List<Integer> getCoords() {
         return coords;
     }
@@ -190,8 +196,8 @@ public class UserInput implements Serializable {
 //            return this;
 //        }
         
-        public UserInputBuilder setCoords(int x, int y) {
-            this.coords = List.of(y, x);
+        public UserInputBuilder setCoords(int column, int row) {
+            this.coords = List.of(column, row);
             return this;
         }
 

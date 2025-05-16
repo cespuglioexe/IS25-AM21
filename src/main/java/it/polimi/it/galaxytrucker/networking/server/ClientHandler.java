@@ -181,13 +181,13 @@ public class ClientHandler extends UnicastRemoteObject implements Listener, RMIV
             case SET_PLAYER_USERNAME:
                 if (server.setUsername(this, userInput.getPlayerName())) {
                     clientName = userInput.getPlayerName(); // Set local copy of the name
-                    notify(new GameUpdate.GameUpdateBuilder(GameUpdateType.SET_USERNAME_RESULT, clientUuid)
+                    notify(new GameUpdate.GameUpdateBuilder(GameUpdateType.SET_USERNAME_RESULT)
                             .setSuccessfulOperation(true)
                             .setPlayerName(userInput.getPlayerName())
                             .build()
                     );
                 } else {
-                    notify(new GameUpdate.GameUpdateBuilder(GameUpdateType.SET_USERNAME_RESULT, clientUuid)
+                    notify(new GameUpdate.GameUpdateBuilder(GameUpdateType.SET_USERNAME_RESULT)
                             .setSuccessfulOperation(false)
                             .build()
                     );
@@ -198,7 +198,7 @@ public class ClientHandler extends UnicastRemoteObject implements Listener, RMIV
                 UUID ng_gameUuid = server.createNewGame(userInput.getGamePlayers(), userInput.getGameLevel());
                 server.addPlayerToGame(this, ng_gameUuid);
 
-                notify(new GameUpdate.GameUpdateBuilder(GameUpdateType.CREATE_GAME_RESULT, clientUuid)
+                notify(new GameUpdate.GameUpdateBuilder(GameUpdateType.CREATE_GAME_RESULT)
                         .setSuccessfulOperation(true)
                         .setGameUuid(ng_gameUuid)
                         .build()
@@ -209,13 +209,13 @@ public class ClientHandler extends UnicastRemoteObject implements Listener, RMIV
                 try {
                     server.addPlayerToGame(this, userInput.getGameId());
 
-                    notify(new GameUpdate.GameUpdateBuilder(GameUpdateType.JOIN_GAME_RESULT, clientUuid)
+                    notify(new GameUpdate.GameUpdateBuilder(GameUpdateType.JOIN_GAME_RESULT)
                             .setSuccessfulOperation(true)
                             .setGameUuid(userInput.getGameId())
                             .build()
                     );
                 } catch (GameFullException e) {
-                    notify(new GameUpdate.GameUpdateBuilder(GameUpdateType.JOIN_GAME_RESULT, clientUuid)
+                    notify(new GameUpdate.GameUpdateBuilder(GameUpdateType.JOIN_GAME_RESULT)
                             .setSuccessfulOperation(false)
                             .setOperationMessage("The game was full")
                             .build()
@@ -226,7 +226,7 @@ public class ClientHandler extends UnicastRemoteObject implements Listener, RMIV
 
             case SEE_ACTIVE_GAMES:
                 List<GenericGameData> controllers = server.getActiveGames();
-                notify(new GameUpdate.GameUpdateBuilder(GameUpdateType.LIST_ACTIVE_CONTROLLERS, clientUuid)
+                notify(new GameUpdate.GameUpdateBuilder(GameUpdateType.LIST_ACTIVE_CONTROLLERS)
                         .setActiveControllers(controllers)
                         .build()
                 );
