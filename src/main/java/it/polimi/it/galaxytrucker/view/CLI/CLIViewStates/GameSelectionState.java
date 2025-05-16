@@ -18,7 +18,7 @@ public class GameSelectionState extends  CLIViewState {
     public void executeState() {
         view.executorService.submit(() -> {
             view.getClient().receiveUserInput(
-                    new UserInput.UserInputBuilder((VirtualClient) view.getClient(), UserInputType.SEE_ACTIVE_GAMES)
+                    new UserInput.UserInputBuilder(UserInputType.SEE_ACTIVE_GAMES)
                             .build()
             );
 
@@ -76,7 +76,7 @@ public class GameSelectionState extends  CLIViewState {
             }
 
             view.getClient().receiveUserInput(
-                    new UserInput.UserInputBuilder(null, UserInputType.JOIN_ACTIVE_GAME)
+                    new UserInput.UserInputBuilder(UserInputType.JOIN_ACTIVE_GAME)
                             .setGameId(activeGames.get(gameNum - 1).gameId())
                             .build());
         });

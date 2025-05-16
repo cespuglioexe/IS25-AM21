@@ -55,10 +55,10 @@ public class Server implements RMIServer, Runnable, ServerInterface {
             while ((clientSocket = this.listenSocket.accept()) != null) {
                 System.out.println(ConsoleColors.MAIN_SERVER_DEBUG + "incoming socket connection" + ConsoleColors.RESET);
 
-                InputStreamReader inReader = new InputStreamReader(clientSocket.getInputStream());
-                OutputStreamWriter outWriter = new OutputStreamWriter(clientSocket.getOutputStream());
+                InputStreamReader socketRx = new InputStreamReader(clientSocket.getInputStream());
+                OutputStreamWriter socketTx = new OutputStreamWriter(clientSocket.getOutputStream());
 
-                ClientHandler handler = new ClientHandler(this, CommunicationType.SOCKET, inReader, outWriter);
+                ClientHandler handler = new ClientHandler(this, CommunicationType.SOCKET, socketRx, socketTx);
 
                 synchronized (this.clients) {
                     clients.add(handler);

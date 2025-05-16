@@ -39,10 +39,11 @@ public class ClientApplication {
 //        else if (interfaceType.equals("gui"))
 //            view = new GUIView();
 
-        if (connectionType.equals("rmi"))
+        if (connectionType.equals("rmi")) {
             new RMIClient(view).run();
+        }
         else if (connectionType.equals("socket")) {
-            System.out.println("Insert socket server IP address: ");
+            System.out.println("Insert server IP address: ");
             String host = scanner.nextLine().trim();
 
             System.out.println("Insert port number: ");

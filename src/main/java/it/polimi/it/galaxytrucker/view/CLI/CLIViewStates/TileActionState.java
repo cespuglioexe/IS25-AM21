@@ -35,7 +35,7 @@ public class TileActionState extends CLIViewState{
                     int rotation = CLIInputReader.readInt();
 
                     view.getClient().receiveUserInput(
-                            new UserInput.UserInputBuilder((VirtualClient) view.getClient(), UserInputType.PLACE_COMPONENT)
+                            new UserInput.UserInputBuilder(UserInputType.PLACE_COMPONENT)
                                     .setCoords(x, y)
                                     .setRotation(rotation)
                                     .build()
@@ -43,14 +43,14 @@ public class TileActionState extends CLIViewState{
                     break;
                 case 2:
                     view.getClient().receiveUserInput(
-                            new UserInput.UserInputBuilder((VirtualClient) view.getClient(), UserInputType.SAVE_SELECTED_COMPONENT)
+                            new UserInput.UserInputBuilder(UserInputType.SAVE_SELECTED_COMPONENT)
                                     .build()
                     );
                     break;
                 case 3:
 
                     view.getClient().receiveUserInput(
-                            new UserInput.UserInputBuilder((VirtualClient) view.getClient(), UserInputType.DISCARD_SELECTED_COMPONENT)
+                            new UserInput.UserInputBuilder(UserInputType.DISCARD_SELECTED_COMPONENT)
                                     .build()
                     );
                     break;
@@ -64,5 +64,10 @@ public class TileActionState extends CLIViewState{
     @Override
     public void displayComponentTile(TileData newTile) {
         ((CLIView) view).printSingleComponent(newTile);
+    }
+
+    @Override
+    public void discardedComponentsUpdated() {
+        // Expected call that needs to action
     }
 }

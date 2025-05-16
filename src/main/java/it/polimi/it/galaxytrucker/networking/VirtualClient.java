@@ -6,5 +6,4 @@ import java.rmi.RemoteException;
 
 
 public interface VirtualClient {
-    void sendMessageToClient (GameUpdate update) throws Exception;
 }

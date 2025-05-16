@@ -1,5 +1,8 @@
 package it.polimi.it.galaxytrucker.commands.servercommands;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.it.galaxytrucker.controller.GenericGameData;
 import it.polimi.it.galaxytrucker.model.componenttiles.ComponentTile;
 import it.polimi.it.galaxytrucker.model.componenttiles.TileData;
@@ -11,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class GameUpdate implements Serializable {
     private final GameUpdateType instructionType;
     private final UUID interestedPlayerId;
@@ -32,6 +36,41 @@ public class GameUpdate implements Serializable {
     private final List<GenericGameData> activeControllers;
     private final boolean successfulOperation;
     private final String operationMessage;
+
+    @Deprecated
+    @JsonCreator
+    public GameUpdate(
+            @JsonProperty("instructionType") GameUpdateType instructionType,
+            @JsonProperty("interestedPlayerId") UUID interestedPlayerId,
+            @JsonProperty("newSate") String newSate,
+            @JsonProperty("playerIds") List<UUID> playerIds,
+            @JsonProperty("cardPileCompositions") List<List<Integer>> cardPileCompositions,
+            @JsonProperty("newTile") TileData newTile,
+            @JsonProperty("tileList") List<TileData> tileList,
+            @JsonProperty("shipBoard") List<List<TileData>> shipBoard,
+            @JsonProperty("allPlayerShipBoard") HashMap<UUID, List<List<TileData>>> allPlayerShipBoard,
+            @JsonProperty("playerName") String playerName,
+            @JsonProperty("gameUuid") UUID gameUuid,
+            @JsonProperty("playerUuid") UUID playerUuid,
+            @JsonProperty("activeControllers") List<GenericGameData> activeControllers,
+            @JsonProperty("successfulOperation") boolean successfulOperation,
+            @JsonProperty("operationMessage") String operationMessage) {
+        this.instructionType = instructionType;
+        this.interestedPlayerId = interestedPlayerId;
+        this.newSate = newSate;
+        this.playerIds = playerIds;
+        this.cardPileCompositions = cardPileCompositions;
+        this.newTile = newTile;
+        this.tileList = tileList;
+        this.shipBoard = shipBoard;
+        this.allPlayerShipBoard = allPlayerShipBoard;
+        this.playerName = playerName;
+        this.gameUuid = gameUuid;
+        this.playerUuid = playerUuid;
+        this.activeControllers = activeControllers;
+        this.successfulOperation = successfulOperation;
+        this.operationMessage = operationMessage;
+    }
 
     public GameUpdate(GameUpdateBuilder builder) {
         this.instructionType = builder.instructionType;
@@ -83,7 +122,7 @@ public class GameUpdate implements Serializable {
         return cardPileCompositions;
     }
 
-    public HashMap<UUID, List<List<TileData>>> getAllPlayersShipboard(){
+    public HashMap<UUID, List<List<TileData>>> getAllPlayerShipBoard(){
         return allPlayerShipBoard;
     }
 

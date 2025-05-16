@@ -10,7 +10,6 @@ import it.polimi.it.galaxytrucker.networking.client.Client;
 import it.polimi.it.galaxytrucker.networking.client.clientmodel.ClientModel;
 import it.polimi.it.galaxytrucker.networking.server.rmi.RMIServer;
 import it.polimi.it.galaxytrucker.networking.server.rmi.RMIVirtualClient;
-import it.polimi.it.galaxytrucker.view.CLI.CLIInputReader;
 import it.polimi.it.galaxytrucker.view.View;
 import it.polimi.it.galaxytrucker.view.CLI.ConsoleColors;
 
@@ -20,10 +19,8 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.*;
-import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.LinkedBlockingQueue;
 
 public class RMIClient extends UnicastRemoteObject implements RMIVirtualClient, Runnable, Client {
 
@@ -31,9 +28,7 @@ public class RMIClient extends UnicastRemoteObject implements RMIVirtualClient, 
     private RMIVirtualServer server;
     private final View view;
 
-    // private final BlockingQueue<UserInput> incomingMessageQueue = new LinkedBlockingQueue<>();
     private final ExecutorService commandSenderExecutor = Executors.newSingleThreadExecutor();
-    private final ExecutorService commandReceiverExecutor = Executors.newSingleThreadExecutor();
 
     private boolean buildingTimerIsActive;
 
@@ -84,7 +79,7 @@ public class RMIClient extends UnicastRemoteObject implements RMIVirtualClient, 
     @Override
     public void setHandler(RMIVirtualServer handler) throws RemoteException {
         server = handler;
-        receiveUserInput(new UserInput.UserInputBuilder(this, UserInputType.HANDSHAKE)
+        receiveUserInput(new UserInput.UserInputBuilder(UserInputType.HANDSHAKE)
                 .setPlayerUuid(model.getMyData().getPlayerId())
                 .build()
         );
@@ -95,84 +90,83 @@ public class RMIClient extends UnicastRemoteObject implements RMIVirtualClient, 
     @Override
     public void sendMessageToClient(GameUpdate update) throws RemoteException {
         System.out.println(ConsoleColors.CLIENT_DEBUG + "received update of type " + update.getInstructionType() + ConsoleColors.RESET);
-            switch (update.getInstructionType()) {
-                case SET_USERNAME_RESULT:
-                    if (update.isSuccessfulOperation()) {
-                        model.getMyData().setNickname(update.getPlayerName());
-                        view.gameSelectionScreen();
-                    } else {
-                        view.nameNotAvailable();
-                    }
-                    break;
+        switch (update.getInstructionType()) {
+            case SET_USERNAME_RESULT:
+                if (update.isSuccessfulOperation()) {
+                    model.getMyData().setNickname(update.getPlayerName());
+                    view.gameSelectionScreen();
+                } else {
+                    view.nameNotAvailable();
+                }
+                break;
 
-                case CREATE_GAME_RESULT:
-                    if (update.isSuccessfulOperation()) {
-                        model.getMyData().setMatchId(update.getGameUuid());
-                        try {
-                            view.gameCreationSuccess(true);
-                        } catch (InvalidFunctionCallInState e) {
-                            // This error is only thrown when creating a 1 player game
-                            // It can be ignored as it has no adverse effects
+            case CREATE_GAME_RESULT:
+                if (update.isSuccessfulOperation()) {
+                    model.getMyData().setMatchId(update.getGameUuid());
+                    try {
+                        view.gameCreationSuccess(true);
+                    } catch (InvalidFunctionCallInState e) {
+                        // This error is only thrown when creating a 1 player game
+                        // It can be ignored as it has no adverse effects
+                    }
+                } else {
+                    view.gameCreationSuccess(false);
+                }
+                break;
+
+            case JOIN_GAME_RESULT:
+                if (update.isSuccessfulOperation()) {
+                    model.getMyData().setMatchId(update.getGameUuid());
+                } else if (update.getOperationMessage().equals("The game was full")) {
+                    view.joinedGameIsFull();
+                }
+                break;
+
+            case LIST_ACTIVE_CONTROLLERS:
+                view.activeControllers(update.getActiveControllers());
+                break;
+
+            case NEW_STATE:
+                switch (update.getNewSate()) {
+                    case "BuildingState":
+                        HashMap<UUID, List<List<TileData>>> ships = update.getAllPlayerShipBoard();
+                        System.out.println(ConsoleColors.CLIENT_HANDLER_DEBUG + ships.values().toString());
+                        for (UUID playerId : ships.keySet()) {
+                            model.updatePlayerShip(playerId, ships.get(playerId));
                         }
-                    } else {
-                        view.gameCreationSuccess(false);
-                    }
-                    break;
+                        // model.setCardPiles(update.getCardPileCompositions());
 
-                case JOIN_GAME_RESULT:
-                    if (update.isSuccessfulOperation()) {
-                        model.getMyData().setMatchId(update.getGameUuid());
-                    } else if (update.getOperationMessage().equals("The game was full")) {
-                        view.joinedGameIsFull();
-                    }
-                    break;
-
-                case LIST_ACTIVE_CONTROLLERS:
-                    view.activeControllers(update.getActiveControllers());
-                    break;
-
-                case NEW_STATE:
-                    switch (update.getNewSate()) {
-                        case "BuildingState":
-                            HashMap<UUID, List<List<TileData>>> ships = update.getAllPlayersShipboard();
-                            System.out.println(ConsoleColors.CLIENT_HANDLER_DEBUG + ships.values().toString());
-                            for (UUID playerId : ships.keySet()) {
-                                model.updatePlayerShip(playerId, ships.get(playerId));
-                            }
-                            // model.setCardPiles(update.getCardPileCompositions());
-
-                            view.buildingStarted();
-                            break;
-                        default:
-                            break;
-                    }
-                    break;
-                case DRAWN_TILE:
-                    view.componentTileReceived(update.getNewTile());
-                    // view.tileActions();
-                    break;
-                case SAVED_COMPONENTS_UPDATED:
-                    model.setSavedTiles(update.getTileList());
-                    view.savedComponentsUpdated();
-                    break;
-                case DISCARDED_COMPONENTS_UPDATED:
-                    model.setDiscardedTiles(update.getTileList());
-                    view.discardedComponentsUpdated();
-                    break;
-                case PLAYER_SHIP_UPDATED:
-                    model.updatePlayerShip(update.getInterestedPlayerId(), update.getShipBoard());
-                    view.shipUpdated(update.getInterestedPlayerId());
-                    break;
-                case TIMER_START:
-                    buildingTimerIsActive = true;
-                    view.displayTimerStarted();
-                    break;
-                case TIMER_END:
-                    buildingTimerIsActive = false;
-                    view.displayTimerEnded();
-                    break;
-            }
-
+                        view.buildingStarted();
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case DRAWN_TILE:
+                view.componentTileReceived(update.getNewTile());
+                // view.tileActions();
+                break;
+            case SAVED_COMPONENTS_UPDATED:
+                model.setSavedTiles(update.getTileList());
+                view.savedComponentsUpdated();
+                break;
+            case DISCARDED_COMPONENTS_UPDATED:
+                model.setDiscardedTiles(update.getTileList());
+                view.discardedComponentsUpdated();
+                break;
+            case PLAYER_SHIP_UPDATED:
+                model.updatePlayerShip(update.getInterestedPlayerId(), update.getShipBoard());
+                view.shipUpdated(update.getInterestedPlayerId());
+                break;
+            case TIMER_START:
+                buildingTimerIsActive = true;
+                view.displayTimerStarted();
+                break;
+            case TIMER_END:
+                buildingTimerIsActive = false;
+                view.displayTimerEnded();
+                break;
+        }
     }
 
     @Override

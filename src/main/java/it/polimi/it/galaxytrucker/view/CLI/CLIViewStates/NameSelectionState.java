@@ -16,7 +16,7 @@ public class NameSelectionState extends CLIViewState {
             String name = CLIInputReader.readString();
 
             view.getClient().receiveUserInput(
-                    new UserInput.UserInputBuilder(null, UserInputType.SET_PLAYER_USERNAME)
+                    new UserInput.UserInputBuilder(UserInputType.SET_PLAYER_USERNAME)
                             .setPlayerName(name)
                             .build());
         });

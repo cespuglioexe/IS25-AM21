@@ -11,7 +11,7 @@ import java.rmi.RemoteException;
 import java.util.concurrent.BlockingQueue;
 
 public interface RMIVirtualClient extends Remote, VirtualClient {
-    @Override
+
     void sendMessageToClient(GameUpdate update) throws RemoteException;
 
     void setHandler(RMIVirtualServer handler) throws RemoteException;

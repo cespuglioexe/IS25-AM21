@@ -61,7 +61,7 @@ public class GameCreationState extends CLIViewState {
             }
 
             view.getClient().receiveUserInput(
-                    new UserInput.UserInputBuilder(null, UserInputType.CREATE_NEW_GAME)
+                    new UserInput.UserInputBuilder(UserInputType.CREATE_NEW_GAME)
                             .setGameLevel(level)
                             .setGamePlayers(playerNum)
                             .build()

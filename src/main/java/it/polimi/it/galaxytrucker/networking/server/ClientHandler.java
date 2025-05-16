@@ -21,6 +21,7 @@ import it.polimi.it.galaxytrucker.view.CLI.ConsoleColors;
 import java.io.*;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.BlockingQueue;
@@ -64,11 +65,11 @@ public class ClientHandler extends UnicastRemoteObject implements Listener, RMIV
     /**
      * Input stream used only if acting as a socket handler.
      */
-    private InputStreamReader socketInput;
+    private BufferedReader socketInput;
     /**
      * Output stream used only if acting as a socket handler.
      */
-    private OutputStreamWriter socketOutput;
+    private PrintWriter socketOutput;
 
 
     protected ClientHandler(ServerInterface server, CommunicationType communicationType, VirtualClient client) throws RemoteException {
@@ -78,11 +79,11 @@ public class ClientHandler extends UnicastRemoteObject implements Listener, RMIV
         this.communicationType = communicationType;
     }
 
-    protected ClientHandler(ServerInterface server, CommunicationType communicationType, InputStreamReader input, OutputStreamWriter output) throws RemoteException {
+    protected ClientHandler(ServerInterface server, CommunicationType communicationType, InputStreamReader socketRx, OutputStreamWriter socketTx) throws RemoteException {
         super();
         this.server = server;
-        this.socketInput = input;
-        this.socketOutput = output;
+        this.socketInput = new BufferedReader(socketRx);
+        this.socketOutput = new PrintWriter(socketTx);
         this.communicationType = communicationType;
     }
 
@@ -126,10 +127,15 @@ public class ClientHandler extends UnicastRemoteObject implements Listener, RMIV
                             }
                         }
                         case SOCKET -> {
-                            ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+                            ObjectWriter ow = new ObjectMapper().writer();
+                            HashMap<UUID, ?> map = message.getAllPlayerShipBoard();
+                            if (map != null) {
+                                map.entrySet().removeIf(entry -> entry.getKey() == null || entry.getValue() == null);
+                            }
                             try {
                                 String jsonMessage = ow.writeValueAsString(message);
-                                socketOutput.write(jsonMessage);
+                                socketOutput.println(jsonMessage);
+                                socketOutput.flush();
                             } catch (IOException e) {
                                 throw new RuntimeException(e);
                             }
@@ -150,7 +156,8 @@ public class ClientHandler extends UnicastRemoteObject implements Listener, RMIV
             new Thread(() -> {
                 while (true) {
                     try {
-                        String jsonCommand = socketInput.getEncoding();
+                        String jsonCommand = socketInput.readLine();
+                        System.out.println(ConsoleColors.CLIENT_HANDLER_DEBUG.tag(clientName) + "received command " + jsonCommand + ConsoleColors.RESET);
                         JsonNode node = Json.parse(jsonCommand);
                         UserInput command = Json.fromJson(node, UserInput.class);
 

@@ -58,7 +58,7 @@ public class BuildingMenuState extends CLIViewState {
                     switch (opt_tile) {
                         case 1:
                             view.getClient().receiveUserInput(
-                                    new UserInput.UserInputBuilder((VirtualClient) view.getClient(), UserInputType.SELECT_RANDOM_COMPONENT)
+                                    new UserInput.UserInputBuilder(UserInputType.SELECT_RANDOM_COMPONENT)
                                             .build()
                             );
                             break;
@@ -78,7 +78,7 @@ public class BuildingMenuState extends CLIViewState {
                             }
 
                             view.getClient().receiveUserInput(
-                                    new UserInput.UserInputBuilder((VirtualClient) view.getClient(), UserInputType.SELECT_SAVED_COMPONENT)
+                                    new UserInput.UserInputBuilder(UserInputType.SELECT_SAVED_COMPONENT)
                                             .setSelectedTileIndex(chosenTile)
                                             .build()
                             );
@@ -103,7 +103,7 @@ public class BuildingMenuState extends CLIViewState {
                             lookingAtDiscardedComponents = false;
 
                             view.getClient().receiveUserInput(
-                                    new UserInput.UserInputBuilder((VirtualClient) view.getClient(), UserInputType.SELECT_DISCARDED_COMPONENT)
+                                    new UserInput.UserInputBuilder(UserInputType.SELECT_DISCARDED_COMPONENT)
                                             .setSelectedTileIndex(chosenTile)
                                             .build()
                             );
@@ -129,7 +129,7 @@ public class BuildingMenuState extends CLIViewState {
                 case 3:
                     if (!view.getClient().isBuildingTimerIsActive()) {
                         view.getClient().receiveUserInput(
-                                new UserInput.UserInputBuilder((VirtualClient) view.getClient(), UserInputType.RESTART_BUILDING_TIMER)
+                                new UserInput.UserInputBuilder(UserInputType.RESTART_BUILDING_TIMER)
                                         .build()
                         );
                     }
