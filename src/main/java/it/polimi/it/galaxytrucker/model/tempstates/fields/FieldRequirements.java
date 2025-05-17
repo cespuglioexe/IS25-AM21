@@ -1,4 +1,4 @@
-package it.polimi.it.galaxytrucker.model.gamestates.fields;
+package it.polimi.it.galaxytrucker.model.tempstates.fields;
 
 import it.polimi.it.galaxytrucker.exceptions.InvalidActionException;
 import it.polimi.it.galaxytrucker.model.managers.Model;

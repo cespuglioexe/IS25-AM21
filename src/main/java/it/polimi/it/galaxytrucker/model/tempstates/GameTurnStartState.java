@@ -1,4 +1,4 @@
-package it.polimi.it.galaxytrucker.model.gamestates;
+package it.polimi.it.galaxytrucker.model.tempstates;
 
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCard;
 import it.polimi.it.galaxytrucker.model.design.statePattern.StateMachine;

@@ -1,8 +1,6 @@
-package it.polimi.it.galaxytrucker.model.gameStates;
+package it.polimi.it.galaxytrucker.model.tempstates;
 
 import it.polimi.it.galaxytrucker.model.componenttiles.ComponentTile;
-import it.polimi.it.galaxytrucker.model.gamestates.BuildingState;
-import it.polimi.it.galaxytrucker.model.gamestates.GameTurnStartState;
 import it.polimi.it.galaxytrucker.exceptions.IllegalComponentPositionException;
 import it.polimi.it.galaxytrucker.exceptions.InvalidActionException;
 import it.polimi.it.galaxytrucker.exceptions.InvalidFunctionCallInState;

@@ -1,4 +1,5 @@
-package it.polimi.it.galaxytrucker.model.gamestates;
+package it.polimi.it.galaxytrucker.model.tempstates;
+
 import it.polimi.it.galaxytrucker.commands.servercommands.GameUpdate;
 import it.polimi.it.galaxytrucker.commands.servercommands.GameUpdateType;
 import it.polimi.it.galaxytrucker.model.componenttiles.ComponentTile;

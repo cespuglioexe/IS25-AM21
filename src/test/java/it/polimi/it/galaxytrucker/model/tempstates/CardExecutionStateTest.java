@@ -1,4 +1,4 @@
-package it.polimi.it.galaxytrucker.model.gameStates;
+package it.polimi.it.galaxytrucker.model.tempstates;
 
 import it.polimi.it.galaxytrucker.model.adventurecards.AdventureDeck;
 import it.polimi.it.galaxytrucker.model.adventurecards.cards.Planets;
@@ -15,8 +15,6 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class CardExecutionStateTest {
     private GameManager gameManager;

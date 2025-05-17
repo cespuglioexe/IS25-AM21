@@ -1,8 +1,6 @@
-package it.polimi.it.galaxytrucker.model.gameStates;
+package it.polimi.it.galaxytrucker.model.tempstates;
 
 import it.polimi.it.galaxytrucker.exceptions.InvalidActionException;
-import it.polimi.it.galaxytrucker.model.gamestates.GameTurnStartState;
-import it.polimi.it.galaxytrucker.model.gamestates.ShipFixingState;
 import it.polimi.it.galaxytrucker.model.managers.GameManager;
 import it.polimi.it.galaxytrucker.model.managers.Player;
 import it.polimi.it.galaxytrucker.model.managers.ShipManager;
