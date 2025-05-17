@@ -1,7 +1,7 @@
-package it.polimi.it.galaxytrucker.model.tempstates;
+package it.polimi.it.galaxytrucker.model.gameStates;
 
 import it.polimi.it.galaxytrucker.model.design.statePattern.StateMachine;
-import it.polimi.it.galaxytrucker.model.tempstates.fields.ConnectionFields;
+import it.polimi.it.galaxytrucker.model.gameStates.fields.ConnectionFields;
 import it.polimi.it.galaxytrucker.exceptions.InvalidActionException;
 import it.polimi.it.galaxytrucker.exceptions.InvalidFunctionCallInState;
 import it.polimi.it.galaxytrucker.exceptions.NotFoundException;

@@ -1,4 +1,4 @@
-package it.polimi.it.galaxytrucker.model.tempstates.fields;
+package it.polimi.it.galaxytrucker.model.gameStates.fields;
 
 import it.polimi.it.galaxytrucker.model.managers.Model;
 
