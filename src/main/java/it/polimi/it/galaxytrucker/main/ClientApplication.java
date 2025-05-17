@@ -39,25 +39,11 @@ public class ClientApplication {
 //        else if (interfaceType.equals("gui"))
 //            view = new GUIView();
 
-        if (connectionType.equals("rmi"))
+        if (connectionType.equals("rmi")) {
             new RMIClient(view).run();
+        }
         else if (connectionType.equals("socket")) {
-            System.out.println("Insert socket server IP address: ");
-            String host = scanner.nextLine().trim();
-
-            System.out.println("Insert port number: ");
-            int port = scanner.nextInt();
-
-            try {
-                Socket serverSocket = new Socket(host, port);
-
-                InputStreamReader socketRx = new InputStreamReader(serverSocket.getInputStream());
-                OutputStreamWriter socketTx = new OutputStreamWriter(serverSocket.getOutputStream());
-
-                new SocketClient(new BufferedReader(socketRx), new BufferedWriter(socketTx), view).run();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            new SocketClient(view).run();
         }
     }
 }

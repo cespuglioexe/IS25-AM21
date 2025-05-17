@@ -2,17 +2,33 @@ package it.polimi.it.galaxytrucker.networking.client.clientmodel;
 
 import java.util.UUID;
 
+/**
+ * This class represents a collection of unique identifiers associated with
+ * a particular client connected to a server.
+ *
+ * @author giacomoamaducci
+ * @version 1.0
+ */
 public class PlayerData {
+    /**
+     * The client's nickname.
+     * Each client connected to the same server has a unique nickname.
+     */
     private String nickname;
-    private UUID playerId;
+    /**
+     * The client's unique identifier.
+     */
+    private final UUID playerId = UUID.randomUUID();
+    /**
+     * The unique identifier of the game the client is playing.
+     */
     private UUID matchId;
 
     public PlayerData() {
     }
 
-    public PlayerData(String nickname, UUID playerId, UUID matchId) {
+    public PlayerData(String nickname, UUID matchId) {
         this.nickname = nickname;
-        this.playerId = playerId;
         this.matchId = matchId;
     }
 
@@ -26,10 +42,6 @@ public class PlayerData {
 
     public String getNickname() {
         return nickname;
-    }
-
-    public void setPlayerId(UUID playerId) {
-        this.playerId = playerId;
     }
 
     public UUID getPlayerId() {
