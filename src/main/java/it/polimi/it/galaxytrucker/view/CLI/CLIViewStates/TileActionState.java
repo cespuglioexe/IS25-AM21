@@ -63,7 +63,7 @@ public class TileActionState extends CLIViewState{
 
     @Override
     public void displayComponentTile(TileData newTile) {
-        ((CLIView) view).printSingleComponent(newTile);
+        view.printSingleComponent(newTile);
     }
 
     @Override

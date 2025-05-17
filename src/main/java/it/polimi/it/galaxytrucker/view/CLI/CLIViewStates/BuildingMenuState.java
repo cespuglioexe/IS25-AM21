@@ -62,6 +62,7 @@ public class BuildingMenuState extends CLIViewState {
                                             .build()
                             );
                             break;
+
                         case 2:
                             List<TileData> savedTiles = model.getSavedTiles();
                             view.displayTiles(savedTiles);
@@ -109,11 +110,8 @@ public class BuildingMenuState extends CLIViewState {
                             );
                             break;
                     }
-
-                    currentState = new TileActionState();
-                    currentState.executeState();
-
                     break;
+
                 case 2:
                     System.out.println("Which card pile do you want to see? (1, 2, 3)");
                     System.out.print("> ");
@@ -149,7 +147,9 @@ public class BuildingMenuState extends CLIViewState {
 
     @Override
     public void displayComponentTile(TileData newTile) {
-        ((CLIView) view).printSingleComponent(newTile);
+        view.printSingleComponent(newTile);
+        currentState = new TileActionState();
+        currentState.executeState();
     }
 
     @Override

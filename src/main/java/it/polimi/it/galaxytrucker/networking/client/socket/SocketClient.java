@@ -16,35 +16,106 @@ import it.polimi.it.galaxytrucker.view.CLI.ConsoleColors;
 import it.polimi.it.galaxytrucker.view.View;
 
 import java.io.*;
+import java.net.Socket;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Scanner;
 import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * Questa classe rappresenta la logica del client implementata con tecnologia Socket.
+ * This class represents the client logic implemented using Socket technology.
+ * It handles communication with a server over a pre-established socket connection,
+ * sending user inputs and receiving game updates.
+ * <p>
+ * This client implements {@link SocketVirtualClient} (representing the client-side
+ * of a server's logical connection), {@link Runnable} to manage its listening
+ * thread, and {@link Client} to provide a standardized client interface.
+ *
+ * @author giacomoamaducci
+ * @version 1.2
  */
 public class SocketClient implements SocketVirtualClient, Runnable, Client {
-    final BufferedReader input;
-    final PrintWriter output;
+    /**
+     * Reader for receiving messages from the socket's input stream.
+     */
+    private BufferedReader input;
+    /**
+     * Writer for sending messages to the socket's output stream.
+     */
+    private PrintWriter output;
 
+    /**
+     * The client-side data model, storing the game state as perceived by this client.
+     */
     private final ClientModel model;
+    /**
+     * The user interface that this client interacts with.
+     */
     private final View view;
 
+    /**
+     * An executor service to send user input commands to the server asynchronously.
+     * This prevents blocking the main thread during network I/O operations.
+     */
     private final ExecutorService commandSenderExecutor = Executors.newSingleThreadExecutor();
 
+    /**
+     * A flag indicating whether the building phase timer is currently active.
+     * This state is usually updated based on messages from the server.
+     */
     private boolean buildingTimerIsActive;
 
-    public SocketClient(BufferedReader input, BufferedWriter output, View view) {
-        this.input = input;
-        this.output = new PrintWriter(output);
+    /**
+     * Constructs a new {@code SocketClient} instance.
+     *
+     * @param view The {@link View} implementation for user interaction.
+     */
+    public SocketClient(View view) {
         this.view = view;
         view.setClient(this);
         this.model = new ClientModel();
     }
 
+    /**
+     * Connects the client to a server socket, initializes communication streams,
+     * starts a background thread for reading server messages, sends an initial handshake,
+     * and starts the view.
+     * <p>
+     * This method prompts the user for the server IP address and port number before
+     * attempting to establish the connection. If the connection fails, it will prompt
+     * the user for the IP address and port number again until a successful connection
+     * is established.
+     * </p>
+     *
+     * @throws RuntimeException if an I/O error occurs during socket connection or stream setup.
+     */
     public void run() {
+        Scanner scanner = new Scanner(System.in);
+        boolean connected = false;
+        do {
+            System.out.println("Insert server IP address: ");
+            String host = scanner.nextLine().trim();
+
+            System.out.println("Insert port number: ");
+            int port = scanner.nextInt();
+
+            try {
+                Socket serverSocket = new Socket(host, port);
+
+                InputStreamReader socketRx = new InputStreamReader(serverSocket.getInputStream());
+                OutputStreamWriter socketTx = new OutputStreamWriter(serverSocket.getOutputStream());
+
+                this.input = new BufferedReader(socketRx);
+                this.output = new PrintWriter(socketTx);
+
+                connected = true;
+            } catch (IOException e) {
+                System.out.println(ConsoleColors.RED + "Failed to connect to " + host + ":" + port + "! Please try again." + ConsoleColors.RESET);
+            }
+        } while (!connected);
+
         new Thread(() -> {
             try {
                 serverMessageReader();
@@ -53,6 +124,7 @@ public class SocketClient implements SocketVirtualClient, Runnable, Client {
             }
         }).start();
 
+        // Send an initial handshake message.
         receiveUserInput(new UserInput.UserInputBuilder(UserInputType.HANDSHAKE)
                 .setPlayerUuid(model.getMyData().getPlayerId())
                 .build()
@@ -61,6 +133,18 @@ public class SocketClient implements SocketVirtualClient, Runnable, Client {
         view.begin();
     }
 
+    /**
+     * Reads messages from the server's input stream in a loop.
+     * Each line is expected to be a JSON string representing a {@link GameUpdate}.
+     * The JSON is parsed and the resulting command is passed to
+     * {@link #executeServerMessage(GameUpdate)} for processing.
+     * <p>
+     * This method is designed to run in its own thread. It will terminate if
+     * the input stream is closed (e.g., server disconnects) or if an
+     * {@link IOException} occurs.
+     *
+     * @throws IOException if an I/O error occurs while reading from the input stream.
+     */
     private void serverMessageReader() throws IOException {
         String line;
         while ((line = input.readLine()) != null) {
@@ -71,6 +155,12 @@ public class SocketClient implements SocketVirtualClient, Runnable, Client {
         }
     }
 
+    /**
+     * Receives a game update message from the server and processes it.
+     * The method updates the client's model and view based on the type of update received.
+     *
+     * @param update The {@link GameUpdate} object containing information from the server.
+     */
     public void executeServerMessage(GameUpdate update) {
         System.out.println(ConsoleColors.CLIENT_DEBUG + "received update of type " + update.getInstructionType() + ConsoleColors.RESET);
         switch (update.getInstructionType()) {
@@ -89,7 +179,7 @@ public class SocketClient implements SocketVirtualClient, Runnable, Client {
                     try {
                         view.gameCreationSuccess(true);
                     } catch (InvalidFunctionCallInState e) {
-                        // This error is only thrown when creating a 1 player game
+                        // This error is only thrown when creating a 1-player game
                         // It can be ignored as it has no adverse effects
                     }
                 } else {
@@ -118,6 +208,7 @@ public class SocketClient implements SocketVirtualClient, Runnable, Client {
                             model.updatePlayerShip(playerId, ships.get(playerId));
                         }
                         // model.setCardPiles(update.getCardPileCompositions());
+                        // TODO: piles
 
                         view.buildingStarted();
                         break;
@@ -127,7 +218,6 @@ public class SocketClient implements SocketVirtualClient, Runnable, Client {
                 break;
             case DRAWN_TILE:
                 view.componentTileReceived(update.getNewTile());
-                // view.tileActions();
                 break;
             case SAVED_COMPONENTS_UPDATED:
                 model.setSavedTiles(update.getTileList());
@@ -149,6 +239,9 @@ public class SocketClient implements SocketVirtualClient, Runnable, Client {
                 buildingTimerIsActive = false;
                 view.displayTimerEnded();
                 break;
+            default:
+                // Unhandled instruction types are currently ignored.
+                break;
         }
     }
 
@@ -162,6 +255,20 @@ public class SocketClient implements SocketVirtualClient, Runnable, Client {
         return buildingTimerIsActive;
     }
 
+    /**
+     * {@inheritDoc}
+     * <p>
+     * This implementation serializes the provided {@link UserInput} object into a JSON string.
+     * The JSON string is then sent to the server asynchronously via the socket's output stream
+     * using an {@link java.util.concurrent.ExecutorService}.
+     * <p>
+     * If an {@link IOException} occurs during serialization or network transmission, it is
+     * caught and re-thrown as a {@link RuntimeException}.
+     *
+     * @param input The {@link UserInput} object to be serialized and sent to the server.
+     * This parameter corresponds to the {@code input} parameter in the
+     * inherited documentation from the {@code Client} interface.
+     */
     @Override
     public void receiveUserInput(UserInput input) {
         commandSenderExecutor.submit(() -> {
@@ -169,10 +276,11 @@ public class SocketClient implements SocketVirtualClient, Runnable, Client {
             try {
                 String jsonMessage = ow.writeValueAsString(input);
                 System.out.println(ConsoleColors.CLIENT_DEBUG + "sending message" + jsonMessage + ConsoleColors.RESET);
-                output.println(jsonMessage);
-                output.flush();
+                this.output.println(jsonMessage);
+                this.output.flush();
                 System.out.println(ConsoleColors.CLIENT_DEBUG + "printed message to socket" + ConsoleColors.RESET);
             } catch (IOException e) {
+                // TODO: handle serialization errors
                 throw new RuntimeException(e);
             }
         });

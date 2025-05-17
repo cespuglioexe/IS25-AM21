@@ -3,13 +3,21 @@ package it.polimi.it.galaxytrucker.networking.server;
 import it.polimi.it.galaxytrucker.controller.Controller;
 import it.polimi.it.galaxytrucker.controller.GenericGameData;
 import it.polimi.it.galaxytrucker.exceptions.GameFullException;
-import jdk.jfr.BooleanFlag;
 
 import java.io.Serializable;
-import java.rmi.RemoteException;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Defines the interface for server-side operations that are exposed to the
+ * {@link ClientHandler} instances. This interface abstracts the core
+ * server functionalities related to managing games and clients, allowing
+ * different communication technologies (like RMI or Sockets) to interact
+ * with the server logic through a common set of methods.
+ *
+ * @author giacomoamaducci
+ * @version 1.0
+ */
 public interface ServerInterface {
     /**
      * Requests the controllers for all active games connected to the server.
