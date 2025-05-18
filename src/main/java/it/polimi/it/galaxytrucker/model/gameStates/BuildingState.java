@@ -221,7 +221,7 @@ public class BuildingState extends GameState {
                     new GameUpdate.GameUpdateBuilder(GameUpdateType.TIMER_END, new UUID(0,0))
                             .build()
             );
-        }, 10, TimeUnit.SECONDS);
+        }, 5, TimeUnit.SECONDS);
         gm.updateListeners(
                 new GameUpdate.GameUpdateBuilder(GameUpdateType.TIMER_START, new UUID(0,0))
                         .build()

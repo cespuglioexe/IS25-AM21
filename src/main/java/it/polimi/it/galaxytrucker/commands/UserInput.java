@@ -126,6 +126,7 @@ public class UserInput implements Serializable {
         }
 
         public UserInputBuilder setPlayerName(String playerName) {
+            System.out.println("Setting player name...");
             this.playerName = playerName;
             return this;
         }

@@ -5,6 +5,7 @@ import it.polimi.it.galaxytrucker.model.componenttiles.TileData;
 import it.polimi.it.galaxytrucker.networking.client.Client;
 
 import javax.smartcardio.Card;
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -36,7 +37,7 @@ public abstract class View {
 
     public abstract void buildingStarted();
 
-    public abstract void gameSelectionScreen();
+    public abstract void gameSelectionScreen() throws IOException;
 
     public abstract void gameCreationSuccess(boolean success);
 

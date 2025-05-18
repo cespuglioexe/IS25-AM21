@@ -1,54 +1,61 @@
 package it.polimi.it.galaxytrucker.view.GUI;
 
+import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+
 import javafx.application.Application;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.text.Font;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 
-import java.util.Objects;
+import java.awt.event.ActionEvent;
+import java.io.IOException;
 
 public class GUIApplication extends Application {
+    private static Stage mainStage;
+
     @Override
     public void start(Stage stage) throws Exception {
-        stage.setFullScreen(true);
-        stage.setResizable(false);
+            GUIApplication.setStage(stage);
+            GUIApplication.switchScene("/view/SetUsernameScene.fxml", "Set username window");
 
-        Screen screen = Screen.getPrimary();
-        stage.setWidth(screen.getVisualBounds().getWidth());
-        stage.setHeight(screen.getVisualBounds().getHeight());
+    }
 
-        Scene stageScene = new Scene(new Pane(), stage.getWidth(), stage.getHeight());
-        AnchorPane initializationPane = new AnchorPane();
-        initializationPane.setStyle("-fx-background-color: #00134e;");
-        stageScene.setRoot(initializationPane);
-        stage.setScene(stageScene);
+    public static void setStage(Stage stage) {
+        mainStage = stage;
+    }
 
-        stage.setTitle("Galaxy Trucker");
-        stage.setFullScreenExitHint("Press ESC to exit fullscreen. If you want to re-enter fullscreen afterwards, press F7.");
+    public static Stage getStage() {
+        return mainStage;
+    }
 
-        stage.addEventHandler(KeyEvent.KEY_PRESSED, (event) -> {
-            if (event.getCode().equals(KeyCode.ESCAPE)) {
-                stage.setResizable(true);
-                stage.setFullScreen(false);
-                stage.setMaximized(true);
-                stage.setResizable(false);
-            }
-        });
 
-        stage.addEventHandler(KeyEvent.KEY_PRESSED, (event) -> {
-            if (event.getCode().equals(KeyCode.F7)) {
-                stage.setFullScreen(true);
-            }
-        });
+    public static void switchScene(String fxmlPath, String title) throws IOException {
 
-        stage.setOnCloseRequest((event) -> System.exit(1));
+            Platform.runLater(() -> {
+                try{
+                System.out.println("Switching scene to " + fxmlPath);
+                FXMLLoader loader = new FXMLLoader(GUIApplication.class.getResource(fxmlPath));
+                Parent root = loader.load();
+                mainStage.setScene(new Scene(root));
+                mainStage.setTitle(title);
+                mainStage.show();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
 
-        stage.show();
+
+    }
+
+    public void showGameCreationWindow() throws IOException {
+        GUIApplication.switchScene("/view/GameCreationScene.fxml", "Set username window");
+    }
+
+
+    public void showBuildingWindow() throws IOException {
+        System.out.println("Showing Building window");
+        GUIApplication.switchScene("/view/BuildingScene.fxml", "Building window");
     }
 }

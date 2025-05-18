@@ -167,7 +167,6 @@ public class RMIClient extends UnicastRemoteObject implements RMIVirtualClient, 
                     this.model.getMyData().setPlayerId(playerId);
                     this.model.getMyData().setMatchId(gameId);
                 } catch (GameFullException e) {
-                    view.joinedGameIsFull();
                     System.out.println(ConsoleColors.RED + "The game you tried to join is already full" + ConsoleColors.RESET);
                     view.joinedGameIsFull();
                 } catch (RemoteException e) {
