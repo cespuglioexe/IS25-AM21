@@ -1,10 +1,7 @@
 package it.polimi.it.galaxytrucker.model.adventurecards.cardstates.pirates;
 
-import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.pirates.*;
-import it.polimi.it.galaxytrucker.model.adventurecards.refactored.Pirates;
 import it.polimi.it.galaxytrucker.model.design.statePattern.State;
 import it.polimi.it.galaxytrucker.model.design.statePattern.StateMachine;
-import it.polimi.it.galaxytrucker.model.managers.Player;
 
 public class CalculateFirePowerState extends State {
 

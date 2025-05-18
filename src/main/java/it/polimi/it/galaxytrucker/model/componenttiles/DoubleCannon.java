@@ -16,7 +16,7 @@ import java.util.List;
  * @author Giacomo Amaducci
  * @version 1.1
  */
-public class DoubleCannon extends SingleCannon implements EnergyConsumer, Cannon {
+public class DoubleCannon extends SingleCannon implements EnergyConsumer {
 
     /**
      * Constructs a new {@code DoubleCannon} with the specified edges.

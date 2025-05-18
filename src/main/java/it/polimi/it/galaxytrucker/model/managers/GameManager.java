@@ -3,8 +3,6 @@ package it.polimi.it.galaxytrucker.model.managers;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -14,11 +12,11 @@ import it.polimi.it.galaxytrucker.listeners.Observable;
 import it.polimi.it.galaxytrucker.model.adventurecards.AdventureDeck;
 import it.polimi.it.galaxytrucker.model.componenttiles.ComponentTile;
 import it.polimi.it.galaxytrucker.model.design.statePattern.StateMachine;
+import it.polimi.it.galaxytrucker.model.gameStates.GameState;
+import it.polimi.it.galaxytrucker.model.gameStates.StartState;
 import it.polimi.it.galaxytrucker.exceptions.IllegalComponentPositionException;
 import it.polimi.it.galaxytrucker.exceptions.InvalidActionException;
 import it.polimi.it.galaxytrucker.exceptions.NotFoundException;
-import it.polimi.it.galaxytrucker.model.gameStates.GameState;
-import it.polimi.it.galaxytrucker.model.gameStates.StartState;
 import it.polimi.it.galaxytrucker.model.json.Json;
 import it.polimi.it.galaxytrucker.commands.servercommands.GameUpdate;
 import it.polimi.it.galaxytrucker.commands.servercommands.GameUpdateType;
@@ -34,8 +32,6 @@ public class GameManager extends StateMachine implements Model, Observable {
     private final AdventureDeck adventureDeck;
 
     private final List<Listener> listeners;
-
-    private ExecutorService executors = Executors.newCachedThreadPool();
 
     public GameManager(int level, int numberOfPlayers) {
         this.level = level;
@@ -175,8 +171,9 @@ public class GameManager extends StateMachine implements Model, Observable {
             gameState.rotateComponentTile(this, playerID, row, column);
         }
 
-        updateListeners(new GameUpdate.GameUpdateBuilder(GameUpdateType.PLAYER_SHIP_UPDATED, playerID)
+        updateListeners(new GameUpdate.GameUpdateBuilder(GameUpdateType.PLAYER_SHIP_UPDATED)
                 .setShipBoard(getPlayerShip(playerID).getShipBoard())
+                .setInterestedPlayerId(playerID)
                 .build()
         );
     }
@@ -200,7 +197,7 @@ public class GameManager extends StateMachine implements Model, Observable {
         
         Player player = getPlayerByID(playerID);
         player.updateListeners(
-                new GameUpdate.GameUpdateBuilder(GameUpdateType.SAVED_COMPONENTS_UPDATED, playerID)
+                new GameUpdate.GameUpdateBuilder(GameUpdateType.SAVED_COMPONENTS_UPDATED)
                         .setTileList(player.getShipManager().getSavedComponentTiles())
                         .build()
         );
@@ -212,7 +209,7 @@ public class GameManager extends StateMachine implements Model, Observable {
         gameState.discardComponentTile(this, playerID);
 
         updateListeners(
-                new GameUpdate.GameUpdateBuilder(GameUpdateType.DISCARDED_COMPONENTS_UPDATED, new UUID(0,0))
+                new GameUpdate.GameUpdateBuilder(GameUpdateType.DISCARDED_COMPONENTS_UPDATED)
                         .setTileList(((GameState) getCurrentState()).getDiscardedComponentTiles())
                         .build()
         );
@@ -223,7 +220,12 @@ public class GameManager extends StateMachine implements Model, Observable {
         GameState gameState = (GameState) this.getCurrentState();
         gameState.selectSavedComponentTile(this, playerID, index);
 
-        // TODO: notify
+        Player player = getPlayerByID(playerID);
+        player.updateListeners(
+                new GameUpdate.GameUpdateBuilder(GameUpdateType.SAVED_COMPONENTS_UPDATED)
+                        .setTileList(player.getShipManager().getSavedComponentTiles())
+                        .build()
+        );
     }
 
     @Override
@@ -231,7 +233,11 @@ public class GameManager extends StateMachine implements Model, Observable {
         GameState gameState = (GameState) this.getCurrentState();
         gameState.selectDiscardedComponentTile(this, playerID, index);
 
-        // TODO: notify
+        updateListeners(
+                new GameUpdate.GameUpdateBuilder(GameUpdateType.DISCARDED_COMPONENTS_UPDATED)
+                        .setTileList(((GameState) getCurrentState()).getDiscardedComponentTiles())
+                        .build()
+        );
     }
 
     @Override

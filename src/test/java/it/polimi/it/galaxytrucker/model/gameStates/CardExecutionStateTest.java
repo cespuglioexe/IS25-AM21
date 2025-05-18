@@ -1,9 +1,8 @@
 package it.polimi.it.galaxytrucker.model.gameStates;
 
 import it.polimi.it.galaxytrucker.model.adventurecards.AdventureDeck;
+import it.polimi.it.galaxytrucker.model.adventurecards.cards.Planets;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCard;
-import it.polimi.it.galaxytrucker.model.adventurecards.refactored.Planets;
-import it.polimi.it.galaxytrucker.model.design.strategyPattern.FlightRules;
 import it.polimi.it.galaxytrucker.model.managers.FlightBoardFlightRules;
 import it.polimi.it.galaxytrucker.model.managers.GameManager;
 import it.polimi.it.galaxytrucker.model.managers.Player;
@@ -16,8 +15,6 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class CardExecutionStateTest {
     private GameManager gameManager;
@@ -68,6 +65,6 @@ class CardExecutionStateTest {
 
     @Test
     void cardExecutionStateTest() {
-
+        
     }
 }

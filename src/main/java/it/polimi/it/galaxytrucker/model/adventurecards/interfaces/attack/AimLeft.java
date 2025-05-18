@@ -37,4 +37,15 @@ public class AimLeft implements AimingStrategy {
             return false;
         }
     }
+
+    @Override
+    public List<Integer> aimWithFixedCoord(ShipManager ship, int coord) {
+        int aimedRow;
+        int aimedColumn;
+
+        aimedRow = coord;
+        aimedColumn = calculateAimedColumn(aimedRow, ship);
+
+        return List.of(aimedRow, aimedColumn);
+    }
 }

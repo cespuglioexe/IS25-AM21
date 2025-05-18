@@ -15,7 +15,7 @@ import java.util.UUID;
  * (i.e., nickname, game they're in, etc.)
  *
  * @author giacomoamaducci
- * @version 0.1
+ * @version 1.0
  */
 public class ClientModel {
     /** A data object containing information about the player */
@@ -24,11 +24,17 @@ public class ClientModel {
     private final HashMap<UUID, List<List<TileData>>> playerShips = new HashMap<>();
     /** The players credit */
     private int credits = 0;
-
+    /**
+     * Composition of the card piles visible during the building phase
+     */
     private final List<List<Integer>> cardPiles = new ArrayList<>();
-
+    /**
+     * Saved tiles, visible only to this player
+     */
     private final List<TileData> savedTiles = new ArrayList<>();
-
+    /**
+     * Discarded component, visible to all players
+     */
     private final List<TileData> discardedTiles = new ArrayList<>();
 
     public ClientModel() {
@@ -39,12 +45,12 @@ public class ClientModel {
         this.myData = player;
     }
 
-    public void initializePlayerShips(List<UUID> playerIds) {
-        for (UUID id : playerIds) {
-            playerShips.put(id, new ArrayList<>());
-        }
-    }
-
+    /**
+     * Sets the clients local copy of the specified players ship board.
+     *
+     * @param playerId the {@code UUID} of the player whose ship needs to be updated.
+     * @param playerShip the {@code List<List<TileData>>} representing the ship board.
+     */
     public void updatePlayerShip(UUID playerId, List<List<TileData>> playerShip) {
         playerShips.put(playerId, playerShip);
     }
@@ -65,6 +71,12 @@ public class ClientModel {
         return credits;
     }
 
+    /**
+     * Adds the specified number of credits to the player's total.
+     * For subtracting credits, a negative number should be used.
+     *
+     * @param credits number of credits to add.
+     */
     public void addCredits(int credits) {
         this.credits += credits;
     }

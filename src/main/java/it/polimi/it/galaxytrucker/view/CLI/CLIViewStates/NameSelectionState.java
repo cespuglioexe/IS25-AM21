@@ -2,19 +2,24 @@ package it.polimi.it.galaxytrucker.view.CLI.CLIViewStates;
 
 import it.polimi.it.galaxytrucker.commands.UserInput;
 import it.polimi.it.galaxytrucker.commands.UserInputType;
+import it.polimi.it.galaxytrucker.view.CLI.CLIInputReader;
 import it.polimi.it.galaxytrucker.view.CLI.ConsoleColors;
 
-public class NameSelectionState extends CLIViewState {
+import java.util.ArrayList;
+import java.util.List;
 
+public class NameSelectionState extends CLIViewState {
     @Override
     public void executeState() {
-        System.out.print("Insert username\n> ");
-        String name = scanner.nextLine();
+        view.executorService.submit(() -> {
+            System.out.print("Insert username\n> ");
+            String name = CLIInputReader.readString();
 
-        view.getClient().receiveUserInput(
-                new UserInput.UserInputBuilder(null, UserInputType.SET_USERNAME)
-                        .setPlayerName(name)
-                        .build());
+            view.getClient().receiveUserInput(
+                    new UserInput.UserInputBuilder(UserInputType.SET_PLAYER_USERNAME)
+                            .setPlayerName(name)
+                            .build());
+        });
     }
 
     @Override

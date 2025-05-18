@@ -33,4 +33,15 @@ public class AimDown implements AimingStrategy {
             return false;
         }
     }
+
+    @Override
+    public List<Integer> aimWithFixedCoord(ShipManager ship, int coord) {
+        int aimedRow;
+        int aimedColumn;
+
+        aimedColumn = coord;
+        aimedRow = calculateAimedRow(aimedColumn, ship);
+
+        return List.of(aimedRow, aimedColumn);
+    }
 }

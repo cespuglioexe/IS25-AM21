@@ -8,11 +8,24 @@ import java.rmi.RemoteException;
 import java.util.List;
 
 public interface Client {
+    /**
+     * Returns the client's model, this includes
+     * @return
+     */
     ClientModel getModel();
 
+    /**
+     * Returns whether the building time is active or not.
+     *
+     * @return {@code true} if the timer is active, {@code false} otherwise.
+     */
     boolean isBuildingTimerIsActive();
 
-    List<GenericGameData> getActiveGames() throws RemoteException;
-
+    /**
+     * Passes a {@link UserInput} object to the client to be interpreted
+     * and converted into relevant game actions.
+     *
+     * @param input the {@code UserInput} object to be interpreted.
+     */
     void receiveUserInput (UserInput input);
 }

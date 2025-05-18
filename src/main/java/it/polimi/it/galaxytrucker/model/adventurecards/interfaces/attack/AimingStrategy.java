@@ -7,4 +7,5 @@ import it.polimi.it.galaxytrucker.model.managers.ShipManager;
 
 public interface AimingStrategy extends Strategy {
     public List<Integer> aim(ShipManager ship);
+    public List<Integer> aimWithFixedCoord(ShipManager ship, int coord);
 }

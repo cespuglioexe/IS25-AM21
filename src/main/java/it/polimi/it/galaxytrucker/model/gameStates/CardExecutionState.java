@@ -1,6 +1,6 @@
-package
-    it.polimi.it.galaxytrucker.model.gameStates;
+package it.polimi.it.galaxytrucker.model.gameStates;
 
+import it.polimi.it.galaxytrucker.model.adventurecards.cardevents.CardResolved;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCard;
 import it.polimi.it.galaxytrucker.model.design.observerPattern.Observer;
 import it.polimi.it.galaxytrucker.model.design.observerPattern.Subject;
@@ -31,6 +31,8 @@ public class CardExecutionState extends GameState implements Observer {
 
     @Override
     public void notify(Object o) {
-        System.out.println(o);
+        if (o instanceof CardResolved) {
+            System.out.println("Card finished execution");
+        }
     }
 }

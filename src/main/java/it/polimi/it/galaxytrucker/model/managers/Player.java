@@ -1,6 +1,5 @@
 package it.polimi.it.galaxytrucker.model.managers;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -18,9 +17,6 @@ public class Player implements Observable {
     private final ShipManager shipManager;
     
     private ComponentTile heldComponent;
-
-    private boolean isConnected;
-
     private int credits;
 
     private final List<Listener> listeners;
@@ -46,7 +42,7 @@ public class Player implements Observable {
         this.heldComponent = heldComponent;
         // TODO: do in thread
         updateListeners(
-                new GameUpdate.GameUpdateBuilder(GameUpdateType.DRAWN_TILE, playerID)
+                new GameUpdate.GameUpdateBuilder(GameUpdateType.DRAWN_TILE)
                         .setNewTile(heldComponent)
                         .build()
         );

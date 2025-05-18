@@ -2,11 +2,8 @@ package it.polimi.it.galaxytrucker.main;
 
 import it.polimi.it.galaxytrucker.networking.client.rmi.RMIClient;
 import it.polimi.it.galaxytrucker.networking.client.socket.SocketClient;
-import it.polimi.it.galaxytrucker.view.GUI.GUIApplication;
-import it.polimi.it.galaxytrucker.view.GUI.GUIView;
 import it.polimi.it.galaxytrucker.view.View;
 import it.polimi.it.galaxytrucker.view.CLI.CLIView;
-import javafx.application.Application;
 
 import java.io.*;
 import java.net.Socket;
@@ -16,7 +13,6 @@ import java.util.Scanner;
 import static org.fusesource.jansi.Ansi.ansi;
 
 public class ClientApplication {
-
     public static void main(String[] args) throws RemoteException {
         Scanner scanner = new Scanner(System.in);
         String connectionType;
@@ -40,12 +36,11 @@ public class ClientApplication {
         View view = null;
         if (interfaceType.equals("cli"))
             view = new CLIView();
-        else if (interfaceType.equals("gui"))
-            view = GUIView.getGUIView();
+//        else if (interfaceType.equals("gui"))
+//            view = new GUIView();
 
-        if (connectionType.equals("rmi")){
+        if (connectionType.equals("rmi"))
             new RMIClient(view).run();
-        }
         else if (connectionType.equals("socket")) {
             System.out.println("Insert socket server IP address: ");
             String host = scanner.nextLine().trim();

@@ -3,13 +3,15 @@ package it.polimi.it.galaxytrucker.model.adventurecards.interfaces.attack;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
+import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.CardStateMachine;
 import it.polimi.it.galaxytrucker.model.componenttiles.Shield;
-import it.polimi.it.galaxytrucker.model.design.statePattern.StateMachine;
 import it.polimi.it.galaxytrucker.exceptions.InvalidActionException;
 import it.polimi.it.galaxytrucker.model.managers.Player;
 import it.polimi.it.galaxytrucker.model.managers.ShipManager;
+import it.polimi.it.galaxytrucker.model.utility.Dice;
 import it.polimi.it.galaxytrucker.model.utility.Direction;
 /**
  * Abstract base class for all adventure cards that involve projectile-based attacks in Galaxy Trucker.
@@ -47,11 +49,12 @@ import it.polimi.it.galaxytrucker.model.utility.Direction;
  * @author Stefano Carletto
  * @version 1.0
  *
- * @see StateMachine
+ * @see CardStateMachine
  */
-public abstract class Attack extends StateMachine {
+public abstract class Attack extends CardStateMachine {
     private Player player;
     private int playerFirePower;
+    private HashMap<Projectile, Integer> rolledProjectileAndCoord;
     private HashMap<List<Integer>, List<Direction>> shieldsAndDirection;
     private LinkedHashMap<Projectile, List<Integer>> projectilesAndAimedComponent;
 
@@ -61,6 +64,7 @@ public abstract class Attack extends StateMachine {
             projectilesAndAimedComponent.put(projectile, List.of());
         }
         shieldsAndDirection = new HashMap<>();
+        rolledProjectileAndCoord = new HashMap<>();
     }
 
     public Player getPlayer() {
@@ -84,11 +88,9 @@ public abstract class Attack extends StateMachine {
     }
 
     public void setPlayer(Player player) {
-        if(player!=null) {
-            this.player = player;
-            ShipManager ship = player.getShipManager();
-            playerFirePower = (int) ship.calculateFirePower();
-        }
+        this.player = player;
+        ShipManager ship = player.getShipManager();
+        playerFirePower = (int) ship.calculateFirePower();
     }
 
     /**
@@ -103,12 +105,26 @@ public abstract class Attack extends StateMachine {
         }
         Direction direction = projectile.getDirection();
 
-        List<Integer> aimedCoords = AimingSystem.aimFrom(direction, player.getShipManager());
+        Integer rolledCoord = rolledProjectileAndCoord.get(projectile);
+        List<Integer> aimedCoords;
+
+        if (Optional.ofNullable(rolledCoord).isPresent()) {
+            aimedCoords = AimingSystem.aimFrom(direction, player.getShipManager(), rolledCoord);
+        } else {
+            aimedCoords = AimingSystem.aimFrom(direction, player.getShipManager());
+        }
         int aimedRow = aimedCoords.get(0);
         int aimedColumn = aimedCoords.get(1);
 
         projectilesAndAimedComponent.put(projectile, List.of(aimedRow, aimedColumn));
         return aimedCoords;
+    }
+
+    public int rollRandomCoord(Projectile projectile) {
+        int rolledCoord = Dice.roll() + Dice.roll();
+
+        rolledProjectileAndCoord.put(projectile, rolledCoord);
+        return rolledCoord;
     }
 
     public void activateCannons(HashMap<List<Integer>, List<Integer>> doubleCannonsAndBatteries) {

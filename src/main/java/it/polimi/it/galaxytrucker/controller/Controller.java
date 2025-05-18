@@ -29,21 +29,18 @@ public class Controller implements ControllerInterface {
         this.playerNum = playerNum;
         this.activePlayers = 0;
 
-        for (Color color : Color.values()) {
-            playerColors.add(color);
-        }
+        playerColors.addAll(Arrays.asList(Color.values()));
     }
 
-    public UUID addPlayer (ClientHandler client) throws GameFullException {
+    public void addPlayer (ClientHandler client) throws GameFullException {
         if (activePlayers >= playerNum) {
             System.out.println(ConsoleColors.CONTROLLER_DEBUG + "Player '" + client.getUsername() + "' tried to join full game" + ConsoleColors.RESET);
             throw new GameFullException("Game " + uuid + " is already full");
         }
 
-        UUID newId = UUID.randomUUID();
         Color playerColor = playerColors.remove(new Random().nextInt(playerColors.size()));
 
-        Player newPlayer = new Player(newId, client.getUsername(), playerColor, new ShipManager(level));
+        Player newPlayer = new Player(client.getUuid(), client.getUsername(), playerColor, new ShipManager(level));
 
         ((Observable) model).addListener(client);
         (newPlayer).addListener(client);
@@ -51,7 +48,6 @@ public class Controller implements ControllerInterface {
         model.addPlayer(newPlayer);
         activePlayers++;
 
-        return newId;
     }
 
 
@@ -80,62 +76,62 @@ public class Controller implements ControllerInterface {
     }
 
     @Override
-    public void placeComponentTile(UUID playerId, int col, int row, int rotation) {
+    public synchronized void placeComponentTile(UUID playerId, int col, int row, int rotation) {
         model.placeComponentTile(playerId, row, col, rotation);
     }
 
     @Override
-    public void requestNewComponentTile(UUID playerId) {
+    public synchronized void requestNewComponentTile(UUID playerId) {
         model.drawComponentTile(playerId);
     }
 
     @Override
-    public void requestSavedComponentTiles (UUID playerId) {
+    public synchronized void requestSavedComponentTiles (UUID playerId) {
         model.getSavedComponentTiles(playerId);
     }
 
     @Override
-    public void requestDiscardedComponentTiles (UUID playerId){
+    public synchronized void requestDiscardedComponentTiles (UUID playerId){
         model.getDiscardedComponentTiles(playerId);
     }
 
     @Override
-    public void saveComponentTile (UUID playerId) {
+    public synchronized void saveComponentTile (UUID playerId) {
         model.saveComponentTile(playerId);
     }
 
     @Override
-    public void discardComponentTile (UUID playerId) {
+    public synchronized void discardComponentTile (UUID playerId) {
         model.discardComponentTile(playerId);
     }
 
     @Override
-    public void requestShipBoard (UUID playerId) {
+    public synchronized void requestShipBoard (UUID playerId) {
         model.getPlayerShipBoard(playerId);
     }
 
     @Override
-    public void selectSavedComponentTile(UUID playerId, int index){
+    public synchronized void selectSavedComponentTile(UUID playerId, int index){
         model.selectSavedComponentTile(playerId, index);
     }
 
     @Override
-    public void selectDiscardedComponentTile(UUID playerId, int index){
+    public synchronized void selectDiscardedComponentTile(UUID playerId, int index){
         model.selectDiscardedComponentTile(playerId, index);
     }
 
     @Override
-    public void getCardPile (UUID playerId, int pileIndex) {
+    public synchronized void getCardPile (UUID playerId, int pileIndex) {
         model.getAdventureDeck().getStack(pileIndex);
     }
 
     @Override
-    public UUID getControllerUuid() {
+    public synchronized UUID getControllerUuid() {
         return uuid;
     }
 
     @Override
-    public void startBuildPhaseTimer() {
+    public synchronized void startBuildPhaseTimer() {
         model.startBuildPhaseTimer();
     }
 

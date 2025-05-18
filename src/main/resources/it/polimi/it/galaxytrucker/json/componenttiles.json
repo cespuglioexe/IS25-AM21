@@ -8,7 +8,7 @@
       "DOUBLE",
       "SMOOTH"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_1.jpg"
   },
   {
     "componentType": "BatteryComponent",
@@ -19,7 +19,7 @@
       "SMOOTH",
       "SMOOTH"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web2.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_2.jpg"
   },
   {
     "componentType": "BatteryComponent",
@@ -30,7 +30,7 @@
       "SINGLE",
       "SMOOTH"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web3.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_3.jpg"
   },
   {
     "componentType": "BatteryComponent",
@@ -41,7 +41,7 @@
       "DOUBLE",
       "SINGLE"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web4.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_4.jpg"
   },
   {
     "componentType": "BatteryComponent",
@@ -52,7 +52,7 @@
       "SMOOTH",
       "SINGLE"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web5.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_5.jpg"
   },
   {
     "componentType": "BatteryComponent",
@@ -63,7 +63,7 @@
       "SINGLE",
       "SINGLE"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web6.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_6.jpg"
   },
   {
     "componentType": "BatteryComponent",
@@ -74,7 +74,7 @@
       "DOUBLE",
       "DOUBLE"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web7.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_7.jpg"
   },
   {
     "componentType": "BatteryComponent",
@@ -85,7 +85,7 @@
       "SMOOTH",
       "UNIVERSAL"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web8.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_8.jpg"
   },
   {
     "componentType": "BatteryComponent",
@@ -96,7 +96,7 @@
       "SMOOTH",
       "UNIVERSAL"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web9.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_9.jpg"
   },
   {
     "componentType": "BatteryComponent",
@@ -107,7 +107,7 @@
       "SMOOTH",
       "UNIVERSAL"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web10.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_10.jpg"
   },
   {
     "componentType": "BatteryComponent",
@@ -118,7 +118,7 @@
       "SMOOTH",
       "UNIVERSAL"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web11.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_11.jpg"
   },
   {
     "componentType": "BatteryComponent",
@@ -129,7 +129,7 @@
       "DOUBLE",
       "SMOOTH"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web12.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_12.jpg"
   },
   {
     "componentType": "BatteryComponent",
@@ -140,7 +140,7 @@
       "DOUBLE",
       "SMOOTH"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web13.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_13.jpg"
   },
   {
     "componentType": "BatteryComponent",
@@ -151,7 +151,7 @@
       "SMOOTH",
       "SMOOTH"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web14.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_14.jpg"
   },
   {
     "componentType": "BatteryComponent",
@@ -162,7 +162,7 @@
       "SMOOTH",
       "SMOOTH"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web15.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_15.jpg"
   },
   {
     "componentType": "BatteryComponent",
@@ -173,7 +173,7 @@
       "SINGLE",
       "SMOOTH"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web16.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_16.jpg"
   },
   {
     "componentType": "BatteryComponent",
@@ -184,7 +184,7 @@
       "SMOOTH",
       "SINGLE"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web17.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_17.jpg"
   },
   {
     "componentType": "CargoHold",
@@ -195,7 +195,7 @@
       "UNIVERSAL",
       "SMOOTH"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web18.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_18.jpg"
   },
   {
     "componentType": "CargoHold",
@@ -206,7 +206,7 @@
       "UNIVERSAL",
       "SINGLE"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web19.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_19.jpg"
   },
   {
     "componentType": "CargoHold",
@@ -217,7 +217,7 @@
       "SMOOTH",
       "SINGLE"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web20.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_20.jpg"
   },
   {
     "componentType": "CargoHold",
@@ -228,7 +228,7 @@
       "SMOOTH",
       "UNIVERSAL"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web21.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_21.jpg"
   },
   {
     "componentType": "CargoHold",
@@ -239,7 +239,7 @@
       "SMOOTH",
       "UNIVERSAL"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web22.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_22.jpg"
   },
   {
     "componentType": "CargoHold",
@@ -250,7 +250,7 @@
       "SMOOTH",
       "UNIVERSAL"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web23.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_23.jpg"
   },
   {
     "componentType": "CargoHold",
@@ -261,7 +261,7 @@
       "SMOOTH",
       "UNIVERSAL"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web24.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_24.jpg"
   },
   {
     "componentType": "CargoHold",
@@ -272,7 +272,7 @@
       "DOUBLE",
       "UNIVERSAL"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web25.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_25.jpg"
   },
   {
     "componentType": "CargoHold",
@@ -283,7 +283,7 @@
       "SMOOTH",
       "UNIVERSAL"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web26.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_26.jpg"
   },
   {
     "componentType": "CargoHold",
@@ -294,7 +294,7 @@
       "SMOOTH",
       "SINGLE"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web27.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_27.jpg"
   },
   {
     "componentType": "CargoHold",
@@ -305,7 +305,7 @@
       "SINGLE",
       "SMOOTH"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web28.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_28.jpg"
   },
   {
     "componentType": "CargoHold",
@@ -316,7 +316,7 @@
       "SMOOTH",
       "DOUBLE"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web29.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_29.jpg"
   },
   {
     "componentType": "CargoHold",
@@ -327,7 +327,7 @@
       "DOUBLE",
       "SMOOTH"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web30.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_30.jpg"
   },
   {
     "componentType": "CargoHold",
@@ -338,7 +338,7 @@
       "DOUBLE",
       "SINGLE"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web31.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_31.jpg"
   },
   {
     "componentType": "CargoHold",
@@ -349,7 +349,7 @@
       "SINGLE",
       "DOUBLE"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web32.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_32.jpg"
   },
   {
     "componentType": "CabinModule",
@@ -359,7 +359,7 @@
       "UNIVERSAL",
       "SINGLE"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web35.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_35.jpg"
   },
   {
     "componentType": "CabinModule",
@@ -369,7 +369,7 @@
       "SINGLE",
       "SINGLE"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web36.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_36.jpg"
   },
   {
     "componentType": "CabinModule",
@@ -379,7 +379,7 @@
       "DOUBLE",
       "SINGLE"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web37.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_37.jpg"
   },
   {
     "componentType": "CabinModule",
@@ -389,7 +389,7 @@
       "SMOOTH",
       "SINGLE"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web38.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_38.jpg"
   },
   {
     "componentType": "CabinModule",
@@ -399,7 +399,7 @@
       "SMOOTH",
       "SINGLE"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web39.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_39.jpg"
   },
   {
     "componentType": "CabinModule",
@@ -409,7 +409,7 @@
       "DOUBLE",
       "SINGLE"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web40.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_40.jpg"
   },
   {
     "componentType": "CabinModule",
@@ -419,7 +419,7 @@
       "UNIVERSAL",
       "DOUBLE"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web41.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_41.jpg"
   },
   {
     "componentType": "CabinModule",
@@ -429,7 +429,7 @@
       "SMOOTH",
       "DOUBLE"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web42.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_42.jpg"
   },
   {
     "componentType": "CabinModule",
@@ -439,7 +439,7 @@
       "DOUBLE",
       "DOUBLE"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web43.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_43.jpg"
   },
   {
     "componentType": "CabinModule",
@@ -449,7 +449,7 @@
       "SMOOTH",
       "DOUBLE"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web44.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_44.jpg"
   },
   {
     "componentType": "CabinModule",
@@ -459,7 +459,7 @@
       "SMOOTH",
       "UNIVERSAL"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web45.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_45.jpg"
   },
   {
     "componentType": "CabinModule",
@@ -469,7 +469,7 @@
       "SINGLE",
       "UNIVERSAL"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web46.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_46.jpg"
   },
   {
     "componentType": "CabinModule",
@@ -479,27 +479,27 @@
       "SMOOTH",
       "UNIVERSAL"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web47.jpg"
-  },
-  {
-    "componentType": "CabinModule",
-    "edges": [
-      "SINGLE",
-      "SMOOTH",
-      "SINGLE",
-      "UNIVERSAL"
-    ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web48.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_47.jpg"
   },
   {
     "componentType": "CabinModule",
     "edges": [
       "SINGLE",
       "SMOOTH",
+      "SINGLE",
+      "UNIVERSAL"
+    ],
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_48.jpg"
+  },
+  {
+    "componentType": "CabinModule",
+    "edges": [
+      "SINGLE",
+      "SMOOTH",
       "DOUBLE",
       "UNIVERSAL"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web49.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_49.jpg"
   },
   {
     "componentType": "CabinModule",
@@ -509,7 +509,7 @@
       "DOUBLE",
       "UNIVERSAL"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web50.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_50.jpg"
   },
   {
     "componentType": "CabinModule",
@@ -519,7 +519,7 @@
       "SMOOTH",
       "UNIVERSAL"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web51.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_51.jpg"
   },
   {
     "componentType": "StructuralModule",
@@ -529,7 +529,7 @@
       "SMOOTH",
       "SINGLE"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web53.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_53.jpg"
   },
   {
     "componentType": "StructuralModule",
@@ -539,7 +539,7 @@
       "SMOOTH",
       "UNIVERSAL"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web54.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_54.jpg"
   },
   {
     "componentType": "StructuralModule",
@@ -549,7 +549,7 @@
       "SINGLE",
       "UNIVERSAL"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web55.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_55.jpg"
   },
   {
     "componentType": "StructuralModule",
@@ -559,7 +559,7 @@
       "DOUBLE",
       "UNIVERSAL"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web56.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_56.jpg"
   },
   {
     "componentType": "StructuralModule",
@@ -569,7 +569,7 @@
       "SMOOTH",
       "UNIVERSAL"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web57.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_57.jpg"
   },
   {
     "componentType": "StructuralModule",
@@ -579,7 +579,7 @@
       "DOUBLE",
       "UNIVERSAL"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web58.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_58.jpg"
   },
   {
     "componentType": "StructuralModule",
@@ -589,7 +589,7 @@
       "SMOOTH",
       "UNIVERSAL"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web59.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_59.jpg"
   },
   {
     "componentType": "StructuralModule",
@@ -599,7 +599,7 @@
       "DOUBLE",
       "UNIVERSAL"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web60.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_60.jpg"
   },
   {
     "componentType": "SpecialCargoHold",
@@ -610,7 +610,7 @@
       "SINGLE",
       "UNIVERSAL"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web62.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_62.jpg"
   },
   {
     "componentType": "SpecialCargoHold",
@@ -621,7 +621,7 @@
       "SMOOTH",
       "UNIVERSAL"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web63.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_63.jpg"
   },
   {
     "componentType": "SpecialCargoHold",
@@ -632,7 +632,7 @@
       "SINGLE",
       "UNIVERSAL"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web64.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_64.jpg"
   },
   {
     "componentType": "SpecialCargoHold",
@@ -643,7 +643,7 @@
       "SMOOTH",
       "UNIVERSAL"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web65.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_65.jpg"
   },
   {
     "componentType": "SpecialCargoHold",
@@ -654,7 +654,7 @@
       "DOUBLE",
       "UNIVERSAL"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web66.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_66.jpg"
   },
   {
     "componentType": "SpecialCargoHold",
@@ -665,7 +665,7 @@
       "SMOOTH",
       "UNIVERSAL"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web67.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_67.jpg"
   },
   {
     "componentType": "SpecialCargoHold",
@@ -676,7 +676,7 @@
       "SMOOTH",
       "SINGLE"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web68.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_68.jpg"
   },
   {
     "componentType": "SpecialCargoHold",
@@ -687,7 +687,7 @@
       "SMOOTH",
       "SINGLE"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web69.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_69.jpg"
   },
   {
     "componentType": "SpecialCargoHold",
@@ -698,7 +698,7 @@
       "SMOOTH",
       "DOUBLE"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web70.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_70.jpg"
   },
   {
     "componentType": "SingleEngine",
@@ -708,7 +708,7 @@
       "INCOMPATIBLE",
       "SMOOTH"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web71.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_71.jpg"
   },
   {
     "componentType": "SingleEngine",
@@ -718,7 +718,7 @@
       "INCOMPATIBLE",
       "SMOOTH"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web72.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_72.jpg"
   },
   {
     "componentType": "SingleEngine",
@@ -728,7 +728,7 @@
       "INCOMPATIBLE",
       "SMOOTH"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web73.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_73.jpg"
   },
   {
     "componentType": "SingleEngine",
@@ -738,7 +738,7 @@
       "INCOMPATIBLE",
       "SMOOTH"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web74.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_74.jpg"
   },
   {
     "componentType": "SingleEngine",
@@ -748,7 +748,7 @@
       "INCOMPATIBLE",
       "SMOOTH"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web75.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_75.jpg"
   },
   {
     "componentType": "SingleEngine",
@@ -758,7 +758,7 @@
       "INCOMPATIBLE",
       "SMOOTH"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web76.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_76.jpg"
   },
   {
     "componentType": "SingleEngine",
@@ -768,7 +768,7 @@
       "INCOMPATIBLE",
       "SMOOTH"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web77.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_77.jpg"
   },
   {
     "componentType": "SingleEngine",
@@ -778,7 +778,7 @@
       "INCOMPATIBLE",
       "SMOOTH"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web78.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_78.jpg"
   },
   {
     "componentType": "SingleEngine",
@@ -788,7 +788,7 @@
       "INCOMPATIBLE",
       "SMOOTH"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web79.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_79.jpg"
   },
   {
     "componentType": "SingleEngine",
@@ -798,7 +798,7 @@
       "INCOMPATIBLE",
       "SINGLE"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web80.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_80.jpg"
   },
   {
     "componentType": "SingleEngine",
@@ -808,7 +808,7 @@
       "INCOMPATIBLE",
       "SINGLE"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web81.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_81.jpg"
   },
   {
     "componentType": "SingleEngine",
@@ -818,7 +818,7 @@
       "INCOMPATIBLE",
       "SINGLE"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web82.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_82.jpg"
   },
   {
     "componentType": "SingleEngine",
@@ -828,7 +828,7 @@
       "INCOMPATIBLE",
       "SINGLE"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web83.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_83.jpg"
   },
   {
     "componentType": "SingleEngine",
@@ -838,7 +838,7 @@
       "INCOMPATIBLE",
       "DOUBLE"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web84.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_84.jpg"
   },
   {
     "componentType": "SingleEngine",
@@ -848,7 +848,7 @@
       "INCOMPATIBLE",
       "DOUBLE"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web85.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_85.jpg"
   },
   {
     "componentType": "SingleEngine",
@@ -858,7 +858,7 @@
       "INCOMPATIBLE",
       "DOUBLE"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web86.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_86.jpg"
   },
   {
     "componentType": "SingleEngine",
@@ -868,7 +868,7 @@
       "INCOMPATIBLE",
       "DOUBLE"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web87.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_87.jpg"
   },
   {
     "componentType": "SingleEngine",
@@ -878,7 +878,7 @@
       "INCOMPATIBLE",
       "UNIVERSAL"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web88.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_88.jpg"
   },
   {
     "componentType": "SingleEngine",
@@ -888,7 +888,7 @@
       "INCOMPATIBLE",
       "UNIVERSAL"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web89.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_89.jpg"
   },
   {
     "componentType": "SingleEngine",
@@ -898,7 +898,7 @@
       "INCOMPATIBLE",
       "UNIVERSAL"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web90.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_90.jpg"
   },
   {
     "componentType": "SingleEngine",
@@ -908,7 +908,7 @@
       "INCOMPATIBLE",
       "UNIVERSAL"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web91.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_91.jpg"
   },
   {
     "componentType": "DoubleEngine",
@@ -918,7 +918,7 @@
       "INCOMPATIBLE",
       "SMOOTH"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web92.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_92.jpg"
   },
   {
     "componentType": "DoubleEngine",
@@ -928,7 +928,7 @@
       "INCOMPATIBLE",
       "SMOOTH"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web93.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_93.jpg"
   },
   {
     "componentType": "DoubleEngine",
@@ -938,7 +938,7 @@
       "INCOMPATIBLE",
       "SMOOTH"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web94.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_94.jpg"
   },
   {
     "componentType": "DoubleEngine",
@@ -948,7 +948,7 @@
       "INCOMPATIBLE",
       "SMOOTH"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web95.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_95.jpg"
   },
   {
     "componentType": "DoubleEngine",
@@ -958,7 +958,7 @@
       "INCOMPATIBLE",
       "SINGLE"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web96.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_96.jpg"
   },
   {
     "componentType": "DoubleEngine",
@@ -968,7 +968,7 @@
       "INCOMPATIBLE",
       "DOUBLE"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web97.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_97.jpg"
   },
   {
     "componentType": "DoubleEngine",
@@ -978,7 +978,7 @@
       "INCOMPATIBLE",
       "DOUBLE"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web98.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_98.jpg"
   },
   {
     "componentType": "DoubleEngine",
@@ -988,7 +988,7 @@
       "INCOMPATIBLE",
       "UNIVERSAL"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web99.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_99.jpg"
   },
   {
     "componentType": "DoubleEngine",
@@ -998,7 +998,7 @@
       "INCOMPATIBLE",
       "UNIVERSAL"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web100.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_100.jpg"
   },
   {
     "componentType": "SingleCannon",
@@ -1008,7 +1008,7 @@
       "SINGLE",
       "SMOOTH"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web101.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_101.jpg"
   },
   {
     "componentType": "SingleCannon",
@@ -1018,7 +1018,7 @@
       "SINGLE",
       "SMOOTH"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web102.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_102.jpg"
   },
   {
     "componentType": "SingleCannon",
@@ -1028,7 +1028,7 @@
       "DOUBLE",
       "SMOOTH"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web103.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_103.jpg"
   },
   {
     "componentType": "SingleCannon",
@@ -1038,7 +1038,7 @@
       "DOUBLE",
       "SMOOTH"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web104.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_104.jpg"
   },
   {
     "componentType": "SingleCannon",
@@ -1048,7 +1048,7 @@
       "SMOOTH",
       "SMOOTH"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web105.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_105.jpg"
   },
   {
     "componentType": "SingleCannon",
@@ -1058,7 +1058,7 @@
       "DOUBLE",
       "SMOOTH"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web106.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_106.jpg"
   },
   {
     "componentType": "SingleCannon",
@@ -1068,7 +1068,7 @@
       "UNIVERSAL",
       "SMOOTH"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web107.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_107.jpg"
   },
   {
     "componentType": "SingleCannon",
@@ -1078,7 +1078,7 @@
       "SMOOTH",
       "SMOOTH"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web108.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_108.jpg"
   },
   {
     "componentType": "SingleCannon",
@@ -1088,7 +1088,7 @@
       "SINGLE",
       "SMOOTH"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web109.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_109.jpg"
   },
   {
     "componentType": "SingleCannon",
@@ -1098,7 +1098,7 @@
       "UNIVERSAL",
       "SMOOTH"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web110.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_110.jpg"
   },
   {
     "componentType": "SingleCannon",
@@ -1108,7 +1108,7 @@
       "SINGLE",
       "SMOOTH"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web111.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_111.jpg"
   },
   {
     "componentType": "SingleCannon",
@@ -1118,7 +1118,7 @@
       "SMOOTH",
       "SINGLE"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web112.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_112.jpg"
   },
   {
     "componentType": "SingleCannon",
@@ -1128,7 +1128,7 @@
       "DOUBLE",
       "SINGLE"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web113.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_113.jpg"
   },
   {
     "componentType": "SingleCannon",
@@ -1138,7 +1138,7 @@
       "UNIVERSAL",
       "SINGLE"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web114.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_114.jpg"
   },
   {
     "componentType": "SingleCannon",
@@ -1148,7 +1148,7 @@
       "SINGLE",
       "SINGLE"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web115.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_115.jpg"
   },
   {
     "componentType": "SingleCannon",
@@ -1158,7 +1158,7 @@
       "UNIVERSAL",
       "SINGLE"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web116.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_116.jpg"
   },
   {
     "componentType": "SingleCannon",
@@ -1168,7 +1168,7 @@
       "SMOOTH",
       "SINGLE"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web117.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_117.jpg"
   },
   {
     "componentType": "SingleCannon",
@@ -1178,7 +1178,7 @@
       "SMOOTH",
       "DOUBLE"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web118.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_118.jpg"
   },
   {
     "componentType": "SingleCannon",
@@ -1188,7 +1188,7 @@
       "SINGLE",
       "DOUBLE"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web119.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_119.jpg"
   },
   {
     "componentType": "SingleCannon",
@@ -1198,7 +1198,7 @@
       "UNIVERSAL",
       "DOUBLE"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web120.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_120.jpg"
   },
   {
     "componentType": "SingleCannon",
@@ -1208,7 +1208,7 @@
       "SMOOTH",
       "DOUBLE"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web121.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_121.jpg"
   },
   {
     "componentType": "SingleCannon",
@@ -1218,7 +1218,7 @@
       "UNIVERSAL",
       "DOUBLE"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web122.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_122.jpg"
   },
   {
     "componentType": "SingleCannon",
@@ -1228,7 +1228,7 @@
       "DOUBLE",
       "DOUBLE"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web123.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_123.jpg"
   },
   {
     "componentType": "SingleCannon",
@@ -1238,7 +1238,7 @@
       "DOUBLE",
       "UNIVERSAL"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web124.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_124.jpg"
   },
   {
     "componentType": "SingleCannon",
@@ -1248,7 +1248,7 @@
       "SMOOTH",
       "UNIVERSAL"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web125.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_125.jpg"
   },
   {
     "componentType": "DoubleCannon",
@@ -1258,7 +1258,7 @@
       "SINGLE",
       "SMOOTH"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web126.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_126.jpg"
   },
   {
     "componentType": "DoubleCannon",
@@ -1268,7 +1268,7 @@
       "DOUBLE",
       "SMOOTH"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web127.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_127.jpg"
   },
   {
     "componentType": "DoubleCannon",
@@ -1278,7 +1278,7 @@
       "UNIVERSAL",
       "SMOOTH"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web128.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_128.jpg"
   },
   {
     "componentType": "DoubleCannon",
@@ -1288,7 +1288,7 @@
       "SMOOTH",
       "SMOOTH"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web129.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_129.jpg"
   },
   {
     "componentType": "DoubleCannon",
@@ -1298,7 +1298,7 @@
       "DOUBLE",
       "SMOOTH"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web130.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_130.jpg"
   },
   {
     "componentType": "DoubleCannon",
@@ -1308,7 +1308,7 @@
       "DOUBLE",
       "SINGLE"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web131.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_131.jpg"
   },
   {
     "componentType": "DoubleCannon",
@@ -1318,7 +1318,7 @@
       "SMOOTH",
       "SINGLE"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web132.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_132.jpg"
   },
   {
     "componentType": "DoubleCannon",
@@ -1328,7 +1328,7 @@
       "UNIVERSAL",
       "DOUBLE"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web133.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_133.jpg"
   },
   {
     "componentType": "DoubleCannon",
@@ -1338,7 +1338,7 @@
       "SINGLE",
       "DOUBLE"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web134.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_134.jpg"
   },
   {
     "componentType": "DoubleCannon",
@@ -1348,7 +1348,7 @@
       "SMOOTH",
       "UNIVERSAL"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web135.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_135.jpg"
   },
   {
     "componentType": "DoubleCannon",
@@ -1358,7 +1358,7 @@
       "SINGLE",
       "UNIVERSAL"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web136.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_136.jpg"
   },
   {
     "componentType": "LifeSupport",
@@ -1369,7 +1369,7 @@
       "SMOOTH",
       "SINGLE"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web137.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_137.jpg"
   },
   {
     "componentType": "LifeSupport",
@@ -1380,7 +1380,7 @@
       "SMOOTH",
       "SINGLE"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web138.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_138.jpg"
   },
   {
     "componentType": "LifeSupport",
@@ -1391,7 +1391,7 @@
       "SMOOTH",
       "UNIVERSAL"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web139.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_139.jpg"
   },
   {
     "componentType": "LifeSupport",
@@ -1402,7 +1402,7 @@
       "SINGLE",
       "UNIVERSAL"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web140.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_140.jpg"
   },
   {
     "componentType": "LifeSupport",
@@ -1413,7 +1413,7 @@
       "SMOOTH",
       "UNIVERSAL"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web141.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_141.jpg"
   },
   {
     "componentType": "LifeSupport",
@@ -1424,7 +1424,7 @@
       "SMOOTH",
       "UNIVERSAL"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web142.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_142.jpg"
   },
   {
     "componentType": "LifeSupport",
@@ -1435,7 +1435,7 @@
       "SMOOTH",
       "DOUBLE"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web143.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_143.jpg"
   },
   {
     "componentType": "LifeSupport",
@@ -1446,7 +1446,7 @@
       "SMOOTH",
       "DOUBLE"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web144.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_144.jpg"
   },
   {
     "componentType": "LifeSupport",
@@ -1457,7 +1457,7 @@
       "SMOOTH",
       "UNIVERSAL"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web145.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_145.jpg"
   },
   {
     "componentType": "LifeSupport",
@@ -1468,7 +1468,7 @@
       "DOUBLE",
       "UNIVERSAL"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web146.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_146.jpg"
   },
   {
     "componentType": "LifeSupport",
@@ -1479,7 +1479,7 @@
       "SMOOTH",
       "UNIVERSAL"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web147.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_147.jpg"
   },
   {
     "componentType": "LifeSupport",
@@ -1490,7 +1490,7 @@
       "SMOOTH",
       "UNIVERSAL"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web148.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_148.jpg"
   },
   {
     "componentType": "Shield",
@@ -1501,7 +1501,7 @@
       "UNIVERSAL",
       "SINGLE"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web149.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_149.jpg"
   },
   {
     "componentType": "Shield",
@@ -1512,7 +1512,7 @@
       "SINGLE",
       "SINGLE"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web150.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_150.jpg"
   },
   {
     "componentType": "Shield",
@@ -1523,7 +1523,7 @@
       "DOUBLE",
       "SINGLE"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web151.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_151.jpg"
   },
   {
     "componentType": "Shield",
@@ -1534,7 +1534,7 @@
       "UNIVERSAL",
       "DOUBLE"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web152.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_152.jpg"
   },
   {
     "componentType": "Shield",
@@ -1545,7 +1545,7 @@
       "DOUBLE",
       "DOUBLE"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web153.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_153.jpg"
   },
   {
     "componentType": "Shield",
@@ -1556,7 +1556,7 @@
       "SINGLE",
       "DOUBLE"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web154.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_154.jpg"
   },
   {
     "componentType": "Shield",
@@ -1567,7 +1567,7 @@
       "SINGLE",
       "UNIVERSAL"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web155.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_155.jpg"
   },
   {
     "componentType": "Shield",
@@ -1578,6 +1578,6 @@
       "DOUBLE",
       "UNIVERSAL"
     ],
-    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-new_tiles_16_for web156.jpg"
+    "graphic": "src/main/resources/it/polimi/it/galaxytrucker/grafiche/tiles/GT-component_tile_156.jpg"
   }
 ]
