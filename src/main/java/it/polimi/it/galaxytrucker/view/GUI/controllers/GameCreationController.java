@@ -14,10 +14,11 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.List;
 
 
-public class GameCreationController extends GUIView {
+public class GameCreationController {
     @FXML
     private TextField numberOfPlayersInput;
     @FXML
@@ -33,7 +34,7 @@ public class GameCreationController extends GUIView {
 
 
     public static GameCreationController getInstance() {
-        System.out.println("ConnectionController get instance");
+        System.out.println("Game creation controller get instance");
         synchronized (SetUsernameController.class) {
             if (GameCreationInstance == null) {
                 GameCreationInstance = new GameCreationController();
@@ -48,7 +49,7 @@ public class GameCreationController extends GUIView {
         int playerNum = Integer.parseInt(numberOfPlayersInput.getText());
 
         GUIView.getGUIView().getClient().receiveUserInput(
-                new UserInput.UserInputBuilder(null, UserInputType.GAME_CREATION)
+                new UserInput.UserInputBuilder(UserInputType.CREATE_NEW_GAME)
                         .setGameLevel(level)
                         .setGamePlayers(playerNum)
                         .build()
@@ -56,7 +57,6 @@ public class GameCreationController extends GUIView {
 
     }
 
-    @Override
     public void gameCreationSuccess(boolean success) {
         if (success) {
             System.out.println(ConsoleColors.GREEN + "Game created successfully. Waiting for players to join..." + ConsoleColors.RESET);
@@ -71,30 +71,37 @@ public class GameCreationController extends GUIView {
         String compositionString= " ";
         int games = 1;
         try {
-             availableGames =  GUIView.getGUIView().getClient().getActiveGames();
-             for (GenericGameData game : availableGames) {
-                compositionString +=("[ " + (game.activePlayers() == game.playerNum() ? "X" : games) + " ]");
-                compositionString +=("     ");
-                compositionString +=("Players: " + game.activePlayers() + "/" + game.playerNum());
-                compositionString +=("     ");
-                compositionString +=("Level: " + game.level());
-                games++;
-                gamesList.add(compositionString);
-                compositionString = "";
-            }
-            GamesAvailableList.setItems(FXCollections.observableArrayList(gamesList));
 
-        } catch (RemoteException e) {
+            GUIView.getGUIView().getClient().receiveUserInput(
+                new UserInput.UserInputBuilder(UserInputType.SEE_ACTIVE_GAMES)
+                        .build()
+            );
+
+
+             while (availableGames == null) {
+                 Thread.onSpinWait();
+             }
+
+            System.out.println("After while waiting");
+
+
+            if (!availableGames.isEmpty()) {
+                for (GenericGameData game : availableGames) {
+                    compositionString += ("[ " + (game.activePlayers() == game.playerNum() ? "X" : games) + " ]");
+                    compositionString += ("     ");
+                    compositionString += ("Players: " + game.activePlayers() + "/" + game.playerNum());
+                    compositionString += ("     ");
+                    compositionString += ("Level: " + game.level());
+                    games++;
+                    gamesList.add(compositionString);
+                    compositionString = "";
+                }
+                GamesAvailableList.setItems(FXCollections.observableArrayList(gamesList));
+            }
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
 
-        /*GamesAvailableList.setOnMouseClicked(event -> {
-            int selectedIndex = GamesAvailableList.getSelectionModel().getSelectedIndex();
-            String selectedItem = GamesAvailableList.getSelectionModel().getSelectedItem();
-            if (selectedItem != null) {
-                joinGame(selectedItem,selectedIndex,availableGames);
-            }
-        });*/
     }
 
     @FXML
@@ -109,9 +116,15 @@ public class GameCreationController extends GUIView {
 
     private void joinGame(String selectedItem, int selectedIndex, List<GenericGameData> activeGames) {
         GUIView.getGUIView().getClient().receiveUserInput(
-                new UserInput.UserInputBuilder(null, UserInputType.GAME_SELECTION)
+                new UserInput.UserInputBuilder( UserInputType.JOIN_ACTIVE_GAME)
                         .setGameId(activeGames.get(selectedIndex).gameId())
                         .build());
     }
+
+
+    public void activeControllers(List<GenericGameData> activeControllers) {
+        this.availableGames = activeControllers;
+    }
+
 
 }

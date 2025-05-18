@@ -55,7 +55,6 @@ public class GUIApplication extends Application {
 
 
     public void showBuildingWindow() throws IOException {
-        System.out.println("Showing Building window");
         GUIApplication.switchScene("/view/BuildingScene.fxml", "Building window");
     }
 }

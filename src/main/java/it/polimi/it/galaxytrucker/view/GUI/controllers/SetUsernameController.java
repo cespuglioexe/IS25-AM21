@@ -7,7 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
-public class SetUsernameController {
+public class SetUsernameController extends GUIView{
 
     @FXML
     private TextField namefield;
@@ -30,13 +30,15 @@ public class SetUsernameController {
         System.out.println("Username: " + namefield.getText());
         System.out.println("View.getClient: "+ GUIView.getGUIView().getClient());
         GUIView.getGUIView().getClient().receiveUserInput(
-                new UserInput.UserInputBuilder(null, UserInputType.SET_USERNAME)
+                new UserInput.UserInputBuilder(UserInputType.SET_PLAYER_USERNAME)
                         .setPlayerName(namefield.getText())
                         .build());
 
         if(!GUIView.getGUIView().getNameIsCorrectCheck()){
             nameError();
         }
+
+        System.out.println("End username");
     }
 
     @FXML

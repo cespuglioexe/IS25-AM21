@@ -49,8 +49,7 @@ public class BuildingController extends GUIView {
     @FXML
     public void newRandomTile(){
         GUIView.getGUIView().getClient().receiveUserInput(
-                new UserInput.UserInputBuilder((VirtualClient) GUIView.getGUIView().getClient(), UserInputType.REQUEST)
-                        .setRequestType(RequestType.NEW_TILE)
+                new UserInput.UserInputBuilder(UserInputType.SELECT_RANDOM_COMPONENT)
                         .build()
         );
 
@@ -65,7 +64,7 @@ public class BuildingController extends GUIView {
         rotation = Integer.parseInt(rotationInput.getText());
 
         GUIView.getGUIView().getClient().receiveUserInput(
-                new UserInput.UserInputBuilder((VirtualClient) GUIView.getGUIView().getClient(), UserInputType.PLACE_COMPONENT)
+                new UserInput.UserInputBuilder(UserInputType.PLACE_COMPONENT)
                         .setCoords(x, y)
                         .setRotation(rotation)
                         .build()
@@ -88,7 +87,7 @@ public class BuildingController extends GUIView {
     @FXML
     public void saveTile(){
         GUIView.getGUIView().getClient().receiveUserInput(
-                new UserInput.UserInputBuilder((VirtualClient) GUIView.getGUIView().getClient(), UserInputType.SAVE_COMPONENT)
+                new UserInput.UserInputBuilder(UserInputType.SAVE_SELECTED_COMPONENT)
                         .build()
         );
 
@@ -98,7 +97,7 @@ public class BuildingController extends GUIView {
     @FXML
     public void discardTile(){
         GUIView.getGUIView().getClient().receiveUserInput(
-                new UserInput.UserInputBuilder((VirtualClient) GUIView.getGUIView().getClient(), UserInputType.DISCARD_COMPONENT)
+                new UserInput.UserInputBuilder(UserInputType.DISCARD_SELECTED_COMPONENT)
                         .build()
         );
         System.out.println("tile discarded");
@@ -108,7 +107,7 @@ public class BuildingController extends GUIView {
     public void startTimer() {
         if (!GUIView.getGUIView().getClient().isBuildingTimerIsActive()) {
             GUIView.getGUIView().getClient().receiveUserInput(
-                    new UserInput.UserInputBuilder((VirtualClient) GUIView.getGUIView().getClient(), UserInputType.START_TIMER)
+                    new UserInput.UserInputBuilder(UserInputType.RESTART_BUILDING_TIMER)
                             .build()
             );
         }

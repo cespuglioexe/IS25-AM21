@@ -1,5 +1,6 @@
 package it.polimi.it.galaxytrucker.view.GUI;
 
+import it.polimi.it.galaxytrucker.controller.GenericGameData;
 import it.polimi.it.galaxytrucker.main.ClientApplication;
 import it.polimi.it.galaxytrucker.model.componenttiles.TileData;
 import it.polimi.it.galaxytrucker.model.componenttiles.TileEdge;
@@ -18,6 +19,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class GUIView extends View {
 
@@ -86,9 +88,14 @@ public class GUIView extends View {
     }
 
     @Override
-    public void gameSelectionScreen() throws IOException {
-        System.out.println("GUI VIEW: game selection screen");
-        guiApplication.showGameCreationWindow();
+    public void gameSelectionScreen(){
+        try{
+            System.out.println("GUI VIEW: game selection screen");
+            guiApplication.showGameCreationWindow();
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
+
 
     }
 
@@ -127,7 +134,32 @@ public class GUIView extends View {
         System.out.println("GUI VIEW: displayTimerEnded");
     }
 
+    @Override
+    public void activeControllers(List<GenericGameData> activeControllers) {
+        GameCreationController.getInstance().activeControllers(activeControllers);
+        System.out.println("AFTER GUI view: get instance gamecreation controllers");
 
+    }
+
+    @Override
+    public void shipUpdated(UUID interestedPlayerId) {
+
+    }
+
+    @Override
+    public void componentTileReceived(TileData newTile) {
+
+    }
+
+    @Override
+    public void savedComponentsUpdated() {
+
+    }
+
+    @Override
+    public void discardedComponentsUpdated() {
+
+    }
 
 
     //Utili solo per il controllo senza png

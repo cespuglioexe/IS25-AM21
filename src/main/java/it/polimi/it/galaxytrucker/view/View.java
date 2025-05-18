@@ -37,7 +37,7 @@ public abstract class View {
 
     public abstract void buildingStarted();
 
-    public abstract void gameSelectionScreen() throws IOException;
+    public abstract void gameSelectionScreen();
 
     public abstract void gameCreationSuccess(boolean success);
 
