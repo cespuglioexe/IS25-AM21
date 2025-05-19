@@ -1,9 +1,13 @@
 package it.polimi.it.galaxytrucker.view;
 
+import it.polimi.it.galaxytrucker.controller.GenericGameData;
 import it.polimi.it.galaxytrucker.model.componenttiles.TileData;
 import it.polimi.it.galaxytrucker.networking.client.Client;
 
+import javax.smartcardio.Card;
+import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 public abstract class View {
     private Client client = null;
@@ -48,4 +52,14 @@ public abstract class View {
     public abstract void displayTimerStarted();
 
     public abstract void displayTimerEnded();
+
+    public abstract void activeControllers(List<GenericGameData> activeControllers);
+
+    public abstract void shipUpdated(UUID interestedPlayerId);
+
+    public abstract void componentTileReceived(TileData newTile);
+
+    public abstract void savedComponentsUpdated();
+
+    public abstract void discardedComponentsUpdated();
 }

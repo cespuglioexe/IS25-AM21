@@ -1,5 +1,8 @@
 package it.polimi.it.galaxytrucker.model.componenttiles;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +16,14 @@ public class TileData implements Serializable {
     private TileEdge bottom;
     private TileEdge left;
 
-    public TileData (int rotation, String type, TileEdge top, TileEdge right, TileEdge bottom, TileEdge left) {
+    @JsonCreator
+    public TileData (
+            @JsonProperty("rotation") int rotation,
+            @JsonProperty("type") String type,
+            @JsonProperty("top") TileEdge top,
+            @JsonProperty("right") TileEdge right,
+            @JsonProperty("bottom") TileEdge bottom,
+            @JsonProperty("left") TileEdge left) {
         this.rotation = rotation;
         this.type = type;
         this.top = top;

@@ -1,7 +1,7 @@
-package it.polimi.it.galaxytrucker.model.gamestates;
+package it.polimi.it.galaxytrucker.model.gameStates;
 
 import it.polimi.it.galaxytrucker.model.design.statePattern.StateMachine;
-import it.polimi.it.galaxytrucker.model.gamestates.fields.StartFields;
+import it.polimi.it.galaxytrucker.model.gameStates.fields.StartFields;
 import it.polimi.it.galaxytrucker.exceptions.InvalidActionException;
 import it.polimi.it.galaxytrucker.model.managers.Model;
 

@@ -1,4 +1,5 @@
-package it.polimi.it.galaxytrucker.model.gamestates;
+package it.polimi.it.galaxytrucker.model.gameStates;
+
 import it.polimi.it.galaxytrucker.commands.servercommands.GameUpdate;
 import it.polimi.it.galaxytrucker.commands.servercommands.GameUpdateType;
 import it.polimi.it.galaxytrucker.model.componenttiles.ComponentTile;
@@ -49,7 +50,7 @@ public class BuildingState extends GameState {
         }
 
         ((GameManager) fsm).updateListeners(
-                new GameUpdate.GameUpdateBuilder(GameUpdateType.NEW_STATE, new UUID(0, 0))
+                new GameUpdate.GameUpdateBuilder(GameUpdateType.NEW_STATE)
                         .setNewSate(this.getClass().getSimpleName())
                         .setPlayerIds(gameManager.getPlayers().stream().map(Player::getPlayerID).toList())
                         .setAllPlayerShipBoards(convertedShips)
@@ -218,12 +219,12 @@ public class BuildingState extends GameState {
     public void startBuildPhaseTimer(GameManager gm) {
         Executors.newScheduledThreadPool(1).schedule(() -> {
             gm.updateListeners(
-                    new GameUpdate.GameUpdateBuilder(GameUpdateType.TIMER_END, new UUID(0,0))
+                    new GameUpdate.GameUpdateBuilder(GameUpdateType.TIMER_END)
                             .build()
             );
-        }, 10, TimeUnit.SECONDS);
+        }, 5, TimeUnit.SECONDS);
         gm.updateListeners(
-                new GameUpdate.GameUpdateBuilder(GameUpdateType.TIMER_START, new UUID(0,0))
+                new GameUpdate.GameUpdateBuilder(GameUpdateType.TIMER_START)
                         .build()
         );
     }

@@ -38,5 +38,4 @@ public abstract class Json {
         return objectMapper.readValue(node.traverse(),
                 objectMapper.getTypeFactory().constructCollectionType(Set.class, clazz));
     }
-
 }
