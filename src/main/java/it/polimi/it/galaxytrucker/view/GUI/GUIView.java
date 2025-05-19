@@ -8,9 +8,12 @@ import it.polimi.it.galaxytrucker.networking.client.Client;
 import it.polimi.it.galaxytrucker.networking.client.rmi.RMIClient;
 import it.polimi.it.galaxytrucker.view.CLI.CLIViewStates.CLIViewState;
 import it.polimi.it.galaxytrucker.view.CLI.ConsoleColors;
+import it.polimi.it.galaxytrucker.view.GUI.controllers.GUITitleScreen;
 import it.polimi.it.galaxytrucker.view.GUI.controllers.GameCreationController;
+import it.polimi.it.galaxytrucker.view.GUI.controllers.SetUsernameController;
 import it.polimi.it.galaxytrucker.view.View;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -24,8 +27,9 @@ import java.util.UUID;
 public class GUIView extends View {
 
     private static GUIView guiView;
-    private GUIApplication guiApplication = new GUIApplication();
     private boolean nameIsCorrectCheck = true;
+
+    public static Stage stage;
 
     public boolean getNameIsCorrectCheck() {
         return nameIsCorrectCheck;
@@ -33,7 +37,12 @@ public class GUIView extends View {
 
     public static GUIView getGUIView(){
         if(guiView == null){
+            new Thread(() -> Application.launch(GUIApplication.class)).start();
             guiView = new GUIView();
+
+            // Initialize all GUI controllers
+            GUITitleScreen.getInstance();
+            SetUsernameController.getInstance();
         }
         return guiView;
     }
@@ -45,19 +54,19 @@ public class GUIView extends View {
 
     @Override
     public void begin() {
-        Application.launch(GUIApplication.class);
+        Platform.runLater(() -> stage.show());
+        titleScreen();
     }
 
     @Override
     public void titleScreen() {
-
+        GUITitleScreen.getInstance().displayScene();
     }
 
     @Override
     public void displayShip(List<List<TileData>> ship) {
 
     }
-
 
     @Override
     public void displayTiles(List<TileData> tiles) {
@@ -69,6 +78,11 @@ public class GUIView extends View {
 
     }
 
+    public void nameSelectionScene() {
+        System.out.println("Username selection");
+        SetUsernameController.getInstance().displayScene();
+    }
+
     @Override
     public void nameNotAvailable() {
         System.out.println("GUI VIEW: name not available");
@@ -78,23 +92,23 @@ public class GUIView extends View {
     @Override
     public void buildingStarted() {
         System.out.println("GUI VIEW: building started");
-        try {
-            guiApplication.showBuildingWindow();
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+//        try {
+//            guiApplication.showBuildingWindow();
+//
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
 
     }
 
     @Override
     public void gameSelectionScreen(){
-        try{
-            System.out.println("GUI VIEW: game selection screen");
-            guiApplication.showGameCreationWindow();
-        }catch (Exception e){
-            throw new RuntimeException(e);
-        }
+//        try{
+//            System.out.println("GUI VIEW: game selection screen");
+//            guiApplication.showGameCreationWindow();
+//        }catch (Exception e){
+//            throw new RuntimeException(e);
+//        }
 
 
     }

@@ -18,7 +18,7 @@ import javafx.util.Duration;
 
 import java.util.List;
 
-public class BuildingController extends GUIView {
+public class BuildingController {
 
 
     private static BuildingController instance;

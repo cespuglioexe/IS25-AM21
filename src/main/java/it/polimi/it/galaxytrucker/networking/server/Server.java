@@ -82,7 +82,7 @@ public class Server extends UnicastRemoteObject implements RMIServer, Runnable, 
         Registry registry;
         try {
             // Create RMI registry on the specified port
-            registry = LocateRegistry.createRegistry(1234);
+            registry = LocateRegistry.createRegistry(5001);
             // Rebind this server object in the registry under the name "server"
             registry.rebind("server", this);
             // Export this server object to make it available for remote calls
@@ -97,7 +97,7 @@ public class Server extends UnicastRemoteObject implements RMIServer, Runnable, 
 
         try {
             // Create a server socket that listens on the specified port
-            this.listenSocket = new ServerSocket(2345);
+            this.listenSocket = new ServerSocket(5002);
             Socket clientSocket = null;
 
             System.out.println("Socket server ready. Listening on: " + listenSocket.getInetAddress().getHostAddress());

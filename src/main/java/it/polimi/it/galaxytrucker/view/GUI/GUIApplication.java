@@ -7,54 +7,50 @@ import javafx.application.Application;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.awt.event.ActionEvent;
 import java.io.IOException;
+import java.util.Objects;
 
 public class GUIApplication extends Application {
-    private static Stage mainStage;
-
     @Override
-    public void start(Stage stage) throws Exception {
-            GUIApplication.setStage(stage);
-            GUIApplication.switchScene("/view/SetUsernameScene.fxml", "Set username window");
+    public void start(Stage stage) {
+        //stage.setFullScreen(true);
+        stage.setResizable(false);
+        GUIView.stage = stage;
 
-    }
+        Screen screen = Screen.getPrimary();
+        stage.setWidth(screen.getVisualBounds().getWidth());
+        stage.setHeight(screen.getVisualBounds().getHeight());
 
-    public static void setStage(Stage stage) {
-        mainStage = stage;
-    }
+        stage.setScene(new Scene(new Pane()));
 
-    public static Stage getStage() {
-        return mainStage;
-    }
+        stage.setTitle("Galaxy Trucker");
 
+        stage.setFullScreenExitHint("Press ESC to exit fullscreen. If you want to re-enter fullscreen afterwards, press F11.");
 
-    public static void switchScene(String fxmlPath, String title) throws IOException {
+        stage.addEventHandler(KeyEvent.KEY_PRESSED, (event) -> {
+            if (event.getCode().equals(KeyCode.ESCAPE)) {
+                stage.setResizable(true);
+                stage.setFullScreen(false);
+                stage.setMaximized(true);
+                stage.setResizable(false);
+            }
+        });
 
-            Platform.runLater(() -> {
-                try{
-                System.out.println("Switching scene to " + fxmlPath);
-                FXMLLoader loader = new FXMLLoader(GUIApplication.class.getResource(fxmlPath));
-                Parent root = loader.load();
-                mainStage.setScene(new Scene(root));
-                mainStage.setTitle(title);
-                mainStage.show();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            });
+        stage.addEventHandler(KeyEvent.KEY_PRESSED, (event) -> {
+            if (event.getCode().equals(KeyCode.F11)) {
+                stage.setFullScreen(true);
+            }
+        });
 
-
-    }
-
-    public void showGameCreationWindow() throws IOException {
-        GUIApplication.switchScene("/view/GameCreationScene.fxml", "Set username window");
-    }
-
-
-    public void showBuildingWindow() throws IOException {
-        GUIApplication.switchScene("/view/BuildingScene.fxml", "Building window");
+        stage.setOnCloseRequest((event) -> System.exit(1));
     }
 }

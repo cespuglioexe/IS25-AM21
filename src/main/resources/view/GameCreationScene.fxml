@@ -8,14 +8,13 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.it.galaxytrucker.view.GUI.controllers.GameCreationController">
    <children>
       <SplitPane dividerPositions="0.3720735785953177" prefHeight="400.0" prefWidth="600.0">
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="398.0" prefWidth="219.0">
                <children>
-                  <Label layoutX="36.0" layoutY="51.0" prefHeight="40.0" prefWidth="147.0" text="Games available">
+                  <Label layoutX="36.0" layoutY="51.0" prefHeight="40.0" prefWidth="147.0" text="Available games">
                      <font>
                         <Font size="21.0" />
                      </font>
@@ -26,7 +25,7 @@
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <Label layoutX="82.0" layoutY="53.0" text="Game Creation">
+                  <Label layoutX="53.0" layoutY="56.0" text="Create a new game">
                      <font>
                         <Font size="33.0" />
                      </font>
