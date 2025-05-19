@@ -102,7 +102,6 @@ public class SlaversTest {
 
 
         ship.addComponentTile(7, 5, new LifeSupport(AlienType.BROWNALIEN, List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE)));
-
         ship.addCrewmate(6, 7, human);
         ship.addCrewmate(6, 7, human);
         ship.addCrewmate(7, 8, human);
@@ -165,7 +164,7 @@ public class SlaversTest {
         card.sellSlaves(List.of(List.of(6,7),List.of(6,7), List.of(7,8), List.of(7,8)));
 
         assertEquals(CalculateFirePowerState.class, card.getCurrentState().getClass());
-        assertEquals(player1.getShipManager().countCrewmates(), 3);
+        assertEquals(player1.getShipManager().countCrewmates(), 5);
         assertEquals(card.getCurrentPlayer(), player2);
     }
 
@@ -178,8 +177,8 @@ public class SlaversTest {
     @Test
     void leaderPenaltyZeroCrewmateTest() {
         leaderLostTest();
-        crewmatePenalty = 8;
-        card.sellSlaves(List.of(List.of(6,7),List.of(6,7), List.of(7,8), List.of(7,8),List.of(8,8), List.of(8,8), List.of(7,6)));
+        crewmatePenalty = 10;
+        card.sellSlaves(List.of(List.of(6,7),List.of(6,7), List.of(7,8), List.of(7,8),List.of(8,8), List.of(8,8), List.of(7,6),List.of(7,7), List.of(7,7)));
 
         assertEquals(CalculateFirePowerState.class, card.getCurrentState().getClass());
         assertEquals(player1.getShipManager().countCrewmates(), 0);
@@ -195,7 +194,7 @@ public class SlaversTest {
         card.selectCannons(doubleCannon);
         assertEquals(CrewmatePenaltyState.class, card.getCurrentState().getClass());
         card.sellSlaves(List.of(List.of(6,7),List.of(6,7), List.of(7,8), List.of(7,8)));
-        assertEquals(player.getShipManager().countCrewmates(), 3);
+        assertEquals(player.getShipManager().countCrewmates(), 5);
     }
 
     @Test

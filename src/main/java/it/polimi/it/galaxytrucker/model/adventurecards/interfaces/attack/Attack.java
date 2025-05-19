@@ -87,6 +87,10 @@ public abstract class Attack extends CardStateMachine {
         return projectilesAndAimedComponent.get(projectile);
     }
 
+    public HashMap<Projectile, Integer> getRolledProjectileAndCoord() {
+        return rolledProjectileAndCoord;
+    }
+
     public void setPlayer(Player player) {
         this.player = player;
         ShipManager ship = player.getShipManager();
