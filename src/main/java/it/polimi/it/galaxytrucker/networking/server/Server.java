@@ -96,6 +96,7 @@ public class Server extends UnicastRemoteObject implements RMIServer, Runnable, 
 
         // Setup socket server
 
+
         try {
             // Create a server socket that listens on the specified port
             this.listenSocket = new ServerSocket(ServerDetails.SOCKET_DEFAULT_PORT);

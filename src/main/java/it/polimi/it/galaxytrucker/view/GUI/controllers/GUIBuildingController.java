@@ -5,18 +5,20 @@ import it.polimi.it.galaxytrucker.commands.UserInputType;
 import it.polimi.it.galaxytrucker.model.componenttiles.TileData;
 import it.polimi.it.galaxytrucker.networking.client.clientmodel.ClientModel;
 import it.polimi.it.galaxytrucker.view.GUI.GUIView;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
-public class BuildingController {
-
-
-    private static BuildingController instance;
-    private int seconds = 0;
+public class GUIBuildingController extends GUIViewState {
 
     @FXML
     private TextField xCoordText,yCoordText, rotationInput;
@@ -24,15 +26,25 @@ public class BuildingController {
     private Pane displayShipPane;
     @FXML
     private Label timerSeconds,showTile;
+    private static GUIBuildingController instance;
 
-    public static BuildingController getInstance() {
-        System.out.println("ConnectionController get instance");
+    public static GUIBuildingController getInstance() {
         synchronized (GUIUsernameSelection.class) {
             if (instance == null) {
-                instance = new BuildingController();
+                instance = new GUIBuildingController();
             }
             return instance;
         }
+    }
+
+    public GUIBuildingController() {
+       try {
+           FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(GUITitleScreen.class.getResource("/it/polimi/it/galaxytrucker/fxmlstages/buildingPhase.fxml")));
+           loader.setController(this);
+           root = loader.load();
+       } catch (IOException e) {
+           e.printStackTrace();
+       }
     }
 
     public void initialize() {
@@ -124,6 +136,14 @@ public class BuildingController {
     }
 
 
+    @Override
+    public void displayScene() {
+        Platform.runLater(() -> {
+            stage = (Stage) GUIView.stage.getScene().getWindow();
+            scene = new Scene(root);
+            stage.setScene(scene);
 
-
+            stage.show();
+        });
+    }
 }

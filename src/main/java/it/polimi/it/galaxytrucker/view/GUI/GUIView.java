@@ -78,14 +78,7 @@ public class GUIView extends View {
 
     @Override
     public void buildingStarted() {
-        System.out.println("GUI VIEW: building started");
-//        try {
-//            guiApplication.showBuildingWindow();
-//
-//        } catch (Exception e) {
-//            throw new RuntimeException(e);
-//        }
-
+        GUIGameCreation.getInstance().displayScene();
     }
 
     @Override
