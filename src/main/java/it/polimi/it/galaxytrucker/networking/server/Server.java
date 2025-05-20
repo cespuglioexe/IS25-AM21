@@ -10,6 +10,7 @@ import it.polimi.it.galaxytrucker.utils.ServerDetails;
 import it.polimi.it.galaxytrucker.view.CLI.ConsoleColors;
 
 import java.io.*;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.rmi.RemoteException;
@@ -77,6 +78,12 @@ public class Server extends UnicastRemoteObject implements RMIServer, Runnable, 
      */
     public void run () {
 
+        System.out.println("Insert IP address to use (leave empty for 'localhost'): ");
+        Scanner scanner = new Scanner(System.in);
+        String ip = scanner.nextLine();
+
+        serverIPAddress = ip.isEmpty() ? ServerDetails.DEFAULT_IP : ip;
+
         // Setup RMI server
 
         System.setProperty("java.rmi.server.hostname", serverIPAddress);
@@ -85,24 +92,24 @@ public class Server extends UnicastRemoteObject implements RMIServer, Runnable, 
             // Create RMI registry on the specified port
             registry = LocateRegistry.createRegistry(ServerDetails.RMI_DEFAULT_PORT);
             // Rebind this server object in the registry under the name "server"
-            registry.rebind("server", this);
+            registry.rebind(ServerDetails.DEFAULT_RMI_NAME, this);
             // Export this server object to make it available for remote calls
             // UnicastRemoteObject.exportObject(this, 1234); // This line might be redundant after rebind, depending on RMI setup specifics
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
 
-        System.out.println("RMI server ready. Registry: " + registry + "\n>\tName: " + serverIPAddress + "\n>\tPort: " + 1234);
+        System.out.println("RMI server ready. Registry: " + registry + "\n>\tName: " + ServerDetails.DEFAULT_RMI_NAME + "\n>\tPort: " + ServerDetails.RMI_DEFAULT_PORT);
 
         // Setup socket server
 
 
         try {
             // Create a server socket that listens on the specified port
-            this.listenSocket = new ServerSocket(ServerDetails.SOCKET_DEFAULT_PORT);
+            this.listenSocket = new ServerSocket(ServerDetails.SOCKET_DEFAULT_PORT, 0, InetAddress.getByName(serverIPAddress));
             Socket clientSocket = null;
 
-            System.out.println("Socket server ready. Listening on: " + listenSocket.getInetAddress().getHostAddress());
+            System.out.println("Socket server ready\n>\tIP: " + listenSocket.getInetAddress().getHostAddress() + "\n>\tPort: " + ServerDetails.SOCKET_DEFAULT_PORT);
             System.out.println("\n---------------------------------------------\n");
 
             // Loop indefinitely to accept incoming socket connections
