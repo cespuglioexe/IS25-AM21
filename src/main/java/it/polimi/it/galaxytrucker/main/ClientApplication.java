@@ -6,8 +6,6 @@ import it.polimi.it.galaxytrucker.view.GUI.GUIView;
 import it.polimi.it.galaxytrucker.view.View;
 import it.polimi.it.galaxytrucker.view.CLI.CLIView;
 
-import java.io.*;
-import java.net.Socket;
 import java.rmi.RemoteException;
 import java.util.Scanner;
 
@@ -38,7 +36,7 @@ public class ClientApplication {
         if (interfaceType.equals("cli"))
             view = new CLIView();
         else if (interfaceType.equals("gui"))
-           view = GUIView.getGUIView();
+           view = GUIView.getInstance();
 
         if (connectionType.equals("rmi"))
             new RMIClient(view).run();

@@ -4,11 +4,11 @@ import it.polimi.it.galaxytrucker.view.GUI.GUIView;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -20,6 +20,7 @@ public class GUITitleScreen extends GUIViewState {
 
     @FXML public ImageView backgroundImage;
     @FXML public ImageView titleImage;
+    @FXML public Text tipText;
 
     public static GUITitleScreen getInstance() {
         if (instance == null) {
@@ -33,8 +34,10 @@ public class GUITitleScreen extends GUIViewState {
             FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(GUITitleScreen.class.getResource("/it/polimi/it/galaxytrucker/fxmlstages/titleScreen.fxml")));
             loader.setController(this);
             root = loader.load();
+
             backgroundImage.setImage(new Image(Objects.requireNonNull(GUITitleScreen.class.getResourceAsStream("/it/polimi/it/galaxytrucker/graphics/general/background.png"))));
             titleImage.setImage(new Image(Objects.requireNonNull(GUITitleScreen.class.getResourceAsStream("/it/polimi/it/galaxytrucker/graphics/general/title.png"))));
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -49,7 +52,7 @@ public class GUITitleScreen extends GUIViewState {
 
             scene.setOnKeyPressed(event -> {
                 if (event.getCode() == KeyCode.ENTER) {
-                    GUIView.getGUIView().nameSelectionScene();
+                    GUIView.getInstance().nameSelectionScene();
                 }
             });
 

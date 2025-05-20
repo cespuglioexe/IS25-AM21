@@ -62,4 +62,6 @@ public abstract class View {
     public abstract void savedComponentsUpdated();
 
     public abstract void discardedComponentsUpdated();
+
+    public abstract void nameSelectionSuccess();
 }

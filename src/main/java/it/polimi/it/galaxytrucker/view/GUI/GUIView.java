@@ -1,25 +1,17 @@
 package it.polimi.it.galaxytrucker.view.GUI;
 
 import it.polimi.it.galaxytrucker.controller.GenericGameData;
-import it.polimi.it.galaxytrucker.main.ClientApplication;
 import it.polimi.it.galaxytrucker.model.componenttiles.TileData;
 import it.polimi.it.galaxytrucker.model.componenttiles.TileEdge;
-import it.polimi.it.galaxytrucker.networking.client.Client;
-import it.polimi.it.galaxytrucker.networking.client.rmi.RMIClient;
-import it.polimi.it.galaxytrucker.view.CLI.CLIViewStates.CLIViewState;
 import it.polimi.it.galaxytrucker.view.CLI.ConsoleColors;
 import it.polimi.it.galaxytrucker.view.GUI.controllers.GUITitleScreen;
-import it.polimi.it.galaxytrucker.view.GUI.controllers.GameCreationController;
-import it.polimi.it.galaxytrucker.view.GUI.controllers.SetUsernameController;
+import it.polimi.it.galaxytrucker.view.GUI.controllers.GUIGameCreation;
+import it.polimi.it.galaxytrucker.view.GUI.controllers.GUIUsernameSelection;
 import it.polimi.it.galaxytrucker.view.View;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -27,22 +19,18 @@ import java.util.UUID;
 public class GUIView extends View {
 
     private static GUIView guiView;
-    private boolean nameIsCorrectCheck = true;
 
     public static Stage stage;
+    public static List<Double> screenSize;
 
-    public boolean getNameIsCorrectCheck() {
-        return nameIsCorrectCheck;
-    }
-
-    public static GUIView getGUIView(){
+    public static GUIView getInstance(){
         if(guiView == null){
             new Thread(() -> Application.launch(GUIApplication.class)).start();
             guiView = new GUIView();
 
             // Initialize all GUI controllers
             GUITitleScreen.getInstance();
-            SetUsernameController.getInstance();
+            GUIUsernameSelection.getInstance();
         }
         return guiView;
     }
@@ -80,13 +68,12 @@ public class GUIView extends View {
 
     public void nameSelectionScene() {
         System.out.println("Username selection");
-        SetUsernameController.getInstance().displayScene();
+        GUIUsernameSelection.getInstance().displayScene();
     }
 
     @Override
     public void nameNotAvailable() {
-        System.out.println("GUI VIEW: name not available");
-        nameIsCorrectCheck = false;
+        GUIUsernameSelection.getInstance().nameError();
     }
 
     @Override
@@ -103,14 +90,7 @@ public class GUIView extends View {
 
     @Override
     public void gameSelectionScreen(){
-//        try{
-//            System.out.println("GUI VIEW: game selection screen");
-//            guiApplication.showGameCreationWindow();
-//        }catch (Exception e){
-//            throw new RuntimeException(e);
-//        }
-
-
+        GUIGameCreation.getInstance().displayScene();
     }
 
     @Override
@@ -150,7 +130,7 @@ public class GUIView extends View {
 
     @Override
     public void activeControllers(List<GenericGameData> activeControllers) {
-        GameCreationController.getInstance().activeControllers(activeControllers);
+        GUIGameCreation.getInstance().activeControllers(activeControllers);
         System.out.println("AFTER GUI view: get instance gamecreation controllers");
 
     }
@@ -173,6 +153,11 @@ public class GUIView extends View {
     @Override
     public void discardedComponentsUpdated() {
 
+    }
+
+    @Override
+    public void nameSelectionSuccess() {
+        GUIUsernameSelection.getInstance().nameSelectionSuccess();
     }
 
 

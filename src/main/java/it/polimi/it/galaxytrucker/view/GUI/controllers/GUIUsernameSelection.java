@@ -10,32 +10,32 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.Objects;
 
-public class SetUsernameController extends GUIViewState {
+public class GUIUsernameSelection extends GUIViewState {
 
     @FXML public TextField namefield;
     @FXML public Button checkUsername;
+    @FXML public Label usernameError;
+    @FXML public Label usernameSuccess;
 
-    //NOT USED
-    private static SetUsernameController Instance;
+    private static GUIUsernameSelection Instance;
 
-    public static SetUsernameController getInstance() {
-        synchronized (SetUsernameController.class) {
+    public static GUIUsernameSelection getInstance() {
+        synchronized (GUIUsernameSelection.class) {
             if (Instance == null) {
-                Instance = new SetUsernameController();
+                Instance = new GUIUsernameSelection();
             }
             return Instance;
         }
     }
 
-    private SetUsernameController() {
+    private GUIUsernameSelection() {
         try {
-            FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(GUITitleScreen.class.getResource("/view/setUsernameScene.fxml")));
+            FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(GUITitleScreen.class.getResource("/it/polimi/it/galaxytrucker/fxmlstages/usernameSelection.fxml")));
             loader.setController(this);
             root = loader.load();
         } catch (IOException e) {
@@ -47,27 +47,20 @@ public class SetUsernameController extends GUIViewState {
 
 
     @FXML
-    public void checkUsernameFunction(){
-        System.out.println("Username: " + namefield.getText());
-        System.out.println("View.getClient: "+ GUIView.getGUIView().getClient());
-        GUIView.getGUIView().getClient().receiveUserInput(
+    public void submitUsername(){
+        GUIView.getInstance().getClient().receiveUserInput(
                 new UserInput.UserInputBuilder(UserInputType.SET_PLAYER_USERNAME)
                         .setPlayerName(namefield.getText())
                         .build());
-
-        if(!GUIView.getGUIView().getNameIsCorrectCheck()){
-            nameError();
-        }
-
-        System.out.println("End username");
     }
 
-    @FXML
-    private Label usernameError;
-
-    @FXML
     public void nameError(){
-        usernameError.setVisible(true);
+        Platform.runLater(() -> usernameError.setVisible(true));
+    }
+
+    public void nameSelectionSuccess() {
+        Platform.runLater(() -> usernameSuccess.setVisible(true));
+        GUIView.getInstance().gameSelectionScreen();
     }
 
     @Override
@@ -80,4 +73,6 @@ public class SetUsernameController extends GUIViewState {
             stage.show();
         });
     }
+
+
 }

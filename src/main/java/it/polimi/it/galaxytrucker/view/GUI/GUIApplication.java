@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 
 import java.awt.event.ActionEvent;
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 
 public class GUIApplication extends Application {
@@ -29,6 +30,8 @@ public class GUIApplication extends Application {
         Screen screen = Screen.getPrimary();
         stage.setWidth(screen.getVisualBounds().getWidth());
         stage.setHeight(screen.getVisualBounds().getHeight());
+
+        GUIView.screenSize = List.of(screen.getVisualBounds().getWidth(), screen.getVisualBounds().getHeight());
 
         stage.setScene(new Scene(new Pane()));
 
