@@ -36,7 +36,10 @@ public class ClientModel {
      * Discarded component, visible to all players
      */
     private final List<TileData> discardedTiles = new ArrayList<>();
+    
 
+    private int gameLevel;
+    
     public ClientModel() {
         myData = new PlayerData();
     }
@@ -53,6 +56,14 @@ public class ClientModel {
      */
     public void updatePlayerShip(UUID playerId, List<List<TileData>> playerShip) {
         playerShips.put(playerId, playerShip);
+    }
+
+    public int getGameLevel() {
+        return gameLevel;
+    }
+
+    public void setGameLevel(int gameLevel) {
+        this.gameLevel = gameLevel;
     }
 
     public PlayerData getMyData() {

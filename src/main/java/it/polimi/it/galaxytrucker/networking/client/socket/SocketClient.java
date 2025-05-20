@@ -190,6 +190,7 @@ public class SocketClient implements SocketVirtualClient, Runnable, Client {
             case JOIN_GAME_RESULT:
                 if (update.isSuccessfulOperation()) {
                     model.getMyData().setMatchId(update.getGameUuid());
+                    model.setGameLevel(update.getGameLevel());
                 } else if (update.getOperationMessage().equals("The game was full")) {
                     view.joinedGameIsFull();
                 }

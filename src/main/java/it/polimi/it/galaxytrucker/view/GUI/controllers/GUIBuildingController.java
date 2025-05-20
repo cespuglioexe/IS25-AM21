@@ -11,6 +11,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -26,6 +28,8 @@ public class GUIBuildingController extends GUIViewState {
     private Pane displayShipPane;
     @FXML
     private Label timerSeconds,showTile;
+    @FXML
+    private ImageView shipBgImage,tileImageView;
     private static GUIBuildingController instance;
 
     public static GUIBuildingController getInstance() {
@@ -42,6 +46,10 @@ public class GUIBuildingController extends GUIViewState {
            FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(GUITitleScreen.class.getResource("/it/polimi/it/galaxytrucker/fxmlstages/buildingPhase.fxml")));
            loader.setController(this);
            root = loader.load();
+
+           System.out.println("Setting level to :" + GUIView.getInstance().getClient().getModel().getGameLevel());
+           shipBgImage.setImage(new Image(Objects.requireNonNull(GUITitleScreen.class.getResourceAsStream("/it/polimi/it/galaxytrucker/graphics/cardboard/shipboard-lvl" + GUIView.getInstance().getClient().getModel().getGameLevel() + ".jpg"))));
+
        } catch (IOException e) {
            e.printStackTrace();
        }
@@ -132,7 +140,13 @@ public class GUIBuildingController extends GUIViewState {
         ClientModel model = GUIView.getInstance().getClient().getModel();
         List<TileData> discardedTiles = model.getDiscardedTiles();
         GUIView.getInstance().displayTiles(discardedTiles);
-        showTile.setText(discardedTiles.toString());
+        //showTile.setText(discardedTiles.toString());
+        tileImageView.setImage(new Image(Objects.requireNonNull(GUITitleScreen.class.getResourceAsStream("/it/polimi/it/galaxytrucker/graphics//"))));
+
+    }
+
+    public void showTile(){
+        tileImageView.setImage(new Image(Objects.requireNonNull(GUITitleScreen.class.getResourceAsStream("/it/polimi/it/galaxytrucker/graphics//"))));
     }
 
 

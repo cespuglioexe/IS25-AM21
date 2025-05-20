@@ -47,9 +47,10 @@
          </children>
       </AnchorPane>
       <Button fx:id="viewShipButton" layoutX="56.0" layoutY="360.0" mnemonicParsing="false" onAction="#displayShip" prefHeight="51.0" prefWidth="135.0" text="View ship" />
-      <Pane fx:id="displayShipPane" prefHeight="558.0" prefWidth="829.0" style="-fx-background-color: red;" visible="false">
+      <Pane fx:id="displayShipPane" prefHeight="558.0" prefWidth="829.0" visible="false">
          <children>
             <Button fx:id="closeDisplayShip" layoutX="27.0" layoutY="37.0" mnemonicParsing="false" onAction="#closeDisplayShip" text="close" />
+            <ImageView fx:id="shipBgImage" fitHeight="558.0" fitWidth="829.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </Pane>
    </children>

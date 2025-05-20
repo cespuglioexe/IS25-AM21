@@ -34,6 +34,7 @@ public class GameUpdate implements Serializable {
     private final List<GenericGameData> activeControllers;
     private final boolean successfulOperation;
     private final String operationMessage;
+    private final int gameLevel;
 
     @Deprecated
     @JsonCreator
@@ -52,7 +53,8 @@ public class GameUpdate implements Serializable {
             @JsonProperty("playerUuid") UUID playerUuid,
             @JsonProperty("activeControllers") List<GenericGameData> activeControllers,
             @JsonProperty("successfulOperation") boolean successfulOperation,
-            @JsonProperty("operationMessage") String operationMessage) {
+            @JsonProperty("operationMessage") String operationMessage,
+            @JsonProperty("gameLevel") int gameLevel) {
         this.instructionType = instructionType;
         this.interestedPlayerId = interestedPlayerId;
         this.newSate = newSate;
@@ -68,6 +70,7 @@ public class GameUpdate implements Serializable {
         this.activeControllers = activeControllers;
         this.successfulOperation = successfulOperation;
         this.operationMessage = operationMessage;
+        this.gameLevel = gameLevel;
     }
 
     public GameUpdate(GameUpdateBuilder builder) {
@@ -86,6 +89,7 @@ public class GameUpdate implements Serializable {
         this.playerUuid = builder.playerUuid;
         this.successfulOperation = builder.successfulOperation;
         this.operationMessage = builder.operationMessage;
+        this.gameLevel = builder.gameLevel;
     }
 
     public GameUpdateType getInstructionType() {
@@ -144,6 +148,8 @@ public class GameUpdate implements Serializable {
         return successfulOperation;
     }
 
+    public int getGameLevel() {return gameLevel;}
+
     public String getOperationMessage() {
         return operationMessage;
     }
@@ -168,6 +174,7 @@ public class GameUpdate implements Serializable {
         private List<GenericGameData> activeControllers;
         private boolean successfulOperation;
         private String operationMessage;
+        private int gameLevel;
 
         public GameUpdateBuilder(GameUpdateType instructionType) {
             this.instructionType = instructionType;
@@ -263,6 +270,11 @@ public class GameUpdate implements Serializable {
                 this.tileList.add(TileData.createTileDataFromComponentTile(tile));
             }
             System.out.println(ConsoleColors.GREEN + "After converting list of ComponentTiles to TileData" + ConsoleColors.RESET);
+            return this;
+        }
+        
+        public GameUpdateBuilder setGameLevel(int gameLevel) {
+            this.gameLevel = gameLevel;
             return this;
         }
 

@@ -23,6 +23,7 @@ public class Controller implements ControllerInterface {
     private final List<Color> playerColors = new ArrayList<>();
 
     public Controller(int level, int playerNum, UUID uuid) {
+        System.out.println(ConsoleColors.CONTROLLER_DEBUG + "NEW GAME OF LEVEL: " + level);
         this.uuid = uuid;
         this.model = new GameManager(level, playerNum);
         this.level = level;
@@ -59,6 +60,7 @@ public class Controller implements ControllerInterface {
         return uuid;
     }
 
+    @Override
     public int getLevel() {
         return level;
     }
