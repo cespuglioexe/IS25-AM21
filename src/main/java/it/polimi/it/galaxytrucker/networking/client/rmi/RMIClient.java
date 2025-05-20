@@ -87,11 +87,14 @@ public class RMIClient extends UnicastRemoteObject implements RMIVirtualClient, 
         Scanner scanner = new Scanner(System.in);
 
         do {
+            System.out.print("Insert server IP (leave empty for 'localhost')\n> ");
+            String serverIp = scanner.nextLine();
+
             System.out.print("Insert server name\n> ");
             String serverName = scanner.nextLine();
 
             try {
-                Registry registry = LocateRegistry.getRegistry(ServerDetails.DEFAULT_IP, ServerDetails.RMI_DEFAULT_PORT);
+                Registry registry = LocateRegistry.getRegistry(serverIp.isEmpty() ? ServerDetails.DEFAULT_IP : serverIp, ServerDetails.RMI_DEFAULT_PORT);
                 RMIServer connectionServer = ((RMIServer) registry.lookup(serverName));
                 connectionServer.connect(this);
                 connected = true;
