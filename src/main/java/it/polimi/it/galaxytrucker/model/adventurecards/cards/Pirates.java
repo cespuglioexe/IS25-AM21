@@ -41,22 +41,31 @@ public class Pirates extends Attack implements AdventureCard,FlightDayPenalty, C
     }
 
 
-    public void selectPlayer(){
-        List<Player> players = flightRules.getPlayerOrder();
-        if(super.getPlayer() == null){
-            super.setPlayer(players.getFirst());
-            return;
+    public Optional<Player> nextPlayer() {
+        List<it.polimi.it.galaxytrucker.model.managers.Player> players = flightRules.getPlayerOrder();
+        Optional<it.polimi.it.galaxytrucker.model.managers.Player> player;
+
+        if (playerNotSet()) {
+            player = Optional.of(players.get(0));
+            setPlayer(player.get());
+            return player;
         }
-        super.setPlayer(nextPlayer(players).orElse(null));
+
+        int index = players.indexOf(getPlayer());
+        if (index != -1 && index < players.size() - 1) {
+            player = Optional.of(players.get(index + 1));
+            setPlayer(player.get());
+            return player;
+        }
+
+        return Optional.empty();
     }
 
-    private Optional<Player> nextPlayer(List<Player> players) {
-        for(int i=0;i<players.size();i++){
-            if(players.get(i).equals(getPlayer()) && (i+1) < players.size()) {
-                return Optional.of(players.get(i + 1));
-            }
+    private boolean playerNotSet() {
+        if (Optional.ofNullable(getPlayer()).isEmpty()) {
+            return true;
         }
-        return Optional.empty();
+        return false;
     }
 
     public LinkedHashMap<Player,Double> getPlayersAndFirePower() {
@@ -85,11 +94,16 @@ public class Pirates extends Attack implements AdventureCard,FlightDayPenalty, C
             List<Integer> aimedCoords = getAimedCoordsByProjectile(projectile);
             Direction direction = projectile.getDirection();
 
+            System.out.println("Row Projectile :"+aimedCoords.get(0));
+            System.out.println("Column Projectile :"+aimedCoords.get(1));
+
+
             if (projectile.getSize() == ProjectileType.SMALL) {
                 if (isShieldActivated(direction)) {
                     continue;
                 }
             }
+
             destroyComponent(aimedCoords.get(0), aimedCoords.get(1));
         }
     }

@@ -109,7 +109,7 @@ public class ShipCreation {
          *     4  5  6  7  8  9  10
          * 5        [ ]   [ ]
          * 6     [D][ ][C][ ][ ]
-         * 7  [C][A][ ][x][c][ ][C]
+         * 7  [C][A][C][x][c][C][C]
          * 8  [ ][l][ ][ ][ ][C][ ]
          * 9  [ ][B][ ]   [ ][ ][ ]
          *
@@ -121,7 +121,7 @@ public class ShipCreation {
          *
          * Crewmates: 9
          * FirePower: 6
-         * FirePower Base: 5
+         * FirePower Base: 7
          */
         ship.addComponentTile(7, 5, new CabinModule(List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE)));
         ship.addComponentTile(7, 8, new CabinModule(List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE)));
@@ -132,6 +132,8 @@ public class ShipCreation {
         ship.addComponentTile(6, 7, new SingleCannon(List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE)));
         ship.addComponentTile(7, 4, new SingleCannon(List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE)));
         ship.addComponentTile(7, 10, new SingleCannon(List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE)));
+        ship.addComponentTile(7, 6, new SingleCannon(List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE)));
+        ship.addComponentTile(7, 9, new SingleCannon(List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE)));
 
 
 

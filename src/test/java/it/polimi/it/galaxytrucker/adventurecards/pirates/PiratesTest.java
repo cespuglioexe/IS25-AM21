@@ -72,13 +72,11 @@ public class PiratesTest {
     void initializeProjectileTest() {
         int i=0;
         for(Projectile projectile: card.getProjectiles().stream().toList()){
-            assertNotEquals(card.getAimedCoordsByProjectile(projectile).stream().toList().getFirst(),0);
-            System.out.print(("Meteor "+i+" : "+card.getAimedCoordsByProjectile(projectile).stream().toList().get(0)));
-            assertNotEquals(card.getAimedCoordsByProjectile(projectile).stream().toList().get(1),0);
-            System.out.println((" "+card.getAimedCoordsByProjectile(projectile).stream().toList().get(1)));
+            System.out.println(("Meteor "+i+" : "+card.getRolledProjectileAndCoord().get(projectile).intValue()));
+            assertNotEquals(card.getRolledProjectileAndCoord().get(projectile).intValue(),0);
             i++;
         }
-        System.out.println("Tot Meteor : "+card.getProjectiles().stream().toList().size());
+        System.out.println("\nTot Meteor : "+card.getProjectiles().stream().toList().size());
         assertTrue(card.getProjectiles().stream().toList().size()==3);
     }
 
@@ -106,7 +104,9 @@ public class PiratesTest {
         card.selectCannons(doubleCannon);
         assertEquals(CalculateFirePowerState.class, card.getCurrentState().getClass());
         card.selectNoCannons();
-        card.selectNoCannons();
+        doubleCannon.clear();
+        doubleCannon.put(List.of(6,5),List.of(9,5));
+        card.selectCannons(doubleCannon);
         card.selectNoCannons();
         assertEquals(CreditRewardState.class, card.getCurrentState().getClass());
     }
@@ -140,6 +140,7 @@ public class PiratesTest {
         Player currentPlayer = card.getPlayer();
         shieldBattery.put(List.of(7,9),List.of(9,5));
         shieldBattery.put(List.of(8,4),List.of(9,5));
+        currentPlayer.getShipManager().printBoard();
         card.activateShields(shieldBattery);
         currentPlayer.getShipManager().printBoard();
 
@@ -150,7 +151,6 @@ public class PiratesTest {
     void allPlayersActivateShieldsTest(){
         loserPlayerActiveShield();
         Player currentPlayer = card.getPlayer();
-        card.activateNoShield();
         currentPlayer.getShipManager().printBoard();
         currentPlayer = card.getPlayer();
         card.activateNoShield();
