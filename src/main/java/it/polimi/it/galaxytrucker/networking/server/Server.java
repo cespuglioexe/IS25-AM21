@@ -11,6 +11,7 @@ import it.polimi.it.galaxytrucker.view.CLI.ConsoleColors;
 
 import java.io.*;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.rmi.RemoteException;
@@ -105,7 +106,8 @@ public class Server extends UnicastRemoteObject implements RMIServer, Runnable, 
 
         try {
             // Create a server socket that listens on the specified port
-            this.listenSocket = new ServerSocket(ServerDetails.SOCKET_DEFAULT_PORT, 0, InetAddress.getByName(serverIPAddress));
+            this.listenSocket = new ServerSocket();
+            this.listenSocket.bind(new InetSocketAddress(serverIPAddress, ServerDetails.SOCKET_DEFAULT_PORT));
             Socket clientSocket = null;
 
             System.out.println("Socket server ready\n>\tIP: " + listenSocket.getInetAddress().getHostAddress() + "\n>\tPort: " + ServerDetails.SOCKET_DEFAULT_PORT);
