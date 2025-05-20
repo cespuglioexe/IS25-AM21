@@ -5,18 +5,22 @@ import it.polimi.it.galaxytrucker.commands.UserInputType;
 import it.polimi.it.galaxytrucker.model.componenttiles.TileData;
 import it.polimi.it.galaxytrucker.networking.client.clientmodel.ClientModel;
 import it.polimi.it.galaxytrucker.view.GUI.GUIView;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
-public class BuildingController {
-
-
-    private static BuildingController instance;
-    private int seconds = 0;
+public class GUIBuildingController extends GUIViewState {
 
     @FXML
     private TextField xCoordText,yCoordText, rotationInput;
@@ -24,15 +28,31 @@ public class BuildingController {
     private Pane displayShipPane;
     @FXML
     private Label timerSeconds,showTile;
+    @FXML
+    private ImageView shipBgImage,tileImageView;
+    private static GUIBuildingController instance;
 
-    public static BuildingController getInstance() {
-        System.out.println("ConnectionController get instance");
+    public static GUIBuildingController getInstance() {
         synchronized (GUIUsernameSelection.class) {
             if (instance == null) {
-                instance = new BuildingController();
+                instance = new GUIBuildingController();
             }
             return instance;
         }
+    }
+
+    public GUIBuildingController() {
+       try {
+           FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(GUITitleScreen.class.getResource("/it/polimi/it/galaxytrucker/fxmlstages/buildingPhase.fxml")));
+           loader.setController(this);
+           root = loader.load();
+
+           System.out.println("Setting level to :" + GUIView.getInstance().getClient().getModel().getGameLevel());
+           shipBgImage.setImage(new Image(Objects.requireNonNull(GUITitleScreen.class.getResourceAsStream("/it/polimi/it/galaxytrucker/graphics/cardboard/shipboard-lvl" + GUIView.getInstance().getClient().getModel().getGameLevel() + ".jpg"))));
+
+       } catch (IOException e) {
+           e.printStackTrace();
+       }
     }
 
     public void initialize() {
@@ -120,10 +140,24 @@ public class BuildingController {
         ClientModel model = GUIView.getInstance().getClient().getModel();
         List<TileData> discardedTiles = model.getDiscardedTiles();
         GUIView.getInstance().displayTiles(discardedTiles);
-        showTile.setText(discardedTiles.toString());
+        //showTile.setText(discardedTiles.toString());
+        tileImageView.setImage(new Image(Objects.requireNonNull(GUITitleScreen.class.getResourceAsStream("/it/polimi/it/galaxytrucker/graphics//"))));
+
+    }
+
+    public void showTile(){
+        tileImageView.setImage(new Image(Objects.requireNonNull(GUITitleScreen.class.getResourceAsStream("/it/polimi/it/galaxytrucker/graphics//"))));
     }
 
 
+    @Override
+    public void displayScene() {
+        Platform.runLater(() -> {
+            stage = (Stage) GUIView.stage.getScene().getWindow();
+            scene = new Scene(root);
+            stage.setScene(scene);
 
-
+            stage.show();
+        });
+    }
 }

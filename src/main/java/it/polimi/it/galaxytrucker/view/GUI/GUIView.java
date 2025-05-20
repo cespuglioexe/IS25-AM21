@@ -4,6 +4,7 @@ import it.polimi.it.galaxytrucker.controller.GenericGameData;
 import it.polimi.it.galaxytrucker.model.componenttiles.TileData;
 import it.polimi.it.galaxytrucker.model.componenttiles.TileEdge;
 import it.polimi.it.galaxytrucker.view.CLI.ConsoleColors;
+import it.polimi.it.galaxytrucker.view.GUI.controllers.GUIBuildingController;
 import it.polimi.it.galaxytrucker.view.GUI.controllers.GUITitleScreen;
 import it.polimi.it.galaxytrucker.view.GUI.controllers.GUIGameCreation;
 import it.polimi.it.galaxytrucker.view.GUI.controllers.GUIUsernameSelection;
@@ -78,14 +79,7 @@ public class GUIView extends View {
 
     @Override
     public void buildingStarted() {
-        System.out.println("GUI VIEW: building started");
-//        try {
-//            guiApplication.showBuildingWindow();
-//
-//        } catch (Exception e) {
-//            throw new RuntimeException(e);
-//        }
-
+        GUIBuildingController.getInstance().displayScene();
     }
 
     @Override

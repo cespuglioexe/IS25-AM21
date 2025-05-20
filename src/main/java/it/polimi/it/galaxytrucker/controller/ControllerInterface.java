@@ -3,6 +3,7 @@ package it.polimi.it.galaxytrucker.controller;
 import java.util.UUID;
 
 public interface ControllerInterface {
+    int getLevel();
     void placeComponentTile(UUID playerId, int col, int row, int rotation);
     void requestNewComponentTile (UUID playerId);
     void requestSavedComponentTiles (UUID playerId);

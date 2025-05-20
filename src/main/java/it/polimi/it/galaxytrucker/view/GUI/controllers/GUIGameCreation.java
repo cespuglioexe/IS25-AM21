@@ -130,4 +130,5 @@ public class GUIGameCreation extends GUIViewState {
             stage.show();
         });
     }
+
 }

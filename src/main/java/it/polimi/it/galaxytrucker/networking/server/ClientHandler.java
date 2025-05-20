@@ -276,6 +276,7 @@ public class ClientHandler extends UnicastRemoteObject implements Listener, RMIV
                     notify(new GameUpdate.GameUpdateBuilder(GameUpdateType.JOIN_GAME_RESULT)
                             .setSuccessfulOperation(true)
                             .setGameUuid(userInput.getGameId())
+                            .setGameLevel(controller.getLevel())
                             .build()
                     );
                 } catch (GameFullException e) {
