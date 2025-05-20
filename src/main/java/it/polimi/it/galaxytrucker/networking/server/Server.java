@@ -6,6 +6,7 @@ import it.polimi.it.galaxytrucker.exceptions.GameFullException;
 import it.polimi.it.galaxytrucker.networking.CommunicationType;
 import it.polimi.it.galaxytrucker.networking.client.rmi.RMIServer;
 import it.polimi.it.galaxytrucker.networking.server.rmi.RMIVirtualClient;
+import it.polimi.it.galaxytrucker.utils.ServerDetails;
 import it.polimi.it.galaxytrucker.view.CLI.ConsoleColors;
 
 import java.io.*;
@@ -33,7 +34,7 @@ public class Server extends UnicastRemoteObject implements RMIServer, Runnable, 
     /**
      * The IP address the server is running on. Used for RMI setup.
      */
-    String serverIPAddress = "localhost";
+    String serverIPAddress = ServerDetails.DEFAULT_IP;
 
     /**
      * A list of all active {@link ClientHandler} instances, each representing a connected client.
@@ -82,7 +83,7 @@ public class Server extends UnicastRemoteObject implements RMIServer, Runnable, 
         Registry registry;
         try {
             // Create RMI registry on the specified port
-            registry = LocateRegistry.createRegistry(5001);
+            registry = LocateRegistry.createRegistry(ServerDetails.RMI_DEFAULT_PORT);
             // Rebind this server object in the registry under the name "server"
             registry.rebind("server", this);
             // Export this server object to make it available for remote calls
@@ -97,7 +98,7 @@ public class Server extends UnicastRemoteObject implements RMIServer, Runnable, 
 
         try {
             // Create a server socket that listens on the specified port
-            this.listenSocket = new ServerSocket(5002);
+            this.listenSocket = new ServerSocket(ServerDetails.SOCKET_DEFAULT_PORT);
             Socket clientSocket = null;
 
             System.out.println("Socket server ready. Listening on: " + listenSocket.getInetAddress().getHostAddress());

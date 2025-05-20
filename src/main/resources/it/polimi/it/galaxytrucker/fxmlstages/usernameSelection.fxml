@@ -18,8 +18,9 @@
             </Text>
             <Label layoutX="173.0" layoutY="171.0" text="Insert Username" />
             <TextField fx:id="namefield" layoutX="310.0" layoutY="167.0" promptText="Username..." />
-            <Button fx:id="checkUsername" layoutX="256.0" layoutY="213.0" mnemonicParsing="false" onAction="#checkUsernameFunction" text="Submit" />
+            <Button fx:id="checkUsername" layoutX="256.0" layoutY="213.0" mnemonicParsing="false" onAction="#submitUsername" text="Submit" />
             <Label fx:id="usernameError" layoutX="220.0" layoutY="269.0" text="Username already used" textFill="#ee0000" visible="false" />
+            <Label fx:id="usernameSuccess" layoutX="220.0" layoutY="269.0" text="Username ok" textFill="#12ee0f" visible="false" />
          </children>
       </AnchorPane>
    </children>

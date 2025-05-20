@@ -125,6 +125,12 @@ public class CLIView extends View {
         CLIViewState.getCurrentState().discardedComponentsUpdated();
     }
 
+    @Override
+    public void nameSelectionSuccess() {
+        CLIViewState.setCurrentState(new GameSelectionState());
+        CLIViewState.getCurrentState().executeState();
+    }
+
 
     ////////////////////////////////////
 

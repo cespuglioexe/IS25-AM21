@@ -7,6 +7,6 @@ import javafx.application.Application;
 public class MainTester {
     public static void main(String[] args) {
         new Thread(() -> Application.launch(GUIApplication.class)).start();
-        GUIView.getGUIView();
+        GUIView.getInstance();
     }
 }

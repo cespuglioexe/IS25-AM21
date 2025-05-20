@@ -9,6 +9,7 @@ import it.polimi.it.galaxytrucker.commands.servercommands.GameUpdate;
 import it.polimi.it.galaxytrucker.networking.client.Client;
 import it.polimi.it.galaxytrucker.networking.client.clientmodel.ClientModel;
 import it.polimi.it.galaxytrucker.networking.server.rmi.RMIVirtualClient;
+import it.polimi.it.galaxytrucker.utils.ServerDetails;
 import it.polimi.it.galaxytrucker.view.View;
 import it.polimi.it.galaxytrucker.view.CLI.ConsoleColors;
 
@@ -90,7 +91,7 @@ public class RMIClient extends UnicastRemoteObject implements RMIVirtualClient, 
             String serverName = scanner.nextLine();
 
             try {
-                Registry registry = LocateRegistry.getRegistry("localhost", 1234);
+                Registry registry = LocateRegistry.getRegistry(ServerDetails.DEFAULT_IP, ServerDetails.RMI_DEFAULT_PORT);
                 RMIServer connectionServer = ((RMIServer) registry.lookup(serverName));
                 connectionServer.connect(this);
                 connected = true;
@@ -145,7 +146,7 @@ public class RMIClient extends UnicastRemoteObject implements RMIVirtualClient, 
             case SET_USERNAME_RESULT:
                 if (update.isSuccessfulOperation()) {
                     model.getMyData().setNickname(update.getPlayerName());
-                    view.gameSelectionScreen();
+                    view.nameSelectionSuccess();
                 } else {
                     view.nameNotAvailable();
                 }

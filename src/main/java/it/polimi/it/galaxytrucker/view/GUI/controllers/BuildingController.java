@@ -1,20 +1,14 @@
 package it.polimi.it.galaxytrucker.view.GUI.controllers;
 
-import it.polimi.it.galaxytrucker.commands.RequestType;
 import it.polimi.it.galaxytrucker.commands.UserInput;
 import it.polimi.it.galaxytrucker.commands.UserInputType;
 import it.polimi.it.galaxytrucker.model.componenttiles.TileData;
-import it.polimi.it.galaxytrucker.networking.VirtualClient;
 import it.polimi.it.galaxytrucker.networking.client.clientmodel.ClientModel;
 import it.polimi.it.galaxytrucker.view.GUI.GUIView;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.util.Duration;
 
 import java.util.List;
 
@@ -33,7 +27,7 @@ public class BuildingController {
 
     public static BuildingController getInstance() {
         System.out.println("ConnectionController get instance");
-        synchronized (SetUsernameController.class) {
+        synchronized (GUIUsernameSelection.class) {
             if (instance == null) {
                 instance = new BuildingController();
             }
@@ -48,7 +42,7 @@ public class BuildingController {
 
     @FXML
     public void newRandomTile(){
-        GUIView.getGUIView().getClient().receiveUserInput(
+        GUIView.getInstance().getClient().receiveUserInput(
                 new UserInput.UserInputBuilder(UserInputType.SELECT_RANDOM_COMPONENT)
                         .build()
         );
@@ -63,7 +57,7 @@ public class BuildingController {
         y=Integer.parseInt(yCoordText.getText());
         rotation = Integer.parseInt(rotationInput.getText());
 
-        GUIView.getGUIView().getClient().receiveUserInput(
+        GUIView.getInstance().getClient().receiveUserInput(
                 new UserInput.UserInputBuilder(UserInputType.PLACE_COMPONENT)
                         .setCoords(x, y)
                         .setRotation(rotation)
@@ -75,8 +69,8 @@ public class BuildingController {
     @FXML
     public void displayShip(){
         displayShipPane.setVisible(true);
-        ClientModel model = GUIView.getGUIView().getClient().getModel();
-        GUIView.getGUIView().displayShip(model.getPlayerShips(model.getMyData().getPlayerId()));
+        ClientModel model = GUIView.getInstance().getClient().getModel();
+        GUIView.getInstance().displayShip(model.getPlayerShips(model.getMyData().getPlayerId()));
     }
 
     @FXML
@@ -86,7 +80,7 @@ public class BuildingController {
 
     @FXML
     public void saveTile(){
-        GUIView.getGUIView().getClient().receiveUserInput(
+        GUIView.getInstance().getClient().receiveUserInput(
                 new UserInput.UserInputBuilder(UserInputType.SAVE_SELECTED_COMPONENT)
                         .build()
         );
@@ -96,7 +90,7 @@ public class BuildingController {
 
     @FXML
     public void discardTile(){
-        GUIView.getGUIView().getClient().receiveUserInput(
+        GUIView.getInstance().getClient().receiveUserInput(
                 new UserInput.UserInputBuilder(UserInputType.DISCARD_SELECTED_COMPONENT)
                         .build()
         );
@@ -105,8 +99,8 @@ public class BuildingController {
 
     @FXML
     public void startTimer() {
-        if (!GUIView.getGUIView().getClient().isBuildingTimerIsActive()) {
-            GUIView.getGUIView().getClient().receiveUserInput(
+        if (!GUIView.getInstance().getClient().isBuildingTimerIsActive()) {
+            GUIView.getInstance().getClient().receiveUserInput(
                     new UserInput.UserInputBuilder(UserInputType.RESTART_BUILDING_TIMER)
                             .build()
             );
@@ -115,17 +109,17 @@ public class BuildingController {
 
 
     public void showSavedTile(){
-        ClientModel model = GUIView.getGUIView().getClient().getModel();
+        ClientModel model = GUIView.getInstance().getClient().getModel();
         List<TileData> savedTiles = model.getSavedTiles();
-        GUIView.getGUIView().displayTiles(savedTiles);
+        GUIView.getInstance().displayTiles(savedTiles);
         showTile.setText(savedTiles.toString());
     }
 
 
     public void showDiscardedTile(){
-        ClientModel model = GUIView.getGUIView().getClient().getModel();
+        ClientModel model = GUIView.getInstance().getClient().getModel();
         List<TileData> discardedTiles = model.getDiscardedTiles();
-        GUIView.getGUIView().displayTiles(discardedTiles);
+        GUIView.getInstance().displayTiles(discardedTiles);
         showTile.setText(discardedTiles.toString());
     }
 
