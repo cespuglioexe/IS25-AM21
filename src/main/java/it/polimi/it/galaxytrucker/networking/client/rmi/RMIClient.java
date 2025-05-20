@@ -158,12 +158,13 @@ public class RMIClient extends UnicastRemoteObject implements RMIVirtualClient, 
             case CREATE_GAME_RESULT:
                 if (update.isSuccessfulOperation()) {
                     model.getMyData().setMatchId(update.getGameUuid());
+                    System.out.println(ConsoleColors.CLIENT_DEBUG + "Joined game of level " + update.getGameLevel());
+                    model.setGameLevel(update.getGameLevel());
                     try {
                         view.gameCreationSuccess(true);
                     } catch (InvalidFunctionCallInState e) {
                         // This error is only thrown when creating a 1-player game
                         // and can be ignored as it has no adverse effects.
-                        System.err.println("RMIClient: Ignored InvalidFunctionCallInState during game creation success for 1 player game. Details: " + e.getMessage());
                     }
                 } else {
                     view.gameCreationSuccess(false);
@@ -173,6 +174,7 @@ public class RMIClient extends UnicastRemoteObject implements RMIVirtualClient, 
             case JOIN_GAME_RESULT:
                 if (update.isSuccessfulOperation()) {
                     model.getMyData().setMatchId(update.getGameUuid());
+                    System.out.println(ConsoleColors.CLIENT_DEBUG + "Joined game of level " + update.getGameLevel());
                     model.setGameLevel(update.getGameLevel());
                 } else if (update.getOperationMessage().equals("The game was full")) {
                     view.joinedGameIsFull();
@@ -186,6 +188,8 @@ public class RMIClient extends UnicastRemoteObject implements RMIVirtualClient, 
             case NEW_STATE:
                 switch (update.getNewSate()) {
                     case "BuildingState":
+                        System.out.println(ConsoleColors.CLIENT_DEBUG + "Joined game of level " + update.getGameLevel());
+                        model.setGameLevel(update.getGameLevel());
                         HashMap<UUID, List<List<TileData>>> ships = update.getAllPlayerShipBoard();
                         System.out.println(ConsoleColors.CLIENT_HANDLER_DEBUG + ships.values().toString());
                         for (Map.Entry<UUID, List<List<TileData>>> entry : ships.entrySet()) {
@@ -253,6 +257,7 @@ public class RMIClient extends UnicastRemoteObject implements RMIVirtualClient, 
     @Override
     public void receiveUserInput(UserInput input) {
         commandSenderExecutor.submit(() -> {
+            System.out.println(ConsoleColors.CLIENT_DEBUG + "sending message to server of type: " + input.getType() + ConsoleColors.RESET);
             try {
                 if (server != null) {
                     server.receiveUserInput(input);

@@ -32,6 +32,8 @@ public class GUIView extends View {
             // Initialize all GUI controllers
             GUITitleScreen.getInstance();
             GUIUsernameSelection.getInstance();
+            GUIGameCreation.getInstance();
+            GUIBuildingController.getInstance();
         }
         return guiView;
     }

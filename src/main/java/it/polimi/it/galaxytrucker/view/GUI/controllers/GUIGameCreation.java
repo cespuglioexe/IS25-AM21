@@ -20,9 +20,9 @@ import java.util.List;
 import java.util.Objects;
 
 public class GUIGameCreation extends GUIViewState {
-    @FXML public TextField numberOfPlayersInput;
-    @FXML public TextField setLevelInput;
-    @FXML public ListView<String> activeGamesList;
+    @FXML private TextField numberOfPlayersInput;
+    @FXML private TextField setLevelInput;
+    @FXML private ListView<String> activeGamesList;
 
     private List<GenericGameData> availableGames;
 
@@ -48,47 +48,34 @@ public class GUIGameCreation extends GUIViewState {
     }
 
     @FXML
-    public void gameCreationFunction(){
-        int level = Integer.parseInt(setLevelInput.getText());
-        int playerNum = Integer.parseInt(numberOfPlayersInput.getText());
+    private void joinGame() {
+        int gameIndex = activeGamesList.getSelectionModel().getSelectedIndex();
 
-        GUIView.getInstance().getClient().receiveUserInput(
-                new UserInput.UserInputBuilder(UserInputType.CREATE_NEW_GAME)
-                        .setGameLevel(level)
-                        .setGamePlayers(playerNum)
-                        .build()
-        );
-    }
-
-    @FXML
-    private void handleSelection() {
-        int selectedIndex = activeGamesList.getSelectionModel().getSelectedIndex();
-        String selectedItem = activeGamesList.getSelectionModel().getSelectedItem();
-
-        if (selectedItem != null) {
-            joinGame(selectedItem,selectedIndex,availableGames);
+        if (gameIndex != -1) {
+            GUIView.getInstance().getClient().receiveUserInput(
+                    new UserInput.UserInputBuilder(UserInputType.JOIN_ACTIVE_GAME)
+                            .setGameId(availableGames.get(gameIndex).gameId())
+                            .build()
+            );
         }
     }
 
-    private void joinGame(String selectedItem, int selectedIndex, List<GenericGameData> activeGames) {
+    @FXML
+    private void createNewGame() {
+        int level = Integer.parseInt(setLevelInput.getText());
+        int players = Integer.parseInt(numberOfPlayersInput.getText());
+
         GUIView.getInstance().getClient().receiveUserInput(
-                new UserInput.UserInputBuilder( UserInputType.JOIN_ACTIVE_GAME)
-                        .setGameId(activeGames.get(selectedIndex).gameId())
-                        .build());
+                new UserInput.UserInputBuilder(UserInputType.CREATE_NEW_GAME)
+                      .setGameLevel(level)
+                      .setGamePlayers(players)
+                      .build()
+        );
     }
-
-
-    public void activeControllers(List<GenericGameData> activeControllers) {
-        this.availableGames = activeControllers;
-    }
-
 
     @Override
     public void displayScene() {
         Platform.runLater(() -> {
-
-            System.out.println("GUIGameCreation.displayScene");
-
             ObservableList<String> gamesList = FXCollections.observableArrayList();
             StringBuilder compositionString = new StringBuilder();
             int games = 1;
@@ -104,9 +91,6 @@ public class GUIGameCreation extends GUIViewState {
                 Thread.onSpinWait();
             }
 
-            System.out.println("After while waiting");
-
-
             if (!availableGames.isEmpty()) {
                 for (GenericGameData game : availableGames) {
                     compositionString.append("[ ").append(game.activePlayers() == game.playerNum() ? "X" : games).append(" ]");
@@ -121,8 +105,6 @@ public class GUIGameCreation extends GUIViewState {
                 activeGamesList.setItems(FXCollections.observableArrayList(gamesList));
             }
 
-
-
             stage = (Stage) GUIView.stage.getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);
@@ -131,4 +113,7 @@ public class GUIGameCreation extends GUIViewState {
         });
     }
 
+    public void activeControllers(List<GenericGameData> activeControllers) {
+        this.availableGames = activeControllers;
+    }
 }

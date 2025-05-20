@@ -203,6 +203,7 @@ public class SocketClient implements SocketVirtualClient, Runnable, Client {
             case NEW_STATE:
                 switch (update.getNewSate()) {
                     case "BuildingState":
+                        model.setGameLevel(update.getGameLevel());
                         HashMap<UUID, List<List<TileData>>> ships = update.getAllPlayerShipBoard();
                         System.out.println(ConsoleColors.CLIENT_HANDLER_DEBUG + ships.values().toString());
                         for (UUID playerId : ships.keySet()) {

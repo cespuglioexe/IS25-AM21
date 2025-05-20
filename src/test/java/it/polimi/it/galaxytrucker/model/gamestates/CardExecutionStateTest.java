@@ -1,4 +1,4 @@
-package it.polimi.it.galaxytrucker.model.gameStates;
+package it.polimi.it.galaxytrucker.model.gamestates;
 
 import it.polimi.it.galaxytrucker.model.adventurecards.AdventureDeck;
 import it.polimi.it.galaxytrucker.model.adventurecards.cards.Planets;

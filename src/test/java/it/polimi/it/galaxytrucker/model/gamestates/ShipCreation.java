@@ -1,4 +1,4 @@
-package it.polimi.it.galaxytrucker.model.gameStates;
+package it.polimi.it.galaxytrucker.model.gamestates;
 
 import it.polimi.it.galaxytrucker.model.componenttiles.*;
 import it.polimi.it.galaxytrucker.model.crewmates.Alien;

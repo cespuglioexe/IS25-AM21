@@ -262,9 +262,12 @@ public class ClientHandler extends UnicastRemoteObject implements Listener, RMIV
                 UUID ng_gameUuid = server.createNewGame(userInput.getGamePlayers(), userInput.getGameLevel());
                 server.addPlayerToGame(this, ng_gameUuid);
 
+                System.out.println(ConsoleColors.RED_BOLD_BRIGHT + "SENDING GAME LEVEL: " + controller.getLevel());
+
                 notify(new GameUpdate.GameUpdateBuilder(GameUpdateType.CREATE_GAME_RESULT)
                         .setSuccessfulOperation(true)
                         .setGameUuid(ng_gameUuid)
+                        .setGameLevel(controller.getLevel())
                         .build()
                 );
                 break;

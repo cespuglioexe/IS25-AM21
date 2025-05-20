@@ -26,6 +26,7 @@ public class BuildingState extends GameState {
     public void enter(StateMachine fsm) {
         GameManager gameManager = (GameManager) fsm;
         gameManager.initializeComponentTiles();
+
         // List<List<AdventureCard>> cardStacks = gameManager.getAdventureDeck().getStack();
 
         this.discardedComponents = new ArrayList<>();
@@ -52,6 +53,7 @@ public class BuildingState extends GameState {
         ((GameManager) fsm).updateListeners(
                 new GameUpdate.GameUpdateBuilder(GameUpdateType.NEW_STATE)
                         .setNewSate(this.getClass().getSimpleName())
+                        .setGameLevel(((GameManager) fsm).getLevel())
                         .setPlayerIds(gameManager.getPlayers().stream().map(Player::getPlayerID).toList())
                         .setAllPlayerShipBoards(convertedShips)
                         // TODO: get card pile compositions

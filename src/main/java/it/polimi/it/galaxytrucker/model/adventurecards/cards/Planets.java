@@ -72,7 +72,7 @@ public class Planets extends CardStateMachine implements AdventureCard, Particip
     private HashMap<Integer, Optional<Player>> planetsAndPlayers = new HashMap<>();
     private final int flightDayPenalty;
 
-    private final FlightRules flightRules;
+    private FlightRules flightRules;
 
     public Planets(int numberOfPlanets, List<List<Cargo>> cargoRewardsByPlanet, int flightDayPenalty, FlightRules flightRules) {
         initializePlanets(numberOfPlanets);
@@ -80,6 +80,7 @@ public class Planets extends CardStateMachine implements AdventureCard, Particip
         this.flightDayPenalty = flightDayPenalty;
         this.flightRules = flightRules;
     }
+
     private void initializePlanets(int numberOfPlanets) {
         for (int i = 0; i < numberOfPlanets; i++) {
             planetsAndRewards.put(i, List.of());

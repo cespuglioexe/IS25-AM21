@@ -4,6 +4,7 @@ import it.polimi.it.galaxytrucker.commands.UserInput;
 import it.polimi.it.galaxytrucker.commands.UserInputType;
 import it.polimi.it.galaxytrucker.model.componenttiles.TileData;
 import it.polimi.it.galaxytrucker.networking.client.clientmodel.ClientModel;
+import it.polimi.it.galaxytrucker.view.CLI.ConsoleColors;
 import it.polimi.it.galaxytrucker.view.GUI.GUIView;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -47,18 +48,17 @@ public class GUIBuildingController extends GUIViewState {
            loader.setController(this);
            root = loader.load();
 
-           System.out.println("Setting level to :" + GUIView.getInstance().getClient().getModel().getGameLevel());
-           shipBgImage.setImage(new Image(Objects.requireNonNull(GUITitleScreen.class.getResourceAsStream("/it/polimi/it/galaxytrucker/graphics/cardboard/shipboard-lvl" + GUIView.getInstance().getClient().getModel().getGameLevel() + ".jpg"))));
+//           while (GUIView.getInstance().getClient().getModel().getGameLevel() == 0) {
+//               Thread.onSpinWait();
+//           }
+
+           // System.out.println("Setting level to :" + GUIView.getInstance().getClient().getModel().getGameLevel());
+           // shipBgImage.setImage(new Image(Objects.requireNonNull(GUITitleScreen.class.getResourceAsStream("/it/polimi/it/galaxytrucker/graphics/cardboard/shipboard-lvl" + GUIView.getInstance().getClient().getModel().getGameLevel() + ".jpg"))));
 
        } catch (IOException e) {
            e.printStackTrace();
        }
     }
-
-    public void initialize() {
-        startTimer();
-    }
-
 
     @FXML
     public void newRandomTile(){
@@ -153,6 +153,10 @@ public class GUIBuildingController extends GUIViewState {
     @Override
     public void displayScene() {
         Platform.runLater(() -> {
+            System.out.println(ConsoleColors.CLIENT_DEBUG + "displaying scene building");
+            System.out.println(GUIView.getInstance().getClient().getModel().getGameLevel());
+            shipBgImage.setImage(new Image(Objects.requireNonNull(GUITitleScreen.class.getResourceAsStream("/it/polimi/it/galaxytrucker/graphics/cardboard/shipboard-lvl" + GUIView.getInstance().getClient().getModel().getGameLevel() + ".jpg"))));
+
             stage = (Stage) GUIView.stage.getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);
