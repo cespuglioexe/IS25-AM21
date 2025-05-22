@@ -5,7 +5,9 @@ import it.polimi.it.galaxytrucker.controller.GenericGameData;
 import it.polimi.it.galaxytrucker.exceptions.GameFullException;
 import it.polimi.it.galaxytrucker.networking.CommunicationType;
 import it.polimi.it.galaxytrucker.networking.client.rmi.RMIServer;
+import it.polimi.it.galaxytrucker.networking.server.rmi.RMIClientHandler;
 import it.polimi.it.galaxytrucker.networking.server.rmi.RMIVirtualClient;
+import it.polimi.it.galaxytrucker.networking.server.socket.SocketClientHandler;
 import it.polimi.it.galaxytrucker.utils.ServerDetails;
 import it.polimi.it.galaxytrucker.view.CLI.ConsoleColors;
 
@@ -37,22 +39,15 @@ public class Server extends UnicastRemoteObject implements RMIServer, Runnable, 
      * The IP address the server is running on. Used for RMI setup.
      */
     String serverIPAddress = ServerDetails.DEFAULT_IP;
-
     /**
      * A list of all active {@link ClientHandler} instances, each representing a connected client.
      * Access to this list is synchronized.
      */
     final List<ClientHandler> clients = new ArrayList<>();
     /**
-     * The server socket used for listening for incoming Socket connections.
-     */
-    private ServerSocket listenSocket;
-
-    /**
      * The default length of the building phase timer in seconds.
      */
-    private final int BUILDING_TIMER_LENGTH = 10; // DA METTERE A 60 SECONDI
-
+    private final int BUILDING_TIMER_LENGTH = 10; // TODO: METTERE A 60 SECONDI
     /**
      * A map storing active game controllers, keyed by their unique game UUIDs.
      * Access to this map is synchronized.
@@ -106,16 +101,16 @@ public class Server extends UnicastRemoteObject implements RMIServer, Runnable, 
 
 
         try {
-            // Create a server socket that listens on the specified port
-            this.listenSocket = new ServerSocket();
-            this.listenSocket.bind(new InetSocketAddress(serverIPAddress, ServerDetails.SOCKET_DEFAULT_PORT));
+            // Create a server socket that listens for connections on the specified port
+            ServerSocket listenSocket = new ServerSocket();
+            listenSocket.bind(new InetSocketAddress(serverIPAddress, ServerDetails.SOCKET_DEFAULT_PORT));
             Socket clientSocket = null;
 
             System.out.println("Socket server ready\n>\tIP: " + listenSocket.getInetAddress().getHostAddress() + "\n>\tPort: " + ServerDetails.SOCKET_DEFAULT_PORT);
             System.out.println("\n---------------------------------------------\n");
 
             // Loop indefinitely to accept incoming socket connections
-            while ((clientSocket = this.listenSocket.accept()) != null) {
+            while ((clientSocket = listenSocket.accept()) != null) {
                 System.out.println(ConsoleColors.MAIN_SERVER_DEBUG + "incoming socket connection" + ConsoleColors.RESET);
 
                 // Get input and output streams for the connected socket
@@ -123,7 +118,7 @@ public class Server extends UnicastRemoteObject implements RMIServer, Runnable, 
                 OutputStreamWriter socketTx = new OutputStreamWriter(clientSocket.getOutputStream());
 
                 // Create a new ClientHandler for the socket connection
-                ClientHandler handler = new ClientHandler(this, CommunicationType.SOCKET, socketRx, socketTx);
+                SocketClientHandler handler = new SocketClientHandler(this, socketRx, socketTx);
 
                 // Add the new handler to the list of clients (synchronized access)
                 synchronized (this.clients) {
@@ -155,7 +150,7 @@ public class Server extends UnicastRemoteObject implements RMIServer, Runnable, 
         System.out.println(ConsoleColors.MAIN_SERVER_DEBUG + "incoming RMI connection" + ConsoleColors.RESET);
 
         // Create a new ClientHandler for the RMI client
-        ClientHandler handler = new ClientHandler(this, CommunicationType.RMI, client);
+        RMIClientHandler handler = new RMIClientHandler(this, client);
         // Add the new handler to the list of clients (synchronized access)
         synchronized (this.clients) {
             clients.add(handler);
