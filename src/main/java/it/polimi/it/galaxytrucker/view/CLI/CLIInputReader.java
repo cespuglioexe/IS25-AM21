@@ -1,11 +1,5 @@
 package it.polimi.it.galaxytrucker.view.CLI;
 
-import it.polimi.it.galaxytrucker.commands.UserInput;
-import it.polimi.it.galaxytrucker.commands.UserInputType;
-import it.polimi.it.galaxytrucker.networking.VirtualClient;
-import it.polimi.it.galaxytrucker.networking.client.Client;
-import it.polimi.it.galaxytrucker.view.CLI.CLIViewStates.CLIViewState;
-
 import java.util.*;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;

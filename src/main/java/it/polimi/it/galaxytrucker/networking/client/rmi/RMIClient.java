@@ -7,6 +7,7 @@ import it.polimi.it.galaxytrucker.exceptions.InvalidFunctionCallInState;
 import it.polimi.it.galaxytrucker.model.componenttiles.TileData;
 import it.polimi.it.galaxytrucker.commands.servercommands.GameUpdate;
 import it.polimi.it.galaxytrucker.networking.client.Client;
+import it.polimi.it.galaxytrucker.networking.client.ClientInterface;
 import it.polimi.it.galaxytrucker.networking.client.clientmodel.ClientModel;
 import it.polimi.it.galaxytrucker.networking.server.rmi.RMIVirtualClient;
 import it.polimi.it.galaxytrucker.utils.ServerDetails;
@@ -29,37 +30,18 @@ import java.util.concurrent.Executors;
  *     sending user inputs to the server, and receiving game updates and errors from the server.
  *     It implements {@link RMIVirtualClient} to be remotely accessible by the server,
  *     {@link Runnable} to handle its own connection logic in a separate thread, and
- *     {@link Client} to provide a common interface for client operations.
+ *     {@link ClientInterface} to provide a common interface for client operations.
  * </p>
  *
  * @author giacomoamaducci
  * @version 1.5
  */
-public class RMIClient extends UnicastRemoteObject implements RMIVirtualClient, Runnable, Client {
-    /**
-     * The client-side representation of the game model.
-     * It stores the game state as perceived by this client.
-     */
-    private final ClientModel model;
+public class RMIClient extends Client implements RMIVirtualClient {
     /**
      * The remote reference to the server's virtual client handler.
      * This is used to send commands to the server.
      */
     private RMIVirtualServer server;
-    /**
-     * The user interface that this client interacts with.
-     * The view is responsible for displaying game information and capturing user input.
-     */
-    private final View view;
-    /**
-     * An executor service to send user input commands to the server asynchronously.
-     * This ensures that the client's main thread is not blocked while sending data.
-     */
-    private final ExecutorService commandSenderExecutor = Executors.newSingleThreadExecutor();
-    /**
-     * A flag indicating whether the building phase timer is currently active.
-     */
-    private boolean buildingTimerIsActive;
 
     /**
      * Constructs a new RMIClient.
@@ -69,10 +51,7 @@ public class RMIClient extends UnicastRemoteObject implements RMIVirtualClient, 
      * @throws RemoteException if an RMI communication error occurs during object export.
      */
     public RMIClient (View view) throws RemoteException {
-        super();
-        this.model = new ClientModel();
-        this.view = view;
-        view.setClient(this);
+        super(view);
     }
 
     /**
@@ -107,13 +86,8 @@ public class RMIClient extends UnicastRemoteObject implements RMIVirtualClient, 
     }
 
     @Override
-    public ClientModel getModel() {
-        return model;
-    }
-
-    @Override
-    public boolean isBuildingTimerIsActive() {
-        return buildingTimerIsActive;
+    public void sendMessageToClient(GameUpdate update) throws RemoteException {
+        processServerUpdate(update);
     }
 
     /**
@@ -133,104 +107,6 @@ public class RMIClient extends UnicastRemoteObject implements RMIVirtualClient, 
                 .setPlayerUuid(model.getMyData().getPlayerId())
                 .build()
         );
-    }
-
-    /**
-     * Receives a game update message from the server and processes it.
-     * The method updates the client's model and view based on the type of update received.
-     *
-     * @param update The {@link GameUpdate} object containing information from the server.
-     * @throws RemoteException if an RMI communication error occurs (though typically handled by the RMI runtime).
-     */
-    @Override
-    public void sendMessageToClient(GameUpdate update) throws RemoteException {
-        System.out.println(ConsoleColors.CLIENT_DEBUG + "received update of type " + update.getInstructionType() + ConsoleColors.RESET);
-        switch (update.getInstructionType()) {
-            case SET_USERNAME_RESULT:
-                if (update.isSuccessfulOperation()) {
-                    model.getMyData().setNickname(update.getPlayerName());
-                    view.nameSelectionSuccess();
-                } else {
-                    view.nameNotAvailable();
-                }
-                break;
-
-            case CREATE_GAME_RESULT:
-                if (update.isSuccessfulOperation()) {
-                    model.getMyData().setMatchId(update.getGameUuid());
-                    System.out.println(ConsoleColors.CLIENT_DEBUG + "Joined game of level " + update.getGameLevel());
-                    model.setGameLevel(update.getGameLevel());
-                    try {
-                        view.gameCreationSuccess(true);
-                    } catch (InvalidFunctionCallInState e) {
-                        // This error is only thrown when creating a 1-player game
-                        // and can be ignored as it has no adverse effects.
-                    }
-                } else {
-                    view.gameCreationSuccess(false);
-                }
-                break;
-
-            case JOIN_GAME_RESULT:
-                if (update.isSuccessfulOperation()) {
-                    model.getMyData().setMatchId(update.getGameUuid());
-                    System.out.println(ConsoleColors.CLIENT_DEBUG + "Joined game of level " + update.getGameLevel());
-                    model.setGameLevel(update.getGameLevel());
-                } else if (update.getOperationMessage().equals("The game was full")) {
-                    view.joinedGameIsFull();
-                }
-                break;
-
-            case LIST_ACTIVE_CONTROLLERS:
-                view.activeControllers(update.getActiveControllers());
-                break;
-
-            case NEW_STATE:
-                switch (update.getNewSate()) {
-                    case "BuildingState":
-                        System.out.println(ConsoleColors.CLIENT_DEBUG + "Joined game of level " + update.getGameLevel());
-                        model.setGameLevel(update.getGameLevel());
-                        HashMap<UUID, List<List<TileData>>> ships = update.getAllPlayerShipBoard();
-                        System.out.println(ConsoleColors.CLIENT_HANDLER_DEBUG + ships.values().toString());
-                        for (Map.Entry<UUID, List<List<TileData>>> entry : ships.entrySet()) {
-                            model.updatePlayerShip(entry.getKey(), entry.getValue());
-                        }
-                        // model.setCardPiles(update.getCardPileCompositions());
-                        // TODO: piles
-                        view.buildingStarted();
-                        break;
-                    default:
-                        System.out.println(ConsoleColors.CLIENT_DEBUG + "Received unknown state: " + update.getNewSate() + ConsoleColors.RESET);
-                        break;
-                }
-                break;
-            case DRAWN_TILE:
-                view.componentTileReceived(update.getNewTile());
-                break;
-            case SAVED_COMPONENTS_UPDATED:
-                model.setSavedTiles(update.getTileList());
-                view.savedComponentsUpdated();
-                break;
-            case DISCARDED_COMPONENTS_UPDATED:
-                model.setDiscardedTiles(update.getTileList());
-                view.discardedComponentsUpdated();
-                break;
-            case PLAYER_SHIP_UPDATED:
-                model.updatePlayerShip(update.getInterestedPlayerId(), update.getShipBoard());
-                view.shipUpdated(update.getInterestedPlayerId());
-                break;
-            case TIMER_START:
-                buildingTimerIsActive = true;
-                view.displayTimerStarted();
-                break;
-            case TIMER_END:
-                buildingTimerIsActive = false;
-                view.displayTimerEnded();
-                break;
-            default:
-                System.out.println(ConsoleColors.CLIENT_DEBUG + "Received unhandled game update instruction type: " + update.getInstructionType() + ConsoleColors.RESET);
-                break;
-        }
     }
 
     /**

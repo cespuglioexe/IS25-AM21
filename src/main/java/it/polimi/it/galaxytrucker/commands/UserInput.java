@@ -2,9 +2,6 @@ package it.polimi.it.galaxytrucker.commands;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import it.polimi.it.galaxytrucker.networking.VirtualClient;
-import it.polimi.it.galaxytrucker.networking.client.Client;
-import it.polimi.it.galaxytrucker.networking.server.rmi.RMIVirtualClient;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -167,7 +164,6 @@ public class UserInput implements Serializable {
         }
 
         public UserInputBuilder setPlayerName(String playerName) {
-            System.out.println("Setting player name...");
             this.playerName = playerName;
             return this;
         }

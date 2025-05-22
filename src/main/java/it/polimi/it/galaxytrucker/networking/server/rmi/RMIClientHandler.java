@@ -21,7 +21,6 @@ public class RMIClientHandler extends ClientHandler implements RMIVirtualServer 
         this.client = client;
     }
 
-
     @Override
     public void run() {
         // Thread for grabbing incoming messages from the model and forwarding
