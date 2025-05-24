@@ -1,15 +1,11 @@
 package it.polimi.it.galaxytrucker.networking.client.rmi;
 
-import it.polimi.it.galaxytrucker.commands.UserInput;
-import it.polimi.it.galaxytrucker.controller.Controller;
-import it.polimi.it.galaxytrucker.controller.GenericGameData;
-import it.polimi.it.galaxytrucker.exceptions.GameFullException;
+import it.polimi.it.galaxytrucker.messages.Message;
+import it.polimi.it.galaxytrucker.messages.clientmessages.UserInput;
 import it.polimi.it.galaxytrucker.networking.VirtualServer;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.List;
-import java.util.UUID;
 
 /**
  * Represents a remote interface for server-side operations that can be
@@ -26,5 +22,5 @@ public interface RMIVirtualServer extends Remote, VirtualServer {
      * @param userInput the {@link UserInput} object containing the client's input.
      * @throws RemoteException if a communication error occurs during the remote method invocation.
      */
-    void receiveUserInput (UserInput userInput) throws RemoteException;
+    void receiveUserInput (Message userInput) throws RemoteException;
 }

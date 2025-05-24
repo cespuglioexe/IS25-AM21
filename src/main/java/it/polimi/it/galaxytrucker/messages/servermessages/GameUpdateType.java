@@ -1,4 +1,4 @@
-package it.polimi.it.galaxytrucker.commands.servercommands;
+package it.polimi.it.galaxytrucker.messages.servermessages;
 
 public enum GameUpdateType {
     NEW_STATE,

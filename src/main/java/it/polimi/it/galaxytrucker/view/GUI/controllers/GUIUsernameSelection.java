@@ -1,7 +1,7 @@
 package it.polimi.it.galaxytrucker.view.GUI.controllers;
 
-import it.polimi.it.galaxytrucker.commands.UserInput;
-import it.polimi.it.galaxytrucker.commands.UserInputType;
+import it.polimi.it.galaxytrucker.messages.clientmessages.UserInput;
+import it.polimi.it.galaxytrucker.messages.clientmessages.UserInputType;
 import it.polimi.it.galaxytrucker.view.GUI.GUIView;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -38,6 +38,8 @@ public class GUIUsernameSelection extends GUIViewState {
             FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(GUITitleScreen.class.getResource("/it/polimi/it/galaxytrucker/fxmlstages/usernameSelection.fxml")));
             loader.setController(this);
             root = loader.load();
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }

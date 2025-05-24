@@ -1,4 +1,4 @@
-package it.polimi.it.galaxytrucker.commands;
+package it.polimi.it.galaxytrucker.messages.clientmessages;
 
 public enum UserInputType {
     HANDSHAKE,

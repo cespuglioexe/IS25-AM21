@@ -1,6 +1,6 @@
 package it.polimi.it.galaxytrucker.networking.client;
 
-import it.polimi.it.galaxytrucker.commands.UserInput;
+import it.polimi.it.galaxytrucker.messages.clientmessages.UserInput;
 import it.polimi.it.galaxytrucker.networking.client.clientmodel.ClientModel;
 
 public interface ClientInterface {

@@ -3,8 +3,8 @@ package it.polimi.it.galaxytrucker.networking.server.socket;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import it.polimi.it.galaxytrucker.commands.UserInput;
-import it.polimi.it.galaxytrucker.commands.servercommands.GameUpdate;
+import it.polimi.it.galaxytrucker.messages.clientmessages.UserInput;
+import it.polimi.it.galaxytrucker.messages.servermessages.GameUpdate;
 import it.polimi.it.galaxytrucker.model.json.Json;
 import it.polimi.it.galaxytrucker.networking.server.ClientHandler;
 import it.polimi.it.galaxytrucker.networking.server.ServerInterface;
@@ -68,7 +68,7 @@ public class SocketClientHandler extends ClientHandler {
         }).start();
 
         // Thread for asynchronously reading the socket input stream for
-        // commands sent by a client using socket technology. The received
+        // messages sent by a client using socket technology. The received
         // input is converted into a UserInput object and passed to the
         // same execution function used by RMI clients.
         new Thread(() -> {

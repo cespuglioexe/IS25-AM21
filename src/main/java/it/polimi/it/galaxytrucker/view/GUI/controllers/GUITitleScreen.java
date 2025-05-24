@@ -38,6 +38,9 @@ public class GUITitleScreen extends GUIViewState {
             backgroundImage.setImage(new Image(Objects.requireNonNull(GUITitleScreen.class.getResourceAsStream("/it/polimi/it/galaxytrucker/graphics/general/background.png"))));
             titleImage.setImage(new Image(Objects.requireNonNull(GUITitleScreen.class.getResourceAsStream("/it/polimi/it/galaxytrucker/graphics/general/title.png"))));
 
+            backgroundImage.setPreserveRatio(true);
+            backgroundImage.setFitHeight(GUIView.screenSize.get(1));
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

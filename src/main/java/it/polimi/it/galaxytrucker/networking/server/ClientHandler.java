@@ -1,8 +1,10 @@
 package it.polimi.it.galaxytrucker.networking.server;
 
-import it.polimi.it.galaxytrucker.commands.UserInput;
-import it.polimi.it.galaxytrucker.commands.servercommands.GameUpdate;
-import it.polimi.it.galaxytrucker.commands.servercommands.GameUpdateType;
+import it.polimi.it.galaxytrucker.messages.Message;
+import it.polimi.it.galaxytrucker.messages.clientmessages.HeartBeatMessage;
+import it.polimi.it.galaxytrucker.messages.clientmessages.UserInput;
+import it.polimi.it.galaxytrucker.messages.servermessages.GameUpdate;
+import it.polimi.it.galaxytrucker.messages.servermessages.GameUpdateType;
 import it.polimi.it.galaxytrucker.controller.ControllerInterface;
 import it.polimi.it.galaxytrucker.controller.GenericGameData;
 import it.polimi.it.galaxytrucker.exceptions.GameFullException;
@@ -48,6 +50,11 @@ public abstract class ClientHandler extends UnicastRemoteObject implements Liste
      * Queue where messages from the model are stored before being sent to the client.
      */
     protected final BlockingQueue<GameUpdate> updatesForClientQueue = new LinkedBlockingQueue<>();
+    /**
+     * Time, in seconds, without heartbeat messages after which the client
+     * is considered to have disconnected.
+     */
+    private final int CONNECTION_TIMEOUT = 15;
 
     /**
      * Constructs a new ClientHandler for an RMI client connection.
@@ -116,102 +123,106 @@ public abstract class ClientHandler extends UnicastRemoteObject implements Liste
      */
     public abstract void run();
 
-    public void processUserInput(UserInput userInput) throws RemoteException {
-        System.out.println(ConsoleColors.CLIENT_HANDLER_DEBUG.tag(clientName) + "processing input of type " + userInput.getType() + ConsoleColors.RESET);
-        switch (userInput.getType()) {
-            case HANDSHAKE:
-                clientUuid = userInput.getPlayerUuid();
-                break;
+    public void processUserInput(Message message) throws RemoteException {
+        if (message instanceof HeartBeatMessage) {
+            System.out.println("Received HeartBeatMessage");
+        } else if (message instanceof UserInput userInput) {
+            System.out.println(ConsoleColors.CLIENT_HANDLER_DEBUG.tag(clientName) + "processing input of type " + userInput.getType() + ConsoleColors.RESET);
+            switch (userInput.getType()) {
+                case HANDSHAKE:
+                    clientUuid = userInput.getPlayerUuid();
+                    break;
 
-            case SET_PLAYER_USERNAME:
-                if (server.setUsername(this, userInput.getPlayerName())) {
-                    clientName = userInput.getPlayerName(); // Set the local copy of the name
-                    notify(new GameUpdate.GameUpdateBuilder(GameUpdateType.SET_USERNAME_RESULT)
+                case SET_PLAYER_USERNAME:
+                    if (server.setUsername(this, userInput.getPlayerName())) {
+                        clientName = userInput.getPlayerName(); // Set the local copy of the name
+                        notify(new GameUpdate.GameUpdateBuilder(GameUpdateType.SET_USERNAME_RESULT)
+                                .setSuccessfulOperation(true)
+                                .setPlayerName(userInput.getPlayerName())
+                                .build()
+                        );
+                    } else {
+                        notify(new GameUpdate.GameUpdateBuilder(GameUpdateType.SET_USERNAME_RESULT)
+                                .setSuccessfulOperation(false)
+                                .build()
+                        );
+                    }
+                    break;
+
+                case CREATE_NEW_GAME:
+                    UUID ng_gameUuid = server.createNewGame(userInput.getGamePlayers(), userInput.getGameLevel());
+                    server.addPlayerToGame(this, ng_gameUuid);
+
+                    System.out.println(ConsoleColors.RED_BOLD_BRIGHT + "SENDING GAME LEVEL: " + controller.getLevel());
+
+                    notify(new GameUpdate.GameUpdateBuilder(GameUpdateType.CREATE_GAME_RESULT)
                             .setSuccessfulOperation(true)
-                            .setPlayerName(userInput.getPlayerName())
-                            .build()
-                    );
-                } else {
-                    notify(new GameUpdate.GameUpdateBuilder(GameUpdateType.SET_USERNAME_RESULT)
-                            .setSuccessfulOperation(false)
-                            .build()
-                    );
-                }
-                break;
-
-            case CREATE_NEW_GAME:
-                UUID ng_gameUuid = server.createNewGame(userInput.getGamePlayers(), userInput.getGameLevel());
-                server.addPlayerToGame(this, ng_gameUuid);
-
-                System.out.println(ConsoleColors.RED_BOLD_BRIGHT + "SENDING GAME LEVEL: " + controller.getLevel());
-
-                notify(new GameUpdate.GameUpdateBuilder(GameUpdateType.CREATE_GAME_RESULT)
-                        .setSuccessfulOperation(true)
-                        .setGameUuid(ng_gameUuid)
-                        .setGameLevel(controller.getLevel())
-                        .build()
-                );
-                break;
-
-            case JOIN_ACTIVE_GAME:
-                try {
-                    server.addPlayerToGame(this, userInput.getGameId());
-
-                    notify(new GameUpdate.GameUpdateBuilder(GameUpdateType.JOIN_GAME_RESULT)
-                            .setSuccessfulOperation(true)
-                            .setGameUuid(userInput.getGameId())
+                            .setGameUuid(ng_gameUuid)
                             .setGameLevel(controller.getLevel())
                             .build()
                     );
-                } catch (GameFullException e) {
-                    notify(new GameUpdate.GameUpdateBuilder(GameUpdateType.JOIN_GAME_RESULT)
-                            .setSuccessfulOperation(false)
-                            .setOperationMessage("The game was full")
+                    break;
+
+                case JOIN_ACTIVE_GAME:
+                    try {
+                        server.addPlayerToGame(this, userInput.getGameId());
+
+                        notify(new GameUpdate.GameUpdateBuilder(GameUpdateType.JOIN_GAME_RESULT)
+                                .setSuccessfulOperation(true)
+                                .setGameUuid(userInput.getGameId())
+                                .setGameLevel(controller.getLevel())
+                                .build()
+                        );
+                    } catch (GameFullException e) {
+                        notify(new GameUpdate.GameUpdateBuilder(GameUpdateType.JOIN_GAME_RESULT)
+                                .setSuccessfulOperation(false)
+                                .setOperationMessage("The game was full")
+                                .build()
+
+                        );
+                    }
+                    break;
+
+                case SEE_ACTIVE_GAMES:
+                    List<GenericGameData> controllers = server.getActiveGames();
+                    System.out.println("???");
+                    notify(new GameUpdate.GameUpdateBuilder(GameUpdateType.LIST_ACTIVE_CONTROLLERS)
+                            .setActiveControllers(controllers)
                             .build()
-
                     );
-                }
-                break;
+                    break;
 
-            case SEE_ACTIVE_GAMES:
-                List<GenericGameData> controllers = server.getActiveGames();
-                System.out.println("???");
-                notify(new GameUpdate.GameUpdateBuilder(GameUpdateType.LIST_ACTIVE_CONTROLLERS)
-                        .setActiveControllers(controllers)
-                        .build()
-                );
-                break;
+                case SELECT_RANDOM_COMPONENT:
+                    controller.requestNewComponentTile(clientUuid);
+                    break;
 
-            case SELECT_RANDOM_COMPONENT:
-                controller.requestNewComponentTile(clientUuid);
-                break;
+                case SELECT_SAVED_COMPONENT:
+                    controller.selectSavedComponentTile(clientUuid, userInput.getSelectedTileIndex());
+                    break;
 
-            case SELECT_SAVED_COMPONENT:
-                controller.selectSavedComponentTile(clientUuid, userInput.getSelectedTileIndex());
-                break;
+                case SELECT_DISCARDED_COMPONENT:
+                    controller.selectDiscardedComponentTile(clientUuid, userInput.getSelectedTileIndex());
+                    break;
 
-            case SELECT_DISCARDED_COMPONENT:
-                controller.selectDiscardedComponentTile(clientUuid, userInput.getSelectedTileIndex());
-                break;
+                case PLACE_COMPONENT:
+                    controller.placeComponentTile(clientUuid, userInput.getCoords().get(0), userInput.getCoords().get(1), userInput.getRotation());
+                    break;
 
-            case PLACE_COMPONENT:
-                controller.placeComponentTile(clientUuid, userInput.getCoords().get(0), userInput.getCoords().get(1), userInput.getRotation());
-                break;
+                case SAVE_SELECTED_COMPONENT:
+                    controller.saveComponentTile(clientUuid);
+                    break;
 
-            case SAVE_SELECTED_COMPONENT:
-                controller.saveComponentTile(clientUuid);
-                break;
+                case DISCARD_SELECTED_COMPONENT:
+                    controller.discardComponentTile(clientUuid);
+                    break;
 
-            case DISCARD_SELECTED_COMPONENT:
-                controller.discardComponentTile(clientUuid);
-                break;
+                case RESTART_BUILDING_TIMER:
+                    controller.startBuildPhaseTimer();
+                    break;
 
-            case RESTART_BUILDING_TIMER:
-                controller.startBuildPhaseTimer();
-                break;
-
-            default:
-                System.out.println(ConsoleColors.CLIENT_HANDLER_DEBUG.tag(clientName) + "received input" + ConsoleColors.RESET);
+                default:
+                    System.out.println(ConsoleColors.CLIENT_HANDLER_DEBUG.tag(clientName) + "received input" + ConsoleColors.RESET);
+            }
         }
     }
 }

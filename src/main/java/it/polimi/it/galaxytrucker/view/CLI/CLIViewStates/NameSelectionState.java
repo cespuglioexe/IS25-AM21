@@ -1,12 +1,9 @@
 package it.polimi.it.galaxytrucker.view.CLI.CLIViewStates;
 
-import it.polimi.it.galaxytrucker.commands.UserInput;
-import it.polimi.it.galaxytrucker.commands.UserInputType;
+import it.polimi.it.galaxytrucker.messages.clientmessages.UserInput;
+import it.polimi.it.galaxytrucker.messages.clientmessages.UserInputType;
 import it.polimi.it.galaxytrucker.view.CLI.CLIInputReader;
 import it.polimi.it.galaxytrucker.view.CLI.ConsoleColors;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class NameSelectionState extends CLIViewState {
     @Override

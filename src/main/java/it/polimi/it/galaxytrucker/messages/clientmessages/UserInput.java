@@ -1,7 +1,8 @@
-package it.polimi.it.galaxytrucker.commands;
+package it.polimi.it.galaxytrucker.messages.clientmessages;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import it.polimi.it.galaxytrucker.messages.Message;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -14,9 +15,8 @@ import java.util.UUID;
  * @author giacomoamaducci
  * @version 1.1
  */
-public class UserInput implements Serializable {
+public class UserInput extends Message {
     private final UserInputType type;
-    // private final RequestType requestType;
 
     private final String serverName;
     private final String playerName;

@@ -18,8 +18,8 @@ import it.polimi.it.galaxytrucker.exceptions.IllegalComponentPositionException;
 import it.polimi.it.galaxytrucker.exceptions.InvalidActionException;
 import it.polimi.it.galaxytrucker.exceptions.NotFoundException;
 import it.polimi.it.galaxytrucker.model.json.Json;
-import it.polimi.it.galaxytrucker.commands.servercommands.GameUpdate;
-import it.polimi.it.galaxytrucker.commands.servercommands.GameUpdateType;
+import it.polimi.it.galaxytrucker.messages.servermessages.GameUpdate;
+import it.polimi.it.galaxytrucker.messages.servermessages.GameUpdateType;
 // import it.polimi.it.galaxytrucker.networking.rmi.server.RMIServer;
 ;
 

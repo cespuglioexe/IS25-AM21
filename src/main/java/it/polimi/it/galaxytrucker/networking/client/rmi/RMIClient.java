@@ -1,14 +1,12 @@
 package it.polimi.it.galaxytrucker.networking.client.rmi;
 
-import it.polimi.it.galaxytrucker.commands.GameError;
-import it.polimi.it.galaxytrucker.commands.UserInput;
-import it.polimi.it.galaxytrucker.commands.UserInputType;
-import it.polimi.it.galaxytrucker.exceptions.InvalidFunctionCallInState;
-import it.polimi.it.galaxytrucker.model.componenttiles.TileData;
-import it.polimi.it.galaxytrucker.commands.servercommands.GameUpdate;
+import it.polimi.it.galaxytrucker.messages.clientmessages.HeartBeatMessage;
+import it.polimi.it.galaxytrucker.messages.servermessages.GameError;
+import it.polimi.it.galaxytrucker.messages.clientmessages.UserInput;
+import it.polimi.it.galaxytrucker.messages.clientmessages.UserInputType;
+import it.polimi.it.galaxytrucker.messages.servermessages.GameUpdate;
 import it.polimi.it.galaxytrucker.networking.client.Client;
 import it.polimi.it.galaxytrucker.networking.client.ClientInterface;
-import it.polimi.it.galaxytrucker.networking.client.clientmodel.ClientModel;
 import it.polimi.it.galaxytrucker.networking.server.rmi.RMIVirtualClient;
 import it.polimi.it.galaxytrucker.utils.ServerDetails;
 import it.polimi.it.galaxytrucker.view.View;
@@ -18,10 +16,8 @@ import it.polimi.it.galaxytrucker.view.CLI.ConsoleColors;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.rmi.server.UnicastRemoteObject;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * Represents the RMI client.
@@ -39,7 +35,7 @@ import java.util.concurrent.Executors;
 public class RMIClient extends Client implements RMIVirtualClient {
     /**
      * The remote reference to the server's virtual client handler.
-     * This is used to send commands to the server.
+     * This is used to send messages to the server.
      */
     private RMIVirtualServer server;
 
@@ -54,35 +50,36 @@ public class RMIClient extends Client implements RMIVirtualClient {
         super(view);
     }
 
-    /**
-     * The main execution logic for the RMI client.
-     * This method attempts to connect to an RMI server specified by the user.
-     * Once connected, it initializes the view.
-     * The connection attempt is repeated until successful.
-     */
     @Override
-    public void run() {
+    protected void initiateServerConnection() {
         boolean connected = false;
         Scanner scanner = new Scanner(System.in);
 
         do {
-            System.out.print("Insert server IP (leave empty for 'localhost')\n> ");
+            System.out.print("Insert server IP address (leave empty for 'localhost')\n> ");
             String serverIp = scanner.nextLine();
 
-            System.out.print("Insert server name\n> ");
+            System.out.print("Insert server name (leave empty for default 'server')\n> ");
             String serverName = scanner.nextLine();
 
             try {
                 Registry registry = LocateRegistry.getRegistry(serverIp.isEmpty() ? ServerDetails.DEFAULT_IP : serverIp, ServerDetails.RMI_DEFAULT_PORT);
-                RMIServer connectionServer = ((RMIServer) registry.lookup(serverName));
+                RMIServer connectionServer = ((RMIServer) registry.lookup(serverName.isEmpty() ? ServerDetails.DEFAULT_RMI_NAME : serverName));
                 connectionServer.connect(this);
                 connected = true;
             } catch (Exception e) {
                 System.out.println(ConsoleColors.RED + "Failed to connect to '" + serverName + "'" + ConsoleColors.RESET);
             }
         } while (!connected);
+    }
 
-        view.begin();
+    @Override
+    protected void sendHeartbeat() {
+        try {
+            server.receiveUserInput(new HeartBeatMessage());
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

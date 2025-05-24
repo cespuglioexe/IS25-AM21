@@ -1,4 +1,4 @@
-package it.polimi.it.galaxytrucker.commands.servercommands;
+package it.polimi.it.galaxytrucker.messages.servermessages;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

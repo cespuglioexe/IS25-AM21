@@ -10,35 +10,14 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <StackPane prefHeight="400" prefWidth="600">
-         <children>
-            <ImageView fx:id="backgroundImage" />
-            <VBox alignment="TOP_CENTER" spacing="20">
-               <ImageView fx:id="titleImage" />
-               <Text stroke="BLACK" strokeLineJoin="ROUND" strokeType="OUTSIDE" strokeWidth="2.0" text="Press ENTER to continue">
-                  <fill>
-                     <LinearGradient endX="1.0" endY="1.0">
-                        <stops>
-                           <Stop>
-                              <color>
-                                 <Color red="1.0" green="0.8666666746139526" />
-                              </color>
-                           </Stop>
-                           <Stop offset="1.0">
-                              <color>
-                                 <Color red="0.7894737124443054" green="0.5789473652839661" />
-                              </color>
-                           </Stop>
-                        </stops>
-                     </LinearGradient>
-                  </fill>
-                  <font>
-                     <Font name="System Bold" size="36.0" />
-                  </font></Text>
-            </VBox>
-         </children>
-      </StackPane>
-   </children>
+<AnchorPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <StackPane>
+      <ImageView fx:id="backgroundImage" />
+      <VBox alignment="TOP_CENTER" spacing="20" maxWidth="Infinity">
+         <ImageView fx:id="titleImage" />
+         <Text text="Press ENTER to continue"
+               stroke="BLACK" strokeLineJoin="ROUND"
+               strokeType="OUTSIDE" strokeWidth="2.0"/>
+      </VBox>
+   </StackPane>
 </AnchorPane>

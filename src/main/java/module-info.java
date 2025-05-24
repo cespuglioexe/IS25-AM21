@@ -12,6 +12,7 @@ open module it.polimi.it.galaxytrucker {
     requires java.net.http;
     requires java.smartcardio;
 
-    exports it.polimi.it.galaxytrucker.commands;
-    exports it.polimi.it.galaxytrucker.commands.servercommands;
+    exports it.polimi.it.galaxytrucker.messages;
+    exports it.polimi.it.galaxytrucker.messages.servermessages;
+    exports it.polimi.it.galaxytrucker.messages.clientmessages;
 }
