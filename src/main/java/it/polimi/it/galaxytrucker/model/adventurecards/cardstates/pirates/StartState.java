@@ -1,7 +1,6 @@
 package it.polimi.it.galaxytrucker.model.adventurecards.cardstates.pirates;
 
 import it.polimi.it.galaxytrucker.model.adventurecards.cards.Pirates;
-import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.pirates.UserSelectionState;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.attack.Projectile;
 import it.polimi.it.galaxytrucker.model.design.statePattern.State;
 import it.polimi.it.galaxytrucker.model.design.statePattern.StateMachine;

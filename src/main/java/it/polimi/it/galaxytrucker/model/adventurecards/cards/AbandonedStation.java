@@ -1,6 +1,8 @@
 package it.polimi.it.galaxytrucker.model.adventurecards.cards;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.CardStateMachine;
 import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.abandonedstation.StartState;
@@ -81,6 +83,17 @@ public class AbandonedStation extends CardStateMachine implements AdventureCard,
         partecipant.ifPresent(player -> takenChoices.put(0, player));
 
         return takenChoices;
+    }
+
+    @Override
+    public Map<Integer, List<Cargo>> getAvailableChoices() {
+        List<List<Cargo>> allChoices = getChoices();
+        Set<Integer> takenChoices = getTakenChoices().keySet();
+
+        return IntStream.range(0, allChoices.size())
+            .filter(i -> !takenChoices.contains(i))
+            .boxed()
+            .collect(Collectors.toMap(i -> i, allChoices::get));
     }
 
     public Player getPartecipant() {

@@ -6,7 +6,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.CardStateMachine;
 import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.planets.StartState;
@@ -189,6 +191,17 @@ public class Planets extends CardStateMachine implements AdventureCard, Particip
         return occupiedPlanets;
     }
 
+    @Override
+    public Map<Integer, List<Cargo>> getAvailableChoices() {
+        List<List<Cargo>> allChoices = getChoices();
+        Set<Integer> takenChoices = getTakenChoices().keySet();
+
+        return IntStream.range(0, allChoices.size())
+            .filter(i -> !takenChoices.contains(i))
+            .boxed()
+            .collect(Collectors.toMap(i -> i, allChoices::get));
+    }
+
     public Player getCurrentPlayer() {
         return currentPlayer;
     }
@@ -224,11 +237,11 @@ public class Planets extends CardStateMachine implements AdventureCard, Particip
         Cargo cargo = removeCargoFromPlanet(planet, loadIndex);
         CargoManager.manageCargoAddition(cargo, List.of(row, column), currentPlayer);
 
-        updateState();
-
         List<Cargo> cargoList = planetsAndRewards.get(planet);
         if (cargoList.isEmpty()) {
             nextPlayer();
+        } else {
+            updateState();
         }
     }
     private void nextPlayer() {

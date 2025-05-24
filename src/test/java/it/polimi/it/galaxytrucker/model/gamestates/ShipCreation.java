@@ -17,7 +17,7 @@ public class ShipCreation {
          *     4  5  6  7  8  9  10
          * 5        [ ]   [ ]
          * 6     [ ][c][C][c][ ]
-         * 7  [ ][m][b][x][b][s][ ]
+         * 7  [h][m][b][x][b][s][ ]
          * 8  [l][m][e][E][e][ ][ ]
          * 9  [ ][ ][ ]   [ ][ ][ ]
          *
@@ -29,6 +29,7 @@ public class ShipCreation {
          * Where b stands for BatteryComponent
          * Where m stands for CabinModule
          * Where l stands for LifeSupport
+         * Where h stands for CargoHold
          * Where x stands for CentralCabin which has all TileEdge.UNIVERSAL connectors
          *
          * Firepower:
@@ -45,6 +46,7 @@ public class ShipCreation {
         ship.addComponentTile(6, 7, new DoubleCannon(List.of(TileEdge.INCOMPATIBLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE)));
         ship.addComponentTile(6, 8, new SingleCannon(List.of(TileEdge.INCOMPATIBLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE)));
 
+        ship.addComponentTile(7, 4, new CargoHold(3, List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE)));
         ship.addComponentTile(7, 5, new CabinModule(List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE)));
         ship.addComponentTile(7, 6, new BatteryComponent(2, List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE)));
         ship.addComponentTile(7, 8, new BatteryComponent(2, List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE)));
@@ -66,7 +68,7 @@ public class ShipCreation {
         /*
          *     4  5  6  7  8  9  10
          * 5        [ ]   [ ]
-         * 6     [ ][c][C][c][ ]
+         * 6     [ ][c][C][c][h]
          * 7  [ ][m][b][x][b][s][ ]
          * 8  [l][m][e][E][e][E][ ]
          * 9  [ ][ ][ ]   [ ][ ][ ]
@@ -79,6 +81,7 @@ public class ShipCreation {
          * Where b stands for BatteryComponent
          * Where m stands for CabinModule
          * Where l stands for LifeSupport
+         * Where h stands for CargoHold
          * Where x stands for CentralCabin which has all TileEdge.UNIVERSAL connectors
          *
          * Firepower:
@@ -94,6 +97,7 @@ public class ShipCreation {
         ship.addComponentTile(6, 6, new SingleCannon(List.of(TileEdge.INCOMPATIBLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE)));
         ship.addComponentTile(6, 7, new DoubleCannon(List.of(TileEdge.INCOMPATIBLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE)));
         ship.addComponentTile(6, 8, new SingleCannon(List.of(TileEdge.INCOMPATIBLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE)));
+        ship.addComponentTile(6, 9, new CargoHold(3, List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE)));
 
         ship.addComponentTile(7, 5, new CabinModule(List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE)));
         ship.addComponentTile(7, 6, new BatteryComponent(2, List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE)));
@@ -117,7 +121,7 @@ public class ShipCreation {
         /*
          *     4  5  6  7  8  9  10
          * 5        [ ]   [ ]
-         * 6     [ ][c][C][c][ ]
+         * 6     [ ][c][C][c][h]
          * 7  [ ][ ][b][x][b][s][ ]
          * 8  [l][m][e][E][e][ ][ ]
          * 9  [ ][ ][ ]   [ ][ ][ ]
@@ -130,6 +134,7 @@ public class ShipCreation {
          * Where b stands for BatteryComponent
          * Where m stands for CabinModule
          * Where l stands for LifeSupport
+         * Where h stands for CargoHold
          * Where x stands for CentralCabin which has all TileEdge.UNIVERSAL connectors
          *
          * Firepower:
@@ -145,6 +150,7 @@ public class ShipCreation {
         ship.addComponentTile(6, 6, new SingleCannon(List.of(TileEdge.INCOMPATIBLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE)));
         ship.addComponentTile(6, 7, new DoubleCannon(List.of(TileEdge.INCOMPATIBLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE)));
         ship.addComponentTile(6, 8, new SingleCannon(List.of(TileEdge.INCOMPATIBLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE)));
+        ship.addComponentTile(6, 9, new CargoHold(3, List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE)));
 
         ship.addComponentTile(7, 6, new BatteryComponent(2, List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE)));
         ship.addComponentTile(7, 8, new BatteryComponent(2, List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE)));

@@ -1602,10 +1602,10 @@ public class ShipManager {
             return 'C';
         }
         if (component.getClass().equals(CargoHold.class)) {
-            return 'd';
+            return 'h';
         }
         if (component.getClass().equals(SpecialCargoHold.class)) {
-            return 'D';
+            return 'H';
         }
         if (component.getClass().equals(LifeSupport.class)) {
             return 'l';

@@ -3,12 +3,15 @@ package it.polimi.it.galaxytrucker.model.adventurecards;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCard;
 
 import java.util.ArrayList;
+import java.util.EmptyStackException;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Random;
+import java.util.Stack;
 
 public class AdventureDeck {
     private List<AdventureCard> cards = new ArrayList<>();
+    private Stack<AdventureCard> drawnCards = new Stack<>();
 
     public void initializeAdventureCards(List<AdventureCard> cards) {
         this.cards = cards;
@@ -45,7 +48,12 @@ public class AdventureDeck {
     public AdventureCard draw() throws NoSuchElementException {
         AdventureCard card = cards.getFirst();
         cards.remove(card);
+        drawnCards.push(card);
         return card;
+    }
+
+    public AdventureCard getLastDrawnCard() throws EmptyStackException {
+        return drawnCards.peek();
     }
 
     // TODO: fare che questa funzione generi gli stack, invece che ritornarne uno

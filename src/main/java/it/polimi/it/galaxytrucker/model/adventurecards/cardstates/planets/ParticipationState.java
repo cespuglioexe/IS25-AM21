@@ -1,7 +1,9 @@
 package it.polimi.it.galaxytrucker.model.adventurecards.cardstates.planets;
 
+import it.polimi.it.galaxytrucker.model.design.observerPattern.Subject;
 import it.polimi.it.galaxytrucker.model.design.statePattern.State;
 import it.polimi.it.galaxytrucker.model.design.statePattern.StateMachine;
+import it.polimi.it.galaxytrucker.model.adventurecards.cardevents.InputNeeded;
 import it.polimi.it.galaxytrucker.model.adventurecards.cards.Planets;
 import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.EndState;
 
@@ -13,14 +15,18 @@ public class ParticipationState extends State {
     @Override
     public void enter(StateMachine fsm) {
         Planets card = (Planets) fsm;
+        Subject subject = (Subject) fsm;
 
         numberOfPlanets = card.getPlanets().size();
         numberOfPlayers = card.getNumberOfBoardPlayers();
+
+        subject.notifyObservers(new InputNeeded(card));
     }
 
     @Override
     public void update(StateMachine fsm) {
         Planets card = (Planets) fsm;
+        Subject subject = (Subject) fsm;
 
         if (allPlayersHaveResponded()) {
             if (noPlanetWasChosen(card)) {
@@ -34,6 +40,8 @@ public class ParticipationState extends State {
         if (allPlanetsAreOccupied(card)) {
             fsm.changeState(new CargoRewardState());
         }
+
+        subject.notifyObservers(new InputNeeded(card));
     }
     private boolean allPlayersHaveResponded() {
         return ++playerDecisions == numberOfPlayers;
