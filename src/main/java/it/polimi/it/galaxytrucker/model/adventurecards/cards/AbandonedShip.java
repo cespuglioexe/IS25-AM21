@@ -75,8 +75,17 @@ public class AbandonedShip extends CardStateMachine implements AdventureCard, Pa
     private int creditReward;
     private int crewmatePenalty;
     private int flightDayPenalty;
+    private String graphic;
 
-    private final FlightRules flightRules;
+    private FlightRules flightRules;
+
+    public AbandonedShip(int creditReward, int crewmatePenalty, int flightDayPenalty, FlightRules flightRules, String graphic) {
+        this.creditReward = creditReward;
+        this.crewmatePenalty = crewmatePenalty;
+        this.flightDayPenalty = flightDayPenalty;
+        this.flightRules = flightRules;
+        this.graphic = graphic;
+    }
 
     public AbandonedShip(int creditReward, int crewmatePenalty, int flightDayPenalty, FlightRules flightRules) {
         this.creditReward = creditReward;
@@ -171,5 +180,14 @@ public class AbandonedShip extends CardStateMachine implements AdventureCard, Pa
 
     public int getNumberOfBoardPlayers() {
         return flightRules.getPlayerOrder().size();
+    }
+
+    @Override
+    public String toString() {
+        return "AbandonedShip{" +
+                ", creditReward=" + creditReward +
+                ", crewmatePenalty=" + crewmatePenalty +
+                ", flightDayPenalty=" + flightDayPenalty +
+                '}';
     }
 }

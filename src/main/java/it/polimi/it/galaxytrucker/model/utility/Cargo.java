@@ -16,4 +16,11 @@ public class Cargo {
     public boolean isSpecial() {
         return isSpecial;
     }
+
+    @Override
+    public String toString() {
+        return "Cargo{" +
+                "color=" + color +
+                '}';
+    }
 }
