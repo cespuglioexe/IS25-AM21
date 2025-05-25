@@ -1,8 +1,8 @@
 package it.polimi.it.galaxytrucker.networking.server.rmi;
 
-import it.polimi.it.galaxytrucker.commands.GameError;
+import it.polimi.it.galaxytrucker.messages.servermessages.GameError;
 import it.polimi.it.galaxytrucker.networking.VirtualClient;
-import it.polimi.it.galaxytrucker.commands.servercommands.GameUpdate;
+import it.polimi.it.galaxytrucker.messages.servermessages.GameUpdate;
 import it.polimi.it.galaxytrucker.networking.client.rmi.RMIVirtualServer;
 
 import java.rmi.Remote;

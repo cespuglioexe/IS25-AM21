@@ -1,7 +1,7 @@
 package it.polimi.it.galaxytrucker.model.gamestates;
 
-import it.polimi.it.galaxytrucker.commands.servercommands.GameUpdate;
-import it.polimi.it.galaxytrucker.commands.servercommands.GameUpdateType;
+import it.polimi.it.galaxytrucker.messages.servermessages.GameUpdate;
+import it.polimi.it.galaxytrucker.messages.servermessages.GameUpdateType;
 import it.polimi.it.galaxytrucker.model.componenttiles.ComponentTile;
 import it.polimi.it.galaxytrucker.model.componenttiles.TileData;
 import it.polimi.it.galaxytrucker.model.design.statePattern.StateMachine;

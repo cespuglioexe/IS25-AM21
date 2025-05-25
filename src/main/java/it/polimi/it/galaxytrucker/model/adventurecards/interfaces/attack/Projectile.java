@@ -19,4 +19,12 @@ public class Projectile {
     public Direction getDirection() {
         return direction;
     }
+
+    @Override
+    public String toString() {
+        return "Projectile{" +
+                "type=" + type +
+                ", direction=" + direction +
+                '}';
+    }
 }

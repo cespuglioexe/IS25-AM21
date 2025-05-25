@@ -1,7 +1,8 @@
 package it.polimi.it.galaxytrucker.networking.server.rmi;
 
-import it.polimi.it.galaxytrucker.commands.UserInput;
-import it.polimi.it.galaxytrucker.commands.servercommands.GameUpdate;
+import it.polimi.it.galaxytrucker.messages.Message;
+import it.polimi.it.galaxytrucker.messages.clientmessages.UserInput;
+import it.polimi.it.galaxytrucker.messages.servermessages.GameUpdate;
 import it.polimi.it.galaxytrucker.networking.client.rmi.RMIVirtualServer;
 import it.polimi.it.galaxytrucker.networking.server.ClientHandler;
 import it.polimi.it.galaxytrucker.networking.server.ServerInterface;
@@ -47,7 +48,7 @@ public class RMIClientHandler extends ClientHandler implements RMIVirtualServer 
     }
 
     @Override
-    public void receiveUserInput(UserInput userInput) throws RemoteException {
+    public void receiveUserInput(Message userInput) throws RemoteException {
         processUserInput(userInput);
     }
 }

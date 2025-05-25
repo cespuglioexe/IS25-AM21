@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-import it.polimi.it.galaxytrucker.commands.servercommands.GameUpdate;
-import it.polimi.it.galaxytrucker.commands.servercommands.GameUpdateType;
+import it.polimi.it.galaxytrucker.messages.servermessages.GameUpdate;
+import it.polimi.it.galaxytrucker.messages.servermessages.GameUpdateType;
 import it.polimi.it.galaxytrucker.listeners.*;
 import it.polimi.it.galaxytrucker.model.componenttiles.CargoHold;
 import it.polimi.it.galaxytrucker.model.componenttiles.ComponentTile;

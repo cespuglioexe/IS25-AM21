@@ -1,30 +1,25 @@
 package it.polimi.it.galaxytrucker.networking.client.socket;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import it.polimi.it.galaxytrucker.commands.UserInput;
-import it.polimi.it.galaxytrucker.commands.UserInputType;
-import it.polimi.it.galaxytrucker.commands.servercommands.GameUpdate;
-import it.polimi.it.galaxytrucker.exceptions.InvalidFunctionCallInState;
-import it.polimi.it.galaxytrucker.model.componenttiles.TileData;
+import it.polimi.it.galaxytrucker.messages.clientmessages.HeartBeatMessage;
+import it.polimi.it.galaxytrucker.messages.clientmessages.UserInput;
+import it.polimi.it.galaxytrucker.messages.clientmessages.UserInputType;
+import it.polimi.it.galaxytrucker.messages.servermessages.GameUpdate;
 import it.polimi.it.galaxytrucker.model.json.Json;
 import it.polimi.it.galaxytrucker.networking.client.Client;
 import it.polimi.it.galaxytrucker.networking.client.ClientInterface;
-import it.polimi.it.galaxytrucker.networking.client.clientmodel.ClientModel;
 import it.polimi.it.galaxytrucker.networking.server.socket.SocketVirtualClient;
+import it.polimi.it.galaxytrucker.utils.ServerDetails;
 import it.polimi.it.galaxytrucker.view.CLI.ConsoleColors;
 import it.polimi.it.galaxytrucker.view.View;
 
 import java.io.*;
 import java.net.Socket;
 import java.rmi.RemoteException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Scanner;
-import java.util.UUID;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.*;
 
 /**
  * This class represents the client logic implemented using Socket technology.
@@ -47,6 +42,11 @@ public class SocketClient extends Client {
      * Writer for sending messages to the socket's output stream.
      */
     private PrintWriter output;
+    /**
+     * Object writer for converting java objects to JSON strings
+     * that can be sent over sockets.
+     */
+    private final ObjectWriter objectWriter = new ObjectMapper().writer();
 
     /**
      * Constructs a new {@code SocketClient} instance.
@@ -59,32 +59,37 @@ public class SocketClient extends Client {
         super(view);
     }
 
-    /**
-     * Connects the client to a server socket, initializes communication streams,
-     * starts a background thread for reading server messages, sends an initial handshake,
-     * and starts the view.
-     * <p>
-     * This method prompts the user for the server IP address and port number before
-     * attempting to establish the connection. If the connection fails, it will prompt
-     * the user for the IP address and port number again until a successful connection
-     * is established.
-     * </p>
-     *
-     * @throws RuntimeException if an I/O error occurs during socket connection or stream setup.
-     */
-   @Override
-    public void run() {
+    @Override
+    protected void initiateServerConnection() {
         Scanner scanner = new Scanner(System.in);
         boolean connected = false;
-        do {
-            System.out.println("Insert server IP address: ");
-            String host = scanner.nextLine().trim();
 
-            System.out.println("Insert port number: ");
-            int port = scanner.nextInt();
+        do {
+            System.out.print("Insert server IP address (leave empty for 'localhost')\n> ");
+            String serverIp = scanner.nextLine().trim();
+
+            int port;
+            do {
+                System.out.print("Insert port number (leave empty for default port 5002)\n> ");
+                String portString = scanner.nextLine().trim();
+                port = -1;
+
+                if (portString.isEmpty()) {
+                    port = ServerDetails.SOCKET_DEFAULT_PORT;
+                } else {
+                    try {
+                        port = Integer.parseInt(portString);
+                        if (port < 0 || port > 65535) {
+                            System.out.println(ConsoleColors.RED + "That's not a valid port number. It should be between 0 and 65535." + ConsoleColors.RESET);
+                        }
+                    } catch (NumberFormatException e) {
+                        System.out.println(ConsoleColors.RED + "Please enter a valid input." + ConsoleColors.RESET);
+                    }
+                }
+            } while (port < 0 || port > 65535);
 
             try {
-                Socket serverSocket = new Socket(host, port);
+                Socket serverSocket = new Socket(serverIp.isEmpty() ? ServerDetails.DEFAULT_IP : serverIp, port);
 
                 InputStreamReader socketRx = new InputStreamReader(serverSocket.getInputStream());
                 OutputStreamWriter socketTx = new OutputStreamWriter(serverSocket.getOutputStream());
@@ -94,10 +99,11 @@ public class SocketClient extends Client {
 
                 connected = true;
             } catch (IOException e) {
-                System.out.println(ConsoleColors.RED + "Failed to connect to " + host + ":" + port + "! Please try again." + ConsoleColors.RESET);
+                System.out.println(ConsoleColors.RED + "Failed to connect to " + serverIp + ":" + port + "! Please try again." + ConsoleColors.RESET);
             }
         } while (!connected);
 
+        // Starts a new thread for reading incoming messages without blocking other processes
         new Thread(() -> {
             try {
                 serverMessageReader();
@@ -111,8 +117,19 @@ public class SocketClient extends Client {
                 .setPlayerUuid(model.getMyData().getPlayerId())
                 .build()
         );
+    }
 
-        view.begin();
+    @Override
+    protected void sendHeartbeat() {
+        try {
+            String jsonMessage = objectWriter.writeValueAsString(new HeartBeatMessage());
+            System.out.println(ConsoleColors.CLIENT_DEBUG + "sending message" + jsonMessage + ConsoleColors.RESET);
+            this.output.println(jsonMessage);
+            this.output.flush();
+            System.out.println(ConsoleColors.CLIENT_DEBUG + "printed message to socket" + ConsoleColors.RESET);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -154,9 +171,8 @@ public class SocketClient extends Client {
     @Override
     public void receiveUserInput(UserInput input) {
         commandSenderExecutor.submit(() -> {
-            ObjectWriter ow = new ObjectMapper().writer();
             try {
-                String jsonMessage = ow.writeValueAsString(input);
+                String jsonMessage = objectWriter.writeValueAsString(input);
                 System.out.println(ConsoleColors.CLIENT_DEBUG + "sending message" + jsonMessage + ConsoleColors.RESET);
                 this.output.println(jsonMessage);
                 this.output.flush();

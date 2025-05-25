@@ -180,4 +180,15 @@ class BuildingStateTest {
     void callInvalidFunctionTest() {
         assertThrows(InvalidFunctionCallInState.class, () -> gameManager.addPlayer(new Player(playerId1, "Schumi", Color.RED, new ShipManager(2))));
     }
+
+    @Test
+    void initializeAdventureDeckTest() {
+        gameManager.initializeAdventureDeck();
+
+        assertNotEquals(gameManager.getAdventureDeck().getCards().size(), 0);
+
+        for(int i=0;i<gameManager.getAdventureDeck().getCards().size();i++){
+            System.out.println(gameManager.getAdventureDeck().getCards().get(i).toString());
+        }
+    }
 }

@@ -1,7 +1,6 @@
 package it.polimi.it.galaxytrucker.listeners;
 
-import it.polimi.it.galaxytrucker.commands.Command;
-import it.polimi.it.galaxytrucker.commands.servercommands.GameUpdate;
+import it.polimi.it.galaxytrucker.messages.servermessages.GameUpdate;
 
 /**
  * Represents an entity capable of receiving notifications in the form of

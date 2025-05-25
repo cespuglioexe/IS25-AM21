@@ -81,14 +81,22 @@ import it.polimi.it.galaxytrucker.exceptions.NotFoundException;
  * @see CardStateMachine
  */
 public class CombatZone extends Attack implements AdventureCard, FlightDayPenalty, CrewmatePenalty {
-    private final int crewmatePenalty = 2;
-    private final int flightDayPenalty = 3;
+    private int crewmatePenalty = 2;
+    private int flightDayPenalty = 3;
     private HashMap<Player, Integer> playersAndEnginePower;
     private HashMap<Player, Double> playersAndFirePower;
+    private String graphic;
 
     private Player playerWithLeastEnginePower;
 
     private FlightRules flightRules;
+
+    public CombatZone(int crewmatePenalty, int flightDayPenalty, FlightRules flightRules, String graphic) {
+        super(createProjectiles());
+        this.flightRules = flightRules;
+        setPlayers();
+        this.graphic=graphic;
+    }
 
     public CombatZone(int crewmatePenalty, int flightDayPenalty, FlightRules flightRules) {
         super(createProjectiles());
@@ -341,5 +349,14 @@ public class CombatZone extends Attack implements AdventureCard, FlightDayPenalt
 
     public int getNumberOfBoardPlayers() {
         return flightRules.getPlayerOrder().size();
+    }
+
+    @Override
+    public String toString() {
+        return "CombatZone{" +
+                "crewmatePenalty=" + crewmatePenalty +
+                ", flightDayPenalty=" + flightDayPenalty +
+                ", projectiles = "+ super.getProjectiles().toString()+
+                '}';
     }
 }

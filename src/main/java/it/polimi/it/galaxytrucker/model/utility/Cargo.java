@@ -29,4 +29,11 @@ public class Cargo {
     public int getCreditValue() {
         return CREDIT_VALUES.getOrDefault(CREDIT_VALUES, 1);
     }
+
+    @Override
+    public String toString() {
+        return "Cargo{" +
+                "color=" + color +
+                '}';
+    }
 }

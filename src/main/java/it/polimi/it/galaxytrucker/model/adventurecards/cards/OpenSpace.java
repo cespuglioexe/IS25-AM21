@@ -12,8 +12,16 @@ import it.polimi.it.galaxytrucker.model.managers.ShipManager;
 
 public class OpenSpace extends CardStateMachine implements AdventureCard {
     private HashMap<Player, Integer> playersAndEnginePower;
+    private String graphic;
 
     private FlightRules flightRules;
+
+
+    public OpenSpace(FlightRules flightRules,String graphic) {
+        this.flightRules = flightRules;
+        this.graphic = graphic;
+        setPlayers();
+    }
 
     public OpenSpace(FlightRules flightRules) {
         this.flightRules = flightRules;
@@ -58,4 +66,9 @@ public class OpenSpace extends CardStateMachine implements AdventureCard {
         return playersAndEnginePower.keySet().size();
     }
 
+    @Override
+    public String toString() {
+        return "OpenSpace{" +
+                '}';
+    }
 }

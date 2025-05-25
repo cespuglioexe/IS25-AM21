@@ -13,10 +13,17 @@ import it.polimi.it.galaxytrucker.model.managers.ShipManager;
 public class StarDust extends CardStateMachine implements AdventureCard, FlightDayPenalty {
     private Player currentPlayer;
     private int flightDayPenalty;
-    private final FlightRules flightRules;
+    private  FlightRules flightRules;
+    private String graphic;
 
     public StarDust(FlightRules flightRules) {
         this.flightRules = flightRules;
+    }
+
+    public StarDust(int flightDayPenalty, FlightRules flightRules, String graphic) {
+        this.flightRules = flightRules;
+        this.graphic = graphic;
+        this.flightDayPenalty=flightDayPenalty;
     }
     
     @Override
@@ -44,4 +51,10 @@ public class StarDust extends CardStateMachine implements AdventureCard, FlightD
         flightRules.movePlayerBackwards(flightDayPenalty, currentPlayer);
     }
 
+    @Override
+    public String toString() {
+        return "StarDust{" +
+                "flightDayPenalty=" + flightDayPenalty +
+                '}';
+    }
 }

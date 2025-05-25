@@ -1,11 +1,10 @@
 package it.polimi.it.galaxytrucker.networking.client;
 
-import it.polimi.it.galaxytrucker.commands.UserInput;
-import it.polimi.it.galaxytrucker.commands.servercommands.GameUpdate;
+import it.polimi.it.galaxytrucker.messages.clientmessages.UserInput;
+import it.polimi.it.galaxytrucker.messages.servermessages.GameUpdate;
 import it.polimi.it.galaxytrucker.exceptions.InvalidFunctionCallInState;
 import it.polimi.it.galaxytrucker.model.componenttiles.TileData;
 import it.polimi.it.galaxytrucker.networking.client.clientmodel.ClientModel;
-import it.polimi.it.galaxytrucker.networking.client.rmi.RMIVirtualServer;
 import it.polimi.it.galaxytrucker.view.CLI.ConsoleColors;
 import it.polimi.it.galaxytrucker.view.View;
 
@@ -17,6 +16,8 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public abstract class Client extends UnicastRemoteObject implements Runnable, ClientInterface {
     /**
@@ -30,7 +31,7 @@ public abstract class Client extends UnicastRemoteObject implements Runnable, Cl
      */
     protected final View view;
     /**
-     * An executor service to send user input commands to the server asynchronously.
+     * An executor service to send user input messages to the server asynchronously.
      * This ensures that the client's main thread is not blocked while sending data.
      */
     protected final ExecutorService commandSenderExecutor = Executors.newSingleThreadExecutor();
@@ -38,6 +39,11 @@ public abstract class Client extends UnicastRemoteObject implements Runnable, Cl
      * A flag indicating whether the building phase timer is currently active.
      */
     protected boolean buildingTimerIsActive;
+    /**
+     * The frequency, in seconds, at which the client should send a heartbeat
+     * message to the server for keeping the connection alive.
+     */
+    private final int HEARTBEAT_FREQUENCY = 5;
 
     protected Client(View view) throws RemoteException {
         super();
@@ -45,6 +51,21 @@ public abstract class Client extends UnicastRemoteObject implements Runnable, Cl
         this.view = view;
         view.setClient(this);
     }
+
+    @Override
+    public void run() {
+        initiateServerConnection();
+
+        // Begin heartbeat for maintaining active connection
+        ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
+        scheduler.scheduleAtFixedRate(() -> commandSenderExecutor.submit(this::sendHeartbeat), 0, HEARTBEAT_FREQUENCY, TimeUnit.SECONDS);
+
+        view.begin();
+    }
+
+    protected abstract void sendHeartbeat();
+
+    protected abstract void initiateServerConnection();
 
     @Override
     public ClientModel getModel() {
@@ -71,7 +92,9 @@ public abstract class Client extends UnicastRemoteObject implements Runnable, Cl
         switch (update.getInstructionType()) {
             case SET_USERNAME_RESULT:
                 if (update.isSuccessfulOperation()) {
-                    model.getMyData().setNickname(update.getPlayerName());
+                    synchronized (ClientModel.class) {
+                        model.getMyData().setNickname(update.getPlayerName());
+                    }
                     view.nameSelectionSuccess();
                 } else {
                     view.nameNotAvailable();
@@ -80,9 +103,11 @@ public abstract class Client extends UnicastRemoteObject implements Runnable, Cl
 
             case CREATE_GAME_RESULT:
                 if (update.isSuccessfulOperation()) {
-                    model.getMyData().setMatchId(update.getGameUuid());
-                    System.out.println(ConsoleColors.CLIENT_DEBUG + "Joined game of level " + update.getGameLevel());
-                    model.setGameLevel(update.getGameLevel());
+                    synchronized (ClientModel.class) {
+                        model.getMyData().setMatchId(update.getGameUuid());
+                        System.out.println(ConsoleColors.CLIENT_DEBUG + "Joined game of level " + update.getGameLevel());
+                        model.setGameLevel(update.getGameLevel());
+                    }
                     try {
                         view.gameCreationSuccess(true);
                     } catch (InvalidFunctionCallInState e) {
@@ -96,9 +121,11 @@ public abstract class Client extends UnicastRemoteObject implements Runnable, Cl
 
             case JOIN_GAME_RESULT:
                 if (update.isSuccessfulOperation()) {
-                    model.getMyData().setMatchId(update.getGameUuid());
-                    System.out.println(ConsoleColors.CLIENT_DEBUG + "Joined game of level " + update.getGameLevel());
-                    model.setGameLevel(update.getGameLevel());
+                    synchronized (ClientModel.class) {
+                        model.getMyData().setMatchId(update.getGameUuid());
+                        System.out.println(ConsoleColors.CLIENT_DEBUG + "Joined game of level " + update.getGameLevel());
+                        model.setGameLevel(update.getGameLevel());
+                    }
                 } else if (update.getOperationMessage().equals("The game was full")) {
                     view.joinedGameIsFull();
                 }
@@ -111,14 +138,14 @@ public abstract class Client extends UnicastRemoteObject implements Runnable, Cl
             case NEW_STATE:
                 switch (update.getNewSate()) {
                     case "BuildingState":
-                        System.out.println(ConsoleColors.CLIENT_DEBUG + "Joined game of level " + update.getGameLevel());
-                        model.setGameLevel(update.getGameLevel());
                         HashMap<UUID, List<List<TileData>>> ships = update.getAllPlayerShipBoard();
-                        System.out.println(ConsoleColors.CLIENT_HANDLER_DEBUG + ships.values().toString());
-                        for (Map.Entry<UUID, List<List<TileData>>> entry : ships.entrySet()) {
-                            model.updatePlayerShip(entry.getKey(), entry.getValue());
+                        synchronized (ClientModel.class) {
+                            model.setGameLevel(update.getGameLevel());
+                            for (Map.Entry<UUID, List<List<TileData>>> entry : ships.entrySet()) {
+                                model.updatePlayerShip(entry.getKey(), entry.getValue());
+                            }
+                            // model.setCardPiles(update.getCardPileCompositions());
                         }
-                        // model.setCardPiles(update.getCardPileCompositions());
                         // TODO: piles
                         view.buildingStarted();
                         break;
@@ -131,15 +158,21 @@ public abstract class Client extends UnicastRemoteObject implements Runnable, Cl
                 view.componentTileReceived(update.getNewTile());
                 break;
             case SAVED_COMPONENTS_UPDATED:
-                model.setSavedTiles(update.getTileList());
+                synchronized (ClientModel.class) {
+                    model.setSavedTiles(update.getTileList());
+                }
                 view.savedComponentsUpdated();
                 break;
             case DISCARDED_COMPONENTS_UPDATED:
-                model.setDiscardedTiles(update.getTileList());
+                synchronized (ClientModel.class) {
+                    model.setDiscardedTiles(update.getTileList());
+                }
                 view.discardedComponentsUpdated();
                 break;
             case PLAYER_SHIP_UPDATED:
-                model.updatePlayerShip(update.getInterestedPlayerId(), update.getShipBoard());
+                synchronized (ClientModel.class) {
+                    model.updatePlayerShip(update.getInterestedPlayerId(), update.getShipBoard());
+                }
                 view.shipUpdated(update.getInterestedPlayerId());
                 break;
             case TIMER_START:
@@ -155,8 +188,4 @@ public abstract class Client extends UnicastRemoteObject implements Runnable, Cl
                 break;
         }
     }
-
-    @Override
-    public abstract void run();
-
 }

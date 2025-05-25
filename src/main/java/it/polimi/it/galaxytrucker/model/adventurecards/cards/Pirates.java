@@ -23,8 +23,9 @@ public class Pirates extends Attack implements AdventureCard,FlightDayPenalty, C
     private int creditReward;
     private int flightDayPenalty;
     LinkedHashMap<Player,Double> playersAndFirePower;
+    private String graphic;
 
-    private final FlightRules flightRules;
+    private  FlightRules flightRules;
     
     public Pirates(int firePowerRequired, int creditReward, int flightDayPenalty, List<Projectile> projectiles, FlightRules flightRules) {
         super(projectiles);
@@ -33,6 +34,16 @@ public class Pirates extends Attack implements AdventureCard,FlightDayPenalty, C
         this.flightRules = flightRules;
         this.firePowerRequired = firePowerRequired;
         playersAndFirePower = new LinkedHashMap<>();
+    }
+
+    public Pirates(int firePowerRequired, int creditReward, int flightDayPenalty, List<Projectile> projectiles, FlightRules flightRules,String graphic) {
+        super(projectiles);
+        this.creditReward = creditReward;
+        this.flightDayPenalty = flightDayPenalty;
+        this.flightRules = flightRules;
+        this.firePowerRequired = firePowerRequired;
+        playersAndFirePower = new LinkedHashMap<>();
+        this.graphic=graphic;
     }
     
     @Override
@@ -147,5 +158,15 @@ public class Pirates extends Attack implements AdventureCard,FlightDayPenalty, C
     @Override
     public void applyFlightDayPenalty() {
         flightRules.movePlayerBackwards(flightDayPenalty, getPlayer());
+    }
+
+    @Override
+    public String toString() {
+        return "Pirates{" +
+                "firePowerRequired=" + firePowerRequired +
+                ", creditReward=" + creditReward +
+                ", flightDayPenalty=" + flightDayPenalty +
+                ", projectiles = "+ super.getProjectiles().toString()+
+                '}';
     }
 }

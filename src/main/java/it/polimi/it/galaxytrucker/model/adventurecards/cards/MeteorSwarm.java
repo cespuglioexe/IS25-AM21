@@ -19,12 +19,19 @@ import it.polimi.it.galaxytrucker.model.utility.ProjectileType;
 
 public class MeteorSwarm extends Attack implements AdventureCard {
     private Projectile currentMeteor;
-    private final FlightRules flightRules;
+    private FlightRules flightRules;
     private boolean shootingAtMeteor = false;
+    private String graphic;
 
     public MeteorSwarm(List<Projectile> projectiles, FlightRules flightRules) {
         super(projectiles);
         this.flightRules = flightRules;
+    }
+
+    public MeteorSwarm(List<Projectile> projectiles, FlightRules flightRules, String graphic) {
+        super(projectiles);
+        this.flightRules = flightRules;
+        this.graphic=graphic;
     }
 
     @Override
@@ -185,4 +192,10 @@ public class MeteorSwarm extends Attack implements AdventureCard {
         shootAtMeteorWith(doubleCannonCoord);
     }
 
+    @Override
+    public String toString() {
+        return "MeteorSwarm{" +
+                "projectiles= "+super.getProjectiles().toString()+
+                "}";
+    }
 }
