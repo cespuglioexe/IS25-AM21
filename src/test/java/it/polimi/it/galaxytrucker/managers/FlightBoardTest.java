@@ -135,5 +135,55 @@ class FlightBoardTest {
         assertEquals(0, board.getPlayerPosition().get(player4));
     }
 
+    @Test
+    public void addDisconnectedPlayerMarker() {
+
+        FlightBoard board = new FlightBoard(1);
+
+        Player player1 = new Player(new UUID(0,1), "Margarozzo1", Color.RED, new ShipManager(1));
+        Player player2 = new Player(new UUID(0,2), "Margarozzo2", Color.BLUE, new ShipManager(1));
+        Player player3 = new Player(new UUID(0,3), "Margarozzo3", Color.GREEN, new ShipManager(1));
+        Player player4 = new Player(new UUID(0,4), "Margarozzo4", Color.YELLOW, new ShipManager(1));
+
+        board.addPlayerMarker(player1);
+        board.addPlayerMarker(player2);
+        board.addPlayerMarker(player3);
+        board.addPlayerMarker(player4);
+
+        board.printFlightBoardState();
+
+        board.removePlayerMarker(player2);
+
+        board.addPlayerMarker(player2,board.getPlayerPosition().get(player2));
+        board.printFlightBoardState();
+    }
+
+    @Test
+    public void addDisconnectedPlayerMarkerWithBusyBox() {
+
+        FlightBoard board = new FlightBoard(1);
+
+        Player player1 = new Player(new UUID(0,1), "Margarozzo1", Color.RED, new ShipManager(1));
+        Player player2 = new Player(new UUID(0,2), "Margarozzo2", Color.BLUE, new ShipManager(1));
+        Player player3 = new Player(new UUID(0,3), "Margarozzo3", Color.GREEN, new ShipManager(1));
+        Player player4 = new Player(new UUID(0,4), "Margarozzo4", Color.YELLOW, new ShipManager(1));
+
+        board.addPlayerMarker(player1);
+        board.addPlayerMarker(player2);
+        board.addPlayerMarker(player3);
+        board.addPlayerMarker(player4);
+
+        board.printFlightBoardState();
+
+        board.removePlayerMarker(player2);
+        board.movePlayerForward(1, player3);
+        board.movePlayerForward(1, player4);
+        board.movePlayerBackwards(2, player1);
+
+        board.addPlayerMarker(player2,board.getPlayerPosition().get(player2));
+        assertEquals(-1, board.getCompletedLaps().get(player2));
+        board.printFlightBoardState();
+    }
+
 
 }
