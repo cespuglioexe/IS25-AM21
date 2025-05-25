@@ -50,6 +50,9 @@ public class ShipFixingState extends GameState {
         if (!playerHasFinished.containsKey(playerID)) {
             throw new InvalidActionException(game.getPlayerByID(playerID).getPlayerName() + " cannot fix his ship: he already has a valid one");
         }
+        if (playerHasFinished.get(playerID)) {
+            throw new InvalidActionException(game.getPlayerByID(playerID).getPlayerName() + " has already finished fixing his ship");
+        }
 
         ShipManager ship = game.getPlayerByID(playerID).getShipManager();
         ship.removeComponentTile(row, column);

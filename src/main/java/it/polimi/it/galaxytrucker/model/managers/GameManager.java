@@ -275,4 +275,15 @@ public class GameManager extends StateMachine implements Model, Observable {
             }
         }
     }
+
+    public List<Player> getActivePlayers() {
+        return players.stream()
+            .filter(player -> !player.isDefeated())
+            .toList();
+    }
+
+    public void defeat(Player player) {
+        player.defeat();
+        flightBoard.removePlayerMarker(player);
+    }
 }

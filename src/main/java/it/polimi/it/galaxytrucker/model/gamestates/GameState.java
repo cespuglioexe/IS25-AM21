@@ -1,6 +1,8 @@
 package it.polimi.it.galaxytrucker.model.gamestates;
 
 import java.util.List;
+import java.util.Set;
+
 import it.polimi.it.galaxytrucker.model.componenttiles.ComponentTile;
 import it.polimi.it.galaxytrucker.model.design.statePattern.*;
 import it.polimi.it.galaxytrucker.exceptions.InvalidActionException;
@@ -52,8 +54,12 @@ public abstract class GameState extends State {
     public void deleteComponentTile(StateMachine fsm, UUID playerID, int row, int column) throws InvalidFunctionCallInState {
         throw new InvalidFunctionCallInState("Can't delete component in state: " + this.getClass().getSimpleName());
     }
-
     public void startBuildPhaseTimer(GameManager gameManager) {
         throw new InvalidFunctionCallInState("Can't start a building timer in state: " + this.getClass().getSimpleName());
+    }
+
+    //ATTACK AFTERMATH FIXING STATE
+    public void removeBranch(StateMachine fsm, UUID player, Set<List<Integer>> branch) {
+        throw new InvalidFunctionCallInState("Can't remove a branch in state: " + this.getClass().getSimpleName());
     }
 }
