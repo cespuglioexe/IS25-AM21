@@ -24,18 +24,21 @@ public class DefeatCheckState extends GameState {
     public void enter(StateMachine fsm) {
         gameManager = (GameManager) fsm;
 
-        if (gameManager.getActivePlayers().isEmpty()) {
-            changeState(fsm, new GameEndState());
-            return;
-        }
-
         checkForDefeat(fsm);
 
-        if (wasLastPlayedCardAttack()) {
+        if (isLessThanOnePlayerLeft()) {
+            changeState(fsm, new GameEndState());
+        } else if (wasLastPlayedCardAttack()) {
             changeState(fsm, new AttackAftermathCheckState());
         } else {
             changeState(fsm, new GameTurnStartState());
         }
+    }
+    private boolean isLessThanOnePlayerLeft() {
+        if (gameManager.getActivePlayers().size() <= 1) {
+            return true;
+        }
+        return false;
     }
     private void checkForDefeat(StateMachine fsm) {
         for (Player player : gameManager.getActivePlayers()) {
