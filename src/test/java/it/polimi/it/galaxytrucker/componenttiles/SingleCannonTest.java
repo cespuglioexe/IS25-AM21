@@ -19,7 +19,7 @@ public class SingleCannonTest {
     @BeforeEach
     public void setUp() {
         // Create a single cannon with different edge types
-        singleCannon = new SingleCannon(List.of(TileEdge.SMOOTH, TileEdge.SINGLE, TileEdge.DOUBLE, TileEdge.UNIVERSAL));
+        singleCannon = new SingleCannon(List.of(TileEdge.SMOOTH, TileEdge.SINGLE, TileEdge.DOUBLE, TileEdge.UNIVERSAL), null);
     }
 
     @Test

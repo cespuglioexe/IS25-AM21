@@ -234,9 +234,9 @@ public class CLIView extends View {
         String borderColor = ConsoleColors.RESET.toString();
         String insideColor = ConsoleColors.GREEN.toString();
 
-        if (tile.getType().equals("OutOfBoundsTile")) borderColor = ConsoleColors.WHITE.toString();
+        if (tile.type().equals("OutOfBoundsTile")) borderColor = ConsoleColors.WHITE.toString();
 
-        switch (tile.getType()) {
+        switch (tile.type()) {
             case "CentralCabin"     -> tileName = "C Cabin";
             case "OutOfBoundsTile"  -> tileName = "       ";
             case "BatteryComponent" -> tileName = "Battery";
@@ -256,29 +256,29 @@ public class CLIView extends View {
 
         lines.add(borderColor + "|" + ConsoleColors.RESET +
                     insideColor +
-                    (isDouble(tile.getLeft()) ? "←" : " ") + " " +
-                    (isDouble(tile.getTop()) ? "↑" : " ") + " " +
-                    (isSingle(tile.getTop()) ? "↑" : " ") + " " +
-                    (isDouble(tile.getTop()) ? "↑" : " ") + " " +
-                    (isDouble(tile.getRight()) ? "→" : " ") +
+                    (isDouble(tile.left()) ? "←" : " ") + " " +
+                    (isDouble(tile.top()) ? "↑" : " ") + " " +
+                    (isSingle(tile.top()) ? "↑" : " ") + " " +
+                    (isDouble(tile.top()) ? "↑" : " ") + " " +
+                    (isDouble(tile.right()) ? "→" : " ") +
                     ConsoleColors.RESET +
                     borderColor + "|" + ConsoleColors.RESET);
 
         lines.add(borderColor + "|" + ConsoleColors.RESET +
                     insideColor +
-                    (isSingle(tile.getLeft()) ? "←" : " ") +
+                    (isSingle(tile.left()) ? "←" : " ") +
                     tileName +
-                    (isSingle(tile.getRight()) ? "→" : " ") +
+                    (isSingle(tile.right()) ? "→" : " ") +
                     ConsoleColors.RESET +
                     borderColor + "|" + ConsoleColors.RESET);
 
         lines.add(borderColor + "|" + ConsoleColors.RESET +
                     insideColor +
-                    (isDouble(tile.getLeft()) ? "←" : " ") + " " +
-                    (isDouble(tile.getBottom()) ? "↓" : " ") + " " +
-                    (isSingle(tile.getBottom()) ? "↓" : " ") + " " +
-                    (isDouble(tile.getBottom()) ? "↓" : " ") + " " +
-                    (isDouble(tile.getRight()) ? "→" : " ") +
+                    (isDouble(tile.left()) ? "←" : " ") + " " +
+                    (isDouble(tile.bottom()) ? "↓" : " ") + " " +
+                    (isSingle(tile.bottom()) ? "↓" : " ") + " " +
+                    (isDouble(tile.bottom()) ? "↓" : " ") + " " +
+                    (isDouble(tile.right()) ? "→" : " ") +
                     ConsoleColors.RESET +
                     borderColor + "|" + ConsoleColors.RESET);
 

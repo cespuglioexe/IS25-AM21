@@ -12,21 +12,21 @@ import it.polimi.it.galaxytrucker.exceptions.InvalidActionException;
 
 public interface Model {
     //GETTER
-     State getCurrentState();
-     Integer getLevel();
-     Integer getNumberOfPlayers();
-     List<Player> getPlayers();
-     Player getPlayerByID(UUID id);
-     boolean allPlayersConnected();
-     ShipManager getPlayerShip(UUID id);
-     Set<Player> getPlayersWithIllegalShips();
-     Set<ComponentTile> getComponentTiles();
-     FlightBoard getFlightBoard();
-     AdventureDeck getAdventureDeck();
-     void getSavedComponentTiles(UUID playerId);
-     List<ComponentTile> getDiscardedComponentTiles(UUID playerId);
-     void getPlayerShipBoard(UUID playerId);
-
+    State getCurrentState();
+    Integer getLevel();
+    Integer getNumberOfPlayers();
+    List<Player> getPlayers();
+    Player getPlayerByID(UUID id);
+    List<Player> getPlayerRank();
+    boolean allPlayersConnected();
+    ShipManager getPlayerShip(UUID id);
+    Set<Player> getPlayersWithIllegalShips();
+    Set<ComponentTile> getComponentTiles();
+    FlightBoard getFlightBoard();
+    AdventureDeck getAdventureDeck();
+    void getSavedComponentTiles(UUID playerId);
+    List<ComponentTile> getDiscardedComponentTiles(UUID playerId);
+    void getPlayerShipBoard(UUID playerId);
 
     //SETTER
      void changeState(State nextState);
@@ -46,6 +46,7 @@ public interface Model {
      void selectDiscardedComponentTile (UUID playerId, int index);
 
      void deleteComponentTile(UUID playerID, int row, int column);
+     public void deleteBranch(UUID playerID, Set<List<Integer>> branch);
 
      void startBuildPhaseTimer();
 }

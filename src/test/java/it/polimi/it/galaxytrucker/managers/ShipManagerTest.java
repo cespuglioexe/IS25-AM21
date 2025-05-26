@@ -36,7 +36,7 @@ public class ShipManagerTest {
 
     @Test
     void getComponentsAtRowOutOfBounds() {
-        ShipManager ship = new ShipManager(1);
+        ShipManager ship = new ShipManager(1, Color.BLUE);
 
         assertThrows(IndexOutOfBoundsException.class, () -> ship.getComponentsAtRow(0));
         assertThrows(IndexOutOfBoundsException.class, () -> ship.getComponentsAtRow(10));
@@ -44,9 +44,9 @@ public class ShipManagerTest {
 
     @Test
     void getComponentsAtRowTest() {
-        ShipManager ship = new ShipManager(1);
+        ShipManager ship = new ShipManager(1, Color.BLUE);
 
-        ComponentTile cannon = new SingleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        ComponentTile cannon = new SingleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
 
         /*
          *  4  5  6  7  8  9 10
@@ -107,7 +107,7 @@ public class ShipManagerTest {
 
     @Test
     void getComponentsAtColumnOutOfBounds() {
-        ShipManager ship = new ShipManager(1);
+        ShipManager ship = new ShipManager(1, Color.BLUE);
 
         assertThrows(IndexOutOfBoundsException.class, () -> ship.getComponentsAtColumn(0));
         assertThrows(IndexOutOfBoundsException.class, () -> ship.getComponentsAtColumn(11));
@@ -115,9 +115,9 @@ public class ShipManagerTest {
 
     @Test
     void getComponentsAtColumnTest() {
-        ShipManager ship = new ShipManager(1);
+        ShipManager ship = new ShipManager(1, Color.BLUE);
 
-        ComponentTile cannon = new SingleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        ComponentTile cannon = new SingleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
 
         /*
          *  4  5  6  7  8  9 10
@@ -176,16 +176,16 @@ public class ShipManagerTest {
 
     @Test
     void getAllComponentsPositionOfTypeTypeNotPresentTest() {
-        ShipManager ship = new ShipManager(1);
+        ShipManager ship = new ShipManager(1, Color.BLUE);
 
         assertEquals(Set.of(), ship.getAllComponentsPositionOfType(SingleCannon.class));
     }
 
     @Test
     void getAllComponentsPositionOfTypeTest() {
-        ShipManager ship = new ShipManager(1);
+        ShipManager ship = new ShipManager(1, Color.BLUE);
 
-        ComponentTile cannon = new SingleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        ComponentTile cannon = new SingleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
 
         /*
          *  4  5  6  7  8  9 10
@@ -226,9 +226,9 @@ public class ShipManagerTest {
 
     @Test
     void getDisconnectedBranchesTest() {
-        ShipManager ship = new ShipManager(1);
+        ShipManager ship = new ShipManager(1, Color.BLUE);
 
-        ComponentTile cannon = new SingleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        ComponentTile cannon = new SingleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
 
         /*
          *  4  5  6  7  8  9 10
@@ -295,10 +295,10 @@ public class ShipManagerTest {
 
     @Test
     void removeComponentTileCabinModuleUpdatesCrewmates() {
-        ShipManager ship = new ShipManager(1);
+        ShipManager ship = new ShipManager(1, Color.BLUE);
 
-        CabinModule cabin = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
-        LifeSupport lifeSupport = new LifeSupport(AlienType.PURPLEALIEN, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        CabinModule cabin = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
+        LifeSupport lifeSupport = new LifeSupport(AlienType.PURPLEALIEN, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
 
         Alien alien = new Alien(AlienType.PURPLEALIEN);
 
@@ -334,12 +334,12 @@ public class ShipManagerTest {
 
     @Test
     void hasAlienTest() {
-        ShipManager ship = new ShipManager(1);
+        ShipManager ship = new ShipManager(1, Color.BLUE);
 
-        CabinModule cabinPurple = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
-        CabinModule cabinBrown = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
-        LifeSupport lifeSupportPurple = new LifeSupport(AlienType.PURPLEALIEN, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
-        LifeSupport lifeSupportBrown = new LifeSupport(AlienType.BROWNALIEN, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        CabinModule cabinPurple = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
+        CabinModule cabinBrown = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
+        LifeSupport lifeSupportPurple = new LifeSupport(AlienType.PURPLEALIEN, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
+        LifeSupport lifeSupportBrown = new LifeSupport(AlienType.BROWNALIEN, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
 
         Alien purple = new Alien(AlienType.PURPLEALIEN);
         Alien brown = new Alien(AlienType.BROWNALIEN);
@@ -376,12 +376,12 @@ public class ShipManagerTest {
 
     @Test
     void removeComponentTileRemovingLifeSupportTest() {
-        ShipManager ship = new ShipManager(1);
+        ShipManager ship = new ShipManager(1, Color.BLUE);
 
-        CabinModule cabinPurple = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
-        CabinModule cabinBrown = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
-        LifeSupport lifeSupportPurple = new LifeSupport(AlienType.PURPLEALIEN, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
-        LifeSupport lifeSupportBrown = new LifeSupport(AlienType.BROWNALIEN, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        CabinModule cabinPurple = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
+        CabinModule cabinBrown = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
+        LifeSupport lifeSupportPurple = new LifeSupport(AlienType.PURPLEALIEN, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
+        LifeSupport lifeSupportBrown = new LifeSupport(AlienType.BROWNALIEN, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
 
         Alien purple = new Alien(AlienType.PURPLEALIEN);
         Alien brown = new Alien(AlienType.BROWNALIEN);
@@ -417,9 +417,9 @@ public class ShipManagerTest {
 
     @Test
     void removeBranchTest() {
-        ShipManager ship = new ShipManager(1);
+        ShipManager ship = new ShipManager(1, Color.BLUE);
 
-        ComponentTile cannon = new SingleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        ComponentTile cannon = new SingleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
 
         /*
          *  4  5  6  7  8  9 10
@@ -479,9 +479,9 @@ public class ShipManagerTest {
 
     @Test
     void isShipLegalWithDisconnectedBranchesTest() {
-        ShipManager ship = new ShipManager(1);
+        ShipManager ship = new ShipManager(1, Color.BLUE);
 
-        ComponentTile cannon = new SingleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        ComponentTile cannon = new SingleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
 
         /*
          *  4  5  6  7  8  9 10
@@ -529,10 +529,10 @@ public class ShipManagerTest {
 
     @Test
     void isShipLegalWithEnginesPointingBackwardsTest() {
-        ShipManager ship = new ShipManager(1);
+        ShipManager ship = new ShipManager(1, Color.BLUE);
 
-        ComponentTile singleConnector = new StructuralModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
-        ComponentTile engine = new SingleEngine(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.INCOMPATIBLE));
+        ComponentTile singleConnector = new StructuralModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
+        ComponentTile engine = new SingleEngine(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.INCOMPATIBLE), null);
 
         //rotate the engine pointing up
         engine.rotate();
@@ -590,10 +590,10 @@ public class ShipManagerTest {
 
     @Test
     void isShipLegalWithDifferentConnectorsUpTest() {
-        ShipManager ship = new ShipManager(1);
+        ShipManager ship = new ShipManager(1, Color.BLUE);
 
-        ComponentTile singleConnector = new StructuralModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
-        ComponentTile doubleConnector = new StructuralModule(List.of(TileEdge.DOUBLE, TileEdge.DOUBLE, TileEdge.DOUBLE, TileEdge.DOUBLE));
+        ComponentTile singleConnector = new StructuralModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
+        ComponentTile doubleConnector = new StructuralModule(List.of(TileEdge.DOUBLE, TileEdge.DOUBLE, TileEdge.DOUBLE, TileEdge.DOUBLE), null);
 
         /*
          *  4  5  6  7  8  9 10
@@ -651,9 +651,9 @@ public class ShipManagerTest {
 
     @Test
     void isShipLegalLegalTest() {
-        ShipManager ship = new ShipManager(1);
+        ShipManager ship = new ShipManager(1, Color.BLUE);
 
-        ComponentTile singleConnector = new StructuralModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        ComponentTile singleConnector = new StructuralModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
 
         /*
          *  4  5  6  7  8  9 10
@@ -705,9 +705,9 @@ public class ShipManagerTest {
 
     @Test
     void addCrewmateIllegalComponentPositionTest() {
-        ShipManager ship = new ShipManager(1);
+        ShipManager ship = new ShipManager(1, Color.BLUE);
 
-        ComponentTile singleConnector = new StructuralModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        ComponentTile singleConnector = new StructuralModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
 
         Human crewmate = new Human();
 
@@ -731,8 +731,8 @@ public class ShipManagerTest {
 
     @Test
     void addCrewmateHumanTest() {
-        ShipManager ship = new ShipManager(1);
-        CabinModule cabin = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        ShipManager ship = new ShipManager(1, Color.BLUE);
+        CabinModule cabin = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
 
         Human crewmate = new Human();
 
@@ -761,9 +761,9 @@ public class ShipManagerTest {
 
     @Test
     void addCrewmateFullCabinTest() {
-        ShipManager ship = new ShipManager(1);
+        ShipManager ship = new ShipManager(1, Color.BLUE);
 
-        CabinModule cabin = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        CabinModule cabin = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
 
         Human crewmate = new Human();
 
@@ -790,9 +790,9 @@ public class ShipManagerTest {
 
     @Test
     void addCrewmateAlienWithoutLifeSupportTest() {
-        ShipManager ship = new ShipManager(1);
+        ShipManager ship = new ShipManager(1, Color.BLUE);
 
-        CabinModule cabin = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        CabinModule cabin = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
 
         Alien alien = new Alien(AlienType.PURPLEALIEN);
 
@@ -816,10 +816,10 @@ public class ShipManagerTest {
 
     @Test
     void addCrewmateAlienTest() {
-        ShipManager ship = new ShipManager(1);
+        ShipManager ship = new ShipManager(1, Color.BLUE);
 
-        CabinModule cabin = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
-        LifeSupport lifeSupport = new LifeSupport(AlienType.PURPLEALIEN, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        CabinModule cabin = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
+        LifeSupport lifeSupport = new LifeSupport(AlienType.PURPLEALIEN, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
 
         Alien alien = new Alien(AlienType.PURPLEALIEN);
 
@@ -847,10 +847,10 @@ public class ShipManagerTest {
 
     @Test
     void addCrewmateAlienAlreadyPresentTest() {
-        ShipManager ship = new ShipManager(1);
+        ShipManager ship = new ShipManager(1, Color.BLUE);
 
-        CabinModule cabin = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
-        LifeSupport lifeSupport = new LifeSupport(AlienType.PURPLEALIEN, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        CabinModule cabin = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
+        LifeSupport lifeSupport = new LifeSupport(AlienType.PURPLEALIEN, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
 
         Alien alien = new Alien(AlienType.PURPLEALIEN);
 
@@ -879,9 +879,9 @@ public class ShipManagerTest {
 
     @Test
     void removeCrewmateIllegalComponentPositionTest() {
-        ShipManager ship = new ShipManager(1);
+        ShipManager ship = new ShipManager(1, Color.BLUE);
 
-        ComponentTile singleConnector = new StructuralModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        ComponentTile singleConnector = new StructuralModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
 
         /*
          *  4  5  6  7  8  9 10
@@ -903,8 +903,8 @@ public class ShipManagerTest {
 
     @Test
     void removeCrewmateEmptyCabinTest() {
-        ShipManager ship = new ShipManager(1);
-        CabinModule cabin = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        ShipManager ship = new ShipManager(1, Color.BLUE);
+        CabinModule cabin = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
 
         /*
          *  4  5  6  7  8  9 10
@@ -926,8 +926,8 @@ public class ShipManagerTest {
 
     @Test
     void removeCrewmateHumanTest() {
-        ShipManager ship = new ShipManager(1);
-        CabinModule cabin = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        ShipManager ship = new ShipManager(1, Color.BLUE);
+        CabinModule cabin = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
 
         Human crewmate = new Human();
 
@@ -960,10 +960,10 @@ public class ShipManagerTest {
 
     @Test
     void removeCrewmateAlienTest() {
-        ShipManager ship = new ShipManager(1);
+        ShipManager ship = new ShipManager(1, Color.BLUE);
 
-        CabinModule cabin = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
-        LifeSupport lifeSupport = new LifeSupport(AlienType.PURPLEALIEN, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        CabinModule cabin = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
+        LifeSupport lifeSupport = new LifeSupport(AlienType.PURPLEALIEN, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
 
         Alien alien = new Alien(AlienType.PURPLEALIEN);
 
@@ -993,9 +993,9 @@ public class ShipManagerTest {
 
     @Test
     void addCargoNormalIllegalComponentPositionTest() {
-        ShipManager ship = new ShipManager(1);
+        ShipManager ship = new ShipManager(1, Color.BLUE);
 
-        CabinModule cabin = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        CabinModule cabin = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
 
         Cargo cargo = new Cargo(Color.BLUE);
 
@@ -1019,9 +1019,9 @@ public class ShipManagerTest {
  
     @Test
     void addCargoNormalTest() {
-        ShipManager ship = new ShipManager(1);
+        ShipManager ship = new ShipManager(1, Color.BLUE);
 
-        CargoHold cargoHold = new CargoHold(2, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        CargoHold cargoHold = new CargoHold(2, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
 
         Cargo cargo = new Cargo(Color.BLUE);
 
@@ -1047,9 +1047,9 @@ public class ShipManagerTest {
 
     @Test
     void addCargoNormalFullCargoHoldTest() {
-        ShipManager ship = new ShipManager(1);
+        ShipManager ship = new ShipManager(1, Color.BLUE);
 
-        CargoHold cargoHold = new CargoHold(2, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        CargoHold cargoHold = new CargoHold(2, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
 
         Cargo cargo = new Cargo(Color.BLUE);
 
@@ -1076,9 +1076,9 @@ public class ShipManagerTest {
 
     @Test
     void addCargoNormalToSpecialCargoHold() {
-        ShipManager ship = new ShipManager(1);
+        ShipManager ship = new ShipManager(1, Color.BLUE);
 
-        SpecialCargoHold specialCargoHold = new SpecialCargoHold(2, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        SpecialCargoHold specialCargoHold = new SpecialCargoHold(2, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
 
         Cargo cargo = new Cargo(Color.BLUE);
 
@@ -1104,9 +1104,9 @@ public class ShipManagerTest {
 
     @Test
     void addCargoSpecialNoSpecialCargoHoldTest() {
-        ShipManager ship = new ShipManager(1);
+        ShipManager ship = new ShipManager(1, Color.BLUE);
 
-        CargoHold cargoHold = new CargoHold(2, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        CargoHold cargoHold = new CargoHold(2, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
 
         Cargo cargo = new Cargo(Color.RED);
 
@@ -1130,9 +1130,9 @@ public class ShipManagerTest {
 
     @Test
     void addCargoSpecialTest() {
-        ShipManager ship = new ShipManager(1);
+        ShipManager ship = new ShipManager(1, Color.BLUE);
 
-        SpecialCargoHold specialCargoHold = new SpecialCargoHold(2, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        SpecialCargoHold specialCargoHold = new SpecialCargoHold(2, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
 
         Cargo cargo1 = new Cargo(Color.RED);
         Cargo cargo2 = new Cargo(Color.BLUE);
@@ -1161,9 +1161,9 @@ public class ShipManagerTest {
 
     @Test
     void addCargoSpecialFullSpecialCargoHoldTest() {
-        ShipManager ship = new ShipManager(1);
+        ShipManager ship = new ShipManager(1, Color.BLUE);
 
-        SpecialCargoHold specialCargoHold = new SpecialCargoHold(2, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        SpecialCargoHold specialCargoHold = new SpecialCargoHold(2, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
 
         Cargo cargo = new Cargo(Color.RED);
 
@@ -1190,9 +1190,9 @@ public class ShipManagerTest {
 
     @Test
     void removeCargoIllegalComponentPositionTest() {
-        ShipManager ship = new ShipManager(1);
+        ShipManager ship = new ShipManager(1, Color.BLUE);
 
-        CabinModule cabin = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        CabinModule cabin = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
 
         /*
          *  4  5  6  7  8  9 10
@@ -1214,9 +1214,9 @@ public class ShipManagerTest {
 
     @Test
     void removeCargoNormalEmptyCargoHoldTest() {
-        ShipManager ship = new ShipManager(1);
+        ShipManager ship = new ShipManager(1, Color.BLUE);
 
-        CargoHold cargoHold = new CargoHold(2, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        CargoHold cargoHold = new CargoHold(2, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
 
         /*
          *  4  5  6  7  8  9 10
@@ -1238,9 +1238,9 @@ public class ShipManagerTest {
 
     @Test
     void removeCargoNormalNoCargoOfThatColorTest() {
-        ShipManager ship = new ShipManager(1);
+        ShipManager ship = new ShipManager(1, Color.BLUE);
 
-        CargoHold cargoHold = new CargoHold(2, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        CargoHold cargoHold = new CargoHold(2, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
 
         Cargo cargo = new Cargo(Color.BLUE);
 
@@ -1266,9 +1266,9 @@ public class ShipManagerTest {
 
     @Test
     void removeCargoNormalTest() {
-        ShipManager ship = new ShipManager(1);
+        ShipManager ship = new ShipManager(1, Color.BLUE);
 
-        CargoHold cargoHold = new CargoHold(2, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        CargoHold cargoHold = new CargoHold(2, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
 
         Cargo cargo1 = new Cargo(Color.BLUE);
         Cargo cargo2 = new Cargo(Color.YELLOW);
@@ -1302,9 +1302,9 @@ public class ShipManagerTest {
 
     @Test
     void removeCargoSpecial() {
-        ShipManager ship = new ShipManager(1);
+        ShipManager ship = new ShipManager(1, Color.BLUE);
 
-        SpecialCargoHold specialCargoHold = new SpecialCargoHold(2, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        SpecialCargoHold specialCargoHold = new SpecialCargoHold(2, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
 
         Cargo cargo1 = new Cargo(Color.BLUE);
         Cargo cargo2 = new Cargo(Color.RED);
@@ -1336,9 +1336,9 @@ public class ShipManagerTest {
 
     @Test
     void removeBatteryIllegalComponentPositionTest() {
-        ShipManager ship = new ShipManager(1);
+        ShipManager ship = new ShipManager(1, Color.BLUE);
 
-        CargoHold cargoHold = new CargoHold(2, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        CargoHold cargoHold = new CargoHold(2, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
 
         /*
          *  4  5  6  7  8  9 10
@@ -1360,9 +1360,9 @@ public class ShipManagerTest {
 
     @Test
     void removeBatteryTest() {
-        ShipManager ship = new ShipManager(1);
+        ShipManager ship = new ShipManager(1, Color.BLUE);
 
-        BatteryComponent batteryComponent = new BatteryComponent(2, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        BatteryComponent batteryComponent = new BatteryComponent(2, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
 
         /*
          *  4  5  6  7  8  9 10
@@ -1386,9 +1386,9 @@ public class ShipManagerTest {
 
     @Test
     void removeBatteryEmptyComponentTest() {
-        ShipManager ship = new ShipManager(1);
+        ShipManager ship = new ShipManager(1, Color.BLUE);
 
-        BatteryComponent batteryComponent = new BatteryComponent(2, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        BatteryComponent batteryComponent = new BatteryComponent(2, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
 
         /*
          *  4  5  6  7  8  9 10
@@ -1413,10 +1413,10 @@ public class ShipManagerTest {
 
     @Test
     void getCargoPositonTest() {
-        ShipManager ship = new ShipManager(1);
+        ShipManager ship = new ShipManager(1, Color.BLUE);
 
-        SpecialCargoHold specialCargoHold = new SpecialCargoHold(2, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
-        CargoHold cargoHold = new CargoHold(2, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        SpecialCargoHold specialCargoHold = new SpecialCargoHold(2, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
+        CargoHold cargoHold = new CargoHold(2, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
 
         Cargo specialCargp = new Cargo(Color.RED);
         Cargo cargo1 = new Cargo(Color.BLUE);
@@ -1465,8 +1465,8 @@ public class ShipManagerTest {
 
     @Test
     void countExposedConnectorsOfTest() {
-        ShipManager ship = new ShipManager(1);
-        ComponentTile cannon = new SingleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        ShipManager ship = new ShipManager(1, Color.BLUE);
+        ComponentTile cannon = new SingleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
 
         /*
          *  4  5  6  7  8  9 10
@@ -1530,8 +1530,8 @@ public class ShipManagerTest {
 
     @Test
     void countAllExposedConnectorsTest() {
-        ShipManager ship = new ShipManager(1);
-        ComponentTile cannon = new SingleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        ShipManager ship = new ShipManager(1, Color.BLUE);
+        ComponentTile cannon = new SingleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
 
         /*
          *  4  5  6  7  8  9 10
@@ -1582,7 +1582,7 @@ public class ShipManagerTest {
 
     @Test
     void countHumansNoCabinTest() {
-        ShipManager ship = new ShipManager(1);
+        ShipManager ship = new ShipManager(1, Color.BLUE);
 
         /*
          *  4  5  6  7  8  9 10
@@ -1601,10 +1601,10 @@ public class ShipManagerTest {
 
     @Test
     void countHumansNoHumansTest() {
-        ShipManager ship = new ShipManager(1);
+        ShipManager ship = new ShipManager(1, Color.BLUE);
 
-        CabinModule cabin = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
-        LifeSupport lifeSupport = new LifeSupport(AlienType.PURPLEALIEN, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        CabinModule cabin = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
+        LifeSupport lifeSupport = new LifeSupport(AlienType.PURPLEALIEN, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
 
         Alien alien = new Alien(AlienType.PURPLEALIEN);
 
@@ -1632,8 +1632,8 @@ public class ShipManagerTest {
 
     @Test
     void countHumansTest() {
-        ShipManager ship = new ShipManager(1);
-        CabinModule cabin = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        ShipManager ship = new ShipManager(1, Color.BLUE);
+        CabinModule cabin = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
 
         Human crewmate = new Human();
 
@@ -1658,10 +1658,10 @@ public class ShipManagerTest {
 
     @Test
     void countCrewmatesNoCrewmatesTest() {
-        ShipManager ship = new ShipManager(1);
+        ShipManager ship = new ShipManager(1, Color.BLUE);
 
-        CabinModule cabin = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
-        LifeSupport lifeSupport = new LifeSupport(AlienType.PURPLEALIEN, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        CabinModule cabin = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
+        LifeSupport lifeSupport = new LifeSupport(AlienType.PURPLEALIEN, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
 
         /*
          *  4  5  6  7  8  9 10
@@ -1685,10 +1685,10 @@ public class ShipManagerTest {
 
     @Test
     void countCrewmatesOnlyHumanstest() {
-        ShipManager ship = new ShipManager(1);
+        ShipManager ship = new ShipManager(1, Color.BLUE);
 
-        CabinModule cabin = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
-        LifeSupport lifeSupport = new LifeSupport(AlienType.PURPLEALIEN, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        CabinModule cabin = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
+        LifeSupport lifeSupport = new LifeSupport(AlienType.PURPLEALIEN, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
 
         /*
          *  4  5  6  7  8  9 10
@@ -1712,10 +1712,10 @@ public class ShipManagerTest {
 
     @Test
     void countCrewmatesOnlyAliensTest() {
-        ShipManager ship = new ShipManager(1);
+        ShipManager ship = new ShipManager(1, Color.BLUE);
 
-        CabinModule cabin = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
-        LifeSupport lifeSupport = new LifeSupport(AlienType.PURPLEALIEN, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        CabinModule cabin = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
+        LifeSupport lifeSupport = new LifeSupport(AlienType.PURPLEALIEN, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
 
         Alien alien = new Alien(AlienType.PURPLEALIEN);
 
@@ -1743,10 +1743,10 @@ public class ShipManagerTest {
 
     @Test
     void countCrewmatesTest() {
-        ShipManager ship = new ShipManager(1);
+        ShipManager ship = new ShipManager(1, Color.BLUE);
 
-        CabinModule cabin = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
-        LifeSupport lifeSupport = new LifeSupport(AlienType.PURPLEALIEN, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        CabinModule cabin = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
+        LifeSupport lifeSupport = new LifeSupport(AlienType.PURPLEALIEN, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
 
         Alien alien = new Alien(AlienType.PURPLEALIEN);
 
@@ -1774,10 +1774,10 @@ public class ShipManagerTest {
 
     @Test
     void calculateFirePowerTest() {
-        ShipManager ship = new ShipManager(1);
+        ShipManager ship = new ShipManager(1, Color.BLUE);
 
-        SingleCannon cannon = new SingleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
-        DoubleCannon doubleCannon = new DoubleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        SingleCannon cannon = new SingleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
+        DoubleCannon doubleCannon = new DoubleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
 
         /*
          *  4  5  6  7  8  9 10
@@ -1803,12 +1803,12 @@ public class ShipManagerTest {
 
     @Test
     void calculateFirePowerWithAliensTest() {
-        ShipManager ship = new ShipManager(1);
+        ShipManager ship = new ShipManager(1, Color.BLUE);
 
-        SingleCannon cannon = new SingleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
-        DoubleCannon doubleCannon = new DoubleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
-        CabinModule cabin = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
-        LifeSupport lifeSupport = new LifeSupport(AlienType.PURPLEALIEN, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        SingleCannon cannon = new SingleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
+        DoubleCannon doubleCannon = new DoubleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
+        CabinModule cabin = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
+        LifeSupport lifeSupport = new LifeSupport(AlienType.PURPLEALIEN, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
 
         Alien alien = new Alien(AlienType.PURPLEALIEN);
 
@@ -1842,11 +1842,11 @@ public class ShipManagerTest {
 
     @Test
     void calculateFirePowerWithAliensNoCannonTest() {
-        ShipManager ship = new ShipManager(1);
+        ShipManager ship = new ShipManager(1, Color.BLUE);
 
-        DoubleCannon doubleCannon = new DoubleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
-        CabinModule cabin = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
-        LifeSupport lifeSupport = new LifeSupport(AlienType.PURPLEALIEN, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        DoubleCannon doubleCannon = new DoubleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
+        CabinModule cabin = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
+        LifeSupport lifeSupport = new LifeSupport(AlienType.PURPLEALIEN, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
 
         Alien alien = new Alien(AlienType.PURPLEALIEN);
 
@@ -1876,10 +1876,10 @@ public class ShipManagerTest {
     
     @Test
     void calculateEnginePowerTest() {
-        ShipManager ship = new ShipManager(1);
+        ShipManager ship = new ShipManager(1, Color.BLUE);
 
-        SingleEngine engine = new SingleEngine(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
-        DoubleEngine doubleEngine = new DoubleEngine(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        SingleEngine engine = new SingleEngine(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
+        DoubleEngine doubleEngine = new DoubleEngine(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
 
         /*
          *  4  5  6  7  8  9 10
@@ -1905,11 +1905,11 @@ public class ShipManagerTest {
 
     @Test
     void activateComponentTest() {
-        ShipManager ship = new ShipManager(1);
+        ShipManager ship = new ShipManager(1, Color.BLUE);
 
-        SingleCannon cannon = new SingleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
-        DoubleCannon doubleCannon = new DoubleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
-        BatteryComponent battery = new BatteryComponent(2, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        SingleCannon cannon = new SingleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
+        DoubleCannon doubleCannon = new DoubleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
+        BatteryComponent battery = new BatteryComponent(2, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
 
         /*
          *  4  5  6  7  8  9 10
@@ -1947,12 +1947,12 @@ public class ShipManagerTest {
 
     @Test
     void calculateFirePowerOfOnlyDouble() {
-        ShipManager ship = new ShipManager(1);
+        ShipManager ship = new ShipManager(1, Color.BLUE);
 
-        DoubleCannon doubleCannon = new DoubleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
-        BatteryComponent battery = new BatteryComponent(2, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
-        CabinModule cabin = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
-        LifeSupport lifeSupport = new LifeSupport(AlienType.PURPLEALIEN, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        DoubleCannon doubleCannon = new DoubleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
+        BatteryComponent battery = new BatteryComponent(2, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
+        CabinModule cabin = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
+        LifeSupport lifeSupport = new LifeSupport(AlienType.PURPLEALIEN, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
 
         Alien alien = new Alien(AlienType.PURPLEALIEN);
 
@@ -1988,13 +1988,13 @@ public class ShipManagerTest {
 
     @Test
     void calculateFirePowerOfBothSingleAndDoubleTest() {
-        ShipManager ship = new ShipManager(1);
+        ShipManager ship = new ShipManager(1, Color.BLUE);
 
-        SingleCannon cannon = new SingleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
-        DoubleCannon doubleCannon = new DoubleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
-        BatteryComponent battery = new BatteryComponent(2, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
-        CabinModule cabin = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
-        LifeSupport lifeSupport = new LifeSupport(AlienType.PURPLEALIEN, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        SingleCannon cannon = new SingleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
+        DoubleCannon doubleCannon = new DoubleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
+        BatteryComponent battery = new BatteryComponent(2, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
+        CabinModule cabin = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
+        LifeSupport lifeSupport = new LifeSupport(AlienType.PURPLEALIEN, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
 
         Alien alien = new Alien(AlienType.PURPLEALIEN);
 
@@ -2034,13 +2034,13 @@ public class ShipManagerTest {
 
     @Test
     void calculateFirePowerOfBothNoCannonsTest() {
-        ShipManager ship = new ShipManager(1);
+        ShipManager ship = new ShipManager(1, Color.BLUE);
 
-        SingleEngine engine = new SingleEngine(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
-        DoubleEngine doubleEngine = new DoubleEngine(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
-        BatteryComponent battery = new BatteryComponent(2, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
-        CabinModule cabin = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
-        LifeSupport lifeSupport = new LifeSupport(AlienType.BROWNALIEN, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        SingleEngine engine = new SingleEngine(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
+        DoubleEngine doubleEngine = new DoubleEngine(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
+        BatteryComponent battery = new BatteryComponent(2, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
+        CabinModule cabin = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
+        LifeSupport lifeSupport = new LifeSupport(AlienType.BROWNALIEN, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
 
         Alien alien = new Alien(AlienType.BROWNALIEN);
 
@@ -2076,13 +2076,13 @@ public class ShipManagerTest {
 
     @Test
     void calculateEnginePowerOfBothSingleAndDoubleTest() {
-        ShipManager ship = new ShipManager(1);
+        ShipManager ship = new ShipManager(1, Color.BLUE);
 
-        SingleEngine engine = new SingleEngine(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
-        DoubleEngine doubleEngine = new DoubleEngine(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
-        BatteryComponent battery = new BatteryComponent(2, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
-        CabinModule cabin = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
-        LifeSupport lifeSupport = new LifeSupport(AlienType.BROWNALIEN, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE));
+        SingleEngine engine = new SingleEngine(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
+        DoubleEngine doubleEngine = new DoubleEngine(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
+        BatteryComponent battery = new BatteryComponent(2, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
+        CabinModule cabin = new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
+        LifeSupport lifeSupport = new LifeSupport(AlienType.BROWNALIEN, List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
 
         Alien alien = new Alien(AlienType.BROWNALIEN);
 

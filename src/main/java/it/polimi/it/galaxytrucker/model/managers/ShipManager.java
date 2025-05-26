@@ -80,7 +80,7 @@ import java.util.OptionalInt;
  * </pre>
  *
  * @author Stefano Carletto
- * @version 1.4
+ * @version 1.5
  */
 public class ShipManager {
     private final ShipBoard ship;
@@ -93,12 +93,13 @@ public class ShipManager {
     static private final int STARTOFBOARDCOLUMNS = 4;
     static private final int SAVE_LIMIT = 2;
 
-    public ShipManager(int level) {
-        this.ship = new ShipBoard(level);
+    public ShipManager(int level, Color playerColor) {
+        this.ship = new ShipBoard(level, playerColor);
         addCrewmatesToCentralCabin();
         discardedTile = new ArrayList<>(2);
         this.hasAlien = new HashMap<>();
     }
+
     private void addCrewmatesToCentralCabin() {
         List<Integer> centralCabinCoords = ship.getAllComponentsPositionOfType(CentralCabin.class).stream()
             .findFirst()
@@ -128,6 +129,10 @@ public class ShipManager {
         ComponentTile comp = discardedTile.get(index);
         discardedTile.remove(index);
         return comp;
+    }
+
+    public List<ComponentTile> getDestroyedComponents() {
+        return discardedTile;
     }
 
     /**

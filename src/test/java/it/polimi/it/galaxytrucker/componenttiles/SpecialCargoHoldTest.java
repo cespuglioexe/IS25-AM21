@@ -22,7 +22,7 @@ public class SpecialCargoHoldTest {
     public void setup() {
         // Create a special cargo hold with 3 container capacity
         specialCargoHold = new SpecialCargoHold(CONTAINER_CAPACITY, List.of(TileEdge.SMOOTH,
-                TileEdge.SMOOTH, TileEdge.SMOOTH, TileEdge.SMOOTH));
+                TileEdge.SMOOTH, TileEdge.SMOOTH, TileEdge.SMOOTH), null);
     }
 
     @Test
@@ -87,9 +87,9 @@ public class SpecialCargoHoldTest {
     public void testWithDifferentCapacities() {
         // Test with different container capacities
         SpecialCargoHold smallHold = new SpecialCargoHold(1, List.of(TileEdge.SMOOTH,
-                TileEdge.SMOOTH, TileEdge.SMOOTH, TileEdge.SMOOTH));
+                TileEdge.SMOOTH, TileEdge.SMOOTH, TileEdge.SMOOTH), null);
         SpecialCargoHold largeHold = new SpecialCargoHold(5, List.of(TileEdge.SMOOTH,
-                TileEdge.SMOOTH, TileEdge.SMOOTH, TileEdge.SMOOTH));
+                TileEdge.SMOOTH, TileEdge.SMOOTH, TileEdge.SMOOTH), null);
 
         assertEquals(1, smallHold.getContainerNumber());
         assertEquals(5, largeHold.getContainerNumber());
@@ -101,7 +101,7 @@ public class SpecialCargoHoldTest {
     public void testComparingWithRegularCargoHold() {
         // Create a regular cargo hold with the same capacity
         CargoHold regularHold = new CargoHold(CONTAINER_CAPACITY, List.of(TileEdge.SMOOTH,
-                TileEdge.SMOOTH, TileEdge.SMOOTH, TileEdge.SMOOTH));
+                TileEdge.SMOOTH, TileEdge.SMOOTH, TileEdge.SMOOTH), null);
 
         // Regular hold should not accept special cargo
         assertFalse(regularHold.canHoldSpecialCargo());

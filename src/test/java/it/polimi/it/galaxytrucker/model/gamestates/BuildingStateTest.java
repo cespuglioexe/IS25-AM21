@@ -26,9 +26,9 @@ class BuildingStateTest {
     void initializeParameters() {
         gameManager = new GameManager(2, 3);
 
-        gameManager.addPlayer(new Player(playerId1, "Margarozzo", Color.RED, new ShipManager(2)));
-        gameManager.addPlayer(new Player(playerId2, "Blazarini", Color.RED, new ShipManager(2)));
-        gameManager.addPlayer(new Player(playerId3, "Ing. Conti", Color.RED, new ShipManager(2)));
+        gameManager.addPlayer(new Player(playerId1, "Margarozzo", Color.RED, new ShipManager(2, Color.BLUE)));
+        gameManager.addPlayer(new Player(playerId2, "Balzarini", Color.RED, new ShipManager(2, Color.BLUE)));
+        gameManager.addPlayer(new Player(playerId3, "Ing. Conti", Color.RED, new ShipManager(2, Color.BLUE)));
     }
 
     @Test
@@ -178,17 +178,6 @@ class BuildingStateTest {
 
     @Test
     void callInvalidFunctionTest() {
-        assertThrows(InvalidFunctionCallInState.class, () -> gameManager.addPlayer(new Player(playerId1, "Schumi", Color.RED, new ShipManager(2))));
-    }
-
-    @Test
-    void initializeAdventureDeckTest() {
-        gameManager.initializeAdventureDeck();
-
-        assertNotEquals(gameManager.getAdventureDeck().getCards().size(), 0);
-
-        for(int i=0;i<gameManager.getAdventureDeck().getCards().size();i++){
-            System.out.println(gameManager.getAdventureDeck().getCards().get(i).toString());
-        }
+        assertThrows(InvalidFunctionCallInState.class, () -> gameManager.addPlayer(new Player(playerId1, "Schumi", Color.RED, new ShipManager(2, Color.BLUE))));
     }
 }

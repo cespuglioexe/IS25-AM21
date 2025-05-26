@@ -1,26 +1,32 @@
 package it.polimi.it.galaxytrucker.model.gamestates;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import it.polimi.it.galaxytrucker.model.adventurecards.AdventureDeck;
 import it.polimi.it.galaxytrucker.model.adventurecards.cards.Planets;
 import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.EndState;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCard;
+import it.polimi.it.galaxytrucker.model.componenttiles.ComponentTile;
+import it.polimi.it.galaxytrucker.model.componenttiles.Shield;
+import it.polimi.it.galaxytrucker.model.componenttiles.SingleCannon;
 import it.polimi.it.galaxytrucker.model.managers.FlightBoardFlightRules;
 import it.polimi.it.galaxytrucker.model.managers.GameManager;
 import it.polimi.it.galaxytrucker.model.managers.Player;
 import it.polimi.it.galaxytrucker.model.managers.ShipManager;
 import it.polimi.it.galaxytrucker.model.utility.Cargo;
 import it.polimi.it.galaxytrucker.model.utility.Color;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
-class CardExecutionStateTest {
+public class GameEndStateTest {
     private GameManager gameManager;
 
     private final UUID playerId1 = UUID.randomUUID();
@@ -38,6 +44,11 @@ class CardExecutionStateTest {
         gameManager.addPlayer(new Player(playerId3, "Ing. Conti", Color.RED, new ShipManager(2, Color.BLUE)));
 
         playersBuildAllLegalShips();
+
+        removeAllComponentTypeFrom(gameManager.getPlayerByID(playerId1), SingleCannon.class); //2 deleted
+        removeAllComponentTypeFrom(gameManager.getPlayerByID(playerId2), Shield.class); //1 deleted
+
+        playPlanetCard();
     }
     private void playersBuildAllLegalShips() {
         // All three players have legal ships
@@ -66,9 +77,7 @@ class CardExecutionStateTest {
         
         deck.initializeAdventureCards(cards);
     }
-
-    @Test
-    void cardExecutionStateTest() {
+    private void playPlanetCard() {
         Planets card = (Planets) gameManager.getAdventureDeck().getLastDrawnCard();
 
         printPlanets(card);
@@ -113,5 +122,26 @@ class CardExecutionStateTest {
         List<String> cargoColors = formatCargoToList(card.getChoices().get(planet));
         
         System.out.printf("%s select a cargo to load: %s%n%n", player.getPlayerName(), cargoColors);
+    }
+    private void removeAllComponentTypeFrom(Player player, Class<? extends ComponentTile> type) {
+        ShipManager ship = player.getShipManager();
+        Set<List<Integer>> componentsCoords = ship.getAllComponentsPositionOfType(type);
+
+        for (List<Integer> coord : componentsCoords) {
+            ship.removeComponentTile(coord.get(0), coord.get(1));
+        }
+    }
+
+    @Test
+    void gameEndCreditsTest() {
+        assertEquals(GameEndState.class, gameManager.getCurrentState().getClass());
+
+        List<Player> playersRanked = gameManager.getPlayerRank();
+
+        List<Player> expectedRanking = List.of(gameManager.getPlayerByID(playerId1), gameManager.getPlayerByID(playerId3), gameManager.getPlayerByID(playerId2));
+        assertTrue(() -> expectedRanking.equals(playersRanked));
+        assertEquals(3, playersRanked.get(0).getCredits());
+        assertEquals(3, playersRanked.get(1).getCredits());
+        assertEquals(2, playersRanked.get(2).getCredits());
     }
 }

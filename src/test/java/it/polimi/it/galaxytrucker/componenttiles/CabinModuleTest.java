@@ -18,7 +18,7 @@ class CabinModuleTest {
 
     @Test
     void testAddHuman() {
-        CabinModule cabin = new CabinModule(List.of(TileEdge.SMOOTH, TileEdge.SMOOTH, TileEdge.SMOOTH, TileEdge.SMOOTH));
+        CabinModule cabin = new CabinModule(List.of(TileEdge.SMOOTH, TileEdge.SMOOTH, TileEdge.SMOOTH, TileEdge.SMOOTH), null);
 
 
         Human human1 = new Human();

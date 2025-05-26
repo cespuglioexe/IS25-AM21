@@ -16,7 +16,7 @@ public class ShieldTest {
 
     @BeforeEach
     public void setup() {
-        shield = new Shield(Direction.UP, List.of(TileEdge.SMOOTH, TileEdge.SMOOTH, TileEdge.SMOOTH, TileEdge.SMOOTH));
+        shield = new Shield(Direction.UP, List.of(TileEdge.SMOOTH, TileEdge.SMOOTH, TileEdge.SMOOTH, TileEdge.SMOOTH), null);
     }
 
     @Test
@@ -50,13 +50,13 @@ public class ShieldTest {
     public void testAllDirectionPairs() {
         // Create shields with different orientations
         Shield upShield = new Shield(Direction.UP, List.of(TileEdge.SMOOTH, TileEdge.SMOOTH,
-                TileEdge.SMOOTH, TileEdge.SMOOTH));
+                TileEdge.SMOOTH, TileEdge.SMOOTH), null);
         Shield rightShield = new Shield(Direction.RIGHT, List.of(TileEdge.SMOOTH, TileEdge.SMOOTH,
-                TileEdge.SMOOTH, TileEdge.SMOOTH));
+                TileEdge.SMOOTH, TileEdge.SMOOTH), null);
         Shield downShield = new Shield(Direction.DOWN, List.of(TileEdge.SMOOTH, TileEdge.SMOOTH,
-                TileEdge.SMOOTH, TileEdge.SMOOTH));
+                TileEdge.SMOOTH, TileEdge.SMOOTH), null);
         Shield leftShield = new Shield(Direction.LEFT, List.of(TileEdge.SMOOTH, TileEdge.SMOOTH,
-                TileEdge.SMOOTH, TileEdge.SMOOTH));
+                TileEdge.SMOOTH, TileEdge.SMOOTH), null);
 
         // Verify orientations
         assertEquals(List.of(Direction.UP,      Direction.RIGHT),   upShield.getOrientation());

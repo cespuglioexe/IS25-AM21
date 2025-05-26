@@ -13,7 +13,7 @@ class ComponentTileTest {
 
     @Test
     void testRotateComponentTile() {
-        StructuralModule component = new StructuralModule(List.of(TileEdge.SMOOTH, TileEdge.SINGLE, TileEdge.DOUBLE, TileEdge.UNIVERSAL));
+        StructuralModule component = new StructuralModule(List.of(TileEdge.SMOOTH, TileEdge.SINGLE, TileEdge.DOUBLE, TileEdge.UNIVERSAL), null);
 
         /* ===== TEST 1 ==== */
 

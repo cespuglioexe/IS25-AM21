@@ -24,7 +24,7 @@ class ConnectionStateTest {
 
     @Test
     void addPlayerTest () {
-        gameManager.addPlayer(new Player(UUID.randomUUID(), "Frigeri", Color.RED, new ShipManager(2)));
+        gameManager.addPlayer(new Player(UUID.randomUUID(), "Frigeri", Color.RED, new ShipManager(2, Color.BLUE)));
 
         assertEquals(1, gameManager.getPlayers().size());
         assertTrue(gameManager.getPlayers().stream()
@@ -38,8 +38,8 @@ class ConnectionStateTest {
         UUID playerId1 = UUID.randomUUID();
         UUID playerId2 = UUID.randomUUID();
 
-        gameManager.addPlayer(new Player(playerId1, "Frigeri", Color.RED, new ShipManager(2)));
-        gameManager.addPlayer(new Player(playerId2, "Blazarini", Color.RED, new ShipManager(2)));
+        gameManager.addPlayer(new Player(playerId1, "Frigeri", Color.RED, new ShipManager(2, Color.BLUE)));
+        gameManager.addPlayer(new Player(playerId2, "Balzarini", Color.RED, new ShipManager(2, Color.BLUE)));
 
         connectionState.removePlayer(gameManager, playerId1);
 
@@ -62,7 +62,7 @@ class ConnectionStateTest {
     void nonValidFunctionTest () {
         UUID playerId = UUID.randomUUID();
 
-        gameManager.addPlayer(new Player(playerId, "Ing. Conti", Color.RED, new ShipManager(2)));
+        gameManager.addPlayer(new Player(playerId, "Ing. Conti", Color.RED, new ShipManager(2, Color.BLUE)));
         InvalidFunctionCallInState e = assertThrows(InvalidFunctionCallInState.class, () -> connectionState.placeComponentTile(gameManager, playerId, 4, 6));
         System.out.println(e.getMessage());
     }

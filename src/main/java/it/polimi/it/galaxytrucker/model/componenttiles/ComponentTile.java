@@ -36,15 +36,18 @@ public abstract class ComponentTile {
     /** The current rotation of the tile (0-3, where 0 is the initial orientation). */
     private int rotation;
 
+    private final String graphicPath;
+
     /**
      * Constructs a new component tile with the specified edges.
-     * Initial rotation is set to 0.
+     * The Initial rotation is set to 0.
      *
-     * @param edges the edges for the Component Tile, must contain exactly four elements.
+     * @param edges the edges for the Component Tile must contain exactly four elements.
      */
-    public ComponentTile(List<TileEdge> edges) {
+    public ComponentTile(List<TileEdge> edges, String graphicPath) {
         rotation = 0;
         tileEdges = edges;
+        this.graphicPath = graphicPath;
     }
 
     /**
@@ -63,6 +66,19 @@ public abstract class ComponentTile {
      */
     public int getRotation() {
         return rotation;
+    }
+
+    /**
+     * Returns the path to the specific graphic for this component tile.
+     * <p>
+     * The presence of the image is not guaranteed, if the usage requires
+     * it to be non-null, the caller should use {@code Objects.requireNonNull()}.
+     *
+     * @return A {@code String} representing the path to an image
+     * in the resource folder.
+     */
+    public String getGraphicPath() {
+        return graphicPath;
     }
 
     /**
