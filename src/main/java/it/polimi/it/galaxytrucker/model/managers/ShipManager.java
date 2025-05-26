@@ -80,7 +80,7 @@ import java.util.OptionalInt;
  * </pre>
  *
  * @author Stefano Carletto
- * @version 1.4
+ * @version 1.5
  */
 public class ShipManager {
     private final ShipBoard ship;
@@ -129,6 +129,10 @@ public class ShipManager {
         ComponentTile comp = discardedTile.get(index);
         discardedTile.remove(index);
         return comp;
+    }
+
+    public List<ComponentTile> getDestroyedComponents() {
+        return discardedTile;
     }
 
     /**

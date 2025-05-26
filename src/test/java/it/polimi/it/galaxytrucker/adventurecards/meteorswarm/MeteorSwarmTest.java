@@ -199,7 +199,7 @@ public class MeteorSwarmTest {
 
     @Test
     void playerDoesNotActivateShieldTest() {
-         playerDoesNotShootAtMeteorTest();
+        playerDoesNotShootAtMeteorTest();
 
         assertEquals(SmallMeteorState.class, card.getCurrentState().getClass());
 

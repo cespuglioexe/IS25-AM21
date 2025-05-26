@@ -72,7 +72,8 @@ public class Planets extends CardStateMachine implements AdventureCard, Particip
     private Player currentPlayer;
     private HashMap<Integer, List<Cargo>> planetsAndRewards = new HashMap<>();
     private HashMap<Integer, Optional<Player>> planetsAndPlayers = new HashMap<>();
-    private final int flightDayPenalty;
+    private  int flightDayPenalty;
+    private String graphic;
 
     private FlightRules flightRules;
 
@@ -81,6 +82,14 @@ public class Planets extends CardStateMachine implements AdventureCard, Particip
         initializeRewards(cargoRewardsByPlanet);
         this.flightDayPenalty = flightDayPenalty;
         this.flightRules = flightRules;
+    }
+
+    public Planets(int numberOfPlanets, List<List<Cargo>> cargoRewardsByPlanet, int flightDayPenalty, FlightRules flightRules, String graphic) {
+        initializePlanets(numberOfPlanets);
+        initializeRewards(cargoRewardsByPlanet);
+        this.flightDayPenalty = flightDayPenalty;
+        this.flightRules = flightRules;
+        this.graphic = graphic;
     }
 
     private void initializePlanets(int numberOfPlanets) {
@@ -300,20 +309,29 @@ public class Planets extends CardStateMachine implements AdventureCard, Particip
             flightRules.movePlayerBackwards(flightDayPenalty, player);
         }
     }
-
     private List<Player> getPlayerReverseOrder() {
-        return getActualPlayersFrom(flightRules.getPlayerOrder().reversed());
+        return flightRules.getPlayerOrder().reversed().stream()
+                .filter(this::isActualPlayer)
+                .toList();
     }
 
-    private List<Player> getActualPlayersFrom(List<Player> players) {
-        return planetsAndPlayers.keySet().stream()
-                .map(planetsAndPlayers::get)
+    private boolean isActualPlayer(Player p) {
+        return planetsAndPlayers.values().stream()
                 .flatMap(Optional::stream)
-                .filter(players::contains)
-                .collect(Collectors.toList());
+                .anyMatch(actual -> actual.equals(p));
     }
 
     public int getNumberOfBoardPlayers() {
         return flightRules.getPlayerOrder().size();
     }
+
+    @Override
+    public String toString() {
+        return "Planets{" +
+                "planetsAndRewards=" + planetsAndRewards +
+                ", flightDayPenalty=" + flightDayPenalty +
+                '}';
+    }
 }
+
+

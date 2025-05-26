@@ -2,12 +2,16 @@ package it.polimi.it.galaxytrucker.model.managers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import it.polimi.it.galaxytrucker.messages.servermessages.GameUpdate;
 import it.polimi.it.galaxytrucker.messages.servermessages.GameUpdateType;
 import it.polimi.it.galaxytrucker.listeners.*;
+import it.polimi.it.galaxytrucker.model.componenttiles.CargoHold;
 import it.polimi.it.galaxytrucker.model.componenttiles.ComponentTile;
+import it.polimi.it.galaxytrucker.model.componenttiles.SpecialCargoHold;
+import it.polimi.it.galaxytrucker.model.utility.Cargo;
 import it.polimi.it.galaxytrucker.model.utility.Color;
 
 public class Player implements Observable {
@@ -18,6 +22,9 @@ public class Player implements Observable {
     
     private ComponentTile heldComponent;
     private int credits;
+
+    private boolean defeated = false;
+    private boolean active = true;
 
     private final List<Listener> listeners;
 
@@ -74,6 +81,66 @@ public class Player implements Observable {
 
     public boolean isEmpty(){
         return this.playerID == null && this.playerName == null && this.color == null;
+    }
+
+    public boolean isDefeated() {
+        return defeated;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void defeat() {
+        this.defeated = true;
+
+        this.credits += convertCargoToCredits() / 2 ;
+    }
+
+    public void disconnect() {
+        this.active = false;
+    }
+
+    public void connect() {
+        this.active = true;
+    }
+
+    public int convertCargoToCredits() {
+        return countNormalCargoValue() + countSpecialCargoValue();
+    }
+    private int countNormalCargoValue() {
+        Set<List<Integer>> allCargoHold;
+        int normalCargoValue = 0;
+
+        allCargoHold = this.shipManager.getAllComponentsPositionOfType(CargoHold.class);
+
+        for (List<Integer> holdCoords : allCargoHold) {
+            CargoHold cargoHold = (CargoHold) this.shipManager.getComponent(holdCoords.get(0), holdCoords.get(1)).get();
+
+            List<Cargo> containedCargo = cargoHold.getContainedCargo();
+            for (Cargo cargo : containedCargo) {
+                normalCargoValue += cargo.getCreditValue();
+            }
+        }
+
+        return normalCargoValue;
+    }
+    private int countSpecialCargoValue() {
+        Set<List<Integer>> allCargoHold;
+        int specialCargoValue = 0;
+
+        allCargoHold = this.shipManager.getAllComponentsPositionOfType(SpecialCargoHold.class);
+
+        for (List<Integer> holdCoords : allCargoHold) {
+            CargoHold cargoHold = (CargoHold) this.shipManager.getComponent(holdCoords.get(0), holdCoords.get(1)).get();
+
+            List<Cargo> containedCargo = cargoHold.getContainedCargo();
+            for (Cargo cargo : containedCargo) {
+                specialCargoValue += cargo.getCreditValue();
+            }
+        }
+
+        return specialCargoValue;
     }
 
     public void updateListeners(GameUpdate gameUpdate) {

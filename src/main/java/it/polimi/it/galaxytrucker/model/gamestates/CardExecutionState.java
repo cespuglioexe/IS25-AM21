@@ -5,7 +5,6 @@ import it.polimi.it.galaxytrucker.model.adventurecards.cardevents.CardResolved;
 import it.polimi.it.galaxytrucker.model.adventurecards.cardevents.EventVisitor;
 import it.polimi.it.galaxytrucker.model.adventurecards.cardevents.InputNeeded;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCard;
-import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.attack.Attack;
 import it.polimi.it.galaxytrucker.model.design.observerPattern.Observer;
 import it.polimi.it.galaxytrucker.model.design.observerPattern.Subject;
 import it.polimi.it.galaxytrucker.model.design.statePattern.State;
@@ -29,11 +28,7 @@ public class CardExecutionState extends GameState implements Observer, EventVisi
 
     @Override
     public void update(StateMachine fsm) {
-        if (currentCard instanceof Attack) {
-            
-        } else {
-            fsm.changeState(new GameTurnStartState());
-        }
+        changeState(fsm, new DefeatCheckState());
     }
 
     @Override

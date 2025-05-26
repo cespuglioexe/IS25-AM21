@@ -20,10 +20,21 @@ import it.polimi.it.galaxytrucker.model.utility.Cargo;
 public class AbandonedStation extends CardStateMachine implements AdventureCard, Participation<Cargo>, CargoReward, FlightDayPenalty {
     private Optional<Player> partecipant = Optional.empty();
     private List<Cargo> cargoReward;
-    private final int flightDayPenalty;
+    private int flightDayPenalty;
     private int numberofCrewmatesRequired;
+    private String graphic;
 
-    private final FlightRules flightRules;
+    private  FlightRules flightRules;
+
+    public AbandonedStation(List<Cargo> cargoReward, int numberofCrewmatesRequired, int flightDayPenalty, FlightRules flightRules, String graphic ) {
+        this.cargoReward = loadCargoList(cargoReward);
+        this.flightDayPenalty = flightDayPenalty;
+        this.flightRules = flightRules;
+        this.numberofCrewmatesRequired = numberofCrewmatesRequired;
+        this.graphic = graphic;
+    }
+
+
 
     public AbandonedStation(List<Cargo> cargoReward, int numberofCrewmatesRequired, int flightDayPenalty, FlightRules flightRules ) {
         this.cargoReward = loadCargoList(cargoReward);
@@ -154,5 +165,14 @@ public class AbandonedStation extends CardStateMachine implements AdventureCard,
 
     public int getNumberOfBoardPlayers() {
         return flightRules.getPlayerOrder().size();
+    }
+
+    @Override
+    public String toString() {
+        return "AbandonedStation{" +
+                " cargoReward=" + cargoReward +
+                ", flightDayPenalty=" + flightDayPenalty +
+                ", numberofCrewmatesRequired=" + numberofCrewmatesRequired +
+                '}';
     }
 }

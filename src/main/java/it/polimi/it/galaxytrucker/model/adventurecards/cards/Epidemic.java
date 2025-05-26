@@ -37,6 +37,12 @@ import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.EndState;
  */
 public class Epidemic extends CardStateMachine implements AdventureCard {
     private FlightRules flightRules;
+    private String graphic;
+
+    public Epidemic(FlightRules flightRules, String graphic) {
+        this.flightRules = flightRules;
+        this.graphic = graphic;
+    }
 
     public Epidemic(FlightRules flightRules) {
         this.flightRules = flightRules;
@@ -127,5 +133,11 @@ public class Epidemic extends CardStateMachine implements AdventureCard {
         int rowDiff = Math.abs(a.get(0) - b.get(0));
         int colDiff = Math.abs(a.get(1) - b.get(1));
         return (rowDiff == 1 && colDiff == 0) || (rowDiff == 0 && colDiff == 1);
+    }
+
+    @Override
+    public String toString() {
+        return "Epidemic{" +
+                '}';
     }
 }

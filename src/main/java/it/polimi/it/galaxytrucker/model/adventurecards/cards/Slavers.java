@@ -18,19 +18,29 @@ import it.polimi.it.galaxytrucker.model.managers.ShipManager;
 public class Slavers extends CardStateMachine implements AdventureCard, CreditReward, CrewmatePenalty, FlightDayPenalty {
     private Player currentPlayer;
     private double playerFirePower;
-    private double requiredFirePower;
+    private int requiredFirePower;
     private int creditReward;
     private int crewmatePenalty;
     private int flightDayPenalty;
+    private String graphic;
 
     private FlightRules flightRules;
 
-    public Slavers(int creditReward, int crewmatePenalty, int flightDayPenalty, double requiredFirePower, FlightRules flightRules) {
+    public Slavers(int creditReward, int crewmatePenalty, int flightDayPenalty, int requiredFirePower, FlightRules flightRules) {
         this.creditReward = creditReward;
         this.crewmatePenalty = crewmatePenalty;
         this.flightDayPenalty = flightDayPenalty;
         this.flightRules = flightRules;
         this.requiredFirePower = requiredFirePower;
+    }
+
+    public Slavers(int creditReward, int crewmatePenalty, int flightDayPenalty, int requiredFirePower, FlightRules flightRules,String graphic) {
+        this.creditReward = creditReward;
+        this.crewmatePenalty = crewmatePenalty;
+        this.flightDayPenalty = flightDayPenalty;
+        this.flightRules = flightRules;
+        this.requiredFirePower = requiredFirePower;
+        this.graphic = graphic;
     }
 
     @Override
@@ -91,7 +101,7 @@ public class Slavers extends CardStateMachine implements AdventureCard, CreditRe
     public void setPlayer(){
         List<Player> players = flightRules.getPlayerOrder();
         if(currentPlayer == null){
-            currentPlayer = players.get(0);
+            currentPlayer = players.getFirst();
             return;
         }
         currentPlayer = nextPlayer(players).orElse(null);
@@ -114,7 +124,7 @@ public class Slavers extends CardStateMachine implements AdventureCard, CreditRe
         this.playerFirePower = playerFirePower;
     }
 
-    public void setRequiredFirePower(double requiredFirePower) {
+    public void setRequiredFirePower(int requiredFirePower) {
         this.requiredFirePower = requiredFirePower;
     }
 
@@ -122,7 +132,18 @@ public class Slavers extends CardStateMachine implements AdventureCard, CreditRe
         return playerFirePower;
     }
 
-    public double getRequiredFirePower() {
+    public int getRequiredFirePower() {
         return requiredFirePower;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Slavers{" +
+                "requiredFirePower=" + requiredFirePower +
+                ", creditReward=" + creditReward +
+                ", crewmatePenalty=" + crewmatePenalty +
+                ", flightDayPenalty=" + flightDayPenalty +
+                '}';
     }
 }

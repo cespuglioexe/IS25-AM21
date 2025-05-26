@@ -118,12 +118,19 @@ public class FlightBoard {
     public void movePlayerForward(int progress, Player player) {
         int position = playerPosition.get(player);
         int newPosition = position;
+        int laps = 0;
 
         // If the next space is occupied, the player skips to the one after that.
         // When this happens, the player is effectively moving 2 spaces forward.
+        if (progress != 0) {
+            board[position] = null;
+        }
         for (int i = 0; i < progress; i++) {
             do {
                 newPosition++;
+                if (newPosition >= board.length) {
+                    laps++;
+                }
             } while (board[(newPosition) % board.length] != null);
             
             // If newPosition is past the end of the array, reset it to the beginning
@@ -138,8 +145,7 @@ public class FlightBoard {
 
         // Update the hashmaps
         playerPosition.put(player, newPosition);
-        completedLaps.put(player, completedLaps.get(player) + (newPosition < position ? 1 : 0));  // {@code newPosition < position} means that the player looped
-                                                                                                    // over the array, completing a lap of the board
+        completedLaps.put(player, completedLaps.get(player) + laps);
     }
 
     /**
@@ -269,8 +275,23 @@ public class FlightBoard {
 
     public void removePlayerMarker(Player player) {
         int position = playerPosition.get(player);
-
         board[position] = null;
-        playerPosition.remove(player);
+    }
+
+    public void addPlayerMarker(Player player, int position) {
+        if (board[position] == null) {
+            board[position] = player;
+        } else {
+            while (board[position] != null) {
+                position--;
+
+                if (position < 0) {
+                    position = board.length - 1;
+                    completedLaps.put(player, completedLaps.get(player) - 1);
+                }
+            }
+
+            board[position] = player;
+        }
     }
 }

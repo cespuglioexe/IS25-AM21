@@ -7,9 +7,13 @@ import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.it.galaxytrucker.listeners.Listener;
 import it.polimi.it.galaxytrucker.listeners.Observable;
 import it.polimi.it.galaxytrucker.model.adventurecards.AdventureDeck;
+import it.polimi.it.galaxytrucker.model.adventurecards.cards.*;
+import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCard;
+import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.attack.Projectile;
 import it.polimi.it.galaxytrucker.model.componenttiles.ComponentTile;
 import it.polimi.it.galaxytrucker.model.design.statePattern.StateMachine;
 import it.polimi.it.galaxytrucker.model.gamestates.GameState;
@@ -20,6 +24,10 @@ import it.polimi.it.galaxytrucker.exceptions.NotFoundException;
 import it.polimi.it.galaxytrucker.model.json.Json;
 import it.polimi.it.galaxytrucker.messages.servermessages.GameUpdate;
 import it.polimi.it.galaxytrucker.messages.servermessages.GameUpdateType;
+import it.polimi.it.galaxytrucker.model.utility.Cargo;
+import it.polimi.it.galaxytrucker.model.utility.Color;
+import it.polimi.it.galaxytrucker.model.utility.Direction;
+import it.polimi.it.galaxytrucker.model.utility.ProjectileType;
 // import it.polimi.it.galaxytrucker.networking.rmi.server.RMIServer;
 ;
 
@@ -66,6 +74,13 @@ public class GameManager extends StateMachine implements Model, Observable {
             .filter(player -> player.getPlayerID().equals(id))
             .findFirst()
             .orElse(null);
+    }
+
+    @Override
+    public List<Player> getPlayerRank() {
+        return players.stream()
+            .sorted(Comparator.comparingInt(Player::getCredits).reversed())
+            .toList();
     }
 
     @Override
@@ -155,6 +170,184 @@ public class GameManager extends StateMachine implements Model, Observable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void initializeAdventureDeck() {
+        String pathName = "src/main/resources/it/polimi/it/galaxytrucker/json/card.json";
+        try {
+            adventureDeck.initializeAdventureCards(loadCards(pathName));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private List<AdventureCard> loadCards(String filePath) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        List<Map<String, Object>> rawCards = mapper.readValue(new File(filePath), List.class);
+
+        return rawCards.stream()
+                .map(this::createCardFromMap)
+                .toList();
+    }
+
+    private AdventureCard createCardFromMap(Map<String, Object> cardData) throws IllegalArgumentException {
+        String cardType = (String) cardData.get("cardType");
+        return switch (cardType) {
+            case "Planets" -> createPlanetsCard(cardData);
+            case "CombatZone" -> createCombatZoneCard(cardData);
+            case "MeteorSwarm" -> createMeteorSwarmCard(cardData);
+            case "Pirates" -> createPiratesCard(cardData);
+            case "Abandoned Ship" -> createAbandonedShipCard(cardData);
+            case "Abandoned Station" -> createAbandonedStationCard(cardData);
+            case "Epidemic" -> createEpidemicCard(cardData);
+            case "OpenSpace" -> createOpenSpaceCard(cardData);
+            case "Smugglers" -> createSmugglersCard(cardData);
+            case "Slavers" -> createSlaversCard(cardData);
+            case "StarDust" -> createStarDustCard(cardData);
+            case "default" -> throw new IllegalArgumentException("Unknown Card");
+            default -> null;
+        };
+    }
+
+    private Planets createPlanetsCard(Map<String, Object> data) {
+        int numberPlanets = (Integer) data.get("numberOfPlanets");
+        List<List<Cargo>> cargoRewardbyPlanets = convertToListCargoList((List<List<String>>) data.get("cargoRewardsByPlanet"));
+        int flightDayPenalty = (Integer) data.get("flightDayPenalty");
+        String graphic = (String) data.get("graphic");
+
+        return new Planets(numberPlanets,
+                cargoRewardbyPlanets,flightDayPenalty,
+                new FlightBoardFlightRules(flightBoard),graphic);
+    }
+
+    private MeteorSwarm createMeteorSwarmCard(Map<String, Object> data) {
+
+        List<Projectile> projectiles = convertToProjectileList((List<List<String>>) data.get("projectiles"));
+        String graphic = (String) data.get("graphic");
+
+        return new MeteorSwarm(projectiles,
+                new FlightBoardFlightRules(flightBoard),graphic);
+
+    }
+
+    private CombatZone createCombatZoneCard(Map<String, Object> data) {
+
+        int crewmatePenalty = (Integer) data.get("crewmatePenalty");
+        int flightDayPenalty = (Integer) data.get("flightDayPenalty");
+
+        String graphic = (String) data.get("graphic");
+
+
+        return new CombatZone(crewmatePenalty,flightDayPenalty,
+                new FlightBoardFlightRules(flightBoard),graphic);
+    }
+
+    private Pirates createPiratesCard(Map<String, Object> data) {
+
+        int firePowerRequired = (Integer) data.get("firePowerRequired");
+        int creditReward = (Integer) data.get("creditReward");
+        List<Projectile> projectiles = convertToProjectileList((List<List<String>>) data.get("projectiles"));
+        int flightDayPenalty = (Integer) data.get("flightDayPenalty");
+        String graphic = (String) data.get("graphic");
+
+        return new Pirates(firePowerRequired,creditReward,
+                flightDayPenalty, projectiles,
+                new FlightBoardFlightRules(flightBoard),graphic);
+
+    }
+
+    private AbandonedShip createAbandonedShipCard(Map<String, Object> data) {
+        int crewmatePenalty = (Integer) data.get("crewmatePenalty");
+        int creditReward = (Integer) data.get("creditReward");
+        int flightDayPenalty = (Integer) data.get("flightDayPenalty");
+        String graphic = (String) data.get("graphic");
+
+        return new AbandonedShip(creditReward,crewmatePenalty,flightDayPenalty,
+                new FlightBoardFlightRules(flightBoard),graphic);
+    }
+
+    private AbandonedStation createAbandonedStationCard(Map<String, Object> data) {
+
+        List<Cargo> cargoReward = convertToCargoList((List<List<String>>) data.get("cargoReward"));
+        int crewmateRequired = (Integer) data.get("crewmateRequired");
+        int flightDayPenalty = (Integer) data.get("flightDayPenalty");
+        String graphic = (String) data.get("graphic");
+
+        return  new AbandonedStation(cargoReward,crewmateRequired,flightDayPenalty,
+                new FlightBoardFlightRules(flightBoard),graphic);
+
+    }
+
+    private Epidemic createEpidemicCard(Map<String, Object> data) {
+        String graphic = (String) data.get("graphic");
+        return new Epidemic(new FlightBoardFlightRules(flightBoard),graphic);
+    }
+
+    private OpenSpace createOpenSpaceCard(Map<String, Object> data) {
+        String graphic = (String) data.get("graphic");
+
+        return new OpenSpace(new FlightBoardFlightRules(flightBoard),graphic);
+    }
+
+    private Smugglers createSmugglersCard(Map<String, Object> data) {
+
+        int firePowerRequired = (Integer) data.get("firePowerRequired");
+        int cargoPenalty = (Integer) data.get("cargoPenalty");
+        List<Cargo> cargoReward = convertToCargoList((List<List<String>>) data.get("cargoReward"));
+        int flightDayPenalty = (Integer) data.get("flightDayPenalty");
+        String graphic = (String) data.get("graphic");
+
+        return new Smugglers(firePowerRequired,cargoReward,cargoPenalty,flightDayPenalty,
+                new FlightBoardFlightRules(flightBoard),graphic);
+
+    }
+
+    private Slavers createSlaversCard(Map<String, Object> data) {
+
+        int firePowerRequired = (Integer) data.get("firePowerRequired");
+        int crewmatePenalty = (Integer) data.get("crewmatePenalty");
+        int creditReward = (Integer) data.get("creditReward");
+        int flightDayPenalty = (Integer) data.get("flightDayPenalty");
+        String graphic = (String) data.get("graphic");
+
+        return new Slavers(creditReward,crewmatePenalty,flightDayPenalty,firePowerRequired,
+                new FlightBoardFlightRules(flightBoard),graphic);
+    }
+
+    private StarDust createStarDustCard(Map<String, Object> data) {
+        int flightDayPenalty = (Integer) data.get("flightDayPenalty");
+        String graphic = (String) data.get("graphic");
+        return new StarDust(flightDayPenalty,new FlightBoardFlightRules(flightBoard),graphic);
+    }
+
+    private List<Projectile> convertToProjectileList(List<List<String>> raw) {
+        return raw.stream()
+                .map(innerList -> {
+
+                    String typeStr = innerList.get(0).replace("ProjectileType.", "");
+                    String directionStr = innerList.get(1).replace("Direction.", "");
+
+                    ProjectileType type = ProjectileType.valueOf(typeStr);
+                    Direction direction = Direction.valueOf(directionStr);
+
+                    return new Projectile(type, direction);
+                })
+                .toList();
+    }
+
+    private List<List<Cargo>> convertToListCargoList(List<List<String>> raw) {
+        return raw.stream()
+                .map(innerList -> innerList.stream()
+                        .map(colorStr -> new Cargo(Color.valueOf(colorStr)))
+                        .toList())
+                .toList();
+    }
+
+    private List<Cargo> convertToCargoList(List<List<String>> raw) {
+        return raw.stream()
+                .flatMap(innerList -> innerList.stream()
+                        .map(colorStr -> new Cargo(Color.valueOf(colorStr))))
+                .collect(Collectors.toList());
     }
 
     public void drawComponentTile(UUID playerID) throws InvalidActionException {
@@ -249,6 +442,14 @@ public class GameManager extends StateMachine implements Model, Observable {
     }
 
     @Override
+    public void deleteBranch(UUID playerID, Set<List<Integer>> branch) {
+        GameState gameState = (GameState) this.getCurrentState();
+        gameState.removeBranch(this, playerID, branch);
+
+        // TODO: notify
+    }
+
+    @Override
     public void startBuildPhaseTimer() {
         GameState gameState = (GameState) this.getCurrentState();
         gameState.startBuildPhaseTimer(this);
@@ -274,5 +475,16 @@ public class GameManager extends StateMachine implements Model, Observable {
                 listener.notify(command);
             }
         }
+    }
+
+    public List<Player> getActivePlayers() {
+        return players.stream()
+            .filter(player -> !player.isDefeated())
+            .toList();
+    }
+
+    public void defeat(Player player) {
+        player.defeat();
+        flightBoard.removePlayerMarker(player);
     }
 }

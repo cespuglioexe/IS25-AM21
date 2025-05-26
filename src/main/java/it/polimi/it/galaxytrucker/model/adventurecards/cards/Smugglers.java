@@ -19,10 +19,11 @@ public class Smugglers extends CardStateMachine implements AdventureCard, CargoR
     private double playerFirePower;
     private int requiredFirePower;
     private List<Cargo> cargoReward;
-    private final int cargoPenalty;
-    private final int flightDayPenalty;
+    private int cargoPenalty;
+    private int flightDayPenalty;
+    private String graphic;
 
-    private final FlightRules flightRules;
+    private FlightRules flightRules;
 
     public Smugglers(int requiredFirePower, List<Cargo> cargoReward, int cargoPenalty, int flightDayPenalty, FlightRules flightRules) {
         this.requiredFirePower = requiredFirePower;
@@ -30,6 +31,15 @@ public class Smugglers extends CardStateMachine implements AdventureCard, CargoR
         this.cargoPenalty = cargoPenalty;
         this.flightDayPenalty = flightDayPenalty;
         this.flightRules = flightRules;
+    }
+
+    public Smugglers(int requiredFirePower, List<Cargo> cargoReward, int cargoPenalty, int flightDayPenalty, FlightRules flightRules, String graphic) {
+        this.requiredFirePower = requiredFirePower;
+        this.cargoReward = loadCargoList(cargoReward);
+        this.cargoPenalty = cargoPenalty;
+        this.flightDayPenalty = flightDayPenalty;
+        this.flightRules = flightRules;
+        this.graphic=graphic;
     }
 
     @Override
@@ -118,5 +128,15 @@ public class Smugglers extends CardStateMachine implements AdventureCard, CargoR
 
     public double getRequiredFirePower() {
         return requiredFirePower;
+    }
+
+    @Override
+    public String toString() {
+        return "Smugglers{" +
+                "requiredFirePower=" + requiredFirePower +
+                ", cargoReward=" + cargoReward +
+                ", cargoPenalty=" + cargoPenalty +
+                ", flightDayPenalty=" + flightDayPenalty +
+                '}';
     }
 }

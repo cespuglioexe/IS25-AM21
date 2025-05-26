@@ -25,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class SlaversTest {
 
     private Slavers card;
-    private double firePowerRequired = 7;
+    private int firePowerRequired = 7;
     private final int flightDayPenalty = 2;
     private final int creditReward = 8;
     private  int crewmatePenalty = 4;
