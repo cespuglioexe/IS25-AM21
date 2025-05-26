@@ -137,4 +137,9 @@ public class Controller implements ControllerInterface {
         model.startBuildPhaseTimer();
     }
 
+    @Override
+    public void disconnectPlayer(UUID clientUuid) {
+        // TODO: mark player as disconnected
+    }
+
 }

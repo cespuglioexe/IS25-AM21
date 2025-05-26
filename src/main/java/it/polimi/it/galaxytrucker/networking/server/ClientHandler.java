@@ -14,6 +14,10 @@ import it.polimi.it.galaxytrucker.view.CLI.ConsoleColors;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.sql.Time;
+import java.time.Duration;
+import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.BlockingQueue;
@@ -38,6 +42,17 @@ public abstract class ClientHandler extends UnicastRemoteObject implements Liste
      * Unique identifier for the client.
      */
     private UUID clientUuid;
+    /**
+     * Flag to indicate whether the client is actively connected or not.
+     * An active connection is determined by the client sending
+     * periodic {@link HeartBeatMessage}s.
+     */
+    private boolean clientConnected;
+    /**
+     * The timestamp at which the last {@link HeartBeatMessage} was received
+     * from the client.
+     */
+    private Instant lastHeartbeatTime;
     /**
      * Reference to the controller for the match the client is part of.
      */
@@ -125,12 +140,16 @@ public abstract class ClientHandler extends UnicastRemoteObject implements Liste
 
     public void processUserInput(Message message) throws RemoteException {
         if (message instanceof HeartBeatMessage) {
-            System.out.println("Received HeartBeatMessage");
+            if (Duration.between(lastHeartbeatTime, Instant.now()).toSeconds() > CONNECTION_TIMEOUT) {
+                clientConnected = false;
+                controller.disconnectPlayer(clientUuid);
+            }
         } else if (message instanceof UserInput userInput) {
             System.out.println(ConsoleColors.CLIENT_HANDLER_DEBUG.tag(clientName) + "processing input of type " + userInput.getType() + ConsoleColors.RESET);
             switch (userInput.getType()) {
                 case HANDSHAKE:
                     clientUuid = userInput.getPlayerUuid();
+                    lastHeartbeatTime = Instant.now();
                     break;
 
                 case SET_PLAYER_USERNAME:
