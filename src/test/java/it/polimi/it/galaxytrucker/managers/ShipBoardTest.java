@@ -24,8 +24,8 @@ public class ShipBoardTest {
     void correctShipBoardSizeTest() {
         ShipBoard ship = new ShipBoard(Color.BLUE);
 
-        assertEquals(ship.getBoard().size(), 5);
-        assertEquals(ship.getBoard().get(0).size(), 7);
+        assertEquals(5, ship.getBoard().size());
+        assertEquals(7, ship.getBoard().get(0).size());
     }
     
     @Test
@@ -123,7 +123,7 @@ public class ShipBoardTest {
         ship.printBoard();
 
         assertTrue(ship.getComponent(position.get(0), position.get(1)).isEmpty());
-        assertTrue(!ship.getAllComponentsPositionOfType(cannon.getClass()).contains(position));
+        assertFalse(ship.getAllComponentsPositionOfType(cannon.getClass()).contains(position));
     }
 
     @Test
@@ -170,14 +170,14 @@ public class ShipBoardTest {
         ComponentTile cannon = new SingleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
         List<Integer> position = List.of(2,2);
 
-        //component
+        // Component
         ship.addComponentTile(position.get(0), position.get(1), cannon);
-        //up component
+        // Up component
         ship.addComponentTile(position.get(0) - 1, position.get(1), cannon);
-        //right component is empty
+        // Right component is empty
         //down component
         ship.addComponentTile(position.get(0) + 1, position.get(1), cannon);
-        //left component
+        // Left component
         ship.addComponentTile(position.get(0), position.get(1) - 1, cannon);
 
         List<Optional<ComponentTile>> result = ship.getNeighbourComponents(position.get(0), position.get(1));
@@ -204,8 +204,8 @@ public class ShipBoardTest {
 
         List<Optional<ComponentTile>> result = ship.getNeighbourComponents(position.get(0), position.get(1));
 
-        for (int i = 0; i < result.size(); i++) {
-            assertEquals(result.get(i).get().getClass(), result.get(i).get().getClass());
+        for (Optional<ComponentTile> componentTile : result) {
+            assertEquals(componentTile.get().getClass(), componentTile.get().getClass());
         }
     }
 
