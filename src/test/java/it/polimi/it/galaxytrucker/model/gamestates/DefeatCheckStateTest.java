@@ -41,9 +41,9 @@ public class DefeatCheckStateTest {
             
             fillDeckWithPlanetsCards();
 
-            gameManager.addPlayer(new Player(playerId1, "Margarozzo", Color.RED, new ShipManager(2)));
-            gameManager.addPlayer(new Player(playerId2, "Balzarini", Color.GREEN, new ShipManager(2)));
-            gameManager.addPlayer(new Player(playerId3, "Ing. Conti", Color.YELLOW, new ShipManager(2)));
+            gameManager.addPlayer(new Player(playerId1, "Margarozzo", Color.RED, new ShipManager(2, Color.BLUE)));
+            gameManager.addPlayer(new Player(playerId2, "Balzarini", Color.GREEN, new ShipManager(2, Color.BLUE)));
+            gameManager.addPlayer(new Player(playerId3, "Ing. Conti", Color.YELLOW, new ShipManager(2, Color.BLUE)));
 
             playersBuildAllLegalShips();
         }
@@ -167,9 +167,9 @@ public class DefeatCheckStateTest {
             
             fillDeckWithMeteorSwarmCards();
 
-            gameManager.addPlayer(new Player(playerId1, "Margarozzo", Color.RED, new ShipManager(2)));
-            gameManager.addPlayer(new Player(playerId2, "Balzarini", Color.GREEN, new ShipManager(2)));
-            gameManager.addPlayer(new Player(playerId3, "Ing. Conti", Color.YELLOW, new ShipManager(2)));
+            gameManager.addPlayer(new Player(playerId1, "Margarozzo", Color.RED, new ShipManager(2, Color.BLUE)));
+            gameManager.addPlayer(new Player(playerId2, "Balzarini", Color.GREEN, new ShipManager(2, Color.BLUE)));
+            gameManager.addPlayer(new Player(playerId3, "Ing. Conti", Color.YELLOW, new ShipManager(2, Color.BLUE)));
 
             playersBuildAllLegalShips();
         }

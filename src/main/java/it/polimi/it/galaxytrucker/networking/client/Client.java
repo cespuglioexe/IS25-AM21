@@ -155,7 +155,6 @@ public abstract class Client extends UnicastRemoteObject implements Runnable, Cl
                 }
                 break;
             case DRAWN_TILE:
-                System.out.println(ConsoleColors.CLIENT_DEBUG + "Tile graphic: " + update.getNewTile().graphicPath());
                 view.componentTileReceived(update.getNewTile());
                 break;
             case SAVED_COMPONENTS_UPDATED:

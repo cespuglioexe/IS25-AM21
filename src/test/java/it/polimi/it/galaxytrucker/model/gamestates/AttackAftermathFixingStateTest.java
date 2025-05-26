@@ -35,9 +35,9 @@ public class AttackAftermathFixingStateTest {
         
         fillDeckWithMeteorSwarmCards();
 
-        gameManager.addPlayer(new Player(playerId1, "Margarozzo", Color.RED, new ShipManager(2)));
-        gameManager.addPlayer(new Player(playerId2, "Blazarini", Color.GREEN, new ShipManager(2)));
-        gameManager.addPlayer(new Player(playerId3, "Ing. Conti", Color.YELLOW, new ShipManager(2)));
+        gameManager.addPlayer(new Player(playerId1, "Margarozzo", Color.RED, new ShipManager(2, Color.BLUE)));
+        gameManager.addPlayer(new Player(playerId2, "Blazarini", Color.GREEN, new ShipManager(2, Color.BLUE)));
+        gameManager.addPlayer(new Player(playerId3, "Ing. Conti", Color.YELLOW, new ShipManager(2, Color.BLUE)));
 
         playersBuildAllLegalShips();
         playMeteorSwarmCard();
