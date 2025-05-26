@@ -133,7 +133,7 @@ public class FlightBoard {
                 newPosition++;
             } while (board[(newPosition) % board.length] != null);
 
-            // If newPosition is past the end of the array, reset it to the beginning
+            // If newPosition is past the end of the array, wrap it to the beginning
             // and increase the number of laps completed
             if (newPosition >= board.length) {
                 laps++;
