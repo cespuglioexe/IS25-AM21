@@ -12,11 +12,11 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <StackPane>
+      <StackPane prefHeight="198.0" prefWidth="283.0">
          <children>
             <VBox alignment="CENTER" StackPane.alignment="CENTER">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Galaxy Trucker">
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Galaxy Trucker" wrappingWidth="306.359375">
                      <font>
                         <Font size="45.0" />
                      </font>

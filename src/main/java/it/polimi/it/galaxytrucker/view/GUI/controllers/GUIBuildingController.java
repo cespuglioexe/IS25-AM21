@@ -18,7 +18,9 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class GUIBuildingController extends GUIViewState {
@@ -32,6 +34,11 @@ public class GUIBuildingController extends GUIViewState {
     @FXML
     private ImageView shipBgImage,tileImageView;
     private static GUIBuildingController instance;
+
+    private Map<String, ImageView> imageTiles = new HashMap<>();
+
+    @FXML
+    private ImageView imageTile57,imageTile66,imageTile75,imageTile85,imageTile95,imageTile86,imageTile96,imageTile76,imageTile,imageTile67,imageTile68,imageTile78,imageTile88,imageTile98,imageTile99,imageTile89,imageTile79,imageTile77,imageTile87,imageTile56,imageTile58,imageTile65,imageTile74,imageTile84,imageTile94,imageTile910,imageTile810,imageTile710,imageTile69;
 
     public static GUIBuildingController getInstance() {
         synchronized (GUIUsernameSelection.class) {
@@ -67,7 +74,8 @@ public class GUIBuildingController extends GUIViewState {
                         .build()
         );
 
-
+        String randomTileGraphic = "/it/polimi/it/galaxytrucker/graphics/tiles/GT-component_tile_12.jpg";
+        tileImageView.setImage(new Image(Objects.requireNonNull(GUITitleScreen.class.getResourceAsStream(randomTileGraphic))));
     }
 
     @FXML
@@ -83,20 +91,15 @@ public class GUIBuildingController extends GUIViewState {
                         .setRotation(rotation)
                         .build()
         );
+
+        String componentGraphic = "/it/polimi/it/galaxytrucker/graphics/tiles/GT-component_tile_1.jpg";
+        String imgViewNumber = ""+x+y;
+        imageTiles.get("57").setImage(new Image(Objects.requireNonNull(GUITitleScreen.class.getResourceAsStream(componentGraphic))));
+        imageTiles.get("57").setRotate(90*rotation);
         System.out.println("tile placed");
     }
 
-    @FXML
-    public void displayShip(){
-        displayShipPane.setVisible(true);
-        ClientModel model = GUIView.getInstance().getClient().getModel();
-        GUIView.getInstance().displayShip(model.getPlayerShips(model.getMyData().getPlayerId()));
-    }
 
-    @FXML
-    public void closeDisplayShip(){
-        displayShipPane.setVisible(false);
-    }
 
     @FXML
     public void saveTile(){
@@ -145,10 +148,6 @@ public class GUIBuildingController extends GUIViewState {
 
     }
 
-    public void showTile(){
-        tileImageView.setImage(new Image(Objects.requireNonNull(GUITitleScreen.class.getResourceAsStream("/it/polimi/it/galaxytrucker/graphics//"))));
-    }
-
 
     @Override
     public void displayScene() {
@@ -156,6 +155,10 @@ public class GUIBuildingController extends GUIViewState {
             System.out.println(ConsoleColors.CLIENT_DEBUG + "displaying scene building");
             System.out.println(GUIView.getInstance().getClient().getModel().getGameLevel());
             shipBgImage.setImage(new Image(Objects.requireNonNull(GUITitleScreen.class.getResourceAsStream("/it/polimi/it/galaxytrucker/graphics/cardboard/shipboard-lvl" + GUIView.getInstance().getClient().getModel().getGameLevel() + ".jpg"))));
+
+            imageTiles.put("57", imageTile57);
+            //imageTiles.put("", );
+
 
             stage = (Stage) GUIView.stage.getScene().getWindow();
             scene = new Scene(root);

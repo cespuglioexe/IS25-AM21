@@ -8,49 +8,66 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="557.0" prefWidth="828.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="802.0" prefWidth="1334.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label layoutX="33.0" layoutY="53.0" prefHeight="33.0" prefWidth="48.0" text="Timer:">
+      <Label layoutX="87.0" layoutY="58.0" prefHeight="33.0" prefWidth="48.0" text="Timer:">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label fx:id="timerSeconds" layoutX="90.0" layoutY="60.0" text="0">
+      <Label fx:id="timerSeconds" layoutX="144.0" layoutY="65.0" text="0">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <Label layoutX="283.0" layoutY="44.0" text="Game creation">
+      <Label layoutX="227.0" layoutY="48.0" text="Building Phase">
          <font>
             <Font size="42.0" />
          </font>
       </Label>
-      <Button fx:id="lookPileButton" layoutX="58.0" layoutY="232.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="132.0" text="Look a pile of cards" />
-      <Button fx:id="restartTimerButton" layoutX="56.0" layoutY="290.0" mnemonicParsing="false" onAction="#startTimer" prefHeight="51.0" prefWidth="135.0" text="Restart timer" />
-      <AnchorPane layoutX="213.0" layoutY="119.0" prefHeight="415.0" prefWidth="601.0" style="-fx-border-color: black;">
+      <Button fx:id="lookPileButton" layoutX="279.0" layoutY="628.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="132.0" text="Look a pile of cards" />
+      <Button fx:id="restartTimerButton" layoutX="89.0" layoutY="625.0" mnemonicParsing="false" onAction="#startTimer" prefHeight="51.0" prefWidth="135.0" text="Restart timer" />
+      <Button fx:id="randomTileButton" layoutX="60.0" layoutY="149.0" mnemonicParsing="false" onAction="#newRandomTile" prefHeight="46.0" prefWidth="135.0" text="Random tile" />
+      <Button fx:id="discardedTileButton" layoutX="375.0" layoutY="148.0" mnemonicParsing="false" onAction="#showDiscardedTile" prefHeight="46.0" prefWidth="135.0" text="Discarded tile" />
+      <Button fx:id="savedTileButton" layoutX="218.0" layoutY="148.0" mnemonicParsing="false" onAction="#showSavedTile" prefHeight="46.0" prefWidth="135.0" text="Saved tile" />
+      <ImageView fx:id="tileImageView" fitHeight="150.0" fitWidth="200.0" layoutX="168.0" layoutY="257.0" pickOnBounds="true" preserveRatio="true" />
+      <Button fx:id="placeTileButton" layoutX="87.0" layoutY="515.0" mnemonicParsing="false" onAction="#placeTile" text="Place" />
+      <Button fx:id="discardTIleButton" layoutX="457.0" layoutY="349.0" mnemonicParsing="false" onAction="#discardTile" text="Discard" />
+      <Button fx:id="saveTileButton" layoutX="470.0" layoutY="292.0" mnemonicParsing="false" onAction="#saveTile" text="Save" />
+      <TextField layoutX="168.0" layoutY="516.0" prefHeight="26.0" prefWidth="60.0" promptText="X coord..." fx:id="xCoordText" />
+      <TextField fx:id="yCoordText" layoutX="250.0" layoutY="516.0" prefHeight="26.0" prefWidth="60.0" promptText="Y coord" />
+      <TextField fx:id="rotationInput" layoutX="324.0" layoutY="516.0" prefHeight="26.0" prefWidth="92.0" promptText="Rotation [0 - 3]" />
+      <Pane fx:id="displayShipPane" layoutX="555.0" layoutY="106.0" prefHeight="567.0" prefWidth="776.0">
          <children>
-            <Button fx:id="savedTileButton" layoutX="242.0" layoutY="24.0" mnemonicParsing="false" onAction="#showSavedTile" prefHeight="46.0" prefWidth="135.0" text="Saved tile" />
-            <Button fx:id="discardedTileButton" layoutX="421.0" layoutY="24.0" mnemonicParsing="false" onAction="#showDiscardedTile" prefHeight="46.0" prefWidth="135.0" text="Discarded tile" />
-            <Button fx:id="randomTileButton" layoutX="48.0" layoutY="24.0" mnemonicParsing="false" onAction="#newRandomTile" prefHeight="46.0" prefWidth="135.0" text="Random tile" />
-            <AnchorPane fx:id="tileViewContainer" layoutX="42.0" layoutY="99.0" prefHeight="263.0" prefWidth="541.0" style="-fx-border-color: black;">
-               <children>
-                  <ImageView fx:id="tileImageView" fitHeight="150.0" fitWidth="200.0" layoutX="160.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true" />
-                  <Button fx:id="placeTileButton" layoutX="77.0" layoutY="208.0" mnemonicParsing="false" onAction="#placeTile" text="Place" />
-                  <Button fx:id="discardTIleButton" layoutX="475.0" layoutY="74.0" mnemonicParsing="false" onAction="#discardTile" text="Discard" />
-                  <Button fx:id="saveTileButton" layoutX="482.0" layoutY="28.0" mnemonicParsing="false" onAction="#saveTile" text="Save" />
-                  <TextField layoutX="142.0" layoutY="208.0" prefHeight="26.0" prefWidth="60.0" promptText="X coord..." fx:id="xCoordText" />
-                  <TextField fx:id="yCoordText" layoutX="219.0" layoutY="208.0" prefHeight="26.0" prefWidth="60.0" promptText="Y coord" />
-                  <TextField fx:id="rotationInput" layoutX="294.0" layoutY="208.0" prefHeight="26.0" prefWidth="92.0" promptText="Rotation [0 - 3]" />
-                  <Label fx:id="showTile" layoutX="13.0" layoutY="121.0" prefHeight="48.0" prefWidth="519.0" />
-               </children>
-            </AnchorPane>
-         </children>
-      </AnchorPane>
-      <Button fx:id="viewShipButton" layoutX="56.0" layoutY="360.0" mnemonicParsing="false" onAction="#displayShip" prefHeight="51.0" prefWidth="135.0" text="View ship" />
-      <Pane fx:id="displayShipPane" prefHeight="558.0" prefWidth="829.0" visible="false">
-         <children>
-            <Button fx:id="closeDisplayShip" layoutX="27.0" layoutY="37.0" mnemonicParsing="false" onAction="#closeDisplayShip" text="close" />
             <ImageView fx:id="shipBgImage" fitHeight="558.0" fitWidth="829.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="imageTile57" fitHeight="98.0" fitWidth="100.0" layoutX="335.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="imageTile66" fitHeight="98.0" fitWidth="100.0" layoutX="234.0" layoutY="128.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="imageTile75" fitHeight="98.0" fitWidth="100.0" layoutX="131.0" layoutY="232.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="imageTile85" fitHeight="98.0" fitWidth="100.0" layoutX="129.0" layoutY="331.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="imageTile95" fitHeight="98.0" fitWidth="100.0" layoutX="131.0" layoutY="432.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="imageTile86" fitHeight="98.0" fitWidth="99.0" layoutX="232.0" layoutY="331.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="imageTile96" fitHeight="98.0" fitWidth="100.0" layoutX="237.0" layoutY="432.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="imageTile76" fitHeight="97.0" fitWidth="98.0" layoutX="234.0" layoutY="230.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="imageTile67" fitHeight="99.0" fitWidth="98.0" layoutX="335.0" layoutY="127.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="imageTile68" fitHeight="100.0" fitWidth="98.0" layoutX="437.0" layoutY="127.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="imageTile78" fitHeight="100.0" fitWidth="98.0" layoutX="438.0" layoutY="230.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="imageTile88" fitHeight="100.0" fitWidth="98.0" layoutX="439.0" layoutY="330.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="imageTile98" fitHeight="100.0" fitWidth="100.0" layoutX="437.0" layoutY="434.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="imageTile99" fitHeight="100.0" fitWidth="100.0" layoutX="540.0" layoutY="436.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="imageTile89" fitHeight="96.0" fitWidth="96.0" layoutX="542.0" layoutY="333.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="imageTile79" fitHeight="96.0" fitWidth="96.0" layoutX="541.0" layoutY="233.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="imageTile77" fitHeight="99.0" fitWidth="98.0" layoutX="334.0" layoutY="231.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="imageTile87" fitHeight="99.0" fitWidth="98.0" layoutX="335.0" layoutY="332.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="imageTile56" fitHeight="98.0" fitWidth="100.0" layoutX="234.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="imageTile58" fitHeight="98.0" fitWidth="100.0" layoutX="437.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="imageTile65" fitHeight="98.0" fitWidth="100.0" layoutX="131.0" layoutY="128.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="imageTile74" fitHeight="98.0" fitWidth="100.0" layoutX="29.0" layoutY="230.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="imageTile84" fitHeight="98.0" fitWidth="100.0" layoutX="30.0" layoutY="331.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="imageTile94" fitHeight="98.0" fitWidth="100.0" layoutX="28.0" layoutY="434.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="imageTile910" fitHeight="100.0" fitWidth="100.0" layoutX="639.0" layoutY="433.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="imageTile810" fitHeight="100.0" fitWidth="100.0" layoutX="643.0" layoutY="332.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="imageTile710" fitHeight="100.0" fitWidth="100.0" layoutX="642.0" layoutY="229.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="imageTile69" fitHeight="100.0" fitWidth="100.0" layoutX="538.0" layoutY="128.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </Pane>
    </children>
