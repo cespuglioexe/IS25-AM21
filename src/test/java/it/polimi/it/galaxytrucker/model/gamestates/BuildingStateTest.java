@@ -97,7 +97,7 @@ class BuildingStateTest {
         assertEquals(BuildingState.class, gameManager.getCurrentState().getClass());
 
         gameManager.finishBuilding(playerId3);
-        assertEquals(GameTurnStartState.class, gameManager.getCurrentState().getClass());
+        assertEquals(GameEndState.class, gameManager.getCurrentState().getClass());
     }
 
     @Test

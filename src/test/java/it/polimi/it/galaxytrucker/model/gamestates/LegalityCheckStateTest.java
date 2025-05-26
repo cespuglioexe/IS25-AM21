@@ -74,7 +74,8 @@ class LegalityCheckStateTest {
     void movesToFixingStateSomeIllegalTest() {
         playersBuildSomeIllegalShips();
 
-        assertTrue(() -> gameManager.getFlightBoard().getPlayerOrder().size() == 1);
+        gameManager.getFlightBoard().printFlightBoardState();
+        assertEquals(1, gameManager.getFlightBoard().getPlayerOrder().size());
         assertTrue(() -> gameManager.getFlightBoard().getPlayerOrder().getFirst().equals(gameManager.getPlayerByID(playerId1)));
 
         assertEquals(ShipFixingState.class, gameManager.getCurrentState().getClass());
@@ -89,6 +90,6 @@ class LegalityCheckStateTest {
         assertTrue(() -> gameManager.getFlightBoard().getPlayerOrder().get(1).equals(gameManager.getPlayerByID(playerId2)));
         assertTrue(() -> gameManager.getFlightBoard().getPlayerOrder().get(2).equals(gameManager.getPlayerByID(playerId3)));
 
-        assertEquals(GameTurnStartState.class, gameManager.getCurrentState().getClass());
+        assertEquals(GameEndState.class, gameManager.getCurrentState().getClass());
     }
 }
