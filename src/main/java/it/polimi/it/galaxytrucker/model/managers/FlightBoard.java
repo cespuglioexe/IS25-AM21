@@ -277,22 +277,6 @@ public class FlightBoard {
     public void removePlayerMarker(Player player) {
         int position = playerPosition.get(player);
         board[position] = null;
-    }
-
-    public void addPlayerMarker(Player player, int position) {
-        if (board[position] == null) {
-            board[position] = player;
-        } else {
-            while (board[position] != null) {
-                position--;
-
-                if (position < 0) {
-                    position = board.length - 1;
-                    completedLaps.put(player, completedLaps.get(player) - 1);
-                }
-            }
-
-            board[position] = player;
-        }
+        playerPosition.remove(player);
     }
 }

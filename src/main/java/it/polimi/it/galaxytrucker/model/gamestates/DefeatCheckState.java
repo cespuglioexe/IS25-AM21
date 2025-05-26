@@ -60,6 +60,7 @@ public class DefeatCheckState extends GameState {
         for (Predicate<Player> condition : defeatConditions) {
             if (condition.test(playerToCheck)) {
                 gameManager.defeat(playerToCheck);
+                System.out.printf("%s LOST.%n", playerToCheck);
                 return;
             }
         }
