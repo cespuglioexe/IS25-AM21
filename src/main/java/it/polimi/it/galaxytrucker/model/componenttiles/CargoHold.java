@@ -30,8 +30,9 @@ public class CargoHold extends ComponentTile {
     @JsonCreator
     public CargoHold(
             @JsonProperty("capacity") int containers,
-            @JsonProperty("edges") List<TileEdge> edges) {
-        super(edges);
+            @JsonProperty("edges") List<TileEdge> edges,
+            @JsonProperty("graphic") String graphicPath) {
+        super(edges,graphicPath);
         containerNumber = containers;
         canHoldSpecialCargo = false;
         containedCargo = new ArrayList<>();

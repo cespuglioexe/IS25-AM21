@@ -41,7 +41,7 @@ public class Controller implements ControllerInterface {
 
         Color playerColor = playerColors.remove(new Random().nextInt(playerColors.size()));
 
-        Player newPlayer = new Player(client.getUuid(), client.getUsername(), playerColor, new ShipManager(level));
+        Player newPlayer = new Player(client.getUuid(), client.getUsername(), playerColor, new ShipManager(level, playerColor));
 
         ((Observable) model).addListener(client);
         (newPlayer).addListener(client);

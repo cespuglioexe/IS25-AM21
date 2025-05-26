@@ -33,9 +33,9 @@ class CardExecutionStateTest {
         
         fillDeckWithPlanetCard();
 
-        gameManager.addPlayer(new Player(playerId1, "Margarozzo", Color.RED, new ShipManager(2)));
-        gameManager.addPlayer(new Player(playerId2, "Blazarini", Color.RED, new ShipManager(2)));
-        gameManager.addPlayer(new Player(playerId3, "Ing. Conti", Color.RED, new ShipManager(2)));
+        gameManager.addPlayer(new Player(playerId1, "Margarozzo", Color.RED, new ShipManager(2, Color.BLUE)));
+        gameManager.addPlayer(new Player(playerId2, "Blazarini", Color.RED, new ShipManager(2, Color.BLUE)));
+        gameManager.addPlayer(new Player(playerId3, "Ing. Conti", Color.RED, new ShipManager(2, Color.BLUE)));
 
         playersBuildAllLegalShips();
     }

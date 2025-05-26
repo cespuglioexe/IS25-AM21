@@ -7,57 +7,33 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TileData implements Serializable {
-    private int rotation;
-    private String type;
-
-    private TileEdge top;
-    private TileEdge right;
-    private TileEdge bottom;
-    private TileEdge left;
-
+public record TileData(int rotation, String type, TileEdge top, TileEdge right, TileEdge bottom, TileEdge left,
+                       String graphicPath) implements Serializable {
     @JsonCreator
-    public TileData (
+    public TileData(
             @JsonProperty("rotation") int rotation,
             @JsonProperty("type") String type,
             @JsonProperty("top") TileEdge top,
             @JsonProperty("right") TileEdge right,
             @JsonProperty("bottom") TileEdge bottom,
-            @JsonProperty("left") TileEdge left) {
+            @JsonProperty("left") TileEdge left,
+            @JsonProperty("graphicPath") String graphicPath) {
         this.rotation = rotation;
         this.type = type;
         this.top = top;
         this.right = right;
         this.bottom = bottom;
         this.left = left;
+        this.graphicPath = graphicPath;
     }
 
-    public int getRotation() {
-        return rotation;
-    }
-    public void setRotation(int rotation) { this.rotation = rotation; }
-
-    public String getType() {
-        return type;
-    }
-
-    public TileEdge getTop() {
-        return top;
-    }
-
-    public TileEdge getRight() {
-        return right;
-    }
-
-    public TileEdge getBottom() {
-        return bottom;
-    }
-
-    public TileEdge getLeft() {
-        return left;
-    }
-
-    public static TileData createTileDataFromComponentTile (ComponentTile componentTile) {
+    /**
+     * Converts a {@link ComponentTile} object to a {@link TileData} record object.
+     *
+     * @param componentTile The component to be converted.
+     * @return The conversion of the given component.
+     */
+    public static TileData createTileDataFromComponentTile(ComponentTile componentTile) {
         if (componentTile != null) {
             return new TileData(
                     componentTile.getRotation(),
@@ -65,12 +41,19 @@ public class TileData implements Serializable {
                     componentTile.getTileEdges().get(0),
                     componentTile.getTileEdges().get(1),
                     componentTile.getTileEdges().get(2),
-                    componentTile.getTileEdges().get(3)
+                    componentTile.getTileEdges().get(3),
+                    componentTile.getGraphicPath()
             );
         }
         return null;
     }
 
+    /**
+     * Converts a matrix of {@link ComponentTile}s to a matrix of {@link TileData} objects.
+     *
+     * @param ship The matrix to be converted.
+     * @return The {@code List<List<TileData>>} representing the converted matrix.
+     */
     public static List<List<TileData>> createTileDataShipFromComponentTileShip(List<List<ComponentTile>> ship) {
         List<List<TileData>> result = new ArrayList<>();
 
@@ -83,5 +66,4 @@ public class TileData implements Serializable {
         }
         return result;
     }
-
 }

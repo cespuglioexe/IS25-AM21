@@ -25,8 +25,9 @@ public class CabinModule extends CentralCabin {
      * @param edges A {@code List} of {@code TileEdge} defining the edges of the cabin module.
      */
     @JsonCreator
-    public CabinModule(@JsonProperty("edges") List<TileEdge> edges) {
-        super(edges);
+    public CabinModule(@JsonProperty("edges") List<TileEdge> edges,
+                       @JsonProperty("graphic") String graphicPath) {
+        super(edges,graphicPath);
     }
 
     /**

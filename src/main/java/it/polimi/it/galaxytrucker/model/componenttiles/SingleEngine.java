@@ -24,8 +24,9 @@ public class SingleEngine extends ComponentTile {
      * @param edges a {@code List} of {@link TileEdge} objects representing the four edges of this tile
      */
     @JsonCreator
-    public SingleEngine(@JsonProperty("edges") List<TileEdge> edges) {
-        super(edges);
+    public SingleEngine(@JsonProperty("edges") List<TileEdge> edges,
+                        @JsonProperty("graphic") String graphicPath) {
+        super(edges,graphicPath);
         enginePower = 1;
     }
 

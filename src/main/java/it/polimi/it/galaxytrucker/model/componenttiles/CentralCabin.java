@@ -28,8 +28,9 @@ public class CentralCabin extends ComponentTile {
      * @param edges the list of edges defining the tile connections
      */
     @JsonCreator
-    public CentralCabin(@JsonProperty("edges") List<TileEdge> edges) {
-        super(edges);
+    public CentralCabin(@JsonProperty("edges") List<TileEdge> edges,
+                        @JsonProperty("graphic") String graphicPath) {
+        super(edges,graphicPath);
         crewmates = new ArrayList<>();
     }
 

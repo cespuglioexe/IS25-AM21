@@ -24,8 +24,9 @@ public class DoubleCannon extends SingleCannon implements EnergyConsumer {
      * @param edges a {@code List<TileEdge>} representing the edges of this tile
      */
     @JsonCreator
-    public DoubleCannon(@JsonProperty("edges") List<TileEdge> edges) {
-        super(edges);
+    public DoubleCannon(@JsonProperty("edges") List<TileEdge> edges,
+                        @JsonProperty("graphic") String graphicPath) {
+        super(edges,graphicPath);
     }
 
     /**
