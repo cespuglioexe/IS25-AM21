@@ -165,6 +165,50 @@ public class ShipCreation {
         ship.addCrewmate(8, 5, new Alien(AlienType.PURPLEALIEN));
     }
 
+    public static void createLegalShip4(Player player) {
+        ShipManager ship = player.getShipManager();
+        /*
+         *     4  5  6  7  8  9  10
+         * 5        [ ]   [ ]
+         * 6     [ ][ ][ ][ ][ ]
+         * 7  [m][m][m][x][m][m][m]
+         * 8  [ ][ ][ ][ ][ ][ ][ ]
+         * 9  [ ][ ][ ]   [ ][ ][ ]
+         *
+         * Where m stands for CabinModule
+         * Where x stands for CentralCabin which has all TileEdge.UNIVERSAL connectors
+         *
+         * Firepower:
+         *  -base: 0
+         *  -additional: 0
+         *
+         * Engine power:
+         *  -base: 0
+         *  -additional: 0
+         *
+         * Crewmates: 14
+         */
+        ship.addComponentTile(7, 4, new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE)));
+        ship.addComponentTile(7, 5, new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE)));
+        ship.addComponentTile(7, 6, new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE)));
+        ship.addComponentTile(7, 8, new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE)));
+        ship.addComponentTile(7, 9, new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE)));
+        ship.addComponentTile(7, 10, new CabinModule(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE)));
+
+        ship.addCrewmate(7, 4, new Human());
+        ship.addCrewmate(7, 5, new Human());
+        ship.addCrewmate(7, 6, new Human());
+        ship.addCrewmate(7, 8, new Human());
+        ship.addCrewmate(7, 9, new Human());
+        ship.addCrewmate(7, 10, new Human());
+        ship.addCrewmate(7, 4, new Human());
+        ship.addCrewmate(7, 5, new Human());
+        ship.addCrewmate(7, 6, new Human());
+        ship.addCrewmate(7, 8, new Human());
+        ship.addCrewmate(7, 9, new Human());
+        ship.addCrewmate(7, 10, new Human());
+    }
+
     /**
      * Creates a ship that has a disconnected branch.
      * <p>

@@ -26,7 +26,7 @@ public class DefeatCheckState extends GameState {
 
         checkForDefeat(fsm);
 
-        if (isLessThanOnePlayerLeft()) {
+        if (hasOneOrNoPlayersRemaining()) {
             changeState(fsm, new GameEndState());
         } else if (wasLastPlayedCardAttack()) {
             changeState(fsm, new AttackAftermathCheckState());
@@ -34,7 +34,7 @@ public class DefeatCheckState extends GameState {
             changeState(fsm, new GameTurnStartState());
         }
     }
-    private boolean isLessThanOnePlayerLeft() {
+    private boolean hasOneOrNoPlayersRemaining() {
         if (gameManager.getActivePlayers().size() <= 1) {
             return true;
         }
@@ -76,6 +76,22 @@ public class DefeatCheckState extends GameState {
         List<Player> playersInFlightOrder = flightBoard.getPlayerOrder();
         HashMap<Player, Integer> completedLaps = flightBoard.getCompletedLaps();
 
+        return hasAnyPlayerTwoLapsAhead(player, completedLaps) || 
+            hasPlayerAheadWithOneMoreLap(player, playersInFlightOrder, completedLaps);
+    }
+    private boolean hasAnyPlayerTwoLapsAhead(Player player, HashMap<Player, Integer> completedLaps) {
+        int playerCompletedLaps = completedLaps.get(player);
+
+        for (Player otherPlayer : completedLaps.keySet()) {
+            int otherPlayerLaps = completedLaps.get(otherPlayer);
+
+            if (otherPlayerLaps >= playerCompletedLaps + 2) {
+                return true;
+            }
+        }
+        return false;
+    }
+    private boolean hasPlayerAheadWithOneMoreLap(Player player, List<Player> playersInFlightOrder, HashMap<Player, Integer> completedLaps) {
         int playerPosition = playersInFlightOrder.indexOf(player);
         int playerCompletedLaps = completedLaps.get(player);
 
@@ -91,8 +107,7 @@ public class DefeatCheckState extends GameState {
 
     @Override
     public void exit(StateMachine fsm) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'exit'");
+        
     }
     
 }

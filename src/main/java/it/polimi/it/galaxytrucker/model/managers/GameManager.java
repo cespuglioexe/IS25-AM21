@@ -77,6 +77,13 @@ public class GameManager extends StateMachine implements Model, Observable {
     }
 
     @Override
+    public List<Player> getPlayerRank() {
+        return players.stream()
+            .sorted(Comparator.comparingInt(Player::getCredits).reversed())
+            .toList();
+    }
+
+    @Override
     public boolean allPlayersConnected() {
         return this.players.size() == this.numberOfPlayers;
     }
@@ -430,6 +437,14 @@ public class GameManager extends StateMachine implements Model, Observable {
     public void deleteComponentTile(UUID playerID, int row, int column) {
         GameState gameState = (GameState) this.getCurrentState();
         gameState.deleteComponentTile(this, playerID, row, column);
+
+        // TODO: notify
+    }
+
+    @Override
+    public void deleteBranch(UUID playerID, Set<List<Integer>> branch) {
+        GameState gameState = (GameState) this.getCurrentState();
+        gameState.removeBranch(this, playerID, branch);
 
         // TODO: notify
     }

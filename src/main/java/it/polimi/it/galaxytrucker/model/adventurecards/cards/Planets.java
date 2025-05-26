@@ -309,17 +309,16 @@ public class Planets extends CardStateMachine implements AdventureCard, Particip
             flightRules.movePlayerBackwards(flightDayPenalty, player);
         }
     }
-
     private List<Player> getPlayerReverseOrder() {
-        return getActualPlayersFrom(flightRules.getPlayerOrder().reversed());
+        return flightRules.getPlayerOrder().reversed().stream()
+                .filter(this::isActualPlayer)
+                .toList();
     }
 
-    private List<Player> getActualPlayersFrom(List<Player> players) {
-        return planetsAndPlayers.keySet().stream()
-                .map(planetsAndPlayers::get)
+    private boolean isActualPlayer(Player p) {
+        return planetsAndPlayers.values().stream()
                 .flatMap(Optional::stream)
-                .filter(players::contains)
-                .collect(Collectors.toList());
+                .anyMatch(actual -> actual.equals(p));
     }
 
     public int getNumberOfBoardPlayers() {

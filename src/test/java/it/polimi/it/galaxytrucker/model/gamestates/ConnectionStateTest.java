@@ -39,7 +39,7 @@ class ConnectionStateTest {
         UUID playerId2 = UUID.randomUUID();
 
         gameManager.addPlayer(new Player(playerId1, "Frigeri", Color.RED, new ShipManager(2)));
-        gameManager.addPlayer(new Player(playerId2, "Blazarini", Color.RED, new ShipManager(2)));
+        gameManager.addPlayer(new Player(playerId2, "Balzarini", Color.RED, new ShipManager(2)));
 
         connectionState.removePlayer(gameManager, playerId1);
 

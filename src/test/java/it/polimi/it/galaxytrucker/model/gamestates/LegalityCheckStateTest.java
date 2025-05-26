@@ -23,7 +23,7 @@ class LegalityCheckStateTest {
         gameManager = new GameManager(2, 3);
 
         gameManager.addPlayer(new Player(playerId1, "Margarozzo", Color.RED, new ShipManager(2)));
-        gameManager.addPlayer(new Player(playerId2, "Blazarini", Color.RED, new ShipManager(2)));
+        gameManager.addPlayer(new Player(playerId2, "Balzarini", Color.RED, new ShipManager(2)));
         gameManager.addPlayer(new Player(playerId3, "Ing. Conti", Color.RED, new ShipManager(2)));
     }
 
