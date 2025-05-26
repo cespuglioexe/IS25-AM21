@@ -50,7 +50,7 @@ public class ShipBoard {
     private final List<List<Optional<ComponentTile>>> tileMatrix;
     private final Map<Class<? extends ComponentTile>, Set<List<Integer>>> componentTilesPosition;
 
-    private Color playerColor;
+    private final Color playerColor;
 
     /**
      * Initializes a new {@code ShipBoard} instance, representing the ship's component grid.
@@ -58,7 +58,8 @@ public class ShipBoard {
      *
      * <p>Upon creation, the board is empty, and no components are placed.</p>
      */
-    public ShipBoard() {
+    public ShipBoard(Color playerColor) {
+        this.playerColor = playerColor;
         final int ROWS = ShipManager.getRows();
         final int COLUMNS = ShipManager.getColumns();
 
@@ -479,7 +480,7 @@ public class ShipBoard {
 
     //?TEST ONLY
     public void printBranch(int level, Set<List<Integer>> branch) {
-        ShipBoard branchBoard = new ShipBoard();
+        ShipBoard branchBoard = new ShipBoard(Color.RED);
         branchBoard.setShipBounds(level);
         try {
             branchBoard.removeComponentTile(2, 3);
