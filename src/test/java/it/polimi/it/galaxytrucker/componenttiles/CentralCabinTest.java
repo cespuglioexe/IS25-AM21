@@ -25,7 +25,7 @@ public class CentralCabinTest {
     @BeforeEach
     public void setup() {
         // Create a dummy central cabin
-        cabin = new CentralCabin(List.of(TileEdge.SMOOTH, TileEdge.SMOOTH, TileEdge.SMOOTH, TileEdge.SMOOTH));
+        cabin = new CentralCabin(List.of(TileEdge.SMOOTH, TileEdge.SMOOTH, TileEdge.SMOOTH, TileEdge.SMOOTH), null);
 
         // Create test crewmates
         human1 = new Human();
@@ -87,7 +87,7 @@ public class CentralCabinTest {
 
     @Test
     public void testRemoveFromEmptyCabin() {
-        cabin = new CentralCabin(List.of(TileEdge.SMOOTH, TileEdge.SMOOTH, TileEdge.SMOOTH, TileEdge.SMOOTH));
+        cabin = new CentralCabin(List.of(TileEdge.SMOOTH, TileEdge.SMOOTH, TileEdge.SMOOTH, TileEdge.SMOOTH), null);
         // Attempt to remove from an empty cabin, expect InvalidActionException
         InvalidActionException exception = assertThrows(
                 InvalidActionException.class,

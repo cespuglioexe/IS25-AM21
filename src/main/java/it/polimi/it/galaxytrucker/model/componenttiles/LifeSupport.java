@@ -27,8 +27,9 @@ public class LifeSupport extends ComponentTile {
     @JsonCreator
     public LifeSupport(
             @JsonProperty("alienType") AlienType type,
-            @JsonProperty("edges") List<TileEdge> edges) {
-        super(edges);
+            @JsonProperty("edges") List<TileEdge> edges,
+            @JsonProperty("graphic") String graphicPath) {
+        super(edges,graphicPath);
         this.supportedAlienType = type;
     }
 

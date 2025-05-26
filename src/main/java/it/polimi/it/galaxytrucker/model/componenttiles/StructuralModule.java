@@ -20,7 +20,8 @@ public class StructuralModule extends ComponentTile {
      * @param edges a {@code List} of {@link TileEdge} objects representing the four edges of this tile
      */
     @JsonCreator
-    public StructuralModule(@JsonProperty("edges") List<TileEdge> edges) {
-        super(edges);
+    public StructuralModule(@JsonProperty("edges") List<TileEdge> edges,
+                            @JsonProperty("graphic") String graphicPath) {
+        super(edges,graphicPath);
     }
 }

@@ -19,7 +19,7 @@ public class SingleEngineTest {
     @BeforeEach
     public void setUp() {
         // Create a single engine with different edge types
-        singleEngine = new SingleEngine(List.of(TileEdge.SMOOTH, TileEdge.SINGLE, TileEdge.DOUBLE, TileEdge.UNIVERSAL));
+        singleEngine = new SingleEngine(List.of(TileEdge.SMOOTH, TileEdge.SINGLE, TileEdge.DOUBLE, TileEdge.UNIVERSAL), null);
     }
 
     @Test

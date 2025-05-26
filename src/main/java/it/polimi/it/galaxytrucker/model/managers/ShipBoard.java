@@ -2,6 +2,7 @@ package it.polimi.it.galaxytrucker.model.managers;
 
 import it.polimi.it.galaxytrucker.model.componenttiles.*;
 import it.polimi.it.galaxytrucker.exceptions.IllegalComponentPositionException;
+import it.polimi.it.galaxytrucker.model.utility.Color;
 
 import java.util.ArrayList;
 import java.util.Set;
@@ -49,13 +50,16 @@ public class ShipBoard {
     private final List<List<Optional<ComponentTile>>> tileMatrix;
     private final Map<Class<? extends ComponentTile>, Set<List<Integer>>> componentTilesPosition;
 
+    private final Color playerColor;
+
     /**
      * Initializes a new {@code ShipBoard} instance, representing the ship's component grid.
      * The board is structured to accommodate ship components and maintain their positions.
      *
      * <p>Upon creation, the board is empty, and no components are placed.</p>
      */
-    public ShipBoard() {
+    public ShipBoard(Color playerColor) {
+        this.playerColor = playerColor;
         final int ROWS = ShipManager.getRows();
         final int COLUMNS = ShipManager.getColumns();
 
@@ -92,7 +96,9 @@ public class ShipBoard {
      *
      * @param level The level of the ship (e.g., 1 or 2), determining its valid structure.
      */
-    public ShipBoard(int level) {
+    public ShipBoard(int level, Color playerColor) {
+        this.playerColor = playerColor;
+
         final int COLUMNS = 7;
         final int ROWS = 5;
 
@@ -335,8 +341,15 @@ public class ShipBoard {
         final int CENTRALCABINCOLUMN = 3;
         
         try {
-            // PER QUANDO AGGIUNGIAMO GRAFICHE: blu - 33, verde - 34, rosso - 52, giallo - 61
-            this.addComponentTile(CENTRALCABINROW, CENTRALCABINCOLUMN, new CentralCabin(List.of(TileEdge.UNIVERSAL, TileEdge.UNIVERSAL, TileEdge.UNIVERSAL, TileEdge.UNIVERSAL)));
+            int colorIndex;
+            switch (playerColor) {
+                case BLUE -> colorIndex = 33;
+                case GREEN -> colorIndex = 34;
+                case RED -> colorIndex = 52;
+                case YELLOW -> colorIndex = 61;
+                default -> colorIndex = -1;
+            }
+            this.addComponentTile(CENTRALCABINROW, CENTRALCABINCOLUMN, new CentralCabin(List.of(TileEdge.UNIVERSAL, TileEdge.UNIVERSAL, TileEdge.UNIVERSAL, TileEdge.UNIVERSAL), "/it/polimi/it/galaxytrucker/graphics/tiles/GT-component_tile_" + colorIndex + ".jpg"));
         } catch (IllegalComponentPositionException e) {
             e.printStackTrace();
         }
@@ -467,7 +480,7 @@ public class ShipBoard {
 
     //?TEST ONLY
     public void printBranch(int level, Set<List<Integer>> branch) {
-        ShipBoard branchBoard = new ShipBoard();
+        ShipBoard branchBoard = new ShipBoard(Color.RED);
         branchBoard.setShipBounds(level);
         try {
             branchBoard.removeComponentTile(2, 3);
@@ -476,7 +489,7 @@ public class ShipBoard {
         }
         for (List<Integer> coord : branch) {
             try {
-                branchBoard.addComponentTile(coord.get(0), coord.get(1), new SingleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE)));
+                branchBoard.addComponentTile(coord.get(0), coord.get(1), new SingleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null));
             } catch (IllegalComponentPositionException e) {
                 e.printStackTrace();
             }

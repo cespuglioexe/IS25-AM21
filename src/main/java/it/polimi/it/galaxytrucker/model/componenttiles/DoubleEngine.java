@@ -24,8 +24,9 @@ public class DoubleEngine extends SingleEngine implements EnergyConsumer {
      * @param edges a {@code List<TileEdge>} representing the edges of this tile
      */
     @JsonCreator
-    public DoubleEngine(@JsonProperty("edges") List<TileEdge> edges) {
-        super(edges);
+    public DoubleEngine(@JsonProperty("edges") List<TileEdge> edges,
+                        @JsonProperty("graphic") String graphicPath) {
+        super(edges,graphicPath);
     }
 
     /**

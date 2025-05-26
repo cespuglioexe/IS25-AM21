@@ -19,7 +19,7 @@ public class DoubleEngineTest {
     @BeforeEach
     public void setUp() {
         // Create a double engine with different edge types
-        doubleEngine = new DoubleEngine(List.of(TileEdge.SMOOTH, TileEdge.SINGLE, TileEdge.DOUBLE, TileEdge.UNIVERSAL));
+        doubleEngine = new DoubleEngine(List.of(TileEdge.SMOOTH, TileEdge.SINGLE, TileEdge.DOUBLE, TileEdge.UNIVERSAL), null);
     }
 
     @Test

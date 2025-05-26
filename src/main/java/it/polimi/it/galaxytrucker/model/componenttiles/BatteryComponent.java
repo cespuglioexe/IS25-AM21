@@ -27,8 +27,9 @@ public class BatteryComponent extends ComponentTile {
     @JsonCreator
     public BatteryComponent(
             @JsonProperty("capacity") int capacity,
-            @JsonProperty("edges") List<TileEdge> edges) {
-        super(edges);
+            @JsonProperty("edges") List<TileEdge> edges,
+            @JsonProperty("graphic") String graphicPath) {
+        super(edges,graphicPath);
         batteryCharge = capacity;
     }
 

@@ -23,8 +23,9 @@ public class SpecialCargoHold extends CargoHold {
     @JsonCreator
     public SpecialCargoHold(
             @JsonProperty("containerNum") int containers,
-            @JsonProperty("edges")List<TileEdge> edges) {
-        super(containers, edges);
+            @JsonProperty("edges")List<TileEdge> edges,
+            @JsonProperty("graphic") String graphicPath) {
+        super(containers, edges, graphicPath);
         this.canHoldSpecialCargo = true;
     }
 }

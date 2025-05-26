@@ -15,7 +15,7 @@ class DoubleCannonTest {
 
     @BeforeEach
     void setUp() {
-        doubleCannon = new DoubleCannon(List.of(TileEdge.SMOOTH, TileEdge.SINGLE, TileEdge.DOUBLE, TileEdge.UNIVERSAL));
+        doubleCannon = new DoubleCannon(List.of(TileEdge.SMOOTH, TileEdge.SINGLE, TileEdge.DOUBLE, TileEdge.UNIVERSAL), null);
     }
 
     @Test

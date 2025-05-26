@@ -15,6 +15,6 @@ public class OutOfBoundsTile extends ComponentTile {
      * All edges are initialized as {@code SMOOTH}.
      */
     public OutOfBoundsTile() {
-        super(List.of(TileEdge.SMOOTH, TileEdge.SMOOTH, TileEdge.SMOOTH, TileEdge.SMOOTH));
+        super(List.of(TileEdge.SMOOTH, TileEdge.SMOOTH, TileEdge.SMOOTH, TileEdge.SMOOTH), "/it/polimi/it/galaxytrucker/graphics/tiles/GT-component_tile_157.jpg");
     }
 }

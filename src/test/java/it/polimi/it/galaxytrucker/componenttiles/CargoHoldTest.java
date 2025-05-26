@@ -24,7 +24,7 @@ class CargoHoldTest {
 
     @Test
     void removeCargo() {
-        CargoHold hold = new CargoHold(3, List.of(TileEdge.SMOOTH, TileEdge.SMOOTH, TileEdge.SMOOTH, TileEdge.SMOOTH));
+        CargoHold hold = new CargoHold(3, List.of(TileEdge.SMOOTH, TileEdge.SMOOTH, TileEdge.SMOOTH, TileEdge.SMOOTH), null);
 
         Cargo blue = new Cargo(Color.BLUE);
         Cargo green = new Cargo(Color.GREEN);
@@ -73,7 +73,7 @@ class CargoHoldTest {
 
     @Test
     void addCargo() {
-        CargoHold hold = new CargoHold(3, List.of(TileEdge.SMOOTH, TileEdge.SMOOTH, TileEdge.SMOOTH, TileEdge.SMOOTH));
+        CargoHold hold = new CargoHold(3, List.of(TileEdge.SMOOTH, TileEdge.SMOOTH, TileEdge.SMOOTH, TileEdge.SMOOTH), null);
 
         Cargo blue = new Cargo(Color.BLUE);
         Cargo green = new Cargo(Color.GREEN);
