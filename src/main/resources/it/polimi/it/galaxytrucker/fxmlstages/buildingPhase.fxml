@@ -21,36 +21,32 @@
             <Font size="16.0" />
          </font>
       </Label>
-      <Label layoutX="227.0" layoutY="48.0" text="Building Phase">
+      <Label layoutX="154.0" layoutY="51.0" text="Building Phase">
          <font>
             <Font size="42.0" />
          </font>
       </Label>
-      <Button fx:id="lookPileButton" layoutX="279.0" layoutY="628.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="132.0" text="Look a pile of cards" />
+      <Button fx:id="openPopUp" layoutX="220.0" layoutY="646.0" mnemonicParsing="false" onAction="#openPopUpCards" prefHeight="47.0" prefWidth="132.0" text="Look a pile of cards" />
       <Button fx:id="restartTimerButton" layoutX="89.0" layoutY="625.0" mnemonicParsing="false" onAction="#startTimer" prefHeight="51.0" prefWidth="135.0" text="Restart timer" visible="false" />
       <Button fx:id="randomTileButton" layoutX="60.0" layoutY="149.0" mnemonicParsing="false" onAction="#newRandomTile" prefHeight="46.0" prefWidth="135.0" text="Random tile" />
       <Button fx:id="discardedTileButton" layoutX="375.0" layoutY="148.0" mnemonicParsing="false" onAction="#showDiscardedTile" prefHeight="46.0" prefWidth="135.0" text="Discarded tile" />
       <Button fx:id="savedTileButton" layoutX="218.0" layoutY="148.0" mnemonicParsing="false" onAction="#showSavedTile" prefHeight="46.0" prefWidth="135.0" text="Saved tile" />
-      <ImageView fx:id="tileImageView" fitHeight="150.0" fitWidth="200.0" layoutX="168.0" layoutY="257.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="tileImageView" fitHeight="150.0" fitWidth="150.0" layoutX="193.0" layoutY="258.0" pickOnBounds="true" preserveRatio="true" />
       <Button fx:id="placeTileButton" layoutX="87.0" layoutY="515.0" mnemonicParsing="false" onAction="#placeTile" text="Place" />
-      <Button fx:id="discardTIleButton" layoutX="457.0" layoutY="349.0" mnemonicParsing="false" onAction="#discardTile" text="Discard" />
-      <Button fx:id="saveTileButton" layoutX="470.0" layoutY="292.0" mnemonicParsing="false" onAction="#saveTile" text="Save" />
-      <TextField layoutX="168.0" layoutY="516.0" prefHeight="26.0" prefWidth="60.0" promptText="X coord..." fx:id="xCoordText" />
-      <TextField fx:id="yCoordText" layoutX="250.0" layoutY="516.0" prefHeight="26.0" prefWidth="60.0" promptText="Y coord" />
-      <TextField fx:id="rotationInput" layoutX="446.0" layoutY="516.0" prefHeight="26.0" prefWidth="92.0" promptText="Rotation [0 - 3]" />
+      <Button fx:id="discardTIleButton" layoutX="452.0" layoutY="349.0" mnemonicParsing="false" onAction="#discardTile" prefHeight="26.0" prefWidth="64.0" text="Discard" />
+      <Button fx:id="saveTileButton" layoutX="451.0" layoutY="292.0" mnemonicParsing="false" onAction="#saveTile" prefHeight="26.0" prefWidth="64.0" text="Save" />
+      <TextField layoutX="187.0" layoutY="515.0" prefHeight="26.0" prefWidth="60.0" promptText="X coord..." fx:id="xCoordText" />
+      <TextField fx:id="yCoordText" layoutX="291.0" layoutY="515.0" prefHeight="26.0" prefWidth="60.0" promptText="Y coord" />
       <Pane fx:id="displayShipPane" layoutX="555.0" layoutY="106.0" prefHeight="567.0" prefWidth="776.0">
          <children>
-            <ImageView fx:id="shipBgImage" fitHeight="558.0" fitWidth="829.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../graphics/cardboard/shipboard-lvl1.jpg" />
-               </image></ImageView>
+            <ImageView fx:id="shipBgImage" fitHeight="558.0" fitWidth="829.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="imageTile57" fitHeight="100.0" fitWidth="100.0" layoutX="336.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="imageTile66" fitHeight="100.0" fitWidth="100.0" layoutX="233.0" layoutY="127.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="imageTile75" fitHeight="100.0" fitWidth="100.0" layoutX="131.0" layoutY="229.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="imageTile85" fitHeight="100.0" fitWidth="100.0" layoutX="131.0" layoutY="331.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="imageTile95" fitHeight="100.0" fitWidth="100.0" layoutX="131.0" layoutY="432.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="imageTile86" fitHeight="100.0" fitWidth="100.0" layoutX="233.0" layoutY="331.0" pickOnBounds="true" preserveRatio="true" />
-            <ImageView fx:id="imageTile96" fitHeight="100.0" fitWidth="100.0" layoutX="235.0" layoutY="432.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="imageTile96" fitHeight="100.0" fitWidth="100.0" layoutX="233.0" layoutY="432.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="imageTile76" fitHeight="100.0" fitWidth="100.0" layoutX="233.0" layoutY="229.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="imageTile67" fitHeight="100.0" fitWidth="100.0" layoutX="335.0" layoutY="127.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="imageTile68" fitHeight="100.0" fitWidth="100.0" layoutX="438.0" layoutY="127.0" pickOnBounds="true" preserveRatio="true" />
@@ -60,7 +56,7 @@
             <ImageView fx:id="imageTile99" fitHeight="100.0" fitWidth="100.0" layoutX="540.0" layoutY="433.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="imageTile89" fitHeight="100.0" fitWidth="100.0" layoutX="540.0" layoutY="331.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="imageTile79" fitHeight="100.0" fitWidth="100.0" layoutX="540.0" layoutY="229.0" pickOnBounds="true" preserveRatio="true" />
-            <ImageView fx:id="imageTile77" fitHeight="99.0" fitWidth="101.0" layoutX="336.0" layoutY="229.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="imageTile77" fitHeight="100.0" fitWidth="100.0" layoutX="336.0" layoutY="229.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="imageTile87" fitHeight="100.0" fitWidth="100.0" layoutX="336.0" layoutY="331.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="imageTile56" fitHeight="100.0" fitWidth="100.0" layoutX="233.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="imageTile58" fitHeight="100.0" fitWidth="100.0" layoutX="438.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true" />
@@ -75,7 +71,56 @@
          </children>
       </Pane>
       <Button fx:id="arrowBack" layoutX="132.0" layoutY="319.0" mnemonicParsing="false" text="&lt;" visible="false" />
-      <Button fx:id="arrowForward" layoutX="380.0" layoutY="319.0" mnemonicParsing="false" text="&gt;" visible="false" />
-      <Button fx:id="rotationButton" layoutX="341.0" layoutY="516.0" mnemonicParsing="false" text="Button" />
+      <Button fx:id="arrowForward" layoutX="373.0" layoutY="319.0" mnemonicParsing="false" text="&gt;" visible="false" />
+      <Button fx:id="rotationButton" layoutX="407.0" layoutY="515.0" mnemonicParsing="false" text="Rotate" />
+      <Pane fx:id="popUpCardsPane" prefHeight="803.0" prefWidth="1332.0" visible="false">
+         <children>
+            <Button fx:id="closePopUp" mnemonicParsing="false" onAction="#closePopUpCards" text="back" />
+            <ImageView fx:id="pile1" fitHeight="254.0" fitWidth="156.0" layoutX="218.0" layoutY="117.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../graphics/cards/GT-cards_I_IT_0121.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="pile2" fitHeight="254.0" fitWidth="156.0" layoutX="469.0" layoutY="117.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../graphics/cards/GT-cards_I_IT_0121.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="pile3" fitHeight="254.0" fitWidth="156.0" layoutX="708.0" layoutY="117.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../graphics/cards/GT-cards_I_IT_0121.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="pile4" fitHeight="254.0" fitWidth="156.0" layoutX="955.0" layoutY="117.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../graphics/cards/GT-cards_I_IT_0121.jpg" />
+               </image>
+            </ImageView>
+            <Pane fx:id="handPane" layoutX="325.0" layoutY="489.0" prefHeight="265.0" prefWidth="671.0">
+               <children>
+                  <ImageView fx:id="card1" fitHeight="254.0" fitWidth="156.0" layoutX="42.0" layoutY="49.0" pickOnBounds="true" preserveRatio="true" rotate="-9.899999999999999">
+                     <image>
+                        <Image url="@../graphics/cards/GT-cards_I_IT_0121.jpg" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="card2" fitHeight="254.0" fitWidth="156.0" layoutX="176.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../graphics/cards/GT-cards_I_IT_0121.jpg" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="card3" fitHeight="254.0" fitWidth="156.0" layoutX="331.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../graphics/cards/GT-cards_I_IT_0121.jpg" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="card4" fitHeight="254.0" fitWidth="156.0" layoutX="467.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true" rotate="9.0">
+                     <image>
+                        <Image url="@../graphics/cards/GT-cards_I_IT_0121.jpg" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Pane>
+         </children>
+      </Pane>
    </children>
 </AnchorPane>

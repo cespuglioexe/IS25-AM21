@@ -40,6 +40,8 @@ public class GUIBuildingController extends GUIViewState {
     private Button arrowForward,arrowBack;
     @FXML
     private Button rotationButton;
+    @FXML
+    private Pane popUpCardsPane;
 
     private static GUIBuildingController instance;
     private int rotation;
@@ -50,7 +52,7 @@ public class GUIBuildingController extends GUIViewState {
     private ImageView imageTile57,imageTile66,imageTile75,imageTile85,imageTile95,imageTile86,imageTile96,imageTile76,imageTile,imageTile67,imageTile68,imageTile78,imageTile88,imageTile98,imageTile99,imageTile89,imageTile79,imageTile77,imageTile87,imageTile56,imageTile58,imageTile65,imageTile74,imageTile84,imageTile94,imageTile910,imageTile810,imageTile710,imageTile69;
 
     public static GUIBuildingController getInstance() {
-        synchronized (GUIUsernameSelection.class) {
+        synchronized (GUIBuildingController.class) {
             if (instance == null) {
                 instance = new GUIBuildingController();
             }
@@ -59,18 +61,10 @@ public class GUIBuildingController extends GUIViewState {
     }
 
     public GUIBuildingController() {
-       try {
+        try {
            FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(GUIBuildingController.class.getResource("/it/polimi/it/galaxytrucker/fxmlstages/buildingPhase.fxml")));
            loader.setController(this);
            root = loader.load();
-
-//           while (GUIView.getInstance().getClient().getModel().getGameLevel() == 0) {
-//               Thread.onSpinWait();
-//           }
-
-           // System.out.println("Setting level to :" + GUIView.getInstance().getClient().getModel().getGameLevel());
-           // shipBgImage.setImage(new Image(Objects.requireNonNull(GUITitleScreen.class.getResourceAsStream("/it/polimi/it/galaxytrucker/graphics/cardboard/shipboard-lvl" + GUIView.getInstance().getClient().getModel().getGameLevel() + ".jpg"))));
-
        } catch (IOException e) {
            e.printStackTrace();
        }
@@ -141,7 +135,6 @@ public class GUIBuildingController extends GUIViewState {
                         .setRotation(rotation)
                         .build()
         );
-        System.out.println("Tile placed");
 
     }
 
@@ -281,10 +274,8 @@ public class GUIBuildingController extends GUIViewState {
     @Override
     public void displayScene() {
         Platform.runLater(() -> {
-            System.out.println(ConsoleColors.CLIENT_DEBUG + "displaying scene building");
-            System.out.println(GUIView.getInstance().getClient().getModel().getGameLevel());
-            shipBgImage.setImage(new Image(Objects.requireNonNull(GUIBuildingController.class.getResourceAsStream("/it/polimi/it/galaxytrucker/graphics/cardboard/shipboard-lvl" + GUIView.getInstance().getClient().getModel().getGameLevel() + ".jpg"))));
 
+            shipBgImage.setImage(new Image(Objects.requireNonNull(GUIBuildingController.class.getResourceAsStream("/it/polimi/it/galaxytrucker/graphics/cardboard/shipboard-lvl" + GUIView.getInstance().getClient().getModel().getGameLevel() + ".jpg"))));
             imageTiles.put("57", imageTile57);
             imageTiles.put("66", imageTile66);
             imageTiles.put("75", imageTile75);
@@ -315,20 +306,27 @@ public class GUIBuildingController extends GUIViewState {
             imageTiles.put("69", imageTile69);
 
             updateShip();
-
+            System.out.println("After UpdateShip");
             stage = (Stage) GUIView.stage.getScene().getWindow();
+            System.out.println("After stage");
             scene = new Scene(root);
+            System.out.println("After newscene");
             stage.setScene(scene);
-
+            System.out.println("Before Show");
             stage.show();
         });
     }
 
+    @FXML
+    public void openPopUpCards(){
+        popUpCardsPane.setVisible(true);
+    }
 
 
-
-
-
+    @FXML
+    public void closePopUpCards(){
+        popUpCardsPane.setVisible(false);
+    }
 
 
     @FXML
