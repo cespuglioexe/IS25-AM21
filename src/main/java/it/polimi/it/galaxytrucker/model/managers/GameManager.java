@@ -173,13 +173,14 @@ public class GameManager extends StateMachine implements Model, Observable {
     }
 
     public void initializeAdventureDeck() {
-        String pathName = "src/main/resources/it/polimi/it/galaxytrucker/json/card.json";
         try {
-            adventureDeck.initializeAdventureCards(loadCards(pathName));
-            adventureDeck.shuffle();
+            List<AdventureCard> cards_lvl1 = loadCards(new String("src/main/resources/it/polimi/it/galaxytrucker/json/cards_lvl1.json"));
+            List<AdventureCard> cards_lvl2 = loadCards(new String("src/main/resources/it/polimi/it/galaxytrucker/json/cards_lvl2.json"));
+
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
     private List<AdventureCard> loadCards(String filePath) throws IOException {
@@ -205,7 +206,6 @@ public class GameManager extends StateMachine implements Model, Observable {
             case "Smugglers" -> createSmugglersCard(cardData);
             case "Slavers" -> createSlaversCard(cardData);
             case "StarDust" -> createStarDustCard(cardData);
-            case "default" -> throw new IllegalArgumentException("Unknown Card");
             default -> null;
         };
     }
@@ -286,7 +286,6 @@ public class GameManager extends StateMachine implements Model, Observable {
 
     private OpenSpace createOpenSpaceCard(Map<String, Object> data) {
         String graphic = (String) data.get("graphic");
-
         return new OpenSpace(new FlightBoardFlightRules(flightBoard),graphic);
     }
 

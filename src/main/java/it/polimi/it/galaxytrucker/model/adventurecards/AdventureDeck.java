@@ -1,20 +1,30 @@
 package it.polimi.it.galaxytrucker.model.adventurecards;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import it.polimi.it.galaxytrucker.model.adventurecards.cards.*;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCard;
+import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.attack.Projectile;
+import it.polimi.it.galaxytrucker.model.managers.FlightBoard;
+import it.polimi.it.galaxytrucker.model.managers.FlightBoardFlightRules;
+import it.polimi.it.galaxytrucker.model.utility.Cargo;
+import it.polimi.it.galaxytrucker.model.utility.Color;
+import it.polimi.it.galaxytrucker.model.utility.Direction;
+import it.polimi.it.galaxytrucker.model.utility.ProjectileType;
 
-import java.util.ArrayList;
-import java.util.EmptyStackException;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Random;
-import java.util.Stack;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class AdventureDeck {
     private List<AdventureCard> cards = new ArrayList<>();
     private Stack<AdventureCard> drawnCards = new Stack<>();
 
-    public void initializeAdventureCards(List<AdventureCard> cards) {
-        this.cards = cards;
+    public void initializeAdventureCards() {
+
+
+
+
     }
 
     public List<AdventureCard> getCards() {
