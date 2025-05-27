@@ -6,7 +6,6 @@ import it.polimi.it.galaxytrucker.view.GUI.GUIView;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -14,7 +13,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -22,10 +20,9 @@ import java.util.Objects;
 
 public class GUIUsernameSelection extends GUIViewState {
 
-    @FXML public TextField namefield;
+    @FXML public TextField nameField;
     @FXML public Button checkUsername;
     @FXML public Label usernameError;
-    @FXML public Label usernameSuccess;
     @FXML public VBox vbox;
     @FXML public ImageView backgroundImage;
     @FXML public ImageView titleImage;
@@ -54,6 +51,7 @@ public class GUIUsernameSelection extends GUIViewState {
             titleImage.setFitHeight(GUIView.screenSize.get(1) * 0.3);
 
 
+
             double screenHeight = GUIView.screenSize.get(1);
             vbox.setPrefHeight(screenHeight * 0.5);
             vbox.setMaxHeight(screenHeight * 0.5);
@@ -70,7 +68,7 @@ public class GUIUsernameSelection extends GUIViewState {
     public void submitUsername(){
         GUIView.getInstance().getClient().receiveUserInput(
                 new UserInput.UserInputBuilder(UserInputType.SET_PLAYER_USERNAME)
-                        .setPlayerName(namefield.getText())
+                        .setPlayerName(nameField.getText())
                         .build());
     }
 
@@ -79,7 +77,7 @@ public class GUIUsernameSelection extends GUIViewState {
     }
 
     public void nameSelectionSuccess() {
-        Platform.runLater(() -> usernameSuccess.setVisible(true));
+        Platform.runLater(() -> usernameError.setVisible(true));
         GUIView.getInstance().gameSelectionScreen();
     }
 
@@ -90,7 +88,7 @@ public class GUIUsernameSelection extends GUIViewState {
             scene = new Scene(root);
             stage.setScene(scene);
 
-            scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/it/polimi/it/galaxytrucker/cssstyles/button.css")).toExternalForm());
+            scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/it/polimi/it/galaxytrucker/cssstyles/style.css")).toExternalForm());
 
             stage.show();
         });
