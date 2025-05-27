@@ -1,0 +1,168 @@
+[
+  {
+    "cardType": "Planets",
+    "numberOfPlanets": 4,
+    "cargoRewardsByPlanet": [
+      ["RED","GREEN","BLUE", "BLUE", "BLUE"],
+      ["RED","YELLOW","BLUE"],
+      ["RED","BLUE", "BLUE", "BLUE"],
+      ["RED","GREEN"]
+    ],
+    "flightDayPenalty": 3,
+    "graphic": "GT-cards_1_0112.jpg"
+  },
+  {
+    "cardType": "Planets",
+    "numberOfPlanets": 2,
+    "cargoRewardsByPlanet": [
+      ["YELLOW","GREEN","BLUE", "BLUE"],
+      ["YELLOW","YELLOW"]
+    ],
+    "flightDayPenalty": 3,
+    "graphic": "GT-cards_1_0114.jpg"
+  },
+  {
+    "cardType": "Planets",
+    "numberOfPlanets": 3,
+    "cargoRewardsByPlanet": [
+      ["RED","RED"],
+      ["RED","BLUE", "BLUE"],
+      ["YELLOW"]
+    ],
+    "flightDayPenalty": 2,
+    "graphic": "GT-cards_1_0113.jpg"
+  },
+  {
+    "cardType": "Planets",
+    "numberOfPlanets": 3,
+    "cargoRewardsByPlanet": [
+      ["GREEN","GREEN"],
+      ["YELLOW"],
+      ["BLUE","BLUE", "BLUE"]
+    ],
+    "flightDayPenalty": 1,
+    "graphic": "GT-cards_1_0115.jpg"
+  },
+  {
+    "cardType": "CombatZone",
+    "crewmatePenalty": 2,
+    "flightDayPenalty": 3,
+    "graphic": "GT-cards_1_0116.jpg"
+  },
+  {
+    "cardType": "MeteorSwarm",
+    "projectiles": [
+      ["ProjectileType.BIG", "Direction.DOWN"],
+      ["ProjectileType.SMALL", "Direction.RIGHT"],
+      ["ProjectileType.SMALL", "Direction.LEFT"]
+    ],
+    "graphic": "GT-cards_1_019.jpg"
+  },
+  {
+    "cardType": "MeteorSwarm",
+    "projectiles": [
+      ["ProjectileType.SMALL", "Direction.DOWN"],
+      ["ProjectileType.SMALL", "Direction.DOWN"],
+      ["ProjectileType.SMALL", "Direction.RIGHT"],
+      ["ProjectileType.SMALL", "Direction.LEFT"],
+      ["ProjectileType.SMALL", "Direction.UP"]
+    ],
+    "graphic": "GT-cards_1_0110.jpg"
+  },
+  {
+    "cardType": "MeteorSwarm",
+    "projectiles": [
+      ["ProjectileType.BIG", "Direction.DOWN"],
+      ["ProjectileType.SMALL", "Direction.DOWN"],
+      ["ProjectileType.BIG", "Direction.DOWN"]
+    ],
+    "graphic": "GT-cards_1_0111.jpg"
+  },
+  {
+    "cardType": "Pirates",
+    "firePowerRequired": 5,
+    "creditReward": 4,
+    "flightDayPenalty": 1,
+    "projectiles": [
+      ["ProjectileType.SMALL", "Direction.DOWN"],
+      ["ProjectileType.BIG", "Direction.DOWN"],
+      ["ProjectileType.SMALL", "Direction.DOWN"]
+    ],
+    "graphic": "GT-cards_1_013.jpg"
+  },
+  {
+    "cardType": "Abandoned Ship",
+    "creditReward": 3,
+    "crewmatePenalty": 2,
+    "flightDayPenalty": 1,
+    "graphic": "GT-cards_1_0117.jpg"
+  },
+  {
+    "cardType": "Abandoned Ship",
+    "creditReward": 4,
+    "crewmatePenalty": 3,
+    "flightDayPenalty": 1,
+    "graphic": "GT-cards_1_0118.jpg"
+  },
+  {
+    "cardType": "Abandoned Station",
+    "crewmateRequired": 5,
+    "cargoReward": [
+      ["YELLOW"],
+      ["GREEN"]
+    ],
+    "flightDayPenalty": 1,
+    "graphic": "GT-cards_1_0119.jpg"
+  },
+  {
+    "cardType": "Abandoned Station",
+    "crewmateRequired": 6,
+    "cargoReward": [
+      ["RED"],
+      ["RED"]
+    ],
+    "flightDayPenalty": 1,
+    "graphic": "GT-cards_1_0120.jpg"
+  },
+  {
+    "cardType": "OpenSpace",
+    "graphic": "GT-cards_1_015.jpg"
+  },
+  {
+    "cardType": "OpenSpace",
+    "graphic": "GT-cards_1_016.jpg"
+  },
+  {
+    "cardType": "OpenSpace",
+    "graphic": "GT-cards_1_017.jpg"
+  },
+  {
+    "cardType": "OpenSpace",
+    "graphic": "GT-cards_1_018.jpg"
+  },
+  {
+    "cardType": "Smugglers",
+    "firePowerRequired": 4,
+    "cargoPenalty": 2,
+    "flightDayPenalty": 1,
+    "cargoReward": [
+      ["GREEN"],
+      ["YELLOW"],
+      ["BLUE"]
+    ],
+    "graphic": "GT-cards_1_012.jpg"
+  },
+  {
+    "cardType": "Slavers",
+    "firePowerRequired": 6,
+    "crewmatePenalty": 3,
+    "creditReward": 5,
+    "flightDayPenalty": 1,
+    "graphic": "GT-cards_1_01.jpg"
+  },
+  {
+    "cardType": "StarDust",
+    "flightDayPenalty": 1,
+    "graphic": "GT-cards_1_014.jpg"
+  }
+]
