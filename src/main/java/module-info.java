@@ -11,6 +11,7 @@ open module it.polimi.it.galaxytrucker {
     requires java.naming;
     requires java.net.http;
     requires java.smartcardio;
+    requires jdk.dynalink;
 
     exports it.polimi.it.galaxytrucker.messages;
     exports it.polimi.it.galaxytrucker.messages.servermessages;

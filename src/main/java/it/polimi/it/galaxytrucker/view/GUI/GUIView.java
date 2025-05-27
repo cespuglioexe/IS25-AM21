@@ -12,6 +12,7 @@ import it.polimi.it.galaxytrucker.view.View;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.stage.Stage;
+import jdk.dynalink.linker.GuardedInvocationTransformer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -106,7 +107,7 @@ public class GUIView extends View {
 
     @Override
     public void displayComponentTile(TileData newTile) {
-
+        GUIBuildingController.getInstance().updateVisibleTile(newTile);
     }
 
     @Override
@@ -133,17 +134,16 @@ public class GUIView extends View {
 
     @Override
     public void shipUpdated(UUID interestedPlayerId) {
-
+        GUIBuildingController.getInstance().updateShip();
     }
 
     @Override
     public void componentTileReceived(TileData newTile) {
-
+        GUIBuildingController.getInstance().updateVisibleTile(newTile);
     }
 
     @Override
     public void savedComponentsUpdated() {
-
     }
 
     @Override
