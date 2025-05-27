@@ -17,6 +17,8 @@ import it.polimi.it.galaxytrucker.model.managers.ShipManager;
 import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class BuildingState extends GameState {
@@ -53,14 +55,28 @@ public class BuildingState extends GameState {
 
         gameManager.initializeAdventureDeck();
 
+        List<List<AdventureCard>> cardStacks = gameManager.getAdventureDeck().getStacks().values().stream().toList();
+        List<List<Integer>> cardStackIndexes = cardStacks.stream()
+                .map(stack -> stack.stream()
+                        .map(card -> {
+                            String path = card.getGraphicPath();
+                            Matcher matcher = Pattern.compile("GT-cards_\\d+_(\\d+)\\.jpg").matcher(path);
+                            if (matcher.matches()) {
+                                return Integer.parseInt(matcher.group(1));
+                            } else {
+                                throw new IllegalArgumentException("Invalid path format: " + path);
+                            }
+                        })
+                        .collect(Collectors.toList()))
+                .toList();
+
         ((GameManager) fsm).updateListeners(
                 new GameUpdate.GameUpdateBuilder(GameUpdateType.NEW_STATE)
                         .setNewSate(this.getClass().getSimpleName())
                         .setGameLevel(((GameManager) fsm).getLevel())
                         .setPlayerIds(gameManager.getPlayers().stream().map(Player::getPlayerID).toList())
                         .setAllPlayerShipBoards(convertedShips)
-                        // TODO: get card pile compositions
-                        //.setCardPileCompositions(cardStacks)
+                        .setCardPileCompositions(cardStackIndexes)
                         .build());
 
     }

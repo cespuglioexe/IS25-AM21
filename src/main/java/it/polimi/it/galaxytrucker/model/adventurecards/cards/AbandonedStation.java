@@ -34,7 +34,10 @@ public class AbandonedStation extends CardStateMachine implements AdventureCard,
         this.graphic = graphic;
     }
 
-
+    @Override
+    public String getGraphicPath() {
+        return graphic;
+    }
 
     public AbandonedStation(List<Cargo> cargoReward, int numberofCrewmatesRequired, int flightDayPenalty, FlightRules flightRules ) {
         this.cargoReward = loadCargoList(cargoReward);

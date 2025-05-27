@@ -45,7 +45,12 @@ public class Pirates extends Attack implements AdventureCard,FlightDayPenalty, C
         playersAndFirePower = new LinkedHashMap<>();
         this.graphic=graphic;
     }
-    
+
+    @Override
+    public String getGraphicPath() {
+        return graphic;
+    }
+
     @Override
     public void play() {
         start(new StartState());

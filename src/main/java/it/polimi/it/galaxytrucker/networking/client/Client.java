@@ -142,9 +142,8 @@ public abstract class Client extends UnicastRemoteObject implements Runnable, Cl
                             for (Map.Entry<UUID, List<List<TileData>>> entry : ships.entrySet()) {
                                 model.updatePlayerShip(entry.getKey(), entry.getValue());
                             }
-                            // model.setCardPiles(update.getCardPileCompositions());
+                            model.setCardPiles(update.getCardPileCompositions());
                         }
-                        // TODO: piles
                         view.buildingStarted();
                         break;
                     default:

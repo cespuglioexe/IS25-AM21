@@ -98,6 +98,11 @@ public class CombatZone extends Attack implements AdventureCard, FlightDayPenalt
         this.graphic=graphic;
     }
 
+    @Override
+    public String getGraphicPath() {
+        return graphic;
+    }
+
     public CombatZone(int crewmatePenalty, int flightDayPenalty, FlightRules flightRules) {
         super(createProjectiles());
         this.flightRules = flightRules;

@@ -37,6 +37,12 @@ public class OpenSpace extends CardStateMachine implements AdventureCard {
         }
     }
 
+
+    @Override
+    public String getGraphicPath() {
+        return graphic;
+    }
+
     @Override
     public void play() { start(new StartState());}
 

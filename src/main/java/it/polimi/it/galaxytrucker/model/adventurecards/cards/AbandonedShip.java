@@ -190,4 +190,9 @@ public class AbandonedShip extends CardStateMachine implements AdventureCard, Pa
                 ", flightDayPenalty=" + flightDayPenalty +
                 '}';
     }
+
+    @Override
+    public String getGraphicPath() {
+        return graphic;
+    }
 }

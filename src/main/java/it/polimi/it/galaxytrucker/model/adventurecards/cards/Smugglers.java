@@ -43,6 +43,11 @@ public class Smugglers extends CardStateMachine implements AdventureCard, CargoR
     }
 
     @Override
+    public String getGraphicPath() {
+        return graphic;
+    }
+
+    @Override
     public void play() { start(new StartState());};
 
     public void selectCannons(HashMap<List<Integer>, List<Integer>> doubleCannonsAndBatteries) {
