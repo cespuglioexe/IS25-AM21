@@ -55,19 +55,10 @@ public class BuildingState extends GameState {
 
         gameManager.initializeAdventureDeck();
 
-        List<List<AdventureCard>> cardStacks = gameManager.getAdventureDeck().getStacks().values().stream().toList();
-        List<List<Integer>> cardStackIndexes = cardStacks.stream()
+        List<List<String>> cardStacks = gameManager.getAdventureDeck().getStacks().values().stream()
                 .map(stack -> stack.stream()
-                        .map(card -> {
-                            String path = card.getGraphicPath();
-                            Matcher matcher = Pattern.compile("GT-cards_\\d+_(\\d+)\\.jpg").matcher(path);
-                            if (matcher.matches()) {
-                                return Integer.parseInt(matcher.group(1));
-                            } else {
-                                throw new IllegalArgumentException("Invalid path format: " + path);
-                            }
-                        })
-                        .collect(Collectors.toList()))
+                        .map(AdventureCard::getGraphicPath)
+                        .toList())
                 .toList();
 
         ((GameManager) fsm).updateListeners(
@@ -76,9 +67,8 @@ public class BuildingState extends GameState {
                         .setGameLevel(((GameManager) fsm).getLevel())
                         .setPlayerIds(gameManager.getPlayers().stream().map(Player::getPlayerID).toList())
                         .setAllPlayerShipBoards(convertedShips)
-                        .setCardPileCompositions(cardStackIndexes)
+                        .setCardPileCompositions(cardStacks)
                         .build());
-
     }
 
     @Override
