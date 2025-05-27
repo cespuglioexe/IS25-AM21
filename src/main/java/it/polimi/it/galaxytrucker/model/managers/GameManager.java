@@ -176,6 +176,7 @@ public class GameManager extends StateMachine implements Model, Observable {
         String pathName = "src/main/resources/it/polimi/it/galaxytrucker/json/card.json";
         try {
             adventureDeck.initializeAdventureCards(loadCards(pathName));
+            adventureDeck.shuffle();
         } catch (IOException e) {
             e.printStackTrace();
         }

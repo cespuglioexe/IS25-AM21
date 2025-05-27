@@ -59,6 +59,8 @@ public class BuildingState extends GameState {
                         // TODO: get card pile compositions
                         //.setCardPileCompositions(cardStacks)
                         .build());
+
+        gameManager.initializeAdventureDeck();
     }
 
     @Override
