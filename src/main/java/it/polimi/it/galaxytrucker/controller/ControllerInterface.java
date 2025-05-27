@@ -13,7 +13,6 @@ public interface ControllerInterface {
     void requestShipBoard (UUID playerId);
     void selectSavedComponentTile(UUID playerId, int index);
     void selectDiscardedComponentTile(UUID playerId, int index);
-    void getCardPile (UUID playerId, int pileIndex);
     UUID getControllerUuid();
 
     void startBuildPhaseTimer();

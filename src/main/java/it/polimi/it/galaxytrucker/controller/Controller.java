@@ -123,11 +123,6 @@ public class Controller implements ControllerInterface {
     }
 
     @Override
-    public synchronized void getCardPile (UUID playerId, int pileIndex) {
-        model.getAdventureDeck().getStack(pileIndex);
-    }
-
-    @Override
     public synchronized UUID getControllerUuid() {
         return uuid;
     }
