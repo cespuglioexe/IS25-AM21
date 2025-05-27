@@ -61,7 +61,7 @@ public class CLIView extends View {
     }
 
     @Override
-    public void displayCards(List<Integer> cards) {
+    public void displayCards(List<String> cards) {
 
     }
 

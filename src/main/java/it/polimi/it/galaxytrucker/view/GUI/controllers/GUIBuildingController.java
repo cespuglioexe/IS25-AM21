@@ -20,10 +20,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class GUIBuildingController extends GUIViewState {
@@ -41,15 +38,15 @@ public class GUIBuildingController extends GUIViewState {
     @FXML
     private Button rotationButton;
     @FXML
-    private Pane popUpCardsPane;
+    private Pane popUpCardsPane,handPane;
     @FXML
-    private ImageView pile0,pile1,pile2,pile3;
+    private ImageView pile0,pile1,pile2,card0,card1,card2;
 
     private static GUIBuildingController instance;
     private int rotation;
     private int savedSelected = -1,discardedSelected = -1;
     private Map<String, ImageView> imageTiles = new HashMap<>();
-
+    private List<String> pileCards = new ArrayList<>();
 
 
     @FXML
@@ -325,23 +322,41 @@ public class GUIBuildingController extends GUIViewState {
     public void openPopUpCards(){
         popUpCardsPane.setVisible(true);
         displayCards();
+
     }
 
     public void displayCards(){
-        ImageView[] images = {pile0, pile1, pile2, pile3 };
+        ImageView[] images = {pile0, pile1, pile2 };
 
         for (int i = 0; i < images.length; i++) {
-            final int index = i;
+            int pileIndex = i;
             images[i].setOnMouseClicked(e -> {
-                System.out.println("Hai cliccato sull'immagine " + index);
-                // Azione con index
+                System.out.println("Hai cliccato sull'immagine " + pileIndex);
+                pileCards=GUIView.getInstance().getClient().getModel().getCardPile(pileIndex);
+                showHandCards(pileCards);
             });
         }
-       // GUIView.getInstance().getClient().getModel().getCardPile();
+    }
+
+    @FXML
+    public void showHandCards(List<String> pileCards){
+        handPane.setVisible(true);
+        if(pileCards.size()==2){
+            card0.setImage(new Image(Objects.requireNonNull(GUIBuildingController.class.getResourceAsStream("/it/polimi/it/galaxytrucker/graphics/cards/"+pileCards.get(0)))));
+            card1.setImage(new Image(Objects.requireNonNull(GUIBuildingController.class.getResourceAsStream("/it/polimi/it/galaxytrucker/graphics/cards/"+pileCards.get(1)))));
+            card2.setVisible(false);
+        }
+        if(pileCards.size()==3){
+            card0.setImage(new Image(Objects.requireNonNull(GUIBuildingController.class.getResourceAsStream("/it/polimi/it/galaxytrucker/graphics/cards/"+pileCards.get(0)))));
+            card1.setImage(new Image(Objects.requireNonNull(GUIBuildingController.class.getResourceAsStream("/it/polimi/it/galaxytrucker/graphics/cards/"+pileCards.get(1)))));
+            card2.setVisible(true);
+            card2.setImage(new Image(Objects.requireNonNull(GUIBuildingController.class.getResourceAsStream("/it/polimi/it/galaxytrucker/graphics/cards/"+pileCards.get(2)))));
+        }
     }
 
     @FXML
     public void closePopUpCards(){
+        handPane.setVisible(false);
         popUpCardsPane.setVisible(false);
     }
 

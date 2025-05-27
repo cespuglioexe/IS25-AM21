@@ -29,7 +29,7 @@ public abstract class View {
 
     public abstract void displayTiles(List<TileData> tiles);
 
-    public abstract void displayCards(List<Integer> cards);
+    public abstract void displayCards(List<String> cards);
 
     public abstract void nameNotAvailable();
 
