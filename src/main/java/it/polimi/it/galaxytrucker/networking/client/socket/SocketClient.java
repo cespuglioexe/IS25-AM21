@@ -12,7 +12,7 @@ import it.polimi.it.galaxytrucker.model.json.Json;
 import it.polimi.it.galaxytrucker.networking.client.Client;
 import it.polimi.it.galaxytrucker.networking.client.ClientInterface;
 import it.polimi.it.galaxytrucker.networking.server.socket.SocketVirtualClient;
-import it.polimi.it.galaxytrucker.utils.ServerDetails;
+import it.polimi.it.galaxytrucker.networking.utils.ServerDetails;
 import it.polimi.it.galaxytrucker.view.CLI.ConsoleColors;
 import it.polimi.it.galaxytrucker.view.View;
 
