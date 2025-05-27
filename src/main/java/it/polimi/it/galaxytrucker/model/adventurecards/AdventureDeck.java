@@ -1,5 +1,4 @@
 package it.polimi.it.galaxytrucker.model.adventurecards;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.it.galaxytrucker.model.adventurecards.cards.*;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCard;
@@ -19,14 +18,18 @@ import java.util.stream.Collectors;
 public class AdventureDeck {
     private List<AdventureCard> cards = new ArrayList<>();
     private Stack<AdventureCard> drawnCards = new Stack<>();
-    private HashMap<Integer,List<AdventureCard>> stacks;
+    private HashMap<Integer,List<AdventureCard>> stacks = new HashMap<>();
+
+    public void initializeAdventureCards(List<AdventureCard> cards) {
+        this.cards = cards;
+    }
 
     public void initializeDeck() {
         cards = stacks.values().stream().flatMap(List::stream).collect(Collectors.toList());
     }
 
-    public void addStack(int stack,List<AdventureCard> cards){
-        stacks.put(stack,cards);
+    public void addStack(int stack,List<AdventureCard> stackCards){
+        stacks.put(stack,stackCards);
     }
 
     public List<AdventureCard> getCards() {
