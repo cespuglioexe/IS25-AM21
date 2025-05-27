@@ -27,7 +27,7 @@ public class ClientModel {
     /**
      * Composition of the card piles visible during the building phase
      */
-    private final List<List<Integer>> cardPiles = new ArrayList<>();
+    private final List<List<String>> cardPiles = new ArrayList<>();
     /**
      * Saved tiles, visible only to this player
      */
@@ -92,11 +92,11 @@ public class ClientModel {
         this.credits += credits;
     }
 
-    public List<Integer> getCardPile(int index) {
+    public List<String> getCardPile(int index) {
         return cardPiles.get(index);
     }
 
-    public void setCardPiles(List<List<Integer>> cardPiles) {
+    public void setCardPiles(List<List<String>> cardPiles) {
         this.cardPiles.clear();
         this.cardPiles.addAll(cardPiles);
     }

@@ -19,7 +19,7 @@ public class GameUpdate implements Serializable {
     private final String newSate;
 
     private final List<UUID> playerIds;
-    private final List<List<Integer>> cardPileCompositions;
+    private final List<List<String>> cardPileCompositions;
 
     private final TileData newTile;
     private final List<TileData> tileList;
@@ -43,7 +43,7 @@ public class GameUpdate implements Serializable {
             @JsonProperty("interestedPlayerId") UUID interestedPlayerId,
             @JsonProperty("newSate") String newSate,
             @JsonProperty("playerIds") List<UUID> playerIds,
-            @JsonProperty("cardPileCompositions") List<List<Integer>> cardPileCompositions,
+            @JsonProperty("cardPileCompositions") List<List<String>> cardPileCompositions,
             @JsonProperty("newTile") TileData newTile,
             @JsonProperty("tileList") List<TileData> tileList,
             @JsonProperty("shipBoard") List<List<TileData>> shipBoard,
@@ -120,7 +120,7 @@ public class GameUpdate implements Serializable {
         return playerIds;
     }
 
-    public List<List<Integer>> getCardPileCompositions() {
+    public List<List<String>> getCardPileCompositions() {
         return cardPileCompositions;
     }
 
@@ -165,7 +165,7 @@ public class GameUpdate implements Serializable {
         private List<List<TileData>> shipBoard;
         private List<TileData> tileList;
         private List<UUID> playerIds;
-        private List<List<Integer>> cardPileCompositions;
+        private List<List<String>> cardPileCompositions;
         private HashMap<UUID, List<List<TileData>>> allPlayerShipBoard;
 
         private String playerName;
@@ -237,7 +237,7 @@ public class GameUpdate implements Serializable {
             return this;
         }
 
-        public GameUpdateBuilder setCardPileCompositions(List<List<Integer>> cardPileCompositions) {
+        public GameUpdateBuilder setCardPileCompositions(List<List<String>> cardPileCompositions) {
             this.cardPileCompositions = cardPileCompositions;
             return this;
         }
