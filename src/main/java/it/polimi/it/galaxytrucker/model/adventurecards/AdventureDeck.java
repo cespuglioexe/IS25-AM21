@@ -19,12 +19,14 @@ import java.util.stream.Collectors;
 public class AdventureDeck {
     private List<AdventureCard> cards = new ArrayList<>();
     private Stack<AdventureCard> drawnCards = new Stack<>();
+    private HashMap<Integer,List<AdventureCard>> stacks;
 
-    public void initializeAdventureCards() {
+    public void initializeDeck() {
+        cards = stacks.values().stream().flatMap(List::stream).collect(Collectors.toList());
+    }
 
-
-
-
+    public void addStack(int stack,List<AdventureCard> cards){
+        stacks.put(stack,cards);
     }
 
     public List<AdventureCard> getCards() {
@@ -66,20 +68,8 @@ public class AdventureDeck {
         return drawnCards.peek();
     }
 
-    // TODO: fare che questa funzione generi gli stack, invece che ritornarne uno
-    public List<AdventureCard> getStack(int stack){
-
-        int unit =  cards.size()/4;
-        stack--;
-        List<AdventureCard> newStack = new ArrayList<AdventureCard>();
-
-        //Stack 0 1 2
-        //Unit = 2 && 6
-        //0-5 6-11 12-17 18-23
-        if(stack== 0 || stack ==1 || stack == 2) {
-            newStack = cards.subList(stack*unit, ((stack * unit) + unit));
-        }
-        return newStack;
+    public HashMap<Integer,List<AdventureCard>> getStacks(){
+        return stacks;
     }
 
 
