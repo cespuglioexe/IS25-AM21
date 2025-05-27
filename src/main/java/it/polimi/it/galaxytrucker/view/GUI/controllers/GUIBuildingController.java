@@ -101,7 +101,7 @@ public class GUIBuildingController extends GUIViewState {
             tileImageView.setRotate(rotation*90);
         });
     }
-    
+
 
     @FXML
     public void placeTile(){
