@@ -8,7 +8,7 @@ import it.polimi.it.galaxytrucker.messages.servermessages.GameUpdate;
 import it.polimi.it.galaxytrucker.networking.client.Client;
 import it.polimi.it.galaxytrucker.networking.client.ClientInterface;
 import it.polimi.it.galaxytrucker.networking.server.rmi.RMIVirtualClient;
-import it.polimi.it.galaxytrucker.utils.ServerDetails;
+import it.polimi.it.galaxytrucker.networking.utils.ServerDetails;
 import it.polimi.it.galaxytrucker.view.View;
 import it.polimi.it.galaxytrucker.view.CLI.ConsoleColors;
 
@@ -18,6 +18,9 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Represents the RMI client.
@@ -39,6 +42,9 @@ public class RMIClient extends Client implements RMIVirtualClient {
      */
     private RMIVirtualServer server;
 
+    String serverIp;
+    String serverName;
+
     /**
      * Constructs a new RMIClient.
      * Initializes the client model and associates it with the provided view.
@@ -57,14 +63,16 @@ public class RMIClient extends Client implements RMIVirtualClient {
 
         do {
             System.out.print("Insert server IP address (leave empty for 'localhost')\n> ");
-            String serverIp = scanner.nextLine();
+            String inputIp = scanner.nextLine();
+            serverIp = inputIp.isEmpty() ? ServerDetails.DEFAULT_IP : inputIp;
 
             System.out.print("Insert server name (leave empty for default 'server')\n> ");
-            String serverName = scanner.nextLine();
+            String inputName = scanner.nextLine();
+            serverName = inputName.isEmpty() ? ServerDetails.DEFAULT_RMI_NAME : inputName;
 
             try {
-                Registry registry = LocateRegistry.getRegistry(serverIp.isEmpty() ? ServerDetails.DEFAULT_IP : serverIp, ServerDetails.RMI_DEFAULT_PORT);
-                RMIServer connectionServer = ((RMIServer) registry.lookup(serverName.isEmpty() ? ServerDetails.DEFAULT_RMI_NAME : serverName));
+                Registry registry = LocateRegistry.getRegistry(serverIp, ServerDetails.RMI_DEFAULT_PORT);
+                RMIServer connectionServer = ((RMIServer) registry.lookup(serverName));
                 connectionServer.connect(this);
                 connected = true;
             } catch (Exception e) {
@@ -115,7 +123,7 @@ public class RMIClient extends Client implements RMIVirtualClient {
     @Override
     public void reportErrorToClient(GameError error) throws RemoteException {
         // TODO: implement client error reporting logic
-        System.err.println(ConsoleColors.RED + "Error from server: " + error.toString() + ConsoleColors.RESET); // Basic error logging
+        System.err.println(ConsoleColors.RED + "Error from server: " + error.toString() + ConsoleColors.RESET);
     }
 
     /**
@@ -135,11 +143,27 @@ public class RMIClient extends Client implements RMIVirtualClient {
                 if (server != null) {
                     server.receiveUserInput(input);
                 } else {
-                    System.err.println(ConsoleColors.RED + "RMIClient: Cannot send user input, server handler is not set." + ConsoleColors.RESET);
+                    System.err.println(ConsoleColors.RED + "Cannot send message, server handler is not set." + ConsoleColors.RESET);
                 }
             } catch (RemoteException e) {
-                System.err.println(ConsoleColors.RED + "RMIClient: Failed to send user input to server: " + e.getMessage() + ConsoleColors.RESET);
-                throw new RuntimeException(e);
+                System.err.println(ConsoleColors.RED + "Failed to send message to server" + ConsoleColors.RESET);
+                connectedToServer = false;
+
+
+
+                ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
+                scheduler.scheduleAtFixedRate(() -> {
+                    try {
+                        Registry registry = LocateRegistry.getRegistry(serverIp, ServerDetails.RMI_DEFAULT_PORT);
+                        RMIServer connectionServer = ((RMIServer) registry.lookup(serverName));
+                        connectionServer.connect(this);
+                        connectedToServer = true;
+                    } catch (Exception e1) {
+                        System.out.println(ConsoleColors.RED + "Reconnection to server failed... Trying again." + ConsoleColors.RESET);
+                    }
+                    return;
+                }, 0, 3, TimeUnit.SECONDS);
+
             }
         });
     }
