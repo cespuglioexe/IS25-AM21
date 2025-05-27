@@ -1,5 +1,6 @@
 package it.polimi.it.galaxytrucker.managers;
 
+import it.polimi.it.galaxytrucker.model.utility.Color;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -21,22 +22,22 @@ public class ShipBoardTest {
 
     @Test
     void correctShipBoardSizeTest() {
-        ShipBoard ship = new ShipBoard();
+        ShipBoard ship = new ShipBoard(Color.BLUE);
 
-        assertEquals(ship.getBoard().size(), 5);
-        assertEquals(ship.getBoard().get(0).size(), 7);
+        assertEquals(5, ship.getBoard().size());
+        assertEquals(7, ship.getBoard().get(0).size());
     }
     
     @Test
     void correctShipBoardTest() {
-        ShipBoard ship = new ShipBoard();
+        ShipBoard ship = new ShipBoard(Color.BLUE);
 
         ship.printBoard();
     }
 
     @Test
     void correctLevel1Ship() {
-        ShipBoard ship = new ShipBoard();
+        ShipBoard ship = new ShipBoard(Color.BLUE);
 
         ship.setShipBounds(1);
         ship.printBoard();
@@ -44,7 +45,7 @@ public class ShipBoardTest {
 
     @Test
     void correctLevel2Ship() {
-        ShipBoard ship = new ShipBoard();
+        ShipBoard ship = new ShipBoard(Color.BLUE);
 
         ship.setShipBounds(2);
         ship.printBoard();
@@ -52,7 +53,7 @@ public class ShipBoardTest {
 
     @Test
     void getAllComponentsPositionOfTypeTest() throws IllegalComponentPositionException {
-        ShipBoard ship = new ShipBoard();
+        ShipBoard ship = new ShipBoard(Color.BLUE);
         ComponentTile cannon1 = new SingleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
         ComponentTile cannon2 = new SingleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
         ComponentTile engine = new SingleEngine(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
@@ -75,7 +76,7 @@ public class ShipBoardTest {
 
     @Test
     void addComponentTest() throws IllegalComponentPositionException {
-        ShipBoard ship = new ShipBoard();
+        ShipBoard ship = new ShipBoard(Color.BLUE);
         ComponentTile cannon = new SingleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
         List<Integer> position = List.of(0,2);
 
@@ -89,7 +90,7 @@ public class ShipBoardTest {
 
     @Test
     void illegalAddToAlreadyTakenPositionTest() throws IllegalComponentPositionException {
-        ShipBoard ship = new ShipBoard();
+        ShipBoard ship = new ShipBoard(Color.BLUE);
         ComponentTile cannon = new SingleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
         List<Integer> position = List.of(0,2);
 
@@ -100,7 +101,7 @@ public class ShipBoardTest {
 
     @Test
     void illegalAddOutsideShipPositionTest() {
-        ShipBoard ship = new ShipBoard();
+        ShipBoard ship = new ShipBoard(Color.BLUE);
         ComponentTile cannon = new SingleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
 
         ship.setShipBounds(1);
@@ -110,7 +111,7 @@ public class ShipBoardTest {
 
     @Test
     void removeComponentTileTest() throws IllegalComponentPositionException {
-        ShipBoard ship = new ShipBoard();
+        ShipBoard ship = new ShipBoard(Color.BLUE);
         ComponentTile cannon = new SingleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
         List<Integer> position = List.of(0,2);
 
@@ -122,12 +123,12 @@ public class ShipBoardTest {
         ship.printBoard();
 
         assertTrue(ship.getComponent(position.get(0), position.get(1)).isEmpty());
-        assertTrue(!ship.getAllComponentsPositionOfType(cannon.getClass()).contains(position));
+        assertFalse(ship.getAllComponentsPositionOfType(cannon.getClass()).contains(position));
     }
 
     @Test
     void illegalRemoveEmptyPositionTest() {
-        ShipBoard ship = new ShipBoard();
+        ShipBoard ship = new ShipBoard(Color.BLUE);
         List<Integer> position = List.of(0,2);
 
         assertThrows(IllegalComponentPositionException.class, () -> ship.removeComponentTile(position.get(0), position.get(1)));
@@ -135,7 +136,7 @@ public class ShipBoardTest {
 
     @Test
     void illegalRemoveOutsideShipPositionTest() {
-        ShipBoard ship = new ShipBoard();
+        ShipBoard ship = new ShipBoard(Color.BLUE);
         ship.setShipBounds(1);
 
         assertThrows(IllegalComponentPositionException.class, () -> ship.removeComponentTile(0, 0));
@@ -143,7 +144,7 @@ public class ShipBoardTest {
 
     @Test
     void getAllNeighbourComponentsTest() throws IllegalComponentPositionException {
-        ShipBoard ship = new ShipBoard();
+        ShipBoard ship = new ShipBoard(Color.BLUE);
         ComponentTile cannon = new SingleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
         List<Integer> position = List.of(2,2);
 
@@ -165,18 +166,18 @@ public class ShipBoardTest {
 
     @Test
     void getNeighbourComponentsWithBlanksTest() throws IllegalComponentPositionException {
-        ShipBoard ship = new ShipBoard();
+        ShipBoard ship = new ShipBoard(Color.BLUE);
         ComponentTile cannon = new SingleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
         List<Integer> position = List.of(2,2);
 
-        //component
+        // Component
         ship.addComponentTile(position.get(0), position.get(1), cannon);
-        //up component
+        // Up component
         ship.addComponentTile(position.get(0) - 1, position.get(1), cannon);
-        //right component is empty
+        // Right component is empty
         //down component
         ship.addComponentTile(position.get(0) + 1, position.get(1), cannon);
-        //left component
+        // Left component
         ship.addComponentTile(position.get(0), position.get(1) - 1, cannon);
 
         List<Optional<ComponentTile>> result = ship.getNeighbourComponents(position.get(0), position.get(1));
@@ -186,7 +187,7 @@ public class ShipBoardTest {
 
     @Test
     void getNeighbourComponentsAtMarginTest() throws IllegalComponentPositionException {
-        ShipBoard ship = new ShipBoard();
+        ShipBoard ship = new ShipBoard(Color.BLUE);
         ComponentTile cannon = new SingleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
         List<Integer> position = List.of(1,2);
 
@@ -203,14 +204,14 @@ public class ShipBoardTest {
 
         List<Optional<ComponentTile>> result = ship.getNeighbourComponents(position.get(0), position.get(1));
 
-        for (int i = 0; i < result.size(); i++) {
-            assertEquals(result.get(i).get().getClass(), result.get(i).get().getClass());
+        for (Optional<ComponentTile> componentTile : result) {
+            assertEquals(componentTile.get().getClass(), componentTile.get().getClass());
         }
     }
 
     @Test
     void getNeighbourComponentsWithAllBlanksTest() throws IllegalComponentPositionException {
-        ShipBoard ship = new ShipBoard();
+        ShipBoard ship = new ShipBoard(Color.BLUE);
         ComponentTile cannon = new SingleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
         List<Integer> position = List.of(2,2);
 
@@ -228,7 +229,7 @@ public class ShipBoardTest {
 
     @Test
     void countExposedConnectorsEdgesExposedTest() throws IllegalComponentPositionException {
-        ShipBoard ship = new ShipBoard();
+        ShipBoard ship = new ShipBoard(Color.BLUE);
         ComponentTile cannon = new SingleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
 
         /*
@@ -279,7 +280,7 @@ public class ShipBoardTest {
 
     @Test
     void countExposedConnectorsLevel1ShipTest() throws IllegalComponentPositionException {
-        ShipBoard ship = new ShipBoard();
+        ShipBoard ship = new ShipBoard(Color.BLUE);
         ComponentTile cannon = new SingleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
 
         /*
@@ -342,7 +343,7 @@ public class ShipBoardTest {
 
     @Test
     void getBranchOfComponentTest() throws IllegalComponentPositionException {
-        ShipBoard ship = new ShipBoard();
+        ShipBoard ship = new ShipBoard(Color.BLUE);
         ComponentTile cannon = new SingleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
 
         /*
@@ -400,7 +401,7 @@ public class ShipBoardTest {
 
     @Test
     void getDisconnectedBranchesTest() throws IllegalComponentPositionException {
-        ShipBoard ship = new ShipBoard();
+        ShipBoard ship = new ShipBoard(Color.BLUE);
         ComponentTile cannon = new SingleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
 
         /*
@@ -476,7 +477,7 @@ public class ShipBoardTest {
 
     @Test
     void removeBranchTest() throws IllegalComponentPositionException {
-        ShipBoard ship = new ShipBoard();
+        ShipBoard ship = new ShipBoard(Color.BLUE);
         ComponentTile cannon = new SingleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
 
         /*
@@ -540,7 +541,7 @@ public class ShipBoardTest {
 
     @Test
     void removeBranchWithEmptySlotsTest() throws IllegalComponentPositionException {
-        ShipBoard ship = new ShipBoard();
+        ShipBoard ship = new ShipBoard(Color.BLUE);
         ComponentTile cannon = new SingleCannon(List.of(TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE, TileEdge.SINGLE), null);
 
         /*

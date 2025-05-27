@@ -120,27 +120,28 @@ public class FlightBoard {
         int newPosition = position;
         int laps = 0;
 
-        // If the next space is occupied, the player skips to the one after that.
-        // When this happens, the player is effectively moving 2 spaces forward.
+        // Empty the space where the player was, this is to avoid situations
+        // in which the player might end up back in the same spot.
         if (progress != 0) {
             board[position] = null;
         }
+
+        // If the next space is occupied, the player skips to the one after that.
+        // When this happens, the player is effectively moving 2 spaces forward.
         for (int i = 0; i < progress; i++) {
             do {
                 newPosition++;
-                if (newPosition >= board.length) {
-                    laps++;
-                }
             } while (board[(newPosition) % board.length] != null);
-            
-            // If newPosition is past the end of the array, reset it to the beginning
+
+            // If newPosition is past the end of the array, wrap it to the beginning
+            // and increase the number of laps completed
             if (newPosition >= board.length) {
+                laps++;
                 newPosition -= board.length;
             }
         }
 
-        // Update the content of the starting and ending cells
-        board[position] = null;
+        // Update the content of the ending cell
         board[newPosition] = player;
 
         // Update the hashmaps
@@ -276,22 +277,6 @@ public class FlightBoard {
     public void removePlayerMarker(Player player) {
         int position = playerPosition.get(player);
         board[position] = null;
-    }
-
-    public void addPlayerMarker(Player player, int position) {
-        if (board[position] == null) {
-            board[position] = player;
-        } else {
-            while (board[position] != null) {
-                position--;
-
-                if (position < 0) {
-                    position = board.length - 1;
-                    completedLaps.put(player, completedLaps.get(player) - 1);
-                }
-            }
-
-            board[position] = player;
-        }
+        playerPosition.remove(player);
     }
 }

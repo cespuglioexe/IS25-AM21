@@ -3,16 +3,14 @@ package it.polimi.it.galaxytrucker.networking.server;
 import it.polimi.it.galaxytrucker.controller.Controller;
 import it.polimi.it.galaxytrucker.controller.GenericGameData;
 import it.polimi.it.galaxytrucker.exceptions.GameFullException;
-import it.polimi.it.galaxytrucker.networking.CommunicationType;
 import it.polimi.it.galaxytrucker.networking.client.rmi.RMIServer;
 import it.polimi.it.galaxytrucker.networking.server.rmi.RMIClientHandler;
 import it.polimi.it.galaxytrucker.networking.server.rmi.RMIVirtualClient;
 import it.polimi.it.galaxytrucker.networking.server.socket.SocketClientHandler;
-import it.polimi.it.galaxytrucker.utils.ServerDetails;
+import it.polimi.it.galaxytrucker.networking.utils.ServerDetails;
 import it.polimi.it.galaxytrucker.view.CLI.ConsoleColors;
 
 import java.io.*;
-import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -74,7 +72,7 @@ public class Server extends UnicastRemoteObject implements RMIServer, Runnable, 
      */
     public void run () {
 
-        System.out.println("Insert IP address to use (leave empty for 'localhost'): ");
+        System.out.print("Insert IP address to use (leave empty for 'localhost')\n> ");
         Scanner scanner = new Scanner(System.in);
         String ip = scanner.nextLine();
 

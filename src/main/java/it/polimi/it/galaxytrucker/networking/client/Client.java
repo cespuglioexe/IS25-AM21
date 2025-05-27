@@ -5,6 +5,7 @@ import it.polimi.it.galaxytrucker.messages.servermessages.GameUpdate;
 import it.polimi.it.galaxytrucker.exceptions.InvalidFunctionCallInState;
 import it.polimi.it.galaxytrucker.model.componenttiles.TileData;
 import it.polimi.it.galaxytrucker.networking.client.clientmodel.ClientModel;
+import it.polimi.it.galaxytrucker.networking.utils.ServerDetails;
 import it.polimi.it.galaxytrucker.view.CLI.ConsoleColors;
 import it.polimi.it.galaxytrucker.view.View;
 
@@ -39,11 +40,8 @@ public abstract class Client extends UnicastRemoteObject implements Runnable, Cl
      * A flag indicating whether the building phase timer is currently active.
      */
     protected boolean buildingTimerIsActive;
-    /**
-     * The frequency, in seconds, at which the client should send a heartbeat
-     * message to the server for keeping the connection alive.
-     */
-    private final int HEARTBEAT_FREQUENCY = 5;
+
+    protected boolean connectedToServer;
 
     protected Client(View view) throws RemoteException {
         super();
@@ -56,9 +54,11 @@ public abstract class Client extends UnicastRemoteObject implements Runnable, Cl
     public void run() {
         initiateServerConnection();
 
+        connectedToServer = true;
+
         // Begin heartbeat for maintaining active connection
         ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
-        scheduler.scheduleAtFixedRate(() -> commandSenderExecutor.submit(this::sendHeartbeat), 0, HEARTBEAT_FREQUENCY, TimeUnit.SECONDS);
+        scheduler.scheduleAtFixedRate(() -> commandSenderExecutor.submit(this::sendHeartbeat), 0, ServerDetails.HEARTBEAT_FREQUENCY, TimeUnit.SECONDS);
 
         view.begin();
     }
@@ -105,7 +105,6 @@ public abstract class Client extends UnicastRemoteObject implements Runnable, Cl
                 if (update.isSuccessfulOperation()) {
                     synchronized (ClientModel.class) {
                         model.getMyData().setMatchId(update.getGameUuid());
-                        System.out.println(ConsoleColors.CLIENT_DEBUG + "Joined game of level " + update.getGameLevel());
                         model.setGameLevel(update.getGameLevel());
                     }
                     try {
@@ -123,7 +122,6 @@ public abstract class Client extends UnicastRemoteObject implements Runnable, Cl
                 if (update.isSuccessfulOperation()) {
                     synchronized (ClientModel.class) {
                         model.getMyData().setMatchId(update.getGameUuid());
-                        System.out.println(ConsoleColors.CLIENT_DEBUG + "Joined game of level " + update.getGameLevel());
                         model.setGameLevel(update.getGameLevel());
                     }
                 } else if (update.getOperationMessage().equals("The game was full")) {

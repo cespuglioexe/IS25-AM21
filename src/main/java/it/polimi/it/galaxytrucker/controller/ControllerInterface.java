@@ -17,4 +17,6 @@ public interface ControllerInterface {
     UUID getControllerUuid();
 
     void startBuildPhaseTimer();
+
+    void disconnectPlayer(UUID clientUuid);
 }

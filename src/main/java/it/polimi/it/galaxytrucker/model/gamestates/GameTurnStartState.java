@@ -16,6 +16,8 @@ public class GameTurnStartState extends GameState {
             fsm.changeState(new CardExecutionState(card));
         }
         catch (NoSuchElementException e) {
+            System.out.println(game.getActivePlayers().stream().map(p -> p.getPlayerName()).toList());
+            System.out.println(game.getFlightBoard().getPlayerOrder().stream().map(p -> p.getPlayerName()).toList());
             fsm.changeState(new GameEndState());
         }
 

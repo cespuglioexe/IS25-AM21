@@ -10,14 +10,16 @@ import it.polimi.it.galaxytrucker.controller.GenericGameData;
 import it.polimi.it.galaxytrucker.exceptions.GameFullException;
 import it.polimi.it.galaxytrucker.listeners.Listener;
 import it.polimi.it.galaxytrucker.networking.client.rmi.RMIVirtualServer;
+import it.polimi.it.galaxytrucker.networking.utils.ServerDetails;
 import it.polimi.it.galaxytrucker.view.CLI.ConsoleColors;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.*;
 
 /**
  * Handles communication and interactions for a single connected client on the server side.
@@ -39,6 +41,17 @@ public abstract class ClientHandler extends UnicastRemoteObject implements Liste
      */
     private UUID clientUuid;
     /**
+     * Flag to indicate whether the client is actively connected or not.
+     * An active connection is determined by the client sending
+     * periodic {@link HeartBeatMessage}s.
+     */
+    private boolean clientConnected;
+    /**
+     * The timestamp at which the last {@link HeartBeatMessage} was received
+     * from the client.
+     */
+    private Instant lastHeartbeatTime;
+    /**
      * Reference to the controller for the match the client is part of.
      */
     private ControllerInterface controller;
@@ -50,11 +63,6 @@ public abstract class ClientHandler extends UnicastRemoteObject implements Liste
      * Queue where messages from the model are stored before being sent to the client.
      */
     protected final BlockingQueue<GameUpdate> updatesForClientQueue = new LinkedBlockingQueue<>();
-    /**
-     * Time, in seconds, without heartbeat messages after which the client
-     * is considered to have disconnected.
-     */
-    private final int CONNECTION_TIMEOUT = 15;
 
     /**
      * Constructs a new ClientHandler for an RMI client connection.
@@ -65,6 +73,20 @@ public abstract class ClientHandler extends UnicastRemoteObject implements Liste
     protected ClientHandler(ServerInterface server) throws RemoteException {
         super();
         this.server = server;
+
+        // Start the thread that checks client activity. If this thread finds the client hasn't
+        // sent a heartbeat message in some time, it marks the client as disconnected.
+        ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
+        scheduler.scheduleAtFixedRate(() -> {
+            if (lastHeartbeatTime == null) return;
+
+            long elapsed = Duration.between(lastHeartbeatTime, Instant.now()).toSeconds();
+            if (elapsed > ServerDetails.CONNECTION_TIMEOUT) {
+                clientConnected = false;
+                System.out.println(ConsoleColors.CLIENT_HANDLER_DEBUG.tag(clientName) + "Haven't heard from client in " + elapsed + " seconds. Marking as disconnected." + ConsoleColors.RESET);
+                controller.disconnectPlayer(clientUuid);
+            }
+        }, 0, ServerDetails.HEARTBEAT_FREQUENCY, TimeUnit.SECONDS);
     }
 
     /**
@@ -125,7 +147,8 @@ public abstract class ClientHandler extends UnicastRemoteObject implements Liste
 
     public void processUserInput(Message message) throws RemoteException {
         if (message instanceof HeartBeatMessage) {
-            System.out.println("Received HeartBeatMessage");
+            lastHeartbeatTime = Instant.now();
+
         } else if (message instanceof UserInput userInput) {
             System.out.println(ConsoleColors.CLIENT_HANDLER_DEBUG.tag(clientName) + "processing input of type " + userInput.getType() + ConsoleColors.RESET);
             switch (userInput.getType()) {

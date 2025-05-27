@@ -72,7 +72,7 @@ class ShipFixingStateTest {
         gameManager.deleteComponentTile(playerId3, 8, 7);
         gameManager.deleteComponentTile(playerId3, 8, 8);
         gameManager.finishBuilding(playerId3);
-        assertEquals(GameTurnStartState.class, gameManager.getCurrentState().getClass());
+        assertEquals(GameEndState.class, gameManager.getCurrentState().getClass());
 
         assertTrue(() -> gameManager.getFlightBoard().getPlayerOrder().size() == 3);
         assertTrue(() -> gameManager.getFlightBoard().getPlayerOrder().get(0).equals(gameManager.getPlayerByID(playerId1)));
@@ -126,7 +126,7 @@ class ShipFixingStateTest {
         gameManager.deleteComponentTile(playerId3, 5, 8);
         gameManager.deleteComponentTile(playerId3, 6, 5);
         gameManager.finishBuilding(playerId3);
-        assertEquals(GameTurnStartState.class, gameManager.getCurrentState().getClass());
+        assertEquals(GameEndState.class, gameManager.getCurrentState().getClass());
 
         assertTrue(() -> gameManager.getFlightBoard().getPlayerOrder().size() == 3);
         assertTrue(() -> gameManager.getFlightBoard().getPlayerOrder().get(0).equals(gameManager.getPlayerByID(playerId1)));
