@@ -73,49 +73,49 @@
       <Button fx:id="arrowBack" layoutX="132.0" layoutY="319.0" mnemonicParsing="false" text="&lt;" visible="false" />
       <Button fx:id="arrowForward" layoutX="373.0" layoutY="319.0" mnemonicParsing="false" text="&gt;" visible="false" />
       <Button fx:id="rotationButton" layoutX="407.0" layoutY="515.0" mnemonicParsing="false" text="Rotate" />
-      <Pane fx:id="popUpCardsPane" prefHeight="803.0" prefWidth="1332.0" visible="false">
+      <Pane fx:id="popUpCardsPane" prefHeight="803.0" prefWidth="1332.0" style="-fx-background-color: white;" visible="false">
          <children>
             <Button fx:id="closePopUp" mnemonicParsing="false" onAction="#closePopUpCards" text="back" />
             <ImageView fx:id="pile1" fitHeight="254.0" fitWidth="156.0" layoutX="218.0" layoutY="117.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../graphics/cards/GT-cards_I_IT_0121.jpg" />
+                  <Image url="@../graphics/cards/GT-cards_1_0121.jpg" />
                </image>
             </ImageView>
             <ImageView fx:id="pile2" fitHeight="254.0" fitWidth="156.0" layoutX="469.0" layoutY="117.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../graphics/cards/GT-cards_I_IT_0121.jpg" />
+                  <Image url="@../graphics/cards/GT-cards_1_0121.jpg" />
                </image>
             </ImageView>
             <ImageView fx:id="pile3" fitHeight="254.0" fitWidth="156.0" layoutX="708.0" layoutY="117.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../graphics/cards/GT-cards_I_IT_0121.jpg" />
+                  <Image url="@../graphics/cards/GT-cards_1_0121.jpg" />
                </image>
             </ImageView>
             <ImageView fx:id="pile4" fitHeight="254.0" fitWidth="156.0" layoutX="955.0" layoutY="117.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../graphics/cards/GT-cards_I_IT_0121.jpg" />
+                  <Image url="@../graphics/cards/GT-cards_1_0121.jpg" />
                </image>
             </ImageView>
             <Pane fx:id="handPane" layoutX="325.0" layoutY="489.0" prefHeight="265.0" prefWidth="671.0">
                <children>
                   <ImageView fx:id="card1" fitHeight="254.0" fitWidth="156.0" layoutX="42.0" layoutY="49.0" pickOnBounds="true" preserveRatio="true" rotate="-9.899999999999999">
                      <image>
-                        <Image url="@../graphics/cards/GT-cards_I_IT_0121.jpg" />
+                        <Image url="@../graphics/cards/GT-cards_1_0121.jpg" />
                      </image>
                   </ImageView>
                   <ImageView fx:id="card2" fitHeight="254.0" fitWidth="156.0" layoutX="176.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../graphics/cards/GT-cards_I_IT_0121.jpg" />
+                        <Image url="@../graphics/cards/GT-cards_1_0121.jpg" />
                      </image>
                   </ImageView>
                   <ImageView fx:id="card3" fitHeight="254.0" fitWidth="156.0" layoutX="331.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../graphics/cards/GT-cards_I_IT_0121.jpg" />
+                        <Image url="@../graphics/cards/GT-cards_1_0121.jpg" />
                      </image>
                   </ImageView>
                   <ImageView fx:id="card4" fitHeight="254.0" fitWidth="156.0" layoutX="467.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true" rotate="9.0">
                      <image>
-                        <Image url="@../graphics/cards/GT-cards_I_IT_0121.jpg" />
+                        <Image url="@../graphics/cards/GT-cards_1_0121.jpg" />
                      </image>
                   </ImageView>
                </children>
