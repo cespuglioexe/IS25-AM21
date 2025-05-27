@@ -42,11 +42,15 @@ public class GUIBuildingController extends GUIViewState {
     private Button rotationButton;
     @FXML
     private Pane popUpCardsPane;
+    @FXML
+    private ImageView pile0,pile1,pile2,pile3;
 
     private static GUIBuildingController instance;
     private int rotation;
     private int savedSelected = -1,discardedSelected = -1;
     private Map<String, ImageView> imageTiles = new HashMap<>();
+
+
 
     @FXML
     private ImageView imageTile57,imageTile66,imageTile75,imageTile85,imageTile95,imageTile86,imageTile96,imageTile76,imageTile,imageTile67,imageTile68,imageTile78,imageTile88,imageTile98,imageTile99,imageTile89,imageTile79,imageTile77,imageTile87,imageTile56,imageTile58,imageTile65,imageTile74,imageTile84,imageTile94,imageTile910,imageTile810,imageTile710,imageTile69;
@@ -320,8 +324,21 @@ public class GUIBuildingController extends GUIViewState {
     @FXML
     public void openPopUpCards(){
         popUpCardsPane.setVisible(true);
+        displayCards();
     }
 
+    public void displayCards(){
+        ImageView[] images = {pile0, pile1, pile2, pile3 };
+
+        for (int i = 0; i < images.length; i++) {
+            final int index = i;
+            images[i].setOnMouseClicked(e -> {
+                System.out.println("Hai cliccato sull'immagine " + index);
+                // Azione con index
+            });
+        }
+       // GUIView.getInstance().getClient().getModel().getCardPile();
+    }
 
     @FXML
     public void closePopUpCards(){
