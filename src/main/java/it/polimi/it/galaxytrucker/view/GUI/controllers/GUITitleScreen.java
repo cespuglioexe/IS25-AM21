@@ -4,6 +4,7 @@ import it.polimi.it.galaxytrucker.view.GUI.GUIView;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -58,6 +59,9 @@ public class GUITitleScreen extends GUIViewState {
                     GUIView.getInstance().nameSelectionScene();
                 }
             });
+
+            Image image = new Image(Objects.requireNonNull(Objects.requireNonNull(GUIUsernameSelection.class.getResourceAsStream("/it/polimi/it/galaxytrucker/graphics/general/cursor.png"))));
+            scene.setCursor(new ImageCursor(image, image.getHeight() / 2, image.getWidth() / 2));
 
             stage.show();
         });
