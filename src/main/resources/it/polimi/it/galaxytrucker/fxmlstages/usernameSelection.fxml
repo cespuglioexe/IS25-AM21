@@ -3,6 +3,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
@@ -12,22 +13,19 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <StackPane prefHeight="198.0" prefWidth="283.0">
+      <StackPane prefHeight="198.0" prefWidth="283.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <VBox alignment="CENTER" StackPane.alignment="CENTER">
+            <ImageView fx:id="backgroundImage" pickOnBounds="true" preserveRatio="true" />
+            <VBox fx:id="vbox" alignment="CENTER" spacing="20" StackPane.alignment="CENTER">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Galaxy Trucker" wrappingWidth="306.359375">
-                     <font>
-                        <Font size="45.0" />
-                     </font>
-                  </Text>
+                  <ImageView fx:id="titleImage" pickOnBounds="true" preserveRatio="true" />
                   <HBox alignment="CENTER" spacing="10.0" VBox.vgrow="ALWAYS">
                      <children>
                         <Label text="Insert Username" />
                         <TextField fx:id="namefield" promptText="Username..." />
                      </children>
                   </HBox>
-                  <Button fx:id="checkUsername" mnemonicParsing="false" onAction="#submitUsername" text="Submit" />
+                  <Button fx:id="checkUsername" mnemonicParsing="false" onAction="#submitUsername" text="Submit" styleClass="futuristic-button" />
                   <Label fx:id="usernameError" text="Username already used" textFill="#ee0000" visible="false" />
                </children>
             </VBox>

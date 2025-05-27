@@ -87,8 +87,6 @@ public class Server extends UnicastRemoteObject implements RMIServer, Runnable, 
             registry = LocateRegistry.createRegistry(ServerDetails.RMI_DEFAULT_PORT);
             // Rebind this server object in the registry under the name "server"
             registry.rebind(ServerDetails.DEFAULT_RMI_NAME, this);
-            // Export this server object to make it available for remote calls
-            // UnicastRemoteObject.exportObject(this, 1234); // This line might be redundant after rebind, depending on RMI setup specifics
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }

@@ -13,7 +13,8 @@ import java.util.List;
 public class GUIApplication extends Application {
     @Override
     public void start(Stage stage) {
-        stage.setFullScreen(true);
+        stage.setFullScreen(false);
+        stage.setMaximized(true);
         stage.setResizable(false);
         GUIView.stage = stage;
 
