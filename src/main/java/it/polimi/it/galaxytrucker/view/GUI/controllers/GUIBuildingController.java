@@ -99,6 +99,10 @@ public class GUIBuildingController extends GUIViewState {
             String randomTileGraphic = tile.graphicPath();
             tileImageView.setImage(new Image(Objects.requireNonNull(GUIBuildingController.class.getResourceAsStream(randomTileGraphic))));
             tileImageView.setRotate(rotation*90);
+            rotationButton.setOnAction(e -> {
+                rotation++;
+                updateVisibleTile(tile);
+            });
         });
     }
 
@@ -199,7 +203,7 @@ public class GUIBuildingController extends GUIViewState {
         AtomicInteger index= new AtomicInteger();
         rotation = 0;
         updateVisibleTile(savedTiles.get(0));
-
+        savedSelected=0;
         arrowForward.setVisible(true);
         arrowBack.setVisible(true);
 
@@ -241,7 +245,7 @@ public class GUIBuildingController extends GUIViewState {
         AtomicInteger index= new AtomicInteger();
 
         updateVisibleTile(discardedTiles.get(0));
-
+        discardedSelected=0;
         arrowForward.setVisible(true);
         arrowBack.setVisible(true);
 
