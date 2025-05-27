@@ -205,7 +205,6 @@ public class GameManager extends StateMachine implements Model, Observable {
             case "Smugglers" -> createSmugglersCard(cardData);
             case "Slavers" -> createSlaversCard(cardData);
             case "StarDust" -> createStarDustCard(cardData);
-            case "default" -> throw new IllegalArgumentException("Unknown Card");
             default -> null;
         };
     }
