@@ -84,6 +84,11 @@ public class Planets extends CardStateMachine implements AdventureCard, Particip
         this.flightRules = flightRules;
     }
 
+    @Override
+    public String getGraphicPath() {
+        return graphic;
+    }
+
     public Planets(int numberOfPlanets, List<List<Cargo>> cargoRewardsByPlanet, int flightDayPenalty, FlightRules flightRules, String graphic) {
         initializePlanets(numberOfPlanets);
         initializeRewards(cargoRewardsByPlanet);

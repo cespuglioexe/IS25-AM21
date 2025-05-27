@@ -48,6 +48,12 @@ public class Epidemic extends CardStateMachine implements AdventureCard {
         this.flightRules = flightRules;
     }
 
+
+    @Override
+    public String getGraphicPath() {
+        return graphic;
+    }
+
     @Override
     public void play() {
         start(new StartState());

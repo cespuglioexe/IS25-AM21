@@ -44,6 +44,11 @@ public class Slavers extends CardStateMachine implements AdventureCard, CreditRe
     }
 
     @Override
+    public String getGraphicPath() {
+        return graphic;
+    }
+
+    @Override
     public void play() { start(new StartState());};
 
     public void selectCannons(HashMap<List<Integer>, List<Integer>> doubleCannonsAndBatteries) {

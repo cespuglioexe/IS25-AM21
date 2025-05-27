@@ -40,6 +40,11 @@ public class StarDust extends CardStateMachine implements AdventureCard, FlightD
         }
     }
 
+    @Override
+    public String getGraphicPath() {
+        return graphic;
+    }
+
     private int countExposedConnectorsOf(Player player) {
         ShipManager ship = player.getShipManager();
 
