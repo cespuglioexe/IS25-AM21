@@ -18,4 +18,6 @@ public interface ControllerInterface {
     void startBuildPhaseTimer();
 
     void disconnectPlayer(UUID clientUuid);
+
+    void endPlayerBuilding(UUID clientUuid);
 }

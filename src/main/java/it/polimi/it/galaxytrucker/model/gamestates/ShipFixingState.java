@@ -1,5 +1,7 @@
 package it.polimi.it.galaxytrucker.model.gamestates;
 
+import it.polimi.it.galaxytrucker.messages.servermessages.GameUpdate;
+import it.polimi.it.galaxytrucker.messages.servermessages.GameUpdateType;
 import it.polimi.it.galaxytrucker.model.design.statePattern.StateMachine;
 import it.polimi.it.galaxytrucker.exceptions.InvalidActionException;
 import it.polimi.it.galaxytrucker.exceptions.InvalidFunctionCallInState;
@@ -25,7 +27,10 @@ public class ShipFixingState extends GameState {
 
     @Override
     public void enter(StateMachine fsm) {
-
+        ((GameManager) fsm).updateListeners(new GameUpdate.GameUpdateBuilder(GameUpdateType.NEW_STATE)
+                .setNewSate("ShipFixingState")
+                .build()
+        );
     }
 
     @Override

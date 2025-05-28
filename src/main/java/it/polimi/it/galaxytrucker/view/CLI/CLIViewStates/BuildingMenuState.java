@@ -19,21 +19,18 @@ public class BuildingMenuState extends CLIViewState {
             ClientModel model = view.getClient().getModel();
             view.displayShip(model.getPlayerShips(model.getMyData().getPlayerId()));
 
-            System.out.print("""
-                    \nChoose an option:
-                    [1]: Choose a tile
-                    [2]: Look a pile of cards
-                    """);
+            System.out.print("\nChoose an option:\n  [1]: Choose a tile\n  [2]: Look a pile of cards\n");
             if (!view.getClient().isBuildingTimerIsActive()) {
-                System.out.println("[3]: Restart timer");
+                System.out.println("  [3]: Restart timer");
             }
+            System.out.println("  [4]: Finish building");
             System.out.print("> ");
 
             int mainOption;
             while (true) {
                 mainOption = CLIInputReader.readInt();
 
-                if (mainOption == 1 || mainOption == 2 || (mainOption == 3 && !view.getClient().isBuildingTimerIsActive())) {
+                if (mainOption == 1 || mainOption == 2 || (mainOption == 3 && !view.getClient().isBuildingTimerIsActive()) || mainOption == 4) {
                     break;
                 }
 
@@ -132,6 +129,13 @@ public class BuildingMenuState extends CLIViewState {
                     currentState = new BuildingMenuState();
                     currentState.executeState();
 
+                    break;
+
+                case 4:
+                    view.getClient().receiveUserInput(
+                            new UserInput.UserInputBuilder(UserInputType.CONFIRM_BUILDING_END)
+                                    .build()
+                    );
                     break;
 
                 default:

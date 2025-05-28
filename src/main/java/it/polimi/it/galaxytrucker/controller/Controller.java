@@ -137,4 +137,9 @@ public class Controller implements ControllerInterface {
         // TODO: mark player as disconnected
     }
 
+    @Override
+    public void endPlayerBuilding(UUID clientUuid) {
+        model.finishBuilding(clientUuid);
+    }
+
 }
