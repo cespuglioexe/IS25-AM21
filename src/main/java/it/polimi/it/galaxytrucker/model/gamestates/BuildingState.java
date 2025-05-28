@@ -25,10 +25,15 @@ public class BuildingState extends GameState {
     private HashMap<UUID, Boolean> playerHasFinished;
     private List<ComponentTile> discardedComponents;
 
+    private int completedTimers = 0;
+    private int requiredTimers = 0;
+
     @Override
     public void enter(StateMachine fsm) {
         GameManager gameManager = (GameManager) fsm;
         gameManager.initializeComponentTiles();
+
+        requiredTimers = gameManager.getLevel() == 2 ? 2 : 0;
 
         // List<List<AdventureCard>> cardStacks = gameManager.getAdventureDeck().getStack();
 
@@ -230,11 +235,18 @@ public class BuildingState extends GameState {
     @Override
     public void startBuildPhaseTimer(GameManager gm) {
         Executors.newScheduledThreadPool(1).schedule(() -> {
-            gm.updateListeners(
-                    new GameUpdate.GameUpdateBuilder(GameUpdateType.TIMER_END)
-                            .build()
-            );
+            completedTimers++;
+
+            if (completedTimers >= requiredTimers) {
+                changeState(gm, new LegalityCheckState());
+            } else {
+                gm.updateListeners(
+                        new GameUpdate.GameUpdateBuilder(GameUpdateType.TIMER_END)
+                                .build()
+                );
+            }
         }, 5, TimeUnit.SECONDS);
+
         gm.updateListeners(
                 new GameUpdate.GameUpdateBuilder(GameUpdateType.TIMER_START)
                         .build()

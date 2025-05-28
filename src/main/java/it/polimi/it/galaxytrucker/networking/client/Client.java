@@ -39,7 +39,7 @@ public abstract class Client extends UnicastRemoteObject implements Runnable, Cl
     /**
      * A flag indicating whether the building phase timer is currently active.
      */
-    protected boolean buildingTimerIsActive;
+    protected boolean buildingTimerIsActive = false;
 
     protected boolean connectedToServer;
 
@@ -146,6 +146,8 @@ public abstract class Client extends UnicastRemoteObject implements Runnable, Cl
                         }
                         view.buildingStarted();
                         break;
+                    case "ShipFixingState":
+                        System.out.println(ConsoleColors.CLIENT_DEBUG + "received ship fixing state" + ConsoleColors.RESET);
                     default:
                         System.out.println(ConsoleColors.CLIENT_DEBUG + "Received unknown state: " + update.getNewSate() + ConsoleColors.RESET);
                         break;

@@ -78,7 +78,7 @@ public abstract class ClientHandler extends UnicastRemoteObject implements Liste
         // sent a heartbeat message in some time, it marks the client as disconnected.
         ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
         scheduler.scheduleAtFixedRate(() -> {
-            if (lastHeartbeatTime == null) return;
+            if (lastHeartbeatTime == null || !clientConnected) return;
 
             long elapsed = Duration.between(lastHeartbeatTime, Instant.now()).toSeconds();
             if (elapsed > ServerDetails.CONNECTION_TIMEOUT) {
@@ -241,6 +241,10 @@ public abstract class ClientHandler extends UnicastRemoteObject implements Liste
 
                 case RESTART_BUILDING_TIMER:
                     controller.startBuildPhaseTimer();
+                    break;
+
+                case CONFIRM_BUILDING_END:
+                    controller.endPlayerBuilding(clientUuid);
                     break;
 
                 default:
