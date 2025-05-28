@@ -8,6 +8,7 @@ import it.polimi.it.galaxytrucker.messages.servermessages.GameUpdate;
 import it.polimi.it.galaxytrucker.model.json.Json;
 import it.polimi.it.galaxytrucker.networking.server.ClientHandler;
 import it.polimi.it.galaxytrucker.networking.server.ServerInterface;
+import it.polimi.it.galaxytrucker.view.CLI.ConsoleColors;
 
 import java.io.*;
 import java.rmi.RemoteException;
@@ -57,6 +58,7 @@ public class SocketClientHandler extends ClientHandler {
                     String jsonMessage = ow.writeValueAsString(message);
                     socketOutput.println(jsonMessage);
                     socketOutput.flush();
+                    System.out.println(ConsoleColors.CLIENT_HANDLER_DEBUG.tag(clientName) + "sent message of type " + message.getInstructionType() + ConsoleColors.RESET);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }

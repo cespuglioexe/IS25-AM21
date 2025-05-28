@@ -147,7 +147,12 @@ public abstract class Client extends UnicastRemoteObject implements Runnable, Cl
                         view.buildingStarted();
                         break;
                     case "ShipFixingState":
-                        System.out.println(ConsoleColors.CLIENT_DEBUG + "received ship fixing state" + ConsoleColors.RESET);
+                        if (update.getPlayerIds().stream().anyMatch(id -> id.equals(model.getMyData().getPlayerId()))) {
+                            view.shipFixingState();
+                        } else {
+                            view.waitingForGameState();
+                        }
+                        break;
                     default:
                         System.out.println(ConsoleColors.CLIENT_DEBUG + "Received unknown state: " + update.getNewSate() + ConsoleColors.RESET);
                         break;

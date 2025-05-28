@@ -62,4 +62,8 @@ public abstract class View {
     public abstract void discardedComponentsUpdated();
 
     public abstract void nameSelectionSuccess();
+
+    public abstract void shipFixingState();
+
+    public abstract void waitingForGameState();
 }

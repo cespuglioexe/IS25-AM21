@@ -22,6 +22,8 @@ public class BuildingMenuState extends CLIViewState {
             System.out.print("\nChoose an option:\n  [1]: Choose a tile\n  [2]: Look a pile of cards\n");
             if (!view.getClient().isBuildingTimerIsActive()) {
                 System.out.println("  [3]: Restart timer");
+            } else {
+                System.out.println(ConsoleColors.WHITE + "  [x]: Restart timer" + ConsoleColors.RESET);
             }
             System.out.println("  [4]: Finish building");
             System.out.print("> ");
@@ -47,7 +49,18 @@ public class BuildingMenuState extends CLIViewState {
                             [3]: Choose a discarded tile
                             >\s""");
 
-                    int opt_tile = CLIInputReader.readInt();
+                    int opt_tile;
+                    while (true) {
+                        opt_tile = CLIInputReader.readInt();
+
+                        if (opt_tile == 1 || opt_tile == 2 || opt_tile == 3) {
+                            break;
+                        }
+
+                        System.out.println(ConsoleColors.YELLOW + "That is not a valid option. Please try again." + ConsoleColors.RESET);
+                        System.out.print("> ");
+                    }
+
                     int chosenTile;
                     switch (opt_tile) {
                         case 1:
