@@ -4,10 +4,7 @@ import it.polimi.it.galaxytrucker.controller.GenericGameData;
 import it.polimi.it.galaxytrucker.model.componenttiles.TileData;
 import it.polimi.it.galaxytrucker.model.componenttiles.TileEdge;
 import it.polimi.it.galaxytrucker.view.CLI.ConsoleColors;
-import it.polimi.it.galaxytrucker.view.GUI.controllers.GUIBuildingController;
-import it.polimi.it.galaxytrucker.view.GUI.controllers.GUITitleScreen;
-import it.polimi.it.galaxytrucker.view.GUI.controllers.GUIGameCreation;
-import it.polimi.it.galaxytrucker.view.GUI.controllers.GUIUsernameSelection;
+import it.polimi.it.galaxytrucker.view.GUI.controllers.*;
 import it.polimi.it.galaxytrucker.view.View;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -35,6 +32,7 @@ public class GUIView extends View {
             GUIUsernameSelection.getInstance();
             GUIGameCreation.getInstance();
             GUIBuildingController.getInstance();
+            GUIFixingShipController.getInstance();
         }
         return guiView;
     }
@@ -157,12 +155,7 @@ public class GUIView extends View {
     }
 
     @Override
-    public void shipFixingState() {
-        // Funzione viene chiamata quando si passa in fixing state e devi aggiustare la nave
-        // Non c'é modo di sapere quali componenti sono sbagliati (volendo si potrebbe anche fare,
-        // ma penso richiederebbe modificare anche il model)
-        // TODO: fixing
-    }
+    public void shipFixingState() { GUIFixingShipController.getInstance().displayScene(); }
 
     @Override
     public void waitingForGameState() {
