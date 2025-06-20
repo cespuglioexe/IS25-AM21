@@ -131,6 +131,17 @@ public class CLIView extends View {
         CLIViewState.getCurrentState().executeState();
     }
 
+    @Override
+    public void shipFixingState() {
+        CLIViewState.setCurrentState(new ShipFixingState());
+        CLIViewState.getCurrentState().executeState();
+    }
+
+    @Override
+    public void waitingForGameState() {
+        System.out.println(ConsoleColors.YELLOW_BOLD + "Building finished! Your ship look great, some of your fellow truckers need to fix theirs before we can proceed!");
+    }
+
 
     ////////////////////////////////////
 
@@ -176,15 +187,23 @@ public class CLIView extends View {
 
     public void displayBuildingStarted () {
         String text = """
-                 ____    __                    __        __                   ___       __                      __    \s
-                /\\  _`\\ /\\ \\__                /\\ \\__    /\\ \\              __ /\\_ \\     /\\ \\  __                /\\ \\   \s
-                \\ \\,\\L\\_\\ \\ ,_\\    __     _ __\\ \\ ,_\\   \\ \\ \\____  __  __/\\_\\\\//\\ \\    \\_\\ \\/\\_\\    ___      __\\ \\ \\  \s
-                 \\/_\\__ \\\\ \\ \\/  /'__`\\  /\\`'__\\ \\ \\/    \\ \\ '__`\\/\\ \\/\\ \\/\\ \\ \\ \\ \\   /'_` \\/\\ \\ /' _ `\\  /'_ `\\ \\ \\ \s
-                   /\\ \\L\\ \\ \\ \\_/\\ \\L\\.\\_\\ \\ \\/ \\ \\ \\_    \\ \\ \\L\\ \\ \\ \\_\\ \\ \\ \\ \\_\\ \\_/\\ \\L\\ \\ \\ \\/\\ \\/\\ \\/\\ \\L\\ \\ \\_\\\s
-                   \\ `\\____\\ \\__\\ \\__/.\\_\\\\ \\_\\  \\ \\__\\    \\ \\_,__/\\ \\____/\\ \\_\\/\\____\\ \\___,_\\ \\_\\ \\_\\ \\_\\ \\____ \\/\\_\\
-                    \\/_____/\\/__/\\/__/\\/_/ \\/_/   \\/__/     \\/___/  \\/___/  \\/_/\\/____/\\/__,_ /\\/_/\\/_/\\/_/\\/___L\\ \\/_/
-                                                                                                             /\\____/  \s
-                                                                                                             \\_/__/
+                ▄   ▘▜  ▌▘        ▗     ▗    ▌▌
+                ▙▘▌▌▌▐ ▛▌▌▛▌▛▌  ▛▘▜▘▀▌▛▘▜▘█▌▛▌▌
+                ▙▘▙▌▌▐▖▙▌▌▌▌▙▌  ▄▌▐▖█▌▌ ▐▖▙▖▙▌▖
+                            ▄▌                
+                """;
+
+        System.out.print("\n");
+        System.out.println(ConsoleColors.YELLOW_BRIGHT + text + ConsoleColors.RESET);
+        System.out.print("\n");
+    }
+
+    public void displayFixShip () {
+        String text = """
+                ▄▖▘                ▌ ▘  ▌
+                ▙▖▌▚▘  ▌▌▛▌▌▌▛▘  ▛▘▛▌▌▛▌▌
+                ▌ ▌▞▖  ▙▌▙▌▙▌▌   ▄▌▌▌▌▙▌▖
+                       ▄▌             ▌ \s
                 """;
 
         System.out.print("\n");

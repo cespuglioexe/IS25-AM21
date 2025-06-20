@@ -24,8 +24,7 @@ public class PlayerData {
      */
     private UUID matchId;
 
-    public PlayerData() {
-    }
+    public PlayerData() {}
 
     public PlayerData(String nickname, UUID matchId) {
         this.nickname = nickname;

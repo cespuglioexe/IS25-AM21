@@ -61,7 +61,7 @@ public class LegalityCheckState extends GameState {
             System.out.println("All player ships are legal");
             fsm.changeState(new GameTurnStartState());
         } else {
-            System.out.println("Players whit illegal ships: " + playersWithIllegalShips.stream().map(Player::getPlayerName).toList());
+            System.out.println("Players with illegal ships: " + playersWithIllegalShips.stream().map(Player::getPlayerName).toList());
             fsm.changeState(new ShipFixingState(playersWithIllegalShips));
         }
     }

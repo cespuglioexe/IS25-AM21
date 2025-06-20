@@ -156,6 +156,20 @@ public class GUIView extends View {
         GUIUsernameSelection.getInstance().nameSelectionSuccess();
     }
 
+    @Override
+    public void shipFixingState() {
+        // Funzione viene chiamata quando si passa in fixing state e devi aggiustare la nave
+        // Non c'é modo di sapere quali componenti sono sbagliati (volendo si potrebbe anche fare,
+        // ma penso richiederebbe modificare anche il model)
+        // TODO: fixing
+    }
+
+    @Override
+    public void waitingForGameState() {
+        // Funzione viene chiamata quando si passa in fixing state, ma la tua nave é a posto
+        // TODO: waiting for others to fix
+    }
+
 
     //Utili solo per il controllo senza png
 

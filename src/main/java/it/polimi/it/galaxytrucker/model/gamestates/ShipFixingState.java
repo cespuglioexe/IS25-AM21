@@ -29,6 +29,7 @@ public class ShipFixingState extends GameState {
     public void enter(StateMachine fsm) {
         ((GameManager) fsm).updateListeners(new GameUpdate.GameUpdateBuilder(GameUpdateType.NEW_STATE)
                 .setNewSate("ShipFixingState")
+                .setPlayerIds(playerHasFinished.keySet().stream().toList())
                 .build()
         );
     }

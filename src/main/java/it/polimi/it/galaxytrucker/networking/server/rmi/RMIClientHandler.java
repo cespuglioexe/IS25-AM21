@@ -39,7 +39,7 @@ public class RMIClientHandler extends ClientHandler implements RMIVirtualServer 
 
                 try {
                     client.sendMessageToClient(message);
-                    System.out.println(ConsoleColors.CLIENT_HANDLER_DEBUG + "sent message of type " + message.getInstructionType() + ConsoleColors.RESET);
+                    System.out.println(ConsoleColors.CLIENT_HANDLER_DEBUG.tag(clientName) + "sent message of type " + message.getInstructionType() + ConsoleColors.RESET);
                 } catch (RemoteException e) {
                     throw new RuntimeException(e);
                 }

@@ -35,11 +35,11 @@ public abstract class ClientHandler extends UnicastRemoteObject implements Liste
     /**
      * Username of the associated client.
      */
-    private String clientName = "";
+    protected String clientName = "";
     /**
      * Unique identifier for the client.
      */
-    private UUID clientUuid;
+    protected UUID clientUuid;
     /**
      * Flag to indicate whether the client is actively connected or not.
      * An active connection is determined by the client sending
@@ -175,8 +175,6 @@ public abstract class ClientHandler extends UnicastRemoteObject implements Liste
                 case CREATE_NEW_GAME:
                     UUID ng_gameUuid = server.createNewGame(userInput.getGamePlayers(), userInput.getGameLevel());
                     server.addPlayerToGame(this, ng_gameUuid);
-
-                    System.out.println(ConsoleColors.RED_BOLD_BRIGHT + "SENDING GAME LEVEL: " + controller.getLevel());
 
                     notify(new GameUpdate.GameUpdateBuilder(GameUpdateType.CREATE_GAME_RESULT)
                             .setSuccessfulOperation(true)
