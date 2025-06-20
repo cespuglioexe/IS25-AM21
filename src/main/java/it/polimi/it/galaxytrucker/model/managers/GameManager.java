@@ -454,7 +454,6 @@ public class GameManager extends StateMachine implements Model, Observable {
         GameState gameState = (GameState) this.getCurrentState();
         gameState.deleteComponentTile(this, playerID, row, column);
 
-
         updateListeners(new GameUpdate.GameUpdateBuilder(GameUpdateType.PLAYER_SHIP_UPDATED)
                 .setShipBoard(getPlayerShip(playerID).getShipBoard())
                 .setInterestedPlayerId(playerID)
