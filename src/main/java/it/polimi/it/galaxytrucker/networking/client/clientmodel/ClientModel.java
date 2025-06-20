@@ -1,7 +1,5 @@
 package it.polimi.it.galaxytrucker.networking.client.clientmodel;
 
-
-import it.polimi.it.galaxytrucker.model.componenttiles.ComponentTile;
 import it.polimi.it.galaxytrucker.model.componenttiles.TileData;
 
 import java.util.ArrayList;
