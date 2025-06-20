@@ -361,6 +361,15 @@ public class GUIBuildingController extends GUIViewState {
     }
 
 
+    public void endBuilding(){
+        GUIView.getInstance().getClient().receiveUserInput(
+                new UserInput.UserInputBuilder(UserInputType.CONFIRM_BUILDING_END)
+                        .build()
+        );
+    }
+
+
+
     @FXML
     public void startTimer() {
         if (!GUIView.getInstance().getClient().isBuildingTimerIsActive()) {

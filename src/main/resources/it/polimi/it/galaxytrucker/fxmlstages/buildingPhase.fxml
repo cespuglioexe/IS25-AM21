@@ -26,7 +26,7 @@
             <Font size="42.0" />
          </font>
       </Label>
-      <Button fx:id="openPopUp" layoutX="220.0" layoutY="646.0" mnemonicParsing="false" onAction="#openPopUpCards" prefHeight="47.0" prefWidth="132.0" text="Look a pile of cards" />
+      <Button fx:id="openPopUp" layoutX="75.0" layoutY="630.0" mnemonicParsing="false" onAction="#openPopUpCards" prefHeight="47.0" prefWidth="132.0" text="Look a pile of cards" />
       <Button fx:id="restartTimerButton" layoutX="89.0" layoutY="625.0" mnemonicParsing="false" onAction="#startTimer" prefHeight="51.0" prefWidth="135.0" text="Restart timer" visible="false" />
       <Button fx:id="randomTileButton" layoutX="60.0" layoutY="149.0" mnemonicParsing="false" onAction="#newRandomTile" prefHeight="46.0" prefWidth="135.0" text="Random tile" />
       <Button fx:id="discardedTileButton" layoutX="375.0" layoutY="148.0" mnemonicParsing="false" onAction="#showDiscardedTile" prefHeight="46.0" prefWidth="135.0" text="Discarded tile" />
@@ -117,5 +117,6 @@
             </Pane>
          </children>
       </Pane>
+      <Button fx:id="endBuildingButton" layoutX="259.0" layoutY="629.0" mnemonicParsing="false" onAction="#endBuilding" prefHeight="47.0" prefWidth="132.0" style="-fx-background-color: red;" text="End building" />
    </children>
 </AnchorPane>
