@@ -156,7 +156,7 @@ public class GameManager extends StateMachine implements Model, Observable {
     }
 
     @Override
-    public void removePlayer(UUID id) throws NotFoundException {
+    public void removePlayer(UUID id, int col, int row) throws NotFoundException {
         GameState gameState = (GameState) this.getCurrentState();
         gameState.removePlayer(this, id);
     }
@@ -454,7 +454,12 @@ public class GameManager extends StateMachine implements Model, Observable {
         GameState gameState = (GameState) this.getCurrentState();
         gameState.deleteComponentTile(this, playerID, row, column);
 
-        // TODO: notify
+
+        updateListeners(new GameUpdate.GameUpdateBuilder(GameUpdateType.PLAYER_SHIP_UPDATED)
+                .setShipBoard(getPlayerShip(playerID).getShipBoard())
+                .setInterestedPlayerId(playerID)
+                .build()
+        );
     }
 
     @Override

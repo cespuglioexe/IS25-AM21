@@ -307,13 +307,9 @@ public class GUIBuildingController extends GUIViewState {
             imageTiles.put("69", imageTile69);
 
             updateShip();
-            System.out.println("After UpdateShip");
             stage = (Stage) GUIView.stage.getScene().getWindow();
-            System.out.println("After stage");
             scene = new Scene(root);
-            System.out.println("After newscene");
             stage.setScene(scene);
-            System.out.println("Before Show");
             stage.show();
         });
     }
@@ -359,6 +355,15 @@ public class GUIBuildingController extends GUIViewState {
         handPane.setVisible(false);
         popUpCardsPane.setVisible(false);
     }
+
+
+    public void endBuilding(){
+        GUIView.getInstance().getClient().receiveUserInput(
+                new UserInput.UserInputBuilder(UserInputType.CONFIRM_BUILDING_END)
+                        .build()
+        );
+    }
+
 
 
     @FXML
