@@ -15,6 +15,8 @@ public interface ControllerInterface {
     void selectDiscardedComponentTile(UUID playerId, int index);
     UUID getControllerUuid();
 
+    void removeComponentTile(UUID playerId,int col, int row);
+
     void startBuildPhaseTimer();
 
     void disconnectPlayer(UUID clientUuid);

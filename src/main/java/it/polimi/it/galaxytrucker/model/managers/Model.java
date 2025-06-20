@@ -31,7 +31,7 @@ public interface Model {
     //SETTER
      void changeState(State nextState);
      void addPlayer(Player player) throws InvalidActionException;
-     void removePlayer(UUID id);
+     void removePlayer(UUID id, int col, int row);
 
     //ACTIONS
      void drawComponentTile(UUID playerId) throws InvalidActionException;
@@ -49,4 +49,5 @@ public interface Model {
      public void deleteBranch(UUID playerID, Set<List<Integer>> branch);
 
      void startBuildPhaseTimer();
+
 }
