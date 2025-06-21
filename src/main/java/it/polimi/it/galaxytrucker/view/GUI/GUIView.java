@@ -130,12 +130,8 @@ public class GUIView extends View {
 
     @Override
     public void shipUpdated(UUID interestedPlayerId) {
-        if (GUIBuildingController.getCurrentState() == GUIBuildingController.getInstance()) {
             GUIBuildingController.getInstance().updateShip();
-        }
-        else if (GUIFixingShipController.getCurrentState() == GUIFixingShipController.getInstance()) {
             GUIFixingShipController.getInstance().updateShip();
-        }
     }
 
     @Override

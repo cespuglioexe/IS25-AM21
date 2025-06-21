@@ -69,7 +69,9 @@ public abstract class Client extends UnicastRemoteObject implements Runnable, Cl
 
     @Override
     public ClientModel getModel() {
-        return model;
+        synchronized (ClientModel.class) {
+            return model;
+        }
     }
 
     @Override
