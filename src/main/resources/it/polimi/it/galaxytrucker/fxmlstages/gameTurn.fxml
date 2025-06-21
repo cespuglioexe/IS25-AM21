@@ -1,9 +1,260 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.effect.Glow?>
+<?import javafx.scene.effect.InnerShadow?>
+<?import javafx.scene.effect.Light.Distant?>
+<?import javafx.scene.effect.Lighting?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="802.0" prefWidth="1334.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <StackPane prefHeight="220.0" prefWidth="333.0" />
+      <AnchorPane prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <ImageView layoutX="200.0" layoutY="125.0" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <image>
+                  <Image url="@../graphics/general/generic_background.jpg" />
+               </image>
+               <effect>
+                  <Lighting bumpInput="$null" diffuseConstant="2.0" specularConstant="0.0" specularExponent="40.0" surfaceScale="10.0">
+                     <light>
+                        <Light.Distant>
+                           <color>
+                              <Color red="0.2545652985572815" green="0.07423002272844315" blue="0.5894736647605896" />
+                           </color>
+                        </Light.Distant>
+                     </light>
+                  </Lighting>
+               </effect>
+            </ImageView>
+            <StackPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <ImageView fitHeight="389.0" fitWidth="805.0" pickOnBounds="true" visible="false" StackPane.alignment="TOP_CENTER">
+                     <image>
+                        <Image url="@../graphics/cardboard/cardboard-3.png" />
+                     </image>
+                     <StackPane.margin>
+                        <Insets top="350.0" />
+                     </StackPane.margin>
+                     <effect>
+                        <DropShadow height="255.0" radius="127.0" spread="0.61" width="255.0" />
+                     </effect>
+                  </ImageView>
+               </children>
+            </StackPane>
+            <StackPane alignment="TOP_CENTER" layoutX="431.0" layoutY="124.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <ImageView fitHeight="389.0" fitWidth="805.0" opacity="0.84" pickOnBounds="true" StackPane.alignment="TOP_CENTER">
+                     <image>
+                        <Image url="@../graphics/cardboard/cardboard-5.png" />
+                     </image>
+                     <StackPane.margin>
+                        <Insets top="350.0" />
+                     </StackPane.margin>
+                     <effect>
+                        <DropShadow height="255.0" radius="127.0" spread="0.68" width="255.0" />
+                     </effect>
+                  </ImageView>
+               </children>
+            </StackPane>
+            <StackPane prefHeight="150.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <ImageView fitHeight="248.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="BOTTOM_CENTER">
+                     <image>
+                        <Image url="@../graphics/cards/GT-cards_1_015.jpg" />
+                     </image>
+                     <StackPane.margin>
+                        <Insets bottom="280.0" />
+                     </StackPane.margin>
+                     <effect>
+                        <DropShadow height="128.67" radius="57.402499999999996" spread="0.11" width="102.94">
+                           <color>
+                              <Color red="1.0" green="1.0" blue="1.0" />
+                           </color>
+                        </DropShadow>
+                     </effect>
+                  </ImageView>
+               </children>
+            </StackPane>
+            <GridPane gridLinesVisible="true" style="-fx-border-color: white; -fx-border-width: 5px; -fx-background-color: rgba(0, 0, 0, 0.1);" AnchorPane.bottomAnchor="280.0" AnchorPane.leftAnchor="340.0" AnchorPane.rightAnchor="1250.0" AnchorPane.topAnchor="805.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <effect>
+                  <Lighting diffuseConstant="2.0" specularConstant="2.0" specularExponent="0.0" surfaceScale="10.0">
+                     <bumpInput>
+                        <Glow level="0.0">
+                           <input>
+                              <InnerShadow choke="1.0" height="255.0" radius="127.0" width="255.0">
+                                 <color>
+                                    <Color red="1.0" green="1.0" blue="1.0" />
+                                 </color>
+                              </InnerShadow>
+                           </input>
+                        </Glow>
+                     </bumpInput>
+                     <light>
+                        <Light.Distant azimuth="360.0" elevation="360.0" />
+                     </light>
+                  </Lighting>
+               </effect>
+               <children>
+                  <Label alignment="CENTER" text="CREDITS" GridPane.halignment="CENTER">
+                     <font>
+                        <Font name="Cambria" size="18.0" />
+                     </font></Label>
+                  <Label text="BASE ENGINE POWER" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="Cambria" size="18.0" />
+                     </font></Label>
+                  <Label GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="Cambria" size="18.0" />
+                     </font></Label>
+                  <Label text="BASE FIRE POWER" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="Cambria" size="18.0" />
+                     </font></Label>
+                  <Label GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="Cambria" size="18.0" />
+                     </font></Label>
+                  <Label text="BATTERY" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+                     <font>
+                        <Font name="Cambria" size="18.0" />
+                     </font></Label>
+                  <Label GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+                     <font>
+                        <Font name="Cambria" size="18.0" />
+                     </font></Label>
+                  <Label GridPane.columnIndex="1" GridPane.halignment="CENTER">
+                     <font>
+                        <Font name="Cambria" size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </GridPane>
+            <GridPane gridLinesVisible="true" layoutX="260.0" layoutY="815.0" style="-fx-border-color: white; -fx-border-width: 5px; -fx-background-color: rgba(0, 0, 0, 0.1);" AnchorPane.bottomAnchor="280.0" AnchorPane.leftAnchor="1240.0" AnchorPane.rightAnchor="310.0" AnchorPane.topAnchor="805.0">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <effect>
+                  <Lighting diffuseConstant="2.0" specularConstant="2.0" specularExponent="0.0" surfaceScale="10.0">
+                     <bumpInput>
+                        <InnerShadow height="171.60250000000002" radius="90.930625" width="194.12">
+                           <color>
+                              <Color red="0.04409356787800789" green="0.3927719295024872" blue="0.9157894849777222" />
+                           </color>
+                        </InnerShadow>
+                     </bumpInput>
+                     <light>
+                        <Light.Distant azimuth="360.0" elevation="360.0" />
+                     </light>
+                  </Lighting>
+               </effect>
+               <children>
+                  <Label style="-fx-border-color:: white;" textFill="WHITE" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="Cambria" size="18.0" />
+                     </font></Label>
+                  <Label GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="Cambria" size="18.0" />
+                     </font></Label>
+                  <Label GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="Cambria" size="18.0" />
+                     </font></Label>
+                  <Label GridPane.halignment="CENTER" GridPane.rowIndex="3">
+                     <font>
+                        <Font name="Cambria" size="18.0" />
+                     </font></Label>
+                  <Label GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+                     <font>
+                        <Font name="Cambria" size="18.0" />
+                     </font></Label>
+                  <Label GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="Cambria" size="18.0" />
+                     </font></Label>
+                  <Label GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="Cambria" size="18.0" />
+                     </font></Label>
+                  <Label GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="Cambria" size="18.0" />
+                     </font></Label>
+                  <Label GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="Cambria" size="18.0" />
+                     </font></Label>
+                  <Label GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+                     <font>
+                        <Font name="Cambria" size="18.0" />
+                     </font></Label>
+                  <Label GridPane.halignment="CENTER" GridPane.rowIndex="4">
+                     <font>
+                        <Font name="Cambria" size="18.0" />
+                     </font></Label>
+                  <Label GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4">
+                     <font>
+                        <Font name="Cambria" size="18.0" />
+                     </font></Label>
+                  <Label GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="4">
+                     <font>
+                        <Font name="Cambria" size="18.0" />
+                     </font></Label>
+                  <Label GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="4">
+                     <font>
+                        <Font name="Cambria" size="18.0" />
+                     </font></Label>
+                  <Label text="PLAYER" textFill="WHITE" textOverrun="LEADING_ELLIPSIS" GridPane.halignment="CENTER">
+                     <font>
+                        <Font name="Cambria" size="18.0" />
+                     </font></Label>
+                  <Label text="BOX" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+                     <font>
+                        <Font name="Cambria" size="18.0" />
+                     </font></Label>
+                  <Label text="LAPS" GridPane.columnIndex="2" GridPane.halignment="CENTER">
+                     <font>
+                        <Font name="Cambria" size="18.0" />
+                     </font></Label>
+                  <Label onMouseClicked="#viewFlightBoard" text="POSITION" GridPane.columnIndex="3" GridPane.halignment="CENTER">
+                     <font>
+                        <Font name="Cambria" size="18.0" />
+                     </font></Label>
+               </children>
+            </GridPane>
+         </children>
+      </AnchorPane>
    </children>
-</AnchorPane>
+</StackPane>
