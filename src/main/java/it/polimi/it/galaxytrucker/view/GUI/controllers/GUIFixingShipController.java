@@ -8,6 +8,7 @@ import it.polimi.it.galaxytrucker.view.GUI.GUIView;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -21,18 +22,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class GUIFixingShipController extends GUIViewState{
+public class GUIFixingShipController extends GUIViewState {
 
     private static GUIFixingShipController instance;
-    @FXML
-    private ImageView shipBgImage;
-    @FXML
-    private ImageView imageTile57,imageTile66,imageTile75,imageTile85,imageTile95,imageTile86,imageTile96,imageTile76,imageTile,imageTile67,imageTile68,imageTile78,imageTile88,imageTile98,imageTile99,imageTile89,imageTile79,imageTile77,imageTile87,imageTile56,imageTile58,imageTile65,imageTile74,imageTile84,imageTile94,imageTile910,imageTile810,imageTile710,imageTile69;
-    private Map<String, ImageView> imageTiles = new HashMap<>();
-    private int rotation;
-
-    @FXML
-    private TextField removeXcoord,removeYcoord;
+    @FXML private PlayerShipElementController shipController;
 
     public static GUIFixingShipController getInstance() {
         synchronized (GUIFixingShipController.class) {
@@ -56,86 +49,36 @@ public class GUIFixingShipController extends GUIViewState{
     @Override
     public void displayScene() {
         Platform.runLater(() -> {
-
-            shipBgImage.setImage(new Image(Objects.requireNonNull(GUIFixingShipController.class.getResourceAsStream("/it/polimi/it/galaxytrucker/graphics/cardboard/shipboard-lvl" + GUIView.getInstance().getClient().getModel().getGameLevel() + ".jpg"))));
-            imageTiles.put("57", imageTile57);
-            imageTiles.put("66", imageTile66);
-            imageTiles.put("75", imageTile75);
-            imageTiles.put("85", imageTile85);
-            imageTiles.put("95", imageTile95);
-            imageTiles.put("86", imageTile86);
-            imageTiles.put("96", imageTile96);
-            imageTiles.put("76", imageTile76);
-            imageTiles.put("67", imageTile67);
-            imageTiles.put("68", imageTile68);
-            imageTiles.put("78", imageTile78);
-            imageTiles.put("88", imageTile88);
-            imageTiles.put("98", imageTile98);
-            imageTiles.put("99", imageTile99);
-            imageTiles.put("89", imageTile89);
-            imageTiles.put("79", imageTile79);
-            imageTiles.put("77", imageTile77);
-            imageTiles.put("87", imageTile87);
-            imageTiles.put("56", imageTile56);
-            imageTiles.put("58", imageTile58);
-            imageTiles.put("65", imageTile65);
-            imageTiles.put("74", imageTile74);
-            imageTiles.put("84", imageTile84);
-            imageTiles.put("94", imageTile94);
-            imageTiles.put("910", imageTile910);
-            imageTiles.put("810", imageTile810);
-            imageTiles.put("710", imageTile710);
-            imageTiles.put("69", imageTile69);
-
-            updateShip();
             stage = (Stage) GUIView.stage.getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
+
+            shipController.displayShip();
         });
     }
 
     public void updateShip() {
-        Platform.runLater(() -> {
-            String componentGraphic = "";
-            String imgViewNumber = "";
-            int rowcount = 5, colcount = 4, rotation;
-            List<List<TileData>> ship = GUIView.getInstance().getClient().getModel().getPlayerShips(GUIView.getInstance().getClient().getModel().getMyData().getPlayerId());
-            for (List<TileData> row : ship) {
-                for (TileData tileData : row) {
-                    imgViewNumber = imgViewNumber + rowcount + colcount;
-
-                    if(tileData != null){
-                        if (!tileData.type().equals(OutOfBoundsTile.class.getSimpleName())) {
-                            componentGraphic = tileData.graphicPath();
-                            rotation = tileData.rotation();
-
-                            imageTiles.get(imgViewNumber).setImage(new Image(Objects.requireNonNull(GUIFixingShipController.class.getResourceAsStream(componentGraphic))));
-                            imageTiles.get(imgViewNumber).setRotate(90 * rotation);
-                        }
-                    } else {
-                        imageTiles.get(imgViewNumber).setImage(null);
-                    }
-
-                    imgViewNumber = "";
-                    colcount++;
-                }
-                colcount = 4;
-                rowcount++;
-            }
-        });
-        rotation = 0;
+        System.out.println("updateShip");
+        shipController.displayShip();
     }
 
     @FXML
     public void removeSelectedTile() {
-        int col = Integer.parseInt(removeXcoord.getText());
-        int row= Integer.parseInt(removeYcoord.getText());
-        GUIView.getInstance().getClient().receiveUserInput(
-                new UserInput.UserInputBuilder(UserInputType.REMOVE_COMPONENT)
-                        .setCoords(col,row)
-                        .build()
-        );
+        int column = shipController.selectedColumn;
+        int row = shipController.selectedRow;
+
+        System.out.println("Removing: column " + column + ", row " + row);
+
+        if (column != -1 && row != -1) {
+            GUIView.getInstance().getClient().receiveUserInput(
+                    new UserInput.UserInputBuilder(UserInputType.REMOVE_COMPONENT)
+                            .setCoords(column, row)
+                            .build()
+            );
+        }
+
+        shipController.resetSelectedTile();
     }
 }
 
