@@ -12,6 +12,7 @@ open module it.polimi.it.galaxytrucker {
     requires java.net.http;
     requires java.smartcardio;
     requires jdk.dynalink;
+    requires jdk.jdi;
 
     exports it.polimi.it.galaxytrucker.messages;
     exports it.polimi.it.galaxytrucker.messages.servermessages;

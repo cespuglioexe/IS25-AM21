@@ -1,5 +1,6 @@
 package it.polimi.it.galaxytrucker.model.managers;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -49,5 +50,6 @@ public interface Model {
      public void deleteBranch(UUID playerID, Set<List<Integer>> branch);
 
      void startBuildPhaseTimer();
+     void activateComponent(UUID playerID, HashMap<List<Integer>, List<Integer>> activationHashmap);
 
 }

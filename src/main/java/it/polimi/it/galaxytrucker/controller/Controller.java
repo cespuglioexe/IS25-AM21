@@ -128,6 +128,11 @@ public class Controller implements ControllerInterface {
     }
 
     @Override
+    public void activateComponent(UUID playerId, HashMap<List<Integer>, List<Integer>> activationHashmap) {
+        model.activateComponent(playerId,activationHashmap);
+    }
+
+    @Override
     public synchronized void startBuildPhaseTimer() {
         model.startBuildPhaseTimer();
     }

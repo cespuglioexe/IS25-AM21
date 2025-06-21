@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.ColorAdjust?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.effect.InnerShadow?>
+<?import javafx.scene.effect.Light.Distant?>
+<?import javafx.scene.effect.Lighting?>
+<?import javafx.scene.effect.Shadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <AnchorPane layoutX="10.0" layoutY="10.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <AnchorPane layoutX="10.0" layoutY="10.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <StackPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <ImageView fitHeight="800.0" fitWidth="1536.0" pickOnBounds="true">
+                     <image>
+                        <Image url="@../graphics/general/generic_background.jpg" />
+                     </image>
+                     <effect>
+                        <Lighting diffuseConstant="0.71" specularConstant="0.0" specularExponent="40.0" surfaceScale="10.0">
+                           <bumpInput>
+                              <Shadow />
+                           </bumpInput>
+                           <light>
+                              <Light.Distant />
+                           </light>
+                        </Lighting>
+                     </effect>
+                  </ImageView>
+                  <Button fx:id="activateShieldButton" mnemonicParsing="false" onAction="#activateShield" prefHeight="47.0" prefWidth="87.0" style="-fx-background-color: green;" text="ACCEPT" textFill="WHITE">
+                     <effect>
+                        <ColorAdjust brightness="0.03" contrast="1.0" hue="-0.02" saturation="-0.01" />
+                     </effect>
+                     <font>
+                        <Font name="Cambria" size="14.0" />
+                     </font>
+                     <StackPane.margin>
+                        <Insets left="300.0" />
+                     </StackPane.margin>
+                  </Button>
+                  <Button fx:id="activateShieldButton1" layoutX="760.0" layoutY="387.0" mnemonicParsing="false" onAction="#activateShield" prefHeight="47.0" prefWidth="87.0" style="-fx-background-color: RED;" text="DECLINE" textFill="WHITE">
+                     <effect>
+                        <ColorAdjust brightness="0.03" contrast="1.0" hue="-0.02" saturation="-0.01" />
+                     </effect>
+                     <font>
+                        <Font name="Cambria" size="14.0" />
+                     </font>
+                     <StackPane.margin>
+                        <Insets right="300.0" />
+                     </StackPane.margin>
+                  </Button>
+                  <Label alignment="CENTER" text="DO YOU WANT TO ACCEPT THE CREDITS WON?" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font name="Centaur" size="42.0" />
+                     </font>
+                     <StackPane.margin>
+                        <Insets bottom="200.0" />
+                     </StackPane.margin>
+                  </Label>
+                  <StackPane alignment="BOTTOM_CENTER">
+                     <children>
+                        <Label contentDisplay="RIGHT" text="CREDITS:" textFill="#fffafa">
+                           <font>
+                              <Font name="Centaur" size="24.0" />
+                           </font>
+                           <StackPane.margin>
+                              <Insets bottom="200.0" right="100.0" />
+                           </StackPane.margin>
+                           <graphic>
+                              <GridPane alignment="TOP_RIGHT" gridLinesVisible="true" prefHeight="30.0" prefWidth="68.0" style="-fx-border-color: trasparent;">
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <effect>
+                                    <DropShadow height="194.17" radius="104.775" spread="0.96" width="226.93">
+                                       <color>
+                                          <Color red="1.0" green="1.0" blue="1.0" />
+                                       </color>
+                                       <input>
+                                          <Lighting diffuseConstant="2.0" specularConstant="0.0" surfaceScale="0.0">
+                                             <bumpInput>
+                                                <InnerShadow choke="1.0" height="255.0" radius="127.0" width="255.0" />
+                                             </bumpInput>
+                                             <light>
+                                                <Light.Distant />
+                                             </light>
+                                          </Lighting>
+                                       </input>
+                                    </DropShadow>
+                                 </effect>
+                                 <children>
+                                    <Label text="Label" textFill="#001eff">
+                                       <font>
+                                          <Font name="Centaur" size="14.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </GridPane>
+                           </graphic>
+                        </Label>
+                     </children>
+                  </StackPane>
+               </children>
+            </StackPane>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

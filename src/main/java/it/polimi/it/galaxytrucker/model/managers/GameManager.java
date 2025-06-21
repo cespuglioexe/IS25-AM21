@@ -476,6 +476,11 @@ public class GameManager extends StateMachine implements Model, Observable {
     }
 
     @Override
+    public void activateComponent(UUID playerID, HashMap<List<Integer>, List<Integer>> activationHashmap) {
+        //
+    }
+
+    @Override
     public void addListener(Listener listener) {
         synchronized (listeners) {
             listeners.add(listener);

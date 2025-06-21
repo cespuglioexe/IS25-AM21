@@ -6,6 +6,7 @@ import it.polimi.it.galaxytrucker.messages.Message;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -28,6 +29,7 @@ public class UserInput extends Message {
     private final int selectedTileIndex;
     private final int cardPileIndex;
 
+    private final HashMap<List<Integer>,List<Integer>> activationHashmap;
     private final List<Integer> coords;
     private final int rotation;
 
@@ -44,7 +46,8 @@ public class UserInput extends Message {
             @JsonProperty("selectedTileIndex") int selectedTileIndex,
             @JsonProperty("cardPileIndex") int cardPileIndex,
             @JsonProperty("coords") List<Integer> coords,
-            @JsonProperty("rotation") int rotation) {
+            @JsonProperty("rotation") int rotation,
+            @JsonProperty("activationHashmap") HashMap<List<Integer>,List<Integer>> activationHashmap ){
         this.type = type;
         this.serverName = serverName;
         this.playerName = playerName;
@@ -56,6 +59,7 @@ public class UserInput extends Message {
         this.cardPileIndex = cardPileIndex;
         this.coords = coords;
         this.rotation = rotation;
+        this.activationHashmap = activationHashmap;
     }
 
     public UserInput(UserInputBuilder builder) {
@@ -71,6 +75,7 @@ public class UserInput extends Message {
         this.selectedTileIndex = builder.selectedTileIndex;
         this.cardPileIndex = builder.cardPileIndex;
         this.playerUuid = builder.playerUuid;
+        this.activationHashmap = builder.activationHashmap;
     }
 
     public UserInputType getType() {
@@ -97,7 +102,11 @@ public class UserInput extends Message {
         return gameId;
     }
 
-//    public RequestType getRequestType() {
+    public HashMap<List<Integer>, List<Integer>> getActivationHashmap() {
+        return activationHashmap;
+    }
+
+    //    public RequestType getRequestType() {
 //        return requestType;
 //    }
 
@@ -142,6 +151,7 @@ public class UserInput extends Message {
         private String serverName = "";
         private String playerName = "";
         private UUID playerUuid = new UUID(0L, 0L);
+        private HashMap<List<Integer>,List<Integer>> activationHashmap;
 
 
         private int gameLevel = 0;
@@ -188,7 +198,12 @@ public class UserInput extends Message {
             return this;
         }
 
-//        public UserInputBuilder setRequestType(RequestType requestType) {
+        public UserInputBuilder setActivationHashmap(HashMap<List<Integer>, List<Integer>> activationHashmap) {
+            this.activationHashmap = activationHashmap;
+            return this;
+        }
+
+        //        public UserInputBuilder setRequestType(RequestType requestType) {
 //            this.requestType = requestType;
 //            return this;
 //        }

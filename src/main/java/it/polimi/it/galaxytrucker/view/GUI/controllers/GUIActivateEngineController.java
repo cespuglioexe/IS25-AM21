@@ -1,6 +1,5 @@
 package it.polimi.it.galaxytrucker.view.GUI.controllers;
 
-import com.sun.jdi.IntegerValue;
 import it.polimi.it.galaxytrucker.messages.clientmessages.UserInput;
 import it.polimi.it.galaxytrucker.messages.clientmessages.UserInputType;
 import it.polimi.it.galaxytrucker.model.componenttiles.OutOfBoundsTile;
@@ -19,14 +18,13 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.*;
 
-public class GUIActivateCannonController extends GUIViewState {
+public class GUIActivateEngineController extends GUIViewState {
 
     private int rotation;
     private Map<String, ImageView> imageTiles = new HashMap<>();
-    private List<List<Integer>> cannonCoords = new ArrayList<>();
+    private List<List<Integer>> engineCoords = new ArrayList<>();
     private List<List<Integer>> batteryCoord = new ArrayList<>();
-    private HashMap<List<Integer>,List<Integer>> cannonAndBatteryCoord = new HashMap<>();
-
+    private HashMap<List<Integer>,List<Integer>> engineAndBatteryCoord = new HashMap<>();
 
     @FXML
     private Label incorrectCoord1,incorrectCoord2,incorrectValue;
@@ -40,12 +38,12 @@ public class GUIActivateCannonController extends GUIViewState {
     @FXML
     private ImageView imageTile57,imageTile66,imageTile75,imageTile85,imageTile95,imageTile86,imageTile96,imageTile76,imageTile,imageTile67,imageTile68,imageTile78,imageTile88,imageTile98,imageTile99,imageTile89,imageTile79,imageTile77,imageTile87,imageTile56,imageTile58,imageTile65,imageTile74,imageTile84,imageTile94,imageTile910,imageTile810,imageTile710,imageTile69;
 
-    private static GUIActivateCannonController instance;
+    private static GUIActivateEngineController instance;
 
-    public static GUIActivateCannonController getInstance() {
-        synchronized (GUIActivateCannonController.class) {
+    public static GUIActivateEngineController getInstance() {
+        synchronized (GUIActivateEngineController.class) {
             if (instance == null) {
-                instance = new GUIActivateCannonController();
+                instance = new GUIActivateEngineController();
             }
             return instance;
         }
@@ -78,9 +76,9 @@ public class GUIActivateCannonController extends GUIViewState {
         tileImageView.setImage(null);
     }
 
-    public GUIActivateCannonController() {
+    public GUIActivateEngineController() {
         try {
-            FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(GUIActivateCannonController.class.getResource("/it/polimi/it/galaxytrucker/fxmlstages/activateCannon.fxml")));
+            FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(GUIActivateEngineController.class.getResource("/it/polimi/it/galaxytrucker/fxmlstages/activateEngine.fxml")));
             loader.setController(this);
             root = loader.load();
         } catch (IOException e) {
@@ -88,17 +86,19 @@ public class GUIActivateCannonController extends GUIViewState {
         }
     }
 
-    public void addCannon(){
+    public void addEngine(){
         int col = Integer.parseInt(xCoordText.getText());
         int row= Integer.parseInt(yCoordText.getText());
         // -------------------------Se le coordinate sono errate---------------------------------------------
-
-            if((col > 4 && col<10) && (row>5) && (row<10)){
-
-            }
-            incorrectCoord1.setVisible(true);
+        GUIView.getInstance().getClient().receiveUserInput(
+                new UserInput.UserInputBuilder(UserInputType.PLACE_COMPONENT)
+                        .setCoords(col, row)
+                        .setRotation(rotation)
+                        .build()
+        );
+        incorrectCoord1.setVisible(true);
         //----------------------------------------------------------------------------------------------------
-        cannonCoords.add(List.of(row,col));
+        engineCoords.add(List.of(row,col));
         incorrectCoord1.setVisible(false);
 
         // In base alla imageView trovata con le coordinate
@@ -110,9 +110,12 @@ public class GUIActivateCannonController extends GUIViewState {
         int col = Integer.parseInt(xCoordText2.getText());
         int row= Integer.parseInt(yCoordText2.getText());
         // -------------------------Se le coordinate sono errate---------------------------------------------
-
-
-
+        GUIView.getInstance().getClient().receiveUserInput(
+                new UserInput.UserInputBuilder(UserInputType.PLACE_COMPONENT)
+                        .setCoords(col, row)
+                        .setRotation(rotation)
+                        .build()
+        );
         incorrectCoord2.setVisible(true);
         //----------------------------------------------------------------------------------------------------
         batteryCoord.add(List.of(row,col));
@@ -130,26 +133,19 @@ public class GUIActivateCannonController extends GUIViewState {
         }
     }
 
-    public void activateCannon(){
-        if(!cannonCoords.isEmpty() && !batteryCoord.isEmpty() && (cannonCoords.size()==batteryCoord.size())){
-            for(int i=0;i<cannonCoords.size();i++){
-                cannonAndBatteryCoord.put(cannonCoords.get(i),batteryCoord.get(i));
+    public void activateEngine(){
+        if(!engineCoords.isEmpty() && !batteryCoord.isEmpty() && (engineCoords.size()==batteryCoord.size())){
+            for(int i=0;i<engineCoords.size();i++){
+                engineAndBatteryCoord.put(engineCoords.get(i),batteryCoord.get(i));
             }
-            GUIView.getInstance().getClient().receiveUserInput(
-                    new UserInput.UserInputBuilder(UserInputType.ACTIVATE_COMPONENT)
-                            .setActivationHashmap(cannonAndBatteryCoord)
+            /*GUIView.getInstance().getClient().receiveUserInput(
+                    new UserInput.UserInputBuilder(UserInputType.CONFIRM_BUILDING_END)
                             .build()
             );
+                Invio input al server e cambio schermata
+            */
         } else{
-            if(cannonCoords.isEmpty() && batteryCoord.isEmpty() ) {
-                cannonAndBatteryCoord.put(List.of(), List.of());
-                GUIView.getInstance().getClient().receiveUserInput(
-                        new UserInput.UserInputBuilder(UserInputType.ACTIVATE_COMPONENT)
-                                .setActivationHashmap(cannonAndBatteryCoord)
-                                .build()
-                );
-            }
-            else resetCoord();
+            resetCoord();
         }
     }
 
@@ -192,7 +188,5 @@ public class GUIActivateCannonController extends GUIViewState {
             stage.setScene(scene);
             stage.show();
         });
-
-
     }
 }

@@ -248,6 +248,9 @@ public abstract class ClientHandler extends UnicastRemoteObject implements Liste
                 case REMOVE_COMPONENT:
                     controller.removeComponentTile(clientUuid, userInput.getCoords().get(0), userInput.getCoords().get(1));
                     break;
+                case ACTIVATE_COMPONENT:
+                    controller.activateComponent(clientUuid,userInput.getActivationHashmap());
+                    break;
                 default:
                     System.out.println(ConsoleColors.CLIENT_HANDLER_DEBUG.tag(clientName) + "received input" + ConsoleColors.RESET);
             }

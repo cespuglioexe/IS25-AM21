@@ -37,7 +37,25 @@
       </StackPane>
       <AnchorPane layoutX="3.0" layoutY="14.0" prefHeight="802.0" prefWidth="1334.0" AnchorPane.bottomAnchor="-14.0" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="-3.0" AnchorPane.topAnchor="14.0">
          <children>
-            <AnchorPane layoutY="-0.800000011920929" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <AnchorPane layoutY="-0.800000011920929" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Label fx:id="incorrectCoord2" layoutX="227.0" layoutY="565.0" text="INCORRECT COORDINATES" textFill="WHITE">
+                     <font>
+                        <Font name="Centaur" size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="incorrectCoord1" layoutX="228.0" layoutY="393.0" text="INCORRECT COORDINATES" textFill="WHITE" visible="false">
+                     <font>
+                        <Font name="Centaur" size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="incorrectValue" layoutX="245.0" layoutY="700.0" text="INCORRECT VALUE" textFill="WHITE" visible="false">
+                     <font>
+                        <Font name="Centaur" size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
             <Label layoutX="87.0" layoutY="58.0" prefHeight="33.0" prefWidth="48.0" text="Timer:" visible="false">
                <font>
                   <Font size="18.0" />
@@ -94,7 +112,7 @@
                   <ImageView fx:id="imageTile69" fitHeight="100.0" fitWidth="100.0" layoutX="540.0" layoutY="128.0" pickOnBounds="true" preserveRatio="true" />
                </children>
             </Pane>
-            <Button fx:id="endBuildingButton" layoutX="264.0" layoutY="572.0" mnemonicParsing="false" onAction="#endBuilding" prefHeight="47.0" prefWidth="87.0" style="-fx-background-color: green;" text="ACTIVATE" textFill="WHITE">
+            <Button fx:id="activateCannonButton" layoutX="269.0" layoutY="627.0" mnemonicParsing="false" onAction="#activateCannon" prefHeight="47.0" prefWidth="87.0" style="-fx-background-color: green;" text="ACTIVATE" textFill="WHITE">
                <effect>
                   <ColorAdjust brightness="0.03" contrast="1.0" hue="-0.02" saturation="-0.01" />
                </effect>
@@ -102,12 +120,12 @@
                   <Font name="Cambria" size="14.0" />
                </font>
             </Button>
-            <Label alignment="CENTER" layoutX="219.0" layoutY="239.0" text="CANNON" textAlignment="CENTER" textFill="WHITE">
+            <Label alignment="CENTER" layoutX="230.0" layoutY="239.0" text="CANNON" textAlignment="CENTER" textFill="WHITE">
                <font>
                   <Font name="Centaur" size="42.0" />
                </font>
             </Label>
-            <Button fx:id="addCannonButton1" layoutX="412.0" layoutY="493.0" mnemonicParsing="false" onAction="#addCannon" text="ADD">
+            <Button fx:id="addBatteryButton" layoutX="412.0" layoutY="512.0" mnemonicParsing="false" onAction="#addBattery" text="ADD">
                <effect>
                   <ColorAdjust brightness="-0.11" hue="-1.0" />
                </effect>
@@ -115,9 +133,9 @@
                   <Font name="Cambria" size="12.0" />
                </font>
             </Button>
-            <TextField layoutX="180.0" layoutY="492.0" prefHeight="26.0" prefWidth="60.0" promptText="X coord..." fx:id="xCoordText1" />
-            <TextField fx:id="yCoordText1" layoutX="299.0" layoutY="493.0" prefHeight="26.0" prefWidth="60.0" promptText="Y coord" />
-            <Label alignment="CENTER" layoutX="220.0" layoutY="412.0" text="BATTERY" textAlignment="CENTER" textFill="WHITE">
+            <TextField layoutX="180.0" layoutY="511.0" prefHeight="26.0" prefWidth="60.0" promptText="X coord..." fx:id="xCoordText2" />
+            <TextField fx:id="yCoordText2" layoutX="299.0" layoutY="512.0" prefHeight="26.0" prefWidth="60.0" promptText="Y coord" />
+            <Label alignment="CENTER" layoutX="226.0" layoutY="432.0" text="BATTERY" textAlignment="CENTER" textFill="WHITE">
                <font>
                   <Font name="Centaur" size="42.0" />
                </font>
