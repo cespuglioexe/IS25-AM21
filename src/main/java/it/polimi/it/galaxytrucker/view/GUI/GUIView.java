@@ -126,13 +126,16 @@ public class GUIView extends View {
     @Override
     public void activeControllers(List<GenericGameData> activeControllers) {
         GUIGameCreation.getInstance().activeControllers(activeControllers);
-        System.out.println("AFTER GUI view: get instance gamecreation controllers");
-
     }
 
     @Override
     public void shipUpdated(UUID interestedPlayerId) {
-        GUIBuildingController.getInstance().updateShip();
+        if (GUIBuildingController.getCurrentState() == GUIBuildingController.getInstance()) {
+            GUIBuildingController.getInstance().updateShip();
+        }
+        else if (GUIFixingShipController.getCurrentState() == GUIFixingShipController.getInstance()) {
+            GUIFixingShipController.getInstance().updateShip();
+        }
     }
 
     @Override

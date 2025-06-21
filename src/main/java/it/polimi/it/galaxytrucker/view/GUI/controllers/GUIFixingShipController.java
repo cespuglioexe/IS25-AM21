@@ -94,7 +94,8 @@ public class GUIFixingShipController extends GUIViewState{
             stage.show();
         });
     }
-    public void updateShip(){
+
+    public void updateShip() {
         Platform.runLater(() -> {
             String componentGraphic = "";
             String imgViewNumber = "";
@@ -102,19 +103,18 @@ public class GUIFixingShipController extends GUIViewState{
             List<List<TileData>> ship = GUIView.getInstance().getClient().getModel().getPlayerShips(GUIView.getInstance().getClient().getModel().getMyData().getPlayerId());
             for (List<TileData> row : ship) {
                 for (TileData tileData : row) {
-                    if(!tileData.type().equals(OutOfBoundsTile.class.getSimpleName())){
-                        if (tileData !=null) {
+                    imgViewNumber = imgViewNumber + rowcount + colcount;
+
+                    if(tileData != null){
+                        if (!tileData.type().equals(OutOfBoundsTile.class.getSimpleName())) {
                             componentGraphic = tileData.graphicPath();
                             rotation = tileData.rotation();
 
-                            imgViewNumber = imgViewNumber + rowcount + colcount;
                             imageTiles.get(imgViewNumber).setImage(new Image(Objects.requireNonNull(GUIFixingShipController.class.getResourceAsStream(componentGraphic))));
                             imageTiles.get(imgViewNumber).setRotate(90 * rotation);
-                        }else{
-                            System.out.println("nell'else");
-                            imgViewNumber = imgViewNumber + rowcount + colcount;
-                            imageTiles.get(imgViewNumber).setImage(null);
                         }
+                    } else {
+                        imageTiles.get(imgViewNumber).setImage(null);
                     }
 
                     imgViewNumber = "";
@@ -127,20 +127,15 @@ public class GUIFixingShipController extends GUIViewState{
         rotation = 0;
     }
 
-
-
     @FXML
     public void removeSelectedTile() {
-        int col = Integer.parseInt(removeXcoord.getText());;
+        int col = Integer.parseInt(removeXcoord.getText());
         int row= Integer.parseInt(removeYcoord.getText());
         GUIView.getInstance().getClient().receiveUserInput(
                 new UserInput.UserInputBuilder(UserInputType.REMOVE_COMPONENT)
                         .setCoords(col,row)
                         .build()
         );
-
-
-        updateShip();
     }
 }
 

@@ -144,6 +144,6 @@ public class Controller implements ControllerInterface {
 
     @Override
     public void removeComponentTile(UUID playerId, int col, int row){
-        model.deleteComponentTile(playerId, col,row);
+        model.deleteComponentTile(playerId, row, col);
     }
 }
