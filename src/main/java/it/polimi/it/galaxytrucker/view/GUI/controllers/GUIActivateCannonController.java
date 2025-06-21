@@ -3,8 +3,7 @@ package it.polimi.it.galaxytrucker.view.GUI.controllers;
 import com.sun.jdi.IntegerValue;
 import it.polimi.it.galaxytrucker.messages.clientmessages.UserInput;
 import it.polimi.it.galaxytrucker.messages.clientmessages.UserInputType;
-import it.polimi.it.galaxytrucker.model.componenttiles.OutOfBoundsTile;
-import it.polimi.it.galaxytrucker.model.componenttiles.TileData;
+import it.polimi.it.galaxytrucker.model.componenttiles.*;
 import it.polimi.it.galaxytrucker.view.GUI.GUIView;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -91,34 +90,25 @@ public class GUIActivateCannonController extends GUIViewState {
     public void addCannon(){
         int col = Integer.parseInt(xCoordText.getText());
         int row= Integer.parseInt(yCoordText.getText());
-        // -------------------------Se le coordinate sono errate---------------------------------------------
-
-            if((col > 4 && col<10) && (row>5) && (row<10)){
-
-            }
+        if((row<5) || (row>9) || (col<4) || (col>10)){
             incorrectCoord1.setVisible(true);
-        //----------------------------------------------------------------------------------------------------
-        cannonCoords.add(List.of(row,col));
-        incorrectCoord1.setVisible(false);
-
-        // In base alla imageView trovata con le coordinate
-        // imageView.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
-
+        }
+        if(GUIView.getInstance().getClient().getModel().getPlayerShips(GUIView.getInstance().getClient().getModel().getMyData().getPlayerId()).get(row).get(col).type().equals(DoubleCannon.class.getSimpleName())){
+            cannonCoords.add(List.of(row,col));
+            incorrectCoord1.setVisible(false);
+        } else incorrectCoord1.setVisible(true);
     }
 
     public void addBattery(){
         int col = Integer.parseInt(xCoordText2.getText());
         int row= Integer.parseInt(yCoordText2.getText());
-        // -------------------------Se le coordinate sono errate---------------------------------------------
-
-
-
-        incorrectCoord2.setVisible(true);
-        //----------------------------------------------------------------------------------------------------
-        batteryCoord.add(List.of(row,col));
-        incorrectCoord2.setVisible(false);
-        // In base alla imageView trovata con le coordinate
-        // imageView.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+        if((row<5) || (row>9) || (col<4) || (col>10)){
+            incorrectCoord1.setVisible(true);
+        }
+        if(GUIView.getInstance().getClient().getModel().getPlayerShips(GUIView.getInstance().getClient().getModel().getMyData().getPlayerId()).get(row).get(col).type().equals(BatteryComponent.class.getSimpleName())){
+            batteryCoord.add(List.of(row,col));
+            incorrectCoord1.setVisible(false);
+        } else incorrectCoord1.setVisible(true);
     }
 
     public void resetCoord(){
