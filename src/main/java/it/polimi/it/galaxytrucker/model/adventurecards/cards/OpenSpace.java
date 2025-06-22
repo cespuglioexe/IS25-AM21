@@ -60,6 +60,10 @@ public class OpenSpace extends CardStateMachine implements AdventureCard {
         updateState();
     }
 
+    public void selectNoEngine(Player player) {
+        updateState();
+    }
+
     public void travel() {
         List<Player> players = flightRules.getPlayerOrder();
 
