@@ -30,7 +30,7 @@
                   <TextField fx:id="numberOfPlayersInput" layoutX="173.0" layoutY="130.0" promptText="1...4" />
                   <TextField fx:id="setLevelInput" layoutX="173.0" layoutY="181.0" promptText="1 or 2" />
                   <Label layoutX="98.0" layoutY="185.0" text="Set level" />
-                  <Button id="futuristic-button" fx:id="confirmCreationButton" layoutX="138.0" layoutY="229.0" mnemonicParsing="false" onAction="#createNewGame" styleClass="futuristic-button" stylesheets="@../css/createGameButton.css" text="Create a game" />
+                  <Button id="futuristic-button" fx:id="confirmCreationButton" layoutX="138.0" layoutY="229.0" mnemonicParsing="false" onAction="#createNewGame" styleClass="futuristic-button" text="Create a game" />
                </children>
             </AnchorPane>
         </items>
