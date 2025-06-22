@@ -6,6 +6,8 @@ import java.util.List;
 import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.CardStateMachine;
 import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.openspace.StartState;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCard;
+import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCardInputContext;
+import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCardVisitor;
 import it.polimi.it.galaxytrucker.model.design.strategyPattern.FlightRules;
 import it.polimi.it.galaxytrucker.model.managers.Player;
 import it.polimi.it.galaxytrucker.model.managers.ShipManager;
@@ -76,5 +78,10 @@ public class OpenSpace extends CardStateMachine implements AdventureCard {
     public String toString() {
         return "OpenSpace{" +
                 '}';
+    }
+
+    @Override
+    public void accept(AdventureCardVisitor visitor, AdventureCardInputContext context) {
+        visitor.visit(this, context);
     }
 }

@@ -7,6 +7,8 @@ import java.util.Optional;
 
 import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.pirates.StartState;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCard;
+import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCardInputContext;
+import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCardVisitor;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.CreditReward;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.FlightDayPenalty;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.attack.Attack;
@@ -173,5 +175,10 @@ public class Pirates extends Attack implements AdventureCard,FlightDayPenalty, C
                 ", flightDayPenalty=" + flightDayPenalty +
                 ", projectiles = "+ super.getProjectiles().toString()+
                 '}';
+    }
+
+    @Override
+    public void accept(AdventureCardVisitor visitor, AdventureCardInputContext context) {
+        visitor.visit(this, context);
     }
 }

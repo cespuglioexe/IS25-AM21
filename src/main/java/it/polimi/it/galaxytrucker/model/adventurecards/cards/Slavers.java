@@ -7,6 +7,8 @@ import java.util.Optional;
 import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.CardStateMachine;
 import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.slavers.StartState;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCard;
+import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCardInputContext;
+import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCardVisitor;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.CreditReward;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.CrewmatePenalty;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.FlightDayPenalty;
@@ -150,5 +152,10 @@ public class Slavers extends CardStateMachine implements AdventureCard, CreditRe
                 ", crewmatePenalty=" + crewmatePenalty +
                 ", flightDayPenalty=" + flightDayPenalty +
                 '}';
+    }
+
+    @Override
+    public void accept(AdventureCardVisitor visitor, AdventureCardInputContext context) {
+        visitor.visit(this, context);
     }
 }
