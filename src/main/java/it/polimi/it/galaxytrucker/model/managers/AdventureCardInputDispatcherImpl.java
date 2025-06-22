@@ -112,7 +112,7 @@ public class AdventureCardInputDispatcherImpl implements AdventureCardInputDispa
 
                 card.selectEngine(player, engineAndBatteries);
             } else {
-                //TODO
+                card.selectNoEngine(player);
             }
         }
     }
@@ -160,7 +160,7 @@ public class AdventureCardInputDispatcherImpl implements AdventureCardInputDispa
 
                 card.selectCannons(cannonAndBatteries);
             } else {
-                //TODO
+                card.selectNoCannons();
             }
         } else if (isCreditReward(context)) {
             boolean accepts = context.get("acceptsCredit", Boolean.class);
@@ -188,7 +188,7 @@ public class AdventureCardInputDispatcherImpl implements AdventureCardInputDispa
 
                 card.selectCannons(cannonAndBatteries);
             } else {
-                //TODO
+                card.selectNoCannons();
             }
         } else if (isCargoReward(context)) {
             int loadIndex = context.get("loadIndex", Integer.class);
