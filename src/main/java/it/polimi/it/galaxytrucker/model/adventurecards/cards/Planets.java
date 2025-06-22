@@ -14,6 +14,8 @@ import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.CardStateMachi
 import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.planets.StartState;
 import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.planets.FlightDayPenaltyState;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCard;
+import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCardInputContext;
+import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCardVisitor;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.CargoReward;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.FlightDayPenalty;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.Participation;
@@ -336,6 +338,11 @@ public class Planets extends CardStateMachine implements AdventureCard, Particip
                 "planetsAndRewards=" + planetsAndRewards +
                 ", flightDayPenalty=" + flightDayPenalty +
                 '}';
+    }
+
+    @Override
+    public void accept(AdventureCardVisitor visitor, AdventureCardInputContext context) {
+        visitor.visit(this, context);
     }
 }
 

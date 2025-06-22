@@ -23,7 +23,7 @@ public class StarDust extends CardStateMachine implements AdventureCard, FlightD
     public StarDust(int flightDayPenalty, FlightRules flightRules, String graphic) {
         this.flightRules = flightRules;
         this.graphic = graphic;
-        this.flightDayPenalty=flightDayPenalty;
+        this.flightDayPenalty = flightDayPenalty;
     }
     
     @Override
