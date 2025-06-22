@@ -15,7 +15,7 @@ public class CrewmatePenaltyState extends State {
         CombatZone card = (CombatZone) fsm;
         Subject subject = (Subject) fsm;
         penalty = card.getCrewmatePenalty();
-        subject.notifyObservers(new InputNeeded(card));
+        subject.notifyObservers(new InputNeeded(card, card.getPlayer()));
     }
 
     @Override
@@ -25,7 +25,7 @@ public class CrewmatePenaltyState extends State {
         if (++appliedPenalty == penalty) {
             changeState(fsm, new CannonSelectionState());
         }
-        subject.notifyObservers(new InputNeeded(card));
+        subject.notifyObservers(new InputNeeded(card, card.getPlayer()));
     }
 
     @Override

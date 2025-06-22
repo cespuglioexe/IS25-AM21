@@ -193,6 +193,13 @@ public abstract class Client extends UnicastRemoteObject implements Runnable, Cl
                 buildingTimerIsActive = false;
                 view.displayTimerEnded();
                 break;
+            case INPUT:
+                if (update.getInterestedPlayerId().equals(model.getMyData().getPlayerId())) {
+                    view.displayInputOptions(update.getOperationMessage(), update.getNewSate());
+                }
+            case INVALID_INPUT:
+                //TODO
+                break;
             default:
                 System.out.println(ConsoleColors.CLIENT_DEBUG + "Received unhandled game update instruction type: " + update.getInstructionType() + ConsoleColors.RESET);
                 break;

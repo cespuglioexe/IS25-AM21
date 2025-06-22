@@ -344,6 +344,10 @@ public class Planets extends CardStateMachine implements AdventureCard, Particip
     public void accept(AdventureCardVisitor visitor, AdventureCardInputContext context) {
         visitor.visit(this, context);
     }
+
+    public List<Player> getPlayerOrder() {
+        return flightRules.getPlayerOrder();
+    }
 }
 
 

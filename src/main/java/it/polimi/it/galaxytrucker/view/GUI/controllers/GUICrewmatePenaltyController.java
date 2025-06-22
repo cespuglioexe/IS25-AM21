@@ -17,7 +17,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.*;
 
-public class GUICrewmatePenaltyController extends GUIViewState{
+public class GUICrewmatePenaltyController extends GUIViewState implements GUIErrorHandler {
 
     private Map<String, ImageView> imageTiles = new HashMap<>();
     private List<List<Integer>> crewmateCoord = new ArrayList<>();
@@ -97,5 +97,10 @@ public class GUICrewmatePenaltyController extends GUIViewState{
             updateShip();
             numberOfCrewmates = crewmateCoord.size();
         });
+    }
+
+    @Override
+    public void inputError() {
+        System.out.println("TODO: implement input error handling in GUICrewmatePenaltyController");
     }
 }

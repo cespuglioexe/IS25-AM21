@@ -13,7 +13,7 @@ public class SmallMeteorState extends State {
         MeteorSwarm card = (MeteorSwarm) fsm;
         Subject subject = (Subject) fsm;
         card.aimAtCoordsWith(card.getCurrentMeteor());
-        subject.notifyObservers(new InputNeeded(card));
+        subject.notifyObservers(new InputNeeded(card, card.getPlayer()));
     }
 
     @Override

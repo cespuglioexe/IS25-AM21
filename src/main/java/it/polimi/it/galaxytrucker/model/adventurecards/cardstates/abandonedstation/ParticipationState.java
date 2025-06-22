@@ -5,6 +5,10 @@ import it.polimi.it.galaxytrucker.model.adventurecards.cards.AbandonedStation;
 import it.polimi.it.galaxytrucker.model.design.observerPattern.Subject;
 import it.polimi.it.galaxytrucker.model.design.statePattern.State;
 import it.polimi.it.galaxytrucker.model.design.statePattern.StateMachine;
+import it.polimi.it.galaxytrucker.model.managers.Player;
+
+import java.util.List;
+
 import it.polimi.it.galaxytrucker.exceptions.InvalidActionException;
 import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.EndState;
 
@@ -17,7 +21,7 @@ public class ParticipationState extends State {
         AbandonedStation card = (AbandonedStation) fsm;
         Subject subject = (Subject) fsm;
         numberOfPlayers = card.getNumberOfBoardPlayers();
-        subject.notifyObservers(new InputNeeded(card));
+        subject.notifyObservers(new InputNeeded(card, getPlayerWhoChooses(card)));
     }
 
     @Override
@@ -32,7 +36,7 @@ public class ParticipationState extends State {
         }
         if(allPlayersDecided())
             fsm.changeState(new EndState());
-        subject.notifyObservers(new InputNeeded(card));
+        subject.notifyObservers(new InputNeeded(card, getPlayerWhoChooses(card)));
     }
 
     private boolean allPlayersDecided() {
@@ -41,6 +45,12 @@ public class ParticipationState extends State {
 
     @Override
     public void exit(StateMachine fsm) {
+    }
+
+    private Player getPlayerWhoChooses(AbandonedStation card) {
+        List<Player> playersInFlightOrder = card.getPlayerOrder();
+
+        return playersInFlightOrder.get(playerDecisions);
     }
 }
 

@@ -15,7 +15,7 @@ public class EngineSelectionState extends State {
         CombatZone card = (CombatZone) fsm;
         Subject subject = (Subject) fsm;
         numberOfPlayers = card.getNumberOfBoardPlayers();
-        subject.notifyObservers(new InputNeeded(card));
+        subject.notifyObservers(new InputNeeded(card, card.getPlayer()));
     }
 
     @Override
@@ -25,7 +25,7 @@ public class EngineSelectionState extends State {
         if (allPlayersHaveResponded()) {
             changeState(fsm, new CrewmatePenaltyState());
         }
-        subject.notifyObservers(new InputNeeded(card));
+        subject.notifyObservers(new InputNeeded(card, card.getPlayer()));
     }
     private boolean allPlayersHaveResponded() {
         return ++playerDecisions == numberOfPlayers;
