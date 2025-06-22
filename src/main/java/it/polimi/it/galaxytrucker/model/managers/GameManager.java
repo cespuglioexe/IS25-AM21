@@ -29,6 +29,7 @@ import it.polimi.it.galaxytrucker.messages.servermessages.GameUpdateType;
 import it.polimi.it.galaxytrucker.messages.servermessages.GameUpdate.GameUpdateBuilder;
 import it.polimi.it.galaxytrucker.model.utility.Cargo;
 import it.polimi.it.galaxytrucker.model.utility.Color;
+import it.polimi.it.galaxytrucker.model.utility.Coordinates;
 import it.polimi.it.galaxytrucker.model.utility.Direction;
 import it.polimi.it.galaxytrucker.model.utility.ProjectileType;
 // import it.polimi.it.galaxytrucker.networking.rmi.server.RMIServer;
@@ -479,7 +480,7 @@ public class GameManager extends StateMachine implements Model, Observable {
     }
 
     @Override
-    public void activateComponent(UUID playerID, HashMap<List<Integer>, List<Integer>> activationHashmap) {
+    public void activateComponent(UUID playerID, List<List<Coordinates>> activationHashmap) {
         //
     }
 

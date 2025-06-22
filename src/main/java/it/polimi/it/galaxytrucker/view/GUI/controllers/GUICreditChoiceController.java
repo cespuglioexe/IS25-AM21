@@ -1,11 +1,22 @@
 package it.polimi.it.galaxytrucker.view.GUI.controllers;
 
+import it.polimi.it.galaxytrucker.messages.clientmessages.UserInput;
+import it.polimi.it.galaxytrucker.messages.clientmessages.UserInputType;
+import it.polimi.it.galaxytrucker.view.GUI.GUIView;
+import javafx.application.Platform;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.Objects;
 
 public class GUICreditChoiceController extends GUIViewState{
+
+    @FXML
+    private Label creditsPlayer;
 
     private static GUICreditChoiceController instance;
 
@@ -28,8 +39,34 @@ public class GUICreditChoiceController extends GUIViewState{
         }
     }
 
+    @FXML
+    private void declineReward(){
+    /*    GUIView.getInstance().getClient().receiveUserInput(
+                new UserInput.UserInputBuilder(UserInputType.CARGO_REWARD)
+                        .set(false)
+                        .build()
+        );*/
+    }
+
+    @FXML
+    private void acceptReward(){
+    /*    GUIView.getInstance().getClient().receiveUserInput(
+                new UserInput.UserInputBuilder(UserInputType.CARGO_REWARD)
+                        .set(true)
+                        .build()
+        );*/
+    }
+
+
     @Override
     public void displayScene() {
+        Platform.runLater(() -> {
+            stage = (Stage) GUIView.stage.getScene().getWindow();
+            scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
 
+            creditsPlayer.setText(""+GUIView.getInstance().getClient().getModel().getCredits());
+        });
     }
 }

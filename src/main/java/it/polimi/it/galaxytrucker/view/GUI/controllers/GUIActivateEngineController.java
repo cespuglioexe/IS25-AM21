@@ -3,14 +3,13 @@ package it.polimi.it.galaxytrucker.view.GUI.controllers;
 import it.polimi.it.galaxytrucker.messages.clientmessages.UserInput;
 import it.polimi.it.galaxytrucker.messages.clientmessages.UserInputType;
 import it.polimi.it.galaxytrucker.model.componenttiles.*;
+import it.polimi.it.galaxytrucker.model.utility.Coordinates;
 import it.polimi.it.galaxytrucker.view.GUI.GUIView;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
@@ -20,9 +19,9 @@ import java.util.*;
 public class GUIActivateEngineController extends GUIViewState {
 
     private Map<String, ImageView> imageTiles = new HashMap<>();
-    private List<List<Integer>> engineCoords = new ArrayList<>();
-    private List<List<Integer>> batteryCoord = new ArrayList<>();
-    private HashMap<List<Integer>,List<Integer>> engineAndBatteryCoord = new HashMap<>();
+    private List<Coordinates> engineCoords = new ArrayList<>();
+    private List<Coordinates> batteryCoord = new ArrayList<>();
+    private List<List<Coordinates>> engineAndBatteryCoord = new ArrayList<>();
 
     @FXML
     private Label incorrectCoord1,incorrectCoord2,incorrectValue;
@@ -62,7 +61,7 @@ public class GUIActivateEngineController extends GUIViewState {
             incorrectCoord1.setVisible(true);
         }
         if(GUIView.getInstance().getClient().getModel().getPlayerShips(GUIView.getInstance().getClient().getModel().getMyData().getPlayerId()).get(row).get(col).type().equals(DoubleEngine.class.getSimpleName())){
-            engineCoords.add(List.of(row,col));
+            engineCoords.add(new Coordinates(row,col));
             incorrectCoord1.setVisible(false);
         } else incorrectCoord1.setVisible(true);
 
@@ -76,7 +75,7 @@ public class GUIActivateEngineController extends GUIViewState {
             incorrectCoord1.setVisible(true);
         }
         if(GUIView.getInstance().getClient().getModel().getPlayerShips(GUIView.getInstance().getClient().getModel().getMyData().getPlayerId()).get(row).get(col).type().equals(BatteryComponent.class.getSimpleName())){
-            batteryCoord.add(List.of(row,col));
+            batteryCoord.add(new Coordinates(row,col));
             incorrectCoord1.setVisible(false);
         } else incorrectCoord1.setVisible(true);
     }
@@ -93,25 +92,29 @@ public class GUIActivateEngineController extends GUIViewState {
     @FXML
     private void activateEngine(){
         if(!engineCoords.isEmpty() && !batteryCoord.isEmpty() && (engineCoords.size()==batteryCoord.size())){
-            for(int i=0;i<engineCoords.size();i++){
-                engineAndBatteryCoord.put(engineCoords.get(i),batteryCoord.get(i));
-            }
+            engineAndBatteryCoord.add(engineCoords);
+            engineAndBatteryCoord.add(batteryCoord);
+
             GUIView.getInstance().getClient().receiveUserInput(
                     new UserInput.UserInputBuilder(UserInputType.ACTIVATE_COMPONENT)
-                            .setActivationHashmap(engineAndBatteryCoord)
+                            .setComponentsForActivation(engineAndBatteryCoord)
                             .build()
             );
         } else{
             if(engineCoords.isEmpty() && batteryCoord.isEmpty() ) {
-                engineAndBatteryCoord.put(List.of(), List.of());
+                engineAndBatteryCoord.clear();
                 GUIView.getInstance().getClient().receiveUserInput(
                         new UserInput.UserInputBuilder(UserInputType.ACTIVATE_COMPONENT)
-                                .setActivationHashmap(engineAndBatteryCoord)
+                                .setComponentsForActivation(engineAndBatteryCoord)
                                 .build()
                 );
             }
             else resetCoord();
         }
+
+        engineAndBatteryCoord.clear();
+        engineCoords.clear();
+        batteryCoord.clear();
     }
 
     @Override
