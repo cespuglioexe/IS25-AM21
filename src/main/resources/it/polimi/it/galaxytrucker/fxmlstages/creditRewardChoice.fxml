@@ -19,7 +19,6 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <AnchorPane layoutX="10.0" layoutY="10.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -42,7 +41,7 @@
                         </Lighting>
                      </effect>
                   </ImageView>
-                  <Button fx:id="activateShieldButton" mnemonicParsing="false" onAction="#activateShield" prefHeight="47.0" prefWidth="87.0" style="-fx-background-color: green;" text="ACCEPT" textFill="WHITE">
+                  <Button fx:id="acceptButton" mnemonicParsing="false" onAction="#acceptReward" prefHeight="47.0" prefWidth="87.0" style="-fx-background-color: green;" text="ACCEPT" textFill="WHITE">
                      <effect>
                         <ColorAdjust brightness="0.03" contrast="1.0" hue="-0.02" saturation="-0.01" />
                      </effect>
@@ -53,7 +52,7 @@
                         <Insets left="300.0" />
                      </StackPane.margin>
                   </Button>
-                  <Button fx:id="activateShieldButton1" layoutX="760.0" layoutY="387.0" mnemonicParsing="false" onAction="#activateShield" prefHeight="47.0" prefWidth="87.0" style="-fx-background-color: RED;" text="DECLINE" textFill="WHITE">
+                  <Button fx:id="declineButton" layoutX="760.0" layoutY="387.0" mnemonicParsing="false" onAction="#declineReward" prefHeight="47.0" prefWidth="87.0" style="-fx-background-color: RED;" text="DECLINE" textFill="WHITE">
                      <effect>
                         <ColorAdjust brightness="0.03" contrast="1.0" hue="-0.02" saturation="-0.01" />
                      </effect>
@@ -107,9 +106,9 @@
                                     </DropShadow>
                                  </effect>
                                  <children>
-                                    <Label text="Label" textFill="#001eff">
+                                    <Label textFill="#001eff">
                                        <font>
-                                          <Font name="Centaur" size="14.0" />
+                                          <Font name="Centaur" size="24.0" />
                                        </font>
                                     </Label>
                                  </children>

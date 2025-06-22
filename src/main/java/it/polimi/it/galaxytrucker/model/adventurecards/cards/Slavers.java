@@ -59,6 +59,10 @@ public class Slavers extends CardStateMachine implements AdventureCard, CreditRe
         updateState();
     }
 
+    public void selectNoCannons() {
+        updateState();
+    }
+
     @Override
     public int getCreditReward() {
         return creditReward;

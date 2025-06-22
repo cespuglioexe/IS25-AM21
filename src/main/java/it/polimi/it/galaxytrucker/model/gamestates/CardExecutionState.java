@@ -1,5 +1,7 @@
 package it.polimi.it.galaxytrucker.model.gamestates;
 
+import it.polimi.it.galaxytrucker.messages.servermessages.GameUpdate;
+import it.polimi.it.galaxytrucker.messages.servermessages.GameUpdateType;
 import it.polimi.it.galaxytrucker.model.adventurecards.cardevents.CardEvent;
 import it.polimi.it.galaxytrucker.model.adventurecards.cardevents.CardResolved;
 import it.polimi.it.galaxytrucker.model.adventurecards.cardevents.EventVisitor;
@@ -9,6 +11,7 @@ import it.polimi.it.galaxytrucker.model.design.observerPattern.Observer;
 import it.polimi.it.galaxytrucker.model.design.observerPattern.Subject;
 import it.polimi.it.galaxytrucker.model.design.statePattern.State;
 import it.polimi.it.galaxytrucker.model.design.statePattern.StateMachine;
+import it.polimi.it.galaxytrucker.model.managers.GameManager;
 
 public class CardExecutionState extends GameState implements Observer, EventVisitor {
     AdventureCard currentCard;
@@ -21,6 +24,12 @@ public class CardExecutionState extends GameState implements Observer, EventVisi
     @Override
     public void enter(StateMachine fsm) {
         this.fsm = fsm;
+
+        ((GameManager) fsm).updateListeners(new GameUpdate.GameUpdateBuilder(GameUpdateType.NEW_STATE)
+                .setNewSate(CardExecutionState.class.getSimpleName())
+                .setOperationMessage(((GameManager) fsm).getAdventureDeck().getLastDrawnCard().getGraphicPath())
+                .build()
+        );
 
         ((Subject) currentCard).addObserver(this);
         currentCard.play();

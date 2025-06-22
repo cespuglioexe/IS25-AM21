@@ -57,6 +57,10 @@ public class Smugglers extends CardStateMachine implements AdventureCard, CargoR
         playerFirePower += ship.activateComponent(doubleCannonsAndBatteries);
         updateState();
     }
+
+    public void selectNoCannons() {
+        updateState();
+    }
    
     @Override
     public List<Cargo> getCargoReward() {

@@ -163,7 +163,7 @@ public class GUIView extends View {
     }
 
     @Override
-    public void gameStarted(){
+    public void newCardStartedExecution(){
         GUIGameTurn.getInstance().displayScene();
     }
 
