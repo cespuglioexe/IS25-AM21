@@ -69,7 +69,7 @@
             </StackPane>
             <StackPane prefHeight="150.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <ImageView fitHeight="248.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="BOTTOM_CENTER">
+                  <ImageView fx:id="activeCard" fitHeight="248.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="BOTTOM_CENTER">
                      <image>
                         <Image url="@../graphics/cards/GT-cards_1_015.jpg" />
                      </image>
@@ -180,7 +180,7 @@
                   </Lighting>
                </effect>
                <children>
-                  <Label style="-fx-border-color:: white;" textFill="WHITE" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                  <Label style="-fx-border-color: white;" textFill="WHITE" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                      <font>
                         <Font name="Cambria" size="18.0" />
                      </font></Label>
@@ -251,7 +251,8 @@
                   <Label onMouseClicked="#viewFlightBoard" text="POSITION" GridPane.columnIndex="3" GridPane.halignment="CENTER">
                      <font>
                         <Font name="Cambria" size="18.0" />
-                     </font></Label>
+                     </font>
+                  </Label>
                </children>
             </GridPane>
          </children>

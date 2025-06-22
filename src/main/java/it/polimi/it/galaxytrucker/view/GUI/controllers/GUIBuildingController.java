@@ -136,7 +136,6 @@ public class GUIBuildingController extends GUIViewState {
     public void updateShip(){
         shipController.displayShip();
         tileImageView.setImage(null);
-
     }
 
 
