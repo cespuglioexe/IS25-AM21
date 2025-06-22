@@ -1,17 +1,15 @@
 package it.polimi.it.galaxytrucker.view.GUI.controllers;
 
-import com.sun.jdi.IntegerValue;
 import it.polimi.it.galaxytrucker.messages.clientmessages.UserInput;
 import it.polimi.it.galaxytrucker.messages.clientmessages.UserInputType;
 import it.polimi.it.galaxytrucker.model.componenttiles.*;
+import it.polimi.it.galaxytrucker.model.utility.Coordinates;
 import it.polimi.it.galaxytrucker.view.GUI.GUIView;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
@@ -21,9 +19,9 @@ import java.util.*;
 public class GUIActivateCannonController extends GUIViewState {
 
     private Map<String, ImageView> imageTiles = new HashMap<>();
-    private List<List<Integer>> cannonCoords = new ArrayList<>();
-    private List<List<Integer>> batteryCoord = new ArrayList<>();
-    private HashMap<List<Integer>,List<Integer>> cannonAndBatteryCoord = new HashMap<>();
+    private List<Coordinates> cannonCoords = new ArrayList<>();
+    private List<Coordinates> batteryCoord = new ArrayList<>();
+    private List<List<Coordinates>> cannonAndBatteryCoord = new ArrayList<>();
 
     @FXML
     private Label incorrectCoord1,incorrectCoord2,incorrectValue;
@@ -63,7 +61,7 @@ public class GUIActivateCannonController extends GUIViewState {
             incorrectCoord1.setVisible(true);
         }
         if(GUIView.getInstance().getClient().getModel().getPlayerShips(GUIView.getInstance().getClient().getModel().getMyData().getPlayerId()).get(row).get(col).type().equals(DoubleCannon.class.getSimpleName())){
-            cannonCoords.add(List.of(row,col));
+            cannonCoords.add(new Coordinates(row,col));
             incorrectCoord1.setVisible(false);
         } else incorrectCoord1.setVisible(true);
     }
@@ -76,7 +74,7 @@ public class GUIActivateCannonController extends GUIViewState {
             incorrectCoord1.setVisible(true);
         }
         if(GUIView.getInstance().getClient().getModel().getPlayerShips(GUIView.getInstance().getClient().getModel().getMyData().getPlayerId()).get(row).get(col).type().equals(BatteryComponent.class.getSimpleName())){
-            batteryCoord.add(List.of(row,col));
+            batteryCoord.add(new Coordinates(row,col));
             incorrectCoord1.setVisible(false);
         } else incorrectCoord1.setVisible(true);
     }
@@ -93,25 +91,29 @@ public class GUIActivateCannonController extends GUIViewState {
     @FXML
     private void activateCannon(){
         if(!cannonCoords.isEmpty() && !batteryCoord.isEmpty() && (cannonCoords.size()==batteryCoord.size())){
-            for(int i=0;i<cannonCoords.size();i++){
-                cannonAndBatteryCoord.put(cannonCoords.get(i),batteryCoord.get(i));
-            }
+            cannonAndBatteryCoord.add(cannonCoords);
+            cannonAndBatteryCoord.add(batteryCoord);
+
             GUIView.getInstance().getClient().receiveUserInput(
                     new UserInput.UserInputBuilder(UserInputType.ACTIVATE_COMPONENT)
-                            .setActivationHashmap(cannonAndBatteryCoord)
+                            .setComponentsForActivation(cannonAndBatteryCoord)
                             .build()
             );
         } else{
             if(cannonCoords.isEmpty() && batteryCoord.isEmpty() ) {
-                cannonAndBatteryCoord.put(List.of(), List.of());
+                cannonAndBatteryCoord.clear();
                 GUIView.getInstance().getClient().receiveUserInput(
                         new UserInput.UserInputBuilder(UserInputType.ACTIVATE_COMPONENT)
-                                .setActivationHashmap(cannonAndBatteryCoord)
+                                .setComponentsForActivation(cannonAndBatteryCoord)
                                 .build()
                 );
             }
             else resetCoord();
         }
+
+        cannonAndBatteryCoord.clear();
+        cannonCoords.clear();
+        batteryCoord.clear();
     }
 
     @Override

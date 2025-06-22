@@ -5,9 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.it.galaxytrucker.messages.Message;
 import it.polimi.it.galaxytrucker.model.utility.Coordinates;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -30,7 +28,7 @@ public class UserInput extends Message {
     private final int selectedTileIndex;
     private final int cardPileIndex;
 
-    private final List<List<Coordinates>> activationHashmap;
+    private final List<List<Coordinates>> componentsForActivation;
     private final List<Integer> coords;
     private final int rotation;
 
@@ -48,7 +46,7 @@ public class UserInput extends Message {
             @JsonProperty("cardPileIndex") int cardPileIndex,
             @JsonProperty("coords") List<Integer> coords,
             @JsonProperty("rotation") int rotation,
-            @JsonProperty("activationHashmap") List<List<Coordinates>> activationHashmap ){
+            @JsonProperty("componentsForActivation") List<List<Coordinates>> componentsForActivation ){
         this.type = type;
         this.serverName = serverName;
         this.playerName = playerName;
@@ -60,7 +58,7 @@ public class UserInput extends Message {
         this.cardPileIndex = cardPileIndex;
         this.coords = coords;
         this.rotation = rotation;
-        this.activationHashmap = activationHashmap;
+        this.componentsForActivation = componentsForActivation;
     }
 
     public UserInput(UserInputBuilder builder) {
@@ -76,7 +74,7 @@ public class UserInput extends Message {
         this.selectedTileIndex = builder.selectedTileIndex;
         this.cardPileIndex = builder.cardPileIndex;
         this.playerUuid = builder.playerUuid;
-        this.activationHashmap = builder.activationHashmap;
+        this.componentsForActivation = builder.componentsForActivation;
     }
 
     public UserInputType getType() {
@@ -103,8 +101,8 @@ public class UserInput extends Message {
         return gameId;
     }
 
-    public List<List<Coordinates>> getActivationHashmap() {
-        return activationHashmap;
+    public List<List<Coordinates>> getComponentsForActivation() {
+        return componentsForActivation;
     }
 
     //    public RequestType getRequestType() {
@@ -152,7 +150,7 @@ public class UserInput extends Message {
         private String serverName = "";
         private String playerName = "";
         private UUID playerUuid = new UUID(0L, 0L);
-        private List<List<Coordinates>> activationHashmap;
+        private List<List<Coordinates>> componentsForActivation = new ArrayList<>();
 
 
         private int gameLevel = 0;
@@ -199,8 +197,8 @@ public class UserInput extends Message {
             return this;
         }
 
-        public UserInputBuilder setActivationHashmap(List<List<Coordinates>> activationHashmap) {
-            this.activationHashmap = activationHashmap;
+        public UserInputBuilder setComponentsForActivation(List<List<Coordinates>> componentsForActivation) {
+            this.componentsForActivation = componentsForActivation;
             return this;
         }
 
