@@ -63,17 +63,6 @@
                      </children>
                   </AnchorPane>
                   <fx:include fx:id="ship" source="PlayerShipElement.fxml" AnchorPane.bottomAnchor="236.0" AnchorPane.leftAnchor="800.0" AnchorPane.rightAnchor="230.0" AnchorPane.topAnchor="200.0" />
-                  <Label layoutX="87.0" layoutY="58.0" prefHeight="33.0" prefWidth="48.0" text="Timer:" visible="false">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="timerSeconds" layoutX="144.0" layoutY="65.0" text="0" visible="false">
-                     <font>
-                        <Font size="16.0" />
-                     </font>
-                  </Label>
-                  <Button fx:id="restartTimerButton" layoutX="89.0" layoutY="625.0" mnemonicParsing="false" onAction="#startTimer" prefHeight="51.0" prefWidth="135.0" text="Restart timer" visible="false" />
                   <Button fx:id="addEngineButton" layoutX="412.0" layoutY="335.0" mnemonicParsing="false" onAction="#addEngine" text="ADD">
                      <font>
                         <Font name="Cambria" size="12.0" />
