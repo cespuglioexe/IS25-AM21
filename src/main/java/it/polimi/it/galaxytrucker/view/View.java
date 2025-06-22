@@ -68,4 +68,5 @@ public abstract class View {
     public abstract void waitingForGameState();
 
     public abstract void newCardStartedExecution();
+
 }
