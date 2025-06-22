@@ -167,6 +167,58 @@ public class GUIView extends View {
         GUIGameTurn.getInstance().displayScene();
     }
 
+    @Override
+    public void displayInputOptions(String card, String cardState) {
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            System.out.println("Error while waiting for input options: " + e.getMessage());
+        }
+        switch (cardState) {
+            case "ParticipationState":
+                if (card.equals("Planets")) {
+                    GUIParticipationPlanetController.getInstance().displayScene();
+                } else {
+                    GUIParticipationChoiceController.getInstance().displayScene();
+                }
+                break;
+            case "CargoRewardState":
+                GUICargoChoiceController.getInstance().displayScene();
+                break;
+            case "CreditRewardState":
+                GUICreditChoiceController.getInstance().displayScene();
+                break;
+            case "CrewmatePenaltyState":
+                GUICrewmatePenaltyController.getInstance().displayScene();
+                break;
+            case "CalculateFirePowerState":
+            case "CannonSelectionState":
+            case "BigMeteorState":
+                GUIActivateCannonController.getInstance().displayScene();
+                break;
+            case "CalculateEnginePowerState":
+            case "EngineSelectionState":
+                GUIActivateEngineController.getInstance().displayScene();
+                break;
+            case "ActivateShieldState":
+            case "SmallMeteorState":
+                GUIActivateShieldController.getInstance().displayScene();
+                break;
+            default:
+                System.out.println("Margarozzo!!!");
+                break;
+        }
+    }
+
+    @Override
+    public void manageInputError() {
+        GUIViewState currentState = GUIGameTurn.getCurrentState();
+
+        if (currentState instanceof GUIErrorHandler) {
+            ((GUIErrorHandler) currentState).inputError();
+        }
+    }
+
 
 
     //Utili solo per il controllo senza png

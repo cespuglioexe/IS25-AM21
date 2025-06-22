@@ -3,6 +3,10 @@ package it.polimi.it.galaxytrucker.model.adventurecards.cardstates.planets;
 import it.polimi.it.galaxytrucker.model.design.observerPattern.Subject;
 import it.polimi.it.galaxytrucker.model.design.statePattern.State;
 import it.polimi.it.galaxytrucker.model.design.statePattern.StateMachine;
+import it.polimi.it.galaxytrucker.model.managers.Player;
+
+import java.util.List;
+
 import it.polimi.it.galaxytrucker.model.adventurecards.cardevents.InputNeeded;
 import it.polimi.it.galaxytrucker.model.adventurecards.cards.Planets;
 import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.EndState;
@@ -20,7 +24,7 @@ public class ParticipationState extends State {
         numberOfPlanets = card.getPlanets().size();
         numberOfPlayers = card.getNumberOfBoardPlayers();
 
-        subject.notifyObservers(new InputNeeded(card));
+        subject.notifyObservers(new InputNeeded(card, getPlayerWhoChooses(card)));
     }
 
     @Override
@@ -41,7 +45,7 @@ public class ParticipationState extends State {
             fsm.changeState(new CargoRewardState());
         }
 
-        subject.notifyObservers(new InputNeeded(card));
+        subject.notifyObservers(new InputNeeded(card, getPlayerWhoChooses(card)));
     }
     private boolean allPlayersHaveResponded() {
         return ++playerDecisions == numberOfPlayers;
@@ -51,6 +55,11 @@ public class ParticipationState extends State {
     }
     private boolean allPlanetsAreOccupied(Planets card) {
         return card.getTakenChoices().size() == numberOfPlanets;
+    }
+    private Player getPlayerWhoChooses(Planets card) {
+        List<Player> playersInFlightOrder = card.getPlayerOrder();
+
+        return playersInFlightOrder.get(playerDecisions);
     }
 
     @Override

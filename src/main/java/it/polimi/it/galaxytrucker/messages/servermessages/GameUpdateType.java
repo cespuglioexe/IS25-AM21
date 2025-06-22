@@ -19,4 +19,7 @@ public enum GameUpdateType {
     CREATE_GAME_RESULT,
     JOIN_GAME_RESULT,
     LIST_ACTIVE_CONTROLLERS,
+
+    INPUT,
+    INVALID_INPUT,
 }

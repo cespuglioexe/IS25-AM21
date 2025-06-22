@@ -62,6 +62,8 @@ public class CardExecutionState extends GameState implements Observer, EventVisi
         System.out.println("Current state: " + currentState.getClass().getSimpleName());
 
         System.out.println("Card needs user input to proceed");
+
+        ((GameManager) fsm).updateListenersCardNeedsInput(event);
     }
 
     @Override

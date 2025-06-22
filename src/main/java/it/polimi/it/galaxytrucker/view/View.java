@@ -69,4 +69,7 @@ public abstract class View {
 
     public abstract void newCardStartedExecution();
 
+    public abstract void displayInputOptions(String card, String cardState);
+
+    public abstract void manageInputError();
 }

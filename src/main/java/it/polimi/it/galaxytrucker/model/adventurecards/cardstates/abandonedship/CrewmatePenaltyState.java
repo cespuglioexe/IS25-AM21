@@ -16,7 +16,7 @@ public class CrewmatePenaltyState extends State {
         Subject subject = (Subject) fsm;
 
         penalty = card.getCrewmatePenalty();
-        subject.notifyObservers(new InputNeeded(card));
+        subject.notifyObservers(new InputNeeded(card, card.getPartecipant()));
     }
 
     @Override
@@ -26,7 +26,7 @@ public class CrewmatePenaltyState extends State {
         if (++appliedPenalty == penalty) {
             changeState(fsm, new FlightDayPenaltyState());
         }
-        subject.notifyObservers(new InputNeeded(card));
+        subject.notifyObservers(new InputNeeded(card, card.getPartecipant()));
     }
 
     @Override

@@ -11,10 +11,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.it.galaxytrucker.listeners.Listener;
 import it.polimi.it.galaxytrucker.listeners.Observable;
 import it.polimi.it.galaxytrucker.model.adventurecards.AdventureDeck;
+import it.polimi.it.galaxytrucker.model.adventurecards.cardevents.InputNeeded;
 import it.polimi.it.galaxytrucker.model.adventurecards.cards.*;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCard;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.attack.Projectile;
 import it.polimi.it.galaxytrucker.model.componenttiles.ComponentTile;
+import it.polimi.it.galaxytrucker.model.design.statePattern.State;
 import it.polimi.it.galaxytrucker.model.design.statePattern.StateMachine;
 import it.polimi.it.galaxytrucker.model.gamestates.GameState;
 import it.polimi.it.galaxytrucker.model.gamestates.StartState;
@@ -24,8 +26,10 @@ import it.polimi.it.galaxytrucker.exceptions.NotFoundException;
 import it.polimi.it.galaxytrucker.model.json.Json;
 import it.polimi.it.galaxytrucker.messages.servermessages.GameUpdate;
 import it.polimi.it.galaxytrucker.messages.servermessages.GameUpdateType;
+import it.polimi.it.galaxytrucker.messages.servermessages.GameUpdate.GameUpdateBuilder;
 import it.polimi.it.galaxytrucker.model.utility.Cargo;
 import it.polimi.it.galaxytrucker.model.utility.Color;
+import it.polimi.it.galaxytrucker.model.utility.Coordinates;
 import it.polimi.it.galaxytrucker.model.utility.Direction;
 import it.polimi.it.galaxytrucker.model.utility.ProjectileType;
 // import it.polimi.it.galaxytrucker.networking.rmi.server.RMIServer;
@@ -476,7 +480,7 @@ public class GameManager extends StateMachine implements Model, Observable {
     }
 
     @Override
-    public void activateComponent(UUID playerID, HashMap<List<Integer>, List<Integer>> activationHashmap) {
+    public void activateComponent(UUID playerID, List<List<Coordinates>> activationHashmap) {
         //
     }
 
@@ -511,5 +515,32 @@ public class GameManager extends StateMachine implements Model, Observable {
     public void defeat(Player player) {
         player.defeat();
         flightBoard.removePlayerMarker(player);
+    }
+
+    public void test() {
+        try {
+
+        } catch (Exception e) {
+            GameUpdate error = new GameUpdate.GameUpdateBuilder(GameUpdateType.INVALID_INPUT)
+                .setInterestedPlayerId(null) //TODO
+                .setOperationMessage(e.getMessage())
+                .build();
+            
+            updateListeners(error);
+        }
+    }
+
+    public void updateListenersCardNeedsInput(InputNeeded event) {
+        State currentState = ((StateMachine) event.getSource()).getCurrentState();
+        String card = event.getSource().getClass().getSimpleName();
+        Player interestedPlayer = event.getInterestedPlayer();
+
+        GameUpdate input = new GameUpdate.GameUpdateBuilder(GameUpdateType.INPUT)
+            .setInterestedPlayerId(interestedPlayer.getPlayerID())
+            .setOperationMessage(card)
+            .setNewSate(currentState.getClass().getSimpleName())
+            .build();
+
+        updateListeners(input);
     }
 }

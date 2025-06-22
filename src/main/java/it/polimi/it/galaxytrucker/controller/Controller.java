@@ -7,6 +7,7 @@ import it.polimi.it.galaxytrucker.model.managers.Model;
 import it.polimi.it.galaxytrucker.model.managers.Player;
 import it.polimi.it.galaxytrucker.model.managers.ShipManager;
 import it.polimi.it.galaxytrucker.model.utility.Color;
+import it.polimi.it.galaxytrucker.model.utility.Coordinates;
 import it.polimi.it.galaxytrucker.networking.server.ClientHandler;
 import it.polimi.it.galaxytrucker.view.CLI.ConsoleColors;
 // import it.polimi.it.galaxytrucker.networking.rmi.server.RMIServer;
@@ -128,7 +129,7 @@ public class Controller implements ControllerInterface {
     }
 
     @Override
-    public void activateComponent(UUID playerId, HashMap<List<Integer>, List<Integer>> activationHashmap) {
+    public void activateComponent(UUID playerId, List<List<Coordinates>> activationHashmap) {
         model.activateComponent(playerId,activationHashmap);
     }
 

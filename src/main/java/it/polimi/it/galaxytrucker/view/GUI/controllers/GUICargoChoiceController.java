@@ -20,7 +20,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.*;
 
-public class GUICargoChoiceController extends GUIViewState{
+public class GUICargoChoiceController extends GUIViewState implements GUIErrorHandler {
 
     private int rotation;
     private Map<String, ImageView> imageTiles = new HashMap<>();
@@ -153,6 +153,12 @@ public class GUICargoChoiceController extends GUIViewState{
             i=0;
             updateShip();
         });
+    }
+
+    @Override
+    public void inputError() {
+        incorrectValues.setVisible(true);
+        incorrectCoord.setVisible(false);
     }
 }
 

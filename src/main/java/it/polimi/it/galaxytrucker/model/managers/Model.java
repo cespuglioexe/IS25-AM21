@@ -9,6 +9,7 @@ import it.polimi.it.galaxytrucker.model.adventurecards.AdventureDeck;
 import it.polimi.it.galaxytrucker.model.componenttiles.ComponentTile;
 import it.polimi.it.galaxytrucker.model.design.statePattern.State;
 import it.polimi.it.galaxytrucker.exceptions.InvalidActionException;
+import it.polimi.it.galaxytrucker.model.utility.Coordinates;
 ;
 
 public interface Model {
@@ -50,6 +51,6 @@ public interface Model {
      public void deleteBranch(UUID playerID, Set<List<Integer>> branch);
 
      void startBuildPhaseTimer();
-     void activateComponent(UUID playerID, HashMap<List<Integer>, List<Integer>> activationHashmap);
+     void activateComponent(UUID playerID, List<List<Coordinates>> activationHashmap);
 
 }
