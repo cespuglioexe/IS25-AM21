@@ -7,12 +7,15 @@ import it.polimi.it.galaxytrucker.model.componenttiles.SpecialCargoHold;
 import it.polimi.it.galaxytrucker.model.utility.Cargo;
 import it.polimi.it.galaxytrucker.model.utility.Color;
 import it.polimi.it.galaxytrucker.view.GUI.GUIView;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.*;
@@ -29,13 +32,9 @@ public class GUICargoChoiceController extends GUIViewState{
     private Label incorrectCoord, incorrectValues;
 
     @FXML
-    private TextField xCoordText,yCoordText;
-
-    @FXML
     private ImageView cargoImageView;
 
-    @FXML
-    private ImageView imageTile57,imageTile66,imageTile75,imageTile85,imageTile95,imageTile86,imageTile96,imageTile76,imageTile,imageTile67,imageTile68,imageTile78,imageTile88,imageTile98,imageTile99,imageTile89,imageTile79,imageTile77,imageTile87,imageTile56,imageTile58,imageTile65,imageTile74,imageTile84,imageTile94,imageTile910,imageTile810,imageTile710,imageTile69;
+    @FXML private PlayerShipElementController shipController;
 
     private static GUICargoChoiceController instance;
 
@@ -58,14 +57,16 @@ public class GUICargoChoiceController extends GUIViewState{
         }
     }
 
-    public void cargoBack(){
+    @FXML
+    private void cargoBack(){
         if (i >= 0 && i < cargoCoords.size()) {
             i--;
             displayCargo();
         } else cargoImageView.setImage(null);
     }
 
-    public void cargoForward() {
+    @FXML
+    private void cargoForward() {
         if (i >= 0 && i < cargoCoords.size()) {
             i++;
             displayCargo();
@@ -94,10 +95,11 @@ public class GUICargoChoiceController extends GUIViewState{
         } else cargoImageView.setImage(null);
     }
 
-    public void addCargo() {
+    @FXML
+    private void addCargo() {
         if(!cargoReward.isEmpty()) {
-            int col = Integer.parseInt(xCoordText.getText());
-            int row = Integer.parseInt(yCoordText.getText());
+            int col = shipController.selectedColumn;
+            int row = shipController.selectedRow;
             if ((row < 5) || (row > 9) || (col < 4) || (col > 10)) {
                 incorrectCoord.setVisible(true);
             } else {
@@ -122,18 +124,35 @@ public class GUICargoChoiceController extends GUIViewState{
         }
     }
 
+    public void updateShip(){
+        shipController.displayShip();
+        displayCargo();
+    }
 
-    public void acceptReward() {
+
+    @FXML
+    private void acceptReward() {
      /*   GUIView.getInstance().getClient().receiveUserInput(
                 new UserInput.UserInputBuilder(UserInputType.CARGO_REWARD)
                         .setActivationHashmap(cargoCoords)
                         .build()
         );*/
+
+        // Se i valori non sono corretti
+        incorrectValues.setVisible(true);
     }
 
     @Override
     public void displayScene() {
+        Platform.runLater(() -> {
+            stage = (Stage) GUIView.stage.getScene().getWindow();
+            scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
 
+            i=0;
+            updateShip();
+        });
     }
 }
 
