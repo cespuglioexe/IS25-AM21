@@ -12,7 +12,7 @@ public class ActivateShieldState extends State {
     public void enter(StateMachine fsm) {
         Pirates card = (Pirates) fsm;
         Subject subject = (Subject) fsm;
-        subject.notifyObservers(new InputNeeded(card));
+        subject.notifyObservers(new InputNeeded(card, card.getPlayer()));
     }
 
     @Override

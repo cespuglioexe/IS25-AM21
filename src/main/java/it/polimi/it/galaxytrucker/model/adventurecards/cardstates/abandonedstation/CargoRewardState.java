@@ -14,7 +14,7 @@ public class CargoRewardState extends State {
     public void enter(StateMachine fsm) {
         AbandonedStation card = (AbandonedStation) fsm;
         Subject subject = (Subject) fsm;
-        subject.notifyObservers(new InputNeeded(card));
+        subject.notifyObservers(new InputNeeded(card, card.getPartecipant()));
     }
 
     @Override
@@ -25,8 +25,9 @@ public class CargoRewardState extends State {
         numberCargoDecision ++;
         if(allCargoDecision(numberOfTotDecision)) {
             changeState(fsm, new FlightDayPenaltyState());
+            return;
         }
-        subject.notifyObservers(new InputNeeded(card));
+        subject.notifyObservers(new InputNeeded(card, card.getPartecipant()));
     }
 
     private boolean allCargoDecision(int numberOfDecision){

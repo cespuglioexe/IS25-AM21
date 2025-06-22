@@ -14,7 +14,7 @@ public class CargoRewardState extends State {
         Subject subject = (Subject) fsm;
 
         card.initializeFirstPlayer();
-        subject.notifyObservers(new InputNeeded(card));
+        subject.notifyObservers(new InputNeeded(card, card.getCurrentPlayer()));
     }
 
     @Override
@@ -22,7 +22,7 @@ public class CargoRewardState extends State {
         Planets card = (Planets) fsm;
         Subject subject = (Subject) fsm;
 
-        subject.notifyObservers(new InputNeeded(card));
+        subject.notifyObservers(new InputNeeded(card, card.getCurrentPlayer()));
     }
 
     @Override

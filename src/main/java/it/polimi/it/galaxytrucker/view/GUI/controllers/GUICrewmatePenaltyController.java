@@ -17,7 +17,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.*;
 
-public class GUICrewmatePenaltyController extends GUIViewState{
+public class GUICrewmatePenaltyController extends GUIViewState implements GUIErrorHandler {
 
     private int rotation;
     private Map<String, ImageView> imageTiles = new HashMap<>();

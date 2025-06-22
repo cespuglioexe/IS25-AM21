@@ -88,4 +88,8 @@ public class OpenSpace extends CardStateMachine implements AdventureCard {
     public void accept(AdventureCardVisitor visitor, AdventureCardInputContext context) {
         visitor.visit(this, context);
     }
+
+    public List<Player> getPlayerOrder() {
+        return flightRules.getPlayerOrder();
+    }
 }

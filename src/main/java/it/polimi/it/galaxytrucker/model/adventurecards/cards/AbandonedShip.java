@@ -202,4 +202,8 @@ public class AbandonedShip extends CardStateMachine implements AdventureCard, Pa
     public void accept(AdventureCardVisitor visitor, AdventureCardInputContext context) {
         visitor.visit(this, context);
     }
+
+    public List<Player> getPlayerOrder() {
+        return flightRules.getPlayerOrder();
+    }
 }

@@ -1,10 +1,13 @@
 package it.polimi.it.galaxytrucker.model.adventurecards.cardstates.openspace;
 
+import java.util.List;
+
 import it.polimi.it.galaxytrucker.model.adventurecards.cardevents.InputNeeded;
 import it.polimi.it.galaxytrucker.model.adventurecards.cards.OpenSpace;
 import it.polimi.it.galaxytrucker.model.design.observerPattern.Subject;
 import it.polimi.it.galaxytrucker.model.design.statePattern.State;
 import it.polimi.it.galaxytrucker.model.design.statePattern.StateMachine;
+import it.polimi.it.galaxytrucker.model.managers.Player;
 
 public class CalculateEnginePowerState extends State {
     private int numberOfPlayers;
@@ -15,7 +18,7 @@ public class CalculateEnginePowerState extends State {
         OpenSpace card = (OpenSpace) fsm;
         Subject subject = (Subject) fsm;
         numberOfPlayers = card.getNumberOfPlayer();
-        subject.notifyObservers(new InputNeeded(card));
+        subject.notifyObservers(new InputNeeded(card, getPlayerWhoChooses(card)));
     }
 
     @Override
@@ -25,7 +28,7 @@ public class CalculateEnginePowerState extends State {
         if (allPlayersHaveResponded()) {
             card.changeState(new TravelState());
         }
-        subject.notifyObservers(new InputNeeded(card));
+        subject.notifyObservers(new InputNeeded(card, getPlayerWhoChooses(card)));
     }
     private boolean allPlayersHaveResponded() {
         return ++playerDecisions == numberOfPlayers;
@@ -34,5 +37,11 @@ public class CalculateEnginePowerState extends State {
     @Override
     public void exit(StateMachine fsm) {
 
+    }
+
+    private Player getPlayerWhoChooses(OpenSpace card) {
+        List<Player> playersInFlightOrder = card.getPlayerOrder();
+
+        return playersInFlightOrder.get(playerDecisions);
     }
 }

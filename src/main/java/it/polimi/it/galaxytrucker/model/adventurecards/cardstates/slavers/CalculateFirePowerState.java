@@ -13,7 +13,7 @@ public class CalculateFirePowerState extends State {
         Slavers card = (Slavers) fsm;
         Subject subject = (Subject) fsm;
         card.setPlayerFirePower(card.getCurrentPlayer().getShipManager().calculateFirePower());
-        subject.notifyObservers(new InputNeeded(card));
+        subject.notifyObservers(new InputNeeded(card, card.getCurrentPlayer()));
     }
 
     @Override

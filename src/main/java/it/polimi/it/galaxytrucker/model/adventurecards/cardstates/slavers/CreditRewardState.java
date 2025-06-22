@@ -12,7 +12,7 @@ public class CreditRewardState extends State {
     public void enter(StateMachine fsm) {
         Slavers card = (Slavers) fsm;
         Subject subject = (Subject) fsm;
-        subject.notifyObservers(new InputNeeded(card));
+        subject.notifyObservers(new InputNeeded(card, card.getCurrentPlayer()));
     }
 
     @Override
