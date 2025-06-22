@@ -4,6 +4,7 @@ import it.polimi.it.galaxytrucker.messages.clientmessages.UserInput;
 import it.polimi.it.galaxytrucker.messages.clientmessages.UserInputType;
 import it.polimi.it.galaxytrucker.model.componenttiles.OutOfBoundsTile;
 import it.polimi.it.galaxytrucker.model.componenttiles.TileData;
+import it.polimi.it.galaxytrucker.model.utility.Coordinates;
 import it.polimi.it.galaxytrucker.view.GUI.GUIView;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -22,9 +23,9 @@ public class GUIActivateEngineController extends GUIViewState {
 
     private int rotation;
     private Map<String, ImageView> imageTiles = new HashMap<>();
-    private List<List<Integer>> engineCoords = new ArrayList<>();
-    private List<List<Integer>> batteryCoord = new ArrayList<>();
-    private HashMap<List<Integer>,List<Integer>> engineAndBatteryCoord = new HashMap<>();
+    private List<Coordinates> engineCoords = new ArrayList<>();
+    private List<Coordinates> batteryCoord = new ArrayList<>();
+    private List<List<Coordinates>> engineAndBatteryCoord = new ArrayList<>();
 
     @FXML
     private Label incorrectCoord1,incorrectCoord2,incorrectValue;
@@ -98,7 +99,7 @@ public class GUIActivateEngineController extends GUIViewState {
         );
         incorrectCoord1.setVisible(true);
         //----------------------------------------------------------------------------------------------------
-        engineCoords.add(List.of(row,col));
+        engineCoords.add(new Coordinates(row,col));
         incorrectCoord1.setVisible(false);
 
         // In base alla imageView trovata con le coordinate
@@ -118,7 +119,7 @@ public class GUIActivateEngineController extends GUIViewState {
         );
         incorrectCoord2.setVisible(true);
         //----------------------------------------------------------------------------------------------------
-        batteryCoord.add(List.of(row,col));
+        batteryCoord.add(new Coordinates(row,col));
         incorrectCoord2.setVisible(false);
         // In base alla imageView trovata con le coordinate
         // imageView.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
@@ -135,9 +136,9 @@ public class GUIActivateEngineController extends GUIViewState {
 
     public void activateEngine(){
         if(!engineCoords.isEmpty() && !batteryCoord.isEmpty() && (engineCoords.size()==batteryCoord.size())){
-            for(int i=0;i<engineCoords.size();i++){
-                engineAndBatteryCoord.put(engineCoords.get(i),batteryCoord.get(i));
-            }
+            engineAndBatteryCoord.add(engineCoords);
+            engineAndBatteryCoord.add(batteryCoord);
+
             /*GUIView.getInstance().getClient().receiveUserInput(
                     new UserInput.UserInputBuilder(UserInputType.CONFIRM_BUILDING_END)
                             .build()
@@ -147,6 +148,10 @@ public class GUIActivateEngineController extends GUIViewState {
         } else{
             resetCoord();
         }
+
+        engineAndBatteryCoord.clear();
+        engineCoords.clear();
+        batteryCoord.clear();
     }
 
     @Override

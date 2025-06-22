@@ -3,6 +3,7 @@ package it.polimi.it.galaxytrucker.messages.clientmessages;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.it.galaxytrucker.messages.Message;
+import it.polimi.it.galaxytrucker.model.utility.Coordinates;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ public class UserInput extends Message {
     private final int selectedTileIndex;
     private final int cardPileIndex;
 
-    private final HashMap<List<Integer>,List<Integer>> activationHashmap;
+    private final List<List<Coordinates>> activationHashmap;
     private final List<Integer> coords;
     private final int rotation;
 
@@ -47,7 +48,7 @@ public class UserInput extends Message {
             @JsonProperty("cardPileIndex") int cardPileIndex,
             @JsonProperty("coords") List<Integer> coords,
             @JsonProperty("rotation") int rotation,
-            @JsonProperty("activationHashmap") HashMap<List<Integer>,List<Integer>> activationHashmap ){
+            @JsonProperty("activationHashmap") List<List<Coordinates>> activationHashmap ){
         this.type = type;
         this.serverName = serverName;
         this.playerName = playerName;
@@ -102,7 +103,7 @@ public class UserInput extends Message {
         return gameId;
     }
 
-    public HashMap<List<Integer>, List<Integer>> getActivationHashmap() {
+    public List<List<Coordinates>> getActivationHashmap() {
         return activationHashmap;
     }
 
@@ -151,7 +152,7 @@ public class UserInput extends Message {
         private String serverName = "";
         private String playerName = "";
         private UUID playerUuid = new UUID(0L, 0L);
-        private HashMap<List<Integer>,List<Integer>> activationHashmap;
+        private List<List<Coordinates>> activationHashmap;
 
 
         private int gameLevel = 0;
@@ -198,7 +199,7 @@ public class UserInput extends Message {
             return this;
         }
 
-        public UserInputBuilder setActivationHashmap(HashMap<List<Integer>, List<Integer>> activationHashmap) {
+        public UserInputBuilder setActivationHashmap(List<List<Coordinates>> activationHashmap) {
             this.activationHashmap = activationHashmap;
             return this;
         }

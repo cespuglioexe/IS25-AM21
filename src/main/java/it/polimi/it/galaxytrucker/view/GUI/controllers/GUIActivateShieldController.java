@@ -4,6 +4,7 @@ import it.polimi.it.galaxytrucker.messages.clientmessages.UserInput;
 import it.polimi.it.galaxytrucker.messages.clientmessages.UserInputType;
 import it.polimi.it.galaxytrucker.model.componenttiles.OutOfBoundsTile;
 import it.polimi.it.galaxytrucker.model.componenttiles.TileData;
+import it.polimi.it.galaxytrucker.model.utility.Coordinates;
 import it.polimi.it.galaxytrucker.view.GUI.GUIView;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -22,9 +23,9 @@ public class GUIActivateShieldController extends GUIViewState{
 
     private int rotation;
     private Map<String, ImageView> imageTiles = new HashMap<>();
-    private List<List<Integer>> shieldCoords = new ArrayList<>();
-    private List<List<Integer>> batteryCoord = new ArrayList<>();
-    private HashMap<List<Integer>,List<Integer>> shieldAndBatteryCoord = new HashMap<>();
+    private List<Coordinates> shieldCoords = new ArrayList<>();
+    private List<Coordinates> batteryCoord = new ArrayList<>();
+    private List<List<Coordinates>> shieldAndBatteryCoord = new ArrayList<>();
 
     @FXML
     private Label incorrectCoord1,incorrectCoord2,incorrectValue;
@@ -98,7 +99,7 @@ public class GUIActivateShieldController extends GUIViewState{
         );
         incorrectCoord1.setVisible(true);
         //----------------------------------------------------------------------------------------------------
-        shieldCoords.add(List.of(row,col));
+        shieldCoords.add(new Coordinates(row,col));
         incorrectCoord1.setVisible(false);
 
         // In base alla imageView trovata con le coordinate
@@ -118,7 +119,7 @@ public class GUIActivateShieldController extends GUIViewState{
         );
         incorrectCoord2.setVisible(true);
         //----------------------------------------------------------------------------------------------------
-        batteryCoord.add(List.of(row,col));
+        batteryCoord.add(new Coordinates(row,col));
         incorrectCoord2.setVisible(false);
         // In base alla imageView trovata con le coordinate
         // imageView.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
@@ -135,9 +136,8 @@ public class GUIActivateShieldController extends GUIViewState{
 
     public void activateEngine(){
         if(!shieldCoords.isEmpty() && !batteryCoord.isEmpty() && (shieldCoords.size()==batteryCoord.size())){
-            for(int i=0;i<shieldCoords.size();i++){
-                shieldAndBatteryCoord.put(shieldCoords.get(i),batteryCoord.get(i));
-            }
+            shieldAndBatteryCoord.add(shieldCoords);
+            shieldAndBatteryCoord.add(batteryCoord);
             /*GUIView.getInstance().getClient().receiveUserInput(
                     new UserInput.UserInputBuilder(UserInputType.CONFIRM_BUILDING_END)
                             .build()
@@ -147,6 +147,10 @@ public class GUIActivateShieldController extends GUIViewState{
         } else{
             resetCoord();
         }
+
+        shieldAndBatteryCoord.clear();
+        shieldCoords.clear();
+        batteryCoord.clear();
     }
 
     @Override
