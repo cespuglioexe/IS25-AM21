@@ -1,5 +1,7 @@
 package it.polimi.it.galaxytrucker.controller;
 
+import it.polimi.it.galaxytrucker.model.utility.Coordinates;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
@@ -16,7 +18,7 @@ public interface ControllerInterface {
     void selectSavedComponentTile(UUID playerId, int index);
     void selectDiscardedComponentTile(UUID playerId, int index);
     UUID getControllerUuid();
-    void activateComponent(UUID playerId, HashMap<List<Integer>, List<Integer>> activationHashmap);
+    void activateComponent(UUID playerId, List<List<Coordinates>> activationHashmap);
     void removeComponentTile(UUID playerId,int col, int row);
 
     void startBuildPhaseTimer();

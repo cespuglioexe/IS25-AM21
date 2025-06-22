@@ -3,6 +3,7 @@ package it.polimi.it.galaxytrucker.view.GUI.controllers;
 import it.polimi.it.galaxytrucker.messages.clientmessages.UserInput;
 import it.polimi.it.galaxytrucker.messages.clientmessages.UserInputType;
 import it.polimi.it.galaxytrucker.model.componenttiles.*;
+import it.polimi.it.galaxytrucker.model.utility.Coordinates;
 import it.polimi.it.galaxytrucker.view.GUI.GUIView;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -18,9 +19,9 @@ import java.util.*;
 public class GUIActivateShieldController extends GUIViewState{
 
     private Map<String, ImageView> imageTiles = new HashMap<>();
-    private List<List<Integer>> shieldCoords = new ArrayList<>();
-    private List<List<Integer>> batteryCoord = new ArrayList<>();
-    private HashMap<List<Integer>,List<Integer>> shieldAndBatteryCoord = new HashMap<>();
+    private List<Coordinates> shieldCoords = new ArrayList<>();
+    private List<Coordinates> batteryCoord = new ArrayList<>();
+    private List<List<Coordinates>> shieldAndBatteryCoord = new ArrayList<>();
 
     @FXML
     private Label incorrectCoord1,incorrectCoord2,incorrectValue;
@@ -60,7 +61,7 @@ public class GUIActivateShieldController extends GUIViewState{
             incorrectCoord1.setVisible(true);
         }
         if(GUIView.getInstance().getClient().getModel().getPlayerShips(GUIView.getInstance().getClient().getModel().getMyData().getPlayerId()).get(row).get(col).type().equals(Shield.class.getSimpleName())){
-            shieldCoords.add(List.of(row,col));
+            shieldCoords.add(new Coordinates(row,col));
             incorrectCoord1.setVisible(false);
         } else incorrectCoord1.setVisible(true);
     }
@@ -73,7 +74,7 @@ public class GUIActivateShieldController extends GUIViewState{
             incorrectCoord1.setVisible(true);
         }
         if(GUIView.getInstance().getClient().getModel().getPlayerShips(GUIView.getInstance().getClient().getModel().getMyData().getPlayerId()).get(row).get(col).type().equals(BatteryComponent.class.getSimpleName())){
-            batteryCoord.add(List.of(row,col));
+            batteryCoord.add(new Coordinates(row,col));
             incorrectCoord1.setVisible(false);
         } else incorrectCoord1.setVisible(true);
     }
@@ -90,25 +91,29 @@ public class GUIActivateShieldController extends GUIViewState{
     @FXML
     private void activateEngine(){
         if(!shieldCoords.isEmpty() && !batteryCoord.isEmpty() && (shieldCoords.size()==batteryCoord.size())){
-            for(int i=0;i<shieldCoords.size();i++){
-                shieldAndBatteryCoord.put(shieldCoords.get(i),batteryCoord.get(i));
-            }
+            shieldAndBatteryCoord.add(shieldCoords);
+            shieldAndBatteryCoord.add(batteryCoord);
+
             GUIView.getInstance().getClient().receiveUserInput(
                     new UserInput.UserInputBuilder(UserInputType.ACTIVATE_COMPONENT)
-                            .setActivationHashmap(shieldAndBatteryCoord)
+                            .setComponentsForActivation(shieldAndBatteryCoord)
                             .build()
             );
         } else{
             if(shieldCoords.isEmpty() && batteryCoord.isEmpty() ) {
-                shieldAndBatteryCoord.put(List.of(), List.of());
+                shieldAndBatteryCoord.clear();
                 GUIView.getInstance().getClient().receiveUserInput(
                         new UserInput.UserInputBuilder(UserInputType.ACTIVATE_COMPONENT)
-                                .setActivationHashmap(shieldAndBatteryCoord)
+                                .setComponentsForActivation(shieldAndBatteryCoord)
                                 .build()
                 );
             }
             else resetCoord();
         }
+
+        shieldAndBatteryCoord.clear();
+        shieldCoords.clear();
+        batteryCoord.clear();
     }
 
     @Override
