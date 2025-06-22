@@ -1,17 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <children>
-        <fx:include fx:id="ship" source="PlayerShipElement.fxml"/>
-        <Button fx:id="rmvTileBtn" layoutX="834.0" layoutY="309.0" mnemonicParsing="false" onAction="#removeSelectedTile" prefHeight="51.0" prefWidth="141.0" text="Remove Tile" />
-        <Button layoutX="831.0" layoutY="553.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="141.0" text="End fixing" />
-        <Label layoutX="860.0" layoutY="153.0" text="Enter the coord" />
-        <TextField fx:id="removeXcoord" layoutX="875.0" layoutY="196.0" prefHeight="26.0" prefWidth="58.0" promptText="X coord" />
-        <TextField fx:id="removeYcoord" layoutX="876.0" layoutY="244.0" prefHeight="26.0" prefWidth="58.0" promptText="Y coord" />
+        <fx:include fx:id="ship" source="PlayerShipElement.fxml" />
+        <Button fx:id="rmvTileBtn" layoutX="558.0" layoutY="37.0" mnemonicParsing="false" onAction="#removeSelectedTile" prefHeight="51.0" prefWidth="141.0" text="Remove Tile" />
+        <Button layoutX="558.0" layoutY="272.0" mnemonicParsing="false" onAction="#endFixing" prefHeight="51.0" prefWidth="141.0" text="End fixing" />
     </children>
 </AnchorPane>

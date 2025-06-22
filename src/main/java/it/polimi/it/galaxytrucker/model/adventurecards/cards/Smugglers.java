@@ -5,6 +5,8 @@ import java.util.*;
 import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.CardStateMachine;
 import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.smugglers.StartState;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCard;
+import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCardInputContext;
+import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCardVisitor;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.CargoPenalty;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.CargoReward;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.FlightDayPenalty;
@@ -143,5 +145,10 @@ public class Smugglers extends CardStateMachine implements AdventureCard, CargoR
                 ", cargoPenalty=" + cargoPenalty +
                 ", flightDayPenalty=" + flightDayPenalty +
                 '}';
+    }
+
+    @Override
+    public void accept(AdventureCardVisitor visitor, AdventureCardInputContext context) {
+        visitor.visit(this, context);
     }
 }

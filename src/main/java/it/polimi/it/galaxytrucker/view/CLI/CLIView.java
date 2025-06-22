@@ -142,6 +142,11 @@ public class CLIView extends View {
         System.out.println(ConsoleColors.YELLOW_BOLD + "Building finished! Your ship look great, some of your fellow truckers need to fix theirs before we can proceed!");
     }
 
+    @Override
+    public void gameStarted() {
+
+    }
+
 
     ////////////////////////////////////
 

@@ -11,6 +11,8 @@ import java.util.stream.IntStream;
 import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.CardStateMachine;
 import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.abandonedship.StartState;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCard;
+import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCardInputContext;
+import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCardVisitor;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.CreditReward;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.CrewmatePenalty;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.FlightDayPenalty;
@@ -194,5 +196,10 @@ public class AbandonedShip extends CardStateMachine implements AdventureCard, Pa
     @Override
     public String getGraphicPath() {
         return graphic;
+    }
+
+    @Override
+    public void accept(AdventureCardVisitor visitor, AdventureCardInputContext context) {
+        visitor.visit(this, context);
     }
 }

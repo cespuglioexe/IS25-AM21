@@ -66,4 +66,6 @@ public abstract class View {
     public abstract void shipFixingState();
 
     public abstract void waitingForGameState();
+
+    public abstract void gameStarted();
 }

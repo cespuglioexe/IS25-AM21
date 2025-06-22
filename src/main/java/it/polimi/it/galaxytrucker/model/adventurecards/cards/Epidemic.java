@@ -8,6 +8,8 @@ import java.util.stream.Stream;
 
 import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.epidemic.StartState;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCard;
+import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCardInputContext;
+import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCardVisitor;
 import it.polimi.it.galaxytrucker.model.componenttiles.CabinModule;
 import it.polimi.it.galaxytrucker.model.componenttiles.CentralCabin;
 import it.polimi.it.galaxytrucker.model.design.strategyPattern.FlightRules;
@@ -145,5 +147,10 @@ public class Epidemic extends CardStateMachine implements AdventureCard {
     public String toString() {
         return "Epidemic{" +
                 '}';
+    }
+
+    @Override
+    public void accept(AdventureCardVisitor visitor, AdventureCardInputContext context) {
+        
     }
 }

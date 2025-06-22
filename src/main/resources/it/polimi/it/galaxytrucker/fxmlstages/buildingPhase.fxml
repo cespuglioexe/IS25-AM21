@@ -2,7 +2,6 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -26,21 +25,19 @@
             <Font size="42.0" />
          </font>
       </Label>
-      <Button fx:id="openPopUp" layoutX="75.0" layoutY="630.0" mnemonicParsing="false" onAction="#openPopUpCards" prefHeight="47.0" prefWidth="132.0" text="Look a pile of cards" />
+      <Button fx:id="openPopUp" layoutX="135.0" layoutY="583.0" mnemonicParsing="false" onAction="#openPopUpCards" prefHeight="47.0" prefWidth="132.0" text="Look a pile of cards" />
       <Button fx:id="restartTimerButton" layoutX="89.0" layoutY="625.0" mnemonicParsing="false" onAction="#startTimer" prefHeight="51.0" prefWidth="135.0" text="Restart timer" visible="false" />
       <Button fx:id="randomTileButton" layoutX="60.0" layoutY="149.0" mnemonicParsing="false" onAction="#newRandomTile" prefHeight="46.0" prefWidth="135.0" text="Random tile" />
       <Button fx:id="discardedTileButton" layoutX="375.0" layoutY="148.0" mnemonicParsing="false" onAction="#showDiscardedTile" prefHeight="46.0" prefWidth="135.0" text="Discarded tile" />
       <Button fx:id="savedTileButton" layoutX="218.0" layoutY="148.0" mnemonicParsing="false" onAction="#showSavedTile" prefHeight="46.0" prefWidth="135.0" text="Saved tile" />
       <ImageView fx:id="tileImageView" fitHeight="150.0" fitWidth="150.0" layoutX="193.0" layoutY="258.0" pickOnBounds="true" preserveRatio="true" />
-      <Button fx:id="placeTileButton" layoutX="87.0" layoutY="515.0" mnemonicParsing="false" onAction="#placeTile" text="Place" />
-      <Button fx:id="discardTIleButton" layoutX="452.0" layoutY="349.0" mnemonicParsing="false" onAction="#discardTile" prefHeight="26.0" prefWidth="64.0" text="Discard" />
-      <Button fx:id="saveTileButton" layoutX="451.0" layoutY="292.0" mnemonicParsing="false" onAction="#saveTile" prefHeight="26.0" prefWidth="64.0" text="Save" />
-      <TextField layoutX="187.0" layoutY="515.0" prefHeight="26.0" prefWidth="60.0" promptText="X coord..." fx:id="xCoordText" />
-      <TextField fx:id="yCoordText" layoutX="291.0" layoutY="515.0" prefHeight="26.0" prefWidth="60.0" promptText="Y coord" />
+      <Button fx:id="placeTileButton" layoutX="60.0" layoutY="489.0" mnemonicParsing="false" onAction="#placeTile" prefHeight="52.0" prefWidth="98.0" text="Place" />
+      <Button fx:id="discardTIleButton" layoutX="417.0" layoutY="489.0" mnemonicParsing="false" onAction="#discardTile" prefHeight="52.0" prefWidth="98.0" text="Discard" />
+      <Button fx:id="saveTileButton" layoutX="304.0" layoutY="489.0" mnemonicParsing="false" onAction="#saveTile" prefHeight="52.0" prefWidth="98.0" text="Save" />
       <fx:include fx:id="ship" layoutX="675.0" layoutY="200.0" scaleX="1.5" scaleY="1.5" source="PlayerShipElement.fxml" />
       <Button fx:id="arrowBack" layoutX="132.0" layoutY="319.0" mnemonicParsing="false" text="&lt;" visible="false" />
       <Button fx:id="arrowForward" layoutX="373.0" layoutY="319.0" mnemonicParsing="false" text="&gt;" visible="false" />
-      <Button fx:id="rotationButton" layoutX="407.0" layoutY="515.0" mnemonicParsing="false" text="Rotate" />
+      <Button fx:id="rotationButton" layoutX="186.0" layoutY="489.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="98.0" text="Rotate" />
       <Pane fx:id="popUpCardsPane" prefHeight="803.0" prefWidth="1332.0" style="-fx-background-color: white;" visible="false">
          <children>
             <Button fx:id="closePopUp" mnemonicParsing="false" onAction="#closePopUpCards" text="back" />
@@ -85,6 +82,6 @@
             </Pane>
          </children>
       </Pane>
-      <Button fx:id="endBuildingButton" layoutX="259.0" layoutY="629.0" mnemonicParsing="false" onAction="#endBuilding" prefHeight="47.0" prefWidth="132.0" style="-fx-background-color: red;" text="End building" />
+      <Button fx:id="endBuildingButton" layoutX="332.0" layoutY="583.0" mnemonicParsing="false" onAction="#endBuilding" prefHeight="47.0" prefWidth="132.0" style="-fx-background-color: red;" text="End building" />
    </children>
 </AnchorPane>
