@@ -80,6 +80,13 @@ public class GUIFixingShipController extends GUIViewState {
 
         shipController.resetSelectedTile();
     }
+
+    public void endFixing() {
+        GUIView.getInstance().getClient().receiveUserInput(
+                new UserInput.UserInputBuilder(UserInputType.CONFIRM_BUILDING_END)
+                        .build()
+        );
+    }
 }
 
 

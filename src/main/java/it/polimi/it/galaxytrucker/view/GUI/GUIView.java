@@ -9,7 +9,6 @@ import it.polimi.it.galaxytrucker.view.View;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.stage.Stage;
-import jdk.dynalink.linker.GuardedInvocationTransformer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -160,6 +159,12 @@ public class GUIView extends View {
     public void waitingForGameState() {
         // Funzione viene chiamata quando si passa in fixing state, ma la tua nave é a posto
         // TODO: waiting for others to fix
+
+    }
+
+    @Override
+    public void gameStarted(){
+        GUIGameTurn.getInstance().displayScene();
     }
 
 
