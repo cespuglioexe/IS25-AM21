@@ -164,4 +164,9 @@ public class GUICrewmatePenaltyController extends GUIViewState implements GUIErr
             stage.show();
         });
     }
+
+    @Override
+    public void inputError() {
+        System.out.println("TODO: implement input error handling in GUICrewmatePenaltyController");
+    }
 }

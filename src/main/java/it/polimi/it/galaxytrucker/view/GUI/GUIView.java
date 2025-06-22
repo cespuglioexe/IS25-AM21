@@ -169,6 +169,11 @@ public class GUIView extends View {
 
     @Override
     public void displayInputOptions(String card, String cardState) {
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            System.out.println("Error while waiting for input options: " + e.getMessage());
+        }
         switch (cardState) {
             case "ParticipationState":
                 if (card.equals("Planets")) {
@@ -191,7 +196,7 @@ public class GUIView extends View {
             case "BigMeteorState":
                 GUIActivateCannonController.getInstance().displayScene();
                 break;
-            case "CalculateEnginePower":
+            case "CalculateEnginePowerState":
             case "EngineSelectionState":
                 GUIActivateEngineController.getInstance().displayScene();
                 break;
