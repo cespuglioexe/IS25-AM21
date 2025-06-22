@@ -38,7 +38,7 @@
                               </Lighting>
                            </effect>
                         </ImageView>
-                        <Button fx:id="acceptButton" mnemonicParsing="false" onAction="#acceptParticipation" prefHeight="47.0" prefWidth="87.0" style="-fx-background-color: green;" text="ACCEPT" textFill="WHITE">
+                        <Button fx:id="acceptButton1" mnemonicParsing="false" onAction="#acceptPlanet1" prefHeight="47.0" prefWidth="87.0" style="-fx-background-color: green;" text="PLANET 1" textFill="WHITE">
                            <effect>
                               <ColorAdjust brightness="0.03" contrast="1.0" hue="-0.02" saturation="-0.01" />
                            </effect>
@@ -46,10 +46,10 @@
                               <Font name="Cambria" size="14.0" />
                            </font>
                            <StackPane.margin>
-                              <Insets left="300.0" />
+                              <Insets right="650.0" top="150.0" />
                            </StackPane.margin>
                         </Button>
-                        <Button fx:id="declineButton" layoutX="760.0" layoutY="387.0" mnemonicParsing="false" onAction="#declineParticipation" prefHeight="47.0" prefWidth="87.0" style="-fx-background-color: RED;" text="DECLINE" textFill="WHITE">
+                        <Button fx:id="acceptButton2" layoutX="484.0" layoutY="462.0" mnemonicParsing="false" onAction="#acceptPlanet2" prefHeight="47.0" prefWidth="87.0" style="-fx-background-color: green;" text="PLANET2" textFill="WHITE">
                            <effect>
                               <ColorAdjust brightness="0.03" contrast="1.0" hue="-0.02" saturation="-0.01" />
                            </effect>
@@ -57,7 +57,40 @@
                               <Font name="Cambria" size="14.0" />
                            </font>
                            <StackPane.margin>
-                              <Insets right="300.0" />
+                              <Insets right="330.0" top="150.0" />
+                           </StackPane.margin>
+                        </Button>
+                        <Button fx:id="acceptButton3" layoutX="635.0" layoutY="462.0" mnemonicParsing="false" onAction="#acceptPlanet3" prefHeight="47.0" prefWidth="87.0" style="-fx-background-color: green;" text="PLANET 3" textFill="WHITE">
+                           <effect>
+                              <ColorAdjust brightness="0.03" contrast="1.0" hue="-0.02" saturation="-0.01" />
+                           </effect>
+                           <font>
+                              <Font name="Cambria" size="14.0" />
+                           </font>
+                           <StackPane.margin>
+                              <Insets top="150.0" />
+                           </StackPane.margin>
+                        </Button>
+                        <Button fx:id="acceptButton4" layoutX="784.0" layoutY="462.0" mnemonicParsing="false" onAction="#acceptPlanet4" prefHeight="47.0" prefWidth="87.0" style="-fx-background-color: green;" text="PLANET 4" textFill="WHITE">
+                           <effect>
+                              <ColorAdjust brightness="0.03" contrast="1.0" hue="-0.02" saturation="-0.01" />
+                           </effect>
+                           <font>
+                              <Font name="Cambria" size="14.0" />
+                           </font>
+                           <StackPane.margin>
+                              <Insets left="300.0" top="150.0" />
+                           </StackPane.margin>
+                        </Button>
+                        <Button fx:id="declineButton" layoutX="935.0" layoutY="462.0" mnemonicParsing="false" onAction="#declinePlanet" prefHeight="47.0" prefWidth="87.0" style="-fx-background-color: RED;" text="NONE" textFill="WHITE">
+                           <effect>
+                              <ColorAdjust brightness="0.03" contrast="1.0" hue="-0.02" saturation="-0.01" />
+                           </effect>
+                           <font>
+                              <Font name="Cambria" size="14.0" />
+                           </font>
+                           <StackPane.margin>
+                              <Insets left="600.0" top="150.0" />
                            </StackPane.margin>
                         </Button>
                         <Label alignment="CENTER" text="DO YOU WANT TO PARTICIPATE IN THE CARD?" textAlignment="CENTER" textFill="WHITE">
@@ -66,6 +99,14 @@
                            </font>
                            <StackPane.margin>
                               <Insets bottom="200.0" />
+                           </StackPane.margin>
+                        </Label>
+                        <Label alignment="CENTER" text="(Select one of the following planets)" textAlignment="CENTER" textFill="WHITE">
+                           <font>
+                              <Font name="Centaur" size="36.0" />
+                           </font>
+                           <StackPane.margin>
+                              <Insets bottom="100.0" />
                            </StackPane.margin>
                         </Label>
                      </children>

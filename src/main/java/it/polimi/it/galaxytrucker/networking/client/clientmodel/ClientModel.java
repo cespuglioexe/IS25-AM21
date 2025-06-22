@@ -34,6 +34,10 @@ public class ClientModel {
      * Discarded component, visible to all players
      */
     private final List<TileData> discardedTiles = new ArrayList<>();
+    /**
+     * Path to the card currently in execution
+     */
+    private String activeCardGraphicPath;
     
 
     private int gameLevel;
@@ -44,6 +48,14 @@ public class ClientModel {
 
     public ClientModel(PlayerData player) {
         this.myData = player;
+    }
+
+    public synchronized void setActiveCardGraphicPath(String activeCardGraphicPath) {
+        this.activeCardGraphicPath = activeCardGraphicPath;
+    }
+
+    public synchronized String getActiveCardGraphicPath() {
+        return activeCardGraphicPath;
     }
 
     /**

@@ -143,7 +143,7 @@ public class CLIView extends View {
     }
 
     @Override
-    public void gameStarted() {
+    public void newCardStartedExecution() {
 
     }
 
