@@ -39,7 +39,7 @@
          <children>
             <AnchorPane layoutY="-0.800000011920929" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <Label fx:id="incorrectCoord2" layoutX="227.0" layoutY="565.0" text="INCORRECT COORDINATES" textFill="WHITE">
+                  <Label fx:id="incorrectCoord2" layoutX="227.0" layoutY="565.0" text="INCORRECT COORDINATES" textFill="WHITE" visible="false">
                      <font>
                         <Font name="Centaur" size="14.0" />
                      </font>
