@@ -6,6 +6,8 @@ import java.util.Optional;
 
 import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.meteorswarm.StartState;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCard;
+import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCardInputContext;
+import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCardVisitor;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.attack.Attack;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.attack.Projectile;
 import it.polimi.it.galaxytrucker.model.componenttiles.SingleCannon;
@@ -202,5 +204,10 @@ public class MeteorSwarm extends Attack implements AdventureCard {
         return "MeteorSwarm{" +
                 "projectiles= "+super.getProjectiles().toString()+
                 "}";
+    }
+
+    @Override
+    public void accept(AdventureCardVisitor visitor, AdventureCardInputContext context) {
+        visitor.visit(this, context);
     }
 }

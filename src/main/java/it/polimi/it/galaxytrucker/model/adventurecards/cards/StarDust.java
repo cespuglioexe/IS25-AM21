@@ -5,6 +5,8 @@ import java.util.List;
 import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.CardStateMachine;
 import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.stardust.StartState;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCard;
+import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCardInputContext;
+import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCardVisitor;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.FlightDayPenalty;
 import it.polimi.it.galaxytrucker.model.design.strategyPattern.FlightRules;
 import it.polimi.it.galaxytrucker.model.managers.Player;
@@ -23,7 +25,7 @@ public class StarDust extends CardStateMachine implements AdventureCard, FlightD
     public StarDust(int flightDayPenalty, FlightRules flightRules, String graphic) {
         this.flightRules = flightRules;
         this.graphic = graphic;
-        this.flightDayPenalty=flightDayPenalty;
+        this.flightDayPenalty = flightDayPenalty;
     }
     
     @Override
@@ -61,5 +63,10 @@ public class StarDust extends CardStateMachine implements AdventureCard, FlightD
         return "StarDust{" +
                 "flightDayPenalty=" + flightDayPenalty +
                 '}';
+    }
+
+    @Override
+    public void accept(AdventureCardVisitor visitor, AdventureCardInputContext context) {
+        
     }
 }

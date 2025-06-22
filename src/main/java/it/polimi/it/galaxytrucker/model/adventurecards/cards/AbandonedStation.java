@@ -7,6 +7,8 @@ import java.util.stream.IntStream;
 import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.CardStateMachine;
 import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.abandonedstation.StartState;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCard;
+import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCardInputContext;
+import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCardVisitor;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.CargoReward;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.FlightDayPenalty;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.Participation;
@@ -177,5 +179,10 @@ public class AbandonedStation extends CardStateMachine implements AdventureCard,
                 ", flightDayPenalty=" + flightDayPenalty +
                 ", numberofCrewmatesRequired=" + numberofCrewmatesRequired +
                 '}';
+    }
+
+    @Override
+    public void accept(AdventureCardVisitor visitor, AdventureCardInputContext context) {
+        visitor.visit(this, context);
     }
 }
