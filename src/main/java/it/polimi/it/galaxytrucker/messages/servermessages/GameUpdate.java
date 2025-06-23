@@ -27,6 +27,7 @@ public class GameUpdate implements Serializable {
 
     private final List<List<TileData>> shipBoard;
     private final HashMap<UUID, List<List<TileData>>> allPlayerShipBoard;
+    private final HashMap<UUID, Integer> playerMarkerPositions;
 
     // Server-sent update contents
     private final String playerName;
@@ -57,7 +58,8 @@ public class GameUpdate implements Serializable {
             @JsonProperty("successfulOperation") boolean successfulOperation,
             @JsonProperty("operationMessage") String operationMessage,
             @JsonProperty("gameLevel") int gameLevel,
-            @JsonProperty("cardDetail") Map<String, Object> cardDetail) {
+            @JsonProperty("cardDetail") Map<String, Object> cardDetail,
+            @JsonProperty("playerMarkerPositions") HashMap<UUID, Integer> playerMarkerPositions) {
         this.instructionType = instructionType;
         this.interestedPlayerId = interestedPlayerId;
         this.newSate = newSate;
@@ -75,6 +77,7 @@ public class GameUpdate implements Serializable {
         this.operationMessage = operationMessage;
         this.gameLevel = gameLevel;
         this.cardDetail = cardDetail;
+        this.playerMarkerPositions = playerMarkerPositions;
     }
 
     public GameUpdate(GameUpdateBuilder builder) {
@@ -95,6 +98,7 @@ public class GameUpdate implements Serializable {
         this.operationMessage = builder.operationMessage;
         this.gameLevel = builder.gameLevel;
         this.cardDetail = builder.cardDetail;
+        this.playerMarkerPositions = builder.playerMarkerPositions;
     }
 
     public GameUpdateType getInstructionType() {
@@ -103,6 +107,10 @@ public class GameUpdate implements Serializable {
 
     public String getNewSate() {
         return newSate;
+    }
+
+    public HashMap<UUID, Integer> getPlayerMarkerPositions() {
+        return playerMarkerPositions;
     }
 
     public TileData getNewTile() {
@@ -176,6 +184,7 @@ public class GameUpdate implements Serializable {
         private List<UUID> playerIds;
         private List<List<String>> cardPileCompositions;
         private HashMap<UUID, List<List<TileData>>> allPlayerShipBoard;
+        private HashMap<UUID, Integer> playerMarkerPositions;
 
         private String playerName;
         private UUID gameUuid;
@@ -192,6 +201,11 @@ public class GameUpdate implements Serializable {
 
         public GameUpdateBuilder setOperationMessage(String operationMessage) {
             this.operationMessage = operationMessage;
+            return this;
+        }
+
+        public GameUpdateBuilder setPlayerMarkerPositions(HashMap<UUID, Integer> playerMarkerPositions) {
+            this.playerMarkerPositions = playerMarkerPositions;
             return this;
         }
 

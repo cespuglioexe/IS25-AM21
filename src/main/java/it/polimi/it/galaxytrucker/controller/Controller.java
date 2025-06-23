@@ -45,6 +45,7 @@ public class Controller implements ControllerInterface {
         Player newPlayer = new Player(client.getUuid(), client.getUsername(), playerColor, new ShipManager(level, playerColor));
 
         ((Observable) model).addListener(client);
+        model.getFlightBoard().addListener(client);
         (newPlayer).addListener(client);
 
         model.addPlayer(newPlayer);

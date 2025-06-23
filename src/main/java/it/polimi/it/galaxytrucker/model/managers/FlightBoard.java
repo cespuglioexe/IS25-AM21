@@ -1,6 +1,12 @@
 package it.polimi.it.galaxytrucker.model.managers;
 
+import it.polimi.it.galaxytrucker.listeners.Listener;
+import it.polimi.it.galaxytrucker.listeners.Observable;
+import it.polimi.it.galaxytrucker.messages.servermessages.GameUpdate;
+import it.polimi.it.galaxytrucker.messages.servermessages.GameUpdateType;
+
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * The {@code FlightBoard} class represents the flight board used in the Galaxy Trucker game.
@@ -13,11 +19,13 @@ import java.util.*;
  * @author Giacomo Amaducci
  * @version 1.1
  */
-public class FlightBoard {
+public class FlightBoard implements Observable {
 
     private final Player[] board;
     private final HashMap<Player,Integer> playerPosition;
     private final HashMap<Player,Integer> completedLaps;
+
+    private final List<Listener> listeners = new ArrayList<>();
 
     public FlightBoard(int level) {
         int dimension = 0;
@@ -147,6 +155,19 @@ public class FlightBoard {
         // Update the hashmaps
         playerPosition.put(player, newPosition);
         completedLaps.put(player, completedLaps.get(player) + laps);
+
+        HashMap<UUID, Integer> uuidMap = (HashMap<UUID, Integer>) playerPosition.entrySet().stream()
+                .collect(Collectors.toMap(
+                        entry -> entry.getKey().getPlayerID(),
+                        Map.Entry::getValue
+                ));
+
+        updateListeners(
+                new GameUpdate.GameUpdateBuilder(GameUpdateType.PLAYER_MARKER_MOVED)
+                        .setInterestedPlayerId(player.getPlayerID())
+                        .setPlayerMarkerPositions(uuidMap)
+                        .build()
+        );
     }
 
     /**
@@ -187,6 +208,19 @@ public class FlightBoard {
         playerPosition.put(player, newPosition);
         completedLaps.put(player, completedLaps.get(player) - (newPosition > position ? 1 : 0));  // {@code newPosition > position} means that the player looped
                                                                                                     // over the array, undoing a lap of the board
+
+        HashMap<UUID, Integer> uuidMap = (HashMap<UUID, Integer>) playerPosition.entrySet().stream()
+                .collect(Collectors.toMap(
+                        entry -> entry.getKey().getPlayerID(),
+                        Map.Entry::getValue
+                ));
+
+        updateListeners(
+                new GameUpdate.GameUpdateBuilder(GameUpdateType.PLAYER_MARKER_MOVED)
+                        .setInterestedPlayerId(player.getPlayerID())
+                        .setPlayerMarkerPositions(uuidMap)
+                        .build()
+        );
     }
 
 
@@ -278,5 +312,27 @@ public class FlightBoard {
         int position = playerPosition.get(player);
         board[position] = null;
         playerPosition.remove(player);
+    }
+
+    @Override
+    public void addListener(Listener listener) {
+        synchronized (listeners) {
+            listeners.add(listener);
+        }
+    }
+
+    @Override
+    public void removeListener(Listener listener) {
+        synchronized (listeners) {
+            listeners.remove(listener);
+        }
+    }
+
+    private void updateListeners(GameUpdate command) {
+        synchronized (listeners) {
+            for (Listener listener : listeners) {
+                listener.notify(command);
+            }
+        }
     }
 }

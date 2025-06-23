@@ -38,6 +38,10 @@ public class ClientModel {
      * Path to the card currently in execution
      */
     private String activeCardGraphicPath;
+    /**
+     * Position of each player on the flight board
+     */
+    private HashMap<UUID, Integer> playerMarkerPositions = new HashMap<>();
     
 
     private int gameLevel;
@@ -127,5 +131,13 @@ public class ClientModel {
     public void setDiscardedTiles(List<TileData> discardedTiles) {
         this.discardedTiles.clear();
         this.discardedTiles.addAll(discardedTiles);
+    }
+
+    public HashMap<UUID, Integer> getPlayerMarkerPositions() {
+        return playerMarkerPositions;
+    }
+
+    public void setPlayerMarkerPositions(HashMap<UUID, Integer> playerMarkerPositions) {
+        this.playerMarkerPositions = playerMarkerPositions;
     }
 }
