@@ -102,6 +102,7 @@ public class GUIBuildingController extends GUIViewState {
 
         //------CONTROLLO SU PEZZO SALVATO O SCARTATO-------//
         if(savedSelected!=-1){
+            System.out.println("savedSelected: " + savedSelected);
             GUIView.getInstance().getClient().receiveUserInput(
                     new UserInput.UserInputBuilder(UserInputType.SELECT_SAVED_COMPONENT)
                             .setSelectedTileIndex(savedSelected)
@@ -110,13 +111,14 @@ public class GUIBuildingController extends GUIViewState {
 
             savedSelected = -1;
         } else if (discardedSelected!=-1){
+            System.out.println("discardedSelected: " + discardedSelected);
             GUIView.getInstance().getClient().receiveUserInput(
                     new UserInput.UserInputBuilder(UserInputType.SELECT_DISCARDED_COMPONENT)
                             .setSelectedTileIndex(discardedSelected)
                             .build()
             );
             discardedSelected = -1;
-        } else {
+        }
             //--------------------------------------------------------//
 
             int x, y;
@@ -129,7 +131,7 @@ public class GUIBuildingController extends GUIViewState {
                             .setRotation(rotation)
                             .build()
             );
-        }
+
 
     }
 

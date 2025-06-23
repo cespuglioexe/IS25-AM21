@@ -148,6 +148,11 @@ public class CLIView extends View {
     }
 
     @Override
+    public void displayInputOptions(String card, String cardState) {
+        
+    }
+
+    @Override
     public void manageInputError() {
 
     }

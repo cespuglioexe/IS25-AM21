@@ -17,8 +17,10 @@ import java.util.Objects;
 public class GUIGameTurn extends GUIViewState{
 
     private static GUIGameTurn instance;
+    @FXML private PlayerShipElementController shipController;
 
     @FXML private ImageView activeCard;
+    @FXML private ImageView p0,p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11,p12,p13,p14,p15,p16,p17;
 
     public static GUIGameTurn getInstance() {
         synchronized (GUIGameTurn.class) {
@@ -59,4 +61,6 @@ public class GUIGameTurn extends GUIViewState{
     private void viewFlightBoard() {
 
     }
+
+
 }

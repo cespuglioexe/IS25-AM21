@@ -12,6 +12,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.paint.Color?>
@@ -37,36 +38,6 @@
                   </Lighting>
                </effect>
             </ImageView>
-            <StackPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-               <children>
-                  <ImageView fitHeight="389.0" fitWidth="805.0" pickOnBounds="true" visible="false" StackPane.alignment="TOP_CENTER">
-                     <image>
-                        <Image url="@../graphics/cardboard/cardboard-3.png" />
-                     </image>
-                     <StackPane.margin>
-                        <Insets top="350.0" />
-                     </StackPane.margin>
-                     <effect>
-                        <DropShadow height="255.0" radius="127.0" spread="0.61" width="255.0" />
-                     </effect>
-                  </ImageView>
-               </children>
-            </StackPane>
-            <StackPane alignment="TOP_CENTER" layoutX="431.0" layoutY="124.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-               <children>
-                  <ImageView fitHeight="389.0" fitWidth="805.0" opacity="0.84" pickOnBounds="true" StackPane.alignment="TOP_CENTER">
-                     <image>
-                        <Image url="@../graphics/cardboard/cardboard-5.png" />
-                     </image>
-                     <StackPane.margin>
-                        <Insets top="350.0" />
-                     </StackPane.margin>
-                     <effect>
-                        <DropShadow height="255.0" radius="127.0" spread="0.68" width="255.0" />
-                     </effect>
-                  </ImageView>
-               </children>
-            </StackPane>
             <StackPane prefHeight="150.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <ImageView fx:id="activeCard" fitHeight="248.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="BOTTOM_CENTER">
@@ -255,6 +226,120 @@
                   </Label>
                </children>
             </GridPane>
+            <Pane prefHeight="670.0" prefWidth="1198.0" translateX="390.0" translateY="70.0">
+               <children>
+                  <ImageView fitHeight="661.0" fitWidth="1182.0" opacity="0.84" pickOnBounds="true" visible="false" x="20.0">
+                     <image>
+                        <Image url="@../graphics/cardboard/cardboard-5.png" />
+                     </image>
+                     <effect>
+                        <DropShadow height="255.0" radius="127.0" spread="0.68" width="255.0" />
+                     </effect>
+                  </ImageView>
+               </children>
+            </Pane>
+            <Pane layoutX="10.0" layoutY="10.0" prefHeight="670.0" prefWidth="1198.0" translateX="390.0" translateY="70.0">
+               <children>
+                  <ImageView fitHeight="661.0" fitWidth="1182.0" pickOnBounds="true">
+                     <image>
+                        <Image url="@../graphics/cardboard/cardboard-3.png" />
+                     </image>
+                     <effect>
+                        <DropShadow height="255.0" radius="127.0" spread="0.61" width="255.0" />
+                     </effect>
+                  </ImageView>
+                  <ImageView fitHeight="65.0" fitWidth="65.0" layoutX="834.0" layoutY="116.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../../../../../../../../../Screenshot%202025-06-22%20alle%2016.33.15.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="65.0" fitWidth="65.0" layoutX="727.0" layoutY="83.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../../../../../../../../../Screenshot%202025-06-22%20alle%2016.33.15.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="65.0" fitWidth="65.0" layoutX="612.0" layoutY="63.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../../../../../../../../../Screenshot%202025-06-22%20alle%2016.33.15.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="65.0" fitWidth="65.0" layoutX="502.0" layoutY="59.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../../../../../../../../../Screenshot%202025-06-22%20alle%2016.33.15.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="65.0" fitWidth="65.0" layoutX="391.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../../../../../../../../../Screenshot%202025-06-22%20alle%2016.33.15.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="65.0" fitWidth="65.0" layoutX="283.0" layoutY="113.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../../../../../../../../../Screenshot%202025-06-22%20alle%2016.33.15.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="65.0" fitWidth="65.0" layoutX="932.0" layoutY="185.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../../../../../../../../../Screenshot%202025-06-22%20alle%2016.33.15.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="65.0" fitWidth="65.0" layoutX="984.0" layoutY="313.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../../../../../../../../../Screenshot%202025-06-22%20alle%2016.33.15.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="65.0" fitWidth="65.0" layoutX="922.0" layoutY="424.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../../../../../../../../../Screenshot%202025-06-22%20alle%2016.33.15.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="65.0" fitWidth="65.0" layoutX="830.0" layoutY="480.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../../../../../../../../../Screenshot%202025-06-22%20alle%2016.33.15.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="65.0" fitWidth="65.0" layoutX="712.0" layoutY="513.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../../../../../../../../../Screenshot%202025-06-22%20alle%2016.33.15.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="65.0" fitWidth="65.0" layoutX="603.0" layoutY="533.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../../../../../../../../../Screenshot%202025-06-22%20alle%2016.33.15.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="65.0" fitWidth="65.0" layoutX="498.0" layoutY="534.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../../../../../../../../../Screenshot%202025-06-22%20alle%2016.33.15.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="65.0" fitWidth="65.0" layoutX="385.0" layoutY="514.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../../../../../../../../../Screenshot%202025-06-22%20alle%2016.33.15.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="65.0" fitWidth="65.0" layoutX="275.0" layoutY="480.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../../../../../../../../../Screenshot%202025-06-22%20alle%2016.33.15.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="65.0" fitWidth="65.0" layoutX="177.0" layoutY="410.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../../../../../../../../../Screenshot%202025-06-22%20alle%2016.33.15.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="65.0" fitWidth="65.0" layoutX="122.0" layoutY="288.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../../../../../../../../../Screenshot%202025-06-22%20alle%2016.33.15.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="65.0" fitWidth="65.0" layoutX="186.0" layoutY="179.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../../../../../../../../../Screenshot%202025-06-22%20alle%2016.33.15.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Pane>
          </children>
       </AnchorPane>
    </children>
