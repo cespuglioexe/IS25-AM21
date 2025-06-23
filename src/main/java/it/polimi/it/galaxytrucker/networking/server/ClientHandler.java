@@ -266,7 +266,7 @@ public abstract class ClientHandler extends UnicastRemoteObject implements Liste
                     controller.manageRemovedCrewmate(clientUuid, userInput.getRemovedCrewmate());
                     break;
                 case PARTICIPATION:
-                    controller.manageParticipation(clientUuid, userInput.getParticipation());
+                    controller.manageParticipation(clientUuid, userInput.getParticipation(), userInput.getParticipationChoice());
                     break;
                 default:
                     System.out.println(ConsoleColors.CLIENT_HANDLER_DEBUG.tag(clientName) + "received input" + ConsoleColors.RESET);

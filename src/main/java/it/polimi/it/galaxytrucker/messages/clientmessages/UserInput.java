@@ -34,6 +34,7 @@ public class UserInput extends Message {
     private final List<Coordinates> removedCrewmate;
     private final boolean creditChoice;
     private final boolean participation;
+    private final int participationChoice;
 
     private final List<Integer> coords;
     private final int rotation;
@@ -56,7 +57,8 @@ public class UserInput extends Message {
             @JsonProperty("acceptedCargo") HashMap<Integer,Coordinates> acceptedCargo,
             @JsonProperty("creditChoice") boolean creditChoice,
             @JsonProperty("removedCrewmate") List<Coordinates> removedCrewmate,
-            @JsonProperty("participation") boolean participation){
+            @JsonProperty("participation") boolean participation,
+            @JsonProperty("participationChoice") int participationChoice){
         this.type = type;
         this.serverName = serverName;
         this.playerName = playerName;
@@ -73,6 +75,7 @@ public class UserInput extends Message {
         this.creditChoice = creditChoice;
         this.removedCrewmate = removedCrewmate;
         this.participation = participation;
+        this.participationChoice = participationChoice;
     }
 
     public UserInput(UserInputBuilder builder) {
@@ -93,6 +96,7 @@ public class UserInput extends Message {
         this.creditChoice = builder.creditChoice;
         this.removedCrewmate = builder.removedCrewmate;
         this.participation = builder.participation;
+        this.participationChoice = builder.participationChoice;
     }
 
     public UserInputType getType() {
@@ -169,6 +173,10 @@ public class UserInput extends Message {
         return playerUuid;
     }
 
+    public int getParticipationChoice() {
+        return participationChoice;
+    }
+
     /**
      * Builder class for creating instances of the UserInput class.
      * This class provides a convenient way to configure all optional and required parameters
@@ -189,6 +197,7 @@ public class UserInput extends Message {
         private boolean creditChoice;
         private List<Coordinates> removedCrewmate = new ArrayList<>();
         private boolean participation;
+        private int participationChoice = 0;
 
         private int gameLevel = 0;
         private int gamePlayers = 0;
@@ -281,6 +290,11 @@ public class UserInput extends Message {
 
         public UserInputBuilder setParticipation(boolean participation) {
             this.participation = participation;
+            return this;
+        }
+
+        public UserInputBuilder setParticipationChoice(int choice) {
+            this.participationChoice = choice;
             return this;
         }
 

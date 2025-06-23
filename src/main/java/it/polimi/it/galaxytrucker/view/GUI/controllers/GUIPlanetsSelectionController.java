@@ -9,6 +9,8 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
+import it.polimi.it.galaxytrucker.messages.clientmessages.UserInput;
+import it.polimi.it.galaxytrucker.messages.clientmessages.UserInputType;
 import it.polimi.it.galaxytrucker.networking.client.clientmodel.ClientModel;
 import it.polimi.it.galaxytrucker.view.GUI.GUIView;
 import javafx.application.Platform;
@@ -159,5 +161,25 @@ public class GUIPlanetsSelectionController extends GUIViewState {
             stage.show();
 
         });
+    }
+
+    @FXML
+    private void landOnPlanet() {
+        GUIView.getInstance().getClient().receiveUserInput(
+                new UserInput.UserInputBuilder(UserInputType.PARTICIPATION)
+                        .setParticipation(true)
+                        .setParticipationChoice(currentPlanetIndex)
+                        .build()
+        );
+    }
+
+    @FXML
+    private void skipTurn() {
+        GUIView.getInstance().getClient().receiveUserInput(
+                new UserInput.UserInputBuilder(UserInputType.PARTICIPATION)
+                        .setParticipation(false)
+                        .setParticipationChoice(-1)
+                        .build()
+        );
     }
 }

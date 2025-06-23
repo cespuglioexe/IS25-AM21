@@ -57,5 +57,5 @@ public interface Model {
      void manageAcceptedCargo(UUID playerId,HashMap<Integer,Coordinates> acceptedCargo);
      void manageCreditChoice(UUID playerId,boolean creditChoice);
      void manageRemovedCrewmate(UUID  playerId, List<Coordinates> removedCrewmate);
-     void manageParticipation(UUID  playerId, boolean participation);
+     void manageParticipation(UUID  playerId, boolean participation, int choice);
 }

@@ -95,7 +95,7 @@ public class GUIActivateShieldController extends GUIViewState{
             shieldAndBatteryCoord.add(batteryCoord);
 
             GUIView.getInstance().getClient().receiveUserInput(
-                    new UserInput.UserInputBuilder(UserInputType.ACTIVATE_COMPONENT)
+                    new UserInput.UserInputBuilder(UserInputType.ACTIVATE_SHIELD)
                             .setComponentsForActivation(shieldAndBatteryCoord)
                             .build()
             );
@@ -103,7 +103,7 @@ public class GUIActivateShieldController extends GUIViewState{
             if(shieldCoords.isEmpty() && batteryCoord.isEmpty() ) {
                 shieldAndBatteryCoord.clear();
                 GUIView.getInstance().getClient().receiveUserInput(
-                        new UserInput.UserInputBuilder(UserInputType.ACTIVATE_COMPONENT)
+                        new UserInput.UserInputBuilder(UserInputType.ACTIVATE_SHIELD)
                                 .setComponentsForActivation(shieldAndBatteryCoord)
                                 .build()
                 );

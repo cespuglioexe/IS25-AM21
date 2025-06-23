@@ -160,8 +160,8 @@ public class Controller implements ControllerInterface {
     }
 
     @Override
-    public void manageParticipation(UUID  playerId, boolean participation){
-        model.manageParticipation(playerId,participation);
+    public void manageParticipation(UUID  playerId, boolean participation, int choice){
+        model.manageParticipation(playerId, participation, choice);
     }
 
     @Override
