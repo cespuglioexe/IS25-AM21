@@ -251,6 +251,18 @@ public abstract class ClientHandler extends UnicastRemoteObject implements Liste
                 case ACTIVATE_COMPONENT:
                     controller.activateComponent(clientUuid, userInput.getComponentsForActivation());
                     break;
+                case CARGO_REWARD:
+                    controller.manageAcceptedCargo(clientUuid, userInput.getAcceptedCargo());
+                    break;
+                case CREDIT_REWARD:
+                    controller.manageCreditChoice(clientUuid, userInput.getCreditChoice());
+                    break;
+                case CREWMATE_PENALTY:
+                    controller.manageRemovedCrewmate(clientUuid, userInput.getRemovedCrewmate());
+                    break;
+                case PARTICIPATION:
+                    controller.manageParticipation(clientUuid, userInput.getParticipation());
+                    break;
                 default:
                     System.out.println(ConsoleColors.CLIENT_HANDLER_DEBUG.tag(clientName) + "received input" + ConsoleColors.RESET);
             }

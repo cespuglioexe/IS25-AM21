@@ -18,6 +18,8 @@ public class GUICreditChoiceController extends GUIViewState{
     @FXML
     private Label creditsPlayer;
 
+    @FXML private Label creditCard;
+
     private static GUICreditChoiceController instance;
 
     public static GUICreditChoiceController getInstance() {
@@ -41,20 +43,24 @@ public class GUICreditChoiceController extends GUIViewState{
 
     @FXML
     private void declineReward(){
-    /*    GUIView.getInstance().getClient().receiveUserInput(
-                new UserInput.UserInputBuilder(UserInputType.CARGO_REWARD)
-                        .set(false)
+        GUIView.getInstance().getClient().receiveUserInput(
+                new UserInput.UserInputBuilder(UserInputType.CREDIT_REWARD)
+                        .setCreditChoice(false)
                         .build()
-        );*/
+        );
     }
 
     @FXML
     private void acceptReward(){
-    /*    GUIView.getInstance().getClient().receiveUserInput(
-                new UserInput.UserInputBuilder(UserInputType.CARGO_REWARD)
-                        .set(true)
+        GUIView.getInstance().getClient().receiveUserInput(
+                new UserInput.UserInputBuilder(UserInputType.CREDIT_REWARD)
+                        .setCreditChoice(true)
                         .build()
-        );*/
+        );
+    }
+
+    public void setCreditsCard(int creditsCard){
+        creditCard.setText(creditsCard + "");
     }
 
 

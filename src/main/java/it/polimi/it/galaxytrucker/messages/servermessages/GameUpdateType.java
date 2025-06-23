@@ -23,4 +23,5 @@ public enum GameUpdateType {
     INPUT,
     INVALID_INPUT,
     CARD_DETAILS,
+    PLAYER_MARKER_MOVED,
 }

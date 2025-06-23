@@ -204,6 +204,10 @@ public abstract class Client extends UnicastRemoteObject implements Runnable, Cl
             case INVALID_INPUT:
                 //TODO
                 break;
+            case PLAYER_MARKER_MOVED:
+                synchronized (ClientModel.class) {
+                    model.setPlayerMarkerPositions(update.getPlayerMarkerPositions());
+                }
             default:
                 System.out.println(ConsoleColors.CLIENT_DEBUG + "Received unhandled game update instruction type: " + update.getInstructionType() + ConsoleColors.RESET);
                 break;
