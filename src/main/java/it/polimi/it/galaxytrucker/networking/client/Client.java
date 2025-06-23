@@ -156,6 +156,7 @@ public abstract class Client extends UnicastRemoteObject implements Runnable, Cl
                         }
                         break;
                     case "CardExecutionState":
+                        //model.setShipManager(update.getShipManager());
                         model.setActiveCardGraphicPath(update.getOperationMessage());
                         view.newCardStartedExecution();
                         break;

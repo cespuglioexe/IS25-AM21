@@ -1,6 +1,7 @@
 package it.polimi.it.galaxytrucker.model.adventurecards.cardevents;
 
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCard;
+import it.polimi.it.galaxytrucker.model.managers.Player;
 
 public class CardResolved implements CardEvent {
     private AdventureCard source;
@@ -12,6 +13,11 @@ public class CardResolved implements CardEvent {
     @Override
     public AdventureCard getSource() {
         return source;
+    }
+
+    @Override
+    public Player getInterestedPlayer() {
+        return null;
     }
 
     @Override

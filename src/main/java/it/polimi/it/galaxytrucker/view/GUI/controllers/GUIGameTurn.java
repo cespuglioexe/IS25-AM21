@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -18,9 +19,9 @@ public class GUIGameTurn extends GUIViewState{
 
     private static GUIGameTurn instance;
     @FXML private PlayerShipElementController shipController;
-
     @FXML private ImageView activeCard;
     @FXML private ImageView p0,p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11,p12,p13,p14,p15,p16,p17;
+    @FXML private Label creditsCount,engineCount;
 
     public static GUIGameTurn getInstance() {
         synchronized (GUIGameTurn.class) {
@@ -45,6 +46,7 @@ public class GUIGameTurn extends GUIViewState{
     public void displayScene() {
 
         Platform.runLater(() -> {
+            System.out.println("ciao");
             stage = (Stage) GUIView.stage.getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);
@@ -52,9 +54,17 @@ public class GUIGameTurn extends GUIViewState{
             System.out.println(GUIView.getInstance().getClient().getModel().getActiveCardGraphicPath());
 
             activeCard.setImage(new Image(Objects.requireNonNull(GUIFixingShipController.class.getResourceAsStream("/it/polimi/it/galaxytrucker/graphics/cards/" + GUIView.getInstance().getClient().getModel().getActiveCardGraphicPath()))));
-
+            creditsCount.setText(String.valueOf(GUIView.getInstance().getClient().getModel().getCredits()));
             stage.show();
+            waiting();
+
         });
+    }
+
+    private void waiting(){
+        while (true){
+
+        }
     }
 
     @FXML

@@ -49,6 +49,7 @@ public class GUIBuildingController extends GUIViewState {
     private int savedSelected = -1, discardedSelected = -1;
     private Map<String, ImageView> imageTiles = new HashMap<>();
     private List<String> pileCards = new ArrayList<>();
+    private int newTile;
 
     public static GUIBuildingController getInstance() {
         synchronized (GUIBuildingController.class) {
@@ -71,15 +72,19 @@ public class GUIBuildingController extends GUIViewState {
 
     @FXML
     public void newRandomTile(){
-        savedSelected = -1;
-        discardedSelected = -1;
-        rotation = 0;
-        arrowForward.setVisible(false);
-        arrowBack.setVisible(false);
-        GUIView.getInstance().getClient().receiveUserInput(
-                new UserInput.UserInputBuilder(UserInputType.SELECT_RANDOM_COMPONENT)
-                        .build()
-        );
+        if(newTile!=1){
+            savedSelected = -1;
+            discardedSelected = -1;
+            rotation = 0;
+            arrowForward.setVisible(false);
+            arrowBack.setVisible(false);
+            GUIView.getInstance().getClient().receiveUserInput(
+                    new UserInput.UserInputBuilder(UserInputType.SELECT_RANDOM_COMPONENT)
+                            .build()
+            );
+            newTile = 1;
+        }
+
     }
 
 
@@ -131,7 +136,7 @@ public class GUIBuildingController extends GUIViewState {
                             .setRotation(rotation)
                             .build()
             );
-
+            newTile = 0;
 
     }
 
@@ -149,6 +154,7 @@ public class GUIBuildingController extends GUIViewState {
         );
         tileImageView.setImage(null);
         System.out.println("tile saved");
+        newTile = 0;
     }
 
     @FXML
@@ -159,88 +165,93 @@ public class GUIBuildingController extends GUIViewState {
         );
         tileImageView.setImage(null);
         System.out.println("tile discarded");
+        newTile = 0;
     }
 
 
 
 
     public void showSavedTile(){
-        ClientModel model = GUIView.getInstance().getClient().getModel();
-        List<TileData> savedTiles = model.getSavedTiles();
-        AtomicInteger index= new AtomicInteger();
-        rotation = 0;
-        updateVisibleTile(savedTiles.get(0));
-        savedSelected=0;
-        arrowForward.setVisible(true);
-        arrowBack.setVisible(true);
+        if(newTile !=1){
+            newTile = 1;
+            ClientModel model = GUIView.getInstance().getClient().getModel();
+            List<TileData> savedTiles = model.getSavedTiles();
+            AtomicInteger index= new AtomicInteger();
+            rotation = 0;
+            updateVisibleTile(savedTiles.get(0));
+            savedSelected=0;
+            arrowForward.setVisible(true);
+            arrowBack.setVisible(true);
 
-        arrowBack.setOnAction(e -> {
-            System.out.println("Saved tile index: "+index);
-            if (!savedTiles.isEmpty()) {
-                index.set((index.get() - 1 + savedTiles.size()) % savedTiles.size());
-                updateVisibleTile(savedTiles.get(index.get()));
+            arrowBack.setOnAction(e -> {
+                System.out.println("Saved tile index: "+index);
+                if (!savedTiles.isEmpty()) {
+                    index.set((index.get() - 1 + savedTiles.size()) % savedTiles.size());
+                    updateVisibleTile(savedTiles.get(index.get()));
 
-            }else{
-                tileImageView.setImage(null);
-            }
-            savedSelected = index.get();
+                }else{
+                    tileImageView.setImage(null);
+                }
+                savedSelected = index.get();
 
-        });
+            });
 
-        arrowForward.setOnAction(e -> {
-            System.out.println("Saved tile index: "+index);
+            arrowForward.setOnAction(e -> {
+                System.out.println("Saved tile index: "+index);
 
-            if (!savedTiles.isEmpty()) {
-                index.set((index.get() + 1 + savedTiles.size()) % savedTiles.size());
-                updateVisibleTile(savedTiles.get(index.get()));
+                if (!savedTiles.isEmpty()) {
+                    index.set((index.get() + 1 + savedTiles.size()) % savedTiles.size());
+                    updateVisibleTile(savedTiles.get(index.get()));
 
-            }else{
-                tileImageView.setImage(null);
-            }
-            savedSelected = index.get();
-        });
-
-
-
+                }else{
+                    tileImageView.setImage(null);
+                }
+                savedSelected = index.get();
+            });
+        }
     }
 
 
     public void showDiscardedTile(){
-        rotation=0;
-        ClientModel model = GUIView.getInstance().getClient().getModel();
-        List<TileData> discardedTiles = model.getDiscardedTiles();
-        AtomicInteger index= new AtomicInteger();
+        if(newTile !=1){
+            newTile = 1;
+            rotation=0;
+            ClientModel model = GUIView.getInstance().getClient().getModel();
+            List<TileData> discardedTiles = model.getDiscardedTiles();
+            AtomicInteger index= new AtomicInteger();
 
-        updateVisibleTile(discardedTiles.get(0));
-        discardedSelected=0;
-        arrowForward.setVisible(true);
-        arrowBack.setVisible(true);
+            updateVisibleTile(discardedTiles.get(0));
+            discardedSelected=0;
+            arrowForward.setVisible(true);
+            arrowBack.setVisible(true);
 
-        arrowBack.setOnAction(e -> {
-            System.out.println("Saved tile index: "+index);
-            if (!discardedTiles.isEmpty()) {
-                index.set((index.get() - 1 + discardedTiles.size()) % discardedTiles.size());
-                updateVisibleTile(discardedTiles.get(index.get()));
+            arrowBack.setOnAction(e -> {
+                System.out.println("Saved tile index: "+index);
+                if (!discardedTiles.isEmpty()) {
+                    index.set((index.get() - 1 + discardedTiles.size()) % discardedTiles.size());
+                    updateVisibleTile(discardedTiles.get(index.get()));
 
-            }else{
-                tileImageView.setImage(null);
-            }
-            discardedSelected = index.get();
+                }else{
+                    tileImageView.setImage(null);
+                }
+                discardedSelected = index.get();
 
-        });
+            });
 
-        arrowForward.setOnAction(e -> {
-            System.out.println("Saved tile index: "+index);
+            arrowForward.setOnAction(e -> {
+                System.out.println("Saved tile index: "+index);
 
-            if (!discardedTiles.isEmpty()) {
-                index.set((index.get() + 1 + discardedTiles.size()) % discardedTiles.size());
-                updateVisibleTile(discardedTiles.get(index.get()));
+                if (!discardedTiles.isEmpty()) {
+                    index.set((index.get() + 1 + discardedTiles.size()) % discardedTiles.size());
+                    updateVisibleTile(discardedTiles.get(index.get()));
 
-            }else{
-                tileImageView.setImage(null);
-            }
-            discardedSelected = index.get();
-        });
+                }else{
+                    tileImageView.setImage(null);
+                }
+                discardedSelected = index.get();
+            });
+        }
+
         //da fare la scelta del tile
     }
 
