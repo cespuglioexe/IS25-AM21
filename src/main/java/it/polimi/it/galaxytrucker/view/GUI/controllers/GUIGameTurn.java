@@ -15,10 +15,14 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
+import java.util.UUID;
 
 public class GUIGameTurn extends GUIViewState{
 
+    private Map<String, ImageView> imageViewMap = new HashMap<>();
 
     private FlightBoard flightBoard;
     private static GUIGameTurn instance;
@@ -55,20 +59,59 @@ public class GUIGameTurn extends GUIViewState{
             scene = new Scene(root);
             stage.setScene(scene);
             if (GUIView.getInstance().getClient().getModel().getGameLevel() == 1){
+                System.out.println("Level 1");
                 level1board.setVisible(true);
             }else {
+                System.out.println("Level 2");
                 level2board.setVisible(true);
             }
+
+            imageViewMap.put("p00", p00);
+            imageViewMap.put("p01", p01);
+            imageViewMap.put("p02", p02);
+            imageViewMap.put("p03", p03);
+            imageViewMap.put("p04", p04);
+            imageViewMap.put("p05", p05);
+            imageViewMap.put("p06", p06);
+            imageViewMap.put("p07", p07);
+            imageViewMap.put("p08", p08);
+            imageViewMap.put("p09", p09);
+            imageViewMap.put("p010", p010);
+            imageViewMap.put("p011", p011);
+            imageViewMap.put("p012", p012);
+            imageViewMap.put("p013", p013);
+            imageViewMap.put("p014", p014);
+            imageViewMap.put("p015", p015);
+            imageViewMap.put("p016", p016);
+            imageViewMap.put("p017", p017);
+
 
             activeCard.setImage(new Image(Objects.requireNonNull(GUIFixingShipController.class.getResourceAsStream("/it/polimi/it/galaxytrucker/graphics/cards/" + GUIView.getInstance().getClient().getModel().getActiveCardGraphicPath()))));
             creditsCount.setText(String.valueOf(GUIView.getInstance().getClient().getModel().getCredits()));
             stage.show();
-
+            updateBoard();
         });
     }
 
     public void updateBoard(){
-
+        Platform.runLater(() -> {
+            System.out.println("Updating board");
+            Map<UUID, Integer> positions;
+            ImageView targetView;
+            String cellNumeber = "p0";
+            int cell;
+            positions = GUIView.getInstance().getClient().getModel().getPlayerMarkerPositions();
+            System.out.println("List map: "+positions);
+            for(Map.Entry<UUID, Integer> entry : positions.entrySet()){
+                System.out.println("printing image");
+                cell=entry.getValue();
+                cellNumeber = cellNumeber + cell;
+                targetView = imageViewMap.get(cellNumeber);
+                targetView.setImage(new Image(Objects.requireNonNull(GUIBuildingController.class.getResourceAsStream("/it/polimi/it/galaxytrucker/graphics/pedine/ingconti.png"))));
+                System.out.println("Position: " + entry.getValue());
+                cellNumeber = "p0";
+            }
+        });
     }
 
 
