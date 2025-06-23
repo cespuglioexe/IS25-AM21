@@ -38,7 +38,7 @@ public class ClientModel {
      * Path to the card currently in execution
      */
     private String activeCardGraphicPath;
-    
+
 
     private int gameLevel;
     
@@ -128,4 +128,6 @@ public class ClientModel {
         this.discardedTiles.clear();
         this.discardedTiles.addAll(discardedTiles);
     }
+
+
 }

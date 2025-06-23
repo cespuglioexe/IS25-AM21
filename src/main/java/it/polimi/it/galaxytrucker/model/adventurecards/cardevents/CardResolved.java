@@ -16,6 +16,11 @@ public class CardResolved implements CardEvent {
     }
 
     @Override
+    public Player getInterestedPlayer() {
+        return null;
+    }
+
+    @Override
     public void accept(EventVisitor visitor) {
         visitor.visit(this);
     }
