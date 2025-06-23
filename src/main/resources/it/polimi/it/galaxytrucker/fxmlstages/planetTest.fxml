@@ -83,6 +83,17 @@
                             </HBox>
 
                         </VBox>
+                        <!-- PENALTY -->
+                        <HBox alignment="CENTER_LEFT" spacing="10">
+                            <padding><Insets top="20"/></padding>
+                            
+                            <!-- Label PENALTY -->
+                            <Label fx:id="penaltyTextLabel" text="FLIGHT DAY PENALTY:" styleClass="penalty-title"/>
+
+                            <StackPane alignment="CENTER">
+                                <Label fx:id="penaltyValueLabel" text="2" styleClass="penalty-number"/>
+                            </StackPane>
+                        </HBox>
                     </VBox>
                 </left>
 

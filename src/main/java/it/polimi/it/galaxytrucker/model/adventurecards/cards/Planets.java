@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -374,13 +375,17 @@ public class Planets extends CardStateMachine implements AdventureCard, Particip
         }
         return serializedList;
     }
-    private List<Integer> serializeOccupiedPlanets() {
-        List<Integer> serializedList = new ArrayList<>();
+    private Map<Integer, UUID> serializeOccupiedPlanets() {
+        Map<Integer, UUID> serializedMap = new HashMap<>();
 
         for (Integer planet : planetsAndPlayers.keySet()) {
-            serializedList.add(planet);
+            Optional<Player> playerOpt = planetsAndPlayers.get(planet);
+
+            if (playerOpt.isEmpty()) continue;
+
+            serializedMap.put(planet, playerOpt.get().getPlayerID());
         }
-        return serializedList;
+        return serializedMap;
     }
 }
 

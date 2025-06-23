@@ -74,6 +74,21 @@
     -fx-scale-y: 1.05;
 }
 
+.penalty-title {
+    -fx-font-size: 28px;
+    -fx-font-weight: 900;
+    -fx-text-fill: linear-gradient(to bottom, #ff4444, #990000);
+    -fx-effect: dropshadow(gaussian, black, 6, 0.8, 1, 1);
+    -fx-font-family: "Impact", "Arial Black", sans-serif;
+}
+
+.penalty-number {
+    -fx-font-size: 38px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-effect: dropshadow(gaussian, black, 6, 0.7, 1, 1);
+}
+
 .cargo-number {
     -fx-font-size: 45px;
     -fx-font-weight: bold;

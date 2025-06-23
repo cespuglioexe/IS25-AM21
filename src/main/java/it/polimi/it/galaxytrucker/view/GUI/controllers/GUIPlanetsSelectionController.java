@@ -112,4 +112,10 @@ public class GUIPlanetsSelectionController {
         greenLabel.setText(String.valueOf(cargo.get(it.polimi.it.galaxytrucker.model.utility.Color.GREEN)));
         blueLabel.setText(String.valueOf(cargo.get(it.polimi.it.galaxytrucker.model.utility.Color.BLUE)));
     }
+
+    @FXML private Label penaltyValueLabel;
+
+    public void setPenaltyValue(int value) {
+        penaltyValueLabel.setText(String.valueOf(value));
+    }
 }
