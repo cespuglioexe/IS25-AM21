@@ -6,13 +6,13 @@ import it.polimi.it.galaxytrucker.model.componenttiles.CargoHold;
 import it.polimi.it.galaxytrucker.model.componenttiles.SpecialCargoHold;
 import it.polimi.it.galaxytrucker.model.utility.Cargo;
 import it.polimi.it.galaxytrucker.model.utility.Color;
+import it.polimi.it.galaxytrucker.model.utility.Coordinates;
 import it.polimi.it.galaxytrucker.view.GUI.GUIView;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
@@ -22,10 +22,9 @@ import java.util.*;
 
 public class GUICargoChoiceController extends GUIViewState implements GUIErrorHandler {
 
-    private int rotation;
     private Map<String, ImageView> imageTiles = new HashMap<>();
-    private List<List<Integer>> cargoCoords = new ArrayList<>();
-    private List<Cargo> cargoReward = new ArrayList<>();  // Bisogna inizializzarla
+    private List<Coordinates> cargoCoords = new ArrayList<>();
+    private List<Cargo> cargoReward = new ArrayList<>();
     private int i;
 
     @FXML
@@ -105,7 +104,7 @@ public class GUICargoChoiceController extends GUIViewState implements GUIErrorHa
             } else {
                 if (cargoReward.get(i).isSpecial()) {
                     if (GUIView.getInstance().getClient().getModel().getPlayerShips(GUIView.getInstance().getClient().getModel().getMyData().getPlayerId()).get(row).get(col).type().equals(SpecialCargoHold.class.getSimpleName())) {
-                        cargoCoords.add(List.of(row, col));
+                        cargoCoords.add(new Coordinates(col,row));
                         cargoReward.remove(cargoReward.get(i));
                         i = 0;
                         displayCargo();
@@ -113,7 +112,7 @@ public class GUICargoChoiceController extends GUIViewState implements GUIErrorHa
                     } else incorrectCoord.setVisible(true);
                 } else {
                     if (GUIView.getInstance().getClient().getModel().getPlayerShips(GUIView.getInstance().getClient().getModel().getMyData().getPlayerId()).get(row).get(col).type().equals(CargoHold.class.getSimpleName())) {
-                        cargoCoords.add(List.of(row, col));
+                        cargoCoords.add(new Coordinates(col,row));
                         cargoReward.remove(cargoReward.get(i));
                         i = 0;
                         displayCargo();
@@ -132,14 +131,15 @@ public class GUICargoChoiceController extends GUIViewState implements GUIErrorHa
 
     @FXML
     private void acceptReward() {
-     /*   GUIView.getInstance().getClient().receiveUserInput(
+        GUIView.getInstance().getClient().receiveUserInput(
                 new UserInput.UserInputBuilder(UserInputType.CARGO_REWARD)
-                        .setActivationHashmap(cargoCoords)
+                        .setAcceptedCargo(cargoCoords)
                         .build()
-        );*/
+        );
+    }
 
-        // Se i valori non sono corretti
-        incorrectValues.setVisible(true);
+    public void setCargoReward(List<Cargo> cargoReward) {
+        this.cargoReward = cargoReward;
     }
 
     @Override
@@ -159,6 +159,8 @@ public class GUICargoChoiceController extends GUIViewState implements GUIErrorHa
     public void inputError() {
         incorrectValues.setVisible(true);
         incorrectCoord.setVisible(false);
+        i=0;
+      //  cargoReward =  valore;
     }
 }
 

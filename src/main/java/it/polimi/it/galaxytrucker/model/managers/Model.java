@@ -52,5 +52,8 @@ public interface Model {
 
      void startBuildPhaseTimer();
      void activateComponent(UUID playerID, List<List<Coordinates>> activationHashmap);
-
+     void manageAcceptedCargo(UUID playerId,List<Coordinates> acceptedCargo);
+     void manageCreditChoice(UUID playerId,boolean creditChoice);
+     void manageRemovedCrewmate(UUID  playerId, List<Coordinates> removedCrewmate);
+     void manageParticipation(UUID  playerId, boolean participation);
 }

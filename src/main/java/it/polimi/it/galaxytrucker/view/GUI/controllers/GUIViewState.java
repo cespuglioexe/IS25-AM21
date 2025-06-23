@@ -19,7 +19,7 @@ public abstract class GUIViewState {
     protected Scanner scanner = new Scanner(System.in);
 
     public static GUIViewState getCurrentState() {
-        synchronized (CLIViewState.class) {
+        synchronized (GUIViewState.class) {
             return currentState;
         }
     }

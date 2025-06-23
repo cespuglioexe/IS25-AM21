@@ -2,14 +2,25 @@ package it.polimi.it.galaxytrucker.view.GUI.controllers;
 
 import it.polimi.it.galaxytrucker.messages.clientmessages.UserInput;
 import it.polimi.it.galaxytrucker.messages.clientmessages.UserInputType;
+import it.polimi.it.galaxytrucker.model.componenttiles.OutOfBoundsTile;
+import it.polimi.it.galaxytrucker.model.componenttiles.TileData;
 import it.polimi.it.galaxytrucker.view.GUI.GUIView;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class GUIFixingShipController extends GUIViewState {
@@ -39,12 +50,23 @@ public class GUIFixingShipController extends GUIViewState {
     @Override
     public void displayScene() {
         Platform.runLater(() -> {
-            stage = (Stage) GUIView.stage.getScene().getWindow();
-            scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
+            try {
+                FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(
+                        GUIFixingShipController.class.getResource("/it/polimi/it/galaxytrucker/fxmlstages/fixingShip.fxml")
+                ));
+                loader.setController(this);
+                Parent newRoot = loader.load();
 
-            shipController.displayShip();
+                stage = (Stage) GUIView.stage.getScene().getWindow();
+                scene = new Scene(newRoot);
+                stage.setScene(scene);
+                stage.show();
+
+                shipController.displayShip();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
         });
     }
 
