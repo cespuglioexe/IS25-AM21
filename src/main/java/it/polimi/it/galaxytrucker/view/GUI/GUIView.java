@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public class GUIView extends View {
@@ -180,7 +181,7 @@ public class GUIView extends View {
         switch (cardState) {
             case "ParticipationState":
                 if (card.equals("Planets")) {
-                    GUIParticipationPlanetController.getInstance().displayScene();
+                    GUIPlanetsSelectionController.getInstance().displayScene();
                 } else {
                     GUIParticipationChoiceController.getInstance().displayScene();
                 }
@@ -339,6 +340,9 @@ public class GUIView extends View {
         return edge == TileEdge.SINGLE || edge == TileEdge.UNIVERSAL;
     }
 
-
+    @Override
+    public void displayCardUpdates(String card, String cardState, Map<String, Object> cardDetails) {
+        CardUpdateHandler.handle(card, cardState, cardDetails);
+    }
 
 }

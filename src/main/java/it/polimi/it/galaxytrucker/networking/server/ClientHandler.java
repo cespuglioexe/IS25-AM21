@@ -206,7 +206,6 @@ public abstract class ClientHandler extends UnicastRemoteObject implements Liste
 
                 case SEE_ACTIVE_GAMES:
                     List<GenericGameData> controllers = server.getActiveGames();
-                    System.out.println("???");
                     notify(new GameUpdate.GameUpdateBuilder(GameUpdateType.LIST_ACTIVE_CONTROLLERS)
                             .setActiveControllers(controllers)
                             .build()

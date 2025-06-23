@@ -5,6 +5,7 @@ import it.polimi.it.galaxytrucker.model.componenttiles.TileData;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -38,6 +39,8 @@ public class ClientModel {
      * Path to the card currently in execution
      */
     private String activeCardGraphicPath;
+
+    private volatile Map<String, Object> currentCardDetails = new HashMap<>();
     /**
      * Position of each player on the flight board
      */
@@ -131,6 +134,37 @@ public class ClientModel {
     public void setDiscardedTiles(List<TileData> discardedTiles) {
         this.discardedTiles.clear();
         this.discardedTiles.addAll(discardedTiles);
+    }
+
+    public String getCurrentCard() {
+        return String.valueOf(currentCardDetails.getOrDefault("card", "Margarozzo"));
+    }
+
+    public synchronized void putCardDetail(String key, Object value) {
+        currentCardDetails.put(key, value);
+    }
+
+    public synchronized void setCardDetail(Map<String, Object> newCardDetails) {
+        currentCardDetails = newCardDetails;
+    }
+
+    public synchronized <T> T getCardDetail(String key, Class<T> clazz) {
+        Object value = currentCardDetails.get(key);
+
+        if (!clazz.isInstance(value)) {
+            throw new IllegalArgumentException("Expected type " + clazz + " for key '" + key + "'");
+        }
+
+        return clazz.cast(value);
+    }
+
+    @SuppressWarnings("unchecked")
+    public synchronized <T> T getUnsafeCardDetail(String key) {
+        return (T) currentCardDetails.get(key);
+    }
+
+    public boolean hasCardDetail(String key) {
+        return currentCardDetails.containsKey(key);
     }
 
     public HashMap<UUID, Integer> getPlayerMarkerPositions() {

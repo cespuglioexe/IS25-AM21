@@ -8,6 +8,7 @@ import it.polimi.it.galaxytrucker.model.managers.Player;
 import java.util.List;
 
 import it.polimi.it.galaxytrucker.model.adventurecards.cardevents.InputNeeded;
+import it.polimi.it.galaxytrucker.model.adventurecards.cardevents.UpdateStatus;
 import it.polimi.it.galaxytrucker.model.adventurecards.cards.Planets;
 import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.EndState;
 
@@ -45,6 +46,7 @@ public class ParticipationState extends State {
             fsm.changeState(new CargoRewardState());
         }
 
+        subject.notifyObservers(new UpdateStatus(card));
         subject.notifyObservers(new InputNeeded(card, getPlayerWhoChooses(card)));
     }
     private boolean allPlayersHaveResponded() {
