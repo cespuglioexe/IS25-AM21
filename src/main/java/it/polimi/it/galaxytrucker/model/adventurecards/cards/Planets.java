@@ -348,6 +348,40 @@ public class Planets extends CardStateMachine implements AdventureCard, Particip
     public List<Player> getPlayerOrder() {
         return flightRules.getPlayerOrder();
     }
+
+    @Override
+    public HashMap<String, Object> getEventData() {
+        HashMap<String, Object> data = new HashMap<>();
+
+        data.put("planets", planetsAndRewards.keySet().size());
+        data.put("rewards", serializeCargo());
+        data.put("occupiedPlanets", serializeOccupiedPlanets());
+        data.put("flightDayPenalty", flightDayPenalty);
+
+        return data;
+    }
+    private List<List<String>> serializeCargo() {
+        List<List<String>> serializedList = new ArrayList<>();
+
+        for (int planet : planetsAndRewards.keySet()) {
+            List<Cargo> planetReward = planetsAndRewards.get(planet);
+            List<String> serializedPlanetReward = new ArrayList<>();
+
+            for (Cargo cargo : planetReward) {
+                serializedPlanetReward.add(cargo.getColor().toString());
+            }
+            serializedList.add(serializedPlanetReward);
+        }
+        return serializedList;
+    }
+    private List<Integer> serializeOccupiedPlanets() {
+        List<Integer> serializedList = new ArrayList<>();
+
+        for (Integer planet : planetsAndPlayers.keySet()) {
+            serializedList.add(planet);
+        }
+        return serializedList;
+    }
 }
 
 

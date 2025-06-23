@@ -1,9 +1,11 @@
 package it.polimi.it.galaxytrucker.model.adventurecards.cards;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.pirates.StartState;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCard;
@@ -180,5 +182,30 @@ public class Pirates extends Attack implements AdventureCard,FlightDayPenalty, C
     @Override
     public void accept(AdventureCardVisitor visitor, AdventureCardInputContext context) {
         visitor.visit(this, context);
+    }
+
+    @Override
+    public HashMap<String, Object> getEventData() {
+        HashMap<String, Object> data = new HashMap<>();
+
+        data.put("firePowerRequired", firePowerRequired);
+        data.put("creditReward", creditReward);
+        data.put("flightDayPenalty", flightDayPenalty);
+        data.put("projectiles", serializeProjectiles(getProjectiles()));
+
+        return data;
+    }
+    private List<List<String>> serializeProjectiles(Set<Projectile> projectiles) {
+        List<List<String>> serializedList = new ArrayList<>();
+
+        for (Projectile projectile : projectiles) {
+            List<String> projectileInfo = new ArrayList<>();
+
+            projectileInfo.add(projectile.getSize().toString());
+            projectileInfo.add(projectile.getDirection().toString());
+
+            serializedList.add(projectileInfo);
+        }
+        return serializedList;
     }
 }

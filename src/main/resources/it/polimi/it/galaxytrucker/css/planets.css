@@ -1,0 +1,122 @@
+.green-button, .red-button {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-padding: 14px 28px;
+    -fx-background-radius: 30;
+    -fx-border-radius: 30;
+    -fx-effect: dropshadow(gaussian, black, 10, 0.5, 0, 2);
+    -fx-cursor: hand;
+    -fx-font-family: "Arial Black", "Impact", sans-serif;
+    -fx-scale-x: 1.0;
+    -fx-scale-y: 1.0;
+    -fx-transition: all 0.3s ease-in-out; /* non supportato, ma ci aiuta a ragionare */
+}
+
+/* LAND - verde brillante */
+.green-button {
+    -fx-background-color: linear-gradient(#00ff6e, #007e33);
+    -fx-border-color: #00ff6e;
+}
+
+.green-button:hover {
+    -fx-background-color: linear-gradient(#33ff99, #00cc66);
+    -fx-scale-x: 1.08;
+    -fx-scale-y: 1.08;
+    -fx-effect: dropshadow(gaussian, #00ffcc, 20, 0.6, 0, 0);
+}
+
+/* SKIP TURN - rosso fuoco */
+.red-button {
+    -fx-background-color: linear-gradient(#ff4444, #cc0000);
+    -fx-border-color: #ff6e6e;
+}
+
+.red-button:hover {
+    -fx-background-color: linear-gradient(#ff6666, #e60000);
+    -fx-scale-x: 1.08;
+    -fx-scale-y: 1.08;
+    -fx-effect: dropshadow(gaussian, #ff3333, 20, 0.6, 0, 0);
+}
+
+.direction-button {
+    -fx-font-size: 36px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ccccff;
+    -fx-background-color: transparent;
+    -fx-effect: dropshadow(gaussian, #9c00ff, 8, 0.7, 0, 0);
+    -fx-cursor: hand;
+    -fx-scale-x: 1.0;
+    -fx-scale-y: 1.0;
+    -fx-padding: 10px;
+    -fx-background-radius: 50%;
+    -fx-border-color: transparent;
+    -fx-border-width: 2px;
+    -fx-border-radius: 50%;
+    -fx-transition: all 0.3s ease-in-out; /* non funziona in JavaFX ma aiuta la logica */
+}
+
+.direction-button:hover {
+    -fx-text-fill: white;
+    -fx-scale-x: 1.2;
+    -fx-scale-y: 1.2;
+    -fx-effect: dropshadow(gaussian, #cc66ff, 16, 0.8, 0, 0);
+}
+
+.title-label {
+    -fx-font-size: 60px;
+    -fx-font-weight: 900;
+    -fx-text-fill: linear-gradient(to bottom, #fff200, #ff9900);
+    -fx-effect: dropshadow(gaussian, black, 12, 0.9, 4, 4);
+    -fx-font-family: "Impact", "Arial Black", sans-serif;
+    -fx-rotate: -3; /* leggero tilt */
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+.cargo-number {
+    -fx-font-size: 45px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-effect: dropshadow(gaussian, black, 6, 0.7, 1, 1);
+}
+
+.cargo-red {
+    -fx-effect: dropshadow(gaussian, rgba(255, 0, 0, 0.6), 20, 0.5, 0, 0);
+    -fx-cursor: hand;
+}
+.cargo-red:hover {
+    -fx-effect: dropshadow(gaussian, rgba(255, 0, 0, 0.9), 25, 0.7, 0, 0);
+    -fx-scale-x: 1.08;
+    -fx-scale-y: 1.08;
+}
+
+.cargo-yellow {
+    -fx-effect: dropshadow(gaussian, rgba(255, 255, 0, 0.6), 20, 0.5, 0, 0);
+    -fx-cursor: hand;
+}
+.cargo-yellow:hover {
+    -fx-effect: dropshadow(gaussian, rgba(255, 255, 0, 0.9), 25, 0.7, 0, 0);
+    -fx-scale-x: 1.08;
+    -fx-scale-y: 1.08;
+}
+
+.cargo-green {
+    -fx-effect: dropshadow(gaussian, rgba(0, 255, 0, 0.6), 20, 0.5, 0, 0);
+    -fx-cursor: hand;
+}
+.cargo-green:hover {
+    -fx-effect: dropshadow(gaussian, rgba(0, 255, 0, 0.9), 25, 0.7, 0, 0);
+    -fx-scale-x: 1.08;
+    -fx-scale-y: 1.08;
+}
+
+.cargo-blue {
+    -fx-effect: dropshadow(gaussian, rgba(0, 150, 255, 0.6), 20, 0.5, 0, 0);
+    -fx-cursor: hand;
+}
+.cargo-blue:hover {
+    -fx-effect: dropshadow(gaussian, rgba(0, 150, 255, 0.9), 25, 0.7, 0, 0);
+    -fx-scale-x: 1.08;
+    -fx-scale-y: 1.08;
+}

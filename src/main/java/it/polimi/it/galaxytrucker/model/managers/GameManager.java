@@ -12,6 +12,7 @@ import it.polimi.it.galaxytrucker.listeners.Listener;
 import it.polimi.it.galaxytrucker.listeners.Observable;
 import it.polimi.it.galaxytrucker.model.adventurecards.AdventureDeck;
 import it.polimi.it.galaxytrucker.model.adventurecards.cardevents.InputNeeded;
+import it.polimi.it.galaxytrucker.model.adventurecards.cardevents.UpdateStatus;
 import it.polimi.it.galaxytrucker.model.adventurecards.cards.*;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCard;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.attack.Projectile;
@@ -542,5 +543,19 @@ public class GameManager extends StateMachine implements Model, Observable {
             .build();
 
         updateListeners(input);
+    }
+
+    public void updateListenersCardDetails(UpdateStatus event) {
+        State currentState = ((StateMachine) event.getSource()).getCurrentState();
+        String card = event.getSource().getClass().getSimpleName();
+        Map<String, Object> cardDetails = event.getSource().getEventData();
+
+        GameUpdate update = new GameUpdate.GameUpdateBuilder(GameUpdateType.CARD_DETAILS)
+            .setNewSate(currentState.getClass().getSimpleName())
+            .setOperationMessage(card)
+            .setCardDetail(cardDetails)
+            .build();
+
+        updateListeners(update);
     }
 }
