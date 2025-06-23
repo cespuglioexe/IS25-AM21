@@ -134,6 +134,26 @@ public class Controller implements ControllerInterface {
     }
 
     @Override
+    public void manageAcceptedCargo(UUID playerId,List<Coordinates> acceptedCargo) {
+        model.manageAcceptedCargo(playerId,acceptedCargo);
+    }
+
+    @Override
+    public void manageCreditChoice(UUID playerId,boolean creditChoice) {
+        model.manageCreditChoice(playerId,creditChoice);
+    }
+
+    @Override
+    public void manageRemovedCrewmate(UUID  playerId, List<Coordinates> removedCrewmate){
+        model.manageRemovedCrewmate(playerId,removedCrewmate);
+    }
+
+    @Override
+    public void manageParticipation(UUID  playerId, boolean participation){
+        model.manageParticipation(playerId,participation);
+    }
+
+    @Override
     public synchronized void startBuildPhaseTimer() {
         model.startBuildPhaseTimer();
     }

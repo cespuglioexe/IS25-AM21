@@ -486,6 +486,26 @@ public class GameManager extends StateMachine implements Model, Observable {
     }
 
     @Override
+    public void manageAcceptedCargo(UUID playerId,List<Coordinates> acceptedCargo) {
+        //
+    }
+
+    @Override
+    public void manageCreditChoice(UUID playerId,boolean creditChoice) {
+        //
+    }
+
+    @Override
+    public void manageRemovedCrewmate(UUID  playerId, List<Coordinates> removedCrewmate){
+        //
+    }
+
+    @Override
+    public void manageParticipation(UUID  playerId, boolean participation){
+        //
+    }
+
+    @Override
     public void addListener(Listener listener) {
         synchronized (listeners) {
             listeners.add(listener);

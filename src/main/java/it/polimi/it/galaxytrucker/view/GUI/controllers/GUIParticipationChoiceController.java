@@ -1,5 +1,7 @@
 package it.polimi.it.galaxytrucker.view.GUI.controllers;
 
+import it.polimi.it.galaxytrucker.messages.clientmessages.UserInput;
+import it.polimi.it.galaxytrucker.messages.clientmessages.UserInputType;
 import it.polimi.it.galaxytrucker.view.GUI.GUIView;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -35,20 +37,20 @@ public class GUIParticipationChoiceController extends GUIViewState{
 
     @FXML
     private void declineParticipation(){
-    /*    GUIView.getInstance().getClient().receiveUserInput(
-                new UserInput.UserInputBuilder(UserInputType.CARGO_REWARD)
-                        .set(false)
+        GUIView.getInstance().getClient().receiveUserInput(
+                new UserInput.UserInputBuilder(UserInputType.PARTICIPATION)
+                        .setParticipation(false)
                         .build()
-        );*/
+        );
     }
 
     @FXML
     private void acceptParticipation(){
-    /*    GUIView.getInstance().getClient().receiveUserInput(
-                new UserInput.UserInputBuilder(UserInputType.CARGO_REWARD)
-                        .set(true)
+        GUIView.getInstance().getClient().receiveUserInput(
+                new UserInput.UserInputBuilder(UserInputType.PARTICIPATION)
+                        .setParticipation(true)
                         .build()
-        );*/
+        );
     }
 
     @Override

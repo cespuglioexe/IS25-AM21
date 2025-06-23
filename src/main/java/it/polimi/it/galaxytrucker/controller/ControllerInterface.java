@@ -19,6 +19,12 @@ public interface ControllerInterface {
     void selectDiscardedComponentTile(UUID playerId, int index);
     UUID getControllerUuid();
     void activateComponent(UUID playerId, List<List<Coordinates>> activationHashmap);
+    void manageAcceptedCargo(UUID playerId,List<Coordinates> acceptedCargo);
+    void manageCreditChoice(UUID  playerId,boolean creditChoice);
+    void manageRemovedCrewmate(UUID  playerId, List<Coordinates> removedCrewmate);
+    void manageParticipation(UUID  playerId, boolean participation);
+
+
     void removeComponentTile(UUID playerId,int col, int row);
 
     void startBuildPhaseTimer();
