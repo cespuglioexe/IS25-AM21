@@ -6,6 +6,7 @@ import it.polimi.it.galaxytrucker.messages.Message;
 import it.polimi.it.galaxytrucker.model.utility.Coordinates;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -29,7 +30,7 @@ public class UserInput extends Message {
     private final int cardPileIndex;
 
     private final List<List<Coordinates>> componentsForActivation;
-    private final List<Coordinates> acceptedCargo;
+    private final HashMap<Integer,Coordinates> acceptedCargo;
     private final List<Coordinates> removedCrewmate;
     private final boolean creditChoice;
     private final boolean participation;
@@ -52,7 +53,7 @@ public class UserInput extends Message {
             @JsonProperty("coords") List<Integer> coords,
             @JsonProperty("rotation") int rotation,
             @JsonProperty("componentsForActivation") List<List<Coordinates>> componentsForActivation,
-            @JsonProperty("acceptedCargo") List<Coordinates> acceptedCargo,
+            @JsonProperty("acceptedCargo") HashMap<Integer,Coordinates> acceptedCargo,
             @JsonProperty("creditChoice") boolean creditChoice,
             @JsonProperty("removedCrewmate") List<Coordinates> removedCrewmate,
             @JsonProperty("participation") boolean participation){
@@ -122,7 +123,7 @@ public class UserInput extends Message {
         return componentsForActivation;
     }
 
-    public List<Coordinates> getAcceptedCargo() {
+    public HashMap<Integer, Coordinates> getAcceptedCargo() {
         return acceptedCargo;
     }
 
@@ -184,7 +185,7 @@ public class UserInput extends Message {
         private String playerName = "";
         private UUID playerUuid = new UUID(0L, 0L);
         private List<List<Coordinates>> componentsForActivation = new ArrayList<>();
-        private List<Coordinates> acceptedCargo = new ArrayList<>();
+        private HashMap<Integer,Coordinates> acceptedCargo = new HashMap<>();
         private boolean creditChoice;
         private List<Coordinates> removedCrewmate = new ArrayList<>();
         private boolean participation;
@@ -263,7 +264,7 @@ public class UserInput extends Message {
             return this;
         }
 
-        public UserInputBuilder setAcceptedCargo(List<Coordinates> acceptedCargo) {
+        public UserInputBuilder setAcceptedCargo(HashMap<Integer, Coordinates> acceptedCargo) {
             this.acceptedCargo = acceptedCargo;
             return this;
         }

@@ -130,12 +130,22 @@ public class Controller implements ControllerInterface {
     }
 
     @Override
-    public void activateComponent(UUID playerId, List<List<Coordinates>> activationHashmap) {
-        model.activateComponent(playerId,activationHashmap);
+    public void activateCannon(UUID playerId, List<List<Coordinates>> activationHashmap) {
+        model.activateCannon(playerId,activationHashmap);
     }
 
     @Override
-    public void manageAcceptedCargo(UUID playerId,List<Coordinates> acceptedCargo) {
+    public void activateEngine(UUID playerId, List<List<Coordinates>> activationHashmap) {
+        model.activateEngine(playerId,activationHashmap);
+    }
+
+    @Override
+    public void activateShield(UUID playerId, List<List<Coordinates>> activationHashmap) {
+        model.activateShield(playerId,activationHashmap);
+    }
+
+    @Override
+    public void manageAcceptedCargo(UUID playerId,HashMap<Integer,Coordinates> acceptedCargo) {
         model.manageAcceptedCargo(playerId,acceptedCargo);
     }
 

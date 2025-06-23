@@ -51,8 +51,10 @@ public interface Model {
      public void deleteBranch(UUID playerID, Set<List<Integer>> branch);
 
      void startBuildPhaseTimer();
-     void activateComponent(UUID playerID, List<List<Coordinates>> activationHashmap);
-     void manageAcceptedCargo(UUID playerId,List<Coordinates> acceptedCargo);
+     void activateCannon(UUID playerID, List<List<Coordinates>> activationHashmap);
+     void activateEngine(UUID playerID, List<List<Coordinates>> activationHashmap);
+     void activateShield(UUID playerID, List<List<Coordinates>> activationHashmap);
+     void manageAcceptedCargo(UUID playerId,HashMap<Integer,Coordinates> acceptedCargo);
      void manageCreditChoice(UUID playerId,boolean creditChoice);
      void manageRemovedCrewmate(UUID  playerId, List<Coordinates> removedCrewmate);
      void manageParticipation(UUID  playerId, boolean participation);

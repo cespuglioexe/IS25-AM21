@@ -248,8 +248,14 @@ public abstract class ClientHandler extends UnicastRemoteObject implements Liste
                 case REMOVE_COMPONENT:
                     controller.removeComponentTile(clientUuid, userInput.getCoords().get(0), userInput.getCoords().get(1));
                     break;
-                case ACTIVATE_COMPONENT:
-                    controller.activateComponent(clientUuid, userInput.getComponentsForActivation());
+                case ACTIVATE_CANNON:
+                    controller.activateCannon(clientUuid, userInput.getComponentsForActivation());
+                    break;
+                case ACTIVATE_ENGINE:
+                    controller.activateEngine(clientUuid, userInput.getComponentsForActivation());
+                    break;
+                case ACTIVATE_SHIELD:
+                    controller.activateShield(clientUuid, userInput.getComponentsForActivation());
                     break;
                 case CARGO_REWARD:
                     controller.manageAcceptedCargo(clientUuid, userInput.getAcceptedCargo());

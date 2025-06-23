@@ -481,12 +481,20 @@ public class GameManager extends StateMachine implements Model, Observable {
     }
 
     @Override
-    public void activateComponent(UUID playerID, List<List<Coordinates>> activationHashmap) {
+    public void activateCannon(UUID playerID, List<List<Coordinates>> activationHashmap) {
+        //
+    }
+    @Override
+    public void activateEngine(UUID playerID, List<List<Coordinates>> activationHashmap) {
+        //
+    }
+    @Override
+    public void activateShield(UUID playerID, List<List<Coordinates>> activationHashmap) {
         //
     }
 
     @Override
-    public void manageAcceptedCargo(UUID playerId,List<Coordinates> acceptedCargo) {
+    public void manageAcceptedCargo(UUID playerId,HashMap<Integer,Coordinates> acceptedCargo) {
         //
     }
 
