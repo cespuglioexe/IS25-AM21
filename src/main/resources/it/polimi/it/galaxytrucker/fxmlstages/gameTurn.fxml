@@ -38,7 +38,7 @@
                   </Lighting>
                </effect>
             </ImageView>
-            <StackPane prefHeight="150.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <StackPane layoutX="37.0" layoutY="25.0" prefHeight="1308.0" prefWidth="1963.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
                <children>
                   <ImageView fx:id="activeCard" fitHeight="248.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="BOTTOM_CENTER">
                      <image>
@@ -236,7 +236,7 @@
                      </font></Label>
                </children>
             </GridPane>
-            <Pane layoutX="342.0" layoutY="157.0" prefHeight="523.0" prefWidth="866.0" translateX="230.0" translateY="70.0" visible="false">
+            <Pane fx:id="level2board" layoutX="342.0" layoutY="188.0" prefHeight="492.0" prefWidth="866.0" translateX="230.0" translateY="70.0" visible="false">
                <children>
                   <ImageView fitHeight="512.0" fitWidth="865.0" layoutX="-20.0" pickOnBounds="true" x="20.0">
                      <image>
@@ -248,7 +248,7 @@
                   </ImageView>
                </children>
             </Pane>
-            <Pane layoutX="342.0" layoutY="157.0" prefHeight="523.0" prefWidth="866.0" translateX="230.0" translateY="70.0">
+            <Pane fx:id="level1board" layoutX="342.0" layoutY="203.0" prefHeight="477.0" prefWidth="866.0" translateX="230.0" translateY="70.0">
                <children>
                   <ImageView fitHeight="505.0" fitWidth="890.0" layoutX="-8.0" layoutY="-11.0" pickOnBounds="true">
                      <image>
@@ -258,7 +258,7 @@
                         <DropShadow height="255.0" radius="127.0" spread="0.61" width="255.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="p0" fitHeight="50.0" fitWidth="50.0" layoutX="82.0" layoutY="206.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="p00" fitHeight="50.0" fitWidth="50.0" layoutX="82.0" layoutY="206.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../../../../../../../Screenshot%202025-06-22%20alle%2016.33.15.png" />
                      </image>

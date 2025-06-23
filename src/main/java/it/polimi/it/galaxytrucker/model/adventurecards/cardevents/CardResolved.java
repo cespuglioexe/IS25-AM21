@@ -15,10 +15,6 @@ public class CardResolved implements CardEvent {
         return source;
     }
 
-    @Override
-    public Player getInterestedPlayer() {
-        return null;
-    }
 
     @Override
     public void accept(EventVisitor visitor) {
