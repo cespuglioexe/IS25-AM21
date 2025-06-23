@@ -15,6 +15,7 @@ public class PlayerData {
      * Each client connected to the same server has a unique nickname.
      */
     private String nickname;
+
     /**
      * The client's unique identifier.
      */

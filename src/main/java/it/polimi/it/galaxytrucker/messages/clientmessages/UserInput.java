@@ -29,6 +29,11 @@ public class UserInput extends Message {
     private final int cardPileIndex;
 
     private final List<List<Coordinates>> componentsForActivation;
+    private final List<Coordinates> acceptedCargo;
+    private final List<Coordinates> removedCrewmate;
+    private final boolean creditChoice;
+    private final boolean participation;
+
     private final List<Integer> coords;
     private final int rotation;
 
@@ -46,7 +51,11 @@ public class UserInput extends Message {
             @JsonProperty("cardPileIndex") int cardPileIndex,
             @JsonProperty("coords") List<Integer> coords,
             @JsonProperty("rotation") int rotation,
-            @JsonProperty("componentsForActivation") List<List<Coordinates>> componentsForActivation ){
+            @JsonProperty("componentsForActivation") List<List<Coordinates>> componentsForActivation,
+            @JsonProperty("acceptedCargo") List<Coordinates> acceptedCargo,
+            @JsonProperty("creditChoice") boolean creditChoice,
+            @JsonProperty("removedCrewmate") List<Coordinates> removedCrewmate,
+            @JsonProperty("participation") boolean participation){
         this.type = type;
         this.serverName = serverName;
         this.playerName = playerName;
@@ -59,6 +68,10 @@ public class UserInput extends Message {
         this.coords = coords;
         this.rotation = rotation;
         this.componentsForActivation = componentsForActivation;
+        this.acceptedCargo = acceptedCargo;
+        this.creditChoice = creditChoice;
+        this.removedCrewmate = removedCrewmate;
+        this.participation = participation;
     }
 
     public UserInput(UserInputBuilder builder) {
@@ -75,6 +88,10 @@ public class UserInput extends Message {
         this.cardPileIndex = builder.cardPileIndex;
         this.playerUuid = builder.playerUuid;
         this.componentsForActivation = builder.componentsForActivation;
+        this.acceptedCargo = builder.acceptedCargo;
+        this.creditChoice = builder.creditChoice;
+        this.removedCrewmate = builder.removedCrewmate;
+        this.participation = builder.participation;
     }
 
     public UserInputType getType() {
@@ -103,6 +120,22 @@ public class UserInput extends Message {
 
     public List<List<Coordinates>> getComponentsForActivation() {
         return componentsForActivation;
+    }
+
+    public List<Coordinates> getAcceptedCargo() {
+        return acceptedCargo;
+    }
+
+    public boolean getCreditChoice() {
+        return creditChoice;
+    }
+
+    public List<Coordinates> getRemovedCrewmate() {
+        return removedCrewmate;
+    }
+
+    public boolean getParticipation() {
+        return participation;
     }
 
     //    public RequestType getRequestType() {
@@ -151,7 +184,10 @@ public class UserInput extends Message {
         private String playerName = "";
         private UUID playerUuid = new UUID(0L, 0L);
         private List<List<Coordinates>> componentsForActivation = new ArrayList<>();
-
+        private List<Coordinates> acceptedCargo = new ArrayList<>();
+        private boolean creditChoice;
+        private List<Coordinates> removedCrewmate = new ArrayList<>();
+        private boolean participation;
 
         private int gameLevel = 0;
         private int gamePlayers = 0;
@@ -224,6 +260,26 @@ public class UserInput extends Message {
 
         public UserInputBuilder setCardPileIndex(int cardPileIndex) {
             this.cardPileIndex = cardPileIndex;
+            return this;
+        }
+
+        public UserInputBuilder setAcceptedCargo(List<Coordinates> acceptedCargo) {
+            this.acceptedCargo = acceptedCargo;
+            return this;
+        }
+
+        public UserInputBuilder setCreditChoice(boolean creditChoice) {
+            this.creditChoice = creditChoice;
+            return this;
+        }
+
+        public UserInputBuilder setRemovedCrewmate(List<Coordinates> removedCrewmate) {
+            this.removedCrewmate = removedCrewmate;
+            return this;
+        }
+
+        public UserInputBuilder setParticipation(boolean participation) {
+            this.participation = participation;
             return this;
         }
 

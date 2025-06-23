@@ -73,7 +73,7 @@
                   </Label>
                   <StackPane fx:id="declineButton" alignment="BOTTOM_CENTER">
                      <children>
-                        <Label fx:id="creditsPlayer" contentDisplay="RIGHT" text="CREDITS:" textFill="#fffafa">
+                        <Label contentDisplay="RIGHT" text="YOUR CREDITS:" textFill="#fffafa">
                            <font>
                               <Font name="Centaur" size="24.0" />
                            </font>
@@ -81,7 +81,7 @@
                               <Insets bottom="200.0" right="100.0" />
                            </StackPane.margin>
                            <graphic>
-                              <GridPane alignment="TOP_RIGHT" gridLinesVisible="true" prefHeight="30.0" prefWidth="68.0" style="-fx-border-color: trasparent;">
+                              <GridPane alignment="TOP_RIGHT" gridLinesVisible="true" prefHeight="30.0" prefWidth="68.0" style="-fx-border-color: white;">
                                 <columnConstraints>
                                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                 </columnConstraints>
@@ -106,7 +106,7 @@
                                     </DropShadow>
                                  </effect>
                                  <children>
-                                    <Label textFill="#001eff">
+                                    <Label alignment="CENTER" prefHeight="30.0" prefWidth="66.0" style="-fx-text-fill: white;" text="3">
                                        <font>
                                           <Font name="Centaur" size="24.0" />
                                        </font>
@@ -115,6 +115,39 @@
                               </GridPane>
                            </graphic>
                         </Label>
+                        <AnchorPane>
+                           <children>
+                              <GridPane layoutX="706.0" layoutY="341.0" prefHeight="133.0" prefWidth="122.0" style="-fx-background-color: trasparent; -fx-border-color: white;" AnchorPane.bottomAnchor="326.4" AnchorPane.leftAnchor="705.6" AnchorPane.rightAnchor="707.6" AnchorPane.topAnchor="340.0">
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <Label fx:id="creditCard" alignment="CENTER" prefHeight="70.0" prefWidth="136.0" style="-fx-text-fill: white;" text="4">
+                                       <font>
+                                          <Font size="44.0" />
+                                       </font>
+                                       <effect>
+                                          <DropShadow height="201.19" radius="73.1925" width="93.58">
+                                             <color>
+                                                <Color red="1.0" green="1.0" blue="1.0" />
+                                             </color>
+                                          </DropShadow>
+                                       </effect>
+                                    </Label>
+                                 </children>
+                                 <effect>
+                                    <DropShadow height="30.36" radius="11.17" width="16.32">
+                                       <color>
+                                          <Color red="1.0" green="1.0" blue="1.0" />
+                                       </color>
+                                    </DropShadow>
+                                 </effect>
+                              </GridPane>
+                           </children>
+                        </AnchorPane>
                      </children>
                   </StackPane>
                </children>

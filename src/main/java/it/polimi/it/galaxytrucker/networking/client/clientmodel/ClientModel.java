@@ -41,6 +41,10 @@ public class ClientModel {
     private String activeCardGraphicPath;
 
     private volatile Map<String, Object> currentCardDetails = new HashMap<>();
+    /**
+     * Position of each player on the flight board
+     */
+    private HashMap<UUID, Integer> playerMarkerPositions = new HashMap<>();
     
 
     private int gameLevel;
@@ -161,5 +165,13 @@ public class ClientModel {
 
     public boolean hasCardDetail(String key) {
         return currentCardDetails.containsKey(key);
+    }
+
+    public HashMap<UUID, Integer> getPlayerMarkerPositions() {
+        return playerMarkerPositions;
+    }
+
+    public void setPlayerMarkerPositions(HashMap<UUID, Integer> playerMarkerPositions) {
+        this.playerMarkerPositions = playerMarkerPositions;
     }
 }

@@ -3,6 +3,7 @@ package it.polimi.it.galaxytrucker.view.GUI.controllers;
 import it.polimi.it.galaxytrucker.messages.clientmessages.UserInput;
 import it.polimi.it.galaxytrucker.messages.clientmessages.UserInputType;
 import it.polimi.it.galaxytrucker.model.componenttiles.*;
+import it.polimi.it.galaxytrucker.model.utility.Coordinates;
 import it.polimi.it.galaxytrucker.view.GUI.GUIView;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -20,7 +21,7 @@ import java.util.*;
 public class GUICrewmatePenaltyController extends GUIViewState implements GUIErrorHandler {
 
     private Map<String, ImageView> imageTiles = new HashMap<>();
-    private List<List<Integer>> crewmateCoord = new ArrayList<>();
+    private List<Coordinates> crewmateCoord = new ArrayList<>();
     int numberOfCrewmates;
 
     @FXML
@@ -62,12 +63,12 @@ public class GUICrewmatePenaltyController extends GUIViewState implements GUIErr
             incorrectCoord1.setVisible(true);
         }
         if(GUIView.getInstance().getClient().getModel().getPlayerShips(GUIView.getInstance().getClient().getModel().getMyData().getPlayerId()).get(row).get(col).type().equals(CabinModule.class.getSimpleName())){
-            crewmateCoord.add(List.of(row,col));
+            crewmateCoord.add(new Coordinates(col,row));
             incorrectCoord1.setVisible(false);
             numberOfCrewmates--;
         } else{
             if(GUIView.getInstance().getClient().getModel().getPlayerShips(GUIView.getInstance().getClient().getModel().getMyData().getPlayerId()).get(row).get(col).type().equals(CentralCabin.class.getSimpleName())) {
-                crewmateCoord.add(List.of(row, col));
+                crewmateCoord.add(new Coordinates(col,row));
                 incorrectCoord1.setVisible(false);
                 numberOfCrewmates--;
             } else incorrectCoord1.setVisible(true);
@@ -76,13 +77,13 @@ public class GUICrewmatePenaltyController extends GUIViewState implements GUIErr
 
     @FXML
     private void applyPenalty(){
-     /*  if(numberOfCrewmates==0){
+       if(numberOfCrewmates==0){
            GUIView.getInstance().getClient().receiveUserInput(
-                   new UserInput.UserInputBuilder(UserInputType.ACTIVATE_COMPONENT)
-                           .setActivationHashmap(cannonAndBatteryCoord)
+                   new UserInput.UserInputBuilder(UserInputType.CREWMATE_PENALTY)
+                           .setRemovedCrewmate(crewmateCoord)
                            .build()
            );
-       }else incorrectValue.setVisible(true);*/
+       }else incorrectValue.setVisible(true);
     }
 
 

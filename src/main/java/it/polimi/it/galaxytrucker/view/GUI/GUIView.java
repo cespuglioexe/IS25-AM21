@@ -154,7 +154,10 @@ public class GUIView extends View {
     }
 
     @Override
-    public void shipFixingState() { GUIFixingShipController.getInstance().displayScene(); }
+    public void shipFixingState() {
+        GUIFixingShipController.getInstance();
+        GUIFixingShipController.getInstance().displayScene();
+    }
 
     @Override
     public void waitingForGameState() {

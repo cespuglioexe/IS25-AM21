@@ -156,6 +156,7 @@ public abstract class Client extends UnicastRemoteObject implements Runnable, Cl
                         }
                         break;
                     case "CardExecutionState":
+                        //model.setShipManager(update.getShipManager());
                         model.setActiveCardGraphicPath(update.getOperationMessage());
                         view.newCardStartedExecution();
                         break;
@@ -210,6 +211,10 @@ public abstract class Client extends UnicastRemoteObject implements Runnable, Cl
             case INVALID_INPUT:
                 //TODO
                 break;
+            case PLAYER_MARKER_MOVED:
+                synchronized (ClientModel.class) {
+                    model.setPlayerMarkerPositions(update.getPlayerMarkerPositions());
+                }
             default:
                 System.out.println(ConsoleColors.CLIENT_DEBUG + "Received unhandled game update instruction type: " + update.getInstructionType() + ConsoleColors.RESET);
                 break;

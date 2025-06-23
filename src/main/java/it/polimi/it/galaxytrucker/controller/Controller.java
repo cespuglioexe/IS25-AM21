@@ -45,6 +45,7 @@ public class Controller implements ControllerInterface {
         Player newPlayer = new Player(client.getUuid(), client.getUsername(), playerColor, new ShipManager(level, playerColor));
 
         ((Observable) model).addListener(client);
+        model.getFlightBoard().addListener(client);
         (newPlayer).addListener(client);
 
         model.addPlayer(newPlayer);
@@ -131,6 +132,26 @@ public class Controller implements ControllerInterface {
     @Override
     public void activateComponent(UUID playerId, List<List<Coordinates>> activationHashmap) {
         model.activateComponent(playerId,activationHashmap);
+    }
+
+    @Override
+    public void manageAcceptedCargo(UUID playerId,List<Coordinates> acceptedCargo) {
+        model.manageAcceptedCargo(playerId,acceptedCargo);
+    }
+
+    @Override
+    public void manageCreditChoice(UUID playerId,boolean creditChoice) {
+        model.manageCreditChoice(playerId,creditChoice);
+    }
+
+    @Override
+    public void manageRemovedCrewmate(UUID  playerId, List<Coordinates> removedCrewmate){
+        model.manageRemovedCrewmate(playerId,removedCrewmate);
+    }
+
+    @Override
+    public void manageParticipation(UUID  playerId, boolean participation){
+        model.manageParticipation(playerId,participation);
     }
 
     @Override
