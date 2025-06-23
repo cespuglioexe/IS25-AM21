@@ -1,10 +1,16 @@
 package it.polimi.it.galaxytrucker.model.gamestates;
 
+import it.polimi.it.galaxytrucker.messages.servermessages.GameUpdate;
+import it.polimi.it.galaxytrucker.messages.servermessages.GameUpdateType;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCard;
 import it.polimi.it.galaxytrucker.model.design.statePattern.StateMachine;
 import it.polimi.it.galaxytrucker.model.managers.GameManager;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class GameTurnStartState extends GameState {
     @Override
@@ -20,6 +26,18 @@ public class GameTurnStartState extends GameState {
             System.out.println(game.getFlightBoard().getPlayerOrder().stream().map(p -> p.getPlayerName()).toList());
             fsm.changeState(new GameEndState());
         }
+
+        HashMap<UUID, Integer> uuidMap = (HashMap<UUID, Integer>) game.getFlightBoard().getPlayerPosition().entrySet().stream()
+                .collect(Collectors.toMap(
+                        entry -> entry.getKey().getPlayerID(),
+                        Map.Entry::getValue
+                ));
+
+        game.getFlightBoard().updateListeners(
+                new GameUpdate.GameUpdateBuilder(GameUpdateType.PLAYER_MARKER_MOVED)
+                        .setPlayerMarkerPositions(uuidMap)
+                        .build()
+        );
 
     }
 
