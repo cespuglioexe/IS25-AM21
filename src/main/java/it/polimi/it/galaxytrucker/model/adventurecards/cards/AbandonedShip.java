@@ -206,4 +206,15 @@ public class AbandonedShip extends CardStateMachine implements AdventureCard, Pa
     public List<Player> getPlayerOrder() {
         return flightRules.getPlayerOrder();
     }
+
+    @Override
+    public HashMap<String, Object> getEventData() {
+        HashMap<String, Object> data = new HashMap<>();
+
+        data.put("creditReward", creditReward);
+        data.put("crewmatePenalty", crewmatePenalty);
+        data.put("flightDayPenalty", flightDayPenalty);
+
+        return data;
+    }
 }

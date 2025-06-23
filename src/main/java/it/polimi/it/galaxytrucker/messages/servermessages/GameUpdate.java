@@ -5,13 +5,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.it.galaxytrucker.controller.GenericGameData;
 import it.polimi.it.galaxytrucker.model.componenttiles.ComponentTile;
 import it.polimi.it.galaxytrucker.model.componenttiles.TileData;
-import it.polimi.it.galaxytrucker.model.managers.ShipManager;
 import it.polimi.it.galaxytrucker.view.CLI.ConsoleColors;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public class GameUpdate implements Serializable {
@@ -36,6 +36,7 @@ public class GameUpdate implements Serializable {
     private final boolean successfulOperation;
     private final String operationMessage;
     private final int gameLevel;
+    private final Map<String, Object> cardDetail;
 
     @Deprecated
     @JsonCreator
@@ -55,8 +56,8 @@ public class GameUpdate implements Serializable {
             @JsonProperty("activeControllers") List<GenericGameData> activeControllers,
             @JsonProperty("successfulOperation") boolean successfulOperation,
             @JsonProperty("operationMessage") String operationMessage,
-            @JsonProperty("gameLevel") int gameLevel) {
-        
+            @JsonProperty("gameLevel") int gameLevel,
+            @JsonProperty("cardDetail") Map<String, Object> cardDetail) {
         this.instructionType = instructionType;
         this.interestedPlayerId = interestedPlayerId;
         this.newSate = newSate;
@@ -73,6 +74,7 @@ public class GameUpdate implements Serializable {
         this.successfulOperation = successfulOperation;
         this.operationMessage = operationMessage;
         this.gameLevel = gameLevel;
+        this.cardDetail = cardDetail;
     }
 
     public GameUpdate(GameUpdateBuilder builder) {
@@ -92,6 +94,7 @@ public class GameUpdate implements Serializable {
         this.successfulOperation = builder.successfulOperation;
         this.operationMessage = builder.operationMessage;
         this.gameLevel = builder.gameLevel;
+        this.cardDetail = builder.cardDetail;
     }
 
     public GameUpdateType getInstructionType() {
@@ -155,9 +158,10 @@ public class GameUpdate implements Serializable {
     public String getOperationMessage() {
         return operationMessage;
     }
-    
 
-
+    public Map<String, Object> getCardDetail() {
+        return cardDetail;
+    }
 
     public static class GameUpdateBuilder {
         // Required fields
@@ -180,6 +184,7 @@ public class GameUpdate implements Serializable {
         private boolean successfulOperation;
         private String operationMessage;
         private int gameLevel;
+        private Map<String, Object> cardDetail;
 
         public GameUpdateBuilder(GameUpdateType instructionType) {
             this.instructionType = instructionType;
@@ -227,6 +232,11 @@ public class GameUpdate implements Serializable {
 
         public GameUpdateBuilder setNewSate(String newSate) {
             this.newSate = newSate;
+            return this;
+        }
+
+        public GameUpdateBuilder setCardDetail(Map<String, Object> detail) {
+            this.cardDetail = detail;
             return this;
         }
 

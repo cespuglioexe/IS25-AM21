@@ -1,5 +1,6 @@
 package it.polimi.it.galaxytrucker.model.adventurecards.cards;
 
+import java.util.HashMap;
 import java.util.List;
 
 import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.CardStateMachine;
@@ -68,5 +69,14 @@ public class StarDust extends CardStateMachine implements AdventureCard, FlightD
     @Override
     public void accept(AdventureCardVisitor visitor, AdventureCardInputContext context) {
         
+    }
+
+    @Override
+    public HashMap<String, Object> getEventData() {
+        HashMap<String, Object> data = new HashMap<>();
+
+        data.put("flightDayPenalty", flightDayPenalty);
+
+        return data;
     }
 }

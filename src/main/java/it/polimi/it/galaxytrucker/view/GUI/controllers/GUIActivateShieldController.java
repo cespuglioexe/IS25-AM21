@@ -89,7 +89,7 @@ public class GUIActivateShieldController extends GUIViewState{
     }
 
     @FXML
-    private void activateEngine(){
+    private void activateShield(){
         if(!shieldCoords.isEmpty() && !batteryCoord.isEmpty() && (shieldCoords.size()==batteryCoord.size())){
             shieldAndBatteryCoord.add(shieldCoords);
             shieldAndBatteryCoord.add(batteryCoord);

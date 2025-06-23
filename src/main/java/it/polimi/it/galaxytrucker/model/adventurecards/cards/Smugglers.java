@@ -155,4 +155,25 @@ public class Smugglers extends CardStateMachine implements AdventureCard, CargoR
     public void accept(AdventureCardVisitor visitor, AdventureCardInputContext context) {
         visitor.visit(this, context);
     }
+
+    @Override
+    public HashMap<String, Object> getEventData() {
+        HashMap<String, Object> data = new HashMap<>();
+
+        data.put("cargoReward", serializeCargoReward());
+        data.put("cargoPenalty", cargoPenalty);
+        data.put("flightDayPenalty", flightDayPenalty);
+        data.put("requiredFirePower", requiredFirePower);
+
+        return data;
+    }
+    private List<String> serializeCargoReward() {
+        List<String> serializedList = new ArrayList<>();
+
+        for (Cargo cargo : cargoReward) {
+            serializedList.add(cargo.getColor().toString());
+        }
+
+        return serializedList;
+    }
 }

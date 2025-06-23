@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -347,6 +348,44 @@ public class Planets extends CardStateMachine implements AdventureCard, Particip
 
     public List<Player> getPlayerOrder() {
         return flightRules.getPlayerOrder();
+    }
+
+    @Override
+    public HashMap<String, Object> getEventData() {
+        HashMap<String, Object> data = new HashMap<>();
+
+        data.put("planets", planetsAndRewards.keySet().size());
+        data.put("rewards", serializeCargo());
+        data.put("occupiedPlanets", serializeOccupiedPlanets());
+        data.put("flightDayPenalty", flightDayPenalty);
+
+        return data;
+    }
+    private List<List<String>> serializeCargo() {
+        List<List<String>> serializedList = new ArrayList<>();
+
+        for (int planet : planetsAndRewards.keySet()) {
+            List<Cargo> planetReward = planetsAndRewards.get(planet);
+            List<String> serializedPlanetReward = new ArrayList<>();
+
+            for (Cargo cargo : planetReward) {
+                serializedPlanetReward.add(cargo.getColor().toString());
+            }
+            serializedList.add(serializedPlanetReward);
+        }
+        return serializedList;
+    }
+    private Map<Integer, UUID> serializeOccupiedPlanets() {
+        Map<Integer, UUID> serializedMap = new HashMap<>();
+
+        for (Integer planet : planetsAndPlayers.keySet()) {
+            Optional<Player> playerOpt = planetsAndPlayers.get(planet);
+
+            if (playerOpt.isEmpty()) continue;
+
+            serializedMap.put(planet, playerOpt.get().getPlayerID());
+        }
+        return serializedMap;
     }
 }
 

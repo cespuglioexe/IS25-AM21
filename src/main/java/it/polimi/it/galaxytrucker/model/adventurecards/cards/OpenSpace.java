@@ -92,4 +92,11 @@ public class OpenSpace extends CardStateMachine implements AdventureCard {
     public List<Player> getPlayerOrder() {
         return flightRules.getPlayerOrder();
     }
+
+    @Override
+    public HashMap<String, Object> getEventData() {
+        HashMap<String, Object> data = new HashMap<>();
+
+        return data;
+    }
 }

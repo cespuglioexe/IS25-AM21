@@ -189,4 +189,15 @@ public class AbandonedStation extends CardStateMachine implements AdventureCard,
     public List<Player> getPlayerOrder() {
         return flightRules.getPlayerOrder();
     }
+
+    @Override
+    public HashMap<String, Object> getEventData() {
+        HashMap<String, Object> data = new HashMap<>();
+
+        data.put("cargoReward", cargoReward);
+        data.put("flightDayPenalty", flightDayPenalty);
+        data.put("numberofCrewmatesRequired", numberofCrewmatesRequired);
+
+        return data;
+    }
 }

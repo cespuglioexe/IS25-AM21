@@ -10,383 +10,383 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 
-<StackPane fx:id="playerShipRootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="363.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.it.galaxytrucker.view.GUI.controllers.PlayerShipElementController">
-      <children>
-         <ImageView fx:id="shipBgImage" fitHeight="375.0" fitWidth="500.0" pickOnBounds="true" preserveRatio="true">
-            <Image url="@../graphics/cardboard/shipboard-lvl2.jpg" />
-         </ImageView>
-         <GridPane fx:id="grid">
-            <columnConstraints>
-               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            </columnConstraints>
-            <rowConstraints>
-               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            </rowConstraints>
-            <StackPane.margin>
-               <Insets bottom="16.0" left="18.0" right="18.0" top="16.0" />
-            </StackPane.margin>
-            <children>
-               <StackPane GridPane.columnIndex="0" GridPane.rowIndex="0" prefHeight="150.0" prefWidth="200.0">
-                  <children>
-                     <ImageView fx:id="image_4_5" pickOnBounds="true" preserveRatio="true" />
-                     <Button fx:id="button_4_5" mnemonicParsing="false" scaleX="3.7" scaleY="2.4">
-                        <cursor>
-                           <Cursor fx:constant="HAND" />
-                        </cursor>
-                     </Button>
-                  </children>
-               </StackPane>
-               <StackPane GridPane.columnIndex="1" GridPane.rowIndex="0" prefHeight="150.0" prefWidth="200.0">
-                  <children>
-                     <ImageView fx:id="image_5_5" pickOnBounds="true" preserveRatio="true" />
-                     <Button fx:id="button_5_5" mnemonicParsing="false" scaleX="3.7" scaleY="2.4">
-                        <cursor>
-                           <Cursor fx:constant="HAND" />
-                        </cursor>
-                     </Button>
-                  </children>
-               </StackPane>
-               <StackPane GridPane.columnIndex="2" GridPane.rowIndex="0" layoutX="76.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0">
-                  <children>
-                     <ImageView fx:id="image_6_5" pickOnBounds="true" preserveRatio="true" />
-                     <Button fx:id="button_6_5" mnemonicParsing="false" scaleX="3.7" scaleY="2.4">
-                        <cursor>
-                           <Cursor fx:constant="HAND" />
-                        </cursor>
-                     </Button>
-                  </children>
-               </StackPane>
-               <StackPane GridPane.columnIndex="3" GridPane.rowIndex="0" layoutX="142.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0">
-                  <children>
-                     <ImageView fx:id="image_7_5" pickOnBounds="true" preserveRatio="true" />
-                     <Button fx:id="button_7_5" mnemonicParsing="false" scaleX="3.7" scaleY="2.4">
-                        <cursor>
-                           <Cursor fx:constant="HAND" />
-                        </cursor>
-                     </Button>
-                  </children>
-               </StackPane>
-               <StackPane GridPane.columnIndex="4" GridPane.rowIndex="0" layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0">
-                  <children>
-                     <ImageView fx:id="image_8_5" pickOnBounds="true" preserveRatio="true" />
-                     <Button fx:id="button_8_5" mnemonicParsing="false" scaleX="3.7" scaleY="2.4">
-                        <cursor>
-                           <Cursor fx:constant="HAND" />
-                        </cursor>
-                     </Button>
-                  </children>
-               </StackPane>
-               <StackPane GridPane.columnIndex="5" GridPane.rowIndex="0" layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0">
-                  <children>
-                     <ImageView fx:id="image_9_5" pickOnBounds="true" preserveRatio="true" />
-                     <Button fx:id="button_9_5" mnemonicParsing="false" scaleX="3.7" scaleY="2.4">
-                        <cursor>
-                           <Cursor fx:constant="HAND" />
-                        </cursor>
-                     </Button>
-                  </children>
-               </StackPane>
-               <StackPane GridPane.columnIndex="6" GridPane.rowIndex="0" layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0">
-                  <children>
-                     <ImageView fx:id="image_10_5" pickOnBounds="true" preserveRatio="true" />
-                     <Button fx:id="button_10_5" mnemonicParsing="false" scaleX="3.7" scaleY="2.4">
-                        <cursor>
-                           <Cursor fx:constant="HAND" />
-                        </cursor>
-                     </Button>
-                  </children>
-               </StackPane>
-               <StackPane GridPane.columnIndex="0" GridPane.rowIndex="1" layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0">
-                  <children>
-                     <ImageView fx:id="image_4_6" pickOnBounds="true" preserveRatio="true" />
-                     <Button fx:id="button_4_6" mnemonicParsing="false" scaleX="3.7" scaleY="2.4">
-                        <cursor>
-                           <Cursor fx:constant="HAND" />
-                        </cursor>
-                     </Button>
-                  </children>
-               </StackPane>
-               <StackPane GridPane.columnIndex="1" GridPane.rowIndex="1" layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0">
-                  <children>
-                     <ImageView fx:id="image_5_6" pickOnBounds="true" preserveRatio="true" />
-                     <Button fx:id="button_5_6" mnemonicParsing="false" scaleX="3.7" scaleY="2.4">
-                        <cursor>
-                           <Cursor fx:constant="HAND" />
-                        </cursor>
-                     </Button>
-                  </children>
-               </StackPane>
-               <StackPane GridPane.columnIndex="2" GridPane.rowIndex="1" layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0">
-                  <children>
-                     <ImageView fx:id="image_6_6" pickOnBounds="true" preserveRatio="true" />
-                     <Button fx:id="button_6_6" mnemonicParsing="false" scaleX="3.7" scaleY="2.4">
-                        <cursor>
-                           <Cursor fx:constant="HAND" />
-                        </cursor>
-                     </Button>
-                  </children>
-               </StackPane>
-               <StackPane GridPane.columnIndex="3" GridPane.rowIndex="1" layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0">
-                  <children>
-                     <ImageView fx:id="image_7_6" pickOnBounds="true" preserveRatio="true" />
-                     <Button fx:id="button_7_6" mnemonicParsing="false" scaleX="3.7" scaleY="2.4">
-                        <cursor>
-                           <Cursor fx:constant="HAND" />
-                        </cursor>
-                     </Button>
-                  </children>
-               </StackPane>
-               <StackPane GridPane.columnIndex="4" GridPane.rowIndex="1" layoutX="208.0" layoutY="77.0" prefHeight="150.0" prefWidth="200.0">
-                  <children>
-                     <ImageView fx:id="image_8_6" pickOnBounds="true" preserveRatio="true" />
-                     <Button fx:id="button_8_6" mnemonicParsing="false" scaleX="3.7" scaleY="2.4">
-                        <cursor>
-                           <Cursor fx:constant="HAND" />
-                        </cursor>
-                     </Button>
-                  </children>
-               </StackPane>
-               <StackPane GridPane.columnIndex="5" GridPane.rowIndex="1" layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0">
-                  <children>
-                     <ImageView fx:id="image_9_6" pickOnBounds="true" preserveRatio="true" />
-                     <Button fx:id="button_9_6" mnemonicParsing="false" scaleX="3.7" scaleY="2.4">
-                        <cursor>
-                           <Cursor fx:constant="HAND" />
-                        </cursor>
-                     </Button>
-                  </children>
-               </StackPane>
-               <StackPane GridPane.columnIndex="6" GridPane.rowIndex="1" layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0">
-                  <children>
-                     <ImageView fx:id="image_10_6" pickOnBounds="true" preserveRatio="true" />
-                     <Button fx:id="button_10_6" mnemonicParsing="false" scaleX="3.7" scaleY="2.4">
-                        <cursor>
-                           <Cursor fx:constant="HAND" />
-                        </cursor>
-                     </Button>
-                  </children>
-               </StackPane>
-               <StackPane GridPane.columnIndex="0" GridPane.rowIndex="2" layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0">
-                  <children>
-                     <ImageView fx:id="image_4_7" pickOnBounds="true" preserveRatio="true" />
-                     <Button fx:id="button_4_7" mnemonicParsing="false" scaleX="3.7" scaleY="2.4">
-                        <cursor>
-                           <Cursor fx:constant="HAND" />
-                        </cursor>
-                     </Button>
-                  </children>
-               </StackPane>
-               <StackPane GridPane.columnIndex="1" GridPane.rowIndex="2" layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0">
-                  <children>
-                     <ImageView fx:id="image_5_7" pickOnBounds="true" preserveRatio="true" />
-                     <Button fx:id="button_5_7" mnemonicParsing="false" scaleX="3.7" scaleY="2.4">
-                        <cursor>
-                           <Cursor fx:constant="HAND" />
-                        </cursor>
-                     </Button>
-                  </children>
-               </StackPane>
-               <StackPane GridPane.columnIndex="2" GridPane.rowIndex="2" layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0">
-                  <children>
-                     <ImageView fx:id="image_6_7" pickOnBounds="true" preserveRatio="true" />
-                     <Button fx:id="button_6_7" mnemonicParsing="false" scaleX="3.7" scaleY="2.4">
-                        <cursor>
-                           <Cursor fx:constant="HAND" />
-                        </cursor>
-                     </Button>
-                  </children>
-               </StackPane>
-               <StackPane GridPane.columnIndex="3" GridPane.rowIndex="2" layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0">
-                  <children>
-                     <ImageView fx:id="image_7_7" pickOnBounds="true" preserveRatio="true" />
-                     <Button fx:id="button_7_7" mnemonicParsing="false" scaleX="3.7" scaleY="2.4">
-                        <cursor>
-                           <Cursor fx:constant="HAND" />
-                        </cursor>
-                     </Button>
-                  </children>
-               </StackPane>
-               <StackPane GridPane.columnIndex="4" GridPane.rowIndex="2" layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0">
-                  <children>
-                     <ImageView fx:id="image_8_7" pickOnBounds="true" preserveRatio="true" />
-                     <Button fx:id="button_8_7" mnemonicParsing="false" scaleX="3.7" scaleY="2.4">
-                        <cursor>
-                           <Cursor fx:constant="HAND" />
-                        </cursor>
-                     </Button>
-                  </children>
-               </StackPane>
-               <StackPane GridPane.columnIndex="5" GridPane.rowIndex="2" layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0">
-                  <children>
-                     <ImageView fx:id="image_9_7" pickOnBounds="true" preserveRatio="true" />
-                     <Button fx:id="button_9_7" mnemonicParsing="false" scaleX="3.7" scaleY="2.4">
-                        <cursor>
-                           <Cursor fx:constant="HAND" />
-                        </cursor>
-                     </Button>
-                  </children>
-               </StackPane>
-               <StackPane GridPane.columnIndex="6" GridPane.rowIndex="2" layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0">
-                  <children>
-                     <ImageView fx:id="image_10_7" pickOnBounds="true" preserveRatio="true" />
-                     <Button fx:id="button_10_7" mnemonicParsing="false" scaleX="3.7" scaleY="2.4">
-                        <cursor>
-                           <Cursor fx:constant="HAND" />
-                        </cursor>
-                     </Button>
-                  </children>
-               </StackPane>
-               <StackPane GridPane.columnIndex="0" GridPane.rowIndex="3" layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0">
-                  <children>
-                     <ImageView fx:id="image_4_8" pickOnBounds="true" preserveRatio="true" />
-                     <Button fx:id="button_4_8" mnemonicParsing="false" scaleX="3.7" scaleY="2.4">
-                        <cursor>
-                           <Cursor fx:constant="HAND" />
-                        </cursor>
-                     </Button>
-                  </children>
-               </StackPane>
-               <StackPane GridPane.columnIndex="1" GridPane.rowIndex="3" layoutX="10.0" layoutY="209.0" prefHeight="150.0" prefWidth="200.0">
-                  <children>
-                     <ImageView fx:id="image_5_8" pickOnBounds="true" preserveRatio="true" />
-                     <Button fx:id="button_5_8" mnemonicParsing="false" scaleX="3.7" scaleY="2.4">
-                        <cursor>
-                           <Cursor fx:constant="HAND" />
-                        </cursor>
-                     </Button>
-                  </children>
-               </StackPane>
-               <StackPane GridPane.columnIndex="2" GridPane.rowIndex="3" layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0">
-                  <children>
-                     <ImageView fx:id="image_6_8" pickOnBounds="true" preserveRatio="true" />
-                     <Button fx:id="button_6_8" mnemonicParsing="false" scaleX="3.7" scaleY="2.4">
-                        <cursor>
-                           <Cursor fx:constant="HAND" />
-                        </cursor>
-                     </Button>
-                  </children>
-               </StackPane>
-               <StackPane GridPane.columnIndex="3" GridPane.rowIndex="3" layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0">
-                  <children>
-                     <ImageView fx:id="image_7_8" pickOnBounds="true" preserveRatio="true" />
-                     <Button fx:id="button_7_8" mnemonicParsing="false" scaleX="3.7" scaleY="2.4">
-                        <cursor>
-                           <Cursor fx:constant="HAND" />
-                        </cursor>
-                     </Button>
-                  </children>
-               </StackPane>
-               <StackPane GridPane.columnIndex="4" GridPane.rowIndex="3" layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0">
-                  <children>
-                     <ImageView fx:id="image_8_8" pickOnBounds="true" preserveRatio="true" />
-                     <Button fx:id="button_8_8" mnemonicParsing="false" scaleX="3.7" scaleY="2.4">
-                        <cursor>
-                           <Cursor fx:constant="HAND" />
-                        </cursor>
-                     </Button>
-                  </children>
-               </StackPane>
-               <StackPane GridPane.columnIndex="5" GridPane.rowIndex="3" layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0">
-                  <children>
-                     <ImageView fx:id="image_9_8" pickOnBounds="true" preserveRatio="true" />
-                     <Button fx:id="button_9_8" mnemonicParsing="false" scaleX="3.7" scaleY="2.4">
-                        <cursor>
-                           <Cursor fx:constant="HAND" />
-                        </cursor>
-                     </Button>
-                  </children>
-               </StackPane>
-               <StackPane GridPane.columnIndex="6" GridPane.rowIndex="3" layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0">
-                  <children>
-                     <ImageView fx:id="image_10_8" pickOnBounds="true" preserveRatio="true" />
-                     <Button fx:id="button_10_8" mnemonicParsing="false" scaleX="3.7" scaleY="2.4">
-                        <cursor>
-                           <Cursor fx:constant="HAND" />
-                        </cursor>
-                     </Button>
-                  </children>
-               </StackPane>
-               <StackPane GridPane.columnIndex="0" GridPane.rowIndex="4" layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0">
-                  <children>
-                     <ImageView fx:id="image_4_9" pickOnBounds="true" preserveRatio="true" />
-                     <Button fx:id="button_4_9" mnemonicParsing="false" scaleX="3.7" scaleY="2.4">
-                        <cursor>
-                           <Cursor fx:constant="HAND" />
-                        </cursor>
-                     </Button>
-                  </children>
-               </StackPane>
-               <StackPane GridPane.columnIndex="1" GridPane.rowIndex="4" layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0">
-                  <children>
-                     <ImageView fx:id="image_5_9" pickOnBounds="true" preserveRatio="true" />
-                     <Button fx:id="button_5_9" mnemonicParsing="false" scaleX="3.7" scaleY="2.4">
-                        <cursor>
-                           <Cursor fx:constant="HAND" />
-                        </cursor>
-                     </Button>
-                  </children>
-               </StackPane>
-               <StackPane GridPane.columnIndex="2" GridPane.rowIndex="4" layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0">
-                  <children>
-                     <ImageView fx:id="image_6_9" pickOnBounds="true" preserveRatio="true" />
-                     <Button fx:id="button_6_9" mnemonicParsing="false" scaleX="3.7" scaleY="2.4">
-                        <cursor>
-                           <Cursor fx:constant="HAND" />
-                        </cursor>
-                     </Button>
-                  </children>
-               </StackPane>
-               <StackPane GridPane.columnIndex="3" GridPane.rowIndex="4" layoutX="142.0" layoutY="275.0" prefHeight="150.0" prefWidth="200.0">
-                  <children>
-                     <ImageView fx:id="image_7_9" pickOnBounds="true" preserveRatio="true" />
-                     <Button fx:id="button_7_9" mnemonicParsing="false" scaleX="3.7" scaleY="2.4">
-                        <cursor>
-                           <Cursor fx:constant="HAND" />
-                        </cursor>
-                     </Button>
-                  </children>
-               </StackPane>
-               <StackPane GridPane.columnIndex="4" GridPane.rowIndex="4" layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0">
-                  <children>
-                     <ImageView fx:id="image_8_9" pickOnBounds="true" preserveRatio="true" />
-                     <Button fx:id="button_8_9" mnemonicParsing="false" scaleX="3.7" scaleY="2.4">
-                        <cursor>
-                           <Cursor fx:constant="HAND" />
-                        </cursor>
-                     </Button>
-                  </children>
-               </StackPane>
-               <StackPane GridPane.columnIndex="5" GridPane.rowIndex="4" layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0">
-                  <children>
-                     <ImageView fx:id="image_9_9" pickOnBounds="true" preserveRatio="true" />
-                     <Button fx:id="button_9_9" mnemonicParsing="false" scaleX="3.7" scaleY="2.4">
-                        <cursor>
-                           <Cursor fx:constant="HAND" />
-                        </cursor>
-                     </Button>
-                  </children>
-               </StackPane>
-               <StackPane GridPane.columnIndex="6" GridPane.rowIndex="4" layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0">
-                  <children>
-                     <ImageView fx:id="image_10_9" pickOnBounds="true" preserveRatio="true" />
-                     <Button fx:id="button_10_9" mnemonicParsing="false" scaleX="3.7" scaleY="2.4">
-                        <cursor>
-                           <Cursor fx:constant="HAND" />
-                        </cursor>
-                     </Button>
-                  </children>
-               </StackPane>
-            </children>
-         </GridPane>
-      </children>
+<StackPane fx:id="playerShipRootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="363.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.it.galaxytrucker.view.GUI.controllers.PlayerShipElementController" stylesheets="@../cssstyles/shipElementStyles.css">
+   <children>
+      <ImageView fx:id="shipBgImage" fitHeight="375.0" fitWidth="500.0" pickOnBounds="true" preserveRatio="true">
+         <Image url="@../graphics/cardboard/shipboard-lvl2.jpg" />
+      </ImageView>
+      <GridPane fx:id="grid">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <StackPane.margin>
+            <Insets bottom="16.0" left="18.0" right="18.0" top="16.0" />
+         </StackPane.margin>
+         <children>
+            <StackPane GridPane.columnIndex="0" GridPane.rowIndex="0" prefHeight="150.0" prefWidth="200.0">
+               <children>
+                  <ImageView fx:id="image_4_5" pickOnBounds="true" preserveRatio="true" />
+                  <Button styleClass="ship-button" fx:id="button_4_5" mnemonicParsing="false" scaleX="3.7" scaleY="2.4">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+               </children>
+            </StackPane>
+            <StackPane GridPane.columnIndex="1" GridPane.rowIndex="0" prefHeight="150.0" prefWidth="200.0">
+               <children>
+                  <ImageView fx:id="image_5_5" pickOnBounds="true" preserveRatio="true" />
+                  <Button styleClass="ship-button" fx:id="button_5_5" mnemonicParsing="false" scaleX="3.7" scaleY="2.4">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+               </children>
+            </StackPane>
+            <StackPane GridPane.columnIndex="2" GridPane.rowIndex="0" layoutX="76.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0">
+               <children>
+                  <ImageView fx:id="image_6_5" pickOnBounds="true" preserveRatio="true" />
+                  <Button styleClass="ship-button" fx:id="button_6_5" mnemonicParsing="false" scaleX="3.7" scaleY="2.4">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+               </children>
+            </StackPane>
+            <StackPane GridPane.columnIndex="3" GridPane.rowIndex="0" layoutX="142.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0">
+               <children>
+                  <ImageView fx:id="image_7_5" pickOnBounds="true" preserveRatio="true" />
+                  <Button styleClass="ship-button" fx:id="button_7_5" mnemonicParsing="false" scaleX="3.7" scaleY="2.4">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+               </children>
+            </StackPane>
+            <StackPane GridPane.columnIndex="4" GridPane.rowIndex="0" layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0">
+               <children>
+                  <ImageView fx:id="image_8_5" pickOnBounds="true" preserveRatio="true" />
+                  <Button styleClass="ship-button" fx:id="button_8_5" mnemonicParsing="false" scaleX="3.7" scaleY="2.4">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+               </children>
+            </StackPane>
+            <StackPane GridPane.columnIndex="5" GridPane.rowIndex="0" layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0">
+               <children>
+                  <ImageView fx:id="image_9_5" pickOnBounds="true" preserveRatio="true" />
+                  <Button styleClass="ship-button" fx:id="button_9_5" mnemonicParsing="false" scaleX="3.7" scaleY="2.4">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+               </children>
+            </StackPane>
+            <StackPane GridPane.columnIndex="6" GridPane.rowIndex="0" layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0">
+               <children>
+                  <ImageView fx:id="image_10_5" pickOnBounds="true" preserveRatio="true" />
+                  <Button styleClass="ship-button" fx:id="button_10_5" mnemonicParsing="false" scaleX="3.7" scaleY="2.4">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+               </children>
+            </StackPane>
+            <StackPane GridPane.columnIndex="0" GridPane.rowIndex="1" layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0">
+               <children>
+                  <ImageView fx:id="image_4_6" pickOnBounds="true" preserveRatio="true" />
+                  <Button styleClass="ship-button" fx:id="button_4_6" mnemonicParsing="false" scaleX="3.7" scaleY="2.4">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+               </children>
+            </StackPane>
+            <StackPane GridPane.columnIndex="1" GridPane.rowIndex="1" layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0">
+               <children>
+                  <ImageView fx:id="image_5_6" pickOnBounds="true" preserveRatio="true" />
+                  <Button styleClass="ship-button" fx:id="button_5_6" mnemonicParsing="false" scaleX="3.7" scaleY="2.4">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+               </children>
+            </StackPane>
+            <StackPane GridPane.columnIndex="2" GridPane.rowIndex="1" layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0">
+               <children>
+                  <ImageView fx:id="image_6_6" pickOnBounds="true" preserveRatio="true" />
+                  <Button styleClass="ship-button" fx:id="button_6_6" mnemonicParsing="false" scaleX="3.7" scaleY="2.4">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+               </children>
+            </StackPane>
+            <StackPane GridPane.columnIndex="3" GridPane.rowIndex="1" layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0">
+               <children>
+                  <ImageView fx:id="image_7_6" pickOnBounds="true" preserveRatio="true" />
+                  <Button styleClass="ship-button" fx:id="button_7_6" mnemonicParsing="false" scaleX="3.7" scaleY="2.4">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+               </children>
+            </StackPane>
+            <StackPane GridPane.columnIndex="4" GridPane.rowIndex="1" layoutX="208.0" layoutY="77.0" prefHeight="150.0" prefWidth="200.0">
+               <children>
+                  <ImageView fx:id="image_8_6" pickOnBounds="true" preserveRatio="true" />
+                  <Button styleClass="ship-button" fx:id="button_8_6" mnemonicParsing="false" scaleX="3.7" scaleY="2.4">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+               </children>
+            </StackPane>
+            <StackPane GridPane.columnIndex="5" GridPane.rowIndex="1" layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0">
+               <children>
+                  <ImageView fx:id="image_9_6" pickOnBounds="true" preserveRatio="true" />
+                  <Button styleClass="ship-button" fx:id="button_9_6" mnemonicParsing="false" scaleX="3.7" scaleY="2.4">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+               </children>
+            </StackPane>
+            <StackPane GridPane.columnIndex="6" GridPane.rowIndex="1" layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0">
+               <children>
+                  <ImageView fx:id="image_10_6" pickOnBounds="true" preserveRatio="true" />
+                  <Button styleClass="ship-button" fx:id="button_10_6" mnemonicParsing="false" scaleX="3.7" scaleY="2.4">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+               </children>
+            </StackPane>
+            <StackPane GridPane.columnIndex="0" GridPane.rowIndex="2" layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0">
+               <children>
+                  <ImageView fx:id="image_4_7" pickOnBounds="true" preserveRatio="true" />
+                  <Button styleClass="ship-button" fx:id="button_4_7" mnemonicParsing="false" scaleX="3.7" scaleY="2.4">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+               </children>
+            </StackPane>
+            <StackPane GridPane.columnIndex="1" GridPane.rowIndex="2" layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0">
+               <children>
+                  <ImageView fx:id="image_5_7" pickOnBounds="true" preserveRatio="true" />
+                  <Button styleClass="ship-button" fx:id="button_5_7" mnemonicParsing="false" scaleX="3.7" scaleY="2.4">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+               </children>
+            </StackPane>
+            <StackPane GridPane.columnIndex="2" GridPane.rowIndex="2" layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0">
+               <children>
+                  <ImageView fx:id="image_6_7" pickOnBounds="true" preserveRatio="true" />
+                  <Button styleClass="ship-button" fx:id="button_6_7" mnemonicParsing="false" scaleX="3.7" scaleY="2.4">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+               </children>
+            </StackPane>
+            <StackPane GridPane.columnIndex="3" GridPane.rowIndex="2" layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0">
+               <children>
+                  <ImageView fx:id="image_7_7" pickOnBounds="true" preserveRatio="true" />
+                  <Button styleClass="ship-button" fx:id="button_7_7" mnemonicParsing="false" scaleX="3.7" scaleY="2.4">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+               </children>
+            </StackPane>
+            <StackPane GridPane.columnIndex="4" GridPane.rowIndex="2" layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0">
+               <children>
+                  <ImageView fx:id="image_8_7" pickOnBounds="true" preserveRatio="true" />
+                  <Button styleClass="ship-button" fx:id="button_8_7" mnemonicParsing="false" scaleX="3.7" scaleY="2.4">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+               </children>
+            </StackPane>
+            <StackPane GridPane.columnIndex="5" GridPane.rowIndex="2" layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0">
+               <children>
+                  <ImageView fx:id="image_9_7" pickOnBounds="true" preserveRatio="true" />
+                  <Button styleClass="ship-button" fx:id="button_9_7" mnemonicParsing="false" scaleX="3.7" scaleY="2.4">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+               </children>
+            </StackPane>
+            <StackPane GridPane.columnIndex="6" GridPane.rowIndex="2" layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0">
+               <children>
+                  <ImageView fx:id="image_10_7" pickOnBounds="true" preserveRatio="true" />
+                  <Button styleClass="ship-button" fx:id="button_10_7" mnemonicParsing="false" scaleX="3.7" scaleY="2.4">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+               </children>
+            </StackPane>
+            <StackPane GridPane.columnIndex="0" GridPane.rowIndex="3" layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0">
+               <children>
+                  <ImageView fx:id="image_4_8" pickOnBounds="true" preserveRatio="true" />
+                  <Button styleClass="ship-button" fx:id="button_4_8" mnemonicParsing="false" scaleX="3.7" scaleY="2.4">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+               </children>
+            </StackPane>
+            <StackPane GridPane.columnIndex="1" GridPane.rowIndex="3" layoutX="10.0" layoutY="209.0" prefHeight="150.0" prefWidth="200.0">
+               <children>
+                  <ImageView fx:id="image_5_8" pickOnBounds="true" preserveRatio="true" />
+                  <Button styleClass="ship-button" fx:id="button_5_8" mnemonicParsing="false" scaleX="3.7" scaleY="2.4">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+               </children>
+            </StackPane>
+            <StackPane GridPane.columnIndex="2" GridPane.rowIndex="3" layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0">
+               <children>
+                  <ImageView fx:id="image_6_8" pickOnBounds="true" preserveRatio="true" />
+                  <Button styleClass="ship-button" fx:id="button_6_8" mnemonicParsing="false" scaleX="3.7" scaleY="2.4">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+               </children>
+            </StackPane>
+            <StackPane GridPane.columnIndex="3" GridPane.rowIndex="3" layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0">
+               <children>
+                  <ImageView fx:id="image_7_8" pickOnBounds="true" preserveRatio="true" />
+                  <Button styleClass="ship-button" fx:id="button_7_8" mnemonicParsing="false" scaleX="3.7" scaleY="2.4">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+               </children>
+            </StackPane>
+            <StackPane GridPane.columnIndex="4" GridPane.rowIndex="3" layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0">
+               <children>
+                  <ImageView fx:id="image_8_8" pickOnBounds="true" preserveRatio="true" />
+                  <Button styleClass="ship-button" fx:id="button_8_8" mnemonicParsing="false" scaleX="3.7" scaleY="2.4">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+               </children>
+            </StackPane>
+            <StackPane GridPane.columnIndex="5" GridPane.rowIndex="3" layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0">
+               <children>
+                  <ImageView fx:id="image_9_8" pickOnBounds="true" preserveRatio="true" />
+                  <Button styleClass="ship-button" fx:id="button_9_8" mnemonicParsing="false" scaleX="3.7" scaleY="2.4">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+               </children>
+            </StackPane>
+            <StackPane GridPane.columnIndex="6" GridPane.rowIndex="3" layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0">
+               <children>
+                  <ImageView fx:id="image_10_8" pickOnBounds="true" preserveRatio="true" />
+                  <Button styleClass="ship-button" fx:id="button_10_8" mnemonicParsing="false" scaleX="3.7" scaleY="2.4">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+               </children>
+            </StackPane>
+            <StackPane GridPane.columnIndex="0" GridPane.rowIndex="4" layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0">
+               <children>
+                  <ImageView fx:id="image_4_9" pickOnBounds="true" preserveRatio="true" />
+                  <Button styleClass="ship-button" fx:id="button_4_9" mnemonicParsing="false" scaleX="3.7" scaleY="2.4">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+               </children>
+            </StackPane>
+            <StackPane GridPane.columnIndex="1" GridPane.rowIndex="4" layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0">
+               <children>
+                  <ImageView fx:id="image_5_9" pickOnBounds="true" preserveRatio="true" />
+                  <Button styleClass="ship-button" fx:id="button_5_9" mnemonicParsing="false" scaleX="3.7" scaleY="2.4">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+               </children>
+            </StackPane>
+            <StackPane GridPane.columnIndex="2" GridPane.rowIndex="4" layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0">
+               <children>
+                  <ImageView fx:id="image_6_9" pickOnBounds="true" preserveRatio="true" />
+                  <Button styleClass="ship-button" fx:id="button_6_9" mnemonicParsing="false" scaleX="3.7" scaleY="2.4">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+               </children>
+            </StackPane>
+            <StackPane GridPane.columnIndex="3" GridPane.rowIndex="4" layoutX="142.0" layoutY="275.0" prefHeight="150.0" prefWidth="200.0">
+               <children>
+                  <ImageView fx:id="image_7_9" pickOnBounds="true" preserveRatio="true" />
+                  <Button styleClass="ship-button" fx:id="button_7_9" mnemonicParsing="false" scaleX="3.7" scaleY="2.4">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+               </children>
+            </StackPane>
+            <StackPane GridPane.columnIndex="4" GridPane.rowIndex="4" layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0">
+               <children>
+                  <ImageView fx:id="image_8_9" pickOnBounds="true" preserveRatio="true" />
+                  <Button styleClass="ship-button" fx:id="button_8_9" mnemonicParsing="false" scaleX="3.7" scaleY="2.4">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+               </children>
+            </StackPane>
+            <StackPane GridPane.columnIndex="5" GridPane.rowIndex="4" layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0">
+               <children>
+                  <ImageView fx:id="image_9_9" pickOnBounds="true" preserveRatio="true" />
+                  <Button styleClass="ship-button" fx:id="button_9_9" mnemonicParsing="false" scaleX="3.7" scaleY="2.4">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+               </children>
+            </StackPane>
+            <StackPane GridPane.columnIndex="6" GridPane.rowIndex="4" layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0">
+               <children>
+                  <ImageView fx:id="image_10_9" pickOnBounds="true" preserveRatio="true" />
+                  <Button styleClass="ship-button" fx:id="button_10_9" mnemonicParsing="false" scaleX="3.7" scaleY="2.4">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+               </children>
+            </StackPane>
+         </children>
+      </GridPane>
+   </children>
 </StackPane>

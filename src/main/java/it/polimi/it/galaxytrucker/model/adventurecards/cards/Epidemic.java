@@ -1,6 +1,7 @@
 package it.polimi.it.galaxytrucker.model.adventurecards.cards;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -152,5 +153,12 @@ public class Epidemic extends CardStateMachine implements AdventureCard {
     @Override
     public void accept(AdventureCardVisitor visitor, AdventureCardInputContext context) {
         
+    }
+
+    @Override
+    public HashMap<String, Object> getEventData() {
+        HashMap<String, Object> data = new HashMap<>();
+
+        return data;
     }
 }

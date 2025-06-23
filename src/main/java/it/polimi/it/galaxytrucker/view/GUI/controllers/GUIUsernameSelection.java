@@ -88,7 +88,7 @@ public class GUIUsernameSelection extends GUIViewState {
             scene = new Scene(root);
             stage.setScene(scene);
 
-            scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/it/polimi/it/galaxytrucker/cssstyles/style.css")).toExternalForm());
+            scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/it/polimi/it/galaxytrucker/cssstyles/futuristicUIStyles.css")).toExternalForm());
 
             stage.show();
         });

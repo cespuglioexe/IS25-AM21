@@ -162,4 +162,16 @@ public class Slavers extends CardStateMachine implements AdventureCard, CreditRe
     public void accept(AdventureCardVisitor visitor, AdventureCardInputContext context) {
         visitor.visit(this, context);
     }
+
+    @Override
+    public HashMap<String, Object> getEventData() {
+        HashMap<String, Object> data = new HashMap<>();
+
+        data.put("creditReward", creditReward);
+        data.put("crewmatePenalty", crewmatePenalty);
+        data.put("flightDayPenalty", flightDayPenalty);
+        data.put("requiredFirePower", requiredFirePower);
+
+        return data;
+    }
 }
