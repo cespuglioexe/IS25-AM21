@@ -3,6 +3,7 @@ package it.polimi.it.galaxytrucker.model.adventurecards.cardstates.abandonedship
 import java.util.List;
 
 import it.polimi.it.galaxytrucker.model.adventurecards.cardevents.InputNeeded;
+import it.polimi.it.galaxytrucker.model.adventurecards.cardevents.UpdateStatus;
 import it.polimi.it.galaxytrucker.model.adventurecards.cards.AbandonedShip;
 import it.polimi.it.galaxytrucker.model.design.observerPattern.Subject;
 import it.polimi.it.galaxytrucker.model.design.statePattern.State;
@@ -44,7 +45,10 @@ public class ParticipationState extends State {
 
     @Override
     public void exit(StateMachine fsm) {
-        
+        AbandonedShip card = (AbandonedShip) fsm;
+        Subject subject = (Subject) fsm;
+
+        subject.notifyObservers(new UpdateStatus(card));
     }
 
     private Player getPlayerWhoChooses(AbandonedShip card) {

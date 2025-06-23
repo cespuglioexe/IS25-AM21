@@ -482,7 +482,9 @@ public class GameManager extends StateMachine implements Model, Observable {
 
     @Override
     public void activateComponent(UUID playerID, List<List<Coordinates>> activationHashmap) {
-        //
+        ShipManager ship = getPlayerByID(playerID).getShipManager();
+
+        ship.getcompo
     }
 
     @Override

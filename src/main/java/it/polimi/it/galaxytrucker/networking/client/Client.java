@@ -194,7 +194,14 @@ public abstract class Client extends UnicastRemoteObject implements Runnable, Cl
                 view.displayTimerEnded();
                 break;
             case CARD_DETAILS:
-                //TODO
+                String cardState = update.getNewSate();
+                String card = update.getOperationMessage();
+                Map<String, Object> cardDetails = update.getCardDetail();
+
+                model.setCardDetail(cardDetails);
+                model.putCardDetail("card", card);
+                
+                view.displayCardUpdates(card, cardState, cardDetails);
                 break;
             case INPUT:
                 if (update.getInterestedPlayerId().equals(model.getMyData().getPlayerId())) {

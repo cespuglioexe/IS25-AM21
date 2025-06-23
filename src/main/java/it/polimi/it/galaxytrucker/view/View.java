@@ -5,6 +5,7 @@ import it.polimi.it.galaxytrucker.model.componenttiles.TileData;
 import it.polimi.it.galaxytrucker.networking.client.ClientInterface;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public abstract class View {
@@ -70,6 +71,8 @@ public abstract class View {
     public abstract void newCardStartedExecution();
 
     public abstract void displayInputOptions(String card, String cardState);
+
+    public abstract void displayCardUpdates(String card, String cardState, Map<String, Object> cardDetails);
 
     public abstract void manageInputError();
 }
