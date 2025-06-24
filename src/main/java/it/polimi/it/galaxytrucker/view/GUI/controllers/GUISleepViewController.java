@@ -29,7 +29,7 @@ public class GUISleepViewController extends GUIViewState {
     }
     public GUISleepViewController() {
         try {
-            FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(GUISleepViewController.class.getResource("/it/polimi/it/galaxytrucker/fxmlstages/scoreBoard.fxml")));
+            FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(GUISleepViewController.class.getResource("/it/polimi/it/galaxytrucker/fxmlstages/sleepView.fxml")));
             loader.setController(this);
             root = loader.load();
         } catch (IOException e) {
