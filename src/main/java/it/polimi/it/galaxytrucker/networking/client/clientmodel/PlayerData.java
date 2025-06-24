@@ -1,5 +1,7 @@
 package it.polimi.it.galaxytrucker.networking.client.clientmodel;
 
+import it.polimi.it.galaxytrucker.model.utility.Color;
+
 import java.util.UUID;
 
 /**
@@ -24,6 +26,10 @@ public class PlayerData {
      * The unique identifier of the game the client is playing.
      */
     private UUID matchId;
+    /**
+     * Unique color given to this player
+     */
+    private Color color;
 
     public PlayerData() {}
 
@@ -54,5 +60,13 @@ public class PlayerData {
 
     public UUID getMatchId() {
         return matchId;
+    }
+
+    public void setColor(Color playerColor) {
+        this.color = playerColor;
+    }
+
+    public Color getColor() {
+        return color;
     }
 }

@@ -9,6 +9,7 @@ import it.polimi.it.galaxytrucker.controller.ControllerInterface;
 import it.polimi.it.galaxytrucker.controller.GenericGameData;
 import it.polimi.it.galaxytrucker.exceptions.GameFullException;
 import it.polimi.it.galaxytrucker.listeners.Listener;
+import it.polimi.it.galaxytrucker.model.utility.Color;
 import it.polimi.it.galaxytrucker.networking.client.rmi.RMIVirtualServer;
 import it.polimi.it.galaxytrucker.networking.utils.ServerDetails;
 import it.polimi.it.galaxytrucker.view.CLI.ConsoleColors;
@@ -186,12 +187,13 @@ public abstract class ClientHandler extends UnicastRemoteObject implements Liste
 
                 case JOIN_ACTIVE_GAME:
                     try {
-                        server.addPlayerToGame(this, userInput.getGameId());
+                        Color color = server.addPlayerToGame(this, userInput.getGameId());
 
                         notify(new GameUpdate.GameUpdateBuilder(GameUpdateType.JOIN_GAME_RESULT)
                                 .setSuccessfulOperation(true)
                                 .setGameUuid(userInput.getGameId())
                                 .setGameLevel(controller.getLevel())
+                                .setPlayerColor(color)
                                 .build()
                         );
                     } catch (GameFullException e) {

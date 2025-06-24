@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.it.galaxytrucker.controller.GenericGameData;
 import it.polimi.it.galaxytrucker.model.componenttiles.ComponentTile;
 import it.polimi.it.galaxytrucker.model.componenttiles.TileData;
+import it.polimi.it.galaxytrucker.model.utility.Color;
 import it.polimi.it.galaxytrucker.view.CLI.ConsoleColors;
 
 import java.io.Serializable;
@@ -18,6 +19,7 @@ public class GameUpdate implements Serializable {
     private final GameUpdateType instructionType;
     private final UUID interestedPlayerId;
     private final String newSate;
+    private final Color playerColor;
 
     private final List<UUID> playerIds;
     private final List<List<String>> cardPileCompositions;
@@ -59,7 +61,8 @@ public class GameUpdate implements Serializable {
             @JsonProperty("operationMessage") String operationMessage,
             @JsonProperty("gameLevel") int gameLevel,
             @JsonProperty("cardDetail") Map<String, Object> cardDetail,
-            @JsonProperty("playerMarkerPositions") HashMap<UUID, Integer> playerMarkerPositions) {
+            @JsonProperty("playerMarkerPositions") HashMap<UUID, Integer> playerMarkerPositions,
+            @JsonProperty("playerColor") Color playerColor) {
         this.instructionType = instructionType;
         this.interestedPlayerId = interestedPlayerId;
         this.newSate = newSate;
@@ -78,6 +81,7 @@ public class GameUpdate implements Serializable {
         this.gameLevel = gameLevel;
         this.cardDetail = cardDetail;
         this.playerMarkerPositions = playerMarkerPositions;
+        this.playerColor = playerColor;
     }
 
     public GameUpdate(GameUpdateBuilder builder) {
@@ -99,6 +103,7 @@ public class GameUpdate implements Serializable {
         this.gameLevel = builder.gameLevel;
         this.cardDetail = builder.cardDetail;
         this.playerMarkerPositions = builder.playerMarkerPositions;
+        this.playerColor = builder.playerColor;
     }
 
     public GameUpdateType getInstructionType() {
@@ -111,6 +116,10 @@ public class GameUpdate implements Serializable {
 
     public HashMap<UUID, Integer> getPlayerMarkerPositions() {
         return playerMarkerPositions;
+    }
+
+    public Color getPlayerColor() {
+        return playerColor;
     }
 
     public TileData getNewTile() {
@@ -194,6 +203,7 @@ public class GameUpdate implements Serializable {
         private String operationMessage;
         private int gameLevel;
         private Map<String, Object> cardDetail;
+        private Color playerColor;
 
         public GameUpdateBuilder(GameUpdateType instructionType) {
             this.instructionType = instructionType;
@@ -206,6 +216,11 @@ public class GameUpdate implements Serializable {
 
         public GameUpdateBuilder setPlayerMarkerPositions(HashMap<UUID, Integer> playerMarkerPositions) {
             this.playerMarkerPositions = playerMarkerPositions;
+            return this;
+        }
+
+        public GameUpdateBuilder setPlayerColor(Color playerColor) {
+            this.playerColor = playerColor;
             return this;
         }
 

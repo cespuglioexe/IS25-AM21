@@ -169,7 +169,7 @@ public class FlightBoard implements Observable {
         );
     }
 
-    /**
+w    /**
      * Moves a player backward by a specified number of spaces on the flight board.
      * <p>
      * If a space is occupied during movement, the player skips it and moves to the next available space.

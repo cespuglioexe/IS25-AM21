@@ -3,6 +3,7 @@ package it.polimi.it.galaxytrucker.networking.server;
 import it.polimi.it.galaxytrucker.controller.Controller;
 import it.polimi.it.galaxytrucker.controller.GenericGameData;
 import it.polimi.it.galaxytrucker.exceptions.GameFullException;
+import it.polimi.it.galaxytrucker.model.utility.Color;
 import it.polimi.it.galaxytrucker.networking.client.rmi.RMIServer;
 import it.polimi.it.galaxytrucker.networking.server.rmi.RMIClientHandler;
 import it.polimi.it.galaxytrucker.networking.server.rmi.RMIVirtualClient;
@@ -215,13 +216,15 @@ public class Server extends UnicastRemoteObject implements RMIServer, Runnable, 
      * Access to the controllers map is synchronized.
      */
     @Override
-    public void addPlayerToGame(ClientHandler client, UUID gameId) throws GameFullException {
+    public Color addPlayerToGame(ClientHandler client, UUID gameId) throws GameFullException {
+        Color color;
         synchronized (this.controllers) {
             // Add the player to the game controller
-            controllers.get(gameId).addPlayer(client);
+            color = controllers.get(gameId).addPlayer(client);
             // Set the controller reference on the client handler
             client.setController(controllers.get(gameId));
         }
+        return color;
     }
 
     /**

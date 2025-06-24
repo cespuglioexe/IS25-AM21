@@ -3,6 +3,7 @@ package it.polimi.it.galaxytrucker.networking.client;
 import it.polimi.it.galaxytrucker.messages.clientmessages.UserInput;
 import it.polimi.it.galaxytrucker.messages.servermessages.GameUpdate;
 import it.polimi.it.galaxytrucker.exceptions.InvalidFunctionCallInState;
+import it.polimi.it.galaxytrucker.messages.servermessages.GameUpdateType;
 import it.polimi.it.galaxytrucker.model.componenttiles.TileData;
 import it.polimi.it.galaxytrucker.networking.client.clientmodel.ClientModel;
 import it.polimi.it.galaxytrucker.networking.utils.ServerDetails;
@@ -90,7 +91,7 @@ public abstract class Client extends UnicastRemoteObject implements Runnable, Cl
      * @throws RemoteException if an RMI communication error occurs (though typically handled by the RMI runtime).
      */
     public void processServerUpdate(GameUpdate update) throws RemoteException {
-        System.out.println(ConsoleColors.CLIENT_DEBUG + "received update of type " + update.getInstructionType() + ConsoleColors.RESET);
+        System.out.println(ConsoleColors.CLIENT_DEBUG + "received update of type " + update.getInstructionType() + (update.getInstructionType().equals(GameUpdateType.NEW_STATE) ? (" (" + update.getNewSate() + ")") : "") + ConsoleColors.RESET);
         switch (update.getInstructionType()) {
             case SET_USERNAME_RESULT:
                 if (update.isSuccessfulOperation()) {
@@ -125,6 +126,7 @@ public abstract class Client extends UnicastRemoteObject implements Runnable, Cl
                     synchronized (ClientModel.class) {
                         model.getMyData().setMatchId(update.getGameUuid());
                         model.setGameLevel(update.getGameLevel());
+                        model.getMyData().setColor(update.getPlayerColor());
                     }
                 } else if (update.getOperationMessage().equals("The game was full")) {
                     view.joinedGameIsFull();
