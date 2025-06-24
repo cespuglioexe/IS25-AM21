@@ -364,12 +364,13 @@ public class GUIView extends View {
     }
 
     public String getSuperSecretUsername() {
-        try (BufferedReader reader = new BufferedReader(new FileReader(percorsoFile))) {
-            return reader.readLine(); // legge la prima riga
-        } catch (IOException e) {
-            System.err.println("Errore durante la lettura del file: " + e.getMessage());
-            return null;
-        }
+        return "ingconti";
+//        try (BufferedReader reader = new BufferedReader(new FileReader(percorsoFile))) {
+//            return reader.readLine(); // legge la prima riga
+//        } catch (IOException e) {
+//            System.err.println("Errore durante la lettura del file: " + e.getMessage());
+//            return null;
+//        }
     }
 
 

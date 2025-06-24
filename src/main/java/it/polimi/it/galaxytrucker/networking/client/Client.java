@@ -109,6 +109,7 @@ public abstract class Client extends UnicastRemoteObject implements Runnable, Cl
                     synchronized (ClientModel.class) {
                         model.getMyData().setMatchId(update.getGameUuid());
                         model.setGameLevel(update.getGameLevel());
+                        model.getMyData().setColor(update.getPlayerColor());
                     }
                     try {
                         view.gameCreationSuccess(true);
@@ -216,6 +217,7 @@ public abstract class Client extends UnicastRemoteObject implements Runnable, Cl
                 if (update.getInterestedPlayerId().equals(model.getMyData().getPlayerId())) {
                     view.displayInputOptions(update.getOperationMessage(), update.getNewSate());
                 }
+                break;
             case INVALID_INPUT:
                 //TODO
                 break;
@@ -224,6 +226,7 @@ public abstract class Client extends UnicastRemoteObject implements Runnable, Cl
                     System.out.println(update.getPlayerMarkerPositions());
                     model.setPlayerMarkerPositions(update.getPlayerMarkerPositions());
                 }
+                break;
             default:
                 System.out.println(ConsoleColors.CLIENT_DEBUG + "Received unhandled game update instruction type: " + update.getInstructionType() + ConsoleColors.RESET);
                 break;

@@ -220,7 +220,7 @@ public class GUIBuildingController extends GUIViewState {
             List<TileData> discardedTiles = model.getDiscardedTiles();
             AtomicInteger index= new AtomicInteger();
 
-            updateVisibleTile(discardedTiles.get(0));
+            updateVisibleTile(discardedTiles.get(0)); // TODO: check if null
             discardedSelected=0;
             arrowForward.setVisible(true);
             arrowBack.setVisible(true);

@@ -199,6 +199,7 @@ public class GUICargoChoiceController extends GUIViewState implements GUIErrorHa
             stage.show();
 
             i=0;
+            loadCardDetails();
             updateShip();
         });
     }
