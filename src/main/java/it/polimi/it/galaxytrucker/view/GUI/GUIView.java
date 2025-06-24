@@ -237,6 +237,11 @@ public class GUIView extends View {
         GUILoadingViewController.getInstance().displayScene();
     }
 
+    @Override
+    public void showScoreBoard(){
+        GUIScoreBoardController.getInstance().displayScene();
+    }
+
 
     //Utili solo per il controllo senza png
 
@@ -366,4 +371,6 @@ public class GUIView extends View {
             return null;
         }
     }
+
+
 }
