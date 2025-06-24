@@ -65,7 +65,7 @@ public class GUIView extends View {
 
     @Override
     public void displayCards(List<String> cards) {
-
+        GUIGameTurn.getInstance().displayCard();
     }
 
     public void nameSelectionScene() {
@@ -168,7 +168,7 @@ public class GUIView extends View {
 
     @Override
     public void newCardStartedExecution(){
-        GUIGameTurn.getInstance().displayScene();
+        GUIGameTurn.getInstance().displayCard();
     }
 
     @Override
@@ -223,6 +223,15 @@ public class GUIView extends View {
         }
     }
 
+    @Override
+    public void startNewTurn() {
+        GUIGameTurn.getInstance().displayScene();
+    }
+
+    @Override
+    public void loadingScreen() {
+        GUILoadingViewController.getInstance().displayScene();
+    }
 
 
     //Utili solo per il controllo senza png

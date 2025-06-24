@@ -75,4 +75,8 @@ public abstract class View {
     public abstract void displayCardUpdates(String card, String cardState, Map<String, Object> cardDetails);
 
     public abstract void manageInputError();
+
+    public abstract void startNewTurn();
+
+    public abstract void loadingScreen();
 }

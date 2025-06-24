@@ -61,7 +61,6 @@ public class GUIFixingShipController extends GUIViewState {
                 scene = new Scene(newRoot);
                 stage.setScene(scene);
                 stage.show();
-
                 shipController.displayShip();
             } catch (IOException e) {
                 e.printStackTrace();

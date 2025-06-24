@@ -160,6 +160,12 @@ public abstract class Client extends UnicastRemoteObject implements Runnable, Cl
                         model.setActiveCardGraphicPath(update.getOperationMessage());
                         view.newCardStartedExecution();
                         break;
+                    case "GameTurnStartState":
+                        synchronized (ClientModel.class) {
+                            model.setPlayerMarkerPositions(update.getPlayerMarkerPositions());
+                        }
+                        view.startNewTurn();
+                        break;
                     default:
                         System.out.println(ConsoleColors.CLIENT_DEBUG + "Received unknown state: " + update.getNewSate() + ConsoleColors.RESET);
                         break;
@@ -213,6 +219,7 @@ public abstract class Client extends UnicastRemoteObject implements Runnable, Cl
                 break;
             case PLAYER_MARKER_MOVED:
                 synchronized (ClientModel.class) {
+                    System.out.println(update.getPlayerMarkerPositions());
                     model.setPlayerMarkerPositions(update.getPlayerMarkerPositions());
                 }
             default:

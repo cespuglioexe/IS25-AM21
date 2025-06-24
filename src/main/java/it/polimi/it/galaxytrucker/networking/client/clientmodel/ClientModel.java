@@ -1,6 +1,7 @@
 package it.polimi.it.galaxytrucker.networking.client.clientmodel;
 
 import it.polimi.it.galaxytrucker.model.componenttiles.TileData;
+import it.polimi.it.galaxytrucker.model.utility.Color;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -174,4 +175,5 @@ public class ClientModel {
     public void setPlayerMarkerPositions(HashMap<UUID, Integer> playerMarkerPositions) {
         this.playerMarkerPositions = playerMarkerPositions;
     }
+
 }

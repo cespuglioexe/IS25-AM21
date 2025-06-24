@@ -163,6 +163,16 @@ public class CLIView extends View {
 
     }
 
+    @Override
+    public void startNewTurn() {
+
+    }
+
+    @Override
+    public void loadingScreen() {
+
+    }
+
 
     ////////////////////////////////////
 
