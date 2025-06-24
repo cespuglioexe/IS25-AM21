@@ -15,6 +15,8 @@ public class BuildingMenuState extends CLIViewState {
 
     @Override
     public void executeState() {
+        System.out.println(ConsoleColors.CLIENT_DEBUG + "Executing building menu state" + ConsoleColors.RESET);
+
         view.executorService.submit(() -> {
             ClientModel model = view.getClient().getModel();
             view.displayShip(model.getPlayerShips(model.getMyData().getPlayerId()));

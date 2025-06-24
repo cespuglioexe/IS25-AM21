@@ -26,15 +26,16 @@ public class PlayerData {
      * The unique identifier of the game the client is playing.
      */
     private UUID matchId;
-
+    /**
+     * Unique color given to this player
+     */
     private Color color;
 
     public PlayerData() {}
 
-    public PlayerData(String nickname, UUID matchId, Color color) {
+    public PlayerData(String nickname, UUID matchId) {
         this.nickname = nickname;
         this.matchId = matchId;
-        this.color = color;
     }
 
     public PlayerData(String nickname) {
@@ -61,7 +62,11 @@ public class PlayerData {
         return matchId;
     }
 
-    public void setColor(Color color) {
-        this.color = color;
+    public void setColor(Color playerColor) {
+        this.color = playerColor;
+    }
+
+    public Color getColor() {
+        return color;
     }
 }

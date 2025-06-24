@@ -34,7 +34,7 @@ public class Controller implements ControllerInterface {
         playerColors.addAll(Arrays.asList(Color.values()));
     }
 
-    public void addPlayer (ClientHandler client) throws GameFullException {
+    public Color addPlayer (ClientHandler client) throws GameFullException {
         if (activePlayers >= playerNum) {
             System.out.println(ConsoleColors.CONTROLLER_DEBUG + "Player '" + client.getUsername() + "' tried to join full game" + ConsoleColors.RESET);
             throw new GameFullException("Game " + uuid + " is already full");
@@ -51,6 +51,7 @@ public class Controller implements ControllerInterface {
         model.addPlayer(newPlayer);
         activePlayers++;
 
+        return playerColor;
     }
 
 
