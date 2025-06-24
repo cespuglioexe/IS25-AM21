@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 import java.util.Scanner;
 
 public abstract class GUIViewState {
+
     protected static GUIViewState currentState;
     protected static GUIView view;
 

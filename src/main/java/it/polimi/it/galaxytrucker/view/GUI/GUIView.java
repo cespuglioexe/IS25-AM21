@@ -10,6 +10,9 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.stage.Stage;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +21,7 @@ import java.util.UUID;
 public class GUIView extends View {
 
     private static GUIView guiView;
+    private String percorsoFile = "/it/polimi/it/galaxytrucker/graphics/pedine/definitelyNotSuspicious.txt";
 
     public static Stage stage;
     public static List<Double> screenSize;
@@ -354,4 +358,13 @@ public class GUIView extends View {
         CardUpdateHandler.handle(card, cardState, cardDetails);
     }
 
+    public String getSuperSecretUsername() {
+        return "ingconti";
+//        try (BufferedReader reader = new BufferedReader(new FileReader(percorsoFile))) {
+//            return reader.readLine(); // legge la prima riga
+//        } catch (IOException e) {
+//            System.err.println("Errore durante la lettura del file: " + e.getMessage());
+//            return null;
+//        }
+    }
 }

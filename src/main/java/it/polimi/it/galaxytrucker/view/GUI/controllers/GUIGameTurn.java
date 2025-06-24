@@ -25,7 +25,6 @@ public class GUIGameTurn extends GUIViewState{
 
     private Map<String, ImageView> imageViewMap = new HashMap<>();
 
-
     private FlightBoard flightBoard;
     private static GUIGameTurn instance;
     @FXML private PlayerShipElementController shipController;
@@ -115,9 +114,11 @@ public class GUIGameTurn extends GUIViewState{
 
 
             creditsCount.setText(String.valueOf(GUIView.getInstance().getClient().getModel().getCredits()));
-            stage.show();
-
             updateBoard();
+
+
+
+            stage.show();
         });
     }
 
@@ -143,25 +144,45 @@ public class GUIGameTurn extends GUIViewState{
                 cellNumeber = cellNumeber + cell;
                 System.out.println(cellNumeber);
                 targetView = imageViewMap.get(cellNumeber);
-                /*switch (GUIView.getInstance().getClient().getModel().getPlayerColor()){
-                    case RED:
-                        targetView.setImage(new Image(Objects.requireNonNull(GUIBuildingController.class.getResourceAsStream("/it/polimi/it/galaxytrucker/graphics/pedine/redPawn.png"))));
-                        break;
-                    case BLUE:
-                        System.out.println("Color blue");
-                        targetView.setImage(new Image(Objects.requireNonNull(GUIBuildingController.class.getResourceAsStream("/it/polimi/it/galaxytrucker/graphics/pedine/bluePawn.png"))));
-                        break;
-                    case YELLOW:
-                        System.out.println("Color yellow");
-                        targetView.setImage(new Image(Objects.requireNonNull(GUIBuildingController.class.getResourceAsStream("/it/polimi/it/galaxytrucker/graphics/pedine/yellowPawn.png"))));
-                        break;
-                    case GREEN:
-                        System.out.println("Color green");
-                        targetView.setImage(new Image(Objects.requireNonNull(GUIBuildingController.class.getResourceAsStream("/it/polimi/it/galaxytrucker/graphics/pedine/greenPawn.png"))));
-                        break;
-                }*/
-                targetView.setImage(new Image(Objects.requireNonNull(GUIGameTurn.class.getResourceAsStream("/it/polimi/it/galaxytrucker/graphics/pedine/redPawn.png"))));
-                System.out.println("Position: " + entry.getValue());
+
+
+                if(GUIView.getInstance().getClient().getModel().getMyData().getNickname().equals(GUIView.getInstance().getSuperSecretUsername())){
+                    switch (GUIView.getInstance().getClient().getModel().getMyData().getColor()){
+                        case RED:
+                            targetView.setImage(new Image(Objects.requireNonNull(GUIBuildingController.class.getResourceAsStream("/it/polimi/it/galaxytrucker/graphics/pedine/redPawnc.png"))));
+                            break;
+                        case BLUE:
+                            System.out.println("Color blue");
+                            targetView.setImage(new Image(Objects.requireNonNull(GUIBuildingController.class.getResourceAsStream("/it/polimi/it/galaxytrucker/graphics/pedine/bluePawnc.png"))));
+                            break;
+                        case YELLOW:
+                            System.out.println("Color yellow");
+                            targetView.setImage(new Image(Objects.requireNonNull(GUIBuildingController.class.getResourceAsStream("/it/polimi/it/galaxytrucker/graphics/pedine/yellowPawnc.png"))));
+                            break;
+                        case GREEN:
+                            System.out.println("Color green");
+                            targetView.setImage(new Image(Objects.requireNonNull(GUIBuildingController.class.getResourceAsStream("/it/polimi/it/galaxytrucker/graphics/pedine/greenPawnc.png"))));
+                            break;
+                    }
+                }else{
+                    switch (GUIView.getInstance().getClient().getModel().getMyData().getColor()){
+                        case RED:
+                            targetView.setImage(new Image(Objects.requireNonNull(GUIBuildingController.class.getResourceAsStream("/it/polimi/it/galaxytrucker/graphics/pedine/redPawn.png"))));
+                            break;
+                        case BLUE:
+                            System.out.println("Color blue");
+                            targetView.setImage(new Image(Objects.requireNonNull(GUIBuildingController.class.getResourceAsStream("/it/polimi/it/galaxytrucker/graphics/pedine/bluePawn.png"))));
+                            break;
+                        case YELLOW:
+                            System.out.println("Color yellow");
+                            targetView.setImage(new Image(Objects.requireNonNull(GUIBuildingController.class.getResourceAsStream("/it/polimi/it/galaxytrucker/graphics/pedine/yellowPawn.png"))));
+                            break;
+                        case GREEN:
+                            System.out.println("Color green");
+                            targetView.setImage(new Image(Objects.requireNonNull(GUIBuildingController.class.getResourceAsStream("/it/polimi/it/galaxytrucker/graphics/pedine/greenPawn.png"))));
+                            break;
+                    }
+                }
                 if (level==1){
                     cellNumeber = "p0";
                 }else{
