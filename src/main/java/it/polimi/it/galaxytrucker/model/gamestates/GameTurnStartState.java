@@ -17,22 +17,6 @@ public class GameTurnStartState extends GameState {
     public void enter(StateMachine fsm) {
         GameManager game = (GameManager) fsm;
 
-        HashMap<UUID, Integer> uuidMap = (HashMap<UUID, Integer>) game.getFlightBoard().getPlayerPosition().entrySet().stream()
-                .collect(Collectors.toMap(
-                        entry -> entry.getKey().getPlayerID(),
-                        Map.Entry::getValue
-                ));
-        System.out.println(uuidMap);
-
-        game.getFlightBoard().updateListeners(
-                new GameUpdate.GameUpdateBuilder(GameUpdateType.NEW_STATE)
-                        .setNewSate("GameTurnStartState")
-                        .setPlayerMarkerPositions(uuidMap)
-                        .build()
-        );
-
-
-
         try {
             AdventureCard card = game.getAdventureDeck().draw();
             fsm.changeState(new CardExecutionState(card));
@@ -43,7 +27,17 @@ public class GameTurnStartState extends GameState {
             fsm.changeState(new GameEndState());
         }
 
+        HashMap<UUID, Integer> uuidMap = (HashMap<UUID, Integer>) game.getFlightBoard().getPlayerPosition().entrySet().stream()
+                .collect(Collectors.toMap(
+                        entry -> entry.getKey().getPlayerID(),
+                        Map.Entry::getValue
+                ));
 
+        game.getFlightBoard().updateListeners(
+                new GameUpdate.GameUpdateBuilder(GameUpdateType.PLAYER_MARKER_MOVED)
+                        .setPlayerMarkerPositions(uuidMap)
+                        .build()
+        );
 
     }
 
