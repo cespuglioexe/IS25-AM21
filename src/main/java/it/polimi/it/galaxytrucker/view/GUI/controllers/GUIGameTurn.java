@@ -114,9 +114,11 @@ public class GUIGameTurn extends GUIViewState{
 
 
             creditsCount.setText(String.valueOf(GUIView.getInstance().getClient().getModel().getCredits()));
-            stage.show();
-
             updateBoard();
+
+
+
+            stage.show();
         });
     }
 
@@ -144,7 +146,7 @@ public class GUIGameTurn extends GUIViewState{
                 targetView = imageViewMap.get(cellNumeber);
 
 
-                if(GUIView.getInstance().getClient().getModel().getMyData().getNickname() == GUIView.getInstance().getSuperSecretUsername()){
+                if(GUIView.getInstance().getClient().getModel().getMyData().getNickname().equals(GUIView.getInstance().getSuperSecretUsername())){
                     switch (GUIView.getInstance().getClient().getModel().getMyData().getColor()){
                         case RED:
                             targetView.setImage(new Image(Objects.requireNonNull(GUIBuildingController.class.getResourceAsStream("/it/polimi/it/galaxytrucker/graphics/pedine/redPawnc.png"))));
