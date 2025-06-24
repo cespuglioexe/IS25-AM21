@@ -572,13 +572,54 @@ public class GameManager extends StateMachine implements Model, Observable {
         return doubleEngineAndBatteries;
     }
     @Override
-    public void activateShield(UUID playerID, List<List<Coordinates>> activationHashmap) {
-        //
+    public void activateShield(UUID playerID, List<List<Coordinates>> shieldAndBatteries) {
+        AdventureCardInputContext response = new AdventureCardInputContext();
+        AdventureCardInputDispatcher inputHandler = new AdventureCardInputDispatcherImpl();
+
+        if (shieldAndBatteries.isEmpty()) {
+            response.put("activatesShield", false);
+        } else {
+            response.put("activatesShield", true);
+            response.put("shieldAndBatteries", buildShieldResponse(shieldAndBatteries));
+        }
+
+        inputHandler.dispatch(adventureDeck.getLastDrawnCard(), response);
+    }
+
+    private HashMap<List<Integer>, List<Integer>> buildShieldResponse(List<List<Coordinates>> shieldsAndBatteries) {
+        HashMap<List<Integer>, List<Integer>> shieldsAndBatteriesMap = new HashMap<>();
+        for (List<Coordinates> shieldAndBattery : shieldsAndBatteries) {
+            List<Integer> shieldCoord = new ArrayList<>();
+            List<Integer> batteryCoord = new ArrayList<>();
+
+            shieldCoord.add(shieldAndBattery.getFirst().getRow());
+            shieldCoord.add(shieldAndBattery.getFirst().getColumn());
+
+            batteryCoord.add(shieldAndBattery.getLast().getRow());
+            batteryCoord.add(shieldAndBattery.getLast().getColumn());
+
+            shieldsAndBatteriesMap.put(shieldCoord, batteryCoord);
+        }
+        return shieldsAndBatteriesMap;
     }
 
     @Override
     public void manageAcceptedCargo(UUID playerId, HashMap<Integer, Coordinates> acceptedCargo) {
-        //
+        AdventureCardInputContext response = new AdventureCardInputContext();
+        AdventureCardInputDispatcher inputHandler = new AdventureCardInputDispatcherImpl();
+
+        for(int i: acceptedCargo.keySet()) {
+            response.put("loadIndex", i);
+            Coordinates coord = acceptedCargo.get(i);
+            if(coord.equals(new Coordinates(0,0)))
+                response.put("acceptsCargo", false);
+            else{
+                response.put("acceptsCargo", true);
+                response.put("row", coord.getRow());
+                response.put("column", coord.getColumn());
+            }
+            inputHandler.dispatch(adventureDeck.getLastDrawnCard(), response);
+        }
     }
 
     @Override
@@ -592,7 +633,19 @@ public class GameManager extends StateMachine implements Model, Observable {
 
     @Override
     public void manageRemovedCrewmate(UUID  playerId, List<Coordinates> removedCrewmate){
-        //
+        AdventureCardInputContext response = new AdventureCardInputContext();
+        AdventureCardInputDispatcher inputHandler = new AdventureCardInputDispatcherImpl();
+
+        for(Coordinates coord: removedCrewmate) {
+            if(coord.equals(new Coordinates(0,0)))
+                response.put("crewmateCoords", false);
+            else{
+                response.put("crewmateCoords", true);
+                response.put("row", coord.getRow());
+                response.put("column", coord.getColumn());
+            }
+            inputHandler.dispatch(adventureDeck.getLastDrawnCard(), response);
+        }
     }
 
     @Override
