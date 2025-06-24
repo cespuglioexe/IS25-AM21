@@ -208,7 +208,6 @@ public abstract class ClientHandler extends UnicastRemoteObject implements Liste
 
                 case SEE_ACTIVE_GAMES:
                     List<GenericGameData> controllers = server.getActiveGames();
-                    System.out.println("???");
                     notify(new GameUpdate.GameUpdateBuilder(GameUpdateType.LIST_ACTIVE_CONTROLLERS)
                             .setActiveControllers(controllers)
                             .build()
@@ -250,8 +249,14 @@ public abstract class ClientHandler extends UnicastRemoteObject implements Liste
                 case REMOVE_COMPONENT:
                     controller.removeComponentTile(clientUuid, userInput.getCoords().get(0), userInput.getCoords().get(1));
                     break;
-                case ACTIVATE_COMPONENT:
-                    controller.activateComponent(clientUuid, userInput.getComponentsForActivation());
+                case ACTIVATE_CANNON:
+                    controller.activateCannon(clientUuid, userInput.getComponentsForActivation());
+                    break;
+                case ACTIVATE_ENGINE:
+                    controller.activateEngine(clientUuid, userInput.getComponentsForActivation());
+                    break;
+                case ACTIVATE_SHIELD:
+                    controller.activateShield(clientUuid, userInput.getComponentsForActivation());
                     break;
                 case CARGO_REWARD:
                     controller.manageAcceptedCargo(clientUuid, userInput.getAcceptedCargo());
@@ -263,7 +268,7 @@ public abstract class ClientHandler extends UnicastRemoteObject implements Liste
                     controller.manageRemovedCrewmate(clientUuid, userInput.getRemovedCrewmate());
                     break;
                 case PARTICIPATION:
-                    controller.manageParticipation(clientUuid, userInput.getParticipation());
+                    controller.manageParticipation(clientUuid, userInput.getParticipation(), userInput.getParticipationChoice());
                     break;
                 default:
                     System.out.println(ConsoleColors.CLIENT_HANDLER_DEBUG.tag(clientName) + "received input" + ConsoleColors.RESET);

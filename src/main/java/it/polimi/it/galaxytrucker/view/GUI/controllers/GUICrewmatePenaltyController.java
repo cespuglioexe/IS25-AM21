@@ -61,17 +61,20 @@ public class GUICrewmatePenaltyController extends GUIViewState implements GUIErr
         int row = shipController.selectedRow;
         if((row<5) || (row>9) || (col<4) || (col>10)){
             incorrectCoord1.setVisible(true);
-        }
-        if(GUIView.getInstance().getClient().getModel().getPlayerShips(GUIView.getInstance().getClient().getModel().getMyData().getPlayerId()).get(row).get(col).type().equals(CabinModule.class.getSimpleName())){
-            crewmateCoord.add(new Coordinates(col,row));
-            incorrectCoord1.setVisible(false);
-            numberOfCrewmates--;
-        } else{
-            if(GUIView.getInstance().getClient().getModel().getPlayerShips(GUIView.getInstance().getClient().getModel().getMyData().getPlayerId()).get(row).get(col).type().equals(CentralCabin.class.getSimpleName())) {
-                crewmateCoord.add(new Coordinates(col,row));
-                incorrectCoord1.setVisible(false);
-                numberOfCrewmates--;
-            } else incorrectCoord1.setVisible(true);
+        }else {
+            if (GUIView.getInstance().getClient().getModel().getPlayerShips(GUIView.getInstance().getClient().getModel().getMyData().getPlayerId()).get(row - 5).get(col - 4) != null) {
+                if (GUIView.getInstance().getClient().getModel().getPlayerShips(GUIView.getInstance().getClient().getModel().getMyData().getPlayerId()).get(row-5).get(col-4).type().equals(CabinModule.class.getSimpleName())) {
+                    crewmateCoord.add(new Coordinates(col, row));
+                    incorrectCoord1.setVisible(false);
+                    numberOfCrewmates--;
+                } else {
+                    if (GUIView.getInstance().getClient().getModel().getPlayerShips(GUIView.getInstance().getClient().getModel().getMyData().getPlayerId()).get(row-5).get(col-4).type().equals(CentralCabin.class.getSimpleName())) {
+                        crewmateCoord.add(new Coordinates(col, row));
+                        incorrectCoord1.setVisible(false);
+                        numberOfCrewmates--;
+                    } else incorrectCoord1.setVisible(true);
+                }
+            }
         }
     }
 

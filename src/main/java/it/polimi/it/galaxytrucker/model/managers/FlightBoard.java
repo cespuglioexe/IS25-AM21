@@ -4,6 +4,7 @@ import it.polimi.it.galaxytrucker.listeners.Listener;
 import it.polimi.it.galaxytrucker.listeners.Observable;
 import it.polimi.it.galaxytrucker.messages.servermessages.GameUpdate;
 import it.polimi.it.galaxytrucker.messages.servermessages.GameUpdateType;
+import it.polimi.it.galaxytrucker.model.utility.Color;
 
 import java.util.*;
 import java.util.stream.Collectors;

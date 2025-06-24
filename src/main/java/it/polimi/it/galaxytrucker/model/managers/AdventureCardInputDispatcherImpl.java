@@ -17,6 +17,7 @@ import it.polimi.it.galaxytrucker.model.adventurecards.cards.Smugglers;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCard;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCardInputContext;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCardVisitor;
+import it.polimi.it.galaxytrucker.view.CLI.ConsoleColors;
 
 public class AdventureCardInputDispatcherImpl implements AdventureCardInputDispatcher, AdventureCardVisitor {
     @Override

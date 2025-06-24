@@ -6,22 +6,22 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 
 public class Coordinates {
-    public double column;
-    public double row;
+    public int column;
+    public int row;
 
     @JsonCreator
     public Coordinates(
-            @JsonProperty("column") double column,
-            @JsonProperty("row") double row) {
+            @JsonProperty("column") int column,
+            @JsonProperty("row") int row) {
         this.column = column;
         this.row = row;
     }
 
-    public double getColumn() {
+    public int getColumn() {
         return column;
     }
 
-    public double getRow() {
+    public int getRow() {
         return row;
     }
 }

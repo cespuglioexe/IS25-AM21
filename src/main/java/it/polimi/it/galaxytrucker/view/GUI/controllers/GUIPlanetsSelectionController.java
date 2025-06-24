@@ -1,16 +1,32 @@
 package it.polimi.it.galaxytrucker.view.GUI.controllers;
 
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.UUID;
 
+import it.polimi.it.galaxytrucker.messages.clientmessages.UserInput;
+import it.polimi.it.galaxytrucker.messages.clientmessages.UserInputType;
+import it.polimi.it.galaxytrucker.networking.client.clientmodel.ClientModel;
+import it.polimi.it.galaxytrucker.view.GUI.GUIView;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
-public class GUIPlanetsSelectionController {
+public class GUIPlanetsSelectionController extends GUIViewState {
     @FXML
     private ImageView planetView;
 
@@ -24,98 +40,146 @@ public class GUIPlanetsSelectionController {
         "/it/polimi/it/galaxytrucker/graphics/general/planet-purple.png"
     };
 
+    private Set<Integer> occupiedPlanets = new HashSet<>();
+
     private int currentPlanetIndex = 0;
     private int numOfPlanets = 1;
+    private int flightDayPenalty = 0;
 
-    private HashMap<Integer, HashMap<it.polimi.it.galaxytrucker.model.utility.Color, Integer>> planetsAndCargo = new HashMap<>();
+    private HashMap<Integer, HashMap<String, Integer>> planetsAndCargo;
+
+    private static GUIPlanetsSelectionController instance;
+
+    public static GUIPlanetsSelectionController getInstance() {
+        synchronized (GUIPlanetsSelectionController.class) {
+            if (instance == null) {
+                instance = new GUIPlanetsSelectionController();
+            }
+            return instance;
+        }
+    }
+
+    public GUIPlanetsSelectionController() {
+        try {
+            FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(GUIPlanetsSelectionController.class.getResource("/it/polimi/it/galaxytrucker/fxmlstages/participationPlanetChoice.fxml")));
+            loader.setController(this);
+            root = loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     @FXML
     public void initialize() {
-        setPlanetsDefaultValues();
+        loadCardDetails();
 
-        updatePlanetImage();
-        updateCargoCounts(planetsAndCargo.get(currentPlanetIndex));
-
-        numOfPlanets = planetsAndCargo.keySet().size();
         leftButton.setOnAction(e -> {
             currentPlanetIndex = (currentPlanetIndex - 1 + numOfPlanets) % numOfPlanets;
-            updatePlanetImage();
-
-            HashMap<it.polimi.it.galaxytrucker.model.utility.Color, Integer> cargo = planetsAndCargo.get(currentPlanetIndex);
-            updateCargoCounts(cargo);
+            updatePlanetGUI();
+            updateCargoGUI();
         });
         rightButton.setOnAction(e -> {
             currentPlanetIndex = (currentPlanetIndex + 1) % numOfPlanets;
-            updatePlanetImage();
-
-            HashMap<it.polimi.it.galaxytrucker.model.utility.Color, Integer> cargo = planetsAndCargo.get(currentPlanetIndex);
-            updateCargoCounts(cargo);
+            updatePlanetGUI();
+            updateCargoGUI();
         });
     }
 
-    private void setPlanetsDefaultValues() {
-        HashMap<it.polimi.it.galaxytrucker.model.utility.Color, Integer> cargo0 = new HashMap<>();
-        cargo0.put(it.polimi.it.galaxytrucker.model.utility.Color.RED, 1);
-        cargo0.put(it.polimi.it.galaxytrucker.model.utility.Color.YELLOW, 1);
-        cargo0.put(it.polimi.it.galaxytrucker.model.utility.Color.GREEN, 0);
-        cargo0.put(it.polimi.it.galaxytrucker.model.utility.Color.BLUE, 0);
-        planetsAndCargo.put(0, cargo0);
+    private void loadCardDetails() {
+        ClientModel model = GUIView.getInstance().getClient().getModel();
 
-        HashMap<it.polimi.it.galaxytrucker.model.utility.Color, Integer> cargo1 = new HashMap<>();
-        cargo1.put(it.polimi.it.galaxytrucker.model.utility.Color.RED, 0);
-        cargo1.put(it.polimi.it.galaxytrucker.model.utility.Color.YELLOW, 1);
-        cargo1.put(it.polimi.it.galaxytrucker.model.utility.Color.GREEN, 1);
-        cargo1.put(it.polimi.it.galaxytrucker.model.utility.Color.BLUE, 1);
-        planetsAndCargo.put(1, cargo1);
+        numOfPlanets = model.getCardDetail("planets", Integer.class);
+        List<List<String>> cargoRewards = model.getUnsafeCardDetail("rewards");
 
-        HashMap<it.polimi.it.galaxytrucker.model.utility.Color, Integer> cargo2 = new HashMap<>();
-        cargo2.put(it.polimi.it.galaxytrucker.model.utility.Color.RED, 0);
-        cargo2.put(it.polimi.it.galaxytrucker.model.utility.Color.YELLOW, 0);
-        cargo2.put(it.polimi.it.galaxytrucker.model.utility.Color.GREEN, 2);
-        cargo2.put(it.polimi.it.galaxytrucker.model.utility.Color.BLUE, 0);
-        planetsAndCargo.put(2, cargo2);
+        planetsAndCargo = new HashMap<>();
+        for (int i = 0; i < numOfPlanets; i++) {
+            HashMap<String, Integer> cargoNumber = new HashMap<>();
 
-        HashMap<it.polimi.it.galaxytrucker.model.utility.Color, Integer> cargo3 = new HashMap<>();
-        cargo3.put(it.polimi.it.galaxytrucker.model.utility.Color.RED, 0);
-        cargo3.put(it.polimi.it.galaxytrucker.model.utility.Color.YELLOW, 1);
-        cargo3.put(it.polimi.it.galaxytrucker.model.utility.Color.GREEN, 0);
-        cargo3.put(it.polimi.it.galaxytrucker.model.utility.Color.BLUE, 0);
-        planetsAndCargo.put(3, cargo3);
+            for (String cargo : cargoRewards.get(i)) {
+                int count = cargoNumber.getOrDefault(cargo, 0) + 1;
+                cargoNumber.put(cargo, count);
+            }
+            planetsAndCargo.put(i, cargoNumber);
+        }
+
+        flightDayPenalty = model.getCardDetail("flightDayPenalty", Integer.class);
+
+        updatePlanetGUI();
+        updateCargoGUI();
+        setPenaltyValue(flightDayPenalty);
     }
 
-    private void updatePlanetImage() {
+    private void updatePlanetGUI() {
         planetView.setImage(new Image(planets[currentPlanetIndex]));
         DropShadow glow = new DropShadow();
         glow.setColor(Color.MEDIUMPURPLE);
         glow.setRadius(40);
         glow.setSpread(0.3);
         planetView.setEffect(glow);
+        planetView.getStyleClass().remove("occupied-planet");
+
+        if (occupiedPlanets.contains(currentPlanetIndex)) {
+            ColorAdjust grayscale = new ColorAdjust();
+            grayscale.setSaturation(-1);
+            planetView.setEffect(grayscale);
+            planetView.getStyleClass().add("occupied-planet");
+        }
     }
 
     @FXML private Label redLabel, yellowLabel, blueLabel, greenLabel;
 
-    public void loadPlanets(HashMap<Integer, HashMap<it.polimi.it.galaxytrucker.model.utility.Color, Integer>> planetsAndCargo) {
-        this.planetsAndCargo = planetsAndCargo;
+    private void updateCargoGUI() {
+        HashMap<String, Integer> cargoNumber = planetsAndCargo.get(currentPlanetIndex);
 
-        currentPlanetIndex = 0;
-        updatePlanetImage();
-
-        numOfPlanets = planetsAndCargo.keySet().size();
-
-        HashMap<it.polimi.it.galaxytrucker.model.utility.Color, Integer> cargo = planetsAndCargo.get(currentPlanetIndex);
-        updateCargoCounts(cargo);
-    }
-
-    private void updateCargoCounts(HashMap<it.polimi.it.galaxytrucker.model.utility.Color, Integer> cargo) {
-        yellowLabel.setText(String.valueOf(cargo.get(it.polimi.it.galaxytrucker.model.utility.Color.YELLOW)));
-        redLabel.setText(String.valueOf(cargo.get(it.polimi.it.galaxytrucker.model.utility.Color.RED)));
-        greenLabel.setText(String.valueOf(cargo.get(it.polimi.it.galaxytrucker.model.utility.Color.GREEN)));
-        blueLabel.setText(String.valueOf(cargo.get(it.polimi.it.galaxytrucker.model.utility.Color.BLUE)));
+        yellowLabel.setText(String.valueOf(cargoNumber.getOrDefault("YELLOW", 0)));
+        redLabel.setText(String.valueOf(cargoNumber.getOrDefault("RED", 0)));
+        greenLabel.setText(String.valueOf(cargoNumber.getOrDefault("GREEN", 0)));
+        blueLabel.setText(String.valueOf(cargoNumber.getOrDefault("BLUE", 0)));
     }
 
     @FXML private Label penaltyValueLabel;
 
-    public void setPenaltyValue(int value) {
+    private void setPenaltyValue(int value) {
         penaltyValueLabel.setText(String.valueOf(value));
+    }
+
+    public void updateOccupiedPlanets() {
+        ClientModel model = GUIView.getInstance().getClient().getModel();
+
+        Map<Integer, UUID> occupiedPlanetsAndPlayers = model.getUnsafeCardDetail("occupiedPlanets");
+        occupiedPlanets = occupiedPlanetsAndPlayers.keySet();
+
+        updatePlanetGUI();
+    }
+
+    @Override
+    public void displayScene() {
+        Platform.runLater(() -> {
+            stage = (Stage) GUIView.stage.getScene().getWindow();
+            scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+
+        });
+    }
+
+    @FXML
+    private void landOnPlanet() {
+        GUIView.getInstance().getClient().receiveUserInput(
+                new UserInput.UserInputBuilder(UserInputType.PARTICIPATION)
+                        .setParticipation(true)
+                        .setParticipationChoice(currentPlanetIndex)
+                        .build()
+        );
+    }
+
+    @FXML
+    private void skipTurn() {
+        GUIView.getInstance().getClient().receiveUserInput(
+                new UserInput.UserInputBuilder(UserInputType.PARTICIPATION)
+                        .setParticipation(false)
+                        .setParticipationChoice(-1)
+                        .build()
+        );
     }
 }

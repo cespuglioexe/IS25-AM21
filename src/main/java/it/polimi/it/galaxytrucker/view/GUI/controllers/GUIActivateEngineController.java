@@ -59,11 +59,14 @@ public class GUIActivateEngineController extends GUIViewState {
         int row = shipController.selectedRow;
         if((row<5) || (row>9) || (col<4) || (col>10)){
             incorrectCoord1.setVisible(true);
+        }else {
+            if (GUIView.getInstance().getClient().getModel().getPlayerShips(GUIView.getInstance().getClient().getModel().getMyData().getPlayerId()).get(row - 5).get(col - 4) != null){
+                if (GUIView.getInstance().getClient().getModel().getPlayerShips(GUIView.getInstance().getClient().getModel().getMyData().getPlayerId()).get(row - 5).get(col - 4).type().equals(DoubleEngine.class.getSimpleName())) {
+                    engineCoords.add(new Coordinates(row, col));
+                    incorrectCoord1.setVisible(false);
+                } else incorrectCoord1.setVisible(true);
+            }
         }
-        if(GUIView.getInstance().getClient().getModel().getPlayerShips(GUIView.getInstance().getClient().getModel().getMyData().getPlayerId()).get(row).get(col).type().equals(DoubleEngine.class.getSimpleName())){
-            engineCoords.add(new Coordinates(row,col));
-            incorrectCoord1.setVisible(false);
-        } else incorrectCoord1.setVisible(true);
 
     }
 
@@ -73,11 +76,12 @@ public class GUIActivateEngineController extends GUIViewState {
         int row = shipController.selectedRow;
         if((row<5) || (row>9) || (col<4) || (col>10)){
             incorrectCoord1.setVisible(true);
+        }else {
+            if (GUIView.getInstance().getClient().getModel().getPlayerShips(GUIView.getInstance().getClient().getModel().getMyData().getPlayerId()).get(row - 5).get(col - 4).type().equals(BatteryComponent.class.getSimpleName())) {
+                batteryCoord.add(new Coordinates(row, col));
+                incorrectCoord1.setVisible(false);
+            } else incorrectCoord1.setVisible(true);
         }
-        if(GUIView.getInstance().getClient().getModel().getPlayerShips(GUIView.getInstance().getClient().getModel().getMyData().getPlayerId()).get(row).get(col).type().equals(BatteryComponent.class.getSimpleName())){
-            batteryCoord.add(new Coordinates(row,col));
-            incorrectCoord1.setVisible(false);
-        } else incorrectCoord1.setVisible(true);
     }
 
     public void resetCoord(){
@@ -96,7 +100,7 @@ public class GUIActivateEngineController extends GUIViewState {
             engineAndBatteryCoord.add(batteryCoord);
 
             GUIView.getInstance().getClient().receiveUserInput(
-                    new UserInput.UserInputBuilder(UserInputType.ACTIVATE_COMPONENT)
+                    new UserInput.UserInputBuilder(UserInputType.ACTIVATE_ENGINE)
                             .setComponentsForActivation(engineAndBatteryCoord)
                             .build()
             );
@@ -104,7 +108,7 @@ public class GUIActivateEngineController extends GUIViewState {
             if(engineCoords.isEmpty() && batteryCoord.isEmpty() ) {
                 engineAndBatteryCoord.clear();
                 GUIView.getInstance().getClient().receiveUserInput(
-                        new UserInput.UserInputBuilder(UserInputType.ACTIVATE_COMPONENT)
+                        new UserInput.UserInputBuilder(UserInputType.ACTIVATE_ENGINE)
                                 .setComponentsForActivation(engineAndBatteryCoord)
                                 .build()
                 );
@@ -126,6 +130,7 @@ public class GUIActivateEngineController extends GUIViewState {
             stage.show();
 
             updateShip();
+
         });
     }
 }

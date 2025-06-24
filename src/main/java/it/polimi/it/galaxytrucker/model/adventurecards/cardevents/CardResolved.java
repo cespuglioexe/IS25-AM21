@@ -20,6 +20,7 @@ public class CardResolved implements CardEvent {
         return null;
     }
 
+
     @Override
     public void accept(EventVisitor visitor) {
         visitor.visit(this);

@@ -40,6 +40,7 @@ public class GUIParticipationChoiceController extends GUIViewState{
         GUIView.getInstance().getClient().receiveUserInput(
                 new UserInput.UserInputBuilder(UserInputType.PARTICIPATION)
                         .setParticipation(false)
+                        .setParticipationChoice(-1)
                         .build()
         );
     }
@@ -49,6 +50,7 @@ public class GUIParticipationChoiceController extends GUIViewState{
         GUIView.getInstance().getClient().receiveUserInput(
                 new UserInput.UserInputBuilder(UserInputType.PARTICIPATION)
                         .setParticipation(true)
+                        .setParticipationChoice(0)
                         .build()
         );
     }

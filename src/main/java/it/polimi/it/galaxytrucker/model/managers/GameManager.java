@@ -15,8 +15,10 @@ import it.polimi.it.galaxytrucker.model.adventurecards.cardevents.InputNeeded;
 import it.polimi.it.galaxytrucker.model.adventurecards.cardevents.UpdateStatus;
 import it.polimi.it.galaxytrucker.model.adventurecards.cards.*;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCard;
+import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCardInputContext;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.attack.Projectile;
 import it.polimi.it.galaxytrucker.model.componenttiles.ComponentTile;
+import it.polimi.it.galaxytrucker.model.componenttiles.DoubleCannon;
 import it.polimi.it.galaxytrucker.model.design.statePattern.State;
 import it.polimi.it.galaxytrucker.model.design.statePattern.StateMachine;
 import it.polimi.it.galaxytrucker.model.gamestates.GameState;
@@ -33,6 +35,7 @@ import it.polimi.it.galaxytrucker.model.utility.Color;
 import it.polimi.it.galaxytrucker.model.utility.Coordinates;
 import it.polimi.it.galaxytrucker.model.utility.Direction;
 import it.polimi.it.galaxytrucker.model.utility.ProjectileType;
+import it.polimi.it.galaxytrucker.view.CLI.ConsoleColors;
 // import it.polimi.it.galaxytrucker.networking.rmi.server.RMIServer;
 ;
 
@@ -481,12 +484,100 @@ public class GameManager extends StateMachine implements Model, Observable {
     }
 
     @Override
-    public void activateComponent(UUID playerID, List<List<Coordinates>> activationHashmap) {
+    public void activateCannon(UUID playerID, List<List<Coordinates>> cannonAndBatteries) {
+        AdventureCardInputContext response = new AdventureCardInputContext();
+        AdventureCardInputDispatcher inputHandler = new AdventureCardInputDispatcherImpl();
+        ShipManager ship = getPlayerShip(playerID);
+
+        response.put("player", getPlayerByID(playerID));
+        if (cannonAndBatteries.isEmpty()) {
+            response.put("activatesDoubleCannons", false);
+            response.put("activatesSingleCannon", false);
+
+        } else if (isDoubleCannon(ship, cannonAndBatteries.getFirst().getFirst())) {
+            response.put("activatesDoubleCannons", true);
+            HashMap<List<Integer>, List<Integer>> doubleCannonAndBatteries = buildDoubleCannonResponse(cannonAndBatteries);
+
+            response.put("cannonAndBatteries", doubleCannonAndBatteries);
+
+        } else {
+            response.put("activatesSingleCannon", true);
+
+            List<Integer> singleCannon = new ArrayList<>();
+            Coordinates coord = cannonAndBatteries.getFirst().getFirst();
+
+            singleCannon.add(coord.getRow());
+            singleCannon.add(coord.getColumn());
+
+            response.put("singleCannonCoord", singleCannon);
+        }
+
+        inputHandler.dispatch(adventureDeck.getLastDrawnCard(), response);
+    }
+    private boolean isDoubleCannon(ShipManager ship, Coordinates coord) {
+        ComponentTile tile = ship.getComponent(coord.getRow(), coord.getColumn()).get();
+
+        return tile instanceof DoubleCannon;
+    }
+    private HashMap<List<Integer>, List<Integer>> buildDoubleCannonResponse(List<List<Coordinates>> cannonAndBatteries) {
+        HashMap<List<Integer>, List<Integer>> doubleCannonAndBatteries = new HashMap<>();
+
+        for (List<Coordinates> cannonAndBattery : cannonAndBatteries) {
+            List<Integer> cannonCoord = new ArrayList<>();
+            List<Integer> batteryCoord = new ArrayList<>();
+
+            cannonCoord.add(cannonAndBattery.getFirst().getRow());
+            cannonCoord.add(cannonAndBattery.getFirst().getColumn());
+
+            batteryCoord.add(cannonAndBattery.getLast().getRow());
+            batteryCoord.add(cannonAndBattery.getLast().getColumn());
+
+            doubleCannonAndBatteries.put(cannonCoord, batteryCoord);
+        }
+
+        return doubleCannonAndBatteries;
+    }
+
+    @Override
+    public void activateEngine(UUID playerID, List<List<Coordinates>> engineAndBatteries) {
+        AdventureCardInputContext response = new AdventureCardInputContext();
+        AdventureCardInputDispatcher inputHandler = new AdventureCardInputDispatcherImpl();
+
+        response.put("player", getPlayerByID(playerID));
+        if (engineAndBatteries.isEmpty()) {
+            response.put("activatesDoubleEngines", false);
+        } else {
+            response.put("activatesDoubleEngines", true);
+            response.put("engineAndBatteries", buildDoubleEnigneResponse(engineAndBatteries));
+        }
+
+        inputHandler.dispatch(adventureDeck.getLastDrawnCard(), response);
+    }
+    private HashMap<List<Integer>, List<Integer>> buildDoubleEnigneResponse(List<List<Coordinates>> engineAndBatteries) {
+        HashMap<List<Integer>, List<Integer>> doubleEngineAndBatteries = new HashMap<>();
+
+        for (List<Coordinates> cannonAndBattery : engineAndBatteries) {
+            List<Integer> engineCoord = new ArrayList<>();
+            List<Integer> batteryCoord = new ArrayList<>();
+
+            engineCoord.add(cannonAndBattery.getFirst().getRow());
+            engineCoord.add(cannonAndBattery.getFirst().getColumn());
+
+            batteryCoord.add(cannonAndBattery.getLast().getRow());
+            batteryCoord.add(cannonAndBattery.getLast().getColumn());
+
+            doubleEngineAndBatteries.put(engineCoord, batteryCoord);
+        }
+
+        return doubleEngineAndBatteries;
+    }
+    @Override
+    public void activateShield(UUID playerID, List<List<Coordinates>> activationHashmap) {
         //
     }
 
     @Override
-    public void manageAcceptedCargo(UUID playerId,List<Coordinates> acceptedCargo) {
+    public void manageAcceptedCargo(UUID playerId, HashMap<Integer, Coordinates> acceptedCargo) {
         //
     }
 
@@ -501,8 +592,13 @@ public class GameManager extends StateMachine implements Model, Observable {
     }
 
     @Override
-    public void manageParticipation(UUID  playerId, boolean participation){
-        //
+    public void manageParticipation(UUID  playerId, boolean participation, int choice){
+        AdventureCardInputContext response = new AdventureCardInputContext();
+        AdventureCardInputDispatcher inputHandler = new AdventureCardInputDispatcherImpl();
+        response.put("player", getPlayerByID(playerId));
+        response.put("participates", participation);
+        response.put("choice", choice);
+        inputHandler.dispatch(adventureDeck.getLastDrawnCard(), response);
     }
 
     @Override
