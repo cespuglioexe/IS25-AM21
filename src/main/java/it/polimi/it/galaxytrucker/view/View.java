@@ -74,6 +74,8 @@ public abstract class View {
 
     public abstract void showScoreBoard();
 
+    public abstract void showSleepView();
+
     public abstract void displayCardUpdates(String card, String cardState, Map<String, Object> cardDetails);
 
     public abstract void manageInputError();

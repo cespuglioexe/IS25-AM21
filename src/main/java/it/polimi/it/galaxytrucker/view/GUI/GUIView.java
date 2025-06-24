@@ -10,9 +10,6 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.stage.Stage;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -240,6 +237,11 @@ public class GUIView extends View {
     @Override
     public void showScoreBoard(){
         GUIScoreBoardController.getInstance().displayScene();
+    }
+
+    @Override
+    public void showSleepView(){
+        GUISleepViewController.getInstance().displayScene();
     }
 
 
