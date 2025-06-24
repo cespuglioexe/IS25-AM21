@@ -15,14 +15,14 @@ public class CardResolved implements CardEvent {
         return source;
     }
 
+    @Override
+    public Player getInterestedPlayer() {
+        return null;
+    }
+
 
     @Override
     public void accept(EventVisitor visitor) {
         visitor.visit(this);
-    }
-
-    @Override
-    public Player getInterestedPlayer() {
-        return null;
     }
 }

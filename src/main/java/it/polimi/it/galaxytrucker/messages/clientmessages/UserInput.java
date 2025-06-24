@@ -6,6 +6,7 @@ import it.polimi.it.galaxytrucker.messages.Message;
 import it.polimi.it.galaxytrucker.model.utility.Coordinates;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -29,10 +30,11 @@ public class UserInput extends Message {
     private final int cardPileIndex;
 
     private final List<List<Coordinates>> componentsForActivation;
-    private final List<Coordinates> acceptedCargo;
+    private final HashMap<Integer,Coordinates> acceptedCargo;
     private final List<Coordinates> removedCrewmate;
     private final boolean creditChoice;
     private final boolean participation;
+    private final int participationChoice;
 
     private final List<Integer> coords;
     private final int rotation;
@@ -52,10 +54,11 @@ public class UserInput extends Message {
             @JsonProperty("coords") List<Integer> coords,
             @JsonProperty("rotation") int rotation,
             @JsonProperty("componentsForActivation") List<List<Coordinates>> componentsForActivation,
-            @JsonProperty("acceptedCargo") List<Coordinates> acceptedCargo,
+            @JsonProperty("acceptedCargo") HashMap<Integer,Coordinates> acceptedCargo,
             @JsonProperty("creditChoice") boolean creditChoice,
             @JsonProperty("removedCrewmate") List<Coordinates> removedCrewmate,
-            @JsonProperty("participation") boolean participation){
+            @JsonProperty("participation") boolean participation,
+            @JsonProperty("participationChoice") int participationChoice){
         this.type = type;
         this.serverName = serverName;
         this.playerName = playerName;
@@ -72,6 +75,7 @@ public class UserInput extends Message {
         this.creditChoice = creditChoice;
         this.removedCrewmate = removedCrewmate;
         this.participation = participation;
+        this.participationChoice = participationChoice;
     }
 
     public UserInput(UserInputBuilder builder) {
@@ -92,6 +96,7 @@ public class UserInput extends Message {
         this.creditChoice = builder.creditChoice;
         this.removedCrewmate = builder.removedCrewmate;
         this.participation = builder.participation;
+        this.participationChoice = builder.participationChoice;
     }
 
     public UserInputType getType() {
@@ -122,7 +127,7 @@ public class UserInput extends Message {
         return componentsForActivation;
     }
 
-    public List<Coordinates> getAcceptedCargo() {
+    public HashMap<Integer, Coordinates> getAcceptedCargo() {
         return acceptedCargo;
     }
 
@@ -168,6 +173,10 @@ public class UserInput extends Message {
         return playerUuid;
     }
 
+    public int getParticipationChoice() {
+        return participationChoice;
+    }
+
     /**
      * Builder class for creating instances of the UserInput class.
      * This class provides a convenient way to configure all optional and required parameters
@@ -184,10 +193,11 @@ public class UserInput extends Message {
         private String playerName = "";
         private UUID playerUuid = new UUID(0L, 0L);
         private List<List<Coordinates>> componentsForActivation = new ArrayList<>();
-        private List<Coordinates> acceptedCargo = new ArrayList<>();
+        private HashMap<Integer,Coordinates> acceptedCargo = new HashMap<>();
         private boolean creditChoice;
         private List<Coordinates> removedCrewmate = new ArrayList<>();
         private boolean participation;
+        private int participationChoice = 0;
 
         private int gameLevel = 0;
         private int gamePlayers = 0;
@@ -263,7 +273,7 @@ public class UserInput extends Message {
             return this;
         }
 
-        public UserInputBuilder setAcceptedCargo(List<Coordinates> acceptedCargo) {
+        public UserInputBuilder setAcceptedCargo(HashMap<Integer, Coordinates> acceptedCargo) {
             this.acceptedCargo = acceptedCargo;
             return this;
         }
@@ -280,6 +290,11 @@ public class UserInput extends Message {
 
         public UserInputBuilder setParticipation(boolean participation) {
             this.participation = participation;
+            return this;
+        }
+
+        public UserInputBuilder setParticipationChoice(int choice) {
+            this.participationChoice = choice;
             return this;
         }
 

@@ -135,3 +135,7 @@
     -fx-scale-x: 1.08;
     -fx-scale-y: 1.08;
 }
+
+.occupied-planet {
+    -fx-opacity: 0.7; 
+}

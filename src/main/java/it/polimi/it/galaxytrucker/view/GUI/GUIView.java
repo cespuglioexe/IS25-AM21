@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public class GUIView extends View {
@@ -64,7 +65,7 @@ public class GUIView extends View {
 
     @Override
     public void displayCards(List<String> cards) {
-
+        GUIGameTurn.getInstance().displayCard();
     }
 
     public void nameSelectionScene() {
@@ -167,7 +168,7 @@ public class GUIView extends View {
 
     @Override
     public void newCardStartedExecution(){
-        GUIGameTurn.getInstance().displayScene();
+        GUIGameTurn.getInstance().displayCard();
     }
 
     @Override
@@ -180,7 +181,7 @@ public class GUIView extends View {
         switch (cardState) {
             case "ParticipationState":
                 if (card.equals("Planets")) {
-                    GUIParticipationPlanetController.getInstance().displayScene();
+                    GUIPlanetsSelectionController.getInstance().displayScene();
                 } else {
                     GUIParticipationChoiceController.getInstance().displayScene();
                 }
@@ -222,6 +223,10 @@ public class GUIView extends View {
         }
     }
 
+    @Override
+    public void startNewTurn() {
+        GUIGameTurn.getInstance().displayScene();
+    }
 
 
     //Utili solo per il controllo senza png
@@ -339,6 +344,9 @@ public class GUIView extends View {
         return edge == TileEdge.SINGLE || edge == TileEdge.UNIVERSAL;
     }
 
-
+    @Override
+    public void displayCardUpdates(String card, String cardState, Map<String, Object> cardDetails) {
+        CardUpdateHandler.handle(card, cardState, cardDetails);
+    }
 
 }

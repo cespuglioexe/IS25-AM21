@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.it.galaxytrucker.controller.GenericGameData;
 import it.polimi.it.galaxytrucker.model.componenttiles.ComponentTile;
 import it.polimi.it.galaxytrucker.model.componenttiles.TileData;
+import it.polimi.it.galaxytrucker.model.utility.Color;
 import it.polimi.it.galaxytrucker.view.CLI.ConsoleColors;
 
 import java.io.Serializable;
@@ -59,7 +60,9 @@ public class GameUpdate implements Serializable {
             @JsonProperty("operationMessage") String operationMessage,
             @JsonProperty("gameLevel") int gameLevel,
             @JsonProperty("cardDetail") Map<String, Object> cardDetail,
-            @JsonProperty("playerMarkerPositions") HashMap<UUID, Integer> playerMarkerPositions) {
+            @JsonProperty("playerMarkerPositions") HashMap<UUID, Integer> playerMarkerPositions
+
+    ) {
         this.instructionType = instructionType;
         this.interestedPlayerId = interestedPlayerId;
         this.newSate = newSate;
@@ -170,6 +173,7 @@ public class GameUpdate implements Serializable {
     public Map<String, Object> getCardDetail() {
         return cardDetail;
     }
+
 
     public static class GameUpdateBuilder {
         // Required fields
@@ -306,6 +310,8 @@ public class GameUpdate implements Serializable {
             this.gameLevel = gameLevel;
             return this;
         }
+
+
 
         public GameUpdate build() {
             return new GameUpdate(this);

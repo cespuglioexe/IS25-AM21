@@ -1,5 +1,7 @@
 package it.polimi.it.galaxytrucker.networking.client.clientmodel;
 
+import it.polimi.it.galaxytrucker.model.utility.Color;
+
 import java.util.UUID;
 
 /**
@@ -25,11 +27,14 @@ public class PlayerData {
      */
     private UUID matchId;
 
+    private Color color;
+
     public PlayerData() {}
 
-    public PlayerData(String nickname, UUID matchId) {
+    public PlayerData(String nickname, UUID matchId, Color color) {
         this.nickname = nickname;
         this.matchId = matchId;
+        this.color = color;
     }
 
     public PlayerData(String nickname) {
@@ -54,5 +59,9 @@ public class PlayerData {
 
     public UUID getMatchId() {
         return matchId;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
     }
 }

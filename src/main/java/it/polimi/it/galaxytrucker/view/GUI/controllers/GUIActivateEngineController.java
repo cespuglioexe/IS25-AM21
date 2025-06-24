@@ -96,7 +96,7 @@ public class GUIActivateEngineController extends GUIViewState {
             engineAndBatteryCoord.add(batteryCoord);
 
             GUIView.getInstance().getClient().receiveUserInput(
-                    new UserInput.UserInputBuilder(UserInputType.ACTIVATE_COMPONENT)
+                    new UserInput.UserInputBuilder(UserInputType.ACTIVATE_ENGINE)
                             .setComponentsForActivation(engineAndBatteryCoord)
                             .build()
             );
@@ -104,7 +104,7 @@ public class GUIActivateEngineController extends GUIViewState {
             if(engineCoords.isEmpty() && batteryCoord.isEmpty() ) {
                 engineAndBatteryCoord.clear();
                 GUIView.getInstance().getClient().receiveUserInput(
-                        new UserInput.UserInputBuilder(UserInputType.ACTIVATE_COMPONENT)
+                        new UserInput.UserInputBuilder(UserInputType.ACTIVATE_ENGINE)
                                 .setComponentsForActivation(engineAndBatteryCoord)
                                 .build()
                 );

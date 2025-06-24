@@ -95,7 +95,7 @@ public class GUIActivateCannonController extends GUIViewState {
             cannonAndBatteryCoord.add(batteryCoord);
 
             GUIView.getInstance().getClient().receiveUserInput(
-                    new UserInput.UserInputBuilder(UserInputType.ACTIVATE_COMPONENT)
+                    new UserInput.UserInputBuilder(UserInputType.ACTIVATE_CANNON)
                             .setComponentsForActivation(cannonAndBatteryCoord)
                             .build()
             );
@@ -103,7 +103,7 @@ public class GUIActivateCannonController extends GUIViewState {
             if(cannonCoords.isEmpty() && batteryCoord.isEmpty() ) {
                 cannonAndBatteryCoord.clear();
                 GUIView.getInstance().getClient().receiveUserInput(
-                        new UserInput.UserInputBuilder(UserInputType.ACTIVATE_COMPONENT)
+                        new UserInput.UserInputBuilder(UserInputType.ACTIVATE_CANNON)
                                 .setComponentsForActivation(cannonAndBatteryCoord)
                                 .build()
                 );

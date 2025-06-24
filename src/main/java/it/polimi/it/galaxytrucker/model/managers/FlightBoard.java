@@ -4,6 +4,7 @@ import it.polimi.it.galaxytrucker.listeners.Listener;
 import it.polimi.it.galaxytrucker.listeners.Observable;
 import it.polimi.it.galaxytrucker.messages.servermessages.GameUpdate;
 import it.polimi.it.galaxytrucker.messages.servermessages.GameUpdateType;
+import it.polimi.it.galaxytrucker.model.utility.Color;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -164,7 +165,6 @@ public class FlightBoard implements Observable {
 
         updateListeners(
                 new GameUpdate.GameUpdateBuilder(GameUpdateType.PLAYER_MARKER_MOVED)
-                        .setInterestedPlayerId(player.getPlayerID())
                         .setPlayerMarkerPositions(uuidMap)
                         .build()
         );
@@ -217,7 +217,6 @@ public class FlightBoard implements Observable {
 
         updateListeners(
                 new GameUpdate.GameUpdateBuilder(GameUpdateType.PLAYER_MARKER_MOVED)
-                        .setInterestedPlayerId(player.getPlayerID())
                         .setPlayerMarkerPositions(uuidMap)
                         .build()
         );
@@ -328,7 +327,7 @@ public class FlightBoard implements Observable {
         }
     }
 
-    private void updateListeners(GameUpdate command) {
+    public void updateListeners(GameUpdate command) {
         synchronized (listeners) {
             for (Listener listener : listeners) {
                 listener.notify(command);
