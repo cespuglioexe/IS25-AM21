@@ -4,18 +4,18 @@ import it.polimi.it.galaxytrucker.controller.GenericGameData;
 import it.polimi.it.galaxytrucker.model.componenttiles.TileData;
 import it.polimi.it.galaxytrucker.model.componenttiles.TileEdge;
 import it.polimi.it.galaxytrucker.view.CLI.CLIViewStates.*;
+import it.polimi.it.galaxytrucker.view.GUI.controllers.*;
 import it.polimi.it.galaxytrucker.view.View;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class CLIView extends View {
 
     public final ExecutorService executorService = Executors.newSingleThreadExecutor();
+
+    private final AdventureCardASCII cardAscii = new AdventureCardASCII();
 
     public CLIView() {
         displayGameTitle();
@@ -118,7 +118,6 @@ public class CLIView extends View {
     @Override
     public void savedComponentsUpdated() {
         // This function is not necessary when using a TUI implementation
-        return;
     }
 
     @Override
@@ -145,12 +144,46 @@ public class CLIView extends View {
 
     @Override
     public void newCardStartedExecution() {
-
+        CLIViewState.getCurrentState().displayCard();
     }
 
     @Override
     public void displayInputOptions(String card, String cardState) {
-
+        switch (cardState) {
+            case "ParticipationState":
+                if (card.equals("Planets")) {
+                    GUIPlanetsSelectionController.getInstance().displayScene();
+                } else {
+                    GUIParticipationChoiceController.getInstance().displayScene();
+                }
+                break;
+            case "CargoRewardState":
+                GUICargoChoiceController.getInstance().displayScene();
+                break;
+            case "CreditRewardState":
+                GUICreditChoiceController.getInstance().displayScene();
+                break;
+            case "CrewmatePenaltyState":
+                GUICrewmatePenaltyController.getInstance().displayScene();
+                break;
+            case "CalculateFirePowerState":
+            case "CannonSelectionState":
+            case "BigMeteorState":
+                CLIViewState.setCurrentState(new CLICannonActivationState());
+                CLIViewState.getCurrentState().executeState();
+                break;
+            case "CalculateEnginePowerState":
+            case "EngineSelectionState":
+                GUIActivateEngineController.getInstance().displayScene();
+                break;
+            case "ActivateShieldState":
+            case "SmallMeteorState":
+                GUIActivateShieldController.getInstance().displayScene();
+                break;
+            default:
+                System.out.println("Margarozzo!!!");
+                break;
+        }
     }
 
     @Override
@@ -165,7 +198,8 @@ public class CLIView extends View {
 
     @Override
     public void startNewTurn() {
-
+        CLIViewState.setCurrentState(new CLIGameTurnState());
+        CLIViewState.getCurrentState().executeState();
     }
 
     @Override
@@ -378,6 +412,70 @@ public class CLIView extends View {
             }
             System.out.println(); // Extra newline between tile rows
         }
+    }
+
+    public void printAdventureCard (String cardName) {
+        List<String> card = cardAscii.getCardAscii(cardName);
+
+        executorService.submit(() -> {
+            System.out.println();
+            for (String line : card) {
+                System.out.println(line);
+            }
+            System.out.println();
+        });
+    }
+
+    private static final int[][] BOARD_POSITIONS_LVL1 = {
+            {-1, -1, 4, 3, 2, -1, 1},
+            {-1, -1, 0, 1, 2, 3, 4},
+            {-1, 5, -1, -1, -1, -1, -1, 6},
+            {7, -1, -1, -1, -1, -1, -1, -1, 8},
+            {9, -1, -1, -1, -1, -1, -1, -1, 10},
+            {-1, 11, -1, -1, -1, -1, -1, 12},
+            {-1, -1, 13,14,15,16,17},
+    };
+
+    private static final int[][] BOARD_POSITIONS_LVL2 = {
+            {-1, -1, 4, 3, -1, 2, -1, -1, 1},
+            {-1, -1, 0, 1, 2, 3, 4, 5, 6},
+            {-1, 7, -1, -1, -1, -1, -1, -1, -1, 8},
+            {9, -1, -1, -1, -1, -1, -1, -1, -1, -1, 10},
+            {11, -1, -1, -1, -1, -1, -1, -1, -1, -1, 12},
+            {13, -1, -1, -1, -1, -1, -1, -1, -1, -1, 14},
+            {-1, 15, -1, -1, -1, -1, -1, -1, -1, 16},
+            {-1, -1, 17, 18, 19, 20, 21, 22, 23},
+    };
+
+    public void printFlightBoard() {
+        executorService.submit(() -> {
+            try {
+                int[][] layout = getClient().getModel().getGameLevel() == 1 ? BOARD_POSITIONS_LVL1 : BOARD_POSITIONS_LVL2;
+                Set<Integer> markers = new HashSet<>(getClient().getModel().getPlayerMarkerPositions().values());
+
+                for (int rowIndex = 0; rowIndex < layout.length; rowIndex++) {
+                    int[] row = layout[rowIndex];
+                    StringBuilder line = new StringBuilder();
+
+                    for (int cell : row) {
+                        if (cell == -1) {
+                            line.append("    ");
+                        } else if (rowIndex == 0) {
+                            // Print raw label values
+                            line.append(String.format(" %d  ", cell));
+                        } else if (markers.contains(cell)) {
+                            line.append("[X] ");
+                        } else {
+                            line.append("[ ] ");
+                        }
+                    }
+
+                    System.out.println(line.toString().stripTrailing());
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     public void displayTimerEnded () {

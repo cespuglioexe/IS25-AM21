@@ -147,7 +147,7 @@ public class GUIGameTurn extends GUIViewState{
 
 
                 if(GUIView.getInstance().getClient().getModel().getMyData().getNickname().equals(GUIView.getInstance().getSuperSecretUsername())){
-                    switch (GUIView.getInstance().getClient().getModel().getMyData().getColor()){
+                    switch (GUIView.getInstance().getClient().getModel().getPlayerColors().get(entry.getKey())){
                         case RED:
                             targetView.setImage(new Image(Objects.requireNonNull(GUIBuildingController.class.getResourceAsStream("/it/polimi/it/galaxytrucker/graphics/pedine/redPawnc.png"))));
                             break;
@@ -165,7 +165,7 @@ public class GUIGameTurn extends GUIViewState{
                             break;
                     }
                 }else{
-                    switch (GUIView.getInstance().getClient().getModel().getMyData().getColor()){
+                    switch (GUIView.getInstance().getClient().getModel().getPlayerColors().get(entry.getKey())){
                         case RED:
                             targetView.setImage(new Image(Objects.requireNonNull(GUIBuildingController.class.getResourceAsStream("/it/polimi/it/galaxytrucker/graphics/pedine/redPawn.png"))));
                             break;

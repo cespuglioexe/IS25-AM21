@@ -19,7 +19,7 @@ public class GameUpdate implements Serializable {
     private final GameUpdateType instructionType;
     private final UUID interestedPlayerId;
     private final String newSate;
-    private final Color playerColor;
+    private final HashMap<UUID, Color> playerColors;
 
     private final List<UUID> playerIds;
     private final List<List<String>> cardPileCompositions;
@@ -62,7 +62,7 @@ public class GameUpdate implements Serializable {
             @JsonProperty("gameLevel") int gameLevel,
             @JsonProperty("cardDetail") Map<String, Object> cardDetail,
             @JsonProperty("playerMarkerPositions") HashMap<UUID, Integer> playerMarkerPositions,
-            @JsonProperty("playerColor") Color playerColor) {
+            @JsonProperty("playerColors") HashMap<UUID, Color> playerColors) {
         this.instructionType = instructionType;
         this.interestedPlayerId = interestedPlayerId;
         this.newSate = newSate;
@@ -81,7 +81,7 @@ public class GameUpdate implements Serializable {
         this.gameLevel = gameLevel;
         this.cardDetail = cardDetail;
         this.playerMarkerPositions = playerMarkerPositions;
-        this.playerColor = playerColor;
+        this.playerColors = playerColors;
     }
 
     public GameUpdate(GameUpdateBuilder builder) {
@@ -103,7 +103,7 @@ public class GameUpdate implements Serializable {
         this.gameLevel = builder.gameLevel;
         this.cardDetail = builder.cardDetail;
         this.playerMarkerPositions = builder.playerMarkerPositions;
-        this.playerColor = builder.playerColor;
+        this.playerColors = builder.playerColors;
     }
 
     public GameUpdateType getInstructionType() {
@@ -118,8 +118,8 @@ public class GameUpdate implements Serializable {
         return playerMarkerPositions;
     }
 
-    public Color getPlayerColor() {
-        return playerColor;
+    public HashMap<UUID, Color> getPlayerColors() {
+        return playerColors;
     }
 
     public TileData getNewTile() {
@@ -203,7 +203,7 @@ public class GameUpdate implements Serializable {
         private String operationMessage;
         private int gameLevel;
         private Map<String, Object> cardDetail;
-        private Color playerColor;
+        private HashMap<UUID, Color> playerColors;
 
         public GameUpdateBuilder(GameUpdateType instructionType) {
             this.instructionType = instructionType;
@@ -219,8 +219,8 @@ public class GameUpdate implements Serializable {
             return this;
         }
 
-        public GameUpdateBuilder setPlayerColor(Color playerColor) {
-            this.playerColor = playerColor;
+        public GameUpdateBuilder setPlayerColors(HashMap<UUID, Color> playerColors) {
+            this.playerColors = playerColors;
             return this;
         }
 
@@ -269,7 +269,7 @@ public class GameUpdate implements Serializable {
             return this;
         }
 
-        // It's recommended to use the overloaded function {@code #setNewTile(ComponentTile)}
+        // It is recommended to use the overloaded function {@code #setNewTile(ComponentTile)}
         @Deprecated
         public GameUpdateBuilder setNewTile(TileData newTile) {
             this.newTile = newTile;
