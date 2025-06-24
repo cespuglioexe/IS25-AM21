@@ -34,8 +34,8 @@ public class GameTurnStartState extends GameState {
 
 
         try {
-            //AdventureCard card = game.getAdventureDeck().draw();
-            //fsm.changeState(new CardExecutionState(card));
+            AdventureCard card = game.getAdventureDeck().draw();
+            fsm.changeState(new CardExecutionState(card));
         }
         catch (NoSuchElementException e) {
             System.out.println(game.getActivePlayers().stream().map(p -> p.getPlayerName()).toList());
