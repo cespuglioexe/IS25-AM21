@@ -511,6 +511,7 @@ public class GameManager extends StateMachine implements Model, Observable {
 
             response.put("singleCannonCoord", singleCannon);
         }
+        System.out.println(ConsoleColors.MODEL_DEBUG + response.toString() + ConsoleColors.RESET);
 
         inputHandler.dispatch(adventureDeck.getLastDrawnCard(), response);
     }

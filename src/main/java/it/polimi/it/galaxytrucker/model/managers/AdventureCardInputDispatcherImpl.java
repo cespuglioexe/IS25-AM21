@@ -208,7 +208,9 @@ public class AdventureCardInputDispatcherImpl implements AdventureCardInputDispa
 
     @Override
     public void visit(MeteorSwarm card, AdventureCardInputContext context) {
+        System.out.println(ConsoleColors.MODEL_DEBUG + "balza the king" + ConsoleColors.RESET);
         if (isCannonSelection(context)) {
+            System.out.println(ConsoleColors.MODEL_DEBUG + "Marga the boss" + ConsoleColors.RESET);
             boolean activates = context.get("activatesDoubleCannons", Boolean.class);
             List<Integer> cannonCoord;
 

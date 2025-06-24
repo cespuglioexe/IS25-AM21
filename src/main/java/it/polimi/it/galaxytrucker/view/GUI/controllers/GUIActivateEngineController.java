@@ -77,10 +77,12 @@ public class GUIActivateEngineController extends GUIViewState {
         if((row<5) || (row>9) || (col<4) || (col>10)){
             incorrectCoord1.setVisible(true);
         }else {
-            if (GUIView.getInstance().getClient().getModel().getPlayerShips(GUIView.getInstance().getClient().getModel().getMyData().getPlayerId()).get(row - 5).get(col - 4).type().equals(BatteryComponent.class.getSimpleName())) {
-                batteryCoord.add(new Coordinates(row, col));
-                incorrectCoord1.setVisible(false);
-            } else incorrectCoord1.setVisible(true);
+            if (GUIView.getInstance().getClient().getModel().getPlayerShips(GUIView.getInstance().getClient().getModel().getMyData().getPlayerId()).get(row - 5).get(col - 4) != null) {
+                if (GUIView.getInstance().getClient().getModel().getPlayerShips(GUIView.getInstance().getClient().getModel().getMyData().getPlayerId()).get(row - 5).get(col - 4).type().equals(BatteryComponent.class.getSimpleName())) {
+                    batteryCoord.add(new Coordinates(row, col));
+                    incorrectCoord1.setVisible(false);
+                } else incorrectCoord1.setVisible(true);
+            }
         }
     }
 
