@@ -228,6 +228,11 @@ public class GUIView extends View {
         GUIGameTurn.getInstance().displayScene();
     }
 
+    @Override
+    public void loadingScreen() {
+        GUILoadingViewController.getInstance().displayScene();
+    }
+
 
     //Utili solo per il controllo senza png
 

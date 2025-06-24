@@ -77,4 +77,6 @@ public abstract class View {
     public abstract void manageInputError();
 
     public abstract void startNewTurn();
+
+    public abstract void loadingScreen();
 }

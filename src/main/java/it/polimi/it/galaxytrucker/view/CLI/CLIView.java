@@ -168,6 +168,11 @@ public class CLIView extends View {
 
     }
 
+    @Override
+    public void loadingScreen() {
+
+    }
+
 
     ////////////////////////////////////
 
