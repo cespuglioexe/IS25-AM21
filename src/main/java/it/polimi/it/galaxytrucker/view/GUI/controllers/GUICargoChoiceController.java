@@ -103,22 +103,24 @@ public class GUICargoChoiceController extends GUIViewState implements GUIErrorHa
             if ((row < 5) || (row > 9) || (col < 4) || (col > 10)) {
                 incorrectCoord.setVisible(true);
             } else {
-                if (cargoReward.get(i).isSpecial()) {
-                    if (GUIView.getInstance().getClient().getModel().getPlayerShips(GUIView.getInstance().getClient().getModel().getMyData().getPlayerId()).get(row).get(col).type().equals(SpecialCargoHold.class.getSimpleName())) {
-                        cargoCoords.put(cargoToIndex.get(cargoReward.get(i)),new Coordinates(col,row));
-                        cargoReward.remove(cargoReward.get(i));
-                        i = 0;
-                        displayCargo();
-                        incorrectCoord.setVisible(false);
-                    } else incorrectCoord.setVisible(true);
-                } else {
-                    if (GUIView.getInstance().getClient().getModel().getPlayerShips(GUIView.getInstance().getClient().getModel().getMyData().getPlayerId()).get(row).get(col).type().equals(CargoHold.class.getSimpleName())) {
-                        cargoCoords.put(cargoToIndex.get(cargoReward.get(i)),new Coordinates(col,row));
-                        cargoReward.remove(cargoReward.get(i));
-                        i = 0;
-                        displayCargo();
-                        incorrectCoord.setVisible(false);
-                    } else incorrectCoord.setVisible(true);
+                if (GUIView.getInstance().getClient().getModel().getPlayerShips(GUIView.getInstance().getClient().getModel().getMyData().getPlayerId()).get(row - 5).get(col - 4) != null) {
+                    if (cargoReward.get(i).isSpecial()) {
+                        if (GUIView.getInstance().getClient().getModel().getPlayerShips(GUIView.getInstance().getClient().getModel().getMyData().getPlayerId()).get(row-5).get(col-4).type().equals(SpecialCargoHold.class.getSimpleName())) {
+                            cargoCoords.put(cargoToIndex.get(cargoReward.get(i)), new Coordinates(col, row));
+                            cargoReward.remove(cargoReward.get(i));
+                            i = 0;
+                            displayCargo();
+                            incorrectCoord.setVisible(false);
+                        } else incorrectCoord.setVisible(true);
+                    } else {
+                        if (GUIView.getInstance().getClient().getModel().getPlayerShips(GUIView.getInstance().getClient().getModel().getMyData().getPlayerId()).get(row-5).get(col-4).type().equals(CargoHold.class.getSimpleName())) {
+                            cargoCoords.put(cargoToIndex.get(cargoReward.get(i)), new Coordinates(col, row));
+                            cargoReward.remove(cargoReward.get(i));
+                            i = 0;
+                            displayCargo();
+                            incorrectCoord.setVisible(false);
+                        } else incorrectCoord.setVisible(true);
+                    }
                 }
             }
         }

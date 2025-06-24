@@ -35,6 +35,7 @@ import it.polimi.it.galaxytrucker.model.utility.Color;
 import it.polimi.it.galaxytrucker.model.utility.Coordinates;
 import it.polimi.it.galaxytrucker.model.utility.Direction;
 import it.polimi.it.galaxytrucker.model.utility.ProjectileType;
+import it.polimi.it.galaxytrucker.view.CLI.ConsoleColors;
 // import it.polimi.it.galaxytrucker.networking.rmi.server.RMIServer;
 ;
 
@@ -594,11 +595,9 @@ public class GameManager extends StateMachine implements Model, Observable {
     public void manageParticipation(UUID  playerId, boolean participation, int choice){
         AdventureCardInputContext response = new AdventureCardInputContext();
         AdventureCardInputDispatcher inputHandler = new AdventureCardInputDispatcherImpl();
-
         response.put("player", getPlayerByID(playerId));
-        response.put("participation", participation);
+        response.put("participates", participation);
         response.put("choice", choice);
-
         inputHandler.dispatch(adventureDeck.getLastDrawnCard(), response);
     }
 

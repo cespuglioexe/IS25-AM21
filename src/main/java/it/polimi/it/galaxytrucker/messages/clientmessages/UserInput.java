@@ -194,9 +194,9 @@ public class UserInput extends Message {
         private UUID playerUuid = new UUID(0L, 0L);
         private List<List<Coordinates>> componentsForActivation = new ArrayList<>();
         private HashMap<Integer,Coordinates> acceptedCargo = new HashMap<>();
-        private boolean creditChoice;
+        private boolean creditChoice = false;
         private List<Coordinates> removedCrewmate = new ArrayList<>();
-        private boolean participation;
+        private boolean participation = false;
         private int participationChoice = 0;
 
         private int gameLevel = 0;

@@ -57,14 +57,10 @@ public class GUIGameTurn extends GUIViewState{
             creditsCount.setText(String.valueOf(GUIView.getInstance().getClient().getModel().getCredits()));
             stage.show();
             waiting();
-
         });
     }
 
     private void waiting(){
-        while (true){
-
-        }
     }
 
     @FXML

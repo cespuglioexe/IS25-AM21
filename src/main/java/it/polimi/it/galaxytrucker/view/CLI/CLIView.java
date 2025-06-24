@@ -8,6 +8,7 @@ import it.polimi.it.galaxytrucker.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -149,6 +150,11 @@ public class CLIView extends View {
 
     @Override
     public void displayInputOptions(String card, String cardState) {
+
+    }
+
+    @Override
+    public void displayCardUpdates(String card, String cardState, Map<String, Object> cardDetails) {
 
     }
 
