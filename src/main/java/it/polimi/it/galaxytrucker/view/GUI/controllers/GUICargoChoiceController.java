@@ -7,6 +7,7 @@ import it.polimi.it.galaxytrucker.model.componenttiles.SpecialCargoHold;
 import it.polimi.it.galaxytrucker.model.utility.Cargo;
 import it.polimi.it.galaxytrucker.model.utility.Color;
 import it.polimi.it.galaxytrucker.model.utility.Coordinates;
+import it.polimi.it.galaxytrucker.networking.client.clientmodel.ClientModel;
 import it.polimi.it.galaxytrucker.view.GUI.GUIView;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -55,6 +56,40 @@ public class GUICargoChoiceController extends GUIViewState implements GUIErrorHa
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    public void initialize() {
+        loadCardDetails();
+        updateShip();
+    }
+
+    private void loadCardDetails() {
+        ClientModel model = GUIView.getInstance().getClient().getModel();
+
+        if (model.getCurrentCard().equals("Planets")) {
+            int selectedPlanet = model.getCardDetail("selectedPlanet", Integer.class);
+            List<List<String>> serializedCargoRewards = model.getUnsafeCardDetail("rewards");
+            List<Cargo> cargoReward = new ArrayList<>();
+            
+            for (String cargoValue : serializedCargoRewards.get(selectedPlanet)) {
+                Cargo cargo = new Cargo(Color.valueOf(cargoValue));
+
+                cargoReward.add(cargo);
+            }
+
+        } else {
+            List<String> serializedCargoReward = model.getUnsafeCardDetail("cargoReward");
+            List<Cargo> cargoReward = new ArrayList<>();
+
+            for (String cargoValue : serializedCargoReward) {
+                Cargo cargo = new Cargo(Color.valueOf(cargoValue));
+
+                cargoReward.add(cargo);
+            }
+        }
+        setCargoReward(cargoReward);
+        displayCargo();
     }
 
     @FXML

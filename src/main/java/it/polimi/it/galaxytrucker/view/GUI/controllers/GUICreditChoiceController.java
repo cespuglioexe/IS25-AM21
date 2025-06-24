@@ -2,6 +2,7 @@ package it.polimi.it.galaxytrucker.view.GUI.controllers;
 
 import it.polimi.it.galaxytrucker.messages.clientmessages.UserInput;
 import it.polimi.it.galaxytrucker.messages.clientmessages.UserInputType;
+import it.polimi.it.galaxytrucker.networking.client.clientmodel.ClientModel;
 import it.polimi.it.galaxytrucker.view.GUI.GUIView;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -39,6 +40,17 @@ public class GUICreditChoiceController extends GUIViewState{
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    public void initialize() {
+        loadCardDetails();
+    }
+    private void loadCardDetails() {
+        ClientModel model = GUIView.getInstance().getClient().getModel();
+
+        int creditReward = model.getCardDetail("creditReward", Integer.class);
+        setCreditsCard(creditReward);
     }
 
     @FXML

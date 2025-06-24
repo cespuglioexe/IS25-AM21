@@ -165,6 +165,9 @@ public class GUIPlanetsSelectionController extends GUIViewState {
 
     @FXML
     private void landOnPlanet() {
+        ClientModel model = GUIView.getInstance().getClient().getModel();
+
+        model.putCardDetail("selectedPlanet", currentPlanetIndex);
         GUIView.getInstance().getClient().receiveUserInput(
                 new UserInput.UserInputBuilder(UserInputType.PARTICIPATION)
                         .setParticipation(true)

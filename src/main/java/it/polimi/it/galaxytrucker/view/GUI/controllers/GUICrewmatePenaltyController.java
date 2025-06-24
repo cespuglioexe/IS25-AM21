@@ -4,6 +4,7 @@ import it.polimi.it.galaxytrucker.messages.clientmessages.UserInput;
 import it.polimi.it.galaxytrucker.messages.clientmessages.UserInputType;
 import it.polimi.it.galaxytrucker.model.componenttiles.*;
 import it.polimi.it.galaxytrucker.model.utility.Coordinates;
+import it.polimi.it.galaxytrucker.networking.client.clientmodel.ClientModel;
 import it.polimi.it.galaxytrucker.view.GUI.GUIView;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -25,7 +26,7 @@ public class GUICrewmatePenaltyController extends GUIViewState implements GUIErr
     int numberOfCrewmates;
 
     @FXML
-    private Label incorrectCoord1,incorrectValue;
+    private Label incorrectCoord1, incorrectValue, remainCrewmateLabel;
 
     @FXML private PlayerShipElementController shipController;
 
@@ -53,6 +54,22 @@ public class GUICrewmatePenaltyController extends GUIViewState implements GUIErr
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    public void initialize() {
+        loadCardDetails();
+        updateShip();
+    }
+    private void loadCardDetails() {
+        ClientModel model = GUIView.getInstance().getClient().getModel();
+
+        numberOfCrewmates = model.getCardDetail("crewmatePenalty", Integer.class);
+        updateCrewmatePenaltyCountGUI();
+    }
+    
+    private void updateCrewmatePenaltyCountGUI() {
+        remainCrewmateLabel.setText("SELECT " + numberOfCrewmates + " MORE CREWMATES");
     }
 
     @FXML

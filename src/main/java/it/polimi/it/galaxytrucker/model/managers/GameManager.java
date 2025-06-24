@@ -582,8 +582,12 @@ public class GameManager extends StateMachine implements Model, Observable {
     }
 
     @Override
-    public void manageCreditChoice(UUID playerId,boolean creditChoice) {
-        //
+    public void manageCreditChoice(UUID playerId, boolean creditChoice) {
+        AdventureCardInputContext response = new AdventureCardInputContext();
+        AdventureCardInputDispatcher inputHandler = new AdventureCardInputDispatcherImpl();
+
+        response.put("acceptsCredit", creditChoice);
+        inputHandler.dispatch(adventureDeck.getLastDrawnCard(), response);
     }
 
     @Override

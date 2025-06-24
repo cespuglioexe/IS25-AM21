@@ -25,7 +25,6 @@ import it.polimi.it.galaxytrucker.exceptions.InvalidActionException;
 import it.polimi.it.galaxytrucker.model.managers.CargoManager;
 import it.polimi.it.galaxytrucker.model.managers.Player;
 import it.polimi.it.galaxytrucker.model.utility.Cargo;
-import it.polimi.it.galaxytrucker.view.CLI.ConsoleColors;
 
 /**
  * Represents the "Planets" adventure card in the game Galaxy Trucker.

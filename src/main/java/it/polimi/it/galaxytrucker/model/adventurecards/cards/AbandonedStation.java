@@ -194,10 +194,19 @@ public class AbandonedStation extends CardStateMachine implements AdventureCard,
     public HashMap<String, Object> getEventData() {
         HashMap<String, Object> data = new HashMap<>();
 
-        data.put("cargoReward", cargoReward);
+        data.put("cargoReward", serializeCargo());
         data.put("flightDayPenalty", flightDayPenalty);
         data.put("numberofCrewmatesRequired", numberofCrewmatesRequired);
 
         return data;
+    }
+    private List<String> serializeCargo() {
+        List<String> serializedList = new ArrayList<>();
+
+        for (Cargo cargo : cargoReward) {
+            serializedList.add(cargo.getColor().toString());
+        }
+
+        return serializedList;
     }
 }

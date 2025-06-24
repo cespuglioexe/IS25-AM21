@@ -160,14 +160,14 @@ public class Smugglers extends CardStateMachine implements AdventureCard, CargoR
     public HashMap<String, Object> getEventData() {
         HashMap<String, Object> data = new HashMap<>();
 
-        data.put("cargoReward", serializeCargoReward());
+        data.put("cargoReward", serializeCargo());
         data.put("cargoPenalty", cargoPenalty);
         data.put("flightDayPenalty", flightDayPenalty);
         data.put("requiredFirePower", requiredFirePower);
 
         return data;
     }
-    private List<String> serializeCargoReward() {
+    private List<String> serializeCargo() {
         List<String> serializedList = new ArrayList<>();
 
         for (Cargo cargo : cargoReward) {
