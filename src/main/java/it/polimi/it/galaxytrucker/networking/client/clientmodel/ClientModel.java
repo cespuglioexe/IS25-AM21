@@ -12,7 +12,7 @@ import java.util.UUID;
 /**
  * This class is used by clients to store a local version of the
  * game state, as well as information relating to the player themselves
- * (i.e., nickname, game they're in, etc.)
+ * (i.e., nickname, game they are in, etc.)
  *
  * @author giacomoamaducci
  * @version 1.0
@@ -20,9 +20,9 @@ import java.util.UUID;
 public class ClientModel {
     /** A data object containing information about the player */
     private final PlayerData myData;
-    /** A hash map associating each players UUID to their ship board */
+    /** A hash map associating each player's UUID to their ship board */
     private final HashMap<UUID, List<List<TileData>>> playerShips = new HashMap<>();
-    /** The players credit */
+    /** The player's credit */
     private int credits = 0;
     /**
      * Composition of the card piles visible during the building phase
@@ -37,19 +37,28 @@ public class ClientModel {
      */
     private final List<TileData> discardedTiles = new ArrayList<>();
     /**
-     * Path to the card currently in execution
+     * Path to the graphic of card currently in execution
      */
     private String activeCardGraphicPath;
 
-    private volatile Map<String, Object> currentCardDetails = new HashMap<>();
+    private final Map<String, Object> currentCardDetails = new HashMap<>();
     /**
      * Position of each player on the flight board
      */
-    private HashMap<UUID, Integer> playerMarkerPositions = new HashMap<>();
-    
-
+    private final HashMap<UUID, Integer> playerMarkerPositions = new HashMap<>();
+    /**
+     * Position of color player in the game
+     */
+    private final HashMap<UUID, Color> playerColors = new HashMap<>();
+    /**
+     * Level of the game this player is playing in (1 or 2)
+     */
     private int gameLevel;
-    
+    /**
+     * Used for synchronization when working with non-final variables
+     */
+    private final Object syncFlag = new Object();
+
     public ClientModel() {
         myData = new PlayerData();
     }
@@ -58,12 +67,29 @@ public class ClientModel {
         this.myData = player;
     }
 
-    public synchronized void setActiveCardGraphicPath(String activeCardGraphicPath) {
-        this.activeCardGraphicPath = activeCardGraphicPath;
+    public void setActiveCardGraphicPath(String activeCardGraphicPath) {
+        synchronized (this.syncFlag){
+            this.activeCardGraphicPath = activeCardGraphicPath;
+        }
     }
 
-    public synchronized String getActiveCardGraphicPath() {
-        return activeCardGraphicPath;
+    public String getActiveCardGraphicPath() {
+        synchronized (this.syncFlag) {
+            return activeCardGraphicPath;
+        }
+    }
+
+    public void setPlayerColors(HashMap<UUID, Color> playerColors) {
+        synchronized (this.playerColors) {
+            this.playerColors.clear();
+            this.playerColors.putAll(playerColors);
+        }
+    }
+
+    public HashMap<UUID, Color> getPlayerColors() {
+        synchronized (this.playerColors) {
+            return playerColors;
+        }
     }
 
     /**
@@ -73,31 +99,45 @@ public class ClientModel {
      * @param playerShip the {@code List<List<TileData>>} representing the ship board.
      */
     public void updatePlayerShip(UUID playerId, List<List<TileData>> playerShip) {
-        playerShips.put(playerId, playerShip);
+        synchronized (this.playerShips) {
+            playerShips.put(playerId, playerShip);
+        }
     }
 
     public int getGameLevel() {
-        return gameLevel;
+        synchronized (this.syncFlag) {
+            return gameLevel;
+        }
     }
 
     public void setGameLevel(int gameLevel) {
-        this.gameLevel = gameLevel;
+        synchronized (this.syncFlag){
+            this.gameLevel = gameLevel;
+        }
     }
 
     public PlayerData getMyData() {
-        return myData;
+        synchronized (this.myData) {
+            return myData;
+        }
     }
 
     public HashMap<UUID, List<List<TileData>>> getAllPlayerShips() {
-        return playerShips;
+        synchronized (this.playerShips) {
+            return playerShips;
+        }
     }
 
     public List<List<TileData>> getPlayerShips(UUID playerId) {
-        return playerShips.get(playerId);
+        synchronized (this.playerShips) {
+            return playerShips.get(playerId);
+        }
     }
 
     public int getCredits() {
-        return credits;
+        synchronized (this.syncFlag) {
+            return credits;
+        }
     }
 
     /**
@@ -107,73 +147,105 @@ public class ClientModel {
      * @param credits number of credits to add.
      */
     public void addCredits(int credits) {
-        this.credits += credits;
+        synchronized (this.syncFlag){
+            this.credits += credits;
+        }
     }
 
     public List<String> getCardPile(int index) {
-        return cardPiles.get(index);
+        synchronized (this.cardPiles){
+            return cardPiles.get(index);
+        }
     }
 
     public void setCardPiles(List<List<String>> cardPiles) {
-        this.cardPiles.clear();
-        this.cardPiles.addAll(cardPiles);
+        synchronized (this.cardPiles) {
+            this.cardPiles.clear();
+            this.cardPiles.addAll(cardPiles);
+        }
     }
 
     public List<TileData> getSavedTiles() {
-        return savedTiles;
+        synchronized (this.savedTiles) {
+            return savedTiles;
+        }
     }
 
     public void setSavedTiles(List<TileData> savedTiles) {
-        this.savedTiles.clear();
-        this.savedTiles.addAll(savedTiles);
+        synchronized (this.savedTiles) {
+            this.savedTiles.clear();
+            this.savedTiles.addAll(savedTiles);
+        }
     }
 
     public List<TileData> getDiscardedTiles() {
-        return discardedTiles;
+        synchronized (this.discardedTiles) {
+            return discardedTiles;
+        }
     }
 
     public void setDiscardedTiles(List<TileData> discardedTiles) {
-        this.discardedTiles.clear();
-        this.discardedTiles.addAll(discardedTiles);
+        synchronized (this.discardedTiles) {
+            this.discardedTiles.clear();
+            this.discardedTiles.addAll(discardedTiles);
+        }
     }
 
     public String getCurrentCard() {
-        return String.valueOf(currentCardDetails.getOrDefault("card", "Margarozzo"));
-    }
-
-    public synchronized void putCardDetail(String key, Object value) {
-        currentCardDetails.put(key, value);
-    }
-
-    public synchronized void setCardDetail(Map<String, Object> newCardDetails) {
-        currentCardDetails = newCardDetails;
-    }
-
-    public synchronized <T> T getCardDetail(String key, Class<T> clazz) {
-        Object value = currentCardDetails.get(key);
-
-        if (!clazz.isInstance(value)) {
-            throw new IllegalArgumentException("Expected type " + clazz + " for key '" + key + "'");
+        synchronized (this.currentCardDetails) {
+            return String.valueOf(currentCardDetails.getOrDefault("card", "Margarozzo"));
         }
+    }
 
-        return clazz.cast(value);
+    public void putCardDetail(String key, Object value) {
+        synchronized (this.currentCardDetails) {
+            currentCardDetails.put(key, value);
+        }
+    }
+
+    public void setCardDetail(Map<String, Object> newCardDetails) {
+        synchronized (this.currentCardDetails) {
+            this.currentCardDetails.clear();
+            this.currentCardDetails.putAll(newCardDetails);
+        }
+    }
+
+    public <T> T getCardDetail(String key, Class<T> clazz) {
+        synchronized (this.currentCardDetails) {
+            Object value = currentCardDetails.get(key);
+
+            if (!clazz.isInstance(value)) {
+                throw new IllegalArgumentException("Expected type " + clazz + " for key '" + key + "'");
+            }
+
+            return clazz.cast(value);
+        }
     }
 
     @SuppressWarnings("unchecked")
-    public synchronized <T> T getUnsafeCardDetail(String key) {
-        return (T) currentCardDetails.get(key);
+    public <T> T getUnsafeCardDetail(String key) {
+        synchronized (this.currentCardDetails) {
+            return (T) currentCardDetails.get(key);
+        }
     }
 
     public boolean hasCardDetail(String key) {
-        return currentCardDetails.containsKey(key);
+        synchronized (this.currentCardDetails) {
+            return currentCardDetails.containsKey(key);
+        }
     }
 
     public HashMap<UUID, Integer> getPlayerMarkerPositions() {
-        return playerMarkerPositions;
+        synchronized (this.playerMarkerPositions) {
+            return playerMarkerPositions;
+        }
     }
 
     public void setPlayerMarkerPositions(HashMap<UUID, Integer> playerMarkerPositions) {
-        this.playerMarkerPositions = playerMarkerPositions;
+        synchronized (this.playerMarkerPositions) {
+            this.playerMarkerPositions.clear();
+            this.playerMarkerPositions.putAll(playerMarkerPositions);
+        }
     }
 
 }

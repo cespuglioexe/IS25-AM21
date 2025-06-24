@@ -3,7 +3,6 @@ package it.polimi.it.galaxytrucker.networking.server;
 import it.polimi.it.galaxytrucker.controller.Controller;
 import it.polimi.it.galaxytrucker.controller.GenericGameData;
 import it.polimi.it.galaxytrucker.exceptions.GameFullException;
-import it.polimi.it.galaxytrucker.model.utility.Color;
 import it.polimi.it.galaxytrucker.networking.client.rmi.RMIServer;
 import it.polimi.it.galaxytrucker.networking.server.rmi.RMIClientHandler;
 import it.polimi.it.galaxytrucker.networking.server.rmi.RMIVirtualClient;
@@ -30,7 +29,7 @@ import java.util.*;
  * {@link ServerInterface} to provide core server functionalities to other components
  * like {@link ClientHandler}.
  *
- * @author giacomoamaducci
+ * @author Giacomo Amaducci
  * @version 1.2
  */
 public class Server extends UnicastRemoteObject implements RMIServer, Runnable, ServerInterface {
@@ -43,10 +42,6 @@ public class Server extends UnicastRemoteObject implements RMIServer, Runnable, 
      * Access to this list is synchronized.
      */
     final List<ClientHandler> clients = new ArrayList<>();
-    /**
-     * The default length of the building phase timer in seconds.
-     */
-    private final int BUILDING_TIMER_LENGTH = 10; // TODO: METTERE A 60 SECONDI
     /**
      * A map storing active game controllers, keyed by their unique game UUIDs.
      * Access to this map is synchronized.
@@ -101,7 +96,7 @@ public class Server extends UnicastRemoteObject implements RMIServer, Runnable, 
             // Create a server socket that listens for connections on the specified port
             ServerSocket listenSocket = new ServerSocket();
             listenSocket.bind(new InetSocketAddress(serverIPAddress, ServerDetails.SOCKET_DEFAULT_PORT));
-            Socket clientSocket = null;
+            Socket clientSocket;
 
             System.out.println("Socket server ready\n>\tIP: " + listenSocket.getInetAddress().getHostAddress() + "\n>\tPort: " + ServerDetails.SOCKET_DEFAULT_PORT);
             System.out.println("\n---------------------------------------------\n");
@@ -163,8 +158,8 @@ public class Server extends UnicastRemoteObject implements RMIServer, Runnable, 
      * Retrieves a list of data for all currently active games.
      *
      * @return A {@link List} of {@link GenericGameData} objects, each containing
-     * summary information about an active game. Access to the controllers
-     * map is synchronized.
+     * summary information about an active game.
+     * Access to the controller's map is synchronized.
      */
     @Override
     public List<GenericGameData> getActiveGames() {
@@ -183,7 +178,8 @@ public class Server extends UnicastRemoteObject implements RMIServer, Runnable, 
      * @param client The {@link ClientHandler} for which the username is to be set.
      * @param username The desired username.
      * @return {@code true} if the username was successfully set (i.e., it was unique),
-     * {@code false} otherwise. Access to the clients list is synchronized.
+     * {@code false} otherwise.
+     * Access to the client's list is synchronized.
      */
     @Override
     public boolean setUsername(ClientHandler client, String username) {
@@ -213,18 +209,16 @@ public class Server extends UnicastRemoteObject implements RMIServer, Runnable, 
      * @param client The {@link ClientHandler} of the player to add.
      * @param gameId The UUID of the game to join.
      * @throws GameFullException If the game identified by {@code gameId} is already full.
-     * Access to the controllers map is synchronized.
+     * Access to the controller's map is synchronized.
      */
     @Override
-    public Color addPlayerToGame(ClientHandler client, UUID gameId) throws GameFullException {
-        Color color;
+    public void addPlayerToGame(ClientHandler client, UUID gameId) throws GameFullException {
         synchronized (this.controllers) {
             // Add the player to the game controller
-            color = controllers.get(gameId).addPlayer(client);
+            controllers.get(gameId).addPlayer(client);
             // Set the controller reference on the client handler
             client.setController(controllers.get(gameId));
         }
-        return color;
     }
 
     /**
@@ -233,7 +227,7 @@ public class Server extends UnicastRemoteObject implements RMIServer, Runnable, 
      *
      * @param players The maximum number of players for the new game.
      * @param level The difficulty level for the new game.
-     * @return The UUID of the newly created game. Access to the controllers map is synchronized.
+     * @return The UUID of the newly created game. Access to the controller's map is synchronized.
      */
     @Override
     public UUID createNewGame(int players, int level) {

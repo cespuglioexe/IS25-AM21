@@ -5,6 +5,7 @@ import it.polimi.it.galaxytrucker.messages.servermessages.GameUpdate;
 import it.polimi.it.galaxytrucker.exceptions.InvalidFunctionCallInState;
 import it.polimi.it.galaxytrucker.messages.servermessages.GameUpdateType;
 import it.polimi.it.galaxytrucker.model.componenttiles.TileData;
+import it.polimi.it.galaxytrucker.model.utility.Color;
 import it.polimi.it.galaxytrucker.networking.client.clientmodel.ClientModel;
 import it.polimi.it.galaxytrucker.networking.utils.ServerDetails;
 import it.polimi.it.galaxytrucker.view.CLI.ConsoleColors;
@@ -95,9 +96,8 @@ public abstract class Client extends UnicastRemoteObject implements Runnable, Cl
         switch (update.getInstructionType()) {
             case SET_USERNAME_RESULT:
                 if (update.isSuccessfulOperation()) {
-                    synchronized (ClientModel.class) {
-                        model.getMyData().setNickname(update.getPlayerName());
-                    }
+                    model.getMyData().setNickname(update.getPlayerName());
+
                     view.nameSelectionSuccess();
                 } else {
                     view.nameNotAvailable();
@@ -106,11 +106,9 @@ public abstract class Client extends UnicastRemoteObject implements Runnable, Cl
 
             case CREATE_GAME_RESULT:
                 if (update.isSuccessfulOperation()) {
-                    synchronized (ClientModel.class) {
-                        model.getMyData().setMatchId(update.getGameUuid());
-                        model.setGameLevel(update.getGameLevel());
-                        model.getMyData().setColor(update.getPlayerColor());
-                    }
+                    model.getMyData().setMatchId(update.getGameUuid());
+                    model.setGameLevel(update.getGameLevel());
+
                     try {
                         view.gameCreationSuccess(true);
                     } catch (InvalidFunctionCallInState e) {
@@ -124,11 +122,8 @@ public abstract class Client extends UnicastRemoteObject implements Runnable, Cl
 
             case JOIN_GAME_RESULT:
                 if (update.isSuccessfulOperation()) {
-                    synchronized (ClientModel.class) {
-                        model.getMyData().setMatchId(update.getGameUuid());
-                        model.setGameLevel(update.getGameLevel());
-                        model.getMyData().setColor(update.getPlayerColor());
-                    }
+                    model.getMyData().setMatchId(update.getGameUuid());
+                    model.setGameLevel(update.getGameLevel());
                 } else if (update.getOperationMessage().equals("The game was full")) {
                     view.joinedGameIsFull();
                 }
@@ -142,13 +137,13 @@ public abstract class Client extends UnicastRemoteObject implements Runnable, Cl
                 switch (update.getNewSate()) {
                     case "BuildingState":
                         HashMap<UUID, List<List<TileData>>> ships = update.getAllPlayerShipBoard();
-                        synchronized (ClientModel.class) {
-                            model.setGameLevel(update.getGameLevel());
-                            for (Map.Entry<UUID, List<List<TileData>>> entry : ships.entrySet()) {
-                                model.updatePlayerShip(entry.getKey(), entry.getValue());
-                            }
-                            model.setCardPiles(update.getCardPileCompositions());
+                        model.setGameLevel(update.getGameLevel());
+                        for (Map.Entry<UUID, List<List<TileData>>> entry : ships.entrySet()) {
+                            model.updatePlayerShip(entry.getKey(), entry.getValue());
                         }
+                        model.setPlayerColors(update.getPlayerColors());
+                        model.setCardPiles(update.getCardPileCompositions());
+
                         view.buildingStarted();
                         break;
                     case "ShipFixingState":
@@ -164,9 +159,8 @@ public abstract class Client extends UnicastRemoteObject implements Runnable, Cl
                         view.newCardStartedExecution();
                         break;
                     case "GameTurnStartState":
-                        synchronized (ClientModel.class) {
-                            model.setPlayerMarkerPositions(update.getPlayerMarkerPositions());
-                        }
+                        model.setPlayerMarkerPositions(update.getPlayerMarkerPositions());
+
                         view.startNewTurn();
                         break;
                     default:
@@ -178,21 +172,18 @@ public abstract class Client extends UnicastRemoteObject implements Runnable, Cl
                 view.componentTileReceived(update.getNewTile());
                 break;
             case SAVED_COMPONENTS_UPDATED:
-                synchronized (ClientModel.class) {
-                    model.setSavedTiles(update.getTileList());
-                }
+                model.setSavedTiles(update.getTileList());
+
                 view.savedComponentsUpdated();
                 break;
             case DISCARDED_COMPONENTS_UPDATED:
-                synchronized (ClientModel.class) {
-                    model.setDiscardedTiles(update.getTileList());
-                }
+                model.setDiscardedTiles(update.getTileList());
+
                 view.discardedComponentsUpdated();
                 break;
             case PLAYER_SHIP_UPDATED:
-                synchronized (ClientModel.class) {
-                    model.updatePlayerShip(update.getInterestedPlayerId(), update.getShipBoard());
-                }
+                model.updatePlayerShip(update.getInterestedPlayerId(), update.getShipBoard());
+
                 view.shipUpdated(update.getInterestedPlayerId());
                 break;
             case TIMER_START:
@@ -222,10 +213,8 @@ public abstract class Client extends UnicastRemoteObject implements Runnable, Cl
                 //TODO
                 break;
             case PLAYER_MARKER_MOVED:
-                synchronized (ClientModel.class) {
-                    System.out.println(update.getPlayerMarkerPositions());
-                    model.setPlayerMarkerPositions(update.getPlayerMarkerPositions());
-                }
+                model.setPlayerMarkerPositions(update.getPlayerMarkerPositions());
+
                 break;
             default:
                 System.out.println(ConsoleColors.CLIENT_DEBUG + "Received unhandled game update instruction type: " + update.getInstructionType() + ConsoleColors.RESET);
