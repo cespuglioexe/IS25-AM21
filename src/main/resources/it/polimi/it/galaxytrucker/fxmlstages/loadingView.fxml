@@ -1,19 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <VBox layoutX="73.0" layoutY="55.0" prefHeight="290.0" prefWidth="455.0">
-         <children>
-            <ImageView fx:id="currentCardView" fitHeight="150.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" translateX="177.0" />
-            <Label alignment="TOP_LEFT" contentDisplay="CENTER" text="Loading..." translateX="204.0" translateY="25.0" />
-            <ProgressBar prefWidth="200.0" translateX="130.0" translateY="50.0" />
-         </children>
-      </VBox>
-   </children>
+<AnchorPane prefHeight="720" prefWidth="1280" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1">
+
+    <!-- CSS  -->
+    <stylesheets>
+        <URL value="@../css/planets.css" />
+    </stylesheets>
+
+    <children>
+        <StackPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+
+                <!-- SFONDO -->
+                <ImageView fx:id="backgroundImage" fitHeight="720" fitWidth="1280" preserveRatio="false">
+               <image>
+                  <Image url="@../graphics/general/generic_background.jpg" />
+               </image></ImageView>
+
+                <!-- CONTENUTO CENTRALE -->
+                <VBox alignment="CENTER" spacing="30">
+                    <children>
+                        <!-- IMMAGINE CARTA -->
+                        <ImageView fx:id="currentCard" fitHeight="300" preserveRatio="true" />
+
+                        <!-- CLESSIDRA ANIMATA (la GIF si anima solo in runtime) -->
+                        <ImageView fx:id="hourglassImage" fitHeight="100" preserveRatio="true">
+                     <image>
+                        <Image url="@../graphics/general/hourglass.gif" />
+                     </image></ImageView>
+
+                        <!-- TESTO -->
+                        <Label fx:id="waitingLabel" style="-fx-font-size: 24px; -fx-text-fill: white; " styleClass="title-label" text="In attesa degli altri giocatori…" />
+                    </children>
+                </VBox>
+
+            </children>
+        </StackPane>
+    </children>
 </AnchorPane>
