@@ -26,7 +26,7 @@ public class CLICargoChoiceState extends CLIViewState {
     private final HashMap<Integer,Coordinates> cargoCoords = new HashMap<>();
     private int i = 0;
 
-    public String cargoToEmoji(Cargo cargo) {
+    private String cargoToEmoji(Cargo cargo) {
         return switch (cargo.getColor()) {
             case RED ->     "🟥";
             case YELLOW ->  "🟨";
@@ -89,29 +89,28 @@ public class CLICargoChoiceState extends CLIViewState {
 
     private void loadCardDetails() {
         ClientModel model = view.getClient().getModel();
+        List<Cargo> rewardList = new ArrayList<>();
 
         if (model.getCurrentCard().equals("Planets")) {
             int selectedPlanet = model.getCardDetail("selectedPlanet", Integer.class);
             List<List<String>> serializedCargoRewards = model.getUnsafeCardDetail("rewards");
-            List<Cargo> cargoReward = new ArrayList<>();
 
             for (String cargoValue : serializedCargoRewards.get(selectedPlanet)) {
                 Cargo cargo = new Cargo(Color.valueOf(cargoValue));
 
-                cargoReward.add(cargo);
+                rewardList.add(cargo);
             }
 
         } else {
             List<String> serializedCargoReward = model.getUnsafeCardDetail("cargoReward");
-            List<Cargo> cargoReward = new ArrayList<>();
 
             for (String cargoValue : serializedCargoReward) {
                 Cargo cargo = new Cargo(Color.valueOf(cargoValue));
 
-                cargoReward.add(cargo);
+                rewardList.add(cargo);
             }
         }
-        setCargoReward(cargoReward);
+        setCargoReward(rewardList);
     }
 
     public void setCargoReward(List<Cargo> cargoReward) {
@@ -122,7 +121,7 @@ public class CLICargoChoiceState extends CLIViewState {
     }
 
     private boolean addCargo(int row, int col) {
-        TileData tile = GUIView.getInstance().getClient().getModel().getPlayerShips(GUIView.getInstance().getClient().getModel().getMyData().getPlayerId()).get(row - 5).get(col - 4);
+        TileData tile = view.getClient().getModel().getPlayerShips(view.getClient().getModel().getMyData().getPlayerId()).get(row - 5).get(col - 4);
         if(!cargoReward.isEmpty()) {
             if ((row < 5) || (row > 9) || (col < 4) || (col > 10)) {
                 System.out.println(ConsoleColors.YELLOW + "Those aren't valid coordinated, please try again" + ConsoleColors.RESET);

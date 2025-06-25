@@ -66,29 +66,28 @@ public class GUICargoChoiceController extends GUIViewState implements GUIErrorHa
 
     private void loadCardDetails() {
         ClientModel model = GUIView.getInstance().getClient().getModel();
+        List<Cargo> rewardList = new ArrayList<>();
 
         if (model.getCurrentCard().equals("Planets")) {
             int selectedPlanet = model.getCardDetail("selectedPlanet", Integer.class);
             List<List<String>> serializedCargoRewards = model.getUnsafeCardDetail("rewards");
-            List<Cargo> cargoReward = new ArrayList<>();
-            
+
             for (String cargoValue : serializedCargoRewards.get(selectedPlanet)) {
                 Cargo cargo = new Cargo(Color.valueOf(cargoValue));
 
-                cargoReward.add(cargo);
+                rewardList.add(cargo);
             }
 
         } else {
             List<String> serializedCargoReward = model.getUnsafeCardDetail("cargoReward");
-            List<Cargo> cargoReward = new ArrayList<>();
 
             for (String cargoValue : serializedCargoReward) {
                 Cargo cargo = new Cargo(Color.valueOf(cargoValue));
 
-                cargoReward.add(cargo);
+                rewardList.add(cargo);
             }
         }
-        setCargoReward(cargoReward);
+        setCargoReward(rewardList);
         displayCargo();
     }
 

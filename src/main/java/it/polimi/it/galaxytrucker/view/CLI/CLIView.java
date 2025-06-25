@@ -158,13 +158,16 @@ public class CLIView extends View {
         switch (cardState) {
             case "ParticipationState":
                 if (card.equals("Planets")) {
-                    GUIPlanetsSelectionController.getInstance().displayScene();
+                    CLIViewState.setCurrentState(new CLIPlanetSelectionState());
+                    CLIViewState.getCurrentState().executeState();
                 } else {
-                    GUIParticipationChoiceController.getInstance().displayScene();
+                    CLIViewState.setCurrentState(new CLIPartecipationAcceptState());
+                    CLIViewState.getCurrentState().executeState();
                 }
                 break;
             case "CargoRewardState":
-                GUICargoChoiceController.getInstance().displayScene();
+                CLIViewState.setCurrentState(new CLICargoChoiceState());
+                CLIViewState.getCurrentState().executeState();
                 break;
             case "CreditRewardState":
                 CLIViewState.setCurrentState(new CLICreditAcceptState());
