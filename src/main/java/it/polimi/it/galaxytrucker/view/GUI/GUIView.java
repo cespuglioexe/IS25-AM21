@@ -231,6 +231,7 @@ public class GUIView extends View {
 
     @Override
     public void loadingScreen() {
+        System.out.println("Dovrebbe andare!!!");
         GUILoadingViewController.getInstance().displayScene();
     }
 

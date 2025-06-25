@@ -1,5 +1,6 @@
 package it.polimi.it.galaxytrucker.model.gamestates;
 
+import it.polimi.it.galaxytrucker.exceptions.InvalidActionException;
 import it.polimi.it.galaxytrucker.messages.servermessages.GameUpdate;
 import it.polimi.it.galaxytrucker.messages.servermessages.GameUpdateType;
 import it.polimi.it.galaxytrucker.model.adventurecards.cardevents.CardEvent;
@@ -33,7 +34,12 @@ public class CardExecutionState extends GameState implements Observer, EventVisi
         );
 
         ((Subject) currentCard).addObserver(this);
-        currentCard.play();
+
+        try {
+            currentCard.play();
+        } catch (InvalidActionException e) {
+            //TODO
+        }
     }
 
     @Override
