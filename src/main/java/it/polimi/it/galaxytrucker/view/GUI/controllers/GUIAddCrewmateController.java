@@ -151,6 +151,7 @@ public class GUIAddCrewmateController extends GUIViewState{
                 typeCrewmates.add(true);
                 crewmates.put(c, typeCrewmates);
                 typeCrewmates.clear();
+                errorLabel.setVisible(false);
             }
             alienPlaced = alienPlaced + pacounter + bacounter;
             if(alienPlaced<5 && (pacounter>0 || bacounter>0) ){
