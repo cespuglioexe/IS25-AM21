@@ -34,6 +34,9 @@ public class GUIView extends View {
             GUIGameCreation.getInstance();
             GUIBuildingController.getInstance();
             GUIFixingShipController.getInstance();
+            GUIScoreBoardController.getInstance();
+            GUIAddCrewmateController.getInstance();
+            GUIGameTurn.getInstance();
         }
         return guiView;
     }
@@ -244,6 +247,11 @@ public class GUIView extends View {
         GUISleepViewController.getInstance().displayScene();
     }
 
+    @Override
+    public void addCrewmates(){
+        GUIAddCrewmateController.getInstance().displayScene();
+    }
+
 
     //Utili solo per il controllo senza png
 
@@ -367,12 +375,6 @@ public class GUIView extends View {
 
     public String getSuperSecretUsername() {
         return "ingconti";
-//        try (BufferedReader reader = new BufferedReader(new FileReader(percorsoFile))) {
-//            return reader.readLine(); // legge la prima riga
-//        } catch (IOException e) {
-//            System.err.println("Errore durante la lettura del file: " + e.getMessage());
-//            return null;
-//        }
     }
 
 
