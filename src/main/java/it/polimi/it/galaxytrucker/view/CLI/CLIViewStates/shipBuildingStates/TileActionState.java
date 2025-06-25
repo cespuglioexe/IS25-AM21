@@ -1,11 +1,12 @@
-package it.polimi.it.galaxytrucker.view.CLI.CLIViewStates;
+package it.polimi.it.galaxytrucker.view.CLI.CLIViewStates.shipBuildingStates;
 
 import it.polimi.it.galaxytrucker.messages.clientmessages.UserInput;
 import it.polimi.it.galaxytrucker.messages.clientmessages.UserInputType;
 import it.polimi.it.galaxytrucker.model.componenttiles.TileData;
 import it.polimi.it.galaxytrucker.view.CLI.CLIInputReader;
+import it.polimi.it.galaxytrucker.view.CLI.CLIViewStates.CLIViewState;
 
-public class TileActionState extends CLIViewState{
+public class TileActionState extends CLIViewState {
     @Override
     public void executeState() {
         view.executorService.submit(() -> {

@@ -89,6 +89,8 @@ public class AbandonedStationTest {
 
         ship.addComponentTile(7, 5, new LifeSupport(AlienType.BROWNALIEN, List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE), null));
 
+        ship.addCargo(8,9,new Cargo(Color.GREEN));
+        ship.addCargo(8,9,new Cargo(Color.GREEN));
         ship.addCrewmate(6, 7, human);
         ship.addCrewmate(6, 7, human);
         ship.addCrewmate(7, 8, human);
@@ -166,12 +168,15 @@ public class AbandonedStationTest {
 
         Cargo acceptedCargo = card.getChoices().get(0).get(0);
         card.acceptCargo(0, row, column);
+        card.acceptCargo(0, row, column);
 
         ShipManager ship = player.getShipManager();
         CargoHold cargoHold = (CargoHold) ship.getComponent(row, column).get();
 
         assertTrue(() -> cargoHold.getContainedCargo().contains(acceptedCargo));
         assertTrue(() -> !card.getChoices().get(0).contains(acceptedCargo));
+        for(Cargo cargo: cargoHold.getContainedCargo())
+            System.out.println(cargo.toString());
         printCargoChoices();
     }
     private void printCargoChoices() {

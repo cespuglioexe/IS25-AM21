@@ -142,6 +142,11 @@ public class PiratesTest {
         shieldBattery.put(List.of(8,4),List.of(9,5));
         currentPlayer.getShipManager().printBoard();
         card.activateShields(shieldBattery);
+        for(Projectile p : card.getProjectiles()){
+            System.out.println("Coordinate proiettili (ROW):  " +  card.getAimedCoordsByProjectile(p).getFirst());
+            System.out.println("Coordinate proiettili (COLUMN):  " +  card.getAimedCoordsByProjectile(p).get(1));
+        }
+
         currentPlayer.getShipManager().printBoard();
 
         assertEquals(ActivateShieldState.class, card.getCurrentState().getClass());

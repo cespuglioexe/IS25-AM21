@@ -48,6 +48,9 @@ public class CLIInputReader implements Runnable {
             value = Integer.parseInt(inputQueue.take());
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
+        } catch (NumberFormatException e) {
+            System.out.println("Please enter an integer");
+            return -1;
         }
 
         return value;

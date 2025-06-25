@@ -1,4 +1,6 @@
-package it.polimi.it.galaxytrucker.view.CLI.CLIViewStates;
+package it.polimi.it.galaxytrucker.view.CLI.CLIViewStates.cardInputStates;
+
+import it.polimi.it.galaxytrucker.view.CLI.CLIViewStates.CLIViewState;
 
 public class CLIGameTurnState extends CLIViewState {
     @Override

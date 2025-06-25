@@ -27,6 +27,7 @@ public class CalculateEnginePowerState extends State {
         Subject subject = (Subject) fsm;
         if (allPlayersHaveResponded()) {
             card.changeState(new TravelState());
+            return;
         }
         subject.notifyObservers(new InputNeeded(card, getPlayerWhoChooses(card)));
     }

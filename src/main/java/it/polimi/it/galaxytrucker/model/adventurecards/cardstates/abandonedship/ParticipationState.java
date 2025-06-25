@@ -35,6 +35,7 @@ public class ParticipationState extends State {
         } catch (IllegalStateException e) {
             if (allPlayersHaveResponded()) {
                 changeState(fsm, new EndState());
+                return;
             }
         }
         subject.notifyObservers(new InputNeeded(card, getPlayerWhoChooses(card)));
