@@ -13,6 +13,7 @@ import it.polimi.it.galaxytrucker.model.managers.FlightBoard;
 import it.polimi.it.galaxytrucker.model.managers.GameManager;
 import it.polimi.it.galaxytrucker.model.managers.Player;
 import it.polimi.it.galaxytrucker.model.managers.ShipManager;
+import it.polimi.it.galaxytrucker.model.utility.Color;
 
 import java.util.*;
 import java.util.concurrent.Executors;
@@ -64,11 +65,13 @@ public class BuildingState extends GameState {
                         .toList())
                 .toList();
 
+
         ((GameManager) fsm).updateListeners(
                 new GameUpdate.GameUpdateBuilder(GameUpdateType.NEW_STATE)
                         .setNewSate(this.getClass().getSimpleName())
                         .setGameLevel(((GameManager) fsm).getLevel())
                         .setPlayerIds(gameManager.getPlayers().stream().map(Player::getPlayerID).toList())
+                        .setPlayerColors(new HashMap<>(gameManager.getPlayers().stream().collect(Collectors.toMap(Player::getPlayerID, Player::getColor))))
                         .setAllPlayerShipBoards(convertedShips)
                         .setCardPileCompositions(cardStacks)
                         .build());

@@ -74,4 +74,8 @@ public abstract class CLIViewState {
     public void discardedComponentsUpdated() {
         throw new InvalidFunctionCallInState("Can't call this function in state " + currentState.getClass().getSimpleName());
     }
+
+    public void displayCard() {
+        throw new InvalidFunctionCallInState("Can't call this function in state " + currentState.getClass().getSimpleName());
+    }
 }

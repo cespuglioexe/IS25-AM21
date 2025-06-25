@@ -29,7 +29,7 @@ public class CargoManager {
         if (consumedCargo < reqCargo) {
             for (List<Integer> pos : shipManager.getAllComponentsPositionOfType(BatteryComponent.class)) {
                 // Make sure there is energy in the BatteryComponent
-                while (((BatteryComponent) shipManager.getComponent(pos.get(0), pos.get(1)).get()).getBatteryCapacity() != 0) {
+                while (((BatteryComponent) shipManager.getComponent(pos.get(0), pos.get(1)).get()).getBatteryCharge() != 0) {
                     shipManager.removeBattery(pos.get(0), pos.get(1));
                     consumedCargo++;
                     // If the required amount of cargo has been removed, exits the loop

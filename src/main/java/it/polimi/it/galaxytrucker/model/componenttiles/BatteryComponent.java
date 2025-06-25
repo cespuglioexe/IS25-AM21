@@ -39,7 +39,7 @@ public class BatteryComponent extends ComponentTile {
      * @return an {@code int} representing the current charge of the battery.
      *         This value is between the initial charge set in the constructor (either 2 or 3) and 0.
      */
-    public int getBatteryCapacity() {
+    public int getBatteryCharge() {
         return batteryCharge;
     }
 

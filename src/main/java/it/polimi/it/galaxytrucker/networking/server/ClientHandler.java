@@ -175,26 +175,24 @@ public abstract class ClientHandler extends UnicastRemoteObject implements Liste
 
                 case CREATE_NEW_GAME:
                     UUID ng_gameUuid = server.createNewGame(userInput.getGamePlayers(), userInput.getGameLevel());
-                    Color playerColor = server.addPlayerToGame(this, ng_gameUuid);
+                    server.addPlayerToGame(this, ng_gameUuid);
 
                     notify(new GameUpdate.GameUpdateBuilder(GameUpdateType.CREATE_GAME_RESULT)
                             .setSuccessfulOperation(true)
                             .setGameUuid(ng_gameUuid)
                             .setGameLevel(controller.getLevel())
-                            .setPlayerColor(playerColor)
                             .build()
                     );
                     break;
 
                 case JOIN_ACTIVE_GAME:
                     try {
-                        Color color = server.addPlayerToGame(this, userInput.getGameId());
+                        server.addPlayerToGame(this, userInput.getGameId());
 
                         notify(new GameUpdate.GameUpdateBuilder(GameUpdateType.JOIN_GAME_RESULT)
                                 .setSuccessfulOperation(true)
                                 .setGameUuid(userInput.getGameId())
                                 .setGameLevel(controller.getLevel())
-                                .setPlayerColor(color)
                                 .build()
                         );
                     } catch (GameFullException e) {

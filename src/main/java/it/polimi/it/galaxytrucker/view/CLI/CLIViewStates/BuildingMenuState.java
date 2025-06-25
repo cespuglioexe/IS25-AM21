@@ -113,7 +113,7 @@ public class BuildingMenuState extends CLIViewState {
                             lookingAtDiscardedComponents = false;
 
                             view.getClient().receiveUserInput(
-                                    new UserInput.UserInputBuilder(UserInputType.SELECT_DISCARDED_COMPONENT)
+                                     new UserInput.UserInputBuilder(UserInputType.SELECT_DISCARDED_COMPONENT)
                                             .setSelectedTileIndex(chosenTile)
                                             .build()
                             );
