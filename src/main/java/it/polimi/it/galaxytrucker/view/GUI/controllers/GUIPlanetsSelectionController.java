@@ -33,6 +33,9 @@ public class GUIPlanetsSelectionController extends GUIViewState {
     @FXML
     private Button leftButton, rightButton;
 
+    @FXML
+    private Button landButton;
+
     private final String[] planets = {
         "/it/polimi/it/galaxytrucker/graphics/general/planet-red.png",
         "/it/polimi/it/galaxytrucker/graphics/general/planet-green.png",
@@ -117,12 +120,14 @@ public class GUIPlanetsSelectionController extends GUIViewState {
         glow.setSpread(0.3);
         planetView.setEffect(glow);
         planetView.getStyleClass().remove("occupied-planet");
+        landButton.setVisible(true);
 
         if (occupiedPlanets.contains(currentPlanetIndex)) {
             ColorAdjust grayscale = new ColorAdjust();
             grayscale.setSaturation(-1);
             planetView.setEffect(grayscale);
             planetView.getStyleClass().add("occupied-planet");
+            landButton.setVisible(false);
         }
     }
 
