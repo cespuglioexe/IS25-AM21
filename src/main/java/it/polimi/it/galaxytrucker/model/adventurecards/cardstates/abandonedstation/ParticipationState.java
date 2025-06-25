@@ -37,7 +37,7 @@ public class ParticipationState extends State {
         }
         if(allPlayersDecided())
             fsm.changeState(new EndState());
-        subject.notifyObservers(new InputNeeded(card, getPlayerWhoChooses(card)));
+        else subject.notifyObservers(new InputNeeded(card, getPlayerWhoChooses(card)));
     }
 
     private boolean allPlayersDecided() {
