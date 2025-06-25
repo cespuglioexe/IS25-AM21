@@ -7,6 +7,8 @@ import it.polimi.it.galaxytrucker.model.utility.Color;
 import java.util.List;
 
 public class CargoManager {
+    // TODO: notify clients of ship modification
+
     public static void manageCargoDischarge(int reqCargo, Player player) {
         ShipManager shipManager = player.getShipManager();
         Color[] colors = Color.values();
