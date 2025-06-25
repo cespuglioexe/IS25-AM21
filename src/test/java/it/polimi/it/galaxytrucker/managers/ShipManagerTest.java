@@ -1381,7 +1381,7 @@ public class ShipManagerTest {
 
         ship.removeBattery(6, 7);
 
-        assertEquals(batteryComponent.getBatteryCapacity(), 1);
+        assertEquals(batteryComponent.getBatteryCharge(), 1);
     }
 
     @Test
@@ -1937,10 +1937,10 @@ public class ShipManagerTest {
         cannonsAndBatteries.put(List.of(5, 7), List.of(8, 8));
 
         assertEquals(5, ship.calculateFirePower() + ship.activateComponent(cannonsAndBatteries));
-        assertEquals(1, battery.getBatteryCapacity());
+        assertEquals(1, battery.getBatteryCharge());
 
         assertEquals(5, ship.calculateFirePower() + ship.activateComponent(cannonsAndBatteries));
-        assertEquals(0, battery.getBatteryCapacity());
+        assertEquals(0, battery.getBatteryCharge());
 
         assertThrows(InvalidActionException.class, () -> ship.activateComponent(cannonsAndBatteries));
     }

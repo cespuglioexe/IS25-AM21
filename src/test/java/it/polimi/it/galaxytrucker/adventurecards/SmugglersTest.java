@@ -124,7 +124,7 @@ public class SmugglersTest {
         assertTrue(player1.getShipManager().getCargoPositon().get(Color.BLUE).isEmpty());
         assertTrue(player1.getShipManager().getCargoPositon().get(Color.GREEN).isEmpty());
         BatteryComponent battery = (BatteryComponent) player1.getShipManager().getComponent(9,5).orElse(null);
-        assertEquals(battery.getBatteryCapacity(),0);
+        assertEquals(battery.getBatteryCharge(),0);
 
         assertEquals(card.getCurrentPlayer(), player2);
         assertEquals(card.getCurrentPlayer(), player2);
@@ -139,7 +139,7 @@ public class SmugglersTest {
         doubleCannon.put(List.of(6,5),List.of(9,5));
         card.selectCannons(doubleCannon);
         BatteryComponent battery = (BatteryComponent) player1.getShipManager().getComponent(9,5).orElse(null);
-        assertEquals(battery.getBatteryCapacity(),0);
+        assertEquals(battery.getBatteryCharge(),0);
         assertEquals(CargoRewardState.class, card.getCurrentState().getClass());
     }
 
@@ -196,7 +196,7 @@ public class SmugglersTest {
         assertTrue(player.getShipManager().getCargoPositon().get(Color.BLUE).isEmpty());
         assertTrue(player.getShipManager().getCargoPositon().get(Color.GREEN).isEmpty());
         BatteryComponent battery = (BatteryComponent) player.getShipManager().getComponent(9,5).orElse(null);
-        assertEquals(battery.getBatteryCapacity(),0);
+        assertEquals(battery.getBatteryCharge(),0);
     }
 
     @Test

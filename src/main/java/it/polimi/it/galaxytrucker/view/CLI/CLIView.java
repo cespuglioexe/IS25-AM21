@@ -166,19 +166,17 @@ public class CLIView extends View {
             case "CrewmatePenaltyState":
                 GUICrewmatePenaltyController.getInstance().displayScene();
                 break;
-            case "CalculateFirePowerState":
-            case "CannonSelectionState":
-            case "BigMeteorState":
+            case "CalculateFirePowerState", "CannonSelectionState", "BigMeteorState":
                 CLIViewState.setCurrentState(new CLICannonActivationState());
                 CLIViewState.getCurrentState().executeState();
                 break;
-            case "CalculateEnginePowerState":
-            case "EngineSelectionState":
-                GUIActivateEngineController.getInstance().displayScene();
+            case "CalculateEnginePowerState", "EngineSelectionState":
+                CLIViewState.setCurrentState(new CLIEngineActivationState());
+                CLIViewState.getCurrentState().executeState();
                 break;
-            case "ActivateShieldState":
-            case "SmallMeteorState":
-                GUIActivateShieldController.getInstance().displayScene();
+            case "ActivateShieldState", "SmallMeteorState":
+                CLIViewState.setCurrentState(new CLIShieldActivationState());
+                CLIViewState.getCurrentState().executeState();
                 break;
             default:
                 System.out.println("Margarozzo!!!");
