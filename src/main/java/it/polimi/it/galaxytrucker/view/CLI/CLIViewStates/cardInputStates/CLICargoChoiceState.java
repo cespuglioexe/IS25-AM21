@@ -153,4 +153,19 @@ public class CLICargoChoiceState extends CLIViewState {
         i++;
         return true;
     }
+
+    private void acceptReward() {
+        if(!cargoReward.isEmpty()) {
+            for(Cargo cargo: cargoReward) {
+                if(cargo.equals(cargoToIndex.get(cargo))) {
+                    cargoCoords.put(cargoToIndex.get(cargo),new Coordinates(0,0));
+                }
+            }
+        }
+        view.getClient().receiveUserInput(
+                new UserInput.UserInputBuilder(UserInputType.CARGO_REWARD)
+                        .setAcceptedCargo(cargoCoords)
+                        .build()
+        );
+    }
 }

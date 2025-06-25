@@ -174,7 +174,8 @@ public class CLIView extends View {
                 CLIViewState.getCurrentState().executeState();
                 break;
             case "CrewmatePenaltyState":
-                GUICrewmatePenaltyController.getInstance().displayScene();
+                CLIViewState.setCurrentState(new CLICrewmatePenaltyState());
+                CLIViewState.getCurrentState().executeState();
                 break;
             case "CalculateFirePowerState", "CannonSelectionState", "BigMeteorState":
                 CLIViewState.setCurrentState(new CLICannonActivationState());
