@@ -407,6 +407,7 @@ public class GameManager extends StateMachine implements Model, Observable {
         // TODO: notify
     }
 
+
     @Override
     public void saveComponentTile(UUID playerID) {
         GameState gameState = (GameState) this.getCurrentState();
@@ -658,6 +659,7 @@ public class GameManager extends StateMachine implements Model, Observable {
         response.put("choice", choice);
         inputHandler.dispatch(adventureDeck.getLastDrawnCard(), response);
     }
+
 
     @Override
     public void addListener(Listener listener) {

@@ -146,6 +146,9 @@ public abstract class Client extends UnicastRemoteObject implements Runnable, Cl
 
                         view.buildingStarted();
                         break;
+                    case "AddingCrewmate":
+                        view.addCrewmates();
+                        break;
                     case "ShipFixingState":
                         if (update.getPlayerIds().stream().anyMatch(id -> id.equals(model.getMyData().getPlayerId()))) {
                             view.shipFixingState();
@@ -154,7 +157,6 @@ public abstract class Client extends UnicastRemoteObject implements Runnable, Cl
                         }
                         break;
                     case "CardExecutionState":
-                        //model.setShipManager(update.getShipManager());
                         model.setActiveCardGraphicPath(update.getOperationMessage());
                         view.newCardStartedExecution();
                         break;

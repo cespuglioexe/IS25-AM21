@@ -1,30 +1,32 @@
-package it.polimi.it.galaxytrucker.view.CLI.CLIViewStates;
+package it.polimi.it.galaxytrucker.view.CLI.CLIViewStates.cardInputStates;
 
 import it.polimi.it.galaxytrucker.messages.clientmessages.UserInput;
 import it.polimi.it.galaxytrucker.messages.clientmessages.UserInputType;
 import it.polimi.it.galaxytrucker.model.componenttiles.BatteryComponent;
-import it.polimi.it.galaxytrucker.model.componenttiles.Shield;
+import it.polimi.it.galaxytrucker.model.componenttiles.DoubleCannon;
 import it.polimi.it.galaxytrucker.model.componenttiles.TileData;
 import it.polimi.it.galaxytrucker.model.utility.Coordinates;
 import it.polimi.it.galaxytrucker.view.CLI.CLIInputReader;
+import it.polimi.it.galaxytrucker.view.CLI.CLIViewStates.CLIViewState;
 import it.polimi.it.galaxytrucker.view.CLI.ConsoleColors;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CLIShieldActivationState extends CLIViewState {
-    private final List<Coordinates> shieldCoords = new ArrayList<>();
+public class CLICannonActivationState extends CLIViewState {
+
+    private final List<Coordinates> cannonCoords = new ArrayList<>();
     private final List<Coordinates> batteryCoords = new ArrayList<>();
-    private final List<List<Coordinates>> shieldAndBatteryCoord = new ArrayList<>();
+    private final List<List<Coordinates>> cannonAndBatteryCoord = new ArrayList<>();
 
     @Override
     public void executeState() {
         view.executorService.submit(() -> {
             System.out.print("""
                     \nChoose an option:
-                    [1]: Choose a double shield to activate
+                    [1]: Choose a double cannon to activate
                     [2]: Choose a battery to consume
-                    [3]: Confirm activated shields
+                    [3]: Confirm activated cannons
                     >\s""");
 
             int option = CLIInputReader.readInt();
@@ -33,13 +35,13 @@ public class CLIShieldActivationState extends CLIViewState {
 
             switch (option) {
                 case 1:
-                    System.out.println("\nWhich double shield would you like to activate?");
+                    System.out.println("\nWhich double cannon would you like to activate?");
                     System.out.print("Column> ");
                     column = CLIInputReader.readInt();
                     System.out.print("Row> ");
                     row = CLIInputReader.readInt();
 
-                    addShield(row, column);
+                    addCannon(row, column);
                     executeState();
                     break;
                 case 2:
@@ -53,7 +55,7 @@ public class CLIShieldActivationState extends CLIViewState {
                     executeState();
                     break;
                 case 3:
-                    if (!activateShield()) {
+                    if (!activateCannon()) {
                         executeState();
                     }
                     break;
@@ -65,23 +67,23 @@ public class CLIShieldActivationState extends CLIViewState {
         });
     }
 
-    private void addShield(int row, int col) {
+    private void addCannon(int row, int col) {
         if((row<5) || (row>9) || (col<4) || (col>10)){
-            System.out.println(ConsoleColors.YELLOW + "Oops, that's not a double shield" + ConsoleColors.RESET);
+            System.out.println(ConsoleColors.YELLOW + "Oops, that's not a double cannon" + ConsoleColors.RESET);
             return;
         }
 
         TileData tile = view.getClient().getModel().getPlayerShips(view.getClient().getModel().getMyData().getPlayerId()).get(row - 5).get(col - 4);
 
-        if (tile != null && tile.type().equals(Shield.class.getSimpleName())) {
-            Coordinates shieldCoord = new Coordinates(row, col);
-            if (!shieldCoords.contains(shieldCoord)) {
-                shieldCoords.add(new Coordinates(row, col));
+        if (tile != null && tile.type().equals(DoubleCannon.class.getSimpleName())) {
+            Coordinates cannonCoord = new Coordinates(row, col);
+            if (!cannonCoords.contains(cannonCoord)) {
+                cannonCoords.add(new Coordinates(row, col));
             } else {
-                System.out.println(ConsoleColors.YELLOW + "Oops, that shield's already been selected" + ConsoleColors.RESET);
+                System.out.println(ConsoleColors.YELLOW + "Oops, that cannon's already been selected" + ConsoleColors.RESET);
             }
         } else {
-            System.out.println(ConsoleColors.YELLOW + "Oops, that's not a double shield" + ConsoleColors.RESET);
+            System.out.println(ConsoleColors.YELLOW + "Oops, that's not a double cannon" + ConsoleColors.RESET);
         }
     }
 
@@ -95,7 +97,7 @@ public class CLIShieldActivationState extends CLIViewState {
         if (tile != null && tile.type().equals(BatteryComponent.class.getSimpleName())) {
             Coordinates batteryCoord = new Coordinates(row, col);
             if (!batteryCoords.contains(batteryCoord)) {
-                shieldCoords.add(new Coordinates(row, col));
+                cannonCoords.add(new Coordinates(row, col));
             } else if (tile.batteryCharge() <= 0) {
                 System.out.println(ConsoleColors.YELLOW + "That battery's empty! Please select a different one" + ConsoleColors.RESET);
             } else {
@@ -106,37 +108,37 @@ public class CLIShieldActivationState extends CLIViewState {
         }
     }
 
-    private boolean activateShield(){
+    private boolean activateCannon(){
         boolean result = false;
-        if(!shieldCoords.isEmpty() && !batteryCoords.isEmpty() && (shieldCoords.size()== batteryCoords.size())){
-            shieldAndBatteryCoord.add(shieldCoords);
-            shieldAndBatteryCoord.add(batteryCoords);
+        if(!cannonCoords.isEmpty() && !batteryCoords.isEmpty() && (cannonCoords.size()== batteryCoords.size())){
+            cannonAndBatteryCoord.add(cannonCoords);
+            cannonAndBatteryCoord.add(batteryCoords);
 
             view.getClient().receiveUserInput(
                     new UserInput.UserInputBuilder(UserInputType.ACTIVATE_CANNON)
-                            .setComponentsForActivation(shieldAndBatteryCoord)
+                            .setComponentsForActivation(cannonAndBatteryCoord)
                             .build()
             );
 
             result = true;
         } else{
-            if(shieldCoords.isEmpty() && batteryCoords.isEmpty() ) {
-                shieldAndBatteryCoord.clear();
+            if(cannonCoords.isEmpty() && batteryCoords.isEmpty() ) {
+                cannonAndBatteryCoord.clear();
                 view.getClient().receiveUserInput(
                         new UserInput.UserInputBuilder(UserInputType.ACTIVATE_CANNON)
-                                .setComponentsForActivation(shieldAndBatteryCoord)
+                                .setComponentsForActivation(cannonAndBatteryCoord)
                                 .build()
                 );
 
                 result = true;
             } else {
-                System.out.println(ConsoleColors.YELLOW + "Oops, you seem to have selected a different amount of shields (" + shieldCoords.size() + ") and batteries (" + batteryCoords.size() + ")" + ConsoleColors.RESET);
+                System.out.println(ConsoleColors.YELLOW + "Oops, you seem to have selected a different amount of cannons (" + cannonCoords.size() + ") and batteries (" + batteryCoords.size() + ")" + ConsoleColors.RESET);
                 System.out.println(ConsoleColors.YELLOW + "Please try again" + ConsoleColors.RESET);
             }
         }
 
-        shieldAndBatteryCoord.clear();
-        shieldCoords.clear();
+        cannonAndBatteryCoord.clear();
+        cannonCoords.clear();
         batteryCoords.clear();
 
         return result;

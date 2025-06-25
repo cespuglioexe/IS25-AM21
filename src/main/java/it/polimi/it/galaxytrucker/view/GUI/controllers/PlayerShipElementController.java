@@ -255,4 +255,21 @@ public class PlayerShipElementController implements Initializable {
         selectedRow = row;
         selectedColumn = column;
     }
+
+
+    public String tileSelectedTypeString(int row, int col) {
+        List<List<TileData>> ship = GUIView.getInstance().getClient().getModel().getPlayerShips(GUIView.getInstance().getClient().getModel().getMyData().getPlayerId());
+        TileData tileData = ship.get(row-5).get(col-4);
+
+        if (tileData != null) {
+            if(tileData.type().equals("LifeSupport")) {
+                return tileData.type() + tileData.alienSupport();
+            }else {
+                return tileData.type();
+            }
+        }else {
+            return "";
+        }
+
+    }
 }

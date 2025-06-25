@@ -1,12 +1,18 @@
 package it.polimi.it.galaxytrucker.model.managers;
 
 import it.polimi.it.galaxytrucker.model.componenttiles.BatteryComponent;
+import it.polimi.it.galaxytrucker.model.componenttiles.CargoHold;
+import it.polimi.it.galaxytrucker.model.componenttiles.SpecialCargoHold;
 import it.polimi.it.galaxytrucker.model.utility.Cargo;
 import it.polimi.it.galaxytrucker.model.utility.Color;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CargoManager {
+    // TODO: notify clients of ship modification
+
     public static void manageCargoDischarge(int reqCargo, Player player) {
         ShipManager shipManager = player.getShipManager();
         Color[] colors = Color.values();
@@ -41,7 +47,41 @@ public class CargoManager {
         // If there aren't enough batteries to make up the difference, there is nothing more to do and the function returns
     }
 
+    private static Map<Color,Integer> mapCargoColorToInteger(){
+        Map<Color,Integer> cargoMapInteger = new HashMap<>();
+        cargoMapInteger.put(Color.RED,4);
+        cargoMapInteger.put(Color.BLUE,1);
+        cargoMapInteger.put(Color.GREEN,2);
+        cargoMapInteger.put(Color.YELLOW,3);
+        return cargoMapInteger;
+    }
+
+    private static Cargo findCargoLessValue(CargoHold cargoHold) {
+        Cargo cargoLessValue;
+        Map<Color,Integer> cargoMapInteger = mapCargoColorToInteger();
+        cargoLessValue = cargoHold.getContainedCargo().getFirst();
+        for(Cargo cargo : cargoHold.getContainedCargo()){
+            if(cargoMapInteger.get(cargo.getColor()) < cargoMapInteger.get(cargoLessValue.getColor())){
+                cargoLessValue = cargo;
+            }
+        }
+        return cargoLessValue;
+    }
+
     public static void manageCargoAddition(Cargo load, List<Integer> coords, Player player) {
-        player.getShipManager().addCargo(coords.get(0),coords.get(1), load);
+        ShipManager shipManager = player.getShipManager();
+        if(((shipManager.getComponent(coords.get(0), coords.get(1)).get() instanceof CargoHold) ||
+            (shipManager.getComponent(coords.get(0), coords.get(1)).get() instanceof SpecialCargoHold))
+            && shipManager.getComponent(coords.get(0), coords.get(1)).isPresent()) {
+
+            CargoHold cargoHold = (CargoHold)shipManager.getComponent(coords.get(0), coords.get(1)).get();
+            if(cargoHold.getContainedCargo().size() < cargoHold.getContainerNumber())
+                player.getShipManager().addCargo(coords.get(0),coords.get(1), load);
+            else {
+                Cargo cargoLessValue = findCargoLessValue(cargoHold);
+                shipManager.removeCargo(coords.get(0), coords.get(1), cargoLessValue.getColor());
+                player.getShipManager().addCargo(coords.get(0),coords.get(1), load);
+            }
+        }
     }
 }

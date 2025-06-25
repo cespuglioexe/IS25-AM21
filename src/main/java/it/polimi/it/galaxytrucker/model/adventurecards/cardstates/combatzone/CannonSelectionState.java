@@ -27,6 +27,7 @@ public class CannonSelectionState extends State {
         Subject subject = (Subject) fsm;
         if (allPlayersHaveResponded()) {
             changeState(fsm, new AttackState());
+            return;
         }
         subject.notifyObservers(new InputNeeded(card, getPlayerWhoChooses(card)));
     }

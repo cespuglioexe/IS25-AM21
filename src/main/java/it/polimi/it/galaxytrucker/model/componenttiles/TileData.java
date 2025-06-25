@@ -35,7 +35,8 @@ import java.util.List;
  * @version 1.2
  */
 public record TileData(int rotation, String type, TileEdge top, TileEdge right, TileEdge bottom, TileEdge left,
-                       String graphicPath, int batteryCharge, List<String> crewmates, List<Color> cargo, int capacity) implements Serializable {
+                       String graphicPath, int batteryCharge, List<String> crewmates, List<Color> cargo, int capacity,
+                       String alienSupport) implements Serializable {
 
     /**
      * Constructs a {@code TileData} record. This constructor is annotated with {@link JsonCreator}
@@ -65,7 +66,8 @@ public record TileData(int rotation, String type, TileEdge top, TileEdge right, 
             @JsonProperty("batteryCharge") int batteryCharge,
             @JsonProperty("crewmates") List<String> crewmates,
             @JsonProperty("cargo") List<Color> cargo,
-            @JsonProperty("capacity") int capacity) {
+            @JsonProperty("capacity") int capacity,
+            @JsonProperty("alienSupport") String alienSupport) {
         this.rotation = rotation;
         this.type = type;
         this.top = top;
@@ -77,6 +79,7 @@ public record TileData(int rotation, String type, TileEdge top, TileEdge right, 
         this.crewmates = crewmates;
         this.cargo = cargo;
         this.capacity = capacity;
+        this.alienSupport = alienSupport;
     }
 
     /**
@@ -96,6 +99,7 @@ public record TileData(int rotation, String type, TileEdge top, TileEdge right, 
             List<String> crewmateList = new ArrayList<>();
             List<Color> cargoColors = new ArrayList<>();
             int cargoCap = 0;
+            String alienType = "Schumi";
 
             switch (componentTile.getClass().getSimpleName()) {
                 case "BatteryComponent" -> {
@@ -114,6 +118,10 @@ public record TileData(int rotation, String type, TileEdge top, TileEdge right, 
                         cargoColors.add(cargo.getColor());
                     }
                 }
+
+                case "LifeSupport" -> {
+                    alienType = ((LifeSupport) componentTile).getSupportedAlienType().toString();
+                }
             }
 
             return new TileData(
@@ -127,7 +135,8 @@ public record TileData(int rotation, String type, TileEdge top, TileEdge right, 
                     batteryCharge,
                     crewmateList,
                     cargoColors,
-                    cargoCap
+                    cargoCap,
+                    alienType
             );
         }
         return null;

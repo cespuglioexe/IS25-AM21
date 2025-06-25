@@ -1,10 +1,10 @@
-package it.polimi.it.galaxytrucker.view.CLI.CLIViewStates;
+package it.polimi.it.galaxytrucker.view.CLI.CLIViewStates.shipBuildingStates;
 
 import it.polimi.it.galaxytrucker.messages.clientmessages.UserInput;
 import it.polimi.it.galaxytrucker.messages.clientmessages.UserInputType;
 import it.polimi.it.galaxytrucker.networking.client.clientmodel.ClientModel;
 import it.polimi.it.galaxytrucker.view.CLI.CLIInputReader;
-import it.polimi.it.galaxytrucker.view.CLI.CLIView;
+import it.polimi.it.galaxytrucker.view.CLI.CLIViewStates.CLIViewState;
 import it.polimi.it.galaxytrucker.view.CLI.ConsoleColors;
 
 public class ShipFixingState extends CLIViewState {

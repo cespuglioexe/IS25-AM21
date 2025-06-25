@@ -27,11 +27,12 @@ public interface ControllerInterface {
     void manageParticipation(UUID  playerId, boolean participation, int choice);
 
 
-    void removeComponentTile(UUID playerId,int col, int row);
+    void removeComponentTile(UUID playerId, int col, int row);
 
     void startBuildPhaseTimer();
 
     void disconnectPlayer(UUID clientUuid);
 
     void endPlayerBuilding(UUID clientUuid);
+
 }

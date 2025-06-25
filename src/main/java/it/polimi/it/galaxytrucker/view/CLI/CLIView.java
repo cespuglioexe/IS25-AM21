@@ -4,6 +4,12 @@ import it.polimi.it.galaxytrucker.controller.GenericGameData;
 import it.polimi.it.galaxytrucker.model.componenttiles.TileData;
 import it.polimi.it.galaxytrucker.model.componenttiles.TileEdge;
 import it.polimi.it.galaxytrucker.view.CLI.CLIViewStates.*;
+import it.polimi.it.galaxytrucker.view.CLI.CLIViewStates.cardInputStates.*;
+import it.polimi.it.galaxytrucker.view.CLI.CLIViewStates.setUpStates.GameSelectionState;
+import it.polimi.it.galaxytrucker.view.CLI.CLIViewStates.setUpStates.NameSelectionState;
+import it.polimi.it.galaxytrucker.view.CLI.CLIViewStates.shipBuildingStates.BuildingMenuState;
+import it.polimi.it.galaxytrucker.view.CLI.CLIViewStates.shipBuildingStates.ShipFixingState;
+import it.polimi.it.galaxytrucker.view.CLI.CLIViewStates.shipBuildingStates.TileActionState;
 import it.polimi.it.galaxytrucker.view.GUI.controllers.*;
 import it.polimi.it.galaxytrucker.view.View;
 
@@ -152,19 +158,24 @@ public class CLIView extends View {
         switch (cardState) {
             case "ParticipationState":
                 if (card.equals("Planets")) {
-                    GUIPlanetsSelectionController.getInstance().displayScene();
+                    CLIViewState.setCurrentState(new CLIPlanetSelectionState());
+                    CLIViewState.getCurrentState().executeState();
                 } else {
-                    GUIParticipationChoiceController.getInstance().displayScene();
+                    CLIViewState.setCurrentState(new CLIPartecipationAcceptState());
+                    CLIViewState.getCurrentState().executeState();
                 }
                 break;
             case "CargoRewardState":
-                GUICargoChoiceController.getInstance().displayScene();
+                CLIViewState.setCurrentState(new CLICargoChoiceState());
+                CLIViewState.getCurrentState().executeState();
                 break;
             case "CreditRewardState":
-                GUICreditChoiceController.getInstance().displayScene();
+                CLIViewState.setCurrentState(new CLICreditAcceptState());
+                CLIViewState.getCurrentState().executeState();
                 break;
             case "CrewmatePenaltyState":
-                GUICrewmatePenaltyController.getInstance().displayScene();
+                CLIViewState.setCurrentState(new CLICrewmatePenaltyState());
+                CLIViewState.getCurrentState().executeState();
                 break;
             case "CalculateFirePowerState", "CannonSelectionState", "BigMeteorState":
                 CLIViewState.setCurrentState(new CLICannonActivationState());
@@ -191,6 +202,11 @@ public class CLIView extends View {
 
     @Override
     public void showSleepView() {
+
+    }
+
+    @Override
+    public void addCrewmates() {
 
     }
 

@@ -43,7 +43,7 @@ public class GUIBuildingController extends GUIViewState {
     private ImageView pile0,pile1,pile2,card0,card1,card2;
     @FXML private PlayerShipElementController shipController;
 
-
+    private boolean crewManaged = false;
     private static GUIBuildingController instance;
     private int rotation;
     private int savedSelected = -1, discardedSelected = -1;
@@ -311,13 +311,18 @@ public class GUIBuildingController extends GUIViewState {
     }
 
 
-    public void endBuilding(){
+
+    /*public void endBuilding(){
         GUIView.getInstance().getClient().receiveUserInput(
                 new UserInput.UserInputBuilder(UserInputType.CONFIRM_BUILDING_END)
                         .build()
         );
-    }
+    }*/
 
+    @FXML
+    public void openPopUpCrewmates(){
+        GUIView.getInstance().addCrewmates();
+    }
 
 
     @FXML

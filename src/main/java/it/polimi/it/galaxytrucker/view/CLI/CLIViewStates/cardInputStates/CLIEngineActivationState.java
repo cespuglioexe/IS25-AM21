@@ -1,4 +1,4 @@
-package it.polimi.it.galaxytrucker.view.CLI.CLIViewStates;
+package it.polimi.it.galaxytrucker.view.CLI.CLIViewStates.cardInputStates;
 
 import it.polimi.it.galaxytrucker.messages.clientmessages.UserInput;
 import it.polimi.it.galaxytrucker.messages.clientmessages.UserInputType;
@@ -7,12 +7,13 @@ import it.polimi.it.galaxytrucker.model.componenttiles.DoubleEngine;
 import it.polimi.it.galaxytrucker.model.componenttiles.TileData;
 import it.polimi.it.galaxytrucker.model.utility.Coordinates;
 import it.polimi.it.galaxytrucker.view.CLI.CLIInputReader;
+import it.polimi.it.galaxytrucker.view.CLI.CLIViewStates.CLIViewState;
 import it.polimi.it.galaxytrucker.view.CLI.ConsoleColors;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CLIEngineActivationState extends CLIViewState{
+public class CLIEngineActivationState extends CLIViewState {
     private final List<Coordinates> engineCoords = new ArrayList<>();
     private final List<Coordinates> batteryCoords = new ArrayList<>();
     private final List<List<Coordinates>> engineAndBatteryCoord = new ArrayList<>();
