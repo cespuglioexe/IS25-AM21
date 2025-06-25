@@ -99,16 +99,14 @@ public class GUICrewmatePenaltyController extends GUIViewState implements GUIErr
 
     @FXML
     private void applyPenalty(){
-        if(numberOfCrewmates != 0){
-            for(int i=0;i<numberOfCrewmates;i++){
-                crewmateCoord.add(new Coordinates(0, 0));
-            }
-        }
-       GUIView.getInstance().getClient().receiveUserInput(
+
+
+
+        GUIView.getInstance().getClient().receiveUserInput(
                new UserInput.UserInputBuilder(UserInputType.CREWMATE_PENALTY)
                        .setRemovedCrewmate(crewmateCoord)
                        .build()
-       );
+        );
     }
 
 

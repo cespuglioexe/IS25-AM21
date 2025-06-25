@@ -27,6 +27,7 @@ public class EngineSelectionState extends State {
         Subject subject = (Subject) fsm;
         if (allPlayersHaveResponded()) {
             changeState(fsm, new CrewmatePenaltyState());
+            return;
         }
         subject.notifyObservers(new InputNeeded(card, getPlayerWhoChooses(card)));
     }
