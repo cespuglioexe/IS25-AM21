@@ -113,18 +113,11 @@ public class OpenSpaceTest {
 
         flightBoard.printFlightBoardState();
 
-        int positionPreCard1= flightBoard.getPlayerPosition().get(player1);
-        int positionPreCard2= flightBoard.getPlayerPosition().get(player2);
-        int positionPreCard3= flightBoard.getPlayerPosition().get(player3);
-        int positionPreCard4= flightBoard.getPlayerPosition().get(player4);
-
-
         card.selectEngine(player1,doubleEngine);
         card.selectEngine(player2,doubleEngine);
         card.selectEngine(player3,doubleEngine);
 
         assertNotEquals(EndState.class, card.getCurrentState().getClass());
-
     }
 
 

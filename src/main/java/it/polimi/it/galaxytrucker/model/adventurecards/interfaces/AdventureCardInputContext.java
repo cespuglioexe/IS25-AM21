@@ -3,18 +3,20 @@ package it.polimi.it.galaxytrucker.model.adventurecards.interfaces;
 import java.util.HashMap;
 import java.util.Map;
 
+import it.polimi.it.galaxytrucker.model.managers.AdventureCardInputFields;
+
 public class AdventureCardInputContext {
-    private Map<String, Object> inputMap;
+    private Map<AdventureCardInputFields, Object> inputMap;
 
     public AdventureCardInputContext() {
         inputMap = new HashMap<>();
     }
 
-    public void put(String key, Object value) {
+    public void put(AdventureCardInputFields key, Object value) {
         inputMap.put(key, value);
     }
 
-    public <T> T get(String key, Class<T> clazz) {
+    public <T> T get(AdventureCardInputFields key, Class<T> clazz) {
         Object value = inputMap.get(key);
 
         if (!clazz.isInstance(value)) {
@@ -27,11 +29,11 @@ public class AdventureCardInputContext {
     }
 
     @SuppressWarnings("unchecked")
-    public <T> T getUnsafe(String key) {
+    public <T> T getUnsafe(AdventureCardInputFields key) {
         return (T) inputMap.remove(key);
     }
 
-    public boolean has(String key) {
+    public boolean has(AdventureCardInputFields key) {
         return inputMap.containsKey(key);
     }
 }
