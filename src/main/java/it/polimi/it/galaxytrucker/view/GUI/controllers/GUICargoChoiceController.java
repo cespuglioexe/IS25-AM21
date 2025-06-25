@@ -170,11 +170,10 @@ public class GUICargoChoiceController extends GUIViewState implements GUIErrorHa
     private void acceptReward() {
         if(!cargoReward.isEmpty()) {
             for(Cargo cargo: cargoReward) {
-                if(cargo.equals(cargoToIndex.get(cargo))) {
-                    cargoCoords.put(cargoToIndex.get(cargo),new Coordinates(0,0));
-                }
+                cargoCoords.put(cargoToIndex.get(cargo),new Coordinates(0,0));
             }
         }
+
         GUIView.getInstance().getClient().receiveUserInput(
                 new UserInput.UserInputBuilder(UserInputType.CARGO_REWARD)
                         .setAcceptedCargo(cargoCoords)
