@@ -28,13 +28,14 @@ import java.util.List;
  * <li>{@code batteryCharge}: The current battery charge of the tile. Applicable only for "BatteryComponent" tiles; otherwise, it is 0.</li>
  * <li>{@code crewmates}: A list of strings representing the types of crewmates on the tile. Applicable for "CentralCabin" and "CabinModule" tiles; otherwise, it is an empty list. Crewmates are represented as "HUMAN" or the uppercase string of the alien type ("PURPLE", "BROWN").</li>
  * <li>{@code cargo}: A list of {@link Color} enums representing the colors of cargo on the tile. Applicable for "CargoHold" and "SpecialCargoHold" tiles; otherwise, it is an empty list.</li>
+ * <li>{@code capacity}: The maximum amount of cargo the component can contain. Applicable for "CargoHold" and "SpecialCargoHold" tiles; otherwise, it is 0.</li>
  * </ul>
  *
  * @author Giacomo Amaducci
  * @version 1.2
  */
 public record TileData(int rotation, String type, TileEdge top, TileEdge right, TileEdge bottom, TileEdge left,
-                       String graphicPath, int batteryCharge, List<String> crewmates, List<Color> cargo) implements Serializable {
+                       String graphicPath, int batteryCharge, List<String> crewmates, List<Color> cargo, int capacity) implements Serializable {
 
     /**
      * Constructs a {@code TileData} record. This constructor is annotated with {@link JsonCreator}
@@ -50,6 +51,7 @@ public record TileData(int rotation, String type, TileEdge top, TileEdge right, 
      * @param batteryCharge The current battery charge of the tile, if applicable (0 otherwise).
      * @param crewmates A list of strings representing the types of crewmates on the tile ("HUMAN" or "PURPLE"/"BROWN" for aliens).
      * @param cargo A list of {@link Color} enums representing the colors of cargo on the tile.
+     * @param capacity {@code capacity}: The maximum amount of cargo the component can contain. Applicable for "CargoHold" and "SpecialCargoHold" tiles; otherwise, it is 0.
      */
     @JsonCreator
     public TileData(
@@ -62,7 +64,8 @@ public record TileData(int rotation, String type, TileEdge top, TileEdge right, 
             @JsonProperty("graphicPath") String graphicPath,
             @JsonProperty("batteryCharge") int batteryCharge,
             @JsonProperty("crewmates") List<String> crewmates,
-            @JsonProperty("cargo") List<Color> cargo) {
+            @JsonProperty("cargo") List<Color> cargo,
+            @JsonProperty("capacity") int capacity) {
         this.rotation = rotation;
         this.type = type;
         this.top = top;
@@ -73,6 +76,7 @@ public record TileData(int rotation, String type, TileEdge top, TileEdge right, 
         this.batteryCharge = batteryCharge;
         this.crewmates = crewmates;
         this.cargo = cargo;
+        this.capacity = capacity;
     }
 
     /**
@@ -91,6 +95,7 @@ public record TileData(int rotation, String type, TileEdge top, TileEdge right, 
             int batteryCharge = 0;
             List<String> crewmateList = new ArrayList<>();
             List<Color> cargoColors = new ArrayList<>();
+            int cargoCap = 0;
 
             switch (componentTile.getClass().getSimpleName()) {
                 case "BatteryComponent" -> {
@@ -104,6 +109,7 @@ public record TileData(int rotation, String type, TileEdge top, TileEdge right, 
                 }
 
                 case "CargoHold", "SpecialCargoHold" -> {
+                    cargoCap = ((CargoHold) componentTile).getContainerNumber();
                     for (Cargo cargo : ((CargoHold) componentTile).getContainedCargo()) {
                         cargoColors.add(cargo.getColor());
                     }
@@ -120,7 +126,8 @@ public record TileData(int rotation, String type, TileEdge top, TileEdge right, 
                     componentTile.getGraphicPath(),
                     batteryCharge,
                     crewmateList,
-                    cargoColors
+                    cargoColors,
+                    cargoCap
             );
         }
         return null;

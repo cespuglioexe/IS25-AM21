@@ -185,6 +185,16 @@ public class CLIView extends View {
     }
 
     @Override
+    public void showScoreBoard() {
+
+    }
+
+    @Override
+    public void showSleepView() {
+
+    }
+
+    @Override
     public void displayCardUpdates(String card, String cardState, Map<String, Object> cardDetails) {
 
     }
