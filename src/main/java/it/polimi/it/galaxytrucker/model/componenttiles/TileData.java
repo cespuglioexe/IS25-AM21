@@ -99,7 +99,7 @@ public record TileData(int rotation, String type, TileEdge top, TileEdge right, 
             List<String> crewmateList = new ArrayList<>();
             List<Color> cargoColors = new ArrayList<>();
             int cargoCap = 0;
-            String alienType = "";
+            String alienType = "Schumi";
 
             switch (componentTile.getClass().getSimpleName()) {
                 case "BatteryComponent" -> {

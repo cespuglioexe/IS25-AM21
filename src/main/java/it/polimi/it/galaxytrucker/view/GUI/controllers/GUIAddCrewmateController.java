@@ -125,11 +125,17 @@ public class GUIAddCrewmateController extends GUIViewState{
         List<Boolean> typeCrewmates = new ArrayList<>();
         Map<Coordinates,List<Boolean>> crewmates = new HashMap<>();
 
+        pacounter = pacounter*2;
+        bacounter =bacounter*2;
+
+        int currentTotCounter = pacounter + bacounter + hcounter;
+        System.out.println("Placing: "+currentTotCounter+" crewmates");
+
         System.out.println("Element selected: "+shipController.selectedRow + shipController.selectedColumn);
         System.out.println("Type: "+shipController.tileSelectedTypeString(shipController.selectedRow ,shipController.selectedColumn));
 
         System.out.println("Border 0: " + shipController.tileSelectedTypeString(shipController.selectedRow +1,shipController.selectedColumn));
-        System.out.println("Border 1: " + shipController.tileSelectedTypeString(shipController.selectedRow,shipController.selectedColumn-1));
+        System.out.println("Border 1: " + shipController.tileSelectedTypeString(shipController.selectedRow,shipController.selectedColumn+1));
         System.out.println("Border 2: " + shipController.tileSelectedTypeString(shipController.selectedRow -1,shipController.selectedColumn));
         System.out.println("Border 3: " + shipController.tileSelectedTypeString(shipController.selectedRow ,shipController.selectedColumn-1));
 
@@ -140,17 +146,16 @@ public class GUIAddCrewmateController extends GUIViewState{
         borders.add(shipController.tileSelectedTypeString(shipController.selectedRow ,shipController.selectedColumn-1));
 
 
-
-        if(es.equals("CabinModule")){
+        if(es.equals("CabinModule") && currentTotCounter<3){
             for(int i = 0; i< hcounter; i++){
                 typeCrewmates.add(true);
                 crewmates.put(c, typeCrewmates);
                 typeCrewmates.clear();
             }
-            alienPlaced += pacounter + bacounter;
-            if(alienPlaced<3){
+            alienPlaced = alienPlaced + pacounter + bacounter;
+            if(alienPlaced<5 && (pacounter>0 || bacounter>0) ){
                 for(String s : borders){
-                    if(s.equals("LifeSupport"))
+                    if(s.equals("LifeSupportPURPLEALIEN"))
                     {
                         for (int i=0;i<pacounter;i++){
                             typeCrewmates.add(false);
@@ -158,40 +163,42 @@ public class GUIAddCrewmateController extends GUIViewState{
                             crewmates.put(c, typeCrewmates);
                             typeCrewmates.clear();
                         }
+                        alienCounterPurple.setText(String.valueOf(pacounter));
+
+                    }else if(s.equals("LifeSupportBROWNALIEN")){
                         for (int i=0;i<bacounter;i++){
                             typeCrewmates.add(false);
                             typeCrewmates.add(false);
                             crewmates.put(c, typeCrewmates);
                             typeCrewmates.clear();
                         }
-
-                        bacounter = 0;
-                        pacounter = 0;
-                        alienCounterPurple.setText(String.valueOf(pacounter));
                         alienCounterBrown.setText(String.valueOf(bacounter));
+
+                    }else{
+                        errorLabel.setText("Aliens need a life support!!");
+                        errorLabel.setVisible(true);
                     }
-
                 }
-
-
-            }else {
-                errorLabel.setText("Too many aliens!!");
-                errorLabel.setVisible(true);
-                System.out.println("troppi alieni - umani piazzati");
-                alienPlaced = alienPlaced -pacounter-bacounter;
-
             }
-            hcounter = 0;
-            humanCounter.setText(String.valueOf(hcounter));
 
             System.out.println("List crewmates: " + crewmates);
+
         }else{
-            errorLabel.setText("You must choose a CABINE MODULE!!");
+            errorLabel.setText("Cant place for some reason!!");
+            errorLabel.setVisible(true);
         }
 
-        System.out.println("Humans: " + humanCounter);
-        System.out.println("Pacounter: " + pacounter);
-        System.out.println("bacounter: " + bacounter);
+        System.out.println("Humans: " + hcounter);
+        System.out.println("Pacounter: " + pacounter/2);
+        System.out.println("bacounter: " + bacounter/2);
+
+        hcounter = 0;
+        bacounter = 0;
+        pacounter = 0;
+        currentTotCounter = 0;
+        humanCounter.setText(String.valueOf(hcounter));
+        alienCounterBrown.setText(String.valueOf(bacounter));
+        alienCounterPurple.setText(String.valueOf(pacounter));
     }
 
 

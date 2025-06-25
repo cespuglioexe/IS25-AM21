@@ -206,6 +206,11 @@ public class CLIView extends View {
     }
 
     @Override
+    public void addCrewmates() {
+
+    }
+
+    @Override
     public void displayCardUpdates(String card, String cardState, Map<String, Object> cardDetails) {
 
     }

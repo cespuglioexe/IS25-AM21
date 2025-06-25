@@ -116,8 +116,16 @@ public class PlayerShipElementController {
     public String tileSelectedTypeString(int row, int col) {
         List<List<TileData>> ship = GUIView.getInstance().getClient().getModel().getPlayerShips(GUIView.getInstance().getClient().getModel().getMyData().getPlayerId());
         TileData tileData = ship.get(row-5).get(col-4);
-        
 
-        return tileData.type();
+        if (tileData != null) {
+            if(tileData.type().equals("LifeSupport")) {
+                return tileData.type() + tileData.alienSupport();
+            }else {
+                return tileData.type();
+            }
+        }else {
+            return "";
+        }
+
     }
 }
