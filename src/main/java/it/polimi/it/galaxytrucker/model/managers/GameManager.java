@@ -572,6 +572,7 @@ public class GameManager extends StateMachine implements Model, Observable {
 
         return doubleEngineAndBatteries;
     }
+
     @Override
     public void activateShield(UUID playerID, List<List<Coordinates>> shieldAndBatteries) {
         AdventureCardInputContext response = new AdventureCardInputContext();
@@ -586,7 +587,6 @@ public class GameManager extends StateMachine implements Model, Observable {
 
         inputHandler.dispatch(adventureDeck.getLastDrawnCard(), response);
     }
-
     private HashMap<List<Integer>, List<Integer>> buildShieldResponse(List<List<Coordinates>> shieldsAndBatteries) {
         HashMap<List<Integer>, List<Integer>> shieldsAndBatteriesMap = new HashMap<>();
         for (List<Coordinates> shieldAndBattery : shieldsAndBatteries) {
@@ -690,19 +690,6 @@ public class GameManager extends StateMachine implements Model, Observable {
     public void defeat(Player player) {
         player.defeat();
         flightBoard.removePlayerMarker(player);
-    }
-
-    public void test() {
-        try {
-
-        } catch (Exception e) {
-            GameUpdate error = new GameUpdate.GameUpdateBuilder(GameUpdateType.INVALID_INPUT)
-                .setInterestedPlayerId(null) //TODO
-                .setOperationMessage(e.getMessage())
-                .build();
-            
-            updateListeners(error);
-        }
     }
 
     public void updateListenersCardNeedsInput(InputNeeded event) {

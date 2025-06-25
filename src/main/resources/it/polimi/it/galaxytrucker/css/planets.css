@@ -139,3 +139,95 @@
 .occupied-planet {
     -fx-opacity: 0.7; 
 }
+
+/* ---------- COMBOBOX STILE GALAXY ---------- */
+.cabin-combo {
+    -fx-background-color: #222;
+    -fx-background-radius: 20;
+    -fx-border-color: #00ff6e;
+    -fx-border-radius: 20;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-padding: 6 12 6 12;
+}
+
+/* freccetta */
+.cabin-combo .arrow {
+    -fx-background-color: #00ff6e;
+}
+
+/* celle del menu a tendina */
+.combo-box-popup .list-view .list-cell {
+    -fx-font-size: 16px;
+    -fx-text-fill: white;
+    -fx-padding: 6 12;
+    -fx-background-color: #333;
+}
+.combo-box-popup .list-view .list-cell:hover {
+    -fx-background-color: #444;
+}
+.combo-box-popup .list-view .list-cell:filled:selected {
+    -fx-background-color: #00c966;
+}
+
+
+.cabin-listview {
+    -fx-background-color: rgba(0, 0, 0, 0.35);   /* vetrino scuro */
+    -fx-border-color: #00ff6e;                   /* verde fluo */
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-padding: 6;
+    -fx-faint-focus-color: transparent;          /* niente alone focus */
+    -fx-focus-color: transparent;
+}
+
+/* Celle normali */
+.cabin-listview .list-cell {
+    -fx-font-family: "Cambria";
+    -fx-font-size: 16px;
+    -fx-text-fill: white;
+    -fx-padding: 6 10 6 34;          /* spazio per la checkbox */
+    -fx-background-color: transparent;
+}
+
+/* Checkbox icona (spunta) */
+.cabin-listview .list-cell > .checkbox > .box {
+    -fx-background-color: transparent, #333;
+    -fx-background-insets: 0, 2;
+    -fx-background-radius: 0, 5;
+    -fx-border-color: #00ff6e;
+    -fx-border-radius: 5;
+    -fx-padding: 4;
+}
+.cabin-listview .list-cell:selected > .checkbox > .box,
+.cabin-listview .list-cell > .checkbox:selected > .box {
+    -fx-background-color: #00c853;      /* quadratino verde quando selezionato */
+}
+.cabin-listview .list-cell > .checkbox:selected > .box > .mark {
+    -fx-background-color: white;        /* la spunta in bianco */
+}
+
+/* Hover highlight */
+.cabin-listview .list-cell:hover {
+    -fx-background-color: rgba(0, 255, 110, 0.15);
+}
+
+/* Selezione (max 5) mantenuta in verde scuro */
+.cabin-listview .list-cell:filled:selected  {
+    -fx-background-color: #004d40;
+}
+
+/* Scroll bar sottile + neon handle */
+.cabin-listview .scroll-bar:vertical {
+    -fx-padding: 0;
+    -fx-background-color: transparent;
+}
+.cabin-listview .thumb {
+    -fx-background-color: linear-gradient(#00ff8c, #00c853);
+    -fx-background-radius: 5;
+}
+.cabin-listview .track {
+    -fx-background-color: rgba(255,255,255,0.12);
+    -fx-background-radius: 5;
+}

@@ -13,3 +13,10 @@
     -fx-border-radius: 5;
     -fx-transition: -fx-border-color 0.3s ease-in-out;
 }
+
+.tooltip {
+    -fx-pref-width: -1; /* auto */
+    -fx-max-width: 300px; /* limite fisso massimo */
+    -fx-max-height: 120px; /* limite verticale per evitare balloon giganti */
+    -fx-wrap-text: true;
+}

@@ -175,7 +175,8 @@ public class GUIView extends View {
     @Override
     public void displayInputOptions(String card, String cardState) {
         try {
-            Thread.sleep(5000);
+            GUIView.getInstance().showSleepView();
+            Thread.sleep(3000);
         } catch (InterruptedException e) {
             System.out.println("Error while waiting for input options: " + e.getMessage());
         }

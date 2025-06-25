@@ -208,7 +208,6 @@ public abstract class Client extends UnicastRemoteObject implements Runnable, Cl
                 if (update.getInterestedPlayerId().equals(model.getMyData().getPlayerId())) {
                     view.displayInputOptions(update.getOperationMessage(), update.getNewSate());
                 } else {
-                    System.out.println("Dovrebbe andare!!!!!!!!!!");
                     view.loadingScreen();
                 }
                 break;
