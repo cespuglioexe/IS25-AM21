@@ -4,6 +4,7 @@ import it.polimi.it.galaxytrucker.view.GUI.GUIView;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -40,13 +41,22 @@ public class GUISleepViewController extends GUIViewState {
     @Override
     public void displayScene() {
         Platform.runLater(() -> {
+            try {
+                FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(
+                        GUIFixingShipController.class.getResource("/it/polimi/it/galaxytrucker/fxmlstages/sleepView.fxml")
+                ));
+                loader.setController(this);
+                Parent newRoot = loader.load();
 
-            activeCard.setImage(new Image(Objects.requireNonNull(GUIGameTurn.class.getResourceAsStream("/it/polimi/it/galaxytrucker/graphics/cards/" + GUIView.getInstance().getClient().getModel().getActiveCardGraphicPath()))));
+                activeCard.setImage(new Image(Objects.requireNonNull(GUIGameTurn.class.getResourceAsStream("/it/polimi/it/galaxytrucker/graphics/cards/" + GUIView.getInstance().getClient().getModel().getActiveCardGraphicPath()))));
 
-            stage = (Stage) GUIView.stage.getScene().getWindow();
-            scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
+                stage = (Stage) GUIView.stage.getScene().getWindow();
+                scene = new Scene(newRoot);
+                stage.setScene(scene);
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         });
     }
 }
