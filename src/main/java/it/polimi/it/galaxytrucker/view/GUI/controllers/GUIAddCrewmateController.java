@@ -2,6 +2,9 @@ package it.polimi.it.galaxytrucker.view.GUI.controllers;
 
 import it.polimi.it.galaxytrucker.messages.clientmessages.UserInput;
 import it.polimi.it.galaxytrucker.messages.clientmessages.UserInputType;
+import it.polimi.it.galaxytrucker.model.componenttiles.CabinModule;
+import it.polimi.it.galaxytrucker.model.componenttiles.CentralCabin;
+import it.polimi.it.galaxytrucker.model.managers.ShipManager;
 import it.polimi.it.galaxytrucker.model.utility.Coordinates;
 import it.polimi.it.galaxytrucker.view.GUI.GUIView;
 import javafx.application.Platform;
@@ -14,6 +17,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Stream;
 
 public class GUIAddCrewmateController extends GUIViewState{
 
@@ -125,6 +129,7 @@ public class GUIAddCrewmateController extends GUIViewState{
         List<Boolean> typeCrewmates = new ArrayList<>();
         Map<Coordinates,List<Boolean>> crewmates = new HashMap<>();
 
+
         pacounter = pacounter*2;
         bacounter =bacounter*2;
 
@@ -200,6 +205,7 @@ public class GUIAddCrewmateController extends GUIViewState{
         humanCounter.setText(String.valueOf(hcounter));
         alienCounterBrown.setText(String.valueOf(bacounter));
         alienCounterPurple.setText(String.valueOf(pacounter));
+
     }
 
 
@@ -213,6 +219,64 @@ public class GUIAddCrewmateController extends GUIViewState{
     @FXML
     public void updateShip(){
         shipController.displayShip();
+    }
+
+    /*private void removeCrewmatesNearCabins(ShipManager ship) {
+        Set<List<Integer>> cabinsCoords = new HashSet<>();
+        cabinsCoords.addAll(ship.getAllComponentsPositionOfType(CabinModule.class));
+        cabinsCoords.addAll(ship.getAllComponentsPositionOfType(CentralCabin.class));
+
+        List<Set<List<Integer>>> cabinBranches = getCabinBranches(cabinsCoords, ship);
+
+        for (Set<List<Integer>> branch : cabinBranches) {
+            removeCrewmatesFromBranchIfAnyInfected(branch, ship);
+        }
+    }*/
+    private List<Set<List<Integer>>> getCabinBranches(Set<List<Integer>> cabins, ShipManager ship) {
+        List<Set<List<Integer>>> cabinBranches = new ArrayList<>();
+        Set<List<Integer>> visitedCabins = new HashSet<>();
+
+        for (List<Integer> cabin : cabins) {
+            if (!visitedCabins.contains(cabin)) {
+                Set<List<Integer>> newBranch = new HashSet<>();
+
+                getBranchOfCabin(cabin, ship, newBranch);
+                visitedCabins.addAll(newBranch);
+                cabinBranches.add(newBranch);
+            }
+        }
+        return cabinBranches;
+    }
+
+    private void getBranchOfCabin(List<Integer> cabinCoords, ShipManager ship, Set<List<Integer>> branch) {
+        CentralCabin cabin = (CentralCabin) ship.getComponent(cabinCoords.get(0), cabinCoords.get(1)).get();
+
+        if (cabin.getCrewmates().isEmpty()) {
+            return;
+        }
+        if (branch.contains(cabinCoords)) {
+            return;
+        }
+
+        branch.add(cabinCoords);
+
+        for (List<Integer> adjacentCabin : getAdjacentLifeSupport(ship, cabinCoords)) {
+            getBranchOfCabin(adjacentCabin, ship, branch);
+        }
+    }
+
+    private List<List<Integer>> getAdjacentLifeSupport(ShipManager ship, List<Integer> referenceCabin) {
+        return Stream.concat(
+                        ship.getAllComponentsPositionOfType(CabinModule.class).stream(),
+                        ship.getAllComponentsPositionOfType(CentralCabin.class).stream()
+                )
+                .filter(cabin -> isAdjacent(cabin, referenceCabin))
+                .toList();
+    }
+    private boolean isAdjacent(List<Integer> a, List<Integer> b) {
+        int rowDiff = Math.abs(a.get(0) - b.get(0));
+        int colDiff = Math.abs(a.get(1) - b.get(1));
+        return (rowDiff == 1 && colDiff == 0) || (rowDiff == 0 && colDiff == 1);
     }
 
 }

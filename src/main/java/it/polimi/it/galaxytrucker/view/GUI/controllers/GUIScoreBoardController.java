@@ -58,7 +58,7 @@ public class GUIScoreBoardController extends GUIViewState{
 
     @FXML
     public void updateScoreboard(){
-        GUIView.getInstance().getClient().getModel().getMyData().getNickname();
+        nick0.setText(GUIView.getInstance().getClient().getModel().getMyData().getNickname());
 
     }
 
