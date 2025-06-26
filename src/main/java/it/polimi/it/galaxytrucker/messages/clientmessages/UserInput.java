@@ -31,6 +31,7 @@ public class UserInput extends Message {
 
     private final List<List<Coordinates>> componentsForActivation;
     private final HashMap<Integer,Coordinates> acceptedCargo;
+    private final HashMap<String,Coordinates> placedCrewmate;
     private final List<Coordinates> removedCrewmate;
     private final boolean creditChoice;
     private final boolean participation;
@@ -58,7 +59,8 @@ public class UserInput extends Message {
             @JsonProperty("creditChoice") boolean creditChoice,
             @JsonProperty("removedCrewmate") List<Coordinates> removedCrewmate,
             @JsonProperty("participation") boolean participation,
-            @JsonProperty("participationChoice") int participationChoice){
+            @JsonProperty("participationChoice") int participationChoice,
+            @JsonProperty("placedCrewmate") HashMap<String,Coordinates> placedCrewmate){
         this.type = type;
         this.serverName = serverName;
         this.playerName = playerName;
@@ -76,6 +78,7 @@ public class UserInput extends Message {
         this.removedCrewmate = removedCrewmate;
         this.participation = participation;
         this.participationChoice = participationChoice;
+        this.placedCrewmate = placedCrewmate;
     }
 
     public UserInput(UserInputBuilder builder) {
@@ -97,6 +100,7 @@ public class UserInput extends Message {
         this.removedCrewmate = builder.removedCrewmate;
         this.participation = builder.participation;
         this.participationChoice = builder.participationChoice;
+        this.placedCrewmate = builder.placedCrewmate;
     }
 
     public UserInputType getType() {
@@ -161,6 +165,10 @@ public class UserInput extends Message {
         return rotation;
     }
 
+    public HashMap<String, Coordinates> getPlacedCrewmate() {
+        return placedCrewmate;
+    }
+
     public int getSelectedTileIndex() {
         return selectedTileIndex;
     }
@@ -196,6 +204,7 @@ public class UserInput extends Message {
         private HashMap<Integer,Coordinates> acceptedCargo = new HashMap<>();
         private boolean creditChoice = false;
         private List<Coordinates> removedCrewmate = new ArrayList<>();
+        private HashMap<String,Coordinates> placedCrewmate = new HashMap<>();
         private boolean participation = false;
         private int participationChoice = 0;
 
@@ -225,6 +234,11 @@ public class UserInput extends Message {
 
         public UserInputBuilder setPlayerUuid(UUID playerUuid) {
             this.playerUuid = playerUuid;
+            return this;
+        }
+
+        public UserInputBuilder setPlacedCrewmate(HashMap<String, Coordinates> placedCrewmate) {
+            this.placedCrewmate = placedCrewmate;
             return this;
         }
 

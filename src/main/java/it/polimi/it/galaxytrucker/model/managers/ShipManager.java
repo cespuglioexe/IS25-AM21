@@ -24,6 +24,7 @@ import it.polimi.it.galaxytrucker.model.utility.Direction;
 import it.polimi.it.galaxytrucker.model.utility.AlienType;
 import it.polimi.it.galaxytrucker.exceptions.IllegalComponentPositionException;
 import it.polimi.it.galaxytrucker.exceptions.InvalidActionException;
+import it.polimi.it.galaxytrucker.view.CLI.ConsoleColors;
 
 import java.util.Set;
 import java.util.stream.Collectors;

@@ -98,15 +98,9 @@ public enum TileEdge {
     public abstract boolean isCompatible(TileEdge other);
 
     public static boolean isAConnector(TileEdge edge) {
-        switch(edge) {
-            case SINGLE:
-                return true;
-            case DOUBLE:
-                return true;
-            case UNIVERSAL:
-                return true;
-            default:
-                return false;
-        }
+        return switch (edge) {
+            case SINGLE, DOUBLE, UNIVERSAL -> true;
+            default -> false;
+        };
     }
 }
