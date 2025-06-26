@@ -17,7 +17,6 @@ import it.polimi.it.galaxytrucker.model.adventurecards.cards.Smugglers;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCard;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCardInputContext;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCardVisitor;
-import it.polimi.it.galaxytrucker.view.CLI.ConsoleColors;
 
 public class AdventureCardInputDispatcherImpl implements AdventureCardInputDispatcher, AdventureCardVisitor {
     @Override
@@ -28,23 +27,23 @@ public class AdventureCardInputDispatcherImpl implements AdventureCardInputDispa
     @Override
     public void visit(Planets card, AdventureCardInputContext context) {
         if (isParticipation(context)) {
-            Player player = context.get("player", Player.class);
-            boolean participates = context.get("participates", Boolean.class);
+            Player player = context.get(AdventureCardInputFields.PLAYER, Player.class);
+            boolean participates = context.get(AdventureCardInputFields.PARTICIPATES, Boolean.class);
 
             if (participates) {
-                int choice = context.get("choice", Integer.class);
+                int choice = context.get(AdventureCardInputFields.CHOICE, Integer.class);
 
                 card.participate(player, choice);
             } else {
                 card.decline(player);
             }
         } else if (isCargoReward(context)) {
-            int loadIndex = context.get("loadIndex", Integer.class);
-            boolean accepts = context.get("acceptsCargo", Boolean.class);
+            int loadIndex = context.get(AdventureCardInputFields.LOAD_INDEX, Integer.class);
+            boolean accepts = context.get(AdventureCardInputFields.ACCEPTS_CARGO, Boolean.class);
 
             if (accepts) {
-                int row = context.get("row", Integer.class);
-                int column = context.get("column", Integer.class);
+                int row = context.get(AdventureCardInputFields.ROW, Integer.class);
+                int column = context.get(AdventureCardInputFields.COLUMN, Integer.class);
 
                 card.acceptCargo(loadIndex, row, column);
             } else {
@@ -56,19 +55,17 @@ public class AdventureCardInputDispatcherImpl implements AdventureCardInputDispa
     @Override
     public void visit(AbandonedShip card, AdventureCardInputContext context) {
         if (isParticipation(context)) {
-            Player player = context.get("player", Player.class);
-            boolean participates = context.get("participates", Boolean.class);
+            Player player = context.get(AdventureCardInputFields.PLAYER, Player.class);
+            boolean participates = context.get(AdventureCardInputFields.PARTICIPATES, Boolean.class);
 
             if (participates) {
-                int choice = context.get("choice", Integer.class);
-
-                card.participate(player, choice);
+                card.participate(player, 0);
             } else {
                 card.decline(player);
             }
         } else if (isCrewmatePenalty(context)) {
-            int row = context.get("row", Integer.class);
-            int column = context.get("column", Integer.class);
+            int row = context.get(AdventureCardInputFields.ROW, Integer.class);
+            int column = context.get(AdventureCardInputFields.COLUMN, Integer.class);
 
             card.applyCrewmatePenalty(row, column);
         }
@@ -77,23 +74,21 @@ public class AdventureCardInputDispatcherImpl implements AdventureCardInputDispa
     @Override
     public void visit(AbandonedStation card, AdventureCardInputContext context) {
         if (isParticipation(context)) {
-            Player player = context.get("player", Player.class);
-            boolean participates = context.get("participates", Boolean.class);
+            Player player = context.get(AdventureCardInputFields.PLAYER, Player.class);
+            boolean participates = context.get(AdventureCardInputFields.PARTICIPATES, Boolean.class);
 
             if (participates) {
-                int choice = context.get("choice", Integer.class);
-
-                card.participate(player, choice);
+                card.participate(player, 0);
             } else {
                 card.decline(player);
             }
         } else if (isCargoReward(context)) {
-            int loadIndex = context.get("loadIndex", Integer.class);
-            boolean accepts = context.get("acceptsCargo", Boolean.class);
+            int loadIndex = context.get(AdventureCardInputFields.LOAD_INDEX, Integer.class);
+            boolean accepts = context.get(AdventureCardInputFields.ACCEPTS_CARGO, Boolean.class);
 
             if (accepts) {
-                int row = context.get("row", Integer.class);
-                int column = context.get("column", Integer.class);
+                int row = context.get(AdventureCardInputFields.ROW, Integer.class);
+                int column = context.get(AdventureCardInputFields.COLUMN, Integer.class);
 
                 card.acceptCargo(loadIndex, row, column);
             } else {
@@ -105,11 +100,11 @@ public class AdventureCardInputDispatcherImpl implements AdventureCardInputDispa
     @Override
     public void visit(OpenSpace card, AdventureCardInputContext context) {
         if (isEngineSelection(context)) {
-            Player player = context.get("player", Player.class);
-            boolean activates = context.get("activatesDoubleEngines", Boolean.class);
+            Player player = context.get(AdventureCardInputFields.PLAYER, Player.class);
+            boolean activates = context.get(AdventureCardInputFields.ACTIVATES_DOUBLE_ENGINES, Boolean.class);
 
             if (activates) {
-                HashMap<List<Integer>, List<Integer>> engineAndBatteries = context.getUnsafe("engineAndBatteries");
+                HashMap<List<Integer>, List<Integer>> engineAndBatteries = context.getUnsafe(AdventureCardInputFields.DOUBLE_ENGINES_AND_BATTERIES);
 
                 card.selectEngine(player, engineAndBatteries);
             } else {
@@ -121,17 +116,17 @@ public class AdventureCardInputDispatcherImpl implements AdventureCardInputDispa
     @Override
     public void visit(Pirates card, AdventureCardInputContext context) {
         if (isCannonSelection(context)) {
-            boolean activates = context.get("activatesDoubleCannons", Boolean.class);
+            boolean activates = context.get(AdventureCardInputFields.ACTIVATES_DOUBLE_CANNONS, Boolean.class);
 
             if (activates) {
-                HashMap<List<Integer>, List<Integer>> cannonAndBatteries = context.getUnsafe("cannonAndBatteries");
+                HashMap<List<Integer>, List<Integer>> cannonAndBatteries = context.getUnsafe(AdventureCardInputFields.DOUBLE_CANNONS_AND_BATTERIES);
 
                 card.selectCannons(cannonAndBatteries);
             } else {
                 card.selectNoCannons();
             }
         } else if (isCreditReward(context)) {
-            boolean accepts = context.get("acceptsCredit", Boolean.class);
+            boolean accepts = context.get(AdventureCardInputFields.ACCEPTS_CREDIT, Boolean.class);
 
             if (accepts) {
                 card.applyCreditReward();
@@ -139,10 +134,10 @@ public class AdventureCardInputDispatcherImpl implements AdventureCardInputDispa
                 card.discardCreditReward();
             }
         } else if (isShieldSelection(context)) {
-            boolean activates = context.get("activatesShield", Boolean.class);
+            boolean activates = context.get(AdventureCardInputFields.ACTIVATES_SHIELD, Boolean.class);
 
             if (activates) {
-                HashMap<List<Integer>, List<Integer>> shieldAndBatteries = context.getUnsafe("shieldAndBatteries");
+                HashMap<List<Integer>, List<Integer>> shieldAndBatteries = context.getUnsafe(AdventureCardInputFields.SHIELD_AND_BATTERIES);
 
                 card.activateShields(shieldAndBatteries);
             } else {
@@ -154,17 +149,17 @@ public class AdventureCardInputDispatcherImpl implements AdventureCardInputDispa
     @Override
     public void visit(Slavers card, AdventureCardInputContext context) {
         if (isCannonSelection(context)) {
-            boolean activates = context.get("activatesDoubleCannons", Boolean.class);
+            boolean activates = context.get(AdventureCardInputFields.ACTIVATES_DOUBLE_CANNONS, Boolean.class);
 
             if (activates) {
-                HashMap<List<Integer>, List<Integer>> cannonAndBatteries = context.getUnsafe("cannonAndBatteries");
+                HashMap<List<Integer>, List<Integer>> cannonAndBatteries = context.getUnsafe(AdventureCardInputFields.DOUBLE_CANNONS_AND_BATTERIES);
 
                 card.selectCannons(cannonAndBatteries);
             } else {
                 card.selectNoCannons();
             }
         } else if (isCreditReward(context)) {
-            boolean accepts = context.get("acceptsCredit", Boolean.class);
+            boolean accepts = context.get(AdventureCardInputFields.ACCEPTS_CREDIT, Boolean.class);
 
             if (accepts) {
                 card.applyCreditReward();
@@ -172,66 +167,65 @@ public class AdventureCardInputDispatcherImpl implements AdventureCardInputDispa
                 card.discardCreditReward();
             }
         } else if (isCrewmatePenalty(context)) {
-            int row = context.get("row", Integer.class);
-            int column = context.get("column", Integer.class);
+            List<List<Integer>> crewmates = context.getUnsafe(AdventureCardInputFields.CREWMATES);
 
-            card.applyCrewmatePenalty(row, column);
+            card.sellSlaves(crewmates);
         }
     }
 
     @Override
     public void visit(Smugglers card, AdventureCardInputContext context) {
         if (isCannonSelection(context)) {
-            boolean activates = context.get("activatesDoubleCannons", Boolean.class);
+            boolean activates = context.get(AdventureCardInputFields.ACTIVATES_DOUBLE_CANNONS, Boolean.class);
 
             if (activates) {
-                HashMap<List<Integer>, List<Integer>> cannonAndBatteries = context.getUnsafe("cannonAndBatteries");
+                HashMap<List<Integer>, List<Integer>> cannonAndBatteries = context.getUnsafe(AdventureCardInputFields.DOUBLE_CANNONS_AND_BATTERIES);
 
                 card.selectCannons(cannonAndBatteries);
             } else {
                 card.selectNoCannons();
             }
         } else if (isCargoReward(context)) {
-            int loadIndex = context.get("loadIndex", Integer.class);
-            boolean accepts = context.get("acceptsCargo", Boolean.class);
+            boolean accepts = context.get(AdventureCardInputFields.ACCEPTS_CARGO, Boolean.class);
 
             if (accepts) {
-                int row = context.get("row", Integer.class);
-                int column = context.get("column", Integer.class);
+                int row = context.get(AdventureCardInputFields.ROW, Integer.class);
+                int column = context.get(AdventureCardInputFields.COLUMN, Integer.class);
 
-                card.acceptCargo(loadIndex, row, column);
+                card.acceptCargo(0, row, column);
             } else {
-                card.discardCargo(loadIndex);
+                card.discardCargo(0);
             }
         }
     }
 
     @Override
     public void visit(MeteorSwarm card, AdventureCardInputContext context) {
-        System.out.println(ConsoleColors.MODEL_DEBUG + "balza the king" + ConsoleColors.RESET);
         if (isCannonSelection(context)) {
-            System.out.println(ConsoleColors.MODEL_DEBUG + "Marga the boss" + ConsoleColors.RESET);
-            boolean activates = context.get("activatesDoubleCannons", Boolean.class);
+            boolean activatesDoubleCannon = context.get(AdventureCardInputFields.ACTIVATES_DOUBLE_CANNONS, Boolean.class);
+            boolean activatesSingleCannon = context.get(AdventureCardInputFields.ACTIVATES_SINGLE_CANNON, Boolean.class);
             List<Integer> cannonCoord;
 
-            if (activates) {
-                HashMap<List<Integer>, List<Integer>> cannonAndBatteries = context.getUnsafe("cannonAndBatteries");
+            if (activatesDoubleCannon) {
+                HashMap<List<Integer>, List<Integer>> cannonAndBatteries = context.getUnsafe(AdventureCardInputFields.DOUBLE_CANNONS_AND_BATTERIES);
                 
                 Map.Entry<List<Integer>, List<Integer>> entry = cannonAndBatteries.entrySet().iterator().next();
                 cannonCoord = entry.getKey();
                 List<Integer> batteryCoord = entry.getValue();
 
                 card.shootAtMeteorWith(cannonCoord, batteryCoord);
-            } else {
-                cannonCoord = context.getUnsafe("singleCannonCoord");
+            } else if (activatesSingleCannon) {
+                cannonCoord = context.getUnsafe(AdventureCardInputFields.ACTIVATES_SINGLE_CANNON);
 
                 card.shootAtMeteorWith(cannonCoord);
+            } else {
+                card.notShootAtMeteor();
             }
         } else if (isShieldSelection(context)) {
-            boolean activates = context.get("activatesShield", Boolean.class);
+            boolean activates = context.get(AdventureCardInputFields.ACTIVATES_SHIELD, Boolean.class);
 
             if (activates) {
-                HashMap<List<Integer>, List<Integer>> shieldAndBatteries = context.getUnsafe("shieldAndBatteries");
+                HashMap<List<Integer>, List<Integer>> shieldAndBatteries = context.getUnsafe(AdventureCardInputFields.SHIELD_AND_BATTERIES);
 
                 card.activateShields(shieldAndBatteries);
             } else {
@@ -243,27 +237,30 @@ public class AdventureCardInputDispatcherImpl implements AdventureCardInputDispa
     @Override
     public void visit(BigMeteorSwarm card, AdventureCardInputContext context) {
         if (isCannonSelection(context)) {
-            boolean activates = context.get("activatesDoubleCannons", Boolean.class);
+            boolean activatesDoubleCannon = context.get(AdventureCardInputFields.ACTIVATES_DOUBLE_CANNONS, Boolean.class);
+            boolean activatesSingleCannon = context.get(AdventureCardInputFields.ACTIVATES_SINGLE_CANNON, Boolean.class);
             List<Integer> cannonCoord;
 
-            if (activates) {
-                HashMap<List<Integer>, List<Integer>> cannonAndBatteries = context.getUnsafe("cannonAndBatteries");
+            if (activatesDoubleCannon) {
+                HashMap<List<Integer>, List<Integer>> cannonAndBatteries = context.getUnsafe(AdventureCardInputFields.DOUBLE_CANNONS_AND_BATTERIES);
                 
                 Map.Entry<List<Integer>, List<Integer>> entry = cannonAndBatteries.entrySet().iterator().next();
                 cannonCoord = entry.getKey();
                 List<Integer> batteryCoord = entry.getValue();
 
                 card.shootAtMeteorWith(cannonCoord, batteryCoord);
-            } else {
-                cannonCoord = context.getUnsafe("singleCannonCoord");
+            } else if (activatesSingleCannon) {
+                cannonCoord = context.getUnsafe(AdventureCardInputFields.ACTIVATES_SINGLE_CANNON);
 
                 card.shootAtMeteorWith(cannonCoord);
+            } else {
+                card.notShootAtMeteor();
             }
         } else if (isShieldSelection(context)) {
-            boolean activates = context.get("activatesShield", Boolean.class);
+            boolean activates = context.get(AdventureCardInputFields.ACTIVATES_SHIELD, Boolean.class);
 
             if (activates) {
-                HashMap<List<Integer>, List<Integer>> shieldAndBatteries = context.getUnsafe("shieldAndBatteries");
+                HashMap<List<Integer>, List<Integer>> shieldAndBatteries = context.getUnsafe(AdventureCardInputFields.SHIELD_AND_BATTERIES);
 
                 card.activateShields(shieldAndBatteries);
             } else {
@@ -275,60 +272,73 @@ public class AdventureCardInputDispatcherImpl implements AdventureCardInputDispa
     @Override
     public void visit(CombatZone card, AdventureCardInputContext context) {
         if (isCannonSelection(context)) {
-            Player player = context.get("player", Player.class);
-            boolean activates = context.get("activatesDoubleCannons", Boolean.class);
+            Player player = context.get(AdventureCardInputFields.PLAYER, Player.class);
+            boolean activates = context.get(AdventureCardInputFields.ACTIVATES_DOUBLE_CANNONS, Boolean.class);
 
             if (activates) {
-                HashMap<List<Integer>, List<Integer>> cannonAndBatteries = context.getUnsafe("cannonAndBatteries");
+                HashMap<List<Integer>, List<Integer>> cannonAndBatteries = context.getUnsafe(AdventureCardInputFields.DOUBLE_CANNONS_AND_BATTERIES);
 
                 card.selectCannons(player, cannonAndBatteries);
             } else {
                 card.selectNoCannons(player);
             }
         } else if (isEngineSelection(context)) {
-            Player player = context.get("player", Player.class);
-            boolean activates = context.get("activatesDoubleEngines", Boolean.class);
+            Player player = context.get(AdventureCardInputFields.PLAYER, Player.class);
+            boolean activates = context.get(AdventureCardInputFields.ACTIVATES_DOUBLE_ENGINES, Boolean.class);
 
             if (activates) {
-                HashMap<List<Integer>, List<Integer>> engineAndBatteries = context.getUnsafe("engineAndBatteries");
+                HashMap<List<Integer>, List<Integer>> engineAndBatteries = context.getUnsafe(AdventureCardInputFields.DOUBLE_ENGINES_AND_BATTERIES);
 
                 card.selectEngines(player, engineAndBatteries);
             } else {
                 card.selectNoEngines(player);
             }
         } else if (isCrewmatePenalty(context)) {
-            int row = context.get("row", Integer.class);
-            int column = context.get("column", Integer.class);
+            int row = context.get(AdventureCardInputFields.ROW, Integer.class);
+            int column = context.get(AdventureCardInputFields.COLUMN, Integer.class);
 
             card.applyCrewmatePenalty(row, column);
+        } else if (isShieldSelection(context)) {
+            boolean activates = context.get(AdventureCardInputFields.ACTIVATES_SHIELD, Boolean.class);
+
+            if (activates) {
+                HashMap<List<Integer>, List<Integer>> shieldAndBatteries = context.getUnsafe(AdventureCardInputFields.SHIELD_AND_BATTERIES);
+
+                card.activateShields(shieldAndBatteries);
+            } else {
+                card.activateNoShield();
+            }
         }
     }
 
     private boolean isParticipation(AdventureCardInputContext context) {
-        return context.has("player") && context.has("participates");
+        return context.has(AdventureCardInputFields.PLAYER) && context.has(AdventureCardInputFields.PARTICIPATES);
     }
 
     private boolean isCargoReward(AdventureCardInputContext context) {
-        return context.has("loadIndex") && context.has("acceptsCargo");
+        return context.has(AdventureCardInputFields.ACCEPTS_CARGO);
     }
 
     private boolean isCreditReward(AdventureCardInputContext context) {
-        return context.has("acceptsCredit");
+        return context.has(AdventureCardInputFields.ACCEPTS_CREDIT);
     }
 
     private boolean isCrewmatePenalty(AdventureCardInputContext context) {
-        return context.has("crewmateCoords");
+        return context.has(AdventureCardInputFields.CREWMATE_PENALTY);
     }
 
     private boolean isCannonSelection(AdventureCardInputContext context) {
-        return context.has("player") && (context.has("activatesDoubleCannons") || context.has("activatesSingleCannon"));
+        return context.has(AdventureCardInputFields.PLAYER) && (
+            context.has(AdventureCardInputFields.ACTIVATES_DOUBLE_CANNONS) || 
+            context.has(AdventureCardInputFields.ACTIVATES_SINGLE_CANNON)
+        );
     }
 
     private boolean isEngineSelection(AdventureCardInputContext context) {
-        return context.has("player") && context.has("activatesDoubleEngines");
+        return context.has(AdventureCardInputFields.PLAYER) && context.has(AdventureCardInputFields.ACTIVATES_DOUBLE_ENGINES);
     }
 
     private boolean isShieldSelection(AdventureCardInputContext context) {
-        return context.has("activatesShield");
+        return context.has(AdventureCardInputFields.ACTIVATES_SHIELD);
     }
 }

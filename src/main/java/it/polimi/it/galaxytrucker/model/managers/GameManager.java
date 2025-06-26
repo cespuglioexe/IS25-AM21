@@ -507,19 +507,19 @@ public class GameManager extends StateMachine implements Model, Observable {
         AdventureCardInputDispatcher inputHandler = new AdventureCardInputDispatcherImpl();
         ShipManager ship = getPlayerShip(playerID);
 
-        response.put("player", getPlayerByID(playerID));
+        response.put(AdventureCardInputFields.PLAYER, getPlayerByID(playerID));
         if (cannonAndBatteries.isEmpty()) {
-            response.put("activatesDoubleCannons", false);
-            response.put("activatesSingleCannon", false);
+            response.put(AdventureCardInputFields.ACTIVATES_DOUBLE_CANNONS, false);
+            response.put(AdventureCardInputFields.ACTIVATES_SINGLE_CANNON, false);
 
         } else if (isDoubleCannon(ship, cannonAndBatteries.getFirst().getFirst())) {
-            response.put("activatesDoubleCannons", true);
+            response.put(AdventureCardInputFields.ACTIVATES_DOUBLE_CANNONS, true);
             HashMap<List<Integer>, List<Integer>> doubleCannonAndBatteries = buildDoubleCannonResponse(cannonAndBatteries);
 
-            response.put("cannonAndBatteries", doubleCannonAndBatteries);
+            response.put(AdventureCardInputFields.DOUBLE_CANNONS_AND_BATTERIES, doubleCannonAndBatteries);
 
         } else {
-            response.put("activatesSingleCannon", true);
+            response.put(AdventureCardInputFields.ACTIVATES_SINGLE_CANNON, true);
 
             List<Integer> singleCannon = new ArrayList<>();
             Coordinates coord = cannonAndBatteries.getFirst().getFirst();
@@ -527,7 +527,7 @@ public class GameManager extends StateMachine implements Model, Observable {
             singleCannon.add(coord.getRow());
             singleCannon.add(coord.getColumn());
 
-            response.put("singleCannonCoord", singleCannon);
+            response.put(AdventureCardInputFields.SINGLE_CANNON, singleCannon);
         }
         System.out.println(ConsoleColors.MODEL_DEBUG + response.toString() + ConsoleColors.RESET);
 
@@ -562,12 +562,12 @@ public class GameManager extends StateMachine implements Model, Observable {
         AdventureCardInputContext response = new AdventureCardInputContext();
         AdventureCardInputDispatcher inputHandler = new AdventureCardInputDispatcherImpl();
 
-        response.put("player", getPlayerByID(playerID));
+        response.put(AdventureCardInputFields.PLAYER, getPlayerByID(playerID));
         if (engineAndBatteries.isEmpty()) {
-            response.put("activatesDoubleEngines", false);
+            response.put(AdventureCardInputFields.ACTIVATES_DOUBLE_ENGINES, false);
         } else {
-            response.put("activatesDoubleEngines", true);
-            response.put("engineAndBatteries", buildDoubleEnigneResponse(engineAndBatteries));
+            response.put(AdventureCardInputFields.ACTIVATES_DOUBLE_ENGINES, true);
+            response.put(AdventureCardInputFields.DOUBLE_ENGINES_AND_BATTERIES, buildDoubleEnigneResponse(engineAndBatteries));
         }
 
         inputHandler.dispatch(adventureDeck.getLastDrawnCard(), response);
@@ -597,10 +597,10 @@ public class GameManager extends StateMachine implements Model, Observable {
         AdventureCardInputDispatcher inputHandler = new AdventureCardInputDispatcherImpl();
 
         if (shieldAndBatteries.isEmpty()) {
-            response.put("activatesShield", false);
+            response.put(AdventureCardInputFields.ACTIVATES_SHIELD, false);
         } else {
-            response.put("activatesShield", true);
-            response.put("shieldAndBatteries", buildShieldResponse(shieldAndBatteries));
+            response.put(AdventureCardInputFields.ACTIVATES_SHIELD, true);
+            response.put(AdventureCardInputFields.SHIELD_AND_BATTERIES, buildShieldResponse(shieldAndBatteries));
         }
 
         inputHandler.dispatch(adventureDeck.getLastDrawnCard(), response);
@@ -627,15 +627,17 @@ public class GameManager extends StateMachine implements Model, Observable {
         AdventureCardInputContext response = new AdventureCardInputContext();
         AdventureCardInputDispatcher inputHandler = new AdventureCardInputDispatcherImpl();
 
-        for(int i: acceptedCargo.keySet()) {
-            response.put("loadIndex", i);
+        for (int i : acceptedCargo.keySet()) {
+            response.put(AdventureCardInputFields.LOAD_INDEX, 0);
             Coordinates coord = acceptedCargo.get(i);
-            if(coord.equals(new Coordinates(0,0)))
-                response.put("acceptsCargo", false);
-            else{
-                response.put("acceptsCargo", true);
-                response.put("row", coord.getRow());
-                response.put("column", coord.getColumn());
+
+            if (coord.equals(new Coordinates(0,0))) {
+                response.put(AdventureCardInputFields.ACCEPTS_CARGO, false);
+            }
+            else {
+                response.put(AdventureCardInputFields.ACCEPTS_CARGO, true);
+                response.put(AdventureCardInputFields.ROW, coord.getRow());
+                response.put(AdventureCardInputFields.COLUMN, coord.getColumn());
             }
             inputHandler.dispatch(adventureDeck.getLastDrawnCard(), response);
         }
@@ -646,7 +648,7 @@ public class GameManager extends StateMachine implements Model, Observable {
         AdventureCardInputContext response = new AdventureCardInputContext();
         AdventureCardInputDispatcher inputHandler = new AdventureCardInputDispatcherImpl();
 
-        response.put("acceptsCredit", creditChoice);
+        response.put(AdventureCardInputFields.ACCEPTS_CREDIT, creditChoice);
         inputHandler.dispatch(adventureDeck.getLastDrawnCard(), response);
     }
 
@@ -654,15 +656,25 @@ public class GameManager extends StateMachine implements Model, Observable {
     public void manageRemovedCrewmate(UUID  playerId, List<Coordinates> removedCrewmate){
         AdventureCardInputContext response = new AdventureCardInputContext();
         AdventureCardInputDispatcher inputHandler = new AdventureCardInputDispatcherImpl();
+        boolean isSlavers = adventureDeck.getLastDrawnCard() instanceof Slavers;
+        
+        List<List<Integer>> crewmatesList = new ArrayList<>();
+        int i = 0;
+        for (Coordinates coord : removedCrewmate) {
+            response.put(AdventureCardInputFields.CREWMATE_PENALTY, true);
+            response.put(AdventureCardInputFields.ROW, coord.getRow());
+            response.put(AdventureCardInputFields.COLUMN, coord.getColumn());
 
-        for(Coordinates coord: removedCrewmate) {
-            if(coord.equals(new Coordinates(0,0)))
-                response.put("crewmateCoords", false);
-            else{
-                response.put("crewmateCoords", true);
-                response.put("row", coord.getRow());
-                response.put("column", coord.getColumn());
+            if (!isSlavers) {
+                inputHandler.dispatch(adventureDeck.getLastDrawnCard(), response);
+            } else {
+                crewmatesList.get(i).add(coord.getRow());
+                crewmatesList.get(i).add(coord.getColumn());
+                i++;
             }
+        }
+        if (isSlavers) {
+            response.put(AdventureCardInputFields.CREWMATES, crewmatesList);
             inputHandler.dispatch(adventureDeck.getLastDrawnCard(), response);
         }
     }
@@ -671,9 +683,10 @@ public class GameManager extends StateMachine implements Model, Observable {
     public void manageParticipation(UUID  playerId, boolean participation, int choice){
         AdventureCardInputContext response = new AdventureCardInputContext();
         AdventureCardInputDispatcher inputHandler = new AdventureCardInputDispatcherImpl();
-        response.put("player", getPlayerByID(playerId));
-        response.put("participates", participation);
-        response.put("choice", choice);
+
+        response.put(AdventureCardInputFields.PLAYER, getPlayerByID(playerId));
+        response.put(AdventureCardInputFields.PARTICIPATES, participation);
+        response.put(AdventureCardInputFields.CHOICE, choice);
         inputHandler.dispatch(adventureDeck.getLastDrawnCard(), response);
     }
 

@@ -6,7 +6,6 @@ import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.smugglers.Carg
 import it.polimi.it.galaxytrucker.model.adventurecards.cardstates.EndState;
 import it.polimi.it.galaxytrucker.model.componenttiles.*;
 import it.polimi.it.galaxytrucker.model.crewmates.Alien;
-import it.polimi.it.galaxytrucker.model.crewmates.Human;
 import it.polimi.it.galaxytrucker.model.managers.FlightBoard;
 import it.polimi.it.galaxytrucker.model.managers.FlightBoardFlightRules;
 import it.polimi.it.galaxytrucker.model.managers.Player;
@@ -72,7 +71,6 @@ public class SmugglersTest {
 
     private void createShip(Player player) {
         ShipManager ship = player.getShipManager();
-        Human human = new Human();
         Alien alien = new Alien(AlienType.PURPLEALIEN);
         /*
          *     4  5  6  7  8  9  10
