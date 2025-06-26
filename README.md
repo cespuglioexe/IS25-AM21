@@ -15,16 +15,16 @@ This project is a Java-based implementation of the table game <a href="https://w
 
 | Functionality    | Status |
 | :--------------- | :----: |
-| Simplyfied Rules | ⚪      |
-| Complete Rules   | ⚪️      |
+| Simplyfied Rules | ⚪️      |
+| Complete Rules   | 🟢      |
 | Socket Connection| 🟢      |
 | RMI Connection   | 🟢      |
 | CLI              | 🟡      |
-| GUI              | 🟡      |
-| Test Flight      | ⚪️      |
+| GUI              | 🟢      |
+| Test Flight      | 🟢      |
 | Multiple Matches | 🟢      |
 | Percistance      | ⚪️      |
-| Resilience       | ⚪️      |
+| Resilience       | 🟡      |
 
 ## Documentation
 
