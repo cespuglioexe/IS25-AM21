@@ -37,7 +37,7 @@ public class CLIPlanetSelectionState extends CLIViewState {
                 System.out.println("The available planets are:");
                 System.out.println("[0]: Skip this card");
                 for (int i = 0; i < planetsAndCargo.size(); i++) {
-                    System.out.print("[" + (occupiedPlanets.contains(i) ? "X" : i - 1) + "]: ");
+                    System.out.print("[" + (occupiedPlanets.contains(i) ? "X" : i + 1) + "]: ");
                     for (String type : planetsAndCargo.get(i).keySet()) {
                         System.out.print(cargoToEmoji(type).repeat(planetsAndCargo.get(i).get(type)));
                     }
@@ -56,13 +56,13 @@ public class CLIPlanetSelectionState extends CLIViewState {
 
             if (option == 0) {
                 skipTurn();
-            } else if (option >= 1 && option < planetsAndCargo.size()) {
-                if (occupiedPlanets.contains(option)) {
+            } else if (option >= 1 && option <= planetsAndCargo.size()) {
+                if (occupiedPlanets.contains(option - 1)) {
                     System.out.println(ConsoleColors.YELLOW + "Oops, you can't land on that planet. It's occupied" + ConsoleColors.RESET);
                     executeState();
                 } else {
                     System.out.println("You landed on planet " + option + ".");
-                    landOnPlanet(option);
+                    landOnPlanet(option - 1);
                 }
             } else {
                 System.out.println(ConsoleColors.YELLOW + "That's not a valid option" + ConsoleColors.RESET);

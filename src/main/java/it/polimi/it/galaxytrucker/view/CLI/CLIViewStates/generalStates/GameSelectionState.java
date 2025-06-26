@@ -1,4 +1,4 @@
-package it.polimi.it.galaxytrucker.view.CLI.CLIViewStates.setUpStates;
+package it.polimi.it.galaxytrucker.view.CLI.CLIViewStates.generalStates;
 
 import it.polimi.it.galaxytrucker.messages.clientmessages.UserInput;
 import it.polimi.it.galaxytrucker.messages.clientmessages.UserInputType;

@@ -79,6 +79,7 @@ public class CLICrewmateAddingState extends CLIViewState {
                     break;
                 case 4:
                     endBuilding();
+                    break;
                 default:
                     System.out.println(ConsoleColors.YELLOW + "That's not a valid option. Please try again" + ConsoleColors.RESET);
                     executeState();

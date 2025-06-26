@@ -84,6 +84,8 @@ public class CLICargoChoiceState extends CLIViewState {
                     }
                 }
             }
+
+            acceptReward();
         });
     }
 
