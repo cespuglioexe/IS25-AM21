@@ -40,6 +40,7 @@ public class GameUpdate implements Serializable {
     private final String operationMessage;
     private final int gameLevel;
     private final Map<String, Object> cardDetail;
+    private final HashMap<UUID, String> nicknames;
 
     @Deprecated
     @JsonCreator
@@ -62,7 +63,9 @@ public class GameUpdate implements Serializable {
             @JsonProperty("gameLevel") int gameLevel,
             @JsonProperty("cardDetail") Map<String, Object> cardDetail,
             @JsonProperty("playerMarkerPositions") HashMap<UUID, Integer> playerMarkerPositions,
-            @JsonProperty("playerColors") HashMap<UUID, Color> playerColors) {
+            @JsonProperty("playerColors") HashMap<UUID, Color> playerColors,
+            @JsonProperty("nicknames") HashMap<UUID, String> nicknames)
+    {
         this.instructionType = instructionType;
         this.interestedPlayerId = interestedPlayerId;
         this.newSate = newSate;
@@ -82,6 +85,7 @@ public class GameUpdate implements Serializable {
         this.cardDetail = cardDetail;
         this.playerMarkerPositions = playerMarkerPositions;
         this.playerColors = playerColors;
+        this.nicknames = nicknames;
     }
 
     public GameUpdate(GameUpdateBuilder builder) {
@@ -104,6 +108,7 @@ public class GameUpdate implements Serializable {
         this.cardDetail = builder.cardDetail;
         this.playerMarkerPositions = builder.playerMarkerPositions;
         this.playerColors = builder.playerColors;
+        this.nicknames = builder.nicknames;
     }
 
     public GameUpdateType getInstructionType() {
@@ -180,6 +185,10 @@ public class GameUpdate implements Serializable {
         return cardDetail;
     }
 
+    public HashMap<UUID, String> getNicknames() {
+        return nicknames;
+    }
+
     public static class GameUpdateBuilder {
         // Required fields
         private final GameUpdateType instructionType;
@@ -204,6 +213,7 @@ public class GameUpdate implements Serializable {
         private int gameLevel;
         private Map<String, Object> cardDetail;
         private HashMap<UUID, Color> playerColors;
+        private HashMap<UUID, String> nicknames;
 
         public GameUpdateBuilder(GameUpdateType instructionType) {
             this.instructionType = instructionType;
@@ -319,6 +329,11 @@ public class GameUpdate implements Serializable {
         
         public GameUpdateBuilder setGameLevel(int gameLevel) {
             this.gameLevel = gameLevel;
+            return this;
+        }
+
+        public GameUpdateBuilder setNicknames(HashMap<UUID, String> nicknames) {
+            this.nicknames = nicknames;
             return this;
         }
 

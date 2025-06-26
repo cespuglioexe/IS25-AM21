@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.effect.Glow?>
@@ -299,6 +300,7 @@
                   <ImageView fx:id="p017" fitHeight="50.0" fitWidth="50.0" layoutX="129.0" layoutY="136.0" pickOnBounds="true" preserveRatio="true" />
                </children>
             </Pane>
+            <Button layoutY="-41.0" mnemonicParsing="false" onAction="#showRankings" prefHeight="67.0" prefWidth="126.0" text="classifica" translateX="200.0" translateY="1000.0" />
          </children>
       </AnchorPane>
    </children>
