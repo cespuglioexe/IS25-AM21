@@ -7,6 +7,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.ImageCursor;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -57,6 +58,21 @@ public class GUIGameTurn extends GUIViewState{
     public void displayScene() {
 
         Platform.runLater(() -> {
+            try {
+                FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(
+                        GUIFixingShipController.class.getResource("/it/polimi/it/galaxytrucker/fxmlstages/gameTurn.fxml")
+                ));
+                loader.setController(this);
+                Parent newRoot = loader.load();
+
+                stage = (Stage) GUIView.stage.getScene().getWindow();
+                scene = new Scene(newRoot);
+                stage.setScene(scene);
+                stage.show();
+                shipController.displayShip();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             stage = (Stage) GUIView.stage.getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);

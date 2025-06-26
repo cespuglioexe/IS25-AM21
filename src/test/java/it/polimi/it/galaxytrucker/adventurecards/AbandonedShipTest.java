@@ -203,4 +203,22 @@ public class AbandonedShipTest {
         flightBoard.printFlightBoardState();
         assertNotEquals(positionPreCard, flightBoard.getPlayerPosition().get(player4));
     }
+
+    @Test
+    void playerHasNotEnoughCrewmatesTest() {
+        removeSomeCrewmatesFrom(player4);
+
+        playersDeclineAndParticipate();
+
+        assertTrue(player4.getShipManager().countCrewmates() == 0);
+        assertEquals(EndState.class, card.getCurrentState().getClass());
+    }
+    private void removeSomeCrewmatesFrom(Player player) {
+        ShipManager ship = player.getShipManager();
+
+        ship.removeCrewmate(6, 7);
+        ship.removeCrewmate(6, 7);
+
+        ship.removeCrewmate(7, 6);
+    }
 }

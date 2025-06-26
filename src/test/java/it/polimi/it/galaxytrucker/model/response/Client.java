@@ -118,7 +118,8 @@ public class Client implements Listener {
         Set<List<Integer>> cabins = ship.getAllComponentsPositionOfType(CabinModule.class);
         for (List<Integer> cabinCoord : cabins) {
             CabinModule cabin = (CabinModule) ship.getComponent(cabinCoord.get(0), cabinCoord.get(1)).get();
-            if (!cabin.getCrewmates().isEmpty()) {
+            int crewmates = cabin.getCrewmates().size();
+            for (int i = 0; i < crewmates; i++) {
                 available.add(new Coordinates(cabinCoord.get(1), cabinCoord.get(0)));
             }
         }
@@ -126,7 +127,8 @@ public class Client implements Listener {
         Set<List<Integer>> centralCabins = ship.getAllComponentsPositionOfType(CentralCabin.class);
         for (List<Integer> centralCabinCoord : centralCabins) {
             CentralCabin cabin = (CentralCabin) ship.getComponent(centralCabinCoord.get(0), centralCabinCoord.get(1)).get();
-            if (!cabin.getCrewmates().isEmpty()) {
+            int crewmates = cabin.getCrewmates().size();
+            for (int i = 0; i < crewmates; i++) {
                 available.add(new Coordinates(centralCabinCoord.get(1), centralCabinCoord.get(0)));
             }
         }

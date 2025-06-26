@@ -277,4 +277,19 @@ public class CombatZoneTest {
             System.out.println("The shot missed the ship");
         }
     }
+
+    @Test
+    void playerHasNotEnoughCrewmatesTest() {
+        removeSomeCrewmatesFrom(player4);
+        playersWithDifferentEnginePowerTest();
+
+        assertEquals(0, player4.getShipManager().countCrewmates());
+        assertEquals(CannonSelectionState.class, card.getCurrentState().getClass());
+    }
+    private void removeSomeCrewmatesFrom(Player player) {
+        ShipManager ship = player.getShipManager();
+
+        ship.removeCrewmate(7, 7);
+        ship.removeCrewmate(7, 7);
+    }
 }

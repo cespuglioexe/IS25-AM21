@@ -76,7 +76,7 @@ public class ClientSimulatorTest {
 
     @Test
     void multipleCardExecutionTest() {
-        final int MULTIPLE = 50;
+        final int MULTIPLE = 150;
         for (int i = 0; i < MULTIPLE; i++) {
             new Thread(() -> {
                 initialize();

@@ -13,6 +13,7 @@ public class AttackState extends State {
     public void enter(StateMachine fsm) {
         CombatZone card = (CombatZone) fsm;
         Subject subject = (Subject) fsm;
+        
         card.findPlayerWithLeastFirePower();
         subject.notifyObservers(new InputNeeded(card, card.getPlayer()));
     }
