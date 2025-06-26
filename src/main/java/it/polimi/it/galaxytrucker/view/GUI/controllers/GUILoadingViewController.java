@@ -4,6 +4,7 @@ import it.polimi.it.galaxytrucker.view.GUI.GUIView;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -41,11 +42,21 @@ public class GUILoadingViewController extends GUIViewState{
     @Override
     public void displayScene() {
         Platform.runLater(() -> {
-            stage = (Stage) GUIView.stage.getScene().getWindow();
-            scene = new Scene(root);
-            stage.setScene(scene);
-            currentCard.setImage(new Image(Objects.requireNonNull(GUILoadingViewController.class.getResourceAsStream("/it/polimi/it/galaxytrucker/graphics/cards/" + GUIView.getInstance().getClient().getModel().getActiveCardGraphicPath()))));
-            stage.show();
+            try {
+                FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(
+                        GUIFixingShipController.class.getResource("/it/polimi/it/galaxytrucker/fxmlstages/loadingView.fxml")
+                ));
+                loader.setController(this);
+                Parent newRoot = loader.load();
+
+                stage = (Stage) GUIView.stage.getScene().getWindow();
+                scene = new Scene(newRoot);
+                stage.setScene(scene);
+                currentCard.setImage(new Image(Objects.requireNonNull(GUILoadingViewController.class.getResourceAsStream("/it/polimi/it/galaxytrucker/graphics/cards/" + GUIView.getInstance().getClient().getModel().getActiveCardGraphicPath()))));
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         });
     }
 }
