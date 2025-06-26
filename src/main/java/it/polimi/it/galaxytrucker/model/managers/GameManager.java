@@ -19,6 +19,9 @@ import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCardI
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.attack.Projectile;
 import it.polimi.it.galaxytrucker.model.componenttiles.ComponentTile;
 import it.polimi.it.galaxytrucker.model.componenttiles.DoubleCannon;
+import it.polimi.it.galaxytrucker.model.crewmates.Alien;
+import it.polimi.it.galaxytrucker.model.crewmates.Crewmate;
+import it.polimi.it.galaxytrucker.model.crewmates.Human;
 import it.polimi.it.galaxytrucker.model.design.statePattern.State;
 import it.polimi.it.galaxytrucker.model.design.statePattern.StateMachine;
 import it.polimi.it.galaxytrucker.model.gamestates.GameState;
@@ -430,6 +433,20 @@ public class GameManager extends StateMachine implements Model, Observable {
                 new GameUpdate.GameUpdateBuilder(GameUpdateType.DISCARDED_COMPONENTS_UPDATED)
                         .setTileList(((GameState) getCurrentState()).getDiscardedComponentTiles())
                         .build()
+        );
+    }
+
+    @Override
+    public void addCrewmateToCabin(UUID playerID, int row, int column, Crewmate crewmate) {
+        if (crewmate instanceof Human)
+            getPlayerShip(playerID).addCrewmate(row, column, (Human) crewmate);
+        else
+            getPlayerShip(playerID).addCrewmate(row, column, (Alien) crewmate);
+
+        updateListeners(new GameUpdate.GameUpdateBuilder(GameUpdateType.PLAYER_SHIP_UPDATED)
+                .setShipBoard(getPlayerShip(playerID).getShipBoard())
+                .setInterestedPlayerId(playerID)
+                .build()
         );
     }
 

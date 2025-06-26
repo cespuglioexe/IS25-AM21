@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 
-public class Coordinates {
+public class Coordinates implements Serializable {
     public int column;
     public int row;
 
