@@ -261,4 +261,25 @@ public class SlaversTest {
         playerWon(player3);
         assertEquals(EndState.class, card.getCurrentState().getClass());
     }
+
+    @Test
+    void playerNotEnoughCrewmatesTest() {
+        removeSomeCrewmatesFrom(player1);
+
+        doubleCannon.put(List.of(7,10),List.of(9,5));
+        card.selectCannons(doubleCannon);;
+
+        assertEquals(0, player1.getShipManager().countCrewmates());
+        assertNotEquals(0, player2.getShipManager().countCrewmates());
+    }
+    private void removeSomeCrewmatesFrom(Player player) {
+        ShipManager ship = player.getShipManager();
+
+        ship.removeCrewmate(6, 7);
+        ship.removeCrewmate(6, 7);
+        ship.removeCrewmate(7, 8);
+        ship.removeCrewmate(7, 8);
+        ship.removeCrewmate(8, 8);
+        ship.removeCrewmate(8, 8);
+    }
 }

@@ -33,6 +33,7 @@ public class ParticipationState extends State {
         try {
             card.getPartecipant();
             changeState(fsm, new CreditRewardState());
+            return;
         } catch (IllegalStateException e) {
             if (allPlayersHaveResponded()) {
                 changeState(fsm, new EndState());
