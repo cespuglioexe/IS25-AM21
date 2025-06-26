@@ -78,8 +78,10 @@ public class ClientSimulatorTest {
     void multipleCardExecutionTest() {
         final int MULTIPLE = 50;
         for (int i = 0; i < MULTIPLE; i++) {
-            initialize();
-            cardExecutionTest();
+            new Thread(() -> {
+                initialize();
+                cardExecutionTest();
+            });
         }
     }
 }

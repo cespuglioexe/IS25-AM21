@@ -656,15 +656,19 @@ public class GameManager extends StateMachine implements Model, Observable {
     public void manageRemovedCrewmate(UUID  playerId, List<Coordinates> removedCrewmate){
         AdventureCardInputContext response = new AdventureCardInputContext();
         AdventureCardInputDispatcher inputHandler = new AdventureCardInputDispatcherImpl();
-        boolean isSlavers = adventureDeck.getLastDrawnCard() instanceof Slavers;
-        
+        System.out.println(ConsoleColors.MAGENTA + "Pre isSlavers check: " + adventureDeck.getLastDrawnCard().getClass().getSimpleName() + ConsoleColors.RESET);
+        final boolean isSlavers = adventureDeck.getLastDrawnCard() instanceof Slavers;
+        System.out.println(ConsoleColors.MAGENTA + "Boolean 1: " + isSlavers + ConsoleColors.RESET);
+
         List<List<Integer>> crewmatesList = new ArrayList<>();
         for (Coordinates coord : removedCrewmate) {
             response.put(AdventureCardInputFields.CREWMATE_PENALTY, true);
             response.put(AdventureCardInputFields.ROW, coord.getRow());
             response.put(AdventureCardInputFields.COLUMN, coord.getColumn());
+            System.out.println(ConsoleColors.MAGENTA + "Boolean 2: " + isSlavers + ConsoleColors.RESET);
 
             if (!isSlavers) {
+                System.out.println(ConsoleColors.MAGENTA + "Actual card:" + adventureDeck.getLastDrawnCard().getClass().getSimpleName() + ConsoleColors.RESET);
                 inputHandler.dispatch(adventureDeck.getLastDrawnCard(), response);
             } else {
                 List<Integer> coords = new ArrayList<>();
@@ -678,6 +682,7 @@ public class GameManager extends StateMachine implements Model, Observable {
             inputHandler.dispatch(adventureDeck.getLastDrawnCard(), response);
         }
     }
+
 
     @Override
     public void manageParticipation(UUID  playerId, boolean participation, int choice){

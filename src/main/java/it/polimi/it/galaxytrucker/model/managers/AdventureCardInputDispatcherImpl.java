@@ -17,10 +17,12 @@ import it.polimi.it.galaxytrucker.model.adventurecards.cards.Smugglers;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCard;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCardInputContext;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCardVisitor;
+import it.polimi.it.galaxytrucker.view.CLI.ConsoleColors;
 
 public class AdventureCardInputDispatcherImpl implements AdventureCardInputDispatcher, AdventureCardVisitor {
     @Override
     public void dispatch(AdventureCard card, AdventureCardInputContext context) {
+        System.out.println(ConsoleColors.MAGENTA + "Apparent card:" + card.getClass().getSimpleName() + ConsoleColors.RESET);
         card.accept(this, context);
     }
 

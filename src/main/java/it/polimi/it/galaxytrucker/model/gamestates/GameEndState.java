@@ -46,6 +46,7 @@ public class GameEndState extends GameState {
                 .build()
         );
     }
+
     private void distributeRankingRewards(List<Player> players) {
         int reward = players.size();
 
