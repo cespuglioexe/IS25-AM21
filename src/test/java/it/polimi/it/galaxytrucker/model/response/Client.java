@@ -126,7 +126,7 @@ public class Client implements Listener {
         // Central cabins
         Set<List<Integer>> centralCabins = ship.getAllComponentsPositionOfType(CentralCabin.class);
         for (List<Integer> centralCabinCoord : centralCabins) {
-            CentralCabin cabin = (CentralCabin) ship.getComponent(centralCabinCoord.get(1), centralCabinCoord.get(0)).get();
+            CentralCabin cabin = (CentralCabin) ship.getComponent(centralCabinCoord.get(0), centralCabinCoord.get(1)).get();
             if (!cabin.getCrewmates().isEmpty()) {
                 available.add(new Coordinates(centralCabinCoord.get(1), centralCabinCoord.get(0)));
             }

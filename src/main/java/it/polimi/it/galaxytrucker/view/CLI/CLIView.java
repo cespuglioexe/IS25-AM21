@@ -185,7 +185,7 @@ public class CLIView extends View {
                 CLIViewState.setCurrentState(new CLIEngineActivationState());
                 CLIViewState.getCurrentState().executeState();
                 break;
-            case "ActivateShieldState", "SmallMeteorState":
+            case "ActivateShieldState", "SmallMeteorState", "AttackState":
                 CLIViewState.setCurrentState(new CLIShieldActivationState());
                 CLIViewState.getCurrentState().executeState();
                 break;

@@ -211,6 +211,7 @@ public class GUIView extends View {
                 break;
             case "ActivateShieldState":
             case "SmallMeteorState":
+            case "AttackState":
                 GUIActivateShieldController.getInstance().displayScene();
                 break;
             default:
@@ -235,7 +236,6 @@ public class GUIView extends View {
 
     @Override
     public void loadingScreen() {
-        System.out.println("Dovrebbe andare!!!");
         GUILoadingViewController.getInstance().displayScene();
     }
 
