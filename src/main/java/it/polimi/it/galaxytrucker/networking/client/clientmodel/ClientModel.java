@@ -59,6 +59,8 @@ public class ClientModel {
      */
     private final Object syncFlag = new Object();
 
+    private final HashMap<UUID, String> nicknames = new HashMap<>();
+
     public ClientModel() {
         myData = new PlayerData();
     }
@@ -91,6 +93,8 @@ public class ClientModel {
             return playerColors;
         }
     }
+
+
 
     /**
      * Sets the clients local copy of the specified players ship board.
@@ -245,6 +249,19 @@ public class ClientModel {
         synchronized (this.playerMarkerPositions) {
             this.playerMarkerPositions.clear();
             this.playerMarkerPositions.putAll(playerMarkerPositions);
+        }
+    }
+
+    public void setAllPlayersNickname(HashMap<UUID, String> nicknames) {
+        synchronized (this.nicknames) {
+            this.playerMarkerPositions.clear();
+            this.nicknames.putAll(nicknames);
+        }
+    }
+
+    public HashMap<UUID, String> getAllPlayersNickname(){
+        synchronized (this.nicknames) {
+            return nicknames;
         }
     }
 

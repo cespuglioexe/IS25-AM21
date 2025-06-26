@@ -3,6 +3,7 @@ package it.polimi.it.galaxytrucker.view.GUI.controllers;
 import it.polimi.it.galaxytrucker.messages.clientmessages.UserInput;
 import it.polimi.it.galaxytrucker.messages.clientmessages.UserInputType;
 import it.polimi.it.galaxytrucker.model.managers.Player;
+import it.polimi.it.galaxytrucker.model.utility.Color;
 import it.polimi.it.galaxytrucker.view.GUI.GUIView;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -15,13 +16,12 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class GUIScoreBoardController extends GUIViewState{
 
     @FXML
-    private Label rank0,rank1,rank2,rank3,nick0,nick1,nick2,nick3,color0,color1,color2,color3;
+    private Label nick0,nick1,nick2,nick3;
     @FXML
     private GridPane scoreBoard;
 
@@ -58,7 +58,22 @@ public class GUIScoreBoardController extends GUIViewState{
 
     @FXML
     public void updateScoreboard(){
-        nick0.setText(GUIView.getInstance().getClient().getModel().getMyData().getNickname());
+        HashMap<UUID, String> playerList = GUIView.getInstance().getClient().getModel().getAllPlayersNickname();
+        List<String> rankings = new ArrayList<>();
+
+        for (Map.Entry<UUID, String> entry : playerList.entrySet()) {
+            if(entry!=null){
+                rankings.add(entry.getValue());
+            }else {
+                rankings.add("");
+            }
+
+        }
+
+        nick0.setText(rankings.get(0));
+        nick1.setText(rankings.get(1));
+        nick2.setText(rankings.get(1));
+        nick3.setText(rankings.get(1));
 
     }
 

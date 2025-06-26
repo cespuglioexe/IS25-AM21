@@ -40,8 +40,17 @@ public class GameEndState extends GameState {
                         i -> i
                 ));
 
+
+
+        HashMap<UUID, String> map2 = (HashMap<UUID, String>)  rankings.stream()
+                .collect(Collectors.toMap(
+                        Player::getPlayerID,
+                        Player::getPlayerName
+                ));
+
         gameManager.updateListeners(new GameUpdate.GameUpdateBuilder(GameUpdateType.NEW_STATE)
                 .setNewSate(GameEndState.class.getSimpleName())
+                .setNicknames(map2)
                 .setPlayerMarkerPositions(map)
                 .build()
         );
