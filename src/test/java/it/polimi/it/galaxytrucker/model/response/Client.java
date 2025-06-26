@@ -11,7 +11,6 @@ import it.polimi.it.galaxytrucker.messages.servermessages.GameUpdate;
 import it.polimi.it.galaxytrucker.messages.servermessages.GameUpdate.GameUpdateBuilder;
 import it.polimi.it.galaxytrucker.model.componenttiles.CabinModule;
 import it.polimi.it.galaxytrucker.model.componenttiles.CentralCabin;
-import it.polimi.it.galaxytrucker.model.crewmates.Crewmate;
 import it.polimi.it.galaxytrucker.model.managers.GameManager;
 import it.polimi.it.galaxytrucker.model.managers.Player;
 import it.polimi.it.galaxytrucker.model.managers.ShipManager;
