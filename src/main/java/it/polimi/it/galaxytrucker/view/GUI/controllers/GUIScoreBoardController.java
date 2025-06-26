@@ -62,7 +62,12 @@ public class GUIScoreBoardController extends GUIViewState{
         List<String> rankings = new ArrayList<>();
 
         for (Map.Entry<UUID, String> entry : playerList.entrySet()) {
-            rankings.add(entry.getValue());
+            if(entry!=null){
+                rankings.add(entry.getValue());
+            }else {
+                rankings.add("");
+            }
+
         }
 
         nick0.setText(rankings.get(0));
