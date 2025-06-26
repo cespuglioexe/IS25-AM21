@@ -642,7 +642,6 @@ public class GameManager extends StateMachine implements Model, Observable {
         boolean isSlavers = adventureDeck.getLastDrawnCard() instanceof Slavers;
         
         List<List<Integer>> crewmatesList = new ArrayList<>();
-        int i = 0;
         for (Coordinates coord : removedCrewmate) {
             response.put(AdventureCardInputFields.CREWMATE_PENALTY, true);
             response.put(AdventureCardInputFields.ROW, coord.getRow());
@@ -651,9 +650,10 @@ public class GameManager extends StateMachine implements Model, Observable {
             if (!isSlavers) {
                 inputHandler.dispatch(adventureDeck.getLastDrawnCard(), response);
             } else {
-                crewmatesList.get(i).add(coord.getRow());
-                crewmatesList.get(i).add(coord.getColumn());
-                i++;
+                List<Integer> coords = new ArrayList<>();
+                coords.add(coord.getRow());
+                coords.add(coord.getColumn());
+                crewmatesList.add(coords);
             }
         }
         if (isSlavers) {

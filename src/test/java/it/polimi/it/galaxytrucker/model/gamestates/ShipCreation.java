@@ -164,7 +164,6 @@ public class ShipCreation {
 
         ship.addCrewmate(8, 5, new Alien(AlienType.PURPLEALIEN));
     }
-
     public static void createLegalShip4(Player player) {
         ShipManager ship = player.getShipManager();
         /*
@@ -207,6 +206,127 @@ public class ShipCreation {
         ship.addCrewmate(7, 8, new Human());
         ship.addCrewmate(7, 9, new Human());
         ship.addCrewmate(7, 10, new Human());
+    }
+    public static void createLegalShip5(Player player) {
+        ShipManager ship = player.getShipManager();
+        /*
+         *     4  5  6  7  8  9  10
+         * 5        [ ]   [ ]
+         * 6     [ ][c][C][c][ ]
+         * 7  [h][m][b][x][b][s][ ]
+         * 8  [l][m][e][E][e][ ][ ]
+         * 9  [m][m][ ]   [ ][ ][ ]
+         *
+         * Where c stands for SingleCannon
+         * Where C stands for DoubleCannon
+         * Where e stands for SingleEngine
+         * Where E stands for DoubleEngine
+         * Where s stands for Shield (with rier coverage)
+         * Where b stands for BatteryComponent
+         * Where m stands for CabinModule
+         * Where l stands for LifeSupport
+         * Where h stands for CargoHold
+         * Where x stands for CentralCabin which has all TileEdge.UNIVERSAL connectors
+         *
+         * Firepower:
+         *  -base: 4
+         *  -additional: 6
+         *
+         * Engine power:
+         *  -base: 2
+         *  -additional: 4
+         *
+         * Crewmates: 9
+         */
+        ship.addComponentTile(6, 6, new SingleCannon(List.of(TileEdge.INCOMPATIBLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE), null));
+        ship.addComponentTile(6, 7, new DoubleCannon(List.of(TileEdge.INCOMPATIBLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE), null));
+        ship.addComponentTile(6, 8, new SingleCannon(List.of(TileEdge.INCOMPATIBLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE), null));
+
+        ship.addComponentTile(7, 4, new CargoHold(3, List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE), null));
+        ship.addComponentTile(7, 5, new CabinModule(List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE), null));
+        ship.addComponentTile(7, 6, new BatteryComponent(2, List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE), null));
+        ship.addComponentTile(7, 8, new BatteryComponent(2, List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE), null));
+        ship.addComponentTile(7, 9, new Shield(Direction.DOWN, List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE), null));
+
+        ship.addComponentTile(8, 4, new LifeSupport(AlienType.PURPLEALIEN, List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE), null));
+        ship.addComponentTile(8, 5, new CabinModule(List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE), null));
+        ship.addComponentTile(8, 6, new SingleEngine(List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.INCOMPATIBLE,TileEdge.SINGLE), null));
+        ship.addComponentTile(8, 7, new DoubleEngine(List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.INCOMPATIBLE,TileEdge.SINGLE), null));
+        ship.addComponentTile(8, 8, new SingleEngine(List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.INCOMPATIBLE,TileEdge.SINGLE), null));
+
+        ship.addComponentTile(9, 4, new CabinModule(List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE), null));
+        ship.addComponentTile(9, 5, new CabinModule(List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE), null));
+
+        ship.addCrewmate(7, 5, new Human());
+        ship.addCrewmate(7, 5, new Human());
+
+        ship.addCrewmate(8, 5, new Alien(AlienType.PURPLEALIEN));
+
+        ship.addCrewmate(9, 4, new Human());
+        ship.addCrewmate(9, 4, new Human());
+        ship.addCrewmate(9, 5, new Human());
+        ship.addCrewmate(9, 5, new Human());
+    }
+    public static void createLegalShip6(Player player) {
+        ShipManager ship = player.getShipManager();
+        /*
+         *     4  5  6  7  8  9  10
+         * 5        [ ]   [ ]
+         * 6     [ ][c][C][c][h]
+         * 7  [ ][m][b][x][b][s][ ]
+         * 8  [l][m][e][E][e][E][ ]
+         * 9  [m][m][ ]   [ ][ ][ ]
+         *
+         * Where c stands for SingleCannon
+         * Where C stands for DoubleCannon
+         * Where e stands for SingleEngine
+         * Where E stands for DoubleEngine
+         * Where s stands for Shield (with rier coverage)
+         * Where b stands for BatteryComponent
+         * Where m stands for CabinModule
+         * Where l stands for LifeSupport
+         * Where h stands for CargoHold
+         * Where x stands for CentralCabin which has all TileEdge.UNIVERSAL connectors
+         *
+         * Firepower:
+         *  -base: 2
+         *  -additional: 4
+         *
+         * Engine power:
+         *  -base: 4
+         *  -additional: 8
+         *
+         * Crewmates: 11
+         */
+        ship.addComponentTile(6, 6, new SingleCannon(List.of(TileEdge.INCOMPATIBLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE), null));
+        ship.addComponentTile(6, 7, new DoubleCannon(List.of(TileEdge.INCOMPATIBLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE), null));
+        ship.addComponentTile(6, 8, new SingleCannon(List.of(TileEdge.INCOMPATIBLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE), null));
+        ship.addComponentTile(6, 9, new CargoHold(3, List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE), null));
+
+        ship.addComponentTile(7, 5, new CabinModule(List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE), null));
+        ship.addComponentTile(7, 6, new BatteryComponent(2, List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE), null));
+        ship.addComponentTile(7, 8, new BatteryComponent(2, List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE), null));
+        ship.addComponentTile(7, 9, new Shield(Direction.DOWN, List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE), null));
+
+        ship.addComponentTile(8, 4, new LifeSupport(AlienType.BROWNALIEN, List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE), null));
+        ship.addComponentTile(8, 5, new CabinModule(List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE), null));
+        ship.addComponentTile(8, 6, new SingleEngine(List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.INCOMPATIBLE,TileEdge.SINGLE), null));
+        ship.addComponentTile(8, 7, new DoubleEngine(List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.INCOMPATIBLE,TileEdge.SINGLE), null));
+        ship.addComponentTile(8, 8, new SingleEngine(List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.INCOMPATIBLE,TileEdge.SINGLE), null));
+        ship.addComponentTile(8, 9, new DoubleEngine(List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.INCOMPATIBLE,TileEdge.SINGLE), null));
+
+        ship.addComponentTile(9, 4, new CabinModule(List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE), null));
+        ship.addComponentTile(9, 5, new CabinModule(List.of(TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE,TileEdge.SINGLE), null));
+
+        ship.addCrewmate(7, 5, new Human());
+        ship.addCrewmate(7, 5, new Human());
+
+        ship.addCrewmate(8, 5, new Alien(AlienType.BROWNALIEN));
+
+        ship.addCrewmate(9, 4, new Human());
+        ship.addCrewmate(9, 4, new Human());
+        ship.addCrewmate(9, 5, new Human());
+        ship.addCrewmate(9, 5, new Human());
     }
 
     /**

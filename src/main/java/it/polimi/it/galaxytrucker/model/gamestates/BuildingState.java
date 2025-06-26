@@ -13,7 +13,6 @@ import it.polimi.it.galaxytrucker.model.managers.FlightBoard;
 import it.polimi.it.galaxytrucker.model.managers.GameManager;
 import it.polimi.it.galaxytrucker.model.managers.Player;
 import it.polimi.it.galaxytrucker.model.managers.ShipManager;
-import it.polimi.it.galaxytrucker.model.utility.Color;
 
 import java.util.*;
 import java.util.concurrent.Executors;
@@ -57,7 +56,10 @@ public class BuildingState extends GameState {
             convertedShips.put(entry.getKey(), tileDataGrid);
         }
 
-        gameManager.initializeAdventureDeck();
+        //for test sake
+        if (gameManager.getAdventureDeck().getCards().isEmpty()) {
+            gameManager.initializeAdventureDeck();
+        }
 
         List<List<String>> cardStacks = gameManager.getAdventureDeck().getStacks().values().stream()
                 .map(stack -> stack.stream()

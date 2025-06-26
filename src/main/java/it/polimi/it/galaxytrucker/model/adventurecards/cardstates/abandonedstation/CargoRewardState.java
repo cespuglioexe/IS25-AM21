@@ -22,6 +22,11 @@ public class CargoRewardState extends State {
         AbandonedStation card = (AbandonedStation) fsm;
         Subject subject = (Subject) fsm;
         int numberOfTotDecision = card.getCargoReward().size();
+
+        if (numberCargoDecision >= numberOfTotDecision) {
+            return;
+        }
+
         numberCargoDecision ++;
         if(allCargoDecision(numberOfTotDecision)) {
             changeState(fsm, new FlightDayPenaltyState());

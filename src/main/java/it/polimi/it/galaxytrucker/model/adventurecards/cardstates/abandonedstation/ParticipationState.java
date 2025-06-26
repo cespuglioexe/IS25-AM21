@@ -30,13 +30,15 @@ public class ParticipationState extends State {
         AbandonedStation card = (AbandonedStation) fsm;
         Subject subject = (Subject) fsm;
 
-        if(card.isCardOccupied())        {
-            if(card.hasPlayerRequiredNumberOfCrewmates()){
+        if (card.isCardOccupied()) {
+            if (card.hasPlayerRequiredNumberOfCrewmates()){
                 fsm.changeState(new CargoRewardState());
-            }else throw new InvalidActionException("The player does not have the required number of players");
+                return;
+            } else throw new InvalidActionException("The player does not have the required number of players");
         }
-        if(allPlayersDecided())
+        if(allPlayersDecided()) {
             fsm.changeState(new EndState());
+        }
         else subject.notifyObservers(new InputNeeded(card, getPlayerWhoChooses(card)));
     }
 

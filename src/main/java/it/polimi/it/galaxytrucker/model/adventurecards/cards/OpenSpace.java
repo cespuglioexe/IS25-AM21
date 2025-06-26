@@ -29,7 +29,7 @@ public class OpenSpace extends CardStateMachine implements AdventureCard {
         this.flightRules = flightRules;
         setPlayers();
     }
-    private void setPlayers() {
+    public void setPlayers() {
         List<Player> players = flightRules.getPlayerOrder();
         playersAndEnginePower = new HashMap<>();
 

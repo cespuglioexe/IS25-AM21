@@ -325,5 +325,27 @@ public class GameUpdate implements Serializable {
         public GameUpdate build() {
             return new GameUpdate(this);
         }
+
+        //? TEST ONLY
+        public static GameUpdate clone(GameUpdate original) {
+            return new GameUpdate.GameUpdateBuilder(original.getInstructionType())
+                    .setInterestedPlayerId(original.getInterestedPlayerId())
+                    .setNewSate(original.getNewSate())
+                    .setPlayerColors(original.getPlayerColors() != null ? new HashMap<>(original.getPlayerColors()) : null)
+                    .setPlayerIds(original.getPlayerIds() != null ? new ArrayList<>(original.getPlayerIds()) : null)
+                    .setCardPileCompositions(original.getCardPileCompositions() != null ? new ArrayList<>(original.getCardPileCompositions()) : null)
+                    .setNewTile(original.getNewTile())
+                    .setAllPlayerShipBoards(original.getAllPlayerShipBoard() != null ? new HashMap<>(original.getAllPlayerShipBoard()) : null)
+                    .setPlayerName(original.getPlayerName())
+                    .setGameUuid(original.getGameUuid())
+                    .setPlayerUuid(original.getPlayerUuid())
+                    .setActiveControllers(original.getActiveControllers() != null ? new ArrayList<>(original.getActiveControllers()) : null)
+                    .setSuccessfulOperation(original.isSuccessfulOperation())
+                    .setOperationMessage(original.getOperationMessage())
+                    .setGameLevel(original.getGameLevel())
+                    .setCardDetail(original.getCardDetail() != null ? new HashMap<>(original.getCardDetail()) : null)
+                    .setPlayerMarkerPositions(original.getPlayerMarkerPositions() != null ? new HashMap<>(original.getPlayerMarkerPositions()) : null)
+                    .build();
+        }
     }
 }

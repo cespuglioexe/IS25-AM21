@@ -132,6 +132,7 @@ public class CombatZone extends Attack implements AdventureCard, FlightDayPenalt
 
     @Override
     public void play() {
+        setPlayers();
         start(new StartState());
     }
 

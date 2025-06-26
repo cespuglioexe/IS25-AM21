@@ -29,6 +29,7 @@ public class ParticipationState extends State {
         AbandonedShip card = (AbandonedShip) fsm;
         Subject subject = (Subject) fsm;
 
+        playerDecisions++;
         try {
             card.getPartecipant();
             changeState(fsm, new CreditRewardState());
@@ -41,7 +42,7 @@ public class ParticipationState extends State {
         subject.notifyObservers(new InputNeeded(card, getPlayerWhoChooses(card)));
     }
     private boolean allPlayersHaveResponded() {
-        return ++playerDecisions == numberOfPlayers;
+        return playerDecisions >= numberOfPlayers;
     } 
 
     @Override

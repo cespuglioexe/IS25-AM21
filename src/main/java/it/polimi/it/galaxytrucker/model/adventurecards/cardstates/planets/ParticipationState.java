@@ -33,6 +33,7 @@ public class ParticipationState extends State {
         Planets card = (Planets) fsm;
         Subject subject = (Subject) fsm;
 
+        playerDecisions++;
         if (allPlayersHaveResponded()) {
             if (noPlanetWasChosen(card)) {
                 fsm.changeState(new EndState());
@@ -44,13 +45,14 @@ public class ParticipationState extends State {
 
         if (allPlanetsAreOccupied(card)) {
             fsm.changeState(new CargoRewardState());
+            return;
         }
 
         subject.notifyObservers(new UpdateStatus(card));
         subject.notifyObservers(new InputNeeded(card, getPlayerWhoChooses(card)));
     }
     private boolean allPlayersHaveResponded() {
-        return ++playerDecisions == numberOfPlayers;
+        return playerDecisions >= numberOfPlayers;
     } 
     private boolean noPlanetWasChosen(Planets card) {
         return card.getTakenChoices().isEmpty();

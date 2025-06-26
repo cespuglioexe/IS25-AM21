@@ -25,14 +25,18 @@ public class CalculateEnginePowerState extends State {
     public void update(StateMachine fsm) {
         OpenSpace card = (OpenSpace) fsm;
         Subject subject = (Subject) fsm;
+        
+        playerDecisions++;
         if (allPlayersHaveResponded()) {
             card.changeState(new TravelState());
             return;
         }
-        subject.notifyObservers(new InputNeeded(card, getPlayerWhoChooses(card)));
+        if (playerDecisions < numberOfPlayers) {
+            subject.notifyObservers(new InputNeeded(card, getPlayerWhoChooses(card)));
+        }
     }
     private boolean allPlayersHaveResponded() {
-        return ++playerDecisions == numberOfPlayers;
+        return playerDecisions >= numberOfPlayers;
     }
 
     @Override

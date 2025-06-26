@@ -90,6 +90,6 @@ class LegalityCheckStateTest {
         assertTrue(() -> gameManager.getFlightBoard().getPlayerOrder().get(1).equals(gameManager.getPlayerByID(playerId2)));
         assertTrue(() -> gameManager.getFlightBoard().getPlayerOrder().get(2).equals(gameManager.getPlayerByID(playerId3)));
 
-        assertEquals(GameEndState.class, gameManager.getCurrentState().getClass());
+        assertEquals(CardExecutionState.class, gameManager.getCurrentState().getClass());
     }
 }

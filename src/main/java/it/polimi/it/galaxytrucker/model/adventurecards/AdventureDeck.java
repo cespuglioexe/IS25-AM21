@@ -74,8 +74,4 @@ public class AdventureDeck {
     public HashMap<Integer,List<AdventureCard>> getStacks(){
         return stacks;
     }
-
-
-
-
 }

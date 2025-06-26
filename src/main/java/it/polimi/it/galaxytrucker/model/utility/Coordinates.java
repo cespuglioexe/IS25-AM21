@@ -26,4 +26,17 @@ public class Coordinates {
     public int getRow() {
         return row;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Coordinates that = (Coordinates) o;
+        return column == that.column && row == that.row;
+    }
+
+    @Override
+    public int hashCode() {
+        return java.util.Objects.hash(column, row);
+    }
 }

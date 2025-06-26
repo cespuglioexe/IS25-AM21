@@ -9,6 +9,9 @@ import it.polimi.it.galaxytrucker.model.design.statePattern.StateMachine;
 public class StartState extends State {
     @Override
     public void enter(StateMachine fsm) {
+        OpenSpace card = (OpenSpace) fsm;
+        card.setPlayers();
+        
         fsm.changeState(new CalculateEnginePowerState());
     }
 

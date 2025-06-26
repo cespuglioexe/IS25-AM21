@@ -28,7 +28,8 @@ public class CardStateMachine extends StateMachine implements Subject {
 
     @Override
     public void notifyObservers(Object event) {
-        for(Observer observer : observers) {
+        List<Observer> observersCopy = new ArrayList<>(observers);
+        for (Observer observer : observersCopy) {
             observer.notify(event);
         }
     }
