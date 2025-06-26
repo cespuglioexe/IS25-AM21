@@ -165,6 +165,8 @@ public abstract class Client extends UnicastRemoteObject implements Runnable, Cl
 
                         view.startNewTurn();
                         break;
+                    case "GameEndState":
+                        // TODO: show leaderboard
                     default:
                         System.out.println(ConsoleColors.CLIENT_DEBUG + "Received unknown state: " + update.getNewSate() + ConsoleColors.RESET);
                         break;

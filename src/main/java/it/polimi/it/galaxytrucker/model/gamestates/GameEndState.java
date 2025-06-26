@@ -1,10 +1,15 @@
 package it.polimi.it.galaxytrucker.model.gamestates;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
+import it.polimi.it.galaxytrucker.messages.servermessages.GameUpdate;
+import it.polimi.it.galaxytrucker.messages.servermessages.GameUpdateType;
 import it.polimi.it.galaxytrucker.model.design.statePattern.StateMachine;
 import it.polimi.it.galaxytrucker.model.managers.GameManager;
 import it.polimi.it.galaxytrucker.model.managers.Player;
@@ -25,7 +30,21 @@ public class GameEndState extends GameState {
         convertCargoToCredits(activePlayers);
         penalizeDestroyedComponents(allPlayers);
 
-        printRanking(gameManager.getPlayerRank());
+        List<Player> rankings = gameManager.getPlayerRank();
+        printRanking(rankings);
+
+        HashMap<UUID, Integer> map = (HashMap<UUID, Integer>) IntStream.range(0, rankings.size())
+                .boxed()
+                .collect(Collectors.toMap(
+                        i -> rankings.get(i).getPlayerID(),
+                        i -> i
+                ));
+
+        gameManager.updateListeners(new GameUpdate.GameUpdateBuilder(GameUpdateType.NEW_STATE)
+                .setNewSate(GameEndState.class.getSimpleName())
+                .setPlayerMarkerPositions(map)
+                .build()
+        );
     }
     private void distributeRankingRewards(List<Player> players) {
         int reward = players.size();
