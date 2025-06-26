@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import it.polimi.it.galaxytrucker.model.adventurecards.AdventureDeck;
 import it.polimi.it.galaxytrucker.model.componenttiles.ComponentTile;
+import it.polimi.it.galaxytrucker.model.crewmates.Crewmate;
 import it.polimi.it.galaxytrucker.model.design.statePattern.State;
 import it.polimi.it.galaxytrucker.exceptions.InvalidActionException;
 import it.polimi.it.galaxytrucker.model.utility.Coordinates;
@@ -43,6 +44,7 @@ public interface Model {
      void finishBuilding(UUID playerID);
      void saveComponentTile(UUID playerID);
      void discardComponentTile(UUID playerId);
+     void addCrewmateToCabin(UUID playerID, int row, int column, Crewmate crewmate);
 
      void selectSavedComponentTile (UUID playerId, int index);
      void selectDiscardedComponentTile (UUID playerId, int index);

@@ -237,6 +237,10 @@ public abstract class ClientHandler extends UnicastRemoteObject implements Liste
                     controller.discardComponentTile(clientUuid);
                     break;
 
+                case PLACE_CREWMATE:
+                    controller.addCrewmateToCabin(clientUuid, userInput.getPlacedCrewmate());
+                    break;
+
                 case RESTART_BUILDING_TIMER:
                     controller.startBuildPhaseTimer();
                     break;

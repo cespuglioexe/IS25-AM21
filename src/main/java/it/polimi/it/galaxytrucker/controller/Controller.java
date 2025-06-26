@@ -2,10 +2,14 @@ package it.polimi.it.galaxytrucker.controller;
 
 import it.polimi.it.galaxytrucker.listeners.Observable;
 import it.polimi.it.galaxytrucker.exceptions.GameFullException;
+import it.polimi.it.galaxytrucker.model.crewmates.Alien;
+import it.polimi.it.galaxytrucker.model.crewmates.Crewmate;
+import it.polimi.it.galaxytrucker.model.crewmates.Human;
 import it.polimi.it.galaxytrucker.model.managers.GameManager;
 import it.polimi.it.galaxytrucker.model.managers.Model;
 import it.polimi.it.galaxytrucker.model.managers.Player;
 import it.polimi.it.galaxytrucker.model.managers.ShipManager;
+import it.polimi.it.galaxytrucker.model.utility.AlienType;
 import it.polimi.it.galaxytrucker.model.utility.Color;
 import it.polimi.it.galaxytrucker.model.utility.Coordinates;
 import it.polimi.it.galaxytrucker.networking.server.ClientHandler;
@@ -176,6 +180,18 @@ public class Controller implements ControllerInterface {
     @Override
     public void endPlayerBuilding(UUID clientUuid) {
         model.finishBuilding(clientUuid);
+    }
+
+    @Override
+    public void addCrewmateToCabin(UUID playerID, HashMap<String, Coordinates> placedCrewmate) {
+        for (HashMap.Entry<String, Coordinates> entry : placedCrewmate.entrySet()) {
+            System.out.println(entry.getValue().getRow() + " " + entry.getValue().getColumn());
+            switch (entry.getKey()) {
+                case "HUMAN"        -> model.addCrewmateToCabin(playerID, entry.getValue().getRow(), entry.getValue().getColumn(), new Human());
+                case "PURPLEALIEN"  -> model.addCrewmateToCabin(playerID, entry.getValue().getRow(), entry.getValue().getColumn(), new Alien(AlienType.PURPLEALIEN));
+                case "BROWNALIEN"   -> model.addCrewmateToCabin(playerID, entry.getValue().getRow(), entry.getValue().getColumn(), new Alien(AlienType.BROWNALIEN));
+            }
+        }
     }
 
     @Override

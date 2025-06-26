@@ -147,6 +147,7 @@ public class RMIClient extends Client implements RMIVirtualClient {
                 }
             } catch (RemoteException e) {
                 System.err.println(ConsoleColors.RED + "Failed to send message to server" + ConsoleColors.RESET);
+                e.printStackTrace();
                 connectedToServer = false;
 
 

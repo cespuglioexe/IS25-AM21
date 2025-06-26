@@ -35,4 +35,5 @@ public interface ControllerInterface {
 
     void endPlayerBuilding(UUID clientUuid);
 
+    void addCrewmateToCabin(UUID playerID, HashMap<String, Coordinates> placedCrewmate);
 }

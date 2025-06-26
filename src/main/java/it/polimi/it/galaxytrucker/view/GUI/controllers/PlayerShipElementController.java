@@ -52,7 +52,7 @@ public class PlayerShipElementController implements Initializable {
     private Predicate<TileData> highlightPredicate = tile -> tile == null || !tile.type().equals("OutOfBoundsTile");
 
     @FXML private StackPane playerShipRootPane;
-    @FXML private ImageView shipBgImage;
+    @FXML public ImageView shipBgImage;
     @FXML private GridPane grid;
 
     /** Tooltip ri‑usabile */
@@ -120,6 +120,7 @@ public class PlayerShipElementController implements Initializable {
 
                                 image.setFitWidth(width);
                                 image.setFitHeight(height);
+                                image.setMouseTransparent(true);
                             } else {
                                 image.setImage(null);
                             }
@@ -227,10 +228,17 @@ public class PlayerShipElementController implements Initializable {
             Map<Color, Long> cargoCount = data.cargo().stream()
                     .collect(Collectors.groupingBy(c -> c, Collectors.counting()));
 
+            Map<String, String> emojiMap = Map.of(
+                    "YELLOW", "🟨",
+                    "GREEN", "🟩",
+                    "BLUE", "🟦",
+                    "RED", "🟥"
+            );
+
             if (!cargoCount.isEmpty()) {
                 sb.append("\nCargo:");
                 cargoCount.forEach((color, count) ->
-                        sb.append("\n").append(color.name()).append(": ").append(count));
+                        sb.append(emojiMap.getOrDefault(color.toString(), "?").repeat(Math.toIntExact(count))));
             }
 
         } else if (data.type().equals(CabinModule.class.getSimpleName()) ||
