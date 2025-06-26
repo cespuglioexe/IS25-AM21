@@ -187,6 +187,8 @@ public class GameManager extends StateMachine implements Model, Observable {
         try {
             List<AdventureCard> cards_lvl1 = loadCards(new String("src/main/resources/it/polimi/it/galaxytrucker/json/cards_lvl1.json"));
             List<AdventureCard> cards_lvl2 = loadCards(new String("src/main/resources/it/polimi/it/galaxytrucker/json/cards_lvl2.json"));
+          //  List<AdventureCard> cards_ = loadCards(new String("src/main/resources/it/polimi/it/galaxytrucker/json/cards_.json"));
+
 
             for(int i=0;i<4;i++){
                 if(getLevel()==1){

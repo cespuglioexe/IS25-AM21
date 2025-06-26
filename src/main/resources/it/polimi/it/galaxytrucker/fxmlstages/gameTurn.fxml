@@ -160,7 +160,7 @@
                   </Lighting>
                </effect>
                <children>
-                  <Label style="-fx-border-color:: white;" textFill="WHITE" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                  <Label style="-fx-border-color: white;" textFill="WHITE" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                      <font>
                         <Font name="Cambria" size="18.0" />
                      </font></Label>

@@ -2,7 +2,6 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.effect.Light.Distant?>
 <?import javafx.scene.effect.Lighting?>
@@ -30,7 +29,7 @@
          </effect>
       </ImageView>
       <fx:include fx:id="ship" source="PlayerShipElement.fxml" translateX="600.0" translateY="200.0" />
-      <Label layoutX="173.0" layoutY="150.0" text="CARGO REWARD" textFill="WHITE">
+      <Label layoutX="166.0" layoutY="121.0" styleClass="title-label" stylesheets="@../css/planets.css" text="CARGO REWARD" textFill="WHITE">
          <font>
             <Font name="Centaur" size="42.0" />
          </font>
@@ -50,26 +49,24 @@
             <Image url="@../graphics/general/cargoRed.png" />
          </image>
       </ImageView>
-      <TextField layoutX="211.0" layoutY="502.0" prefHeight="26.0" prefWidth="60.0" promptText="X coord..." fx:id="xCoordText" />
-      <TextField fx:id="yCoordText" layoutX="315.0" layoutY="502.0" prefHeight="26.0" prefWidth="60.0" promptText="Y coord" />
-      <Button fx:id="arrowBack" layoutX="192.0" layoutY="318.0" mnemonicParsing="false" onAction="#cargoBack" text="&lt;" />
-      <Button fx:id="arrowForward" layoutX="433.0" layoutY="318.0" mnemonicParsing="false" onAction="#cargoForward" text="&gt;" />
-      <Button fx:id="addButton" layoutX="431.0" layoutY="502.0" mnemonicParsing="false" onAction="#addCargo" text="ADD">
+      <Button fx:id="arrowBack" layoutX="183.0" layoutY="293.0" mnemonicParsing="false" onAction="#cargoBack" styleClass="direction-button" stylesheets="@../css/planets.css" text="&lt;" />
+      <Button fx:id="arrowForward" layoutX="424.0" layoutY="293.0" mnemonicParsing="false" onAction="#cargoForward" styleClass="direction-button" stylesheets="@../css/planets.css" text="&gt;" />
+      <Button fx:id="addButton" layoutX="272.0" layoutY="452.0" mnemonicParsing="false" onAction="#addCargo" prefHeight="60.0" prefWidth="111.0" styleClass="red-button" stylesheets="@../css/planets.css" text="ADD">
          <font>
             <Font name="Centaur" size="12.0" />
          </font>
       </Button>
-      <Button fx:id="acceptReward" layoutX="253.0" layoutY="615.0" mnemonicParsing="false" onAction="#acceptReward" prefHeight="47.0" prefWidth="132.0" style="-fx-background-color: green;" text="ACCEPT REWARD" textFill="WHITE">
+      <Button fx:id="acceptReward" layoutX="181.0" layoutY="595.0" mnemonicParsing="false" onAction="#acceptReward" prefHeight="60.0" prefWidth="293.0" style="-fx-background-color: green;" styleClass="green-button" stylesheets="@../css/planets.css" text="ACCEPT REWARD" textFill="WHITE">
          <font>
             <Font name="Centaur" size="12.0" />
          </font>
       </Button>
-      <Label fx:id="incorrectCoord" layoutX="236.0" layoutY="562.0" text="INCORRECT COORDINATES" textFill="WHITE" visible="false">
+      <Label fx:id="incorrectCoord" layoutX="238.0" layoutY="536.0" styleClass="cargo-red" stylesheets="@../css/planets.css" text="INCORRECT COORDINATES" textFill="WHITE" visible="false">
          <font>
             <Font name="Centaur" size="14.0" />
          </font>
       </Label>
-      <Label fx:id="incorrectValues" layoutX="252.0" layoutY="704.0" text="INCORRECT VALUES" textFill="WHITE" visible="false">
+      <Label fx:id="incorrectValue" layoutX="261.0" layoutY="688.0" styleClass="cargo-red" stylesheets="@../css/planets.css" text="INCORRECT VALUES" textFill="WHITE" visible="false">
          <font>
             <Font name="Centaur" size="14.0" />
          </font>

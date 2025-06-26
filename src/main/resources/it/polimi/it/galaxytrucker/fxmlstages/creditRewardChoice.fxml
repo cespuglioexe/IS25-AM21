@@ -5,7 +5,6 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.effect.ColorAdjust?>
 <?import javafx.scene.effect.DropShadow?>
-<?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.effect.Light.Distant?>
 <?import javafx.scene.effect.Lighting?>
 <?import javafx.scene.effect.Shadow?>
@@ -41,7 +40,7 @@
                         </Lighting>
                      </effect>
                   </ImageView>
-                  <Button fx:id="acceptButton" mnemonicParsing="false" onAction="#acceptReward" prefHeight="47.0" prefWidth="87.0" style="-fx-background-color: green;" text="ACCEPT" textFill="WHITE">
+                  <Button fx:id="acceptButton" mnemonicParsing="false" onAction="#acceptReward" prefHeight="60.0" prefWidth="172.0" style="-fx-background-color: green;" styleClass="green-button" stylesheets="@../css/planets.css" text="ACCEPT" textFill="WHITE">
                      <effect>
                         <ColorAdjust brightness="0.03" contrast="1.0" hue="-0.02" saturation="-0.01" />
                      </effect>
@@ -49,10 +48,10 @@
                         <Font name="Cambria" size="14.0" />
                      </font>
                      <StackPane.margin>
-                        <Insets left="300.0" />
+                        <Insets left="400.0" top="180.0" />
                      </StackPane.margin>
                   </Button>
-                  <Button fx:id="declineButton" layoutX="760.0" layoutY="387.0" mnemonicParsing="false" onAction="#declineReward" prefHeight="47.0" prefWidth="87.0" style="-fx-background-color: RED;" text="DECLINE" textFill="WHITE">
+                  <Button fx:id="declineButton" layoutX="760.0" layoutY="387.0" mnemonicParsing="false" onAction="#declineReward" prefHeight="60.0" prefWidth="170.0" style="-fx-background-color: RED;" styleClass="red-button" stylesheets="@../css/planets.css" text="DECLINE" textFill="WHITE">
                      <effect>
                         <ColorAdjust brightness="0.03" contrast="1.0" hue="-0.02" saturation="-0.01" />
                      </effect>
@@ -60,10 +59,10 @@
                         <Font name="Cambria" size="14.0" />
                      </font>
                      <StackPane.margin>
-                        <Insets right="300.0" />
+                        <Insets right="400.0" top="180.0" />
                      </StackPane.margin>
                   </Button>
-                  <Label alignment="CENTER" text="DO YOU WANT TO ACCEPT THE CREDITS WON?" textAlignment="CENTER" textFill="WHITE">
+                  <Label alignment="CENTER" styleClass="title-label" stylesheets="@../css/planets.css" text="DO YOU WANT TO ACCEPT THE CREDITS YOU’VE WON?" textAlignment="CENTER" textFill="WHITE">
                      <font>
                         <Font name="Centaur" size="42.0" />
                      </font>
@@ -73,12 +72,12 @@
                   </Label>
                   <StackPane fx:id="declineButton" alignment="BOTTOM_CENTER">
                      <children>
-                        <Label contentDisplay="RIGHT" text="YOUR CREDITS:" textFill="#fffafa">
+                        <Label contentDisplay="RIGHT" style="-fx-background-color: trasparent;" styleClass="futuristic-textfield" stylesheets="@../cssstyles/futuristicUIStyles.css" text="YOUR CREDITS:">
                            <font>
                               <Font name="Centaur" size="24.0" />
                            </font>
                            <StackPane.margin>
-                              <Insets bottom="200.0" right="100.0" />
+                              <Insets bottom="100.0" />
                            </StackPane.margin>
                            <graphic>
                               <GridPane alignment="TOP_RIGHT" gridLinesVisible="true" prefHeight="30.0" prefWidth="68.0" style="-fx-border-color: white;">
@@ -88,25 +87,8 @@
                                 <rowConstraints>
                                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                 </rowConstraints>
-                                 <effect>
-                                    <DropShadow height="194.17" radius="104.775" spread="0.96" width="226.93">
-                                       <color>
-                                          <Color red="1.0" green="1.0" blue="1.0" />
-                                       </color>
-                                       <input>
-                                          <Lighting diffuseConstant="2.0" specularConstant="0.0" surfaceScale="0.0">
-                                             <bumpInput>
-                                                <InnerShadow choke="1.0" height="255.0" radius="127.0" width="255.0" />
-                                             </bumpInput>
-                                             <light>
-                                                <Light.Distant />
-                                             </light>
-                                          </Lighting>
-                                       </input>
-                                    </DropShadow>
-                                 </effect>
                                  <children>
-                                    <Label alignment="CENTER" prefHeight="30.0" prefWidth="66.0" style="-fx-text-fill: white;" text="3">
+                                    <Label fx:id="creditsPlayer" alignment="CENTER" prefHeight="30.0" prefWidth="66.0" style="-fx-text-fill: trasparent;" text="3" textFill="WHITE">
                                        <font>
                                           <Font name="Centaur" size="24.0" />
                                        </font>
@@ -117,7 +99,7 @@
                         </Label>
                         <AnchorPane>
                            <children>
-                              <GridPane layoutX="706.0" layoutY="341.0" prefHeight="133.0" prefWidth="122.0" style="-fx-background-color: trasparent; -fx-border-color: white;" AnchorPane.bottomAnchor="326.4" AnchorPane.leftAnchor="705.6" AnchorPane.rightAnchor="707.6" AnchorPane.topAnchor="340.0">
+                              <GridPane layoutX="706.0" layoutY="341.0" prefHeight="133.0" prefWidth="122.0" style="-fx-background-color: trasparent; -fx-border-color: white;" styleClass="direction-button" stylesheets="@../css/planets.css" AnchorPane.bottomAnchor="250.0" AnchorPane.leftAnchor="705.6" AnchorPane.rightAnchor="707.6" AnchorPane.topAnchor="440.0">
                                 <columnConstraints>
                                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                 </columnConstraints>
@@ -139,12 +121,15 @@
                                     </Label>
                                  </children>
                                  <effect>
-                                    <DropShadow height="30.36" radius="11.17" width="16.32">
+                                    <DropShadow height="252.61" radius="126.4025" width="255.0">
                                        <color>
                                           <Color red="1.0" green="1.0" blue="1.0" />
                                        </color>
                                     </DropShadow>
                                  </effect>
+                                 <opaqueInsets>
+                                    <Insets bottom="50.0" />
+                                 </opaqueInsets>
                               </GridPane>
                            </children>
                         </AnchorPane>
