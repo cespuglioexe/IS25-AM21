@@ -205,5 +205,14 @@ public class GUIGameTurn extends GUIViewState{
             System.out.println("card: "+GUIView.getInstance().getClient().getModel().getActiveCardGraphicPath());
             activeCard.setImage(new Image(Objects.requireNonNull(GUIGameTurn.class.getResourceAsStream("/it/polimi/it/galaxytrucker/graphics/cards/" + GUIView.getInstance().getClient().getModel().getActiveCardGraphicPath()))));
         });
+        try {
+            Thread.sleep(3000); // 2000 millisecondi = 2 secondi
+        } catch (InterruptedException e) {
+            e.printStackTrace(); // Gestisci l'eccezione, se necessario
+        }
+    }
+
+    public void showRankings(){
+        GUIView.getInstance().showScoreBoard();
     }
 }

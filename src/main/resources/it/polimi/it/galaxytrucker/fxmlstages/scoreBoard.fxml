@@ -21,9 +21,8 @@
             <Image url="@../graphics/general/generic_background.jpg" />
          </image>
       </ImageView>
-      <GridPane gridLinesVisible="true" layoutX="148.0" layoutY="169.0" style="-fx-border-color: white; -fx-border-width: 5px; -fx-background-color: rgba(0, 0, 0, 0.1);">
+      <GridPane gridLinesVisible="true" layoutX="197.0" layoutY="167.0" style="-fx-border-color: white; -fx-border-width: 5px; -fx-background-color: rgba(0, 0, 0, 0.1);">
          <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
          </columnConstraints>
@@ -49,12 +48,12 @@
             </Lighting>
          </effect>
          <children>
-            <Label fx:id="rank0" style="-fx-border-color:: white;" text="Rank 0" textFill="WHITE" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+            <Label fx:id="rank0" style="-fx-border-color:: white;" text="1" textFill="WHITE" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                <font>
                   <Font name="Cambria" size="18.0" />
                </font>
             </Label>
-            <Label fx:id="rank1" style="-fx-border-color:: white;" text="Rank 1" textAlignment="CENTER" textFill="WHITE" translateX="24.0" GridPane.rowIndex="2">
+            <Label fx:id="rank1" style="-fx-border-color:: white;" text="2" textAlignment="CENTER" textFill="WHITE" translateX="45.0" GridPane.rowIndex="2">
                <font>
                   <Font name="Cambria" size="18.0" />
                </font>
@@ -69,7 +68,7 @@
                   <Font name="Cambria" size="18.0" />
                </font>
             </Label>
-            <Label fx:id="rank2" text="Rank 2" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+            <Label fx:id="rank2" text="3" GridPane.halignment="CENTER" GridPane.rowIndex="3">
                <font>
                   <Font name="Cambria" size="18.0" />
                </font>
@@ -79,27 +78,12 @@
                   <Font name="Cambria" size="18.0" />
                </font>
             </Label>
-            <Label fx:id="color0" text="Color 0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1">
-               <font>
-                  <Font name="Cambria" size="18.0" />
-               </font>
-            </Label>
-            <Label fx:id="color1" text="Color 1" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2">
-               <font>
-                  <Font name="Cambria" size="18.0" />
-               </font>
-            </Label>
-            <Label fx:id="rank3" text="Rank 3" GridPane.halignment="CENTER" GridPane.rowIndex="4">
+            <Label fx:id="rank3" text="4" GridPane.halignment="CENTER" GridPane.rowIndex="4">
                <font>
                   <Font name="Cambria" size="18.0" />
                </font>
             </Label>
             <Label fx:id="nick3" text="Nick 3" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4">
-               <font>
-                  <Font name="Cambria" size="18.0" />
-               </font>
-            </Label>
-            <Label fx:id="color3" text="Color 3" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="4">
                <font>
                   <Font name="Cambria" size="18.0" />
                </font>
@@ -110,16 +94,6 @@
                </font>
             </Label>
             <Label text="NICK" GridPane.columnIndex="1" GridPane.halignment="CENTER">
-               <font>
-                  <Font name="Cambria" size="18.0" />
-               </font>
-            </Label>
-            <Label text="COLOR" GridPane.columnIndex="2" GridPane.halignment="CENTER">
-               <font>
-                  <Font name="Cambria" size="18.0" />
-               </font>
-            </Label>
-            <Label fx:id="color2" text="Color 2" translateX="24.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
                <font>
                   <Font name="Cambria" size="18.0" />
                </font>
