@@ -148,10 +148,8 @@ public class BuildingMenuState extends CLIViewState {
                     break;
 
                 case 4:
-                    view.getClient().receiveUserInput(
-                            new UserInput.UserInputBuilder(UserInputType.CONFIRM_BUILDING_END)
-                                    .build()
-                    );
+                    setCurrentState(new CLICrewmateAddingState());
+                    currentState.executeState();
                     break;
 
                 default:
