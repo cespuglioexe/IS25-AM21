@@ -49,12 +49,12 @@
             </Lighting>
          </effect>
          <children>
-            <Label fx:id="rank0" style="-fx-border-color:: white;" text="Rank 0" textFill="WHITE" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+            <Label fx:id="rank0" style="-fx-border-color: white;" text="Rank 0" textFill="WHITE" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                <font>
                   <Font name="Cambria" size="18.0" />
                </font>
             </Label>
-            <Label fx:id="rank1" style="-fx-border-color:: white;" text="Rank 1" textAlignment="CENTER" textFill="WHITE" translateX="24.0" GridPane.rowIndex="2">
+            <Label fx:id="rank1" style="-fx-border-color: white;" text="Rank 1" textAlignment="CENTER" textFill="WHITE" translateX="24.0" GridPane.rowIndex="2">
                <font>
                   <Font name="Cambria" size="18.0" />
                </font>

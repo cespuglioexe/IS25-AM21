@@ -93,18 +93,23 @@ public class GUICargoChoiceController extends GUIViewState implements GUIErrorHa
 
     @FXML
     private void cargoBack(){
-        if (i >= 0 && i < cargoCoords.size()) {
+        if (i > 0) {
             i--;
             displayCargo();
-        } else cargoImageView.setImage(null);
+        } else{
+            i=cargoCoords.size()-1;
+        }
     }
 
     @FXML
     private void cargoForward() {
-        if (i >= 0 && i < cargoCoords.size()) {
+        if (i < cargoCoords.size()-1) {
             i++;
             displayCargo();
-        } else cargoImageView.setImage(null);
+        } else {
+            i=0;
+            displayCargo();
+        }
     }
 
     public void displayCargo() {

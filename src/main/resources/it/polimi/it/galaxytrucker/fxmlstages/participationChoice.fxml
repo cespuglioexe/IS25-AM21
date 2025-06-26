@@ -13,7 +13,6 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <AnchorPane layoutX="10.0" layoutY="10.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -38,7 +37,7 @@
                               </Lighting>
                            </effect>
                         </ImageView>
-                        <Button fx:id="acceptButton" mnemonicParsing="false" onAction="#acceptParticipation" prefHeight="47.0" prefWidth="87.0" style="-fx-background-color: green;" text="ACCEPT" textFill="WHITE">
+                        <Button fx:id="acceptButton" mnemonicParsing="false" onAction="#acceptParticipation" prefHeight="60.0" prefWidth="166.0" style="-fx-background-color: green;" styleClass="green-button" stylesheets="@../css/planets.css" text="ACCEPT" textFill="WHITE">
                            <effect>
                               <ColorAdjust brightness="0.03" contrast="1.0" hue="-0.02" saturation="-0.01" />
                            </effect>
@@ -46,21 +45,10 @@
                               <Font name="Cambria" size="14.0" />
                            </font>
                            <StackPane.margin>
-                              <Insets left="300.0" />
+                              <Insets left="300.0" top="100.0" />
                            </StackPane.margin>
                         </Button>
-                        <Button fx:id="declineButton" layoutX="760.0" layoutY="387.0" mnemonicParsing="false" onAction="#declineParticipation" prefHeight="47.0" prefWidth="87.0" style="-fx-background-color: RED;" text="DECLINE" textFill="WHITE">
-                           <effect>
-                              <ColorAdjust brightness="0.03" contrast="1.0" hue="-0.02" saturation="-0.01" />
-                           </effect>
-                           <font>
-                              <Font name="Cambria" size="14.0" />
-                           </font>
-                           <StackPane.margin>
-                              <Insets right="300.0" />
-                           </StackPane.margin>
-                        </Button>
-                        <Label alignment="CENTER" text="DO YOU WANT TO PARTICIPATE IN THE CARD?" textAlignment="CENTER" textFill="WHITE">
+                        <Label alignment="CENTER" styleClass="title-label" stylesheets="@../css/planets.css" text="DO YOU WANT TO PARTICIPATE IN THE CARD?" textAlignment="CENTER" textFill="WHITE">
                            <font>
                               <Font name="Centaur" size="42.0" />
                            </font>
@@ -68,6 +56,17 @@
                               <Insets bottom="200.0" />
                            </StackPane.margin>
                         </Label>
+                        <Button fx:id="declineButton" layoutX="760.0" layoutY="387.0" mnemonicParsing="false" onAction="#declineParticipation" prefHeight="60.0" prefWidth="163.0" style="-fx-background-color: RED;" styleClass="red-button" stylesheets="@../css/planets.css" text="DECLINE" textFill="WHITE">
+                           <effect>
+                              <ColorAdjust brightness="0.03" contrast="1.0" hue="-0.02" saturation="-0.01" />
+                           </effect>
+                           <font>
+                              <Font name="Cambria" size="14.0" />
+                           </font>
+                           <StackPane.margin>
+                              <Insets right="300.0" top="100.0" />
+                           </StackPane.margin>
+                        </Button>
                      </children>
                   </StackPane>
                </children>
