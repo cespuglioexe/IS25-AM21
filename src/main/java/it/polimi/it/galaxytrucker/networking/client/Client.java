@@ -153,7 +153,7 @@ public abstract class Client extends UnicastRemoteObject implements Runnable, Cl
                         if (update.getPlayerIds().stream().anyMatch(id -> id.equals(model.getMyData().getPlayerId()))) {
                             view.shipFixingState();
                         } else {
-                            view.waitingForGameState();
+                            view.loadingScreen();
                         }
                         break;
                     case "CardExecutionState":
@@ -164,6 +164,13 @@ public abstract class Client extends UnicastRemoteObject implements Runnable, Cl
                         model.setPlayerMarkerPositions(update.getPlayerMarkerPositions());
 
                         view.startNewTurn();
+                        break;
+                    case "AttackAftermathFixingState":
+                        if (update.getPlayerIds().stream().anyMatch(id -> id.equals(model.getMyData().getPlayerId()))) {
+                            view.shipFixingState();
+                        } else {
+                            view.loadingScreen();
+                        }
                         break;
                     case "GameEndState":
                         model.setAllPlayersNickname(update.getNicknames());

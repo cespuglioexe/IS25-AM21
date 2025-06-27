@@ -1,5 +1,6 @@
 package it.polimi.it.galaxytrucker.view.GUI.controllers;
 
+import it.polimi.it.galaxytrucker.model.componenttiles.TileData;
 import it.polimi.it.galaxytrucker.model.managers.FlightBoard;
 import it.polimi.it.galaxytrucker.model.utility.Color;
 import it.polimi.it.galaxytrucker.view.GUI.GUIView;
@@ -9,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.ImageCursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -17,10 +19,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 public class GUIGameTurn extends GUIViewState{
 
@@ -32,6 +31,13 @@ public class GUIGameTurn extends GUIViewState{
     @FXML private ImageView p00,p01,p02,p03,p04,p05,p06,p07,p08,p09,p010,p011,p012,p013,p014,p015,p016,p017;
     @FXML private ImageView p100,p101,p102,p103,p104,p105,p106,p107,p108,p109,p1010,p1011,p1012,p1013,p1014,p1015,p1016,p1017,p1018,p1019,p1020,p1021,p1022,p1023;
     @FXML private Pane level1board,level2board;
+    @FXML private Button buttonP1,buttonP2,buttonP3;
+    @FXML private Pane playerShip1,playerShip2,playerShip3;
+    @FXML private PlayerShipElementController shipController;
+    private List<List<TileData>> playerShip;
+    private List<UUID> ids = new ArrayList<>();
+    private
+    UUID  def = UUID.fromString("00000000-0000-0000-0000-000000000000");
 
     public static GUIGameTurn getInstance() {
         synchronized (GUIGameTurn.class) {
@@ -118,9 +124,27 @@ public class GUIGameTurn extends GUIViewState{
 
                 }
 
+
+
+                HashMap<UUID, Integer> players = GUIView.getInstance().getClient().getModel().getPlayerMarkerPositions();
+
+
+                for (Map.Entry<UUID, Integer> entry : players.entrySet()){
+                    if(!entry.getKey().equals(GUIView.getInstance().getClient().getModel().getMyData().getPlayerId())){
+                        ids.add(entry.getKey());
+                    }
+                }
+
+                ids.add(def);
+                ids.add(def);
+                ids.add(def);
+
+
+                buttonP1.setText("Player 1");
+                buttonP2.setText("Player 2");
+                buttonP3.setText("Player 3");
+
                 updateBoard();
-
-
 
                 stage.show();
             } catch (IOException e) {
@@ -197,6 +221,9 @@ public class GUIGameTurn extends GUIViewState{
                 }
 
             }
+
+
+
         });
     }
 
@@ -218,8 +245,44 @@ public class GUIGameTurn extends GUIViewState{
             e.printStackTrace(); // Gestisci l'eccezione, se necessario
         }
     }
+    @FXML
+    private void showPanel1() {
+        if (!ids.get(0).equals(def)){
+            if(!playerShip1.isVisible()){
+                playerShip1.setVisible(true);
+            }else {
+                playerShip1.setVisible(false);
+            }
+            shipController.displayOtherShip(ids.get(0));
+        }
 
-    //public void showRankings(){
-        //GUIView.getInstance().showScoreBoard();
-   // }
+    }
+    @FXML
+    private void showPanel2() {
+        if(!ids.get(1).equals(def)){
+            if(!playerShip2.isVisible()){
+                playerShip2.setVisible(true);
+            }else {
+                playerShip2.setVisible(false);
+            }
+            shipController.displayOtherShip(ids.get(1));
+        }
+
+    }
+    @FXML
+    private void showPanel3() {
+        if(!ids.get(2).equals(def)){
+            if(!playerShip3.isVisible()){
+                playerShip3.setVisible(true);
+            }else {
+                playerShip3.setVisible(false);
+            }
+            shipController.displayOtherShip(ids.get(2));
+        }
+
+
+    }
+
+
+
 }

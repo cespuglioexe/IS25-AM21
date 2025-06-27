@@ -628,6 +628,10 @@ public class GameManager extends StateMachine implements Model, Observable {
         AdventureCardInputContext response = new AdventureCardInputContext();
         AdventureCardInputDispatcher inputHandler = new AdventureCardInputDispatcherImpl();
 
+        for (Integer cargo : acceptedCargo.keySet()) {
+            System.out.format("%d -> (%d, %d)\n", cargo, acceptedCargo.get(cargo).getRow(), acceptedCargo.get(cargo).getColumn());
+        }
+
         for (int i : acceptedCargo.keySet()) {
             response.put(AdventureCardInputFields.LOAD_INDEX, 0);
             Coordinates coord = acceptedCargo.get(i);

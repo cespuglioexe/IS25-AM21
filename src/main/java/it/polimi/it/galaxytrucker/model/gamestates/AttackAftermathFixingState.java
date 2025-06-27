@@ -7,6 +7,8 @@ import java.util.UUID;
 
 import it.polimi.it.galaxytrucker.exceptions.InvalidActionException;
 import it.polimi.it.galaxytrucker.exceptions.InvalidFunctionCallInState;
+import it.polimi.it.galaxytrucker.messages.servermessages.GameUpdate;
+import it.polimi.it.galaxytrucker.messages.servermessages.GameUpdateType;
 import it.polimi.it.galaxytrucker.model.design.statePattern.StateMachine;
 import it.polimi.it.galaxytrucker.model.managers.GameManager;
 import it.polimi.it.galaxytrucker.model.managers.Player;
@@ -37,6 +39,24 @@ public class AttackAftermathFixingState extends GameState {
         for (Player player : playersWithLegalShips) {
             this.playerHasIllegalShip.put(player.getPlayerID(), false);
         }
+
+        for (UUID id : playerHasIllegalShip.keySet()) {
+            Player player = gameManager.getPlayerByID(id);
+
+            ((GameManager) fsm).updateListeners(new GameUpdate.GameUpdateBuilder(GameUpdateType.PLAYER_SHIP_UPDATED)
+                .setShipBoard(player.getShipManager().getShipBoard())
+                .build()
+            );
+        }
+
+        ((GameManager) fsm).updateListeners(new GameUpdate.GameUpdateBuilder(GameUpdateType.NEW_STATE)
+                .setNewSate(AttackAftermathFixingState.class.getSimpleName())
+                .setPlayerIds(playerHasIllegalShip.keySet().stream()
+                    .filter(p -> playerHasIllegalShip.get(p))
+                    .toList()
+                )
+                .build()
+        );
     }
 
     @Override
@@ -55,6 +75,14 @@ public class AttackAftermathFixingState extends GameState {
     }
     
     // STATE SPECIFIC FUNCITONALITY
+
+    @Override
+    public void deleteComponentTile(StateMachine fsm, UUID playerID, int row, int column) throws InvalidFunctionCallInState {
+        GameManager game = (GameManager) fsm;
+
+        ShipManager ship = game.getPlayerByID(playerID).getShipManager();
+        ship.removeComponentTile(row, column);
+    }
 
     @Override
     public void removeBranch(StateMachine fsm, UUID playerID, Set<List<Integer>> branch) {
