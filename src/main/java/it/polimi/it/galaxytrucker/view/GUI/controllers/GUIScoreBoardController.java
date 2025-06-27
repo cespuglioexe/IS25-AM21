@@ -8,6 +8,7 @@ import it.polimi.it.galaxytrucker.view.GUI.GUIView;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
@@ -49,31 +50,39 @@ public class GUIScoreBoardController extends GUIViewState{
     @Override
     public void displayScene() {
         Platform.runLater(() -> {
+            FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(GUIScoreBoardController.class.getResource("/it/polimi/it/galaxytrucker/fxmlstages/scoreBoard.fxml")));
+            loader.setController(this);
+            Parent newroot = null;
+            try {
+                newroot = loader.load();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
             stage = (Stage) GUIView.stage.getScene().getWindow();
-            scene = new Scene(root);
+            scene = new Scene(newroot);
             stage.setScene(scene);
             stage.show();
+
+            updateScoreboard();
         });
     }
 
     @FXML
     public void updateScoreboard(){
-        HashMap<UUID, String> playerList = GUIView.getInstance().getClient().getModel().getAllPlayersNickname();
+        HashMap<UUID, Integer> playerList = GUIView.getInstance().getClient().getModel().getPlayerFinishOrder();
+        HashMap<UUID, String> playersNicks = GUIView.getInstance().getClient().getModel().getAllPlayersNickname();
         List<String> rankings = new ArrayList<>();
 
-        for (Map.Entry<UUID, String> entry : playerList.entrySet()) {
-            if(entry!=null){
-                rankings.add(entry.getValue());
-            }else {
-                rankings.add("");
-            }
-
+        for (Map.Entry<UUID, Integer> entry : playerList.entrySet()) {
+            rankings.add(entry.getKey().toString());
         }
 
-        nick0.setText(rankings.get(0));
-        nick1.setText(rankings.get(1));
-        nick2.setText(rankings.get(1));
-        nick3.setText(rankings.get(1));
+
+        nick0.setText(rankings.size() > 0 ? rankings.get(0) : "");
+        nick1.setText(rankings.size() > 1 ? rankings.get(1) : "");
+        nick2.setText(rankings.size() > 2 ? rankings.get(2) : "");
+        nick3.setText(rankings.size() > 3 ? rankings.get(3) : "");
 
     }
 

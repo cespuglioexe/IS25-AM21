@@ -13,7 +13,6 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="400.0" prefWidth="582.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <ImageView fitHeight="400.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true">
@@ -48,22 +47,22 @@
             </Lighting>
          </effect>
          <children>
-            <Label fx:id="rank0" style="-fx-border-color: white;" text="Rank 0" textFill="WHITE" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+            <Label fx:id="rank0" text="1" textFill="WHITE" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                <font>
                   <Font name="Cambria" size="18.0" />
                </font>
             </Label>
-            <Label fx:id="rank1" style="-fx-border-color: white;" text="2" textAlignment="CENTER" textFill="WHITE" translateX="45.0" GridPane.rowIndex="2">
+            <Label fx:id="rank1" text="2" textAlignment="CENTER" textFill="WHITE" translateX="45.0" GridPane.rowIndex="2">
                <font>
                   <Font name="Cambria" size="18.0" />
                </font>
             </Label>
-            <Label fx:id="nick0" text="Nick 0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+            <Label fx:id="nick0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                <font>
                   <Font name="Cambria" size="18.0" />
                </font>
             </Label>
-            <Label fx:id="nick1" text="Nick 1" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+            <Label fx:id="nick1" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2">
                <font>
                   <Font name="Cambria" size="18.0" />
                </font>
@@ -73,7 +72,7 @@
                   <Font name="Cambria" size="18.0" />
                </font>
             </Label>
-            <Label fx:id="nick2" text="Nick 2" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+            <Label fx:id="nick2" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3">
                <font>
                   <Font name="Cambria" size="18.0" />
                </font>
@@ -83,7 +82,7 @@
                   <Font name="Cambria" size="18.0" />
                </font>
             </Label>
-            <Label fx:id="nick3" text="Nick 3" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4">
+            <Label fx:id="nick3" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4">
                <font>
                   <Font name="Cambria" size="18.0" />
                </font>
@@ -93,7 +92,7 @@
                   <Font name="Cambria" size="18.0" />
                </font>
             </Label>
-            <Label text="NICK" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+            <Label text="UUID" GridPane.columnIndex="1" GridPane.halignment="CENTER">
                <font>
                   <Font name="Cambria" size="18.0" />
                </font>
