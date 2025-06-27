@@ -229,7 +229,7 @@ public class MeteorSwarm extends Attack implements AdventureCard {
 
             projectileInfo.add(projectile.getSize().toString());
             projectileInfo.add(projectile.getDirection().toString());
-
+            projectileInfo.add(getRolledProjectileAndCoord().get(projectile).toString());
             serializedList.add(projectileInfo);
         }
         return serializedList;

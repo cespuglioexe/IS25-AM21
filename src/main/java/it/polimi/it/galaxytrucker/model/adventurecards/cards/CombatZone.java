@@ -397,6 +397,8 @@ public class CombatZone extends Attack implements AdventureCard, FlightDayPenalt
 
             projectileInfo.add(projectile.getSize().toString());
             projectileInfo.add(projectile.getDirection().toString());
+            projectileInfo.add(getRolledProjectileAndCoord().get(projectile).toString());
+            System.out.println(getRolledProjectileAndCoord().get(projectile).toString());
 
             serializedList.add(projectileInfo);
         }
