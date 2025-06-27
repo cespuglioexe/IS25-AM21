@@ -19,10 +19,7 @@ public class CargoRewardState extends State {
 
     @Override
     public void update(StateMachine fsm) {
-        Planets card = (Planets) fsm;
-        Subject subject = (Subject) fsm;
 
-        subject.notifyObservers(new InputNeeded(card, card.getCurrentPlayer()));
     }
 
     @Override

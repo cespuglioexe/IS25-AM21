@@ -30,6 +30,7 @@ public class ParticipationState extends State {
         AbandonedStation card = (AbandonedStation) fsm;
         Subject subject = (Subject) fsm;
 
+        playerDecisions++;
         if (card.isCardOccupied()) {
             if (card.hasPlayerRequiredNumberOfCrewmates()){
                 fsm.changeState(new CargoRewardState());
@@ -43,7 +44,7 @@ public class ParticipationState extends State {
     }
 
     private boolean allPlayersDecided() {
-        return ++playerDecisions == numberOfPlayers;
+        return playerDecisions >= numberOfPlayers;
     }
 
     @Override

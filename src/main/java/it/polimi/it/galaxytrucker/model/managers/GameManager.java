@@ -188,7 +188,6 @@ public class GameManager extends StateMachine implements Model, Observable {
             List<AdventureCard> cards_lvl1 = loadCards(new String("src/main/resources/it/polimi/it/galaxytrucker/json/cards_lvl1.json"));
             List<AdventureCard> cards_lvl2 = loadCards(new String("src/main/resources/it/polimi/it/galaxytrucker/json/cards_lvl2.json"));
             List<AdventureCard> cards_testFlight = loadCards(new String("src/main/resources/it/polimi/it/galaxytrucker/json/cards_testFlight.json"));
-            System.out.println(cards_testFlight);
 
             for(int i=0;i<4;i++){
                 if(getLevel()==1){
@@ -633,7 +632,7 @@ public class GameManager extends StateMachine implements Model, Observable {
             response.put(AdventureCardInputFields.LOAD_INDEX, 0);
             Coordinates coord = acceptedCargo.get(i);
 
-            if (coord.equals(new Coordinates(0,0))) {
+            if (coord.getRow() == 0 && coord.getColumn() == 0) {
                 response.put(AdventureCardInputFields.ACCEPTS_CARGO, false);
             }
             else {

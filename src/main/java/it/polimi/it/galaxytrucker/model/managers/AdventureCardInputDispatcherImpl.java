@@ -22,7 +22,7 @@ import it.polimi.it.galaxytrucker.view.CLI.ConsoleColors;
 public class AdventureCardInputDispatcherImpl implements AdventureCardInputDispatcher, AdventureCardVisitor {
     @Override
     public void dispatch(AdventureCard card, AdventureCardInputContext context) {
-        System.out.println(ConsoleColors.MAGENTA + "Apparent card:" + card.getClass().getSimpleName() + ConsoleColors.RESET);
+        System.out.println(ConsoleColors.MAGENTA + "Dispatched card:" + card.getClass().getSimpleName() + ConsoleColors.RESET);
         card.accept(this, context);
     }
 
@@ -46,9 +46,11 @@ public class AdventureCardInputDispatcherImpl implements AdventureCardInputDispa
             if (accepts) {
                 int row = context.get(AdventureCardInputFields.ROW, Integer.class);
                 int column = context.get(AdventureCardInputFields.COLUMN, Integer.class);
+                System.out.println("Accepts cargo (" + row + ", " + column + ")");
 
                 card.acceptCargo(0, row, column);
             } else {
+                System.out.println("Declines cargo");
                 card.discardCargo(0);
             }
         }
@@ -78,7 +80,6 @@ public class AdventureCardInputDispatcherImpl implements AdventureCardInputDispa
         if (isParticipation(context)) {
             Player player = context.get(AdventureCardInputFields.PLAYER, Player.class);
             boolean participates = context.get(AdventureCardInputFields.PARTICIPATES, Boolean.class);
-
             if (participates) {
                 card.participate(player, 0);
             } else {
