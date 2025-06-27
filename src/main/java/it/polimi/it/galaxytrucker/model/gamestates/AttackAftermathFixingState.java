@@ -55,6 +55,7 @@ public class AttackAftermathFixingState extends GameState {
                     .filter(p -> playerHasIllegalShip.get(p))
                     .toList()
                 )
+                
                 .build()
         );
     }
