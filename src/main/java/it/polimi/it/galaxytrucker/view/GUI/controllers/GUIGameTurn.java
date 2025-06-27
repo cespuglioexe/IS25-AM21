@@ -222,7 +222,7 @@ public class GUIGameTurn extends GUIViewState{
         }
     }
 
-    public void showRankings(){
-        GUIView.getInstance().showScoreBoard();
-    }
+    //public void showRankings(){
+        //GUIView.getInstance().showScoreBoard();
+   // }
 }

@@ -70,12 +70,12 @@ public class GUIScoreBoardController extends GUIViewState{
 
     @FXML
     public void updateScoreboard(){
-        HashMap<UUID, Integer> playerList = GUIView.getInstance().getClient().getModel().getPlayerFinishOrder();
         HashMap<UUID, String> playersNicks = GUIView.getInstance().getClient().getModel().getAllPlayersNickname();
         List<String> rankings = new ArrayList<>();
+        System.out.println(playersNicks);
 
-        for (Map.Entry<UUID, Integer> entry : playerList.entrySet()) {
-            rankings.add(entry.getKey().toString());
+        for (Map.Entry<UUID, String> entry : playersNicks.entrySet()) {
+            rankings.add(entry.getValue());
         }
 
 
@@ -86,10 +86,4 @@ public class GUIScoreBoardController extends GUIViewState{
 
     }
 
-    public void endAddCrewmates(){
-        GUIView.getInstance().getClient().receiveUserInput(
-                new UserInput.UserInputBuilder(UserInputType.CONFIRM_BUILDING_END)
-                        .build()
-        );
-    }
 }
