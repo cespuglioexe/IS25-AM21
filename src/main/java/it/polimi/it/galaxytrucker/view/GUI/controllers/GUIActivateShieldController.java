@@ -96,19 +96,24 @@ public class GUIActivateShieldController extends GUIViewState{
             incorrectCoord1.setText("INCORRECT COORDINATES");
             incorrectCoord1.setVisible(true);
         } else {
-            if (GUIView.getInstance().getClient().getModel().getPlayerShips(GUIView.getInstance().getClient().getModel().getMyData().getPlayerId()).get(row - 5).get(col - 4) != null) {
-                if (GUIView.getInstance().getClient().getModel().getPlayerShips(GUIView.getInstance().getClient().getModel().getMyData().getPlayerId()).get(row - 5).get(col - 4).type().equals(Shield.class.getSimpleName())) {
-                    shieldCoords.add(new Coordinates(row, col));
-                    incorrectCoord1.setText("ADD SHIELD");
-                    incorrectCoord1.setVisible(true);
-                } else{
+            if(!shieldCoords.contains(new Coordinates(col, row))) {
+                if (GUIView.getInstance().getClient().getModel().getPlayerShips(GUIView.getInstance().getClient().getModel().getMyData().getPlayerId()).get(row - 5).get(col - 4) != null) {
+                    if (GUIView.getInstance().getClient().getModel().getPlayerShips(GUIView.getInstance().getClient().getModel().getMyData().getPlayerId()).get(row - 5).get(col - 4).type().equals(Shield.class.getSimpleName())) {
+                        shieldCoords.add(new Coordinates(row, col));
+                        incorrectCoord1.setText("ADD SHIELD");
+                        incorrectCoord1.setVisible(true);
+                    } else {
+                        incorrectCoord1.setText("INCORRECT COORDINATES");
+                        incorrectCoord1.setVisible(true);
+                    }
+                } else {
                     incorrectCoord1.setText("INCORRECT COORDINATES");
                     incorrectCoord1.setVisible(true);
                 }
             } else{
-                incorrectCoord1.setText("INCORRECT COORDINATES");
-                incorrectCoord1.setVisible(true);
-            }
+                    incorrectCoord1.setText("INCORRECT COORDINATES");
+                    incorrectCoord1.setVisible(true);
+                }
         }
     }
 
@@ -120,12 +125,17 @@ public class GUIActivateShieldController extends GUIViewState{
             incorrectCoord2.setText("INCORRECT COORDINATES");
             incorrectCoord2.setVisible(true);
         } else {
-            if (GUIView.getInstance().getClient().getModel().getPlayerShips(GUIView.getInstance().getClient().getModel().getMyData().getPlayerId()).get(row - 5).get(col - 4) != null) {
-                if (GUIView.getInstance().getClient().getModel().getPlayerShips(GUIView.getInstance().getClient().getModel().getMyData().getPlayerId()).get(row-5).get(col-4).type().equals(BatteryComponent.class.getSimpleName())) {
-                    batteryCoord.add(new Coordinates(row, col));
-                    incorrectCoord2.setText("ADD BATTERY");
-                    incorrectCoord2.setVisible(true);
-                } else{
+            if(!batteryCoord.contains(new Coordinates(col, row))) {
+                if (GUIView.getInstance().getClient().getModel().getPlayerShips(GUIView.getInstance().getClient().getModel().getMyData().getPlayerId()).get(row - 5).get(col - 4) != null) {
+                    if (GUIView.getInstance().getClient().getModel().getPlayerShips(GUIView.getInstance().getClient().getModel().getMyData().getPlayerId()).get(row - 5).get(col - 4).type().equals(BatteryComponent.class.getSimpleName())) {
+                        batteryCoord.add(new Coordinates(row, col));
+                        incorrectCoord2.setText("ADD BATTERY");
+                        incorrectCoord2.setVisible(true);
+                    } else {
+                        incorrectCoord2.setText("INCORRECT COORDINATES");
+                        incorrectCoord2.setVisible(true);
+                    }
+                } else {
                     incorrectCoord2.setText("INCORRECT COORDINATES");
                     incorrectCoord2.setVisible(true);
                 }
