@@ -28,10 +28,11 @@ public class CalculateEnginePowerState extends State {
         
         playerDecisions++;
         if (allPlayersHaveResponded()) {
+            System.out.println(":,(");
+
             card.changeState(new TravelState());
-            return;
-        }
-        if (playerDecisions < numberOfPlayers) {
+        } else {
+            System.out.println(":(");
             subject.notifyObservers(new InputNeeded(card, getPlayerWhoChooses(card)));
         }
     }
