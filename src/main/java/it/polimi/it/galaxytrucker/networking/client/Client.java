@@ -146,7 +146,7 @@ public abstract class Client extends UnicastRemoteObject implements Runnable, Cl
 
                         view.buildingStarted();
                         break;
-                    case "AddingCrewmate":
+                    case "AddCrewmates":
                         view.addCrewmates();
                         break;
                     case "ShipFixingState":
@@ -168,7 +168,7 @@ public abstract class Client extends UnicastRemoteObject implements Runnable, Cl
                     case "GameEndState":
                         model.setAllPlayersNickname(update.getNicknames());
                         view.showScoreBoard();
-                        // TODO: show leaderboard
+                        break;
                     default:
                         System.out.println(ConsoleColors.CLIENT_DEBUG + "Received unknown state: " + update.getNewSate() + ConsoleColors.RESET);
                         break;

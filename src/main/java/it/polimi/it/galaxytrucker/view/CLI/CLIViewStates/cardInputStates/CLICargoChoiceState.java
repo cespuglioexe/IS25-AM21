@@ -37,9 +37,9 @@ public class CLICargoChoiceState extends CLIViewState {
 
     @Override
     public void executeState() {
-        if (cargoReward == null) {
-            loadCardDetails();
+        loadCardDetails();
 
+        if (cargoReward == null) {
             view.executorService.submit(() -> {
                 System.out.print("Your cargo reward is ");
                 for (Cargo cargo : cargoReward) {
@@ -84,6 +84,8 @@ public class CLICargoChoiceState extends CLIViewState {
                     }
                 }
             }
+
+            acceptReward();
         });
     }
 

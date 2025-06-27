@@ -40,8 +40,6 @@ public class GameEndState extends GameState {
                         i -> i
                 ));
 
-
-
         HashMap<UUID, String> map2 = (HashMap<UUID, String>)  rankings.stream()
                 .collect(Collectors.toMap(
                         Player::getPlayerID,

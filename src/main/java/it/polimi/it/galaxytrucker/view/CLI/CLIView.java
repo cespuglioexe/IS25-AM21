@@ -5,12 +5,13 @@ import it.polimi.it.galaxytrucker.model.componenttiles.TileData;
 import it.polimi.it.galaxytrucker.model.componenttiles.TileEdge;
 import it.polimi.it.galaxytrucker.view.CLI.CLIViewStates.*;
 import it.polimi.it.galaxytrucker.view.CLI.CLIViewStates.cardInputStates.*;
-import it.polimi.it.galaxytrucker.view.CLI.CLIViewStates.setUpStates.GameSelectionState;
-import it.polimi.it.galaxytrucker.view.CLI.CLIViewStates.setUpStates.NameSelectionState;
+import it.polimi.it.galaxytrucker.view.CLI.CLIViewStates.generalStates.CLILeaderboardState;
+import it.polimi.it.galaxytrucker.view.CLI.CLIViewStates.generalStates.GameSelectionState;
+import it.polimi.it.galaxytrucker.view.CLI.CLIViewStates.generalStates.NameSelectionState;
 import it.polimi.it.galaxytrucker.view.CLI.CLIViewStates.shipBuildingStates.BuildingMenuState;
+import it.polimi.it.galaxytrucker.view.CLI.CLIViewStates.shipBuildingStates.CLICrewmateAddingState;
 import it.polimi.it.galaxytrucker.view.CLI.CLIViewStates.shipBuildingStates.ShipFixingState;
 import it.polimi.it.galaxytrucker.view.CLI.CLIViewStates.shipBuildingStates.TileActionState;
-import it.polimi.it.galaxytrucker.view.GUI.controllers.*;
 import it.polimi.it.galaxytrucker.view.View;
 
 import java.util.*;
@@ -197,7 +198,8 @@ public class CLIView extends View {
 
     @Override
     public void showScoreBoard() {
-
+        CLIViewState.setCurrentState(new CLILeaderboardState());
+        CLIViewState.getCurrentState().executeState();
     }
 
     @Override
@@ -207,7 +209,8 @@ public class CLIView extends View {
 
     @Override
     public void addCrewmates() {
-
+        CLIViewState.setCurrentState(new CLICrewmateAddingState());
+        CLIViewState.getCurrentState().executeState();
     }
 
     @Override
