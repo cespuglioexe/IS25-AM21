@@ -11,6 +11,8 @@
 
 This project is a Java-based implementation of the table game <a href="https://www.craniocreations.it/prodotto/galaxy-trucker">Galaxy Trucker</a>. 
 
+**NB**: versione finale del progetto caricata dopo la deadline delle 13:00 del 27/06/25. L'ultimo commit serve a rettificare una svista nella generazione dei file `.jar` che impediva il corretto funzionamento della lettura da file `JSON`.
+
 ## Implemented Features
 
 | Functionality    | Status |
