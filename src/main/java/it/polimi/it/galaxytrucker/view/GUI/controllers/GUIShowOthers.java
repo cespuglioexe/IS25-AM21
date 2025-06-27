@@ -61,6 +61,11 @@ public class GUIShowOthers extends GUIViewState{
                 nickname.setText("");
 
                 updateShip();
+                try {
+                    wait(5000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }

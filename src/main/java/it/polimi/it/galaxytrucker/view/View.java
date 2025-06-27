@@ -86,5 +86,4 @@ public abstract class View {
 
     public abstract void loadingScreen();
 
-    public abstract void showOtherShip();
 }

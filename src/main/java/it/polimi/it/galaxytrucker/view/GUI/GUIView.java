@@ -36,7 +36,7 @@ public class GUIView extends View {
             GUIFixingShipController.getInstance();
             GUIScoreBoardController.getInstance();
             GUIAddCrewmateController.getInstance();
-            GUIGameTurn.getInstance();
+            //GUIGameTurn.getInstance();
         }
         return guiView;
     }
@@ -379,9 +379,5 @@ public class GUIView extends View {
         return "ingconti";
     }
 
-    @Override
-    public void showOtherShip(){
-        GUIShowOthers.getInstance().displayScene();
-    }
 
 }
