@@ -18,6 +18,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -32,11 +33,14 @@ public class GUIActivateShieldController extends GUIViewState{
     private List<List<Coordinates>> shieldAndBatteryCoord = new ArrayList<>();
     int cont;
     List<Projectile> projectiles = new ArrayList<>();
+    List<Integer> projectilesRolledCoord = new ArrayList<>();
 
     @FXML
-    private Label incorrectCoord1,incorrectCoord2,incorrectValue;
+    private Label incorrectCoord1,incorrectCoord2,incorrectValue, projectileValue;
 
     @FXML private PlayerShipElementController shipController;
+    @FXML GridPane trasparent;
+
 
     @FXML
     Pane shieldPane, projectilePane;
@@ -76,7 +80,8 @@ public class GUIActivateShieldController extends GUIViewState{
         List<List<String>> serializedProjectiles = model.getUnsafeCardDetail("projectiles");
         for(List<String> serializedProjectile : serializedProjectiles ) {
             projectiles.add(new Projectile(ProjectileType.valueOf(serializedProjectile.get(0)), Direction.valueOf(serializedProjectile.get(1))));
-            System.out.println(projectiles.get(projectiles.size()-1));
+            if (model.getCurrentCard().equals("Pirates") )
+                projectilesRolledCoord.add(Integer.parseInt(serializedProjectile.get(2)));
         }
     }
 
@@ -194,6 +199,9 @@ public class GUIActivateShieldController extends GUIViewState{
 
     private void displayProjectiles(){
         ClientModel model = GUIView.getInstance().getClient().getModel();
+        if (model.getCurrentCard().equals("Pirates"))
+            projectileValue.setText(projectilesRolledCoord.get(cont).toString());
+        else trasparent.setVisible(false);
         if (model.getCurrentCard().equals("Pirates")  || model.getCurrentCard().equals("CombatZone")) {
             displayCannon();
         } else displayMeteor();

@@ -140,6 +140,7 @@ public class GUICargoChoiceController extends GUIViewState implements GUIErrorHa
             int col = shipController.selectedColumn;
             int row = shipController.selectedRow;
             if ((row < 5) || (row > 9) || (col < 4) || (col > 10)) {
+                incorrectCoord.setText("INCORRECT COORDINATES");
                 incorrectCoord.setVisible(true);
             } else {
                 if (GUIView.getInstance().getClient().getModel().getPlayerShips(GUIView.getInstance().getClient().getModel().getMyData().getPlayerId()).get(row - 5).get(col - 4) != null) {
@@ -147,19 +148,30 @@ public class GUICargoChoiceController extends GUIViewState implements GUIErrorHa
                         if (GUIView.getInstance().getClient().getModel().getPlayerShips(GUIView.getInstance().getClient().getModel().getMyData().getPlayerId()).get(row-5).get(col-4).type().equals(SpecialCargoHold.class.getSimpleName())) {
                             cargoCoords.put(cargoToIndex.get(cargoReward.get(i)), new Coordinates(col, row));
                             cargoReward.remove(cargoReward.get(i));
+                            incorrectCoord.setText("ADD CARGO");
+                            incorrectCoord.setVisible(true);
                             i = 0;
                             displayCargo();
-                            incorrectCoord.setVisible(false);
-                        } else incorrectCoord.setVisible(true);
+                        } else{
+                            incorrectCoord.setText("INCORRECT COORDINATES");
+                            incorrectCoord.setVisible(true);
+                        }
                     } else {
                         if (GUIView.getInstance().getClient().getModel().getPlayerShips(GUIView.getInstance().getClient().getModel().getMyData().getPlayerId()).get(row-5).get(col-4).type().equals(CargoHold.class.getSimpleName())) {
                             cargoCoords.put(cargoToIndex.get(cargoReward.get(i)), new Coordinates(col, row));
                             cargoReward.remove(cargoReward.get(i));
                             i = 0;
+                            incorrectCoord.setText("ADD CARGO");
+                            incorrectCoord.setVisible(true);
                             displayCargo();
-                            incorrectCoord.setVisible(false);
-                        } else incorrectCoord.setVisible(true);
+                        } else{
+                            incorrectCoord.setText("INCORRECT COORDINATES");
+                            incorrectCoord.setVisible(true);
+                        }
                     }
+                } else{
+                    incorrectCoord.setText("INCORRECT COORDINATES");
+                    incorrectCoord.setVisible(true);
                 }
             }
         }

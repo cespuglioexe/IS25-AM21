@@ -16,6 +16,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -30,13 +31,17 @@ public class GUIActivateCannonController extends GUIViewState {
     private List<List<Coordinates>> cannonAndBatteryCoord = new ArrayList<>();
     int cont;
     List<Projectile> projectiles = new ArrayList<>();
+    List<Integer> projectilesRolledCoord = new ArrayList<>();
 
     @FXML
-    private Label incorrectCoord1,incorrectCoord2,incorrectValue;
+    private Label incorrectCoord1,incorrectCoord2,incorrectValue, projectileValue;
 
     @FXML private PlayerShipElementController shipController;
 
     @FXML Pane cannonPane, projectilePane;
+
+    @FXML
+    GridPane trasparent;
 
     @FXML
     Button projectilesButton;
@@ -164,11 +169,8 @@ public class GUIActivateCannonController extends GUIViewState {
     }
 
     private void displayProjectiles(){
-        // Prova
-        projectileImage.setImage(new Image(Objects.requireNonNull(GUIActivateCannonController.class.getResourceAsStream("/it/polimi/it/galaxytrucker/graphics/general/bigMeteor_down.PNG"))));
-
+        trasparent.setVisible(false);
         if(!projectiles.isEmpty()){
-            System.out.println(projectiles.get(cont));
             if(projectiles.get(cont).getSize() == ProjectileType.BIG){
                 if(projectiles.get(cont).getDirection() == Direction.DOWN)
                     projectileImage.setImage(new Image(Objects.requireNonNull(GUIActivateCannonController.class.getResourceAsStream("/it/polimi/it/galaxytrucker/graphics/general/bigMeteor_down.PNG"))));

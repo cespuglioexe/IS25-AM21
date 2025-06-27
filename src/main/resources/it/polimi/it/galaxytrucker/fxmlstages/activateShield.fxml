@@ -12,6 +12,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="720" prefWidth="1280" stylesheets="@../css/planets.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
 
@@ -83,7 +84,7 @@
 
                 <Button fx:id="arrowForward" layoutX="837" layoutY="317" onAction="#rightImage" styleClass="direction-button" text="&gt;" />
 
-                <GridPane layoutX="628" layoutY="472" prefHeight="82" prefWidth="226" styleClass="futuristic-textfield" stylesheets="@../cssstyles/futuristicUIStyles.css">
+                <GridPane fx:id="trasparent" layoutX="628" layoutY="472" prefHeight="82" prefWidth="226" styleClass="futuristic-textfield" stylesheets="@../cssstyles/futuristicUIStyles.css">
                     <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" />
                     </columnConstraints>
@@ -91,7 +92,10 @@
                         <RowConstraints vgrow="SOMETIMES" />
                     </rowConstraints>
                     <children>
-                        <Label fx:id="projectileValue" alignment="CENTER" prefHeight="59" prefWidth="224" styleClass="cargo-blue" text="8" />
+                        <Label fx:id="projectileValue" alignment="CENTER" prefHeight="59" prefWidth="224" styleClass="cargo-blue" text="8" textFill="WHITE">
+                     <font>
+                        <Font size="48.0" />
+                     </font></Label>
                     </children>
                 </GridPane>
             </AnchorPane>

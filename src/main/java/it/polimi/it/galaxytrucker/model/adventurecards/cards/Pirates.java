@@ -203,6 +203,7 @@ public class Pirates extends Attack implements AdventureCard,FlightDayPenalty, C
 
             projectileInfo.add(projectile.getSize().toString());
             projectileInfo.add(projectile.getDirection().toString());
+            projectileInfo.add(getRolledProjectileAndCoord().get(projectile).toString());
 
             serializedList.add(projectileInfo);
         }
