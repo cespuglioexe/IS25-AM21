@@ -31,7 +31,6 @@ public class GUIGameTurn extends GUIViewState{
     @FXML private ImageView activeCard;
     @FXML private ImageView p00,p01,p02,p03,p04,p05,p06,p07,p08,p09,p010,p011,p012,p013,p014,p015,p016,p017;
     @FXML private ImageView p100,p101,p102,p103,p104,p105,p106,p107,p108,p109,p1010,p1011,p1012,p1013,p1014,p1015,p1016,p1017,p1018,p1019,p1020,p1021,p1022,p1023;
-    @FXML private Label creditsCount,engineCount;
     @FXML private Pane level1board,level2board;
 
     public static GUIGameTurn getInstance() {
@@ -119,8 +118,6 @@ public class GUIGameTurn extends GUIViewState{
 
                 }
 
-
-                creditsCount.setText(String.valueOf(GUIView.getInstance().getClient().getModel().getCredits()));
                 updateBoard();
 
 

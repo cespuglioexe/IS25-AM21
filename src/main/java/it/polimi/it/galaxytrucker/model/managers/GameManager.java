@@ -187,14 +187,14 @@ public class GameManager extends StateMachine implements Model, Observable {
         try {
             List<AdventureCard> cards_lvl1 = loadCards(new String("src/main/resources/it/polimi/it/galaxytrucker/json/cards_lvl1.json"));
             List<AdventureCard> cards_lvl2 = loadCards(new String("src/main/resources/it/polimi/it/galaxytrucker/json/cards_lvl2.json"));
-          //  List<AdventureCard> cards_ = loadCards(new String("src/main/resources/it/polimi/it/galaxytrucker/json/cards_.json"));
-
+            List<AdventureCard> cards_testFlight = loadCards(new String("src/main/resources/it/polimi/it/galaxytrucker/json/cards_testFlight.json"));
+            System.out.println(cards_testFlight);
 
             for(int i=0;i<4;i++){
                 if(getLevel()==1){
                     adventureDeck.addStack(i,List.of(
-                            cards_lvl1.get(new Random().nextInt(cards_lvl1.size())),
-                            cards_lvl1.get(new Random().nextInt(cards_lvl1.size()))
+                            cards_testFlight.get(new Random().nextInt(cards_testFlight.size())),
+                            cards_testFlight.get(new Random().nextInt(cards_testFlight.size()))
                     ));
                 } else if (getLevel() == 2) {
                     adventureDeck.addStack(i,List.of(

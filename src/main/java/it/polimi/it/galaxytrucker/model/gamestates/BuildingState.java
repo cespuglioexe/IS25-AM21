@@ -4,6 +4,7 @@ import it.polimi.it.galaxytrucker.messages.servermessages.GameUpdate;
 import it.polimi.it.galaxytrucker.messages.servermessages.GameUpdateType;
 import it.polimi.it.galaxytrucker.model.adventurecards.interfaces.AdventureCard;
 import it.polimi.it.galaxytrucker.model.componenttiles.ComponentTile;
+import it.polimi.it.galaxytrucker.model.componenttiles.LifeSupport;
 import it.polimi.it.galaxytrucker.model.componenttiles.TileData;
 import it.polimi.it.galaxytrucker.model.design.statePattern.StateMachine;
 import it.polimi.it.galaxytrucker.exceptions.IllegalComponentPositionException;
@@ -22,6 +23,7 @@ import java.util.stream.Collectors;
 public class BuildingState extends GameState {
     private HashMap<UUID, Boolean> playerHasFinished;
     private List<ComponentTile> discardedComponents;
+    private int level;
 
     private int completedTimers = 0;
     private int requiredTimers = 0;
@@ -33,6 +35,7 @@ public class BuildingState extends GameState {
 
         requiredTimers = gameManager.getLevel() == 2 ? 2 : 0;
 
+        level = gameManager.getLevel();
         // List<List<AdventureCard>> cardStacks = gameManager.getAdventureDeck().getStack();
 
         this.discardedComponents = new ArrayList<>();
@@ -107,8 +110,15 @@ public class BuildingState extends GameState {
     }
 
     private ComponentTile drawRandomComponentTile(Set<ComponentTile> components) {
-        int index = getRandomIndex(components.size());
-
+        int index;
+        List<ComponentTile> list = components.stream().toList();
+        ComponentTile tile;
+        if(level == 1){
+            do {
+                index = getRandomIndex(components.size());
+                tile = list.get(index);
+            } while (tile instanceof LifeSupport);
+        } else index = getRandomIndex(components.size());
         return removeComponentTileAtIndex(index, components);
     }
 
