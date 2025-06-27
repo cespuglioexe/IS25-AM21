@@ -213,6 +213,8 @@ public class GUIAddCrewmateController extends GUIViewState{
             errorLabel.setText("You still have cabins to fill!");
             errorLabel.setVisible(true);
         } else {
+            GUILoadingViewController.getInstance().displayScene();
+            
             GUIView.getInstance().getClient().receiveUserInput(
                     new UserInput.UserInputBuilder(UserInputType.CONFIRM_BUILDING_END)
                             .build()

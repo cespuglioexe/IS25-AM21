@@ -40,16 +40,16 @@ public class AdventureCardInputDispatcherImpl implements AdventureCardInputDispa
                 card.decline(player);
             }
         } else if (isCargoReward(context)) {
-            int loadIndex = context.get(AdventureCardInputFields.LOAD_INDEX, Integer.class);
+            //int loadIndex = context.get(AdventureCardInputFields.LOAD_INDEX, Integer.class);
             boolean accepts = context.get(AdventureCardInputFields.ACCEPTS_CARGO, Boolean.class);
 
             if (accepts) {
                 int row = context.get(AdventureCardInputFields.ROW, Integer.class);
                 int column = context.get(AdventureCardInputFields.COLUMN, Integer.class);
 
-                card.acceptCargo(loadIndex, row, column);
+                card.acceptCargo(0, row, column);
             } else {
-                card.discardCargo(loadIndex);
+                card.discardCargo(0);
             }
         }
     }
@@ -85,16 +85,16 @@ public class AdventureCardInputDispatcherImpl implements AdventureCardInputDispa
                 card.decline(player);
             }
         } else if (isCargoReward(context)) {
-            int loadIndex = context.get(AdventureCardInputFields.LOAD_INDEX, Integer.class);
+            //int loadIndex = context.get(AdventureCardInputFields.LOAD_INDEX, Integer.class);
             boolean accepts = context.get(AdventureCardInputFields.ACCEPTS_CARGO, Boolean.class);
 
             if (accepts) {
                 int row = context.get(AdventureCardInputFields.ROW, Integer.class);
                 int column = context.get(AdventureCardInputFields.COLUMN, Integer.class);
 
-                card.acceptCargo(loadIndex, row, column);
+                card.acceptCargo(0, row, column);
             } else {
-                card.discardCargo(loadIndex);
+                card.discardCargo(0);
             }
         }
     }

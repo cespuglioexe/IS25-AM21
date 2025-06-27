@@ -24,11 +24,10 @@ import java.util.*;
 
 public class GUICargoChoiceController extends GUIViewState implements GUIErrorHandler {
 
-    private Map<String, ImageView> imageTiles = new HashMap<>();
     private List<Cargo> cargoReward = new ArrayList<>();
     private Map<Cargo, Integer> cargoToIndex = new HashMap<>();
     private HashMap<Integer,Coordinates> cargoCoords = new HashMap<>();
-    private int i;
+    private int currentCargo;
 
     @FXML
     private Label incorrectCoord, incorrectValues;
@@ -59,19 +58,11 @@ public class GUICargoChoiceController extends GUIViewState implements GUIErrorHa
         }
     }
 
-    @FXML
-    public void initialize() {
-        loadCardDetails();
-        updateShip();
-    }
-
     private void loadCardDetails() {
         ClientModel model = GUIView.getInstance().getClient().getModel();
         List<Cargo> rewardList = new ArrayList<>();
 
         if (model.getCurrentCard().equals("Planets")) {
-            Object val = model.getUnsafeCardDetail("selectedPlanet");
-            System.out.println("selectedPlanet = " + val + " (" + (val == null ? "null" : val.getClass() + ")"));
             int selectedPlanet = model.getCardDetail("selectedPlanet", Integer.class);
             List<List<String>> serializedCargoRewards = model.getUnsafeCardDetail("rewards");
 
@@ -96,28 +87,19 @@ public class GUICargoChoiceController extends GUIViewState implements GUIErrorHa
 
     @FXML
     private void cargoBack(){
-        if (i > 0) {
-            i--;
-            displayCargo();
-        } else{
-            i=cargoCoords.size()-1;
-        }
+        currentCargo = (currentCargo - 1 + cargoReward.size()) % cargoReward.size();
+        displayCargo();
     }
 
     @FXML
     private void cargoForward() {
-        if (i < cargoCoords.size()-1) {
-            i++;
-            displayCargo();
-        } else {
-            i=0;
-            displayCargo();
-        }
+        currentCargo = (currentCargo + 1) % cargoReward.size();
+        displayCargo();
     }
 
     public void displayCargo() {
         if(!cargoReward.isEmpty()) {
-            Color color = cargoReward.get(i).getColor();
+            Color color = cargoReward.get(currentCargo).getColor();
             switch (color) {
                 case RED:
                     cargoImageView.setImage(new Image(Objects.requireNonNull(GUICargoChoiceController.class.getResourceAsStream("/it/polimi/it/galaxytrucker/graphics/general/cargoRed.png"))));
@@ -146,19 +128,18 @@ public class GUICargoChoiceController extends GUIViewState implements GUIErrorHa
                 incorrectCoord.setVisible(true);
             } else {
                 if (GUIView.getInstance().getClient().getModel().getPlayerShips(GUIView.getInstance().getClient().getModel().getMyData().getPlayerId()).get(row - 5).get(col - 4) != null) {
-                    if (cargoReward.get(i).isSpecial()) {
+                    if (cargoReward.get(currentCargo).isSpecial()) {
                         if (GUIView.getInstance().getClient().getModel().getPlayerShips(GUIView.getInstance().getClient().getModel().getMyData().getPlayerId()).get(row-5).get(col-4).type().equals(SpecialCargoHold.class.getSimpleName())) {
-                            cargoCoords.put(cargoToIndex.get(cargoReward.get(i)), new Coordinates(col, row));
-                            cargoReward.remove(cargoReward.get(i));
-                            i = 0;
+                            cargoCoords.put(cargoToIndex.get(cargoReward.get(currentCargo)), new Coordinates(col, row));
+                            cargoReward.remove(cargoReward.get(currentCargo));
+
                             displayCargo();
                             incorrectCoord.setVisible(false);
                         } else incorrectCoord.setVisible(true);
                     } else {
                         if (GUIView.getInstance().getClient().getModel().getPlayerShips(GUIView.getInstance().getClient().getModel().getMyData().getPlayerId()).get(row-5).get(col-4).type().equals(CargoHold.class.getSimpleName())) {
-                            cargoCoords.put(cargoToIndex.get(cargoReward.get(i)), new Coordinates(col, row));
-                            cargoReward.remove(cargoReward.get(i));
-                            i = 0;
+                            cargoCoords.put(cargoToIndex.get(cargoReward.get(currentCargo)), new Coordinates(col, row));
+                            cargoReward.remove(cargoReward.get(currentCargo));
                             displayCargo();
                             incorrectCoord.setVisible(false);
                         } else incorrectCoord.setVisible(true);
@@ -211,7 +192,7 @@ public class GUICargoChoiceController extends GUIViewState implements GUIErrorHa
                 stage.setScene(scene);
                 stage.show();
 
-                i=0;
+                currentCargo = 0;
                 loadCardDetails();
                 updateShip();
             } catch (IOException e) {
@@ -224,7 +205,7 @@ public class GUICargoChoiceController extends GUIViewState implements GUIErrorHa
     public void inputError() {
         incorrectValues.setVisible(true);
         incorrectCoord.setVisible(false);
-        i=0;
+        currentCargo = 0;
         cargoReward =  cargoToIndex.keySet().stream().toList();
     }
 }

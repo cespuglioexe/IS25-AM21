@@ -572,9 +572,6 @@ public class GameManager extends StateMachine implements Model, Observable {
             response.put(AdventureCardInputFields.DOUBLE_ENGINES_AND_BATTERIES, buildDoubleEnigneResponse(engineAndBatteries));
         }
 
-        System.out.println("DEBUG: PLAYER in context? " + response.has(AdventureCardInputFields.PLAYER));
-        System.out.println("DEBUG: ACTIVATES_DOUBLE_ENGINES in context? " + response.has(AdventureCardInputFields.ACTIVATES_DOUBLE_ENGINES));
-        System.out.println("DEBUG: context: " + response);
         inputHandler.dispatch(adventureDeck.getLastDrawnCard(), response);
     }
     private HashMap<List<Integer>, List<Integer>> buildDoubleEnigneResponse(List<List<Coordinates>> engineAndBatteries) {
