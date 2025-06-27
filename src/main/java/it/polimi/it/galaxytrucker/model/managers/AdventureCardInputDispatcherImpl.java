@@ -101,6 +101,7 @@ public class AdventureCardInputDispatcherImpl implements AdventureCardInputDispa
 
     @Override
     public void visit(OpenSpace card, AdventureCardInputContext context) {
+        System.out.println("DISPATCH CONTEXT: " + context);
         if (isEngineSelection(context)) {
             Player player = context.get(AdventureCardInputFields.PLAYER, Player.class);
             boolean activates = context.get(AdventureCardInputFields.ACTIVATES_DOUBLE_ENGINES, Boolean.class);

@@ -114,7 +114,7 @@ public class CLIEngineActivationState extends CLIViewState {
             engineAndBatteryCoord.add(batteryCoords);
 
             view.getClient().receiveUserInput(
-                    new UserInput.UserInputBuilder(UserInputType.ACTIVATE_CANNON)
+                    new UserInput.UserInputBuilder(UserInputType.ACTIVATE_ENGINE)
                             .setComponentsForActivation(engineAndBatteryCoord)
                             .build()
             );
@@ -124,7 +124,7 @@ public class CLIEngineActivationState extends CLIViewState {
             if(engineCoords.isEmpty() && batteryCoords.isEmpty() ) {
                 engineAndBatteryCoord.clear();
                 view.getClient().receiveUserInput(
-                        new UserInput.UserInputBuilder(UserInputType.ACTIVATE_CANNON)
+                        new UserInput.UserInputBuilder(UserInputType.ACTIVATE_ENGINE)
                                 .setComponentsForActivation(engineAndBatteryCoord)
                                 .build()
                 );

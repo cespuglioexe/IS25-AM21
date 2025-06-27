@@ -11,6 +11,7 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Objects;
 
 public class GUILoadingViewController extends GUIViewState{
@@ -44,7 +45,7 @@ public class GUILoadingViewController extends GUIViewState{
         Platform.runLater(() -> {
             try {
                 FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(
-                        GUIFixingShipController.class.getResource("/it/polimi/it/galaxytrucker/fxmlstages/loadingView.fxml")
+                        GUILoadingViewController.class.getResource("/it/polimi/it/galaxytrucker/fxmlstages/loadingView.fxml")
                 ));
                 loader.setController(this);
                 Parent newRoot = loader.load();
@@ -52,7 +53,20 @@ public class GUILoadingViewController extends GUIViewState{
                 stage = (Stage) GUIView.stage.getScene().getWindow();
                 scene = new Scene(newRoot);
                 stage.setScene(scene);
-                currentCard.setImage(new Image(Objects.requireNonNull(GUILoadingViewController.class.getResourceAsStream("/it/polimi/it/galaxytrucker/graphics/cards/" + GUIView.getInstance().getClient().getModel().getActiveCardGraphicPath()))));
+
+                String path = "/it/polimi/it/galaxytrucker/graphics/cards/" + GUIView.getInstance().getClient().getModel().getActiveCardGraphicPath();
+                InputStream stream = GUILoadingViewController.class.getResourceAsStream(path);
+
+                if (stream != null) {
+                    currentCard.setImage(new Image(stream));
+                } else {
+                    //load default image
+                    currentCard.setImage(
+                        new Image(Objects.requireNonNull(
+                            GUILoadingViewController.class.getResourceAsStream("/it/polimi/it/galaxytrucker/graphics/general/fallback.gif"))
+                        )
+                    );
+                }
                 stage.show();
             } catch (IOException e) {
                 e.printStackTrace();

@@ -1,133 +1,151 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.effect.ColorAdjust?>
-<?import javafx.scene.effect.Light.Distant?>
-<?import javafx.scene.effect.Lighting?>
-<?import javafx.scene.effect.Shadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <AnchorPane layoutX="10.0" layoutY="10.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <AnchorPane layoutX="10.0" layoutY="10.0" prefHeight="0.0" prefWidth="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-               <children>
-                  <StackPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                     <children>
-                        <ImageView fitHeight="800.0" fitWidth="1536.0" pickOnBounds="true">
-                           <image>
-                              <Image url="@../graphics/general/generic_background.jpg" />
-                           </image>
-                           <effect>
-                              <Lighting diffuseConstant="0.71" specularConstant="0.0" specularExponent="40.0" surfaceScale="10.0">
-                                 <bumpInput>
-                                    <Shadow />
-                                 </bumpInput>
-                                 <light>
-                                    <Light.Distant />
-                                 </light>
-                              </Lighting>
-                           </effect>
-                        </ImageView>
-                     </children>
-                  </StackPane>
-                  <AnchorPane fx:id="shieldPane" layoutX="3.0" layoutY="14.0" prefHeight="802.0" prefWidth="1334.0" AnchorPane.bottomAnchor="-14.0" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="-3.0" AnchorPane.topAnchor="14.0">
-                     <children>
-                        <AnchorPane layoutY="-0.800000011920929" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                           <children>
-                              <Label layoutX="199.0" layoutY="109.0" styleClass="title-label" stylesheets="@../css/planets.css" text="ACTIVATE SHIELD" textFill="#f4f4f4">
-                                 <font>
-                                    <Font name="Centaur" size="42.0" />
-                                 </font>
-                              </Label>
-                           </children>
-                        </AnchorPane>
-                        <fx:include fx:id="ship" source="PlayerShipElement.fxml" AnchorPane.bottomAnchor="236.0" AnchorPane.leftAnchor="800.0" AnchorPane.rightAnchor="230.0" AnchorPane.topAnchor="200.0" />
-                        <Label fx:id="incorrectCoord2" layoutX="475.0" layoutY="469.0" styleClass="cargo-red" stylesheets="@../css/planets.css" text="INCORRECT COORDINATES" textFill="WHITE" visible="false">
-                           <font>
-                              <Font name="Centaur" size="14.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="incorrectCoord1" layoutX="148.0" layoutY="469.0" styleClass="cargo-red" stylesheets="@../css/planets.css" text="INCORRECT COORDINATES" textFill="WHITE" visible="false">
-                           <font>
-                              <Font name="Centaur" size="14.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="incorrectValue" layoutX="331.0" layoutY="641.0" styleClass="cargo-red" stylesheets="@../css/planets.css" text="INCORRECT VALUE" textFill="WHITE" visible="false">
-                           <font>
-                              <Font name="Centaur" size="14.0" />
-                           </font>
-                        </Label>
-                        <Label alignment="CENTER" layoutX="153.0" layoutY="287.0" styleClass="penalty-number" stylesheets="@../css/planets.css" text="CANNON" textAlignment="CENTER" textFill="WHITE">
-                           <font>
-                              <Font name="Centaur" size="42.0" />
-                           </font>
-                        </Label>
-                        <Button fx:id="addCannonButton" layoutX="173.0" layoutY="354.0" mnemonicParsing="false" onAction="#addShield" prefHeight="78.0" prefWidth="127.0" styleClass="red-button" stylesheets="@../css/planets.css" text="ADD">
-                           <font>
-                              <Font name="Cambria" size="12.0" />
-                           </font>
-                        </Button>
-                        <Label alignment="CENTER" layoutX="483.0" layoutY="287.0" styleClass="penalty-number" stylesheets="@../css/planets.css" text="BATTERY" textAlignment="CENTER" textFill="WHITE">
-                           <font>
-                              <Font name="Centaur" size="42.0" />
-                           </font>
-                        </Label>
-                        <Button fx:id="addBatteryButton" layoutX="501.0" layoutY="354.0" mnemonicParsing="false" onAction="#addBattery" prefHeight="78.0" prefWidth="127.0" styleClass="red-button" stylesheets="@../css/planets.css" text="ADD">
-                           <effect>
-                              <ColorAdjust brightness="-0.11" hue="-1.0" />
-                           </effect>
-                           <font>
-                              <Font name="Cambria" size="12.0" />
-                           </font>
-                        </Button>
-                        <Button fx:id="activateCannonButton" layoutX="290.0" layoutY="538.0" mnemonicParsing="false" onAction="#activateShield" prefHeight="60.0" prefWidth="210.0" style="-fx-background-color: green;" styleClass="green-button" stylesheets="@../css/planets.css" text="ACTIVATE" textFill="WHITE">
-                           <effect>
-                              <ColorAdjust brightness="0.03" contrast="1.0" hue="-0.02" saturation="-0.01" />
-                           </effect>
-                           <font>
-                              <Font name="Cambria" size="14.0" />
-                           </font>
-                        </Button>
-                        <Button fx:id="projectilesButton" layoutX="74.0" layoutY="721.0" mnemonicParsing="false" onAction="#projectilesView" prefHeight="38.0" prefWidth="189.0" style="-fx-background-color: white;" styleClass="futuristic-button" stylesheets="@../cssstyles/futuristicUIStyles.css" text="LOOK AT PROJECTILES" />
-                     </children>
-                  </AnchorPane>
-                  <AnchorPane fx:id="projectilePane" prefHeight="200.0" prefWidth="200.0" visible="false">
-                     <children>
-                        <Button layoutX="93.0" layoutY="62.0" mnemonicParsing="false" onAction="#back" prefHeight="60.0" prefWidth="130.0" styleClass="red-button" stylesheets="@../css/planets.css" text="BACK" />
-                        <Label layoutX="501.0" layoutY="128.0" styleClass="title-label" stylesheets="@../css/planets.css" text="LOOK AT PROJECTILES" />
-                        <ImageView fx:id="projectileImage" fitHeight="164.0" fitWidth="154.0" layoutX="694.0" layoutY="285.0" pickOnBounds="true" preserveRatio="true" />
-                        <Button fx:id="arrowBack" layoutX="596.0" layoutY="317.0" mnemonicParsing="false" onAction="#leftImage" styleClass="direction-button" stylesheets="@../css/planets.css" text="&lt;" />
-                        <Button fx:id="arrowForward" layoutX="837.0" layoutY="317.0" mnemonicParsing="false" onAction="#rightImage" styleClass="direction-button" stylesheets="@../css/planets.css" text="&gt;" />
-                        <GridPane layoutX="628.0" layoutY="472.0" prefHeight="82.0" prefWidth="226.0" styleClass="futuristic-textfield" stylesheets="@../cssstyles/futuristicUIStyles.css">
-                           <columnConstraints>
-                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                           </columnConstraints>
-                           <rowConstraints>
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                           </rowConstraints>
-                           <children>
-                              <Label fx:id="projectileValue" alignment="CENTER" prefHeight="59.0" prefWidth="224.0" styleClass="cargo-blue" stylesheets="@../css/planets.css" text="8" textFill="WHITE">
-                                 <font>
-                                    <Font size="41.0" />
-                                 </font>
-                              </Label>
-                           </children>
-                        </GridPane>
-                     </children>
-                  </AnchorPane>
-               </children>
+<AnchorPane prefHeight="720" prefWidth="1280"
+            xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            stylesheets="@../css/planets.css">
+
+    <children>
+        <StackPane AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"
+                   AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+
+            <!-- SFONDO -->
+            <ImageView fitHeight="900" fitWidth="1600" preserveRatio="false">
+                <image>
+                    <Image url="@../graphics/general/generic_background.jpg"/>
+                </image>
+            </ImageView>
+
+            <!-- CONTENUTO PRINCIPALE -->
+            <BorderPane fx:id="shieldPane" maxHeight="720" maxWidth="1280">
+
+                <!-- PANNELLO SINISTRO -->
+                <left>
+                    <VBox alignment="TOP_LEFT" spacing="20">
+                        <padding>
+                            <Insets top="30" left="30" right="20"/>
+                        </padding>
+
+                        <!-- Titolo -->
+                        <Label text="ACTIVATE SHIELD" styleClass="title-label"/>
+
+                        <!-- Sezione SHIELD -->
+                        <Label text="CANNON" styleClass="penalty-number"/>
+                        <Button fx:id="addCannonButton"
+                                text="ADD"
+                                onAction="#addShield"
+                                styleClass="red-button"/>
+
+                        <!-- Sezione BATTERY -->
+                        <Label text="BATTERY" styleClass="penalty-number"/>
+                        <Button fx:id="addBatteryButton"
+                                text="ADD"
+                                onAction="#addBattery"
+                                styleClass="red-button"/>
+
+                        <!-- Bottone ACTIVATE -->
+                        <Button fx:id="activateCannonButton"
+                                text="ACTIVATE"
+                                onAction="#activateShield"
+                                styleClass="green-button"/>
+
+                        <!-- Errori -->
+                        <Label fx:id="incorrectCoord1"
+                               text="INCORRECT COORDINATES"
+                               styleClass="cargo-red"
+                               visible="false"/>
+                        <Label fx:id="incorrectCoord2"
+                               text="INCORRECT COORDINATES"
+                               styleClass="cargo-red"
+                               visible="false"/>
+                        <Label fx:id="incorrectValue"
+                               text="INCORRECT VALUE"
+                               styleClass="cargo-red"
+                               visible="false"/>
+
+                        <!-- Pulsante proiettili -->
+                        <Button fx:id="projectilesButton"
+                                text="LOOK AT PROJECTILES"
+                                onAction="#projectilesView"
+                                styleClass="futuristic-button"
+                                stylesheets="@../cssstyles/futuristicUIStyles.css"/>
+                    </VBox>
+                </left>
+
+                <!-- CENTRO: NAVE -->
+                <center>
+                    <StackPane>
+                        <padding>
+                            <Insets top="10" bottom="10" left="10" right="10"/>
+                        </padding>
+                        <fx:include fx:id="ship" source="PlayerShipElement.fxml"/>
+                    </StackPane>
+                </center>
+            </BorderPane>
+
+            <!-- OVERLAY PROIETTILI -->
+            <AnchorPane fx:id="projectilePane"
+                        visible="false"
+                        pickOnBounds="false"
+                        AnchorPane.topAnchor="0"
+                        AnchorPane.bottomAnchor="0"
+                        AnchorPane.leftAnchor="0"
+                        AnchorPane.rightAnchor="0">
+
+                <Button layoutX="93" layoutY="62"
+                        onAction="#back"
+                        prefHeight="60" prefWidth="130"
+                        styleClass="red-button"
+                        text="BACK"/>
+
+                <Label layoutX="501" layoutY="128"
+                       text="LOOK AT PROJECTILES"
+                       styleClass="title-label"/>
+
+                <ImageView fx:id="projectileImage"
+                           fitHeight="164" fitWidth="154"
+                           layoutX="694" layoutY="285"
+                           preserveRatio="true"/>
+
+                <Button fx:id="arrowBack"
+                        layoutX="596" layoutY="317"
+                        onAction="#leftImage"
+                        text="&lt;"
+                        styleClass="direction-button"/>
+
+                <Button fx:id="arrowForward"
+                        layoutX="837" layoutY="317"
+                        onAction="#rightImage"
+                        text="&gt;"
+                        styleClass="direction-button"/>
+
+                <GridPane layoutX="628" layoutY="472"
+                          prefHeight="82" prefWidth="226"
+                          styleClass="futuristic-textfield"
+                          stylesheets="@../cssstyles/futuristicUIStyles.css">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES"/>
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints vgrow="SOMETIMES"/>
+                    </rowConstraints>
+                    <children>
+                        <Label fx:id="projectileValue"
+                               alignment="CENTER"
+                               prefHeight="59" prefWidth="224"
+                               styleClass="cargo-blue"
+                               text="8"/>
+                    </children>
+                </GridPane>
             </AnchorPane>
-         </children>
-      </AnchorPane>
-   </children>
+        </StackPane>
+    </children>
 </AnchorPane>
