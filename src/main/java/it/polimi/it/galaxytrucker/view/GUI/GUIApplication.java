@@ -15,7 +15,7 @@ public class GUIApplication extends Application {
     public void start(Stage stage) {
         stage.setFullScreen(false);
         stage.setMaximized(true);
-        stage.setResizable(false);
+        stage.setResizable(true);
         GUIView.stage = stage;
 
         Screen screen = Screen.getPrimary();
@@ -41,7 +41,7 @@ public class GUIApplication extends Application {
         stage.addEventHandler(KeyEvent.KEY_PRESSED, (event) -> {
             if (event.getCode().equals(KeyCode.F11)) {
                 stage.setFullScreen(true);
-                stage.setResizable(false);
+                stage.setResizable(true);
             }
         });
 
