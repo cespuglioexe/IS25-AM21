@@ -47,6 +47,10 @@ public class ClientModel {
      */
     private final HashMap<UUID, Integer> playerMarkerPositions = new HashMap<>();
     /**
+     * The final finish order of the game.
+     */
+    private final HashMap<UUID, Integer> playerFinishOrder = new HashMap<>();
+    /**
      * Position of color player in the game
      */
     private final HashMap<UUID, Color> playerColors = new HashMap<>();
@@ -265,4 +269,16 @@ public class ClientModel {
         }
     }
 
+    public void setPlayerFinishOrder(HashMap<UUID, Integer> playerMarkerPositions) {
+        synchronized (this.playerFinishOrder) {
+            this.playerFinishOrder.clear();
+            this.playerFinishOrder.putAll(playerMarkerPositions);
+        }
+    }
+
+    public HashMap<UUID, Integer> getPlayerFinishOrder() {
+        synchronized (this.playerFinishOrder) {
+            return playerFinishOrder;
+        }
+    }
 }

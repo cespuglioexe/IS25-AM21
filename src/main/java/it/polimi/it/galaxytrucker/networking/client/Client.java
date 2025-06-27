@@ -167,6 +167,7 @@ public abstract class Client extends UnicastRemoteObject implements Runnable, Cl
                         break;
                     case "GameEndState":
                         model.setAllPlayersNickname(update.getNicknames());
+                        model.setPlayerFinishOrder(update.getPlayerMarkerPositions());
                         view.showScoreBoard();
                         break;
                     default:

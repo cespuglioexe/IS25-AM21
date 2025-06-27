@@ -101,15 +101,20 @@ public class AdventureCardInputDispatcherImpl implements AdventureCardInputDispa
 
     @Override
     public void visit(OpenSpace card, AdventureCardInputContext context) {
+
+        System.out.println("Porcaccio");
         if (isEngineSelection(context)) {
             Player player = context.get(AdventureCardInputFields.PLAYER, Player.class);
             boolean activates = context.get(AdventureCardInputFields.ACTIVATES_DOUBLE_ENGINES, Boolean.class);
 
             if (activates) {
+                System.out.println("POrcaccio 1");
                 HashMap<List<Integer>, List<Integer>> engineAndBatteries = context.getUnsafe(AdventureCardInputFields.DOUBLE_ENGINES_AND_BATTERIES);
 
                 card.selectEngine(player, engineAndBatteries);
             } else {
+                System.out.println("POrcaccio 1");
+
                 card.selectNoEngine(player);
             }
         }
@@ -337,6 +342,7 @@ public class AdventureCardInputDispatcherImpl implements AdventureCardInputDispa
     }
 
     private boolean isEngineSelection(AdventureCardInputContext context) {
+        System.out.println("uvcgiqguv::: " + context.has(AdventureCardInputFields.PLAYER) + ",, " + context.has(AdventureCardInputFields.ACTIVATES_DOUBLE_ENGINES));
         return context.has(AdventureCardInputFields.PLAYER) && context.has(AdventureCardInputFields.ACTIVATES_DOUBLE_ENGINES);
     }
 
