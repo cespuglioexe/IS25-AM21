@@ -633,7 +633,7 @@ public class GameManager extends StateMachine implements Model, Observable {
             response.put(AdventureCardInputFields.LOAD_INDEX, 0);
             Coordinates coord = acceptedCargo.get(i);
 
-            if (coord.equals(new Coordinates(0,0))) {
+            if (coord.getRow() == 0 && coord.getColumn() == 0) {
                 response.put(AdventureCardInputFields.ACCEPTS_CARGO, false);
             }
             else {
