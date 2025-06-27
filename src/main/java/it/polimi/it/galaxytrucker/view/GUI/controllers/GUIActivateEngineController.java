@@ -124,7 +124,7 @@ public class GUIActivateEngineController extends GUIViewState {
             );
         } else{
             if(engineCoords.isEmpty() && batteryCoord.isEmpty() ) {
-                engineAndBatteryCoord.clear();
+                engineAndBatteryCoord = new ArrayList<>();
                 GUIView.getInstance().getClient().receiveUserInput(
                         new UserInput.UserInputBuilder(UserInputType.ACTIVATE_ENGINE)
                                 .setComponentsForActivation(engineAndBatteryCoord)

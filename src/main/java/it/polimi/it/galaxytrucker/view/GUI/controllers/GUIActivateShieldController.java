@@ -158,7 +158,7 @@ public class GUIActivateShieldController extends GUIViewState{
             );
         } else{
             if(shieldCoords.isEmpty() && batteryCoord.isEmpty() ) {
-                shieldAndBatteryCoord.clear();
+                shieldAndBatteryCoord = new ArrayList<>();
                 GUIView.getInstance().getClient().receiveUserInput(
                         new UserInput.UserInputBuilder(UserInputType.ACTIVATE_SHIELD)
                                 .setComponentsForActivation(shieldAndBatteryCoord)

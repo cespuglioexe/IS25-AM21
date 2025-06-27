@@ -219,7 +219,7 @@ public class GUIActivateCannonController extends GUIViewState {
             );
         } else{
             if(cannonCoords.isEmpty() && batteryCoord.isEmpty() ) {
-                cannonAndBatteryCoord.clear();
+                cannonAndBatteryCoord = new ArrayList<>();
                 GUIView.getInstance().getClient().receiveUserInput(
                         new UserInput.UserInputBuilder(UserInputType.ACTIVATE_CANNON)
                                 .setComponentsForActivation(cannonAndBatteryCoord)
