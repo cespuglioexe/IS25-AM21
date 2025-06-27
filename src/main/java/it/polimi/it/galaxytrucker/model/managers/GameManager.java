@@ -1,7 +1,10 @@
 package it.polimi.it.galaxytrucker.model.managers;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -173,10 +176,13 @@ public class GameManager extends StateMachine implements Model, Observable {
     }
 
     public void initializeComponentTiles() {
-        File file = new File("src/main/resources/it/polimi/it/galaxytrucker/json/componenttiles.json");
+        try (InputStream input = getClass().getResourceAsStream("/it/polimi/it/galaxytrucker/json/componenttiles.json")) {
+            if (input == null) {
+                throw new FileNotFoundException("componenttiles.json not found in resources");
+            }
 
-        try {
-            JsonNode node = Json.parse(file);
+            String json = new String(input.readAllBytes(), StandardCharsets.UTF_8);
+            JsonNode node = Json.parse(json);
             components = Json.fromJsonSet(node, ComponentTile.class);
         } catch (IOException e) {
             e.printStackTrace();
@@ -185,9 +191,9 @@ public class GameManager extends StateMachine implements Model, Observable {
 
     public void initializeAdventureDeck() {
         try {
-            List<AdventureCard> cards_lvl1 = loadCards(new String("src/main/resources/it/polimi/it/galaxytrucker/json/cards_lvl1.json"));
-            List<AdventureCard> cards_lvl2 = loadCards(new String("src/main/resources/it/polimi/it/galaxytrucker/json/cards_lvl2.json"));
-            List<AdventureCard> cards_testFlight = loadCards(new String("src/main/resources/it/polimi/it/galaxytrucker/json/cards_testFlight.json"));
+            List<AdventureCard> cards_lvl1 = loadCards(getClass().getResourceAsStream("/it/polimi/it/galaxytrucker/json/cards_lvl1.json"));
+            List<AdventureCard> cards_lvl2 = loadCards(getClass().getResourceAsStream("/it/polimi/it/galaxytrucker/json/cards_lvl2.json"));
+            List<AdventureCard> cards_testFlight = loadCards(getClass().getResourceAsStream("/it/polimi/it/galaxytrucker/json/cards_testFlight.json"));
 
             for(int i=0;i<4;i++){
                 if(getLevel()==1){
@@ -211,9 +217,9 @@ public class GameManager extends StateMachine implements Model, Observable {
 
     }
 
-    private List<AdventureCard> loadCards(String filePath) throws IOException {
+    private List<AdventureCard> loadCards(InputStream input) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
-        List<Map<String, Object>> rawCards = mapper.readValue(new File(filePath), List.class);
+        List<Map<String, Object>> rawCards = mapper.readValue(input, List.class);
 
         return rawCards.stream()
                 .map(this::createCardFromMap)
