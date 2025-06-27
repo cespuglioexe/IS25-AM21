@@ -19,12 +19,12 @@ This project is a Java-based implementation of the table game <a href="https://w
 | Complete Rules   | 🟢      |
 | Socket Connection| 🟢      |
 | RMI Connection   | 🟢      |
-| CLI              | 🟡      |
+| CLI              | 🟢      |
 | GUI              | 🟢      |
 | Test Flight      | 🟢      |
 | Multiple Matches | 🟢      |
 | Percistance      | ⚪️      |
-| Resilience       | 🟡      |
+| Resilience       | ⚪️      |
 
 ## Documentation
 

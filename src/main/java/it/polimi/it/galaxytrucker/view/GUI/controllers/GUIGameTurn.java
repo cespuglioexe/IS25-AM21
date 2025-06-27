@@ -28,7 +28,6 @@ public class GUIGameTurn extends GUIViewState{
 
     private FlightBoard flightBoard;
     private static GUIGameTurn instance;
-    @FXML private PlayerShipElementController shipController;
     @FXML private ImageView activeCard;
     @FXML private ImageView p00,p01,p02,p03,p04,p05,p06,p07,p08,p09,p010,p011,p012,p013,p014,p015,p016,p017;
     @FXML private ImageView p100,p101,p102,p103,p104,p105,p106,p107,p108,p109,p1010,p1011,p1012,p1013,p1014,p1015,p1016,p1017,p1018,p1019,p1020,p1021,p1022,p1023;
@@ -60,7 +59,7 @@ public class GUIGameTurn extends GUIViewState{
         Platform.runLater(() -> {
             try {
                 FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(
-                        GUIFixingShipController.class.getResource("/it/polimi/it/galaxytrucker/fxmlstages/gameTurn.fxml")
+                        GUIGameTurn.class.getResource("/it/polimi/it/galaxytrucker/fxmlstages/gameTurn.fxml")
                 ));
                 loader.setController(this);
                 Parent newRoot = loader.load();
@@ -68,73 +67,68 @@ public class GUIGameTurn extends GUIViewState{
                 stage = (Stage) GUIView.stage.getScene().getWindow();
                 scene = new Scene(newRoot);
                 stage.setScene(scene);
+                if (GUIView.getInstance().getClient().getModel().getGameLevel() == 1){
+                    System.out.println("Level 1");
+                    level1board.setVisible(true);
+                    imageViewMap.put("p00", p00);
+                    imageViewMap.put("p01", p01);
+                    imageViewMap.put("p02", p02);
+                    imageViewMap.put("p03", p03);
+                    imageViewMap.put("p04", p04);
+                    imageViewMap.put("p05", p05);
+                    imageViewMap.put("p06", p06);
+                    imageViewMap.put("p07", p07);
+                    imageViewMap.put("p08", p08);
+                    imageViewMap.put("p09", p09);
+                    imageViewMap.put("p010", p010);
+                    imageViewMap.put("p011", p011);
+                    imageViewMap.put("p012", p012);
+                    imageViewMap.put("p013", p013);
+                    imageViewMap.put("p014", p014);
+                    imageViewMap.put("p015", p015);
+                    imageViewMap.put("p016", p016);
+                    imageViewMap.put("p017", p017);
+
+                }else {
+                    System.out.println("Level 2");
+                    level2board.setVisible(true);
+                    imageViewMap.put("p100", p100);
+                    imageViewMap.put("p101", p101);
+                    imageViewMap.put("p102", p102);
+                    imageViewMap.put("p103", p103);
+                    imageViewMap.put("p104", p104);
+                    imageViewMap.put("p105", p105);
+                    imageViewMap.put("p106", p106);
+                    imageViewMap.put("p107", p107);
+                    imageViewMap.put("p108", p108);
+                    imageViewMap.put("p109", p109);
+                    imageViewMap.put("p1010", p1010);
+                    imageViewMap.put("p1011", p1011);
+                    imageViewMap.put("p1012", p1012);
+                    imageViewMap.put("p1013", p1013);
+                    imageViewMap.put("p1014", p1014);
+                    imageViewMap.put("p1015", p1015);
+                    imageViewMap.put("p1016", p1016);
+                    imageViewMap.put("p1017", p1017);
+                    imageViewMap.put("p1018", p1018);
+                    imageViewMap.put("p1019", p1019);
+                    imageViewMap.put("p1020", p1020);
+                    imageViewMap.put("p1021", p1021);
+                    imageViewMap.put("p1022", p1022);
+                    imageViewMap.put("p1023", p1023);
+
+                }
+
+
+                creditsCount.setText(String.valueOf(GUIView.getInstance().getClient().getModel().getCredits()));
+                updateBoard();
+
+
+
                 stage.show();
-                shipController.displayShip();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            stage = (Stage) GUIView.stage.getScene().getWindow();
-            scene = new Scene(root);
-            stage.setScene(scene);
-            if (GUIView.getInstance().getClient().getModel().getGameLevel() == 1){
-                System.out.println("Level 1");
-                level1board.setVisible(true);
-                imageViewMap.put("p00", p00);
-                imageViewMap.put("p01", p01);
-                imageViewMap.put("p02", p02);
-                imageViewMap.put("p03", p03);
-                imageViewMap.put("p04", p04);
-                imageViewMap.put("p05", p05);
-                imageViewMap.put("p06", p06);
-                imageViewMap.put("p07", p07);
-                imageViewMap.put("p08", p08);
-                imageViewMap.put("p09", p09);
-                imageViewMap.put("p010", p010);
-                imageViewMap.put("p011", p011);
-                imageViewMap.put("p012", p012);
-                imageViewMap.put("p013", p013);
-                imageViewMap.put("p014", p014);
-                imageViewMap.put("p015", p015);
-                imageViewMap.put("p016", p016);
-                imageViewMap.put("p017", p017);
-
-            }else {
-                System.out.println("Level 2");
-                level2board.setVisible(true);
-                imageViewMap.put("p100", p100);
-                imageViewMap.put("p101", p101);
-                imageViewMap.put("p102", p102);
-                imageViewMap.put("p103", p103);
-                imageViewMap.put("p104", p104);
-                imageViewMap.put("p105", p105);
-                imageViewMap.put("p106", p106);
-                imageViewMap.put("p107", p107);
-                imageViewMap.put("p108", p108);
-                imageViewMap.put("p109", p109);
-                imageViewMap.put("p1010", p1010);
-                imageViewMap.put("p1011", p1011);
-                imageViewMap.put("p1012", p1012);
-                imageViewMap.put("p1013", p1013);
-                imageViewMap.put("p1014", p1014);
-                imageViewMap.put("p1015", p1015);
-                imageViewMap.put("p1016", p1016);
-                imageViewMap.put("p1017", p1017);
-                imageViewMap.put("p1018", p1018);
-                imageViewMap.put("p1019", p1019);
-                imageViewMap.put("p1020", p1020);
-                imageViewMap.put("p1021", p1021);
-                imageViewMap.put("p1022", p1022);
-                imageViewMap.put("p1023", p1023);
-
-            }
-
-
-            creditsCount.setText(String.valueOf(GUIView.getInstance().getClient().getModel().getCredits()));
-            updateBoard();
-
-
-
-            stage.show();
         });
     }
 

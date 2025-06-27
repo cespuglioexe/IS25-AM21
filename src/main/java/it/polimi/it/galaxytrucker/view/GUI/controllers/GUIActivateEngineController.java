@@ -8,6 +8,7 @@ import it.polimi.it.galaxytrucker.view.GUI.GUIView;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
@@ -141,12 +142,22 @@ public class GUIActivateEngineController extends GUIViewState {
     @Override
     public void displayScene() {
         Platform.runLater(() -> {
-            stage = (Stage) GUIView.stage.getScene().getWindow();
-            scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
+            try {
+                FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(
+                        GUIActivateEngineController.class.getResource("/it/polimi/it/galaxytrucker/fxmlstages/activateEngine.fxml")
+                ));
+                loader.setController(this);
+                Parent newRoot = loader.load();
 
-            updateShip();
+                stage = (Stage) GUIView.stage.getScene().getWindow();
+                scene = new Scene(newRoot);
+                stage.setScene(scene);
+                stage.show();
+
+                updateShip();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
         });
     }

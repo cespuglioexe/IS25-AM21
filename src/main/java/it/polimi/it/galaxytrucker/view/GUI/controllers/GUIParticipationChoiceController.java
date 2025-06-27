@@ -6,6 +6,7 @@ import it.polimi.it.galaxytrucker.view.GUI.GUIView;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -58,10 +59,20 @@ public class GUIParticipationChoiceController extends GUIViewState{
     @Override
     public void displayScene() {
         Platform.runLater(() -> {
-            stage = (Stage) GUIView.stage.getScene().getWindow();
-            scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
+            try {
+                FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(
+                        GUIParticipationChoiceController.class.getResource("/it/polimi/it/galaxytrucker/fxmlstages/participationChoice.fxml")
+                ));
+                loader.setController(this);
+                Parent newRoot = loader.load();
+
+                stage = (Stage) GUIView.stage.getScene().getWindow();
+                scene = new Scene(newRoot);
+                stage.setScene(scene);
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
         });
     }

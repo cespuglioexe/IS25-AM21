@@ -50,6 +50,8 @@ public class GUIGameCreation extends GUIViewState {
     private void joinGame() {
         int gameIndex = activeGamesList.getSelectionModel().getSelectedIndex();
 
+        GUILoadingViewController.getInstance().displayScene();
+
         if (gameIndex != -1) {
             GUIView.getInstance().getClient().receiveUserInput(
                     new UserInput.UserInputBuilder(UserInputType.JOIN_ACTIVE_GAME)
@@ -63,6 +65,8 @@ public class GUIGameCreation extends GUIViewState {
     private void createNewGame() {
         int level = Integer.parseInt(setLevelInput.getText());
         int players = Integer.parseInt(numberOfPlayersInput.getText());
+
+        GUILoadingViewController.getInstance().displayScene();
 
         GUIView.getInstance().getClient().receiveUserInput(
                 new UserInput.UserInputBuilder(UserInputType.CREATE_NEW_GAME)

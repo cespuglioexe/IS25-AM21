@@ -213,7 +213,6 @@ public class ClientModel {
 
     public void setCardDetail(Map<String, Object> newCardDetails) {
         synchronized (this.currentCardDetails) {
-            this.currentCardDetails.clear();
             this.currentCardDetails.putAll(newCardDetails);
         }
     }
