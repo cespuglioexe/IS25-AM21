@@ -1,0 +1,66 @@
+[
+  {
+    "cardType": "Smugglers",
+    "firePowerRequired": 4,
+    "cargoPenalty": 2,
+    "flightDayPenalty": 1,
+    "cargoReward": [
+      ["GREEN"],
+      ["YELLOW"],
+      ["BLUE"]
+    ],
+    "graphic": "GT-cards_1_012.jpg"
+  },
+  {
+    "cardType": "StarDust",
+    "flightDayPenalty": 1,
+    "graphic": "GT-cards_1_014.jpg"
+  },
+  {
+    "cardType": "OpenSpace",
+    "graphic": "GT-cards_1_015.jpg"
+  },
+  {
+    "cardType": "MeteorSwarm",
+    "projectiles": [
+      ["ProjectileType.BIG", "Direction.DOWN"],
+      ["ProjectileType.SMALL", "Direction.RIGHT"],
+      ["ProjectileType.SMALL", "Direction.LEFT"]
+    ],
+    "graphic": "GT-cards_1_019.jpg"
+  },
+  {
+    "cardType": "Planets",
+    "numberOfPlanets": 3,
+    "cargoRewardsByPlanet": [
+      ["RED","RED"],
+      ["RED","BLUE", "BLUE"],
+      ["YELLOW"]
+    ],
+    "flightDayPenalty": 2,
+    "graphic": "GT-cards_1_0113.jpg"
+  },
+  {
+    "cardType": "CombatZone",
+    "crewmatePenalty": 2,
+    "flightDayPenalty": 3,
+    "graphic": "GT-cards_1_0116.jpg"
+  },
+  {
+    "cardType": "Abandoned Ship",
+    "creditReward": 4,
+    "crewmatePenalty": 3,
+    "flightDayPenalty": 1,
+    "graphic": "GT-cards_1_0118.jpg"
+  },
+  {
+    "cardType": "Abandoned Station",
+    "crewmateRequired": 5,
+    "cargoReward": [
+      ["YELLOW"],
+      ["GREEN"]
+                    ],
+    "flightDayPenalty": 1,
+    "graphic": "GT-cards_1_0119.jpg"
+  }
+]
