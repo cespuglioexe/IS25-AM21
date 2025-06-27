@@ -75,6 +75,8 @@ public class GUICrewmatePenaltyController extends GUIViewState implements GUIErr
 
     /* ---------- crea lista con una voce per ogni crewmate ---------- */
     private void buildCabinList() {
+        cabinListView.getItems().clear();
+        selected.clear(); // reset previous selections
 
         ClientModel model = GUIView.getInstance().getClient().getModel();
         List<List<TileData>> ship = model.getPlayerShips(model.getMyData().getPlayerId());
@@ -85,7 +87,7 @@ public class GUICrewmatePenaltyController extends GUIViewState implements GUIErr
                 if (td == null) continue;
 
                 boolean isCabin = td.type().equals(CabinModule.class.getSimpleName())
-                               || td.type().equals(CentralCabin.class.getSimpleName());
+                        || td.type().equals(CentralCabin.class.getSimpleName());
 
                 if (isCabin) {
                     int crew = td.crewmates().size();
@@ -97,7 +99,8 @@ public class GUICrewmatePenaltyController extends GUIViewState implements GUIErr
             }
         }
 
-        // aggiorna contatore quando cambia la selezione
+        // Re-add listener (only once)
+        counterLabel.setText(selected.size() + " / " + crewmatePenalty + " selected");
         selected.addListener((SetChangeListener<CheckBox>) ch ->
                 counterLabel.setText(selected.size() + " / " + crewmatePenalty + " selected"));
     }
@@ -147,6 +150,7 @@ public class GUICrewmatePenaltyController extends GUIViewState implements GUIErr
     public void displayScene() {
         Platform.runLater(() -> {
             loadFXML();                                // nuovo root ogni volta
+            selected.clear();
             Stage stage = (Stage) GUIView.stage.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();

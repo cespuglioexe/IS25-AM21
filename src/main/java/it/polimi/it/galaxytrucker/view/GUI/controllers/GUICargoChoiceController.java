@@ -24,7 +24,6 @@ import java.util.*;
 
 public class GUICargoChoiceController extends GUIViewState implements GUIErrorHandler {
 
-    private Map<String, ImageView> imageTiles = new HashMap<>();
     private List<Cargo> cargoReward = new ArrayList<>();
     private Map<Cargo, Integer> cargoToIndex = new HashMap<>();
     private HashMap<Integer,Coordinates> cargoCoords = new HashMap<>();
@@ -70,8 +69,6 @@ public class GUICargoChoiceController extends GUIViewState implements GUIErrorHa
         List<Cargo> rewardList = new ArrayList<>();
 
         if (model.getCurrentCard().equals("Planets")) {
-            Object val = model.getUnsafeCardDetail("selectedPlanet");
-            System.out.println("selectedPlanet = " + val + " (" + (val == null ? "null" : val.getClass() + ")"));
             int selectedPlanet = model.getCardDetail("selectedPlanet", Integer.class);
             List<List<String>> serializedCargoRewards = model.getUnsafeCardDetail("rewards");
 
@@ -100,13 +97,13 @@ public class GUICargoChoiceController extends GUIViewState implements GUIErrorHa
             i--;
             displayCargo();
         } else{
-            i=cargoCoords.size()-1;
+            i=cargoReward.size()-1;
         }
     }
 
     @FXML
     private void cargoForward() {
-        if (i < cargoCoords.size()-1) {
+        if (i < cargoReward.size()-1) {
             i++;
             displayCargo();
         } else {
@@ -182,6 +179,9 @@ public class GUICargoChoiceController extends GUIViewState implements GUIErrorHa
             }
         }
 
+        for (Integer cargo : cargoCoords.keySet()) {
+            System.out.format("%d -> (%d, %d)\n", cargo, cargoCoords.get(cargo).getRow(), cargoCoords.get(cargo).getColumn());
+        }
         GUIView.getInstance().getClient().receiveUserInput(
                 new UserInput.UserInputBuilder(UserInputType.CARGO_REWARD)
                         .setAcceptedCargo(cargoCoords)

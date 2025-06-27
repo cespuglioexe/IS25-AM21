@@ -22,7 +22,7 @@ import it.polimi.it.galaxytrucker.view.CLI.ConsoleColors;
 public class AdventureCardInputDispatcherImpl implements AdventureCardInputDispatcher, AdventureCardVisitor {
     @Override
     public void dispatch(AdventureCard card, AdventureCardInputContext context) {
-        System.out.println(ConsoleColors.MAGENTA + "Apparent card:" + card.getClass().getSimpleName() + ConsoleColors.RESET);
+        System.out.println(ConsoleColors.MAGENTA + "Dispatched card:" + card.getClass().getSimpleName() + ConsoleColors.RESET);
         card.accept(this, context);
     }
 
@@ -40,16 +40,18 @@ public class AdventureCardInputDispatcherImpl implements AdventureCardInputDispa
                 card.decline(player);
             }
         } else if (isCargoReward(context)) {
-            int loadIndex = context.get(AdventureCardInputFields.LOAD_INDEX, Integer.class);
+            //int loadIndex = context.get(AdventureCardInputFields.LOAD_INDEX, Integer.class);
             boolean accepts = context.get(AdventureCardInputFields.ACCEPTS_CARGO, Boolean.class);
 
             if (accepts) {
                 int row = context.get(AdventureCardInputFields.ROW, Integer.class);
                 int column = context.get(AdventureCardInputFields.COLUMN, Integer.class);
+                System.out.println("Accepts cargo (" + row + ", " + column + ")");
 
-                card.acceptCargo(loadIndex, row, column);
+                card.acceptCargo(0, row, column);
             } else {
-                card.discardCargo(loadIndex);
+                System.out.println("Declines cargo");
+                card.discardCargo(0);
             }
         }
     }
@@ -75,6 +77,7 @@ public class AdventureCardInputDispatcherImpl implements AdventureCardInputDispa
 
     @Override
     public void visit(AbandonedStation card, AdventureCardInputContext context) {
+        System.out.println("Participation: " + isParticipation(context));
         if (isParticipation(context)) {
             Player player = context.get(AdventureCardInputFields.PLAYER, Player.class);
             boolean participates = context.get(AdventureCardInputFields.PARTICIPATES, Boolean.class);
@@ -85,16 +88,16 @@ public class AdventureCardInputDispatcherImpl implements AdventureCardInputDispa
                 card.decline(player);
             }
         } else if (isCargoReward(context)) {
-            int loadIndex = context.get(AdventureCardInputFields.LOAD_INDEX, Integer.class);
+            //int loadIndex = context.get(AdventureCardInputFields.LOAD_INDEX, Integer.class);
             boolean accepts = context.get(AdventureCardInputFields.ACCEPTS_CARGO, Boolean.class);
 
             if (accepts) {
                 int row = context.get(AdventureCardInputFields.ROW, Integer.class);
                 int column = context.get(AdventureCardInputFields.COLUMN, Integer.class);
 
-                card.acceptCargo(loadIndex, row, column);
+                card.acceptCargo(0, row, column);
             } else {
-                card.discardCargo(loadIndex);
+                card.discardCargo(0);
             }
         }
     }
