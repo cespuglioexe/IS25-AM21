@@ -9,6 +9,7 @@ import it.polimi.it.galaxytrucker.view.CLI.CLIViewStates.generalStates.CLILeader
 import it.polimi.it.galaxytrucker.view.CLI.CLIViewStates.generalStates.GameSelectionState;
 import it.polimi.it.galaxytrucker.view.CLI.CLIViewStates.generalStates.NameSelectionState;
 import it.polimi.it.galaxytrucker.view.CLI.CLIViewStates.shipBuildingStates.BuildingMenuState;
+import it.polimi.it.galaxytrucker.view.CLI.CLIViewStates.shipBuildingStates.CLICrewmateAddingState;
 import it.polimi.it.galaxytrucker.view.CLI.CLIViewStates.shipBuildingStates.ShipFixingState;
 import it.polimi.it.galaxytrucker.view.CLI.CLIViewStates.shipBuildingStates.TileActionState;
 import it.polimi.it.galaxytrucker.view.View;
@@ -208,7 +209,8 @@ public class CLIView extends View {
 
     @Override
     public void addCrewmates() {
-
+        CLIViewState.setCurrentState(new CLICrewmateAddingState());
+        CLIViewState.getCurrentState().executeState();
     }
 
     @Override

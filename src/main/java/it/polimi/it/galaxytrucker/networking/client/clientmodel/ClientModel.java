@@ -254,7 +254,7 @@ public class ClientModel {
 
     public void setAllPlayersNickname(HashMap<UUID, String> nicknames) {
         synchronized (this.nicknames) {
-            this.playerMarkerPositions.clear();
+            this.nicknames.clear();
             this.nicknames.putAll(nicknames);
         }
     }

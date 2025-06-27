@@ -146,7 +146,7 @@ public abstract class Client extends UnicastRemoteObject implements Runnable, Cl
 
                         view.buildingStarted();
                         break;
-                    case "AddingCrewmate":
+                    case "AddCrewmates":
                         view.addCrewmates();
                         break;
                     case "ShipFixingState":

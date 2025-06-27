@@ -241,7 +241,11 @@ public class BuildingState extends GameState {
             completedTimers++;
 
             if (completedTimers >= requiredTimers) {
-                changeState(gm, new LegalityCheckState());
+                gm.updateListeners(
+                        new GameUpdate.GameUpdateBuilder(GameUpdateType.NEW_STATE)
+                                .setNewSate("AddCrewmates")
+                                .build()
+                );
             } else {
                 gm.updateListeners(
                         new GameUpdate.GameUpdateBuilder(GameUpdateType.TIMER_END)

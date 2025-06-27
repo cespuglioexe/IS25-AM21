@@ -87,6 +87,8 @@ public class CLIPlanetSelectionState extends CLIViewState {
             }
             planetsAndCargo.put(i, cargoNumber);
         }
+
+        updateOccupiedPlanets();
     }
 
     public void updateOccupiedPlanets() {

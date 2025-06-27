@@ -46,7 +46,7 @@ public class CLICrewmatePenaltyState extends CLIViewState {
     }
 
     private void loadCardDetails() {
-        ClientModel model = GUIView.getInstance().getClient().getModel();
+        ClientModel model = view.getClient().getModel();
         crewmateCoord = new ArrayList<>();
         numberOfCrewmates = model.getCardDetail("crewmatePenalty", Integer.class);
     }
@@ -57,7 +57,7 @@ public class CLICrewmatePenaltyState extends CLIViewState {
             return;
         }
 
-        TileData tile = view.getClient().getModel().getPlayerShips(GUIView.getInstance().getClient().getModel().getMyData().getPlayerId()).get(row - 5).get(col - 4);
+        TileData tile = view.getClient().getModel().getPlayerShips(view.getClient().getModel().getMyData().getPlayerId()).get(row - 5).get(col - 4);
         if (tile != null && (tile.type().equals(CabinModule.class.getSimpleName()) || tile.type().equals(CentralCabin.class.getSimpleName()))) {
             if (!tile.crewmates().isEmpty()) {
                 crewmateCoord.add(new Coordinates(col, row));
@@ -72,7 +72,7 @@ public class CLICrewmatePenaltyState extends CLIViewState {
     }
 
     private void applyPenalty(){
-        GUIView.getInstance().getClient().receiveUserInput(
+        view.getClient().receiveUserInput(
                 new UserInput.UserInputBuilder(UserInputType.CREWMATE_PENALTY)
                         .setRemovedCrewmate(crewmateCoord)
                         .build()
