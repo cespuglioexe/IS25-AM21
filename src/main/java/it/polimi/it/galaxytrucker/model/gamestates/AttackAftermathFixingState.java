@@ -40,6 +40,15 @@ public class AttackAftermathFixingState extends GameState {
             this.playerHasIllegalShip.put(player.getPlayerID(), false);
         }
 
+        for (UUID id : playerHasIllegalShip.keySet()) {
+            Player player = gameManager.getPlayerByID(id);
+
+            ((GameManager) fsm).updateListeners(new GameUpdate.GameUpdateBuilder(GameUpdateType.PLAYER_SHIP_UPDATED)
+                .setShipBoard(player.getShipManager().getShipBoard())
+                .build()
+            );
+        }
+
         ((GameManager) fsm).updateListeners(new GameUpdate.GameUpdateBuilder(GameUpdateType.NEW_STATE)
                 .setNewSate(AttackAftermathFixingState.class.getSimpleName())
                 .setPlayerIds(playerHasIllegalShip.keySet().stream()

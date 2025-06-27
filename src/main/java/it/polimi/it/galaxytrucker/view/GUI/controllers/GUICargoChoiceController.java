@@ -182,6 +182,10 @@ public class GUICargoChoiceController extends GUIViewState implements GUIErrorHa
         for (Integer cargo : cargoCoords.keySet()) {
             System.out.format("%d -> (%d, %d)\n", cargo, cargoCoords.get(cargo).getRow(), cargoCoords.get(cargo).getColumn());
         }
+
+        ClientModel model = GUIView.getInstance().getClient().getModel();
+        model.setCardDetail(new HashMap<>());
+        
         GUIView.getInstance().getClient().receiveUserInput(
                 new UserInput.UserInputBuilder(UserInputType.CARGO_REWARD)
                         .setAcceptedCargo(cargoCoords)
