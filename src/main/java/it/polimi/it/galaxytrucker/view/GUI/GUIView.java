@@ -18,7 +18,7 @@ import java.util.UUID;
 public class GUIView extends View {
 
     private static GUIView guiView;
-    private String percorsoFile = "/it/polimi/it/galaxytrucker/graphics/pedine/definitelyNotSuspicious.txt";
+    //private String percorsoFile = "/it/polimi/it/galaxytrucker/graphics/pedine/definitelyNotSuspicious.txt";
 
     public static Stage stage;
     public static List<Double> screenSize;
@@ -36,7 +36,7 @@ public class GUIView extends View {
             GUIFixingShipController.getInstance();
             GUIScoreBoardController.getInstance();
             GUIAddCrewmateController.getInstance();
-            GUIGameTurn.getInstance();
+            //GUIGameTurn.getInstance();
         }
         return guiView;
     }
