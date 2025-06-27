@@ -77,11 +77,9 @@ public class AdventureCardInputDispatcherImpl implements AdventureCardInputDispa
 
     @Override
     public void visit(AbandonedStation card, AdventureCardInputContext context) {
-        System.out.println("Participation: " + isParticipation(context));
         if (isParticipation(context)) {
             Player player = context.get(AdventureCardInputFields.PLAYER, Player.class);
             boolean participates = context.get(AdventureCardInputFields.PARTICIPATES, Boolean.class);
-
             if (participates) {
                 card.participate(player, 0);
             } else {
