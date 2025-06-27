@@ -1,39 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <SplitPane dividerPositions="0.3720735785953177" prefHeight="400.0" prefWidth="600.0">
-        <items>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="398.0" prefWidth="219.0">
-               <children>
-                  <Label layoutX="36.0" layoutY="51.0" prefHeight="40.0" prefWidth="147.0" text="Available games">
-                     <font>
-                        <Font size="21.0" />
-                     </font>
-                  </Label>
-                  <ListView fx:id="activeGamesList" layoutX="14.0" layoutY="99.0" prefHeight="205.0" prefWidth="194.0" />
-                  <Button fx:id="joinGameButton" layoutX="90.0" layoutY="327.0" mnemonicParsing="false" onAction="#joinGame" text="Join" />
-               </children>
-            </AnchorPane>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-               <children>
-                  <Label layoutX="53.0" layoutY="56.0" text="Create a new game">
-                     <font>
-                        <Font size="33.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="44.0" layoutY="134.0" text="Number of players" />
-                  <TextField fx:id="numberOfPlayersInput" layoutX="173.0" layoutY="130.0" promptText="1...4" />
-                  <TextField fx:id="setLevelInput" layoutX="173.0" layoutY="181.0" promptText="1 or 2" />
-                  <Label layoutX="98.0" layoutY="185.0" text="Set level" />
-                  <Button id="futuristic-button" fx:id="confirmCreationButton" layoutX="138.0" layoutY="229.0" mnemonicParsing="false" onAction="#createNewGame" styleClass="futuristic-button" text="Create a game" />
-               </children>
-            </AnchorPane>
-        </items>
-      </SplitPane>
-   </children>
-</AnchorPane>
+<StackPane fx:id="rootPane" prefHeight="720" prefWidth="1280" styleClass="root-pane"
+           stylesheets="@../css/gameCreation.css"
+           xmlns="http://javafx.com/javafx/23.0.1"
+           xmlns:fx="http://javafx.com/fxml/1">
+
+    <children>
+        <!-- Background image fills entire window -->
+        <ImageView fx:id="backgroundImage" fitHeight="1080.0" fitWidth="1920.0"
+                   preserveRatio="false" smooth="true">
+            <image>
+                <Image url="@../graphics/general/generic_background.jpg" />
+            </image>
+        </ImageView>
+
+        <!-- Foreground content -->
+        <VBox alignment="CENTER" spacing="40.0"
+              maxWidth="Infinity" maxHeight="Infinity" VBox.vgrow="ALWAYS">
+            <children>
+                <!-- Main title -->
+                <Label text="STARPORT LOBBY" styleClass="title-label" />
+
+                <!-- Split area: active games | creation panel -->
+                <HBox alignment="CENTER" spacing="80.0">
+                    <children>
+                        <!-- ===== Active games list ===== -->
+                        <VBox alignment="CENTER" spacing="20.0">
+                            <children>
+                                <Label text="Active Flights" styleClass="subtitle-label" />
+                                <ListView fx:id="activeGamesList" prefHeight="300.0" prefWidth="300.0" styleClass="games-list" />
+                                <Button fx:id="joinGameButton" text="Embark"
+                                        onAction="#joinGame" mnemonicParsing="false"
+                                        styleClass="green-button" />
+                            </children>
+                        </VBox>
+
+                        <!-- ===== Creation panel ===== -->
+                        <VBox alignment="CENTER" spacing="20.0">
+                            <children>
+                                <Label text="Launch a New Voyage" styleClass="subtitle-label" />
+
+                                <HBox alignment="CENTER" spacing="10.0">
+                                    <children>
+                                        <Label text="Players" textFill="WHITE" />
+                                        <TextField fx:id="numberOfPlayersInput" promptText="1-4" />
+                                    </children>
+                                </HBox>
+
+                                <HBox alignment="CENTER" spacing="10.0">
+                                    <children>
+                                        <Label text="Level" textFill="WHITE" />
+                                        <TextField fx:id="setLevelInput" promptText="1 or 2" />
+                                    </children>
+                                </HBox>
+
+                                <Button fx:id="confirmCreationButton" text="Initiate Launch"
+                                        onAction="#createNewGame" mnemonicParsing="false"
+                                        styleClass="green-button" />
+                            </children>
+                        </VBox>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </children>
+</StackPane>
