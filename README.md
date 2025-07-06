@@ -6,14 +6,15 @@
     Thomas Bianconi •
     Stefano Carletto
 </p>
+<p align="center">
+    Voto finale: 30/30
+</p>
 
 ## Project Overview
 
 This project is a Java-based implementation of the table game <a href="https://www.craniocreations.it/prodotto/galaxy-trucker">Galaxy Trucker</a>. 
 
-**NB**: versione finale del progetto caricata dopo la deadline delle 13:00 del 27/06/25. L'ultimo commit serve a rettificare una svista nella generazione dei file `.jar` che impediva il corretto funzionamento della lettura da file `JSON`.
-
-## Implemented Features
+### Implemented Features
 
 | Functionality    | Status |
 | :--------------- | :----: |
@@ -41,7 +42,7 @@ Upon running with the earlier command, the server will prompt the user to enter 
 
 - **Same-machine use**: Leaving the field empty will default to 'localhost', meaning the server will only allow connections from client applications running on the same machine.
 - **Distributed use**: It is also possible to allow connections from clients running on other machines, but these **must be connected to the same local network**. When prompted for an IP address, insert your machines local IP address; this can be found in your devices internet settings:
-  - Windows: from settings `Settings > Network & Internet > Details > ???`, or from the command line `ipconfig` (IPv4)
+  - Windows: from settings `Settings > Network & Internet > Details > IP address`, or from the command line `ipconfig` (IPv4)
   - MacOS: from settings `Settings > WiFi > Details > IP address`, or from the command line `ipconfig getifaddr en0`
 
 #### Starting the client
